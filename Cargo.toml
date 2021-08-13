@@ -10,7 +10,7 @@ license = "MIT"
 keywords = ["rust","cargo-auto"]
 categories = ["development-tools::build-utils"]
 # publish as a cargo tool. Only this files.
-publish = false
+publish = true
 include = [
     "Cargo.toml",
     "LICENSE",
