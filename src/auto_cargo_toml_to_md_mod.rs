@@ -49,7 +49,7 @@ pub fn auto_cargo_toml_to_md() {
         authors,
     );
     println!("new text: '{}'", Green.paint(&new_text));
-
+    println!("warning: the md file must be with LF and not CRLF line endings!");
     for filename_result in unwrap!(glob("*.md")) {
         let filename_pathbuff = unwrap!(filename_result);
         let md_filename = unwrap!(filename_pathbuff.to_str());
