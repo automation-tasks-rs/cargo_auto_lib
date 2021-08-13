@@ -7,4 +7,3 @@ mod auto_cargo_toml_to_md_mod;
 
 // reexport objects for callers of the library
 pub use auto_cargo_toml_to_md_mod::auto_cargo_toml_to_md;
-

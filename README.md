@@ -36,6 +36,9 @@ In the beginning of the function `task_build()` add:
 cargo_auto_lib::auto_cargo_toml_to_md();
 ```
 
+No need for `cargo build`, because the next `cargo auto task_name` will automatically build `automation_tasks_rs`.
+
+Go back to your main rust project.  
 Add markers to the beginning of README.md (don't copy the numbers 1 and 2):  
 
 ```md
@@ -49,7 +52,8 @@ Run:
 cargo auto build
 ```
 
-With a little luck, it included the data of Cargo.toml into the `README.md` inside the markers.  
+With a little luck, it included the data of Cargo.toml into the `README.md` inside the markers:  
+description, repository, version, &utc_now(), authors  
 
 
 

@@ -1,6 +1,6 @@
 [package]
 name = "cargo_auto_lib"
-version = "0.1.13"
+version = "0.1.14"
 authors = ["Luciano Bestia <luciano.bestia@gmail.com>"]
 edition = "2018"
 description = "Library crate for common tasks when building rust projects. Intended for use with cargo-auto."
@@ -21,7 +21,7 @@ include = [
 [dependencies]
 unwrap = "1.2.1"
 lazy_static="1.4.0"
-regex = "1.4.2"
+regex = "1.5.4"
 # TODO: change this with termion
 ansi_term = "0.12.1"
 glob = "0.3.0"
