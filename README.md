@@ -84,9 +84,45 @@ Run the example:
 cargo run --example example_01_auto_cargo_toml_to_md
 ```
 
+## function auto_md_to_doc_comments()
+
+Includes segments of md files into rs files as doc comments.  
+From this doc comments `cargo doc` will generated the documentation and auto-completion.  
+We don't want to manually copy this segments. We want them to be automatically in sync.  
+We will just run this function before every `cargo doc` with an automation task.  
+The `auto_md_to_doc_comments` function must be executed in the project root folder where is the Cargo.toml file.  
+TODO: It does not work in workspace folder, but every single member project must call it separately.  
+First it searches all the rs files in src, tests and examples folders.  
+If they contain the markers, than finds the md file and the named segment and include it as doc comments into the rs file.  
+The markers are always in pairs: start and end. So exactly the content in between is changed.
+The markers are always comments, so they don't change the code.  
+It works only for files with LF line delimiter. No CR and no CRLF.  
+
+## markers
+
+In the rs file write these markers (don't copy the numbers 1 and 2):  
+
+```rust
+1. // region: auto_md_to_doc_comments include README.md //! A  
+2. // endregion: auto_md_to_doc_comments include README.md //! A  
+```
+
+In the md file put markers to mark the segment:  
+
+```markdown
+1. [comment]: # (auto_md_to_doc_comments segment start A)  
+2. [comment]: # (auto_md_to_doc_comments segment end A)  
+```
+
+The marker must be exclusively in one line. No other text in the same line.  
+auto_md_to_doc_comments will delete the old lines between the markers.  
+It will find the md file and read the content between the markers.  
+Before each line it will add the doc comment symbol as is defined in the marker.  
+Finally it will include the new lines as doc comments in the rs file.  
 
 
 
+[comment]: # (auto_md_to_doc_comments segment end A)
 
 ## cargo crev reviews and advisory
 
@@ -104,4 +140,3 @@ I just love programming.
 But I need also to drink. If you find my projects and tutorials helpful, please buy me a beer or two donating on my [paypal](https://www.paypal.com/paypalme/LucianoBestia). You know the price of a beer in your local bar ;-)  
 So I can drink a free beer for your health :-)  
 [Na zdravje](https://translate.google.com/?hl=en&sl=sl&tl=en&text=Na%20zdravje&op=translate) !
-# cargo_auto_lib
