@@ -55,12 +55,7 @@ cargo auto build
 With a little luck, it included the data of Cargo.toml into the `README.md` inside the markers:  
 description, repository, version, &utc_now(), authors  
 
-
-
-
-
-
-## function auto_cargo_toml_to_md()
+# function auto_cargo_toml_to_md()
 
 To avoid out of sync data like version, authors and description in the README.md files, `auto_cargo_toml_to_md` includes this data from Cargo.toml.  
 Run it on every build with [cargo auto](https://crates.io/crates/cargo-auto).  
@@ -84,7 +79,7 @@ Run the example:
 cargo run --example example_01_auto_cargo_toml_to_md
 ```
 
-## function auto_md_to_doc_comments()
+# function auto_md_to_doc_comments()
 
 Includes segments of md files into rs files as doc comments.  
 From this doc comments `cargo doc` will generated the documentation and auto-completion.  
@@ -120,7 +115,13 @@ It will find the md file and read the content between the markers.
 Before each line it will add the doc comment symbol as is defined in the marker.  
 Finally it will include the new lines as doc comments in the rs file.  
 
+# function auto_semver_increment_patch()
 
+Increments the patch version in Cargo.toml file.
+
+# function auto_semver_increment_minor()
+
+Increments the minor version in Cargo.toml file.
 
 [comment]: # (auto_md_to_doc_comments segment end A)
 

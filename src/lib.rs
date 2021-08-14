@@ -5,7 +5,11 @@
 // region: mod, extern and use statements
 mod auto_cargo_toml_to_md_mod;
 mod auto_md_to_doc_comments_mod;
+mod auto_semver_mod;
+mod utils_mod;
 
 // reexport objects for callers of the library
 pub use auto_cargo_toml_to_md_mod::auto_cargo_toml_to_md;
 pub use auto_md_to_doc_comments_mod::auto_md_to_doc_comments;
+pub use auto_semver_mod::auto_semver_increment_patch;
+pub use auto_semver_mod::auto_semver_increment_minor;
