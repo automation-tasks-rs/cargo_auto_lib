@@ -4,13 +4,13 @@
 
 [comment]: # (auto_cargo_toml_to_md start)
 
-**Library crate for common tasks when building rust projects. Intended for use with cargo-auto.**  
+**Library crate for common tasks when building rust projects. Intended for use with cargo-auto: automation tasks written in Rust language.**  
 ***[repository](https://github.com/LucianoBestia/cargo_auto_lib); version: 0.1.15  date: 2021-08-13 authors: Luciano Bestia***  
 
 [comment]: # (auto_cargo_toml_to_md end)
 
 [comment]: # (auto_lines_of_code start)
-test test test
+
 [comment]: # (auto_lines_of_code end)
 
 ## Try it
