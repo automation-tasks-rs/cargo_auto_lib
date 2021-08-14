@@ -114,8 +114,8 @@ lazy_static! {
             .unwrap();
 }
 
-/// The first time it is called 
-/// reads the file and extracts all the segments 
+/// The first time it is called
+/// reads the file and extracts all the segments
 /// into a cache vector.
 /// Subsequent calls read from the cache.
 fn get_md_segments_using_cache(

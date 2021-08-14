@@ -27,10 +27,9 @@ lazy_static! {
 /// `auto_cargo_toml_to_md` Includes data from Cargo.toml to README.md files.  
 /// version, authors, repository and description.  
 pub fn auto_cargo_toml_to_md() {
-    
     let cargo_toml_text = unwrap!(fs::read_to_string("Cargo.toml"));
     // TODO: I could use the crate  cargo_toml
-    let cap = unwrap!(REGEX_VERSION.captures(&cargo_toml_text));        
+    let cap = unwrap!(REGEX_VERSION.captures(&cargo_toml_text));
     let version = cap.get(1).unwrap().as_str();
     let cap = unwrap!(REGEX_AUTHORS.captures(&cargo_toml_text));
     let authors = cap.get(1).unwrap().as_str();

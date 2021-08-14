@@ -7,18 +7,17 @@ use ansi_term::Colour::{Green, Yellow};
 use std::fs;
 use unwrap::unwrap;
 
-enum VersionPart{
+enum VersionPart {
     Patch,
-    Minor
+    Minor,
 }
 
-pub fn auto_semver_increment_patch(){
+pub fn auto_semver_increment_patch() {
     increment_part(VersionPart::Patch);
 }
 
-pub fn auto_semver_increment_minor(){
+pub fn auto_semver_increment_minor() {
     increment_part(VersionPart::Minor);
-
 }
 
 fn increment_part(part: VersionPart) {
@@ -46,10 +45,10 @@ fn increment_part(part: VersionPart) {
             let (mut patch, pos) = parse_next_number(&cargo_toml_text, pos);
             let pos_at_the_end_of_semver = pos;
             // increment
-            match part{
+            match part {
                 VersionPart::Patch => {
                     patch += 1;
-                },
+                }
                 VersionPart::Minor => {
                     minor += 1;
                     patch = 0;

@@ -6,10 +6,10 @@ use ansi_term::Colour::{Green, Red, Yellow};
 use chrono::DateTime;
 use chrono::Timelike;
 use chrono::{Datelike, Utc};
-use unwrap::unwrap;
 use filetime::FileTime;
 use serde_derive::{Deserialize, Serialize};
-use std::{fs, io, path::Path};
+use std::{fs, path::Path};
+use unwrap::unwrap;
 //endregion
 
 ///file metadata
@@ -28,7 +28,7 @@ struct AutoVersionFromDate {
     vec_file_metadata: Vec<FileMetaData>,
 }
 
-pub fn auto_version_from_date() {    
+pub fn auto_version_from_date() {
     let mut is_files_equal = true;
 
     //find auto_version_from_date.json
@@ -163,7 +163,7 @@ pub fn auto_version_from_date() {
         println!("start_dir: {:?}", start_dir,);
 
         // fill a vector of files
-        for js_filename in &unwrap!(traverse_dir_with_exclude_dir(
+        for js_filename in &unwrap!(crate::utils_mod::traverse_dir_with_exclude_dir(
             start_dir,
             "/service_worker.js",
             &vec!["/.git".to_string(), "/target".to_string()]
@@ -241,48 +241,13 @@ fn find_from(rs_content: &str, from: usize, find: &str) -> Option<usize> {
     }
 }
 
-/// traverse dir (sub-dir) with exclude dir
-/// the find_file and the exclude dir strings must start with /
-fn traverse_dir_with_exclude_dir(
-    dir: &Path,
-    find_file: &str,
-    exclude_dirs: &Vec<String>,
-) -> io::Result<Vec<String>> {
-    let mut v = Vec::new();
-    if dir.is_dir() {
-        for entry in fs::read_dir(dir)? {
-            let entry = entry?;
-            let path = entry.path();
-            let str_path = unwrap!(path.to_str());
-            if path.is_dir() {
-                let mut is_excluded = false;
-                for excl in exclude_dirs {
-                    if str_path.ends_with(excl) {
-                        is_excluded = true;
-                        break;
-                    }
-                }
-                if !is_excluded {
-                    let mut sub_v = traverse_dir_with_exclude_dir(&path, find_file, exclude_dirs)?;
-                    v.append(&mut sub_v);
-                }
-            } else {
-                if str_path.ends_with(find_file) {
-                    v.push(str_path.to_string());
-                }
-            }
-        }
-    }
-    Ok(v)
-}
-
 #[cfg(test)]
 mod test {
     use super::*;
 
     #[test]
     pub fn test_date_to_version() {
-        let date_time = Utc.ymd(2020, 5, 22).and_hms(00, 34, 0);
+        let date_time = chrono::TimeZone::ymd(&Utc, 2020, 5, 22).and_hms(00, 34, 0);
 
         let version = version_from_date(date_time);
         assert_eq!(version, "2020.522.34");
