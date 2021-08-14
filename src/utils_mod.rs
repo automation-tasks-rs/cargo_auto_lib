@@ -37,7 +37,6 @@ pub fn find_pos_end_data_before_delimiter(
 
 // endregion: delimiters cannot be INACTIVE like markers
 
-#[allow(clippy::integer_arithmetic)]
 /// find from_pos
 pub fn find_from(text: &str, from_pos: usize, find: &str) -> Option<usize> {
     let slice01 = text.get(from_pos..).unwrap();

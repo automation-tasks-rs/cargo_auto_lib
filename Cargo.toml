@@ -1,6 +1,6 @@
 [package]
 name = "cargo_auto_lib"
-version = "0.3.1"
+version = "0.4.1"
 authors = ["Luciano Bestia <luciano.bestia@gmail.com>"]
 edition = "2018"
 description = "Library crate for common tasks when building rust projects. Intended for use with cargo-auto."
@@ -26,3 +26,7 @@ regex = "1.5.4"
 ansi_term = "0.12.1"
 glob = "0.3.0"
 chrono="0.4.19"
+filetime = "0.2.12"
+serde = "1.0.115"
+serde_derive = "1.0.115"
+serde_json = "1.0.57"
