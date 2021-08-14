@@ -40,7 +40,7 @@ pub fn auto_cargo_toml_to_md() {
     let description = cap.get(1).unwrap().as_str();
 
     let new_text = format!(
-        "\n**{}**  \n***[repo]({}); version: {}  date: {} authors: {}***  \n\n",
+        "\n**{}**  \n***[repository]({}); version: {}  date: {} authors: {}***  \n\n",
         description,
         repository,
         version,

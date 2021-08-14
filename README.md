@@ -5,7 +5,7 @@
 [comment]: # (auto_cargo_toml_to_md start)
 
 **Library crate for common tasks when building rust projects. Intended for use with cargo-auto.**  
-***[repo](https://github.com/LucianoBestia/cargo_auto_lib); version: 0.1.15  date: 2021-08-13 authors: Luciano Bestia***  
+***[repository](https://github.com/LucianoBestia/cargo_auto_lib); version: 0.1.15  date: 2021-08-13 authors: Luciano Bestia***  
 
 [comment]: # (auto_cargo_toml_to_md end)
 
@@ -70,7 +70,7 @@ don't copy the numbers 1 and 2:
 2 [comment]: # (auto_cargo_toml_to_md end)
 ```
 
-`auto_cargo_toml_to_md` deletes the old lines between the markers and includes the cargo.toml data:  
+`auto_cargo_toml_to_md` deletes the old lines between the markers and includes the Cargo.toml data:  
 description, repository, version, &utc_now(), authors  
 
 Run the example:  
@@ -125,7 +125,7 @@ Increments the minor version in Cargo.toml file.
 
 # function auto_version_from_date()
 
-In cargo.toml writes the version as the date `yyyy.mmdd.HHMM` ex. `2019.1221.2359`.  
+In Cargo.toml writes the version as the date `yyyy.mmdd.HHMM` ex. `2019.1221.2359`.  
 For non-library projects, the semver specification is not really useful.  
 Having the version as the date is just fine for executables and much more human readable.  
 The function must be executed in the root project folder where is the Cargo.toml.  
@@ -208,6 +208,12 @@ Testing will also modify the `README.md` file. Always after testing run `cargo m
 ## References
 
 <https://blog.burntsushi.net/rust-error-handling/>
+
+# function auto_delete_old_js_snippets()
+
+The old folders for `js snippets` are not automatically deleted on building with `wasm-pack`.  
+This utils do that.
+The function must be executed in the root project folder where is the Cargo.toml.  
 
 [comment]: # (auto_md_to_doc_comments segment end A)
 

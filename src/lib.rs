@@ -8,6 +8,7 @@ mod auto_lines_of_code_mod;
 mod auto_md_to_doc_comments_mod;
 mod auto_semver_mod;
 mod auto_version_from_date_mod;
+mod auto_delete_old_js_snippets_mod;
 mod utils_mod;
 
 // reexport objects for callers of the library
@@ -17,3 +18,4 @@ pub use auto_md_to_doc_comments_mod::auto_md_to_doc_comments;
 pub use auto_semver_mod::auto_semver_increment_minor;
 pub use auto_semver_mod::auto_semver_increment_patch;
 pub use auto_version_from_date_mod::auto_version_from_date;
+pub use auto_delete_old_js_snippets_mod::auto_delete_old_js_snippets;
