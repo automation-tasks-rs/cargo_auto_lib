@@ -60,8 +60,7 @@ pub fn auto_version_from_date() {
 
     //println!("fs: {}", serde_json::to_string(&v).unwrap());
 
-    let src_dir = format!("{}/src", unwrap!(current_dir.to_str()));
-    for entry in unwrap!(fs::read_dir(src_dir)) {
+    for entry in unwrap!(fs::read_dir("src")) {
         let entry = unwrap!(entry);
         let path = entry.file_name();
 
