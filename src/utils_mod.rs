@@ -59,9 +59,8 @@ pub fn find_from(text: &str, from_pos: usize, find: &str) -> Option<usize> {
 ///
 /// ```
 /// use std::path::Path;
-/// use cargo_auto_lib::*;
 ///
-/// let files = traverse_dir_with_exclude_dir(
+/// let files = cargo_auto_lib::utils_mod::traverse_dir_with_exclude_dir(
 ///     Path::new("/home/project/src"),
 ///     "/*.rs",
 ///     // avoid big folders and other folders with *.crev

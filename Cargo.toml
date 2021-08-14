@@ -1,6 +1,6 @@
 [package]
 name = "cargo_auto_lib"
-version = "0.6.1"
+version = "0.6.2"
 authors = ["Luciano Bestia <luciano.bestia@gmail.com>"]
 edition = "2018"
 description = "Library crate for common tasks when building rust projects. Intended for use with cargo-auto."
@@ -32,3 +32,7 @@ serde_derive = "1.0.115"
 serde_json = "1.0.57"
 toml = "0.5.6"
 anyhow="1.0.32"
+visibility = "0.0.1"
+
+[features]
+integration-tests = []
