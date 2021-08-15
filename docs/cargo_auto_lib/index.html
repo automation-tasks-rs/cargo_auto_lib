@@ -38,7 +38,7 @@ Add markers to the beginning of README.md (don’t copy the numbers 1 and 2):</p
 <pre><code class="language-bash">cargo auto build
 </code></pre>
 <p>With a little luck, it included the data of Cargo.toml into the <code>README.md</code> inside the markers: description, repository, version, &amp;utc_now(), authors</p>
-<p><img src="images/auto_cargo_toml_to_md.png" alt="auto_cargo_toml_to_md" title="auto_cargo_toml_to_md" /></p>
+<p><img src="https://github.com/LucianoBestia/cargo_auto_lib/raw/main/images/auto_cargo_toml_to_md.png" alt="auto_cargo_toml_to_md" title="auto_cargo_toml_to_md" /></p>
 <h2 id="caveats" class="section-header"><a href="#caveats">Caveats</a></h2>
 <p>This crate will attempt to edit Cargo.toml. Unfortunately there’s no great robust way right now to edit TOML file preserving formatting and comments and such, so right now I use just regex to do this.</p>
 <p>If you find that the heuristics don’t work for you though please let me know and I’ll try to check in a fix!</p>

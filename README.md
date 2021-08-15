@@ -65,7 +65,7 @@ cargo auto build
 
 With a little luck, it included the data of Cargo.toml into the `README.md` inside the markers: description, repository, version, &utc_now(), authors  
 
-![auto_cargo_toml_to_md](images/auto_cargo_toml_to_md.png "auto_cargo_toml_to_md")
+![auto_cargo_toml_to_md](https://github.com/LucianoBestia/cargo_auto_lib/raw/main/images/auto_cargo_toml_to_md.png "auto_cargo_toml_to_md")
 
 ## Caveats
 
