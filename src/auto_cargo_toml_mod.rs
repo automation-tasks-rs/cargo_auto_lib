@@ -1,5 +1,7 @@
 // auto_cargo_toml_mod
 
+//! functions to get data from Cargo.toml
+
 use lazy_static::lazy_static;
 use regex::*;
 use unwrap::unwrap;

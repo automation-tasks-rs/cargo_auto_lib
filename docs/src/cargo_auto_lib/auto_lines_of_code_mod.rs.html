@@ -312,8 +312,13 @@
 <span id="310">310</span>
 <span id="311">311</span>
 <span id="312">312</span>
+<span id="313">313</span>
+<span id="314">314</span>
+<span id="315">315</span>
 </pre><pre class="rust">
 <span class="comment">// auto_lines_of_code_mod</span>
+
+<span class="doccomment">//! Inserts shield badges with lines_of_code into README.rs  </span>
 
 <span class="kw">use</span> <span class="ident">anyhow</span>;
 <span class="kw">use</span> <span class="ident">regex::Regex</span>;
@@ -350,6 +355,7 @@
     <span class="kw">pub</span> <span class="ident">examples_lines</span>: <span class="ident">usize</span>,
 }
 
+<span class="doccomment">/// Inserts shield badges with lines_of_code into README.rs  </span>
 <span class="doccomment">/// parameter Link to include in shield badge. If empty_string, the git remote repository will be used.</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">auto_lines_of_code</span>(<span class="ident">link</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) {
     <span class="kw">let</span> <span class="ident">text_to_include</span> <span class="op">=</span> <span class="ident">text_to_include</span>(<span class="ident">link</span>);

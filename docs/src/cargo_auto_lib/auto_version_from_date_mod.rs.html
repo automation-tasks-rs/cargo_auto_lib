@@ -252,9 +252,12 @@
 <span id="250">250</span>
 <span id="251">251</span>
 <span id="252">252</span>
+<span id="253">253</span>
+<span id="254">254</span>
 </pre><pre class="rust">
-<span class="doccomment">//! auto_version_from_date_mod</span>
-<span class="doccomment">//! In Cargo.toml and service_worker.js writes the version as the date**  </span>
+<span class="comment">// auto_version_from_date_mod</span>
+
+<span class="doccomment">//! In Cargo.toml and service_worker.js writes the version as the date  </span>
 
 <span class="comment">//region: use statements</span>
 <span class="kw">use</span> <span class="ident">chrono::DateTime</span>;
@@ -284,6 +287,7 @@
     <span class="ident">vec_file_metadata</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">FileMetaData</span><span class="op">&gt;</span>,
 }
 
+<span class="doccomment">/// In Cargo.toml and service_worker.js writes the version as the date</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">auto_version_from_date</span>() {
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">is_files_equal</span> <span class="op">=</span> <span class="bool-val">true</span>;
 

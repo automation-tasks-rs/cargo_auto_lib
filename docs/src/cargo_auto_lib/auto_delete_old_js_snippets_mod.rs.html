@@ -53,8 +53,13 @@
 <span id="51">51</span>
 <span id="52">52</span>
 <span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
 </pre><pre class="rust">
 <span class="comment">// auto_delete_old_js_snippets_mod</span>
+
+<span class="doccomment">//! deletes old js snippets when working with wasm-pack</span>
 
 <span class="comment">//region: use statements</span>
 <span class="kw">use</span> <span class="ident">filetime::FileTime</span>;
@@ -64,6 +69,7 @@
 <span class="kw">use</span> <span class="ident">unwrap::unwrap</span>;
 <span class="comment">//endregion</span>
 
+<span class="doccomment">/// deletes old js snippets when working with wasm-pack</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">auto_delete_old_js_snippets</span>() {
     <span class="kw">let</span> <span class="ident">current_dir</span> <span class="op">=</span> <span class="macro">unwrap!</span>(<span class="ident">env::current_dir</span>());
     <span class="kw">let</span> <span class="ident">snippets_dir</span> <span class="op">=</span> <span class="ident">current_dir</span>.<span class="ident">join</span>(<span class="string">&quot;pkg&quot;</span>).<span class="ident">join</span>(<span class="string">&quot;snippets&quot;</span>);

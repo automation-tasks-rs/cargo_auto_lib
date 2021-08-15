@@ -1,6 +1,6 @@
 // example_01_auto_cargo_toml_to_md
 
-/// `auto_cargo_toml_to_md` includes data from Cargo.toml to README.md files,  
+/// Includes data from Cargo.toml to README.md files
 fn main() {
     println!("---start example_01_cargo_toml_to_md---");
 

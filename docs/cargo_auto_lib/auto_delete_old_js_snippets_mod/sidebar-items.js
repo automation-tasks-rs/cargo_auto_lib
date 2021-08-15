@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["auto_delete_old_js_snippets",""]]});
+initSidebarItems({"fn":[["auto_delete_old_js_snippets","deletes old js snippets when working with wasm-pack"]]});

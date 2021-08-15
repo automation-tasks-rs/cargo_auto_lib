@@ -176,8 +176,12 @@
 <span id="174">174</span>
 <span id="175">175</span>
 <span id="176">176</span>
+<span id="177">177</span>
+<span id="178">178</span>
 </pre><pre class="rust">
 <span class="comment">// auto_md_to_doc_comments_mod</span>
+
+<span class="doccomment">//! Finds rs files with markers and include segments from md files</span>
 
 <span class="kw">use</span> <span class="ident">glob::glob</span>;
 <span class="kw">use</span> <span class="ident">lazy_static::lazy_static</span>;
@@ -203,7 +207,7 @@
     <span class="kw">pub</span> <span class="ident">text</span>: <span class="ident">String</span>,
 }
 
-<span class="doccomment">/// find rs files with markers and include md segments</span>
+<span class="doccomment">/// Finds rs files with markers and include segments from md files</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">auto_md_to_doc_comments</span>() {
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">cache_md_segments</span> <span class="op">=</span> <span class="macro">vec!</span>[];
     <span class="kw">for</span> <span class="ident">rs_filename</span> <span class="kw">in</span> <span class="ident">rs_files</span>().<span class="ident">iter</span>() {

@@ -1,5 +1,7 @@
 // auto_delete_old_js_snippets_mod
 
+//! deletes old js snippets when working with wasm-pack
+
 //region: use statements
 use filetime::FileTime;
 use std::env;
@@ -8,6 +10,7 @@ use std::path::PathBuf;
 use unwrap::unwrap;
 //endregion
 
+/// deletes old js snippets when working with wasm-pack
 pub fn auto_delete_old_js_snippets() {
     let current_dir = unwrap!(env::current_dir());
     let snippets_dir = current_dir.join("pkg").join("snippets");

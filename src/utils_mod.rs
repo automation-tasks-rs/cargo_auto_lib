@@ -1,4 +1,6 @@
-//! utils_mod.rs
+// utils_mod.rs
+
+//! various utilities
 
 use lazy_static::lazy_static;
 use regex::Regex;

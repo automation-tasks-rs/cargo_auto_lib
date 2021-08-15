@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["auto_cargo_toml_to_md","`auto_cargo_toml_to_md` Includes data from Cargo.toml to README.md files. version, authors, repository and description.  "],["utc_now","utc now"]],"struct":[["REGEX_MD_END",""],["REGEX_MD_START",""],["REGEX_REMOVE_EMAIL",""]]});
+initSidebarItems({"fn":[["auto_cargo_toml_to_md","Includes data from Cargo.toml to README.md files: version, authors, repository and description.  "],["utc_now","utc now"]],"struct":[["REGEX_MD_END",""],["REGEX_MD_START",""],["REGEX_REMOVE_EMAIL",""]]});

@@ -1,5 +1,6 @@
-//! auto_version_from_date_mod
-//! In Cargo.toml and service_worker.js writes the version as the date**  
+// auto_version_from_date_mod
+
+//! In Cargo.toml and service_worker.js writes the version as the date  
 
 //region: use statements
 use chrono::DateTime;
@@ -29,6 +30,7 @@ struct AutoVersionFromDate {
     vec_file_metadata: Vec<FileMetaData>,
 }
 
+/// In Cargo.toml and service_worker.js writes the version as the date
 pub fn auto_version_from_date() {
     let mut is_files_equal = true;
 

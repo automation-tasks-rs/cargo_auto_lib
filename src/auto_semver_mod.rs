@@ -1,5 +1,7 @@
 // auto_semver_mod
 
+//! semver utilities
+
 use crate::utils_mod::*;
 
 use std::fs;
@@ -12,10 +14,12 @@ enum VersionPart {
     Minor,
 }
 
+/// increments semver version patch part
 pub fn auto_semver_increment_patch() {
     increment_part(VersionPart::Patch);
 }
 
+/// increments semver version minor part
 pub fn auto_semver_increment_minor() {
     increment_part(VersionPart::Minor);
 }

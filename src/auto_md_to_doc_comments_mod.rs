@@ -1,5 +1,7 @@
 // auto_md_to_doc_comments_mod
 
+//! Finds rs files with markers and include segments from md files
+
 use glob::glob;
 use lazy_static::lazy_static;
 use regex::Regex;
@@ -24,7 +26,7 @@ struct MdSegment {
     pub text: String,
 }
 
-/// find rs files with markers and include md segments
+/// Finds rs files with markers and include segments from md files
 pub fn auto_md_to_doc_comments() {
     let mut cache_md_segments = vec![];
     for rs_filename in rs_files().iter() {

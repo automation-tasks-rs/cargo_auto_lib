@@ -249,7 +249,6 @@ mod auto_cargo_toml_mod;
 mod auto_cargo_toml_to_md_mod;
 mod auto_delete_old_js_snippets_mod;
 mod auto_helper_functions_mod;
-/// TODO: cargo-auto_lib could change the code to make some element visibility `pub` only for testing. And after return to normal.  
 mod auto_lines_of_code_mod;
 mod auto_md_to_doc_comments_mod;
 mod auto_semver_mod;

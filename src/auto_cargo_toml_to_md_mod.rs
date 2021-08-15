@@ -1,5 +1,7 @@
 // auto_cargo_toml_to_md
 
+//! Includes data from Cargo.toml to README.md files
+
 use chrono::Datelike;
 use chrono::Utc;
 use glob::glob;
@@ -20,7 +22,7 @@ lazy_static! {
     ));
 }
 
-/// `auto_cargo_toml_to_md` Includes data from Cargo.toml to README.md files.  
+/// Includes data from Cargo.toml to README.md files:  
 /// version, authors, repository and description.  
 pub fn auto_cargo_toml_to_md() {
     let version = crate::auto_cargo_toml_mod::package_version();

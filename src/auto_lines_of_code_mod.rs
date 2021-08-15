@@ -1,5 +1,7 @@
 // auto_lines_of_code_mod
 
+//! Inserts shield badges with lines_of_code into README.rs  
+
 use anyhow;
 use regex::Regex;
 use serde_derive::Deserialize;
@@ -35,6 +37,7 @@ pub struct LinesOfCode {
     pub examples_lines: usize,
 }
 
+/// Inserts shield badges with lines_of_code into README.rs  
 /// parameter Link to include in shield badge. If empty_string, the git remote repository will be used.
 pub fn auto_lines_of_code(link: &str) {
     let text_to_include = text_to_include(link);
