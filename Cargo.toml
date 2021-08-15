@@ -22,8 +22,7 @@ include = [
 unwrap = "1.2.1"
 lazy_static="1.4.0"
 regex = "1.5.4"
-# TODO: change this with termion
-ansi_term = "0.12.1"
+termion = "1.5.6"
 glob = "0.3.0"
 chrono="0.4.19"
 filetime = "0.2.12"
@@ -32,7 +31,6 @@ serde_derive = "1.0.115"
 serde_json = "1.0.57"
 toml = "0.5.6"
 anyhow="1.0.32"
-visibility = "0.0.1"
 
 [features]
 integration-tests = []

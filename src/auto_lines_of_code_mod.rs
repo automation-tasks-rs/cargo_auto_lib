@@ -1,7 +1,5 @@
 // auto_lines_of_code_mod
 
-    #[allow(unused_imports)]
-    use ansi_term::Colour::{Green, Red, Yellow};
     use anyhow;
     use regex::Regex;
     use serde_derive::Deserialize;
@@ -9,6 +7,8 @@
     use std::io::{BufRead, BufReader};
     use std::{env, fs, path::Path};
     use unwrap::unwrap;
+
+    use crate::auto_helper_functions_mod::*;
 
     #[derive(Deserialize)]
     struct CargoToml {
@@ -69,8 +69,8 @@
 
         let current_dir = unwrap!(env::current_dir());
         println!(
-            "current_dir: {}",
-            Yellow.paint(unwrap!(current_dir.to_str()))
+            "{}current_dir: {}{}",
+            *YELLOW, unwrap!(current_dir.to_str()),*RESET
         );
 
         // cargo toml contains the list of projects
@@ -300,8 +300,9 @@
                     new_readme_content.push_str("\n");
                     new_readme_content.push_str(&readme_content[pos_end..]);
                     println!(
-                        "include_into_readme_md write file: {}",
-                        Green.paint(file_name)
+                        "{}include_into_readme_md write file: {}{}",
+                        *GREEN,
+                        file_name, *RESET
                     );
                     unwrap!(fs::write(file_name, new_readme_content));
                 }

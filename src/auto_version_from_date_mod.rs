@@ -2,7 +2,6 @@
 //! In Cargo.toml and service_worker.js writes the version as the date**  
 
 //region: use statements
-use ansi_term::Colour::{Green, Red, Yellow};
 use chrono::DateTime;
 use chrono::Timelike;
 use chrono::{Datelike, Utc};
@@ -10,6 +9,8 @@ use filetime::FileTime;
 use serde_derive::{Deserialize, Serialize};
 use std::{fs, path::Path};
 use unwrap::unwrap;
+
+use crate::auto_helper_functions_mod::*;
 //endregion
 
 ///file metadata
@@ -42,7 +43,7 @@ pub fn auto_version_from_date() {
             js_struct = unwrap!(serde_json::from_str(x.as_str()));
         }
         Err(_error) => {
-            println!("file does not exist: {}", Red.paint(json_filepath));
+            println!("{}file does not exist: {}{}",*RED,json_filepath, *RESET);
             //create empty struct
             js_struct = AutoVersionFromDate {
                 vec_file_metadata: Vec::new(),
@@ -102,7 +103,7 @@ pub fn auto_version_from_date() {
         let new_version = version_from_date(date);
         //region: write version in Cargo.toml
         {
-            println!("{}", Green.paint("write version to Cargo.toml"));
+            println!("{}write version to Cargo.toml{}", *GREEN, *RESET);
             //find version in Cargo.toml
             let cargo_filename = "Cargo.toml";
             let mut cargo_content = unwrap!(fs::read_to_string(cargo_filename));
@@ -120,7 +121,7 @@ pub fn auto_version_from_date() {
                     if new_version != old_version {
                         println!("new_version {}", new_version);
                         cargo_content.insert_str(start_version, new_version.as_str());
-                        println!("write file: {}", Yellow.paint(cargo_filename));
+                        println!("{}write file: {}{}",*YELLOW,cargo_filename,*RESET);
                         let _x = fs::write(cargo_filename, cargo_content);
                         //the Cargo.toml is now different
 
@@ -168,11 +169,7 @@ pub fn auto_version_from_date() {
             "/service_worker.js",
             &vec!["/.git".to_string(), "/target".to_string()]
         )) {
-            println!(
-                "{} {}",
-                Green.paint("write version in "),
-                Green.paint(js_filename)
-            );
+            println!( "{}write version in {}{}",*GREEN, js_filename, *RESET );
             let mut js_content = unwrap!(fs::read_to_string(js_filename));
             let delimiter = r#"const CACHE_NAME = '"#;
             let delimiter_len = delimiter.len();
@@ -188,7 +185,7 @@ pub fn auto_version_from_date() {
                     if new_version != old_version {
                         println!("new_version {}", new_version);
                         js_content.insert_str(start_version, new_version.as_str());
-                        println!("write file: {}", Yellow.paint(js_filename));
+                        println!("{}write file: {}{}", *YELLOW,js_filename, *RESET);
                         let _x = fs::write(js_filename, js_content);
                     }
                 } else {

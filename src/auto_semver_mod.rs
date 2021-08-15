@@ -2,10 +2,10 @@
 
 use crate::utils_mod::*;
 
-#[allow(unused_imports)]
-use ansi_term::Colour::{Green, Yellow};
 use std::fs;
 use unwrap::unwrap;
+
+use crate::auto_helper_functions_mod::*;
 
 enum VersionPart {
     Patch,
@@ -56,7 +56,7 @@ fn increment_part(part: VersionPart) {
             }
             println!(r#"major: {},minor: {}, patch: {}"#, major, minor, patch);
             let new_semver = format!("{}.{}.{}", major, minor, patch);
-            println!("new semver: '{}'", Green.paint(&new_semver));
+            println!("{}new semver: '{}'{}", *GREEN,&new_semver,*RESET);
             let new_cargo_toml_text = format!(
                 "{}{}{}",
                 &cargo_toml_text[..pos_start_data],
