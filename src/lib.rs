@@ -19,23 +19,27 @@
 //!
 //! ```bash
 //! cargo install cargo-auto
-//! cargo auto new
+//! cargo auto new with_lib
 //! ```
 //!
-//! In a new editor open the generated directory `automation_tasks_rs` as an independent rust project.  
-//! Add to Cargo.toml dependencies:  
+//! In a new editor open the generated directory `automation_tasks_rs` as an independent rust project. There is already this dependency in `Cargo.toml`:  
 //!
 //! ```toml
-//! cargo_auto_lib="0.1.13"
+//! cargo_auto_lib="0.7.4"
 //! ```
 //!
-//! In the beginning of the function `task_build()` add:  
+//! Preview the code and observe all the `auto_*` functions from `cargo_auto_lib`.  
+//! Example:  
 //!
 //! ```rust
-//! cargo_auto_lib::auto_cargo_toml_to_md();
+//! fn task_release() {
+//!     // semver is used for libraries, version_from_date is used for binary
+//!     auto_semver_increment_patch();
+//!     //auto_version_from_date();
+//!     auto_cargo_toml_to_md();
+//!     auto_lines_of_code("");
+//! }
 //! ```
-//!
-//! No need for `cargo build`, because the next `cargo auto task_name` will automatically build `automation_tasks_rs`.
 //!
 //! Go back to your main rust project.  
 //! Add markers to the beginning of README.md (don't copy the numbers 1 and 2):  
@@ -45,16 +49,17 @@
 //! 2 [comment]: # (auto_cargo_toml_to_md end)
 //! ```
 //!
-//! Run:
+//! Run (in your main rust project):
 //!
 //! ```bash
 //! cargo auto build
 //! ```
 //!
-//! With a little luck, it included the data of Cargo.toml into the `README.md` inside the markers:  
-//! description, repository, version, &utc_now(), authors  
+//! With a little luck, it included the data of Cargo.toml into the `README.md` inside the markers: description, repository, version, &utc_now(), authors  
 //!
-//! # Caveats
+//! ![auto_cargo_toml_to_md](images/auto_cargo_toml_to_md.png "auto_cargo_toml_to_md")
+//!
+//! ## Caveats
 //!
 //! This crate will attempt to edit Cargo.toml. Unfortunately there's no great robust way right now to edit TOML file preserving formatting and comments and such, so right now I use just regex to do this.
 //!
@@ -219,6 +224,23 @@
 //! The old folders for `js snippets` are not automatically deleted on building with `wasm-pack`.  
 //! This utils do that.
 //! The function must be executed in the root project folder where is the Cargo.toml.  
+//!
+//! ## cargo crev reviews and advisory
+//!
+//! We leave in times of danger with `supply chain attacks`.  
+//! It is recommended to always use [cargo-crev](https://github.com/crev-dev/cargo-crev)  
+//! to verify the trustworthiness of each of your dependencies.  
+//! Please, spread this info.  
+//! You can also read reviews quickly on the web. Example for the crate `num-traits`:  
+//! <https://web.crev.dev/rust-reviews/crate/num-traits/>  
+//!
+//! ## open-source free and free as a beer
+//!
+//! My open-source projects are free and free as a beer (MIT license).  
+//! I just love programming.  
+//! But I need also to drink. If you find my projects and tutorials helpful, please buy me a beer or two donating on my [paypal](https://www.paypal.com/paypalme/LucianoBestia). You know the price of a beer in your local bar ;-)  
+//! So I can drink a free beer for your health :-)  
+//! [Na zdravje](https://translate.google.com/?hl=en&sl=sl&tl=en&text=Na%20zdravje&op=translate) !
 //!
 // endregion: auto_md_to_doc_comments include README.md A //!
 
