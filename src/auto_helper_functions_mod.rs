@@ -32,4 +32,3 @@ pub fn run_shell_commands(shell_commands: Vec<&str>) {
         run_shell_command(shell_command);
     }
 }
-

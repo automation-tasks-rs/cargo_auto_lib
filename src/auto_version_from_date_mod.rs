@@ -43,7 +43,7 @@ pub fn auto_version_from_date() {
             js_struct = unwrap!(serde_json::from_str(x.as_str()));
         }
         Err(_error) => {
-            println!("{}file does not exist: {}{}",*RED,json_filepath, *RESET);
+            println!("{}file does not exist: {}{}", *RED, json_filepath, *RESET);
             //create empty struct
             js_struct = AutoVersionFromDate {
                 vec_file_metadata: Vec::new(),
@@ -121,7 +121,7 @@ pub fn auto_version_from_date() {
                     if new_version != old_version {
                         println!("new_version {}", new_version);
                         cargo_content.insert_str(start_version, new_version.as_str());
-                        println!("{}write file: {}{}",*YELLOW,cargo_filename,*RESET);
+                        println!("{}write file: {}{}", *YELLOW, cargo_filename, *RESET);
                         let _x = fs::write(cargo_filename, cargo_content);
                         //the Cargo.toml is now different
 
@@ -169,7 +169,7 @@ pub fn auto_version_from_date() {
             "/service_worker.js",
             &vec!["/.git".to_string(), "/target".to_string()]
         )) {
-            println!( "{}write version in {}{}",*GREEN, js_filename, *RESET );
+            println!("{}write version in {}{}", *GREEN, js_filename, *RESET);
             let mut js_content = unwrap!(fs::read_to_string(js_filename));
             let delimiter = r#"const CACHE_NAME = '"#;
             let delimiter_len = delimiter.len();
@@ -185,7 +185,7 @@ pub fn auto_version_from_date() {
                     if new_version != old_version {
                         println!("new_version {}", new_version);
                         js_content.insert_str(start_version, new_version.as_str());
-                        println!("{}write file: {}{}", *YELLOW,js_filename, *RESET);
+                        println!("{}write file: {}{}", *YELLOW, js_filename, *RESET);
                         let _x = fs::write(js_filename, js_content);
                     }
                 } else {

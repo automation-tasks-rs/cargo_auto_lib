@@ -56,7 +56,7 @@ fn increment_part(part: VersionPart) {
             }
             // println!(r#"major: {},minor: {}, patch: {}"#, major, minor, patch);
             let new_semver = format!("{}.{}.{}", major, minor, patch);
-            println!("{}new version: '{}'{}", *GREEN,&new_semver,*RESET);
+            println!("{}new version: '{}'{}", *GREEN, &new_semver, *RESET);
             let new_cargo_toml_text = format!(
                 "{}{}{}",
                 &cargo_toml_text[..pos_start_data],

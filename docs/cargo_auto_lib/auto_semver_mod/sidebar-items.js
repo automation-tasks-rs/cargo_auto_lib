@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["VersionPart",""]],"fn":[["auto_semver_increment_minor",""],["auto_semver_increment_patch",""],["increment_part",""],["parse_next_number",""]]});
