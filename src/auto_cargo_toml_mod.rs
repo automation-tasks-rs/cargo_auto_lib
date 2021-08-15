@@ -42,7 +42,3 @@ pub fn package_repository()->Option<String>{
 pub fn package_description()->Option<String>{
     PACKAGE.description.to_owned()
 }
-
-pub fn set_package_version(){
-    PACKAGE.version = "new".to_string();
-}
