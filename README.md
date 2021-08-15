@@ -55,6 +55,12 @@ cargo auto build
 With a little luck, it included the data of Cargo.toml into the `README.md` inside the markers:  
 description, repository, version, &utc_now(), authors  
 
+# Caveats
+
+This crate will attempt to edit Cargo.toml. Unfortunately there's no great robust way right now to edit TOML file preserving formatting and comments and such, so right now I use just regex to do this.
+
+If you find that the heuristics don't work for you though please let me know and I'll try to check in a fix!
+
 # function auto_cargo_toml_to_md()
 
 To avoid out of sync data like version, authors and description in the README.md files, `auto_cargo_toml_to_md` includes this data from Cargo.toml.  

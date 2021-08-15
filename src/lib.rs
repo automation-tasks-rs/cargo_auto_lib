@@ -11,6 +11,7 @@ mod auto_md_to_doc_comments_mod;
 mod auto_semver_mod;
 mod auto_version_from_date_mod;
 mod auto_helper_functions_mod;
+mod auto_cargo_toml_mod;
 pub mod utils_mod;
 
 // reexport functions for callers of the library
@@ -30,3 +31,8 @@ pub use auto_helper_functions_mod::RESET;
 pub use auto_helper_functions_mod::CLEAR_LINE;
 pub use auto_helper_functions_mod::CLEAR_ALL;
 pub use auto_helper_functions_mod::UNHIDE_CURSOR;
+pub use auto_cargo_toml_mod::package_name;
+pub use auto_cargo_toml_mod::package_version;
+pub use auto_cargo_toml_mod::package_authors_string_without_emails;
+pub use auto_cargo_toml_mod::package_repository;
+pub use auto_cargo_toml_mod::package_description;

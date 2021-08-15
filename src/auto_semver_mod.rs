@@ -21,7 +21,7 @@ pub fn auto_semver_increment_minor() {
 }
 
 fn increment_part(part: VersionPart) {
-    println!("pub fn increment_patch");
+    // println!("pub fn increment_patch");
     let cargo_toml_filename = "Cargo.toml";
     let cargo_toml_text = unwrap!(fs::read_to_string(cargo_toml_filename));
     // find the line with "version = " including the start quote
@@ -33,7 +33,7 @@ fn increment_part(part: VersionPart) {
             find_pos_end_data_before_delimiter(&cargo_toml_text, pos_start_data, r#"""#)
         {
             let version = cargo_toml_text[pos_start_data..pos_end_data].to_string();
-            println!(r#"version: "{}""#, &version);
+            println!(r#"old version: "{}""#, &version);
             //increment the last number
             let pos = pos_start_data;
             let (major, pos) = parse_next_number(&cargo_toml_text, pos);
@@ -54,9 +54,9 @@ fn increment_part(part: VersionPart) {
                     patch = 0;
                 }
             }
-            println!(r#"major: {},minor: {}, patch: {}"#, major, minor, patch);
+            // println!(r#"major: {},minor: {}, patch: {}"#, major, minor, patch);
             let new_semver = format!("{}.{}.{}", major, minor, patch);
-            println!("{}new semver: '{}'{}", *GREEN,&new_semver,*RESET);
+            println!("{}new version: '{}'{}", *GREEN,&new_semver,*RESET);
             let new_cargo_toml_text = format!(
                 "{}{}{}",
                 &cargo_toml_text[..pos_start_data],

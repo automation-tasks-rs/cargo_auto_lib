@@ -11,11 +11,7 @@ use unwrap::unwrap;
 use crate::auto_helper_functions_mod::*;
 
 lazy_static! {
-    static ref REGEX_REMOVE_EMAIL: Regex = unwrap!(Regex::new(r#"( <.+?>)"#));
-    static ref REGEX_VERSION: Regex = unwrap!(Regex::new(r#"(?m)^version = "(.+?)"$"#));
-    static ref REGEX_AUTHORS: Regex = unwrap!(Regex::new(r#"(?m)^authors = \["(.+?)"\]$"#));
-    static ref REGEX_REPOSITORY: Regex = unwrap!(Regex::new(r#"(?m)^repository = "(.+?)"$"#));
-    static ref REGEX_DESCRIPTION: Regex = unwrap!(Regex::new(r#"(?m)^description = "(.+?)"$"#));
+    static ref REGEX_REMOVE_EMAIL: Regex = unwrap!(Regex::new(r#"( <.+?>)"#));   
     static ref REGEX_MD_START: Regex = unwrap!(Regex::new(
         r#"(?m)^\[comment\]: # \(auto_cargo_toml_to_md start\)$"#
     ));
@@ -27,25 +23,18 @@ lazy_static! {
 /// `auto_cargo_toml_to_md` Includes data from Cargo.toml to README.md files.  
 /// version, authors, repository and description.  
 pub fn auto_cargo_toml_to_md() {
-    let cargo_toml_text = unwrap!(fs::read_to_string("Cargo.toml"));
-    // TODO: I could use the crate  cargo_toml
-    let cap = unwrap!(REGEX_VERSION.captures(&cargo_toml_text));
-    let version = cap.get(1).unwrap().as_str();
-    let cap = unwrap!(REGEX_AUTHORS.captures(&cargo_toml_text));
-    let authors = cap.get(1).unwrap().as_str();
-    let authors = REGEX_REMOVE_EMAIL.replace_all(authors, "");
-    let cap = unwrap!(REGEX_REPOSITORY.captures(&cargo_toml_text));
-    let repository = cap.get(1).unwrap().as_str();
-    let cap = unwrap!(REGEX_DESCRIPTION.captures(&cargo_toml_text));
-    let description = cap.get(1).unwrap().as_str();
+    let version = crate::auto_cargo_toml_mod::package_version();
+    let authors = crate::auto_cargo_toml_mod::package_authors_string_without_emails();
+    let repository = crate::auto_cargo_toml_mod::package_repository().unwrap_or("".to_owned());
+    let description = crate::auto_cargo_toml_mod::package_description().unwrap_or("".to_owned());
 
     let new_text = format!(
         "\n**{}**  \n***[repository]({}); version: {}  date: {} authors: {}***  \n\n",
-        description,
-        repository,
-        version,
+        &description,
+        &repository,
+        &version,
         &utc_now(),
-        authors,
+        &authors,
     );
     println!("{}new text: '{}'{}",*GREEN, &new_text,*RESET);
     println!("warning: the md file must be with LF and not CRLF line endings!");

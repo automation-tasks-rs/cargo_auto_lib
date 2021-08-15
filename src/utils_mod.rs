@@ -107,3 +107,17 @@ pub fn traverse_dir_with_exclude_dir(
     }
     Ok(v)
 }
+
+/// the original `concat()` function does not have a delimiter
+pub fn concatenate_vec_to_string(vec: &Vec<String>, delimiter:&str) -> String {
+    let size = vec.iter().fold(0, |a, b| a + b.len());
+    let mut concatenated_string = String::with_capacity(size);
+    for (i, item) in vec.iter().enumerate(){
+        if i > 0 {
+            concatenated_string.push_str(delimiter);
+        }
+        concatenated_string.push_str(item);    
+    }
+    // return
+    concatenated_string
+}
