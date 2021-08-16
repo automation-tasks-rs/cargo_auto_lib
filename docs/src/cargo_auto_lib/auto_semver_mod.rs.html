@@ -109,12 +109,12 @@
     <span class="ident">Minor</span>,
 }
 
-<span class="doccomment">/// increments semver version patch part</span>
+<span class="doccomment">/// Increments the patch version in Cargo.toml file.</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">auto_semver_increment_patch</span>() {
     <span class="ident">increment_part</span>(<span class="ident">VersionPart::Patch</span>);
 }
 
-<span class="doccomment">/// increments semver version minor part</span>
+<span class="doccomment">/// Increments the minor version in Cargo.toml file.</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">auto_semver_increment_minor</span>() {
     <span class="ident">increment_part</span>(<span class="ident">VersionPart::Minor</span>);
 }

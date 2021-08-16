@@ -1,6 +1,6 @@
 [package]
 name = "cargo_auto_lib"
-version = "0.7.4"
+version = "0.7.7"
 authors = ["Luciano Bestia <luciano.bestia@gmail.com>"]
 edition = "2018"
 description = "Library crate for common tasks when building rust projects. Intended for use with cargo-auto: automation tasks written in Rust language."

@@ -14,12 +14,12 @@ enum VersionPart {
     Minor,
 }
 
-/// increments semver version patch part
+/// Increments the patch version in Cargo.toml file.
 pub fn auto_semver_increment_patch() {
     increment_part(VersionPart::Patch);
 }
 
-/// increments semver version minor part
+/// Increments the minor version in Cargo.toml file.
 pub fn auto_semver_increment_minor() {
     increment_part(VersionPart::Minor);
 }

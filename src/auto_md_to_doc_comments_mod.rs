@@ -1,6 +1,6 @@
 // auto_md_to_doc_comments_mod
 
-//! Finds rs files with markers and include segments from md files
+//! finds rs files with markers and include segments from md files
 
 use glob::glob;
 use lazy_static::lazy_static;
@@ -26,7 +26,40 @@ struct MdSegment {
     pub text: String,
 }
 
-/// Finds rs files with markers and include segments from md files
+/// finds rs files with markers and include segments from md files
+/// Includes segments of md files into rs files as doc comments.  
+/// From this doc comments `cargo doc` will generated the documentation and auto-completion.  
+/// We don't want to manually copy this segments. We want them to be automatically in sync.  
+/// We will just run this function before every `cargo doc` with an automation task.  
+/// The `auto_md_to_doc_comments` function must be executed in the project root folder where is the Cargo.toml file.  
+/// TODO: It does not work in workspace folder, but every single member project must call it separately.  
+/// First it searches all the rs files in src, tests and examples folders.  
+/// If they contain the markers, than finds the md file and the named segment and include it as doc comments into the rs file.  
+/// The markers are always in pairs: start and end. So exactly the content in between is changed.
+/// The markers are always comments, so they don't change the code.  
+/// It works only for files with LF line delimiter. No CR and no CRLF.  
+///
+/// ## markers
+///
+/// In the rs file write these markers (don't copy the numbers 1 and 2):  
+///
+/// ```rust
+/// 1. // region: auto_md_to_doc_comments include README.md //! A  
+/// 2. // endregion: auto_md_to_doc_comments include README.md //! A  
+/// ```
+///
+/// In the md file put markers to mark the segment:  
+///
+/// ```markdown
+/// 1. [comment]: # (auto_md_to_doc_comments segment start A)  
+/// 2. [comment]: # (auto_md_to_doc_comments segment end A)  
+/// ```
+///
+/// The marker must be exclusively in one line. No other text in the same line.  
+/// auto_md_to_doc_comments will delete the old lines between the markers.  
+/// It will find the md file and read the content between the markers.  
+/// Before each line it will add the doc comment symbol as is defined in the marker.  
+/// Finally it will include the new lines as doc comments in the rs file.  
 pub fn auto_md_to_doc_comments() {
     let mut cache_md_segments = vec![];
     for rs_filename in rs_files().iter() {

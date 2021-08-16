@@ -1,6 +1,6 @@
 // auto_version_from_date_mod
 
-//! In Cargo.toml and service_worker.js writes the version as the date  
+//! new version as date is written toCargo.toml and service_worker.js
 
 //region: use statements
 use chrono::DateTime;
@@ -30,7 +30,24 @@ struct AutoVersionFromDate {
     vec_file_metadata: Vec<FileMetaData>,
 }
 
-/// In Cargo.toml and service_worker.js writes the version as the date
+/// new version as date is written toCargo.toml and service_worker.js
+/// In Cargo.toml writes the version as the date `yyyy.mmdd.HHMM` ex. `2019.1221.2359`.  
+/// For non-library projects, the semver specification is not really useful.  
+/// Having the version as the date is just fine for executables and much more human readable.  
+/// The function must be executed in the root project folder where is the Cargo.toml.  
+///
+/// ## service_worker.js
+///
+/// Inside the PWA service worker javascript file is also needed to change the version.  
+/// The program searches for `service_worker.js` and modify the version.  
+///
+/// ## no need to change version if no files changed
+///
+/// If src/*.rs or Cargo.toml files are not changed from last compile,
+/// than no need to change version.  
+/// It does not support workspaces yet.  
+/// The dates of the files will be stored in target folder as auto_version_from_date.json.
+/// Warning: I don't check if the service worker has changed because it rarely does.  
 pub fn auto_version_from_date() {
     let mut is_files_equal = true;
 

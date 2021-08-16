@@ -178,10 +178,43 @@
 <span id="176">176</span>
 <span id="177">177</span>
 <span id="178">178</span>
+<span id="179">179</span>
+<span id="180">180</span>
+<span id="181">181</span>
+<span id="182">182</span>
+<span id="183">183</span>
+<span id="184">184</span>
+<span id="185">185</span>
+<span id="186">186</span>
+<span id="187">187</span>
+<span id="188">188</span>
+<span id="189">189</span>
+<span id="190">190</span>
+<span id="191">191</span>
+<span id="192">192</span>
+<span id="193">193</span>
+<span id="194">194</span>
+<span id="195">195</span>
+<span id="196">196</span>
+<span id="197">197</span>
+<span id="198">198</span>
+<span id="199">199</span>
+<span id="200">200</span>
+<span id="201">201</span>
+<span id="202">202</span>
+<span id="203">203</span>
+<span id="204">204</span>
+<span id="205">205</span>
+<span id="206">206</span>
+<span id="207">207</span>
+<span id="208">208</span>
+<span id="209">209</span>
+<span id="210">210</span>
+<span id="211">211</span>
 </pre><pre class="rust">
 <span class="comment">// auto_md_to_doc_comments_mod</span>
 
-<span class="doccomment">//! Finds rs files with markers and include segments from md files</span>
+<span class="doccomment">//! finds rs files with markers and include segments from md files</span>
 
 <span class="kw">use</span> <span class="ident">glob::glob</span>;
 <span class="kw">use</span> <span class="ident">lazy_static::lazy_static</span>;
@@ -207,7 +240,40 @@
     <span class="kw">pub</span> <span class="ident">text</span>: <span class="ident">String</span>,
 }
 
-<span class="doccomment">/// Finds rs files with markers and include segments from md files</span>
+<span class="doccomment">/// finds rs files with markers and include segments from md files</span>
+<span class="doccomment">/// Includes segments of md files into rs files as doc comments.  </span>
+<span class="doccomment">/// From this doc comments `cargo doc` will generated the documentation and auto-completion.  </span>
+<span class="doccomment">/// We don&#39;t want to manually copy this segments. We want them to be automatically in sync.  </span>
+<span class="doccomment">/// We will just run this function before every `cargo doc` with an automation task.  </span>
+<span class="doccomment">/// The `auto_md_to_doc_comments` function must be executed in the project root folder where is the Cargo.toml file.  </span>
+<span class="doccomment">/// TODO: It does not work in workspace folder, but every single member project must call it separately.  </span>
+<span class="doccomment">/// First it searches all the rs files in src, tests and examples folders.  </span>
+<span class="doccomment">/// If they contain the markers, than finds the md file and the named segment and include it as doc comments into the rs file.  </span>
+<span class="doccomment">/// The markers are always in pairs: start and end. So exactly the content in between is changed.</span>
+<span class="doccomment">/// The markers are always comments, so they don&#39;t change the code.  </span>
+<span class="doccomment">/// It works only for files with LF line delimiter. No CR and no CRLF.  </span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// ## markers</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// In the rs file write these markers (don&#39;t copy the numbers 1 and 2):  </span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// ```rust</span>
+<span class="doccomment">/// 1. // region: auto_md_to_doc_comments include README.md //! A  </span>
+<span class="doccomment">/// 2. // endregion: auto_md_to_doc_comments include README.md //! A  </span>
+<span class="doccomment">/// ```</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// In the md file put markers to mark the segment:  </span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// ```markdown</span>
+<span class="doccomment">/// 1. [comment]: # (auto_md_to_doc_comments segment start A)  </span>
+<span class="doccomment">/// 2. [comment]: # (auto_md_to_doc_comments segment end A)  </span>
+<span class="doccomment">/// ```</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// The marker must be exclusively in one line. No other text in the same line.  </span>
+<span class="doccomment">/// auto_md_to_doc_comments will delete the old lines between the markers.  </span>
+<span class="doccomment">/// It will find the md file and read the content between the markers.  </span>
+<span class="doccomment">/// Before each line it will add the doc comment symbol as is defined in the marker.  </span>
+<span class="doccomment">/// Finally it will include the new lines as doc comments in the rs file.  </span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">auto_md_to_doc_comments</span>() {
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">cache_md_segments</span> <span class="op">=</span> <span class="macro">vec!</span>[];
     <span class="kw">for</span> <span class="ident">rs_filename</span> <span class="kw">in</span> <span class="ident">rs_files</span>().<span class="ident">iter</span>() {

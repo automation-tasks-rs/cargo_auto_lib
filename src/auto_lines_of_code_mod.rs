@@ -1,6 +1,6 @@
 // auto_lines_of_code_mod
 
-//! Inserts shield badges with lines_of_code into README.rs  
+//! inserts shield badges with lines_of_code into README.rs
 
 use anyhow;
 use regex::Regex;
@@ -37,8 +37,71 @@ pub struct LinesOfCode {
     pub examples_lines: usize,
 }
 
-/// Inserts shield badges with lines_of_code into README.rs  
-/// parameter Link to include in shield badge. If empty_string, the git remote repository will be used.
+/// inserts shield badges with lines_of_code into README.rs
+/// the parameter Link to include in shield badge. If empty_string, the git remote repository will be used.
+/// Lines of code are not a "perfect" measurement of anything.\
+/// Anybody can write a very big number of lines of useless code and comments.\
+/// But for 95% of the cases they are good enough.\
+/// Most of the developers use some "standard" coding practices and that is quantifiable and comparable.  
+///
+/// The `src_code_lines` is the most important count.\
+/// That is actual code written for that project without  doc comments, comments, unit tests, integration tests and examples.\
+/// Sometimes is great to see a big number here. It means there was a lot of work invested. But other times we want to see a small number. It /// means the developer understands the problem very well and don't try to solve anything outside that scope.  
+///
+/// The `src_doc_comment_lines` counts doc comments. They will eventually become docs. The count of lines shows how many documentation is /// written.  
+///
+/// The `src_comment_lines` counts code comments. Code comments are important to understand the code. The count of lines shows how /// understandable is the code.  
+///
+/// The `tests_lines` counts lines in tests and shows how good is the code tested. Here are the unit tests and integration test combined.  
+///
+/// The `examples_lines` counts lines in examples and shows how good is explained how to use the code.  
+///
+/// ## Folder and file structure
+///
+/// The folder structure of a single Rust project is simple.\
+/// The project starts in the folder that contains `Cargo.toml`.\
+/// The `src/` folder contains all the rust `*.rs` files.\
+/// The `tests/` folder contains integration tests.\
+/// The `examples/` folder contains examples.\
+/// Inside a rs file the doc comment line start with `///` or `//!`.\
+/// The normal comments start with `//` or `/!`.\
+/// I will ignore the block comments. They are usually NOT used for comments, but to temporarily disable a piece of code. So I count this as /// code and not comments.  
+///
+/// The `src/*.rs` file can contain unit tests that start with `#[cfg(test)]`. I assume that these are always at the end of the file. There /// should not be any normal code after `#[cfg(test)]`, only tests.  
+///
+/// All other files: `md`, `toml`, `html`, `js`, ... are not counted.  
+///
+/// ### Workspace
+///
+/// Workspaces have member projects, that are written in `Cargo.toml`.\
+/// The program counts lines of every project and sums them together.  
+///
+/// ## Output
+///
+/// The output is markdown text for shield badges.\
+/// The only parameter `link` will be used for the link of all 4 shield badges.  
+/// Else the app will try `git remote -v` to get the remote url.  
+///
+/// ## Include into README.md
+///
+/// If the README.md file contains these markers (don't copy the numbers 1 and 2):  
+///
+/// 1. `[comment]: # (auto_lines_of_code start)`  
+/// 2. `[comment]: # (auto_lines_of_code end)`  
+///
+/// the function will include the shield badges code between them.  
+/// It will erase the previous content.  
+/// Use git diff to see the change.  
+///
+/// ## Testing
+///
+/// Testing is difficult, because I use this own project to get the lines of code for the tests.  
+/// These will change as the code is modified. Moreover, the result from `$ git remote -v` is different on different computers. To align with /// this changes, the testing has 2 const that must be manually updated to contain the actual data.  
+/// Testing will also modify the `README.md` file. Always after testing run `cargo make doc` to correct the `README.md`. Or just revert it /// using git.  
+///
+/// ## References
+///
+/// <https://blog.burntsushi.net/rust-error-handling/>
 pub fn auto_lines_of_code(link: &str) {
     let text_to_include = text_to_include(link);
     include_into_readme_md(&text_to_include);
@@ -78,7 +141,7 @@ fn workspace_or_project_count_lines() -> LinesOfCode {
         *RESET
     );
 
-    // cargo toml contains the list of projects
+    // Cargo.toml contains the list of projects
     let cargo_toml = unwrap!(fs::read_to_string("Cargo.toml"));
     let cargo_toml: CargoToml = unwrap!(toml::from_str(&cargo_toml));
     if let Some(workspace) = cargo_toml.workspace {

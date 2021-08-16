@@ -89,7 +89,7 @@ fn task_docs() {
     #[rustfmt::skip]
     let shell_commands = [
         "echo $ cargo doc --no-deps --document-private-items",
-        "cargo doc --no-deps --document-private-items",        
+        "cargo doc --no-deps --document-private-items --open",        
         // copy to /docs/ because it is github standard
         "echo $ rsync -a --info=progress2 --delete-after target/doc/ docs/",
         "rsync -a --info=progress2 --delete-after target/doc/ docs/",

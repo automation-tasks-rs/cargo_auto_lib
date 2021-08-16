@@ -254,10 +254,27 @@
 <span id="252">252</span>
 <span id="253">253</span>
 <span id="254">254</span>
+<span id="255">255</span>
+<span id="256">256</span>
+<span id="257">257</span>
+<span id="258">258</span>
+<span id="259">259</span>
+<span id="260">260</span>
+<span id="261">261</span>
+<span id="262">262</span>
+<span id="263">263</span>
+<span id="264">264</span>
+<span id="265">265</span>
+<span id="266">266</span>
+<span id="267">267</span>
+<span id="268">268</span>
+<span id="269">269</span>
+<span id="270">270</span>
+<span id="271">271</span>
 </pre><pre class="rust">
 <span class="comment">// auto_version_from_date_mod</span>
 
-<span class="doccomment">//! In Cargo.toml and service_worker.js writes the version as the date  </span>
+<span class="doccomment">//! new version as date is written toCargo.toml and service_worker.js</span>
 
 <span class="comment">//region: use statements</span>
 <span class="kw">use</span> <span class="ident">chrono::DateTime</span>;
@@ -287,7 +304,24 @@
     <span class="ident">vec_file_metadata</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">FileMetaData</span><span class="op">&gt;</span>,
 }
 
-<span class="doccomment">/// In Cargo.toml and service_worker.js writes the version as the date</span>
+<span class="doccomment">/// new version as date is written toCargo.toml and service_worker.js</span>
+<span class="doccomment">/// In Cargo.toml writes the version as the date `yyyy.mmdd.HHMM` ex. `2019.1221.2359`.  </span>
+<span class="doccomment">/// For non-library projects, the semver specification is not really useful.  </span>
+<span class="doccomment">/// Having the version as the date is just fine for executables and much more human readable.  </span>
+<span class="doccomment">/// The function must be executed in the root project folder where is the Cargo.toml.  </span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// ## service_worker.js</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Inside the PWA service worker javascript file is also needed to change the version.  </span>
+<span class="doccomment">/// The program searches for `service_worker.js` and modify the version.  </span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// ## no need to change version if no files changed</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// If src/*.rs or Cargo.toml files are not changed from last compile,</span>
+<span class="doccomment">/// than no need to change version.  </span>
+<span class="doccomment">/// It does not support workspaces yet.  </span>
+<span class="doccomment">/// The dates of the files will be stored in target folder as auto_version_from_date.json.</span>
+<span class="doccomment">/// Warning: I don&#39;t check if the service worker has changed because it rarely does.  </span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">auto_version_from_date</span>() {
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">is_files_equal</span> <span class="op">=</span> <span class="bool-val">true</span>;
 

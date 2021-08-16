@@ -10,7 +10,10 @@ use std::path::PathBuf;
 use unwrap::unwrap;
 //endregion
 
-/// deletes old js snippets when working with wasm-pack
+/// deletes old js snippets when working with wasm-pack  
+/// The old folders for `js snippets` are not automatically deleted on building with `wasm-pack`.  
+/// This utils do that.  
+/// The function must be executed in the root project folder where is the Cargo.toml.  
 pub fn auto_delete_old_js_snippets() {
     let current_dir = unwrap!(env::current_dir());
     let snippets_dir = current_dir.join("pkg").join("snippets");

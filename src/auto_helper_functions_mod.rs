@@ -25,6 +25,7 @@ lazy_static! {
 
 /// run one shell command
 pub fn run_shell_command(shell_command: &str) {
+    println!("$ {}", shell_command);
     std::process::Command::new("sh")
         .arg("-c")
         .arg(shell_command)

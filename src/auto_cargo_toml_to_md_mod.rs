@@ -1,6 +1,6 @@
-// auto_cargo_toml_to_md
+// auto_cargo_toml_to_md_mod
 
-//! Includes data from Cargo.toml to README.md files
+//! includes data from Cargo.toml to README.md files: version, authors,...
 
 use chrono::Datelike;
 use chrono::Utc;
@@ -22,8 +22,28 @@ lazy_static! {
     ));
 }
 
-/// Includes data from Cargo.toml to README.md files:  
-/// version, authors, repository and description.  
+/// includes data from Cargo.toml to README.md files: version, authors,...
+/// To avoid out of sync data like version, authors and description in the README.md files, `auto_cargo_toml_to_md` includes this data from Cargo.toml.  
+/// Run it on every build with [cargo auto](https://crates.io/crates/cargo-auto).  
+///
+/// It works only for single projects and not for workspaces yet.  
+/// It works also with other md files in the project, not only README.md.  
+/// In the md file write these markers in markdown comments (invisible),  
+/// don't copy the numbers 1 and 2:  
+///
+/// ```markdown
+/// 1 [comment]: # (auto_cargo_toml_to_md start)
+/// 2 [comment]: # (auto_cargo_toml_to_md end)
+/// ```
+///
+/// `auto_cargo_toml_to_md` deletes the old lines between the markers and includes the Cargo.toml data:  
+/// description, repository, version, &utc_now(), authors  
+///
+/// Run the example:  
+///
+/// ```bash
+/// cargo run --example example_01_auto_cargo_toml_to_md
+/// ```  
 pub fn auto_cargo_toml_to_md() {
     let version = crate::auto_cargo_toml_mod::package_version();
     let authors = crate::auto_cargo_toml_mod::package_authors_string_without_emails();
