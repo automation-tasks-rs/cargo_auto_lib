@@ -94,7 +94,7 @@
 </pre><pre class="rust">
 <span class="comment">// auto_cargo_toml_to_md_mod</span>
 
-<span class="doccomment">//! Includes data from Cargo.toml to README.md files: version, authors, repository and description.</span>
+<span class="doccomment">//! includes data from Cargo.toml to README.md files: version, authors,...</span>
 
 <span class="kw">use</span> <span class="ident">chrono::Datelike</span>;
 <span class="kw">use</span> <span class="ident">chrono::Utc</span>;
@@ -116,7 +116,7 @@
     ));
 }
 
-<span class="doccomment">/// Includes data from Cargo.toml to README.md files: version, authors, repository and description.</span>
+<span class="doccomment">/// includes data from Cargo.toml to README.md files: version, authors,...</span>
 <span class="doccomment">/// To avoid out of sync data like version, authors and description in the README.md files, `auto_cargo_toml_to_md` includes this data from Cargo.toml.  </span>
 <span class="doccomment">/// Run it on every build with [cargo auto](https://crates.io/crates/cargo-auto).  </span>
 <span class="doccomment">///</span>

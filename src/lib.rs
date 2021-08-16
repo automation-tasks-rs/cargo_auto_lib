@@ -2,10 +2,10 @@
 //! # cargo_auto_lib
 //!
 //! **Library crate for common tasks when building rust projects. Intended for use with cargo-auto: automation tasks written in Rust language.**  
-//! ***[repository](https://github.com/LucianoBestia/cargo_auto_lib); version: 0.7.7  date: 2021-08-16 authors: Luciano Bestia***  
+//! ***[repository](https://github.com/LucianoBestia/cargo_auto_lib); version: 0.7.8  date: 2021-08-16 authors: Luciano Bestia***  
 //!
 //! [![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-970-green.svg)](https://github.com/LucianoBestia/cargo_auto_lib/)
-//! [![Lines in Doc comments](https://img.shields.io/badge/Lines_in_Doc_comments-363-blue.svg)](https://github.com/LucianoBestia/cargo_auto_lib/)
+//! [![Lines in Doc comments](https://img.shields.io/badge/Lines_in_Doc_comments-371-blue.svg)](https://github.com/LucianoBestia/cargo_auto_lib/)
 //! [![Lines in Comments](https://img.shields.io/badge/Lines_in_comments-116-purple.svg)](https://github.com/LucianoBestia/cargo_auto_lib/)
 //! [![Lines in examples](https://img.shields.io/badge/Lines_in_examples-0-yellow.svg)](https://github.com/LucianoBestia/cargo_auto_lib/)
 //! [![Lines in tests](https://img.shields.io/badge/Lines_in_tests-11-orange.svg)](https://github.com/LucianoBestia/cargo_auto_lib/)
@@ -25,7 +25,7 @@
 //! In a new editor open the generated directory `automation_tasks_rs` as an independent rust project. There is already this dependency in `Cargo.toml`:  
 //!
 //! ```toml
-//! cargo_auto_lib="0.7.7"
+//! cargo_auto_lib="0.7.*"
 //! ```
 //!
 //! Preview the code and observe all the `auto_*` functions from `cargo_auto_lib`.  
