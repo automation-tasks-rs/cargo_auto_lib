@@ -2,10 +2,10 @@
 //! # cargo_auto_lib
 //!
 //! **Library crate for common tasks when building rust projects. Intended for use with cargo-auto: automation tasks written in Rust language.**  
-//! ***[repository](https://github.com/LucianoBestia/cargo_auto_lib); version: 0.7.10  date: 2021-08-19 authors: Luciano Bestia***  
+//! ***[repository](https://github.com/LucianoBestia/cargo_auto_lib); version: 0.7.14  date: 2021-08-19 authors: Luciano Bestia***  
 //!
-//! [![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-1051-green.svg)](https://github.com/LucianoBestia/cargo_auto_lib/)
-//! [![Lines in Doc comments](https://img.shields.io/badge/Lines_in_Doc_comments-400-blue.svg)](https://github.com/LucianoBestia/cargo_auto_lib/)
+//! [![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-1059-green.svg)](https://github.com/LucianoBestia/cargo_auto_lib/)
+//! [![Lines in Doc comments](https://img.shields.io/badge/Lines_in_Doc_comments-401-blue.svg)](https://github.com/LucianoBestia/cargo_auto_lib/)
 //! [![Lines in Comments](https://img.shields.io/badge/Lines_in_comments-117-purple.svg)](https://github.com/LucianoBestia/cargo_auto_lib/)
 //! [![Lines in examples](https://img.shields.io/badge/Lines_in_examples-0-yellow.svg)](https://github.com/LucianoBestia/cargo_auto_lib/)
 //! [![Lines in tests](https://img.shields.io/badge/Lines_in_tests-11-orange.svg)](https://github.com/LucianoBestia/cargo_auto_lib/)
@@ -121,6 +121,7 @@
 mod auto_cargo_toml_mod;
 mod auto_cargo_toml_to_md_mod;
 mod auto_delete_old_js_snippets_mod;
+mod auto_github_mod;
 mod auto_helper_functions_mod;
 mod auto_lines_of_code_mod;
 mod auto_md_to_doc_comments_mod;
@@ -137,6 +138,8 @@ pub use auto_cargo_toml_mod::package_repository;
 pub use auto_cargo_toml_mod::package_version;
 pub use auto_cargo_toml_to_md_mod::auto_cargo_toml_to_md;
 pub use auto_delete_old_js_snippets_mod::auto_delete_old_js_snippets;
+pub use auto_github_mod::github_create_new_release;
+pub use auto_github_mod::github_upload_asset_to_release;
 pub use auto_helper_functions_mod::run_shell_command;
 pub use auto_helper_functions_mod::run_shell_commands;
 pub use auto_helper_functions_mod::CLEAR_ALL;

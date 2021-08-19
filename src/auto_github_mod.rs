@@ -1,19 +1,28 @@
 // auto_github_mod
 
-/// create new release on Github
-/// return release_id
-/// it needs env variable `export GITHUB_TOKEN=paste_github_personal_authorization_token_here`
-/// <https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token>
-/// async function can be called from sync code:
-///   use tokio::runtime::Runtime;
-///   let rt = Runtime::new().unwrap();
-///   rt.block_on(async move {
-///       let release_id =  github_create_new_release(&owner, &repo, &version, &name, branch, body_md_text).await;
-///       upload_asset_to_github_release(&owner, &repo, &release_id, &path_to_file).await;
-///       println!("Asset uploaded.");
-///   });
-/// in Cargo.toml [dependencies]: 
-/// tokio = {version = "1.10.0", features = ["rt","rt-multi-thread","fs"]}
+//! functions to work with github  
+
+use unwrap::unwrap;
+
+/// create new release on Github  
+/// return release_id  
+/// it needs env variable `export GITHUB_TOKEN=paste_github_personal_authorization_token_here`  
+/// <https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token>  
+/// async function can be called from sync code:  
+/// ```ignore
+///   use tokio::runtime::Runtime;  
+///   let rt = Runtime::new().unwrap();  
+///   rt.block_on(async move {  
+///       let release_id =  github_create_new_release(&owner, &repo, &version, &name, branch, body_md_text).await;  
+///       upload_asset_to_github_release(&owner, &repo, &release_id, &path_to_file).await;  
+///       println!("Asset uploaded.");  
+///   });  
+/// ```
+/// ```ignore
+/// Cargo.toml 
+/// [dependencies]
+/// tokio = {version = "1.10.0", features = ["rt","rt-multi-thread","fs"]}  
+/// ```
 pub async fn github_create_new_release(
     owner: &str,
     repo: &str,
@@ -41,20 +50,25 @@ pub async fn github_create_new_release(
     new_release.id.to_string()
 }
 
-/// upload asset to github release
-/// release_upload_url example: https://uploads.github.com/repos/owner/repo/releases/48127727/assets
-/// it needs env variable `export GITHUB_TOKEN=paste_github_personal_authorization_token_here`
-/// <https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token>
-/// async function can be called from sync code:
-///   use tokio::runtime::Runtime;
-///   let rt = Runtime::new().unwrap();
-///   rt.block_on(async move {
-///       let release_id =  github_create_new_release(&owner, &repo, &version, &name, branch, body_md_text).await;
-///       upload_asset_to_github_release(&owner, &repo, &release_id, &path_to_file).await;
-///       println!("Asset uploaded.");
-///   });
-/// in Cargo.toml [dependencies]: 
-/// tokio = {version = "1.10.0", features = ["rt","rt-multi-thread","fs"]}
+/// upload asset to github release  
+/// release_upload_url example: <https://uploads.github.com/repos/owner/repo/releases/48127727/assets>  
+/// it needs env variable `export GITHUB_TOKEN=paste_github_personal_authorization_token_here`  
+/// <https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token>  
+/// async function can be called from sync code:  
+/// ```ignore
+///   use tokio::runtime::Runtime;  
+///   let rt = Runtime::new().unwrap();  
+///   rt.block_on(async move {  
+///       let release_id =  github_create_new_release(&owner, &repo, &version, &name, branch, body_md_text).await;  
+///       upload_asset_to_github_release(&owner, &repo, &release_id, &path_to_file).await;  
+///       println!("Asset uploaded.");  
+///   });  
+/// ```
+/// ```ignore
+/// Cargo.toml 
+/// [dependencies]
+/// tokio = {version = "1.10.0", features = ["rt","rt-multi-thread","fs"]}  
+/// ```
 pub async fn github_upload_asset_to_release(
     owner: &str,
     repo: &str,
@@ -75,7 +89,9 @@ pub async fn github_upload_asset_to_release(
         repo = repo,
         release_id = release_id
     );
-    let mut release_upload_url = unwrap!(url::Url::from_str(&release_upload_url));
+    let mut release_upload_url = unwrap!(<url::Url as std::str::FromStr>::from_str(
+        &release_upload_url
+    ));
     release_upload_url.set_query(Some(format!("{}={}", "name", file_name).as_str()));
     println!("upload_url: {}", release_upload_url);
     let file_size = unwrap!(std::fs::metadata(file)).len();
