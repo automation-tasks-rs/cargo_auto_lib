@@ -19,7 +19,7 @@ use unwrap::unwrap;
 ///   });  
 /// ```
 /// ```ignore
-/// Cargo.toml 
+/// Cargo.toml
 /// [dependencies]
 /// tokio = {version = "1.10.0", features = ["rt","rt-multi-thread","fs"]}  
 /// ```
@@ -65,7 +65,7 @@ pub async fn github_create_new_release(
 ///   });  
 /// ```
 /// ```ignore
-/// Cargo.toml 
+/// Cargo.toml
 /// [dependencies]
 /// tokio = {version = "1.10.0", features = ["rt","rt-multi-thread","fs"]}  
 /// ```

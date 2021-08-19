@@ -43,3 +43,36 @@ pub fn run_shell_commands(shell_commands: Vec<&str>) {
         run_shell_command(shell_command);
     }
 }
+
+/// check if run in rust project root directory error
+/// there must be Cargo.toml and the directory automation_tasks_rs
+/// exit with error message if not
+pub fn exit_if_not_run_in_rust_project_root_directory() {
+    if !(std::path::Path::new("automation_tasks_rs").exists()
+        && std::path::Path::new("Cargo.toml").exists())
+    {
+        println!("Error: automation_tasks_rs must be called in the root directory of the rust project beside the Cargo.toml file and automation_tasks_rs directory.");
+        // early exit
+        std::process::exit(0);
+    }
+}
+
+/// println one, more or all sub_commands
+pub fn completion_return_one_or_more_sub_commands(
+    sub_commands: Vec<&str>,
+    word_being_completed: &str,
+) {
+    let mut sub_found = false;
+    for sub_command in sub_commands.iter() {
+        if sub_command.starts_with(word_being_completed) {
+            println!("{}", sub_command);
+            sub_found = true;
+        }
+    }
+    if sub_found == false {
+        // print all sub-commands
+        for sub_command in sub_commands.iter() {
+            println!("{}", sub_command);
+        }
+    }
+}
