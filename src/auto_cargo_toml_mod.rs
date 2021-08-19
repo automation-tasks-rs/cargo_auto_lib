@@ -45,3 +45,17 @@ pub fn package_repository() -> Option<String> {
 pub fn package_description() -> Option<String> {
     PACKAGE.description.to_owned()
 }
+
+/// from Cargo.toml github owner from package.repository
+pub fn github_owner() -> String {
+    match package_repository() {
+        Some(repository) => {
+            let splitted: Vec<&str> = repository
+                .trim_start_matches("https://")
+                .split("/")
+                .collect();
+            splitted[1].to_string()
+        }
+        None => "".to_string(),
+    }
+}

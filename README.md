@@ -5,14 +5,14 @@
 [comment]: # (auto_cargo_toml_to_md start)
 
 **Library crate for common tasks when building rust projects. Intended for use with cargo-auto: automation tasks written in Rust language.**  
-***[repository](https://github.com/LucianoBestia/cargo_auto_lib); version: 0.7.8  date: 2021-08-16 authors: Luciano Bestia***  
+***[repository](https://github.com/LucianoBestia/cargo_auto_lib); version: 0.7.10  date: 2021-08-19 authors: Luciano Bestia***  
 
 [comment]: # (auto_cargo_toml_to_md end)
 
 [comment]: # (auto_lines_of_code start)
-[![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-970-green.svg)](https://github.com/LucianoBestia/cargo_auto_lib/)
-[![Lines in Doc comments](https://img.shields.io/badge/Lines_in_Doc_comments-371-blue.svg)](https://github.com/LucianoBestia/cargo_auto_lib/)
-[![Lines in Comments](https://img.shields.io/badge/Lines_in_comments-116-purple.svg)](https://github.com/LucianoBestia/cargo_auto_lib/)
+[![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-1051-green.svg)](https://github.com/LucianoBestia/cargo_auto_lib/)
+[![Lines in Doc comments](https://img.shields.io/badge/Lines_in_Doc_comments-400-blue.svg)](https://github.com/LucianoBestia/cargo_auto_lib/)
+[![Lines in Comments](https://img.shields.io/badge/Lines_in_comments-117-purple.svg)](https://github.com/LucianoBestia/cargo_auto_lib/)
 [![Lines in examples](https://img.shields.io/badge/Lines_in_examples-0-yellow.svg)](https://github.com/LucianoBestia/cargo_auto_lib/)
 [![Lines in tests](https://img.shields.io/badge/Lines_in_tests-11-orange.svg)](https://github.com/LucianoBestia/cargo_auto_lib/)
 
@@ -92,7 +92,7 @@ Here is a list of some of them:
 This crate will attempt to edit Cargo.toml. Unfortunately there's no great robust way right now to edit TOML file preserving formatting and comments and such, so right now I use just regex to do this.
 If you find that the heuristics don't work for you though please let me know and I'll try to check in a fix!
 
-## something new every day
+## learn something new every day
 
 I needed to copy large text into doc comments.  
 It means every line must get a prefix like `///`.  

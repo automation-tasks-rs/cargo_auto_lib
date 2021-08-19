@@ -152,16 +152,17 @@
 <span id="150">150</span>
 <span id="151">151</span>
 <span id="152">152</span>
+<span id="153">153</span>
 </pre><pre class="rust">
 <span class="comment">// region: auto_md_to_doc_comments include README.md A //!</span>
 <span class="doccomment">//! # cargo_auto_lib</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! **Library crate for common tasks when building rust projects. Intended for use with cargo-auto: automation tasks written in Rust language.**  </span>
-<span class="doccomment">//! ***[repository](https://github.com/LucianoBestia/cargo_auto_lib); version: 0.7.8  date: 2021-08-16 authors: Luciano Bestia***  </span>
+<span class="doccomment">//! ***[repository](https://github.com/LucianoBestia/cargo_auto_lib); version: 0.7.10  date: 2021-08-19 authors: Luciano Bestia***  </span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! [![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-970-green.svg)](https://github.com/LucianoBestia/cargo_auto_lib/)</span>
-<span class="doccomment">//! [![Lines in Doc comments](https://img.shields.io/badge/Lines_in_Doc_comments-371-blue.svg)](https://github.com/LucianoBestia/cargo_auto_lib/)</span>
-<span class="doccomment">//! [![Lines in Comments](https://img.shields.io/badge/Lines_in_comments-116-purple.svg)](https://github.com/LucianoBestia/cargo_auto_lib/)</span>
+<span class="doccomment">//! [![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-1051-green.svg)](https://github.com/LucianoBestia/cargo_auto_lib/)</span>
+<span class="doccomment">//! [![Lines in Doc comments](https://img.shields.io/badge/Lines_in_Doc_comments-400-blue.svg)](https://github.com/LucianoBestia/cargo_auto_lib/)</span>
+<span class="doccomment">//! [![Lines in Comments](https://img.shields.io/badge/Lines_in_comments-117-purple.svg)](https://github.com/LucianoBestia/cargo_auto_lib/)</span>
 <span class="doccomment">//! [![Lines in examples](https://img.shields.io/badge/Lines_in_examples-0-yellow.svg)](https://github.com/LucianoBestia/cargo_auto_lib/)</span>
 <span class="doccomment">//! [![Lines in tests](https://img.shields.io/badge/Lines_in_tests-11-orange.svg)](https://github.com/LucianoBestia/cargo_auto_lib/)</span>
 <span class="doccomment">//!</span>
@@ -239,7 +240,7 @@
 <span class="doccomment">//! This crate will attempt to edit Cargo.toml. Unfortunately there&#39;s no great robust way right now to edit TOML file preserving formatting and comments and such, so right now I use just regex to do this.</span>
 <span class="doccomment">//! If you find that the heuristics don&#39;t work for you though please let me know and I&#39;ll try to check in a fix!</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! ## something new every day</span>
+<span class="doccomment">//! ## learn something new every day</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! I needed to copy large text into doc comments.  </span>
 <span class="doccomment">//! It means every line must get a prefix like `///`.  </span>
@@ -284,6 +285,7 @@
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">utils_mod</span>;
 
 <span class="comment">// reexport functions for callers of the library</span>
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">auto_cargo_toml_mod::github_owner</span>;
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">auto_cargo_toml_mod::package_authors_string_without_emails</span>;
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">auto_cargo_toml_mod::package_description</span>;
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">auto_cargo_toml_mod::package_name</span>;
