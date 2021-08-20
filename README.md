@@ -86,6 +86,8 @@ Here is a list of some of them:
 - `package_version()` - Cargo.toml package version
 - `run_shell_command()` - run one shell command
 - `run_shell_commands()` - run shell commands from a vector of strings.
+- `github_create_new_release()` - creates new release on Github
+- `github_upload_asset_to_release()` - add asset to the github release
 
 ## Caveats
 
@@ -105,6 +107,11 @@ And now I have multiple cursors on the beginning of every line.
 I type (insert):
 `///`  
 and it's done ! Great !
+
+## TODO
+
+Automate badges for crates.io, doc.rs, lib.rs, license, crev review, github actions
+octocrab looks complicated. Can I do something simpler for my needs?
 
 ## cargo crev reviews and advisory
 
