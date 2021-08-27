@@ -163,11 +163,11 @@
 <span class="doccomment">//! # cargo_auto_lib</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! **Library crate for common tasks when building rust projects. Intended for use with cargo-auto: automation tasks written in Rust language.**  </span>
-<span class="doccomment">//! ***[repository](https://github.com/LucianoBestia/cargo_auto_lib); version: 0.7.15  date: 2021-08-19 authors: Luciano Bestia***  </span>
+<span class="doccomment">//! ***[repository](https://github.com/LucianoBestia/cargo_auto_lib); version: 0.7.19  date: 2021-08-27 authors: Luciano Bestia***  </span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! [![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-1085-green.svg)](https://github.com/LucianoBestia/cargo_auto_lib/)</span>
-<span class="doccomment">//! [![Lines in Doc comments](https://img.shields.io/badge/Lines_in_Doc_comments-415-blue.svg)](https://github.com/LucianoBestia/cargo_auto_lib/)</span>
-<span class="doccomment">//! [![Lines in Comments](https://img.shields.io/badge/Lines_in_comments-119-purple.svg)](https://github.com/LucianoBestia/cargo_auto_lib/)</span>
+<span class="doccomment">//! [![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-1001-green.svg)](https://github.com/LucianoBestia/cargo_auto_lib/)</span>
+<span class="doccomment">//! [![Lines in Doc comments](https://img.shields.io/badge/Lines_in_Doc_comments-380-blue.svg)](https://github.com/LucianoBestia/cargo_auto_lib/)</span>
+<span class="doccomment">//! [![Lines in Comments](https://img.shields.io/badge/Lines_in_comments-118-purple.svg)](https://github.com/LucianoBestia/cargo_auto_lib/)</span>
 <span class="doccomment">//! [![Lines in examples](https://img.shields.io/badge/Lines_in_examples-0-yellow.svg)](https://github.com/LucianoBestia/cargo_auto_lib/)</span>
 <span class="doccomment">//! [![Lines in tests](https://img.shields.io/badge/Lines_in_tests-11-orange.svg)](https://github.com/LucianoBestia/cargo_auto_lib/)</span>
 <span class="doccomment">//!</span>
@@ -259,6 +259,10 @@
 <span class="doccomment">//! `///`  </span>
 <span class="doccomment">//! and it&#39;s done ! Great !</span>
 <span class="doccomment">//!</span>
+<span class="doccomment">//! ## TODO</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! Automate badges for crates.io, doc.rs, lib.rs, license, crev review. Check if they exist and create badges.</span>
+<span class="doccomment">//!</span>
 <span class="doccomment">//! ## cargo crev reviews and advisory</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! We leave in times of danger with `supply chain attacks`.  </span>
@@ -282,7 +286,6 @@
 <span class="kw">mod</span> <span class="ident">auto_cargo_toml_mod</span>;
 <span class="kw">mod</span> <span class="ident">auto_cargo_toml_to_md_mod</span>;
 <span class="kw">mod</span> <span class="ident">auto_delete_old_js_snippets_mod</span>;
-<span class="kw">mod</span> <span class="ident">auto_github_mod</span>;
 <span class="kw">mod</span> <span class="ident">auto_helper_functions_mod</span>;
 <span class="kw">mod</span> <span class="ident">auto_lines_of_code_mod</span>;
 <span class="kw">mod</span> <span class="ident">auto_md_to_doc_comments_mod</span>;
@@ -291,7 +294,6 @@
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">utils_mod</span>;
 
 <span class="comment">// reexport functions for callers of the library</span>
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">auto_cargo_toml_mod::github_owner</span>;
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">auto_cargo_toml_mod::package_authors_string_without_emails</span>;
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">auto_cargo_toml_mod::package_description</span>;
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">auto_cargo_toml_mod::package_name</span>;
@@ -299,8 +301,6 @@
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">auto_cargo_toml_mod::package_version</span>;
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">auto_cargo_toml_to_md_mod::auto_cargo_toml_to_md</span>;
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">auto_delete_old_js_snippets_mod::auto_delete_old_js_snippets</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">auto_github_mod::github_create_new_release</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">auto_github_mod::github_upload_asset_to_release</span>;
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">auto_helper_functions_mod::completion_return_one_or_more_sub_commands</span>;
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">auto_helper_functions_mod::exit_if_not_run_in_rust_project_root_directory</span>;
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">auto_helper_functions_mod::run_shell_command</span>;

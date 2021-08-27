@@ -5,14 +5,14 @@
 [comment]: # (auto_cargo_toml_to_md start)
 
 **Library crate for common tasks when building rust projects. Intended for use with cargo-auto: automation tasks written in Rust language.**  
-***[repository](https://github.com/LucianoBestia/cargo_auto_lib); version: 0.7.15  date: 2021-08-19 authors: Luciano Bestia***  
+***[repository](https://github.com/LucianoBestia/cargo_auto_lib); version: 0.7.19  date: 2021-08-27 authors: Luciano Bestia***  
 
 [comment]: # (auto_cargo_toml_to_md end)
 
 [comment]: # (auto_lines_of_code start)
-[![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-1085-green.svg)](https://github.com/LucianoBestia/cargo_auto_lib/)
-[![Lines in Doc comments](https://img.shields.io/badge/Lines_in_Doc_comments-415-blue.svg)](https://github.com/LucianoBestia/cargo_auto_lib/)
-[![Lines in Comments](https://img.shields.io/badge/Lines_in_comments-119-purple.svg)](https://github.com/LucianoBestia/cargo_auto_lib/)
+[![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-1001-green.svg)](https://github.com/LucianoBestia/cargo_auto_lib/)
+[![Lines in Doc comments](https://img.shields.io/badge/Lines_in_Doc_comments-380-blue.svg)](https://github.com/LucianoBestia/cargo_auto_lib/)
+[![Lines in Comments](https://img.shields.io/badge/Lines_in_comments-118-purple.svg)](https://github.com/LucianoBestia/cargo_auto_lib/)
 [![Lines in examples](https://img.shields.io/badge/Lines_in_examples-0-yellow.svg)](https://github.com/LucianoBestia/cargo_auto_lib/)
 [![Lines in tests](https://img.shields.io/badge/Lines_in_tests-11-orange.svg)](https://github.com/LucianoBestia/cargo_auto_lib/)
 
@@ -86,8 +86,6 @@ Here is a list of some of them:
 - `package_version()` - Cargo.toml package version
 - `run_shell_command()` - run one shell command
 - `run_shell_commands()` - run shell commands from a vector of strings.
-- `github_create_new_release()` - creates new release on Github
-- `github_upload_asset_to_release()` - add asset to the github release
 
 ## Caveats
 
@@ -110,8 +108,7 @@ and it's done ! Great !
 
 ## TODO
 
-Automate badges for crates.io, doc.rs, lib.rs, license, crev review, github actions
-octocrab looks complicated. Can I do something simpler for my needs?
+Automate badges for crates.io, doc.rs, lib.rs, license, crev review. Check if they exist and create badges.
 
 ## cargo crev reviews and advisory
 

@@ -2,11 +2,11 @@
 //! # cargo_auto_lib
 //!
 //! **Library crate for common tasks when building rust projects. Intended for use with cargo-auto: automation tasks written in Rust language.**  
-//! ***[repository](https://github.com/LucianoBestia/cargo_auto_lib); version: 0.7.15  date: 2021-08-19 authors: Luciano Bestia***  
+//! ***[repository](https://github.com/LucianoBestia/cargo_auto_lib); version: 0.7.19  date: 2021-08-27 authors: Luciano Bestia***  
 //!
-//! [![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-1085-green.svg)](https://github.com/LucianoBestia/cargo_auto_lib/)
-//! [![Lines in Doc comments](https://img.shields.io/badge/Lines_in_Doc_comments-415-blue.svg)](https://github.com/LucianoBestia/cargo_auto_lib/)
-//! [![Lines in Comments](https://img.shields.io/badge/Lines_in_comments-119-purple.svg)](https://github.com/LucianoBestia/cargo_auto_lib/)
+//! [![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-1001-green.svg)](https://github.com/LucianoBestia/cargo_auto_lib/)
+//! [![Lines in Doc comments](https://img.shields.io/badge/Lines_in_Doc_comments-380-blue.svg)](https://github.com/LucianoBestia/cargo_auto_lib/)
+//! [![Lines in Comments](https://img.shields.io/badge/Lines_in_comments-118-purple.svg)](https://github.com/LucianoBestia/cargo_auto_lib/)
 //! [![Lines in examples](https://img.shields.io/badge/Lines_in_examples-0-yellow.svg)](https://github.com/LucianoBestia/cargo_auto_lib/)
 //! [![Lines in tests](https://img.shields.io/badge/Lines_in_tests-11-orange.svg)](https://github.com/LucianoBestia/cargo_auto_lib/)
 //!
@@ -98,6 +98,10 @@
 //! `///`  
 //! and it's done ! Great !
 //!
+//! ## TODO
+//!
+//! Automate badges for crates.io, doc.rs, lib.rs, license, crev review. Check if they exist and create badges.
+//!
 //! ## cargo crev reviews and advisory
 //!
 //! We leave in times of danger with `supply chain attacks`.  
@@ -121,7 +125,6 @@
 mod auto_cargo_toml_mod;
 mod auto_cargo_toml_to_md_mod;
 mod auto_delete_old_js_snippets_mod;
-mod auto_github_mod;
 mod auto_helper_functions_mod;
 mod auto_lines_of_code_mod;
 mod auto_md_to_doc_comments_mod;
@@ -130,7 +133,6 @@ mod auto_version_from_date_mod;
 pub mod utils_mod;
 
 // reexport functions for callers of the library
-pub use auto_cargo_toml_mod::github_owner;
 pub use auto_cargo_toml_mod::package_authors_string_without_emails;
 pub use auto_cargo_toml_mod::package_description;
 pub use auto_cargo_toml_mod::package_name;
@@ -138,8 +140,6 @@ pub use auto_cargo_toml_mod::package_repository;
 pub use auto_cargo_toml_mod::package_version;
 pub use auto_cargo_toml_to_md_mod::auto_cargo_toml_to_md;
 pub use auto_delete_old_js_snippets_mod::auto_delete_old_js_snippets;
-pub use auto_github_mod::github_create_new_release;
-pub use auto_github_mod::github_upload_asset_to_release;
 pub use auto_helper_functions_mod::completion_return_one_or_more_sub_commands;
 pub use auto_helper_functions_mod::exit_if_not_run_in_rust_project_root_directory;
 pub use auto_helper_functions_mod::run_shell_command;
