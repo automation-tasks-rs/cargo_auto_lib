@@ -45,3 +45,11 @@ pub fn package_repository() -> Option<String> {
 pub fn package_description() -> Option<String> {
     PACKAGE.description.to_owned()
 }
+
+/// Cargo.toml workspace members
+pub fn workspace_members() -> Option<Vec<String>> {
+    match &CARGO_TOML.workspace {
+        None => None,
+        Some(workspace) => Some(workspace.members.clone()),
+    }
+}

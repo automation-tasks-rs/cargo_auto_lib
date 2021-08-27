@@ -4,6 +4,8 @@
         "commitish",
         "filedate",
         "filetime",
+        "hhmm",
+        "mmdd",
         "repos",
         "termion",
         "zdravje"
