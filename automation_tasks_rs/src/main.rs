@@ -34,6 +34,9 @@ fn match_arguments_and_call_tasks(mut args: std::env::Args) {
                     task_increment_minor();
                 } else if &task == "docs" || &task == "doc" || &task == "d" {
                     task_docs();
+                } else if &task == "commit_and_push" {
+                    let arg_2 = args.next();
+                    task_commit_and_push(arg_2);
                 } else if &task == "publish_to_crates_io" {
                     task_publish_to_crates_io();
                 } else {
@@ -54,6 +57,8 @@ cargo auto build - builds the crate in debug mode, fmt
 cargo auto release - builds the crate in release mode, version from date, fmt"
 cargo auto increment_minor - increments the semver version minor part (only for libraries)
 cargo auto docs - builds the docs, copy to docs directory
+cargo auto commit_and_push - commits with message and push with mandatory message
+    if you use SSH, it is easy to start the ssh-agent in the background and ssh-add your credentials for git
 cargo auto publish_to_crates_io - publish to crates.io, git tag
 "#
     );
@@ -66,7 +71,13 @@ fn completion() {
     let last_word = args[3].as_str();
 
     if last_word == "cargo-auto" || last_word == "auto" {
-        let sub_commands = vec!["build", "release", "doc", "publish_to_crates_io"];
+        let sub_commands = vec![
+            "build",
+            "release",
+            "doc",
+            "commit_and_push",
+            "publish_to_crates_io",
+        ];
         completion_return_one_or_more_sub_commands(sub_commands, word_being_completed);
     }
     /*
@@ -91,7 +102,8 @@ fn task_build() {
     run_shell_commands(shell_commands.to_vec());
     println!(
         r#"
-After `cargo auto build`, run the tests and the code. If ok, then `cargo auto release`
+        After `cargo auto build`, run the tests and the code. If ok, then 
+        run`cargo auto release`
 "#
     );
 }
@@ -106,7 +118,8 @@ fn task_release() {
     run_shell_command("cargo build --release");
     println!(
         r#"
-After `cargo auto release`, run the tests and the code. If ok, then `cargo auto doc`
+After `cargo auto release`, run the tests and the code. If ok, then 
+run `cargo auto doc`
 "#
     );
 }
@@ -132,10 +145,27 @@ fn task_docs() {
     // message to help user with next move
     println!(
         r#"
-After `cargo auto doc`, check `docs/index.html`. If ok, then `git commit -am"message"` and `git push`,
-then `cargo auto publish_to_crates_io`
+After `cargo auto doc`, check `docs/index.html`. If ok, then 
+run `cargo auto commit_and_push` with mandatory commit message
 "#
     );
+}
+
+/// commit and push
+fn task_commit_and_push(arg_2: Option<String>) {
+    match arg_2 {
+        None => println!("Error: message for commit is mandatory"),
+        Some(message) => {
+            run_shell_command(&format!(r#"git add -A && git commit -m "{}""#, message));
+            run_shell_command("git push");
+            println!(
+                r#"
+After `cargo auto commit and push`
+run `cargo auto publish_to_crates_io`
+"#
+            );
+        }
+    }
 }
 
 /// example hot to publish to crates.io and git tag
@@ -151,7 +181,8 @@ fn task_publish_to_crates_io() {
     run_shell_command("cargo publish");
     println!(
         r#"
-After `cargo auto task_publish_to_crates_io', check `crates.io` page.
+After `cargo auto task_publish_to_crates_io', 
+check `https://crates.io/crates/{package_name}`.
 If binary then install with `cargo install {package_name}` and check how it works.
 If library then add dependency `{package_name} = "{package_version}"` to your rust project and check how it works.
 "#,

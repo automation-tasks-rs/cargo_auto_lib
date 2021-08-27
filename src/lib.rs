@@ -58,26 +58,10 @@
 //!
 //! ![auto_cargo_toml_to_md](https://github.com/LucianoBestia/cargo_auto_lib/raw/main/images/auto_cargo_toml_to_md.png "auto_cargo_toml_to_md")
 //!
-//! ## Functions
+//! ## based on simple functions
 //!
-//! All the functions have extensive hep/docs to describe how they work.  
+//! All the functions have extensive help/docs to describe how they work.  
 //! It is nice when you use a code editor with IntelliSense like VSCode.  
-//! Here is a list of some of them:  
-//!
-//! - `auto_cargo_toml_to_md()` - includes data from Cargo.toml to README.md files: version, authors,...
-//! - `auto_delete_old_js_snippets()` - deletes old js snippets when working with wasm-pack
-//! - `auto_lines_of_code()` - inserts shield badges with lines_of_code into README.rs
-//! - `auto_md_to_doc_comments()` - Finds rs files with markers and include segments from md files
-//! - `auto_semver_increment_minor()` - increments semver version minor part
-//! - `auto_semver_increment_patch()` - increments semver version patch part
-//! - `auto_version_from_date()` - new version as date is written toCargo.toml and service_worker.js
-//! - `package_authors_string_without_emails()` - Cargo.toml package authors as string without emails
-//! - `package_description()` - Cargo.toml package repository
-//! - `package_name()` - Cargo.toml package name
-//! - `package_repository()` - Cargo.toml package repository
-//! - `package_version()` - Cargo.toml package version
-//! - `run_shell_command()` - run one shell command
-//! - `run_shell_commands()` - run shell commands from a vector of strings.
 //!
 //! ## Caveats
 //!
@@ -104,7 +88,7 @@
 //!
 //! ## cargo crev reviews and advisory
 //!
-//! We leave in times of danger with `supply chain attacks`.  
+//! We leave in times of danger with [supply chain attacks](https://en.wikipedia.org/wiki/Supply_chain_attack).  
 //! It is recommended to always use [cargo-crev](https://github.com/crev-dev/cargo-crev)  
 //! to verify the trustworthiness of each of your dependencies.  
 //! Please, spread this info.  
@@ -115,7 +99,9 @@
 //!
 //! My open-source projects are free and free as a beer (MIT license).  
 //! I just love programming.  
-//! But I need also to drink. If you find my projects and tutorials helpful, please buy me a beer or two donating on my [paypal](https://www.paypal.com/paypalme/LucianoBestia). You know the price of a beer in your local bar ;-)  
+//! But I need also to drink. If you find my projects and tutorials helpful,  
+//! please buy me a beer or two donating on my [paypal](https://www.paypal.com/paypalme/LucianoBestia).  
+//! You know the price of a beer in your local bar ;-)  
 //! So I can drink a free beer for your health :-)  
 //! [Na zdravje](https://translate.google.com/?hl=en&sl=sl&tl=en&text=Na%20zdravje&op=translate) !
 //!

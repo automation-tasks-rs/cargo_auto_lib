@@ -1,5 +1,7 @@
 // auto_version_from_date_mod
 
+//! new version as date is written to Cargo.toml and service_worker.js
+
 //region: use statements
 use chrono::DateTime;
 use chrono::Timelike;
@@ -27,19 +29,19 @@ struct AutoVersionFromDate {
     vec_file_metadata: Vec<FileMetaData>,
 }
 
-/// Works for single projects and workspaces.
+/// Works for single projects and workspaces.  
 /// new version as date is written to Cargo.toml and service_worker.js
 /// In Cargo.toml writes the version as the date `yyyy.mmdd.HHMM` ex. `2019.1221.2359`.  
 /// For non-library projects, the semver specification is not really useful.  
 /// Having the version as the date is just fine for executables and much more human readable.  
 /// The function must be executed in the root project folder of a single project or workspace where is the Cargo.toml.  
 ///
-/// ## service_worker.js
+/// ### service_worker.js
 ///
 /// Inside the PWA service worker javascript file is also needed to change the version.  
 /// The program searches for `service_worker.js` and modify the version.  
 ///
-/// ## no need to change version if no files changed
+/// ### no need to change version if no files changed
 ///
 /// If src/*.rs or Cargo.toml files are not changed from last compile, than no need to change version.  
 /// The dates of the files will be stored in the file .auto_version_from_date.json near to Cargo.toml.
@@ -49,9 +51,9 @@ pub fn auto_version_from_date() {
     auto_version_from_date_internal(false);
 }
 
-/// Works for single projects and workspaces.
-/// Force the new version even if no files are changed. 
-/// For workspaces `release` I want to have the same version in all members. 
+/// Works for single projects and workspaces.  
+/// Just like auto_version_from_date_forced(), but force the new version even if no files are changed. 
+/// For workspaces `release` I want to have the same version in all members.  
 /// It is slower, but easier to understand when deployed.
 pub fn auto_version_from_date_forced() {
     auto_version_from_date_internal(true);
