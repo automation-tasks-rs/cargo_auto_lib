@@ -1,6 +1,9 @@
 // auto_cargo_toml_to_md_mod
 
 //! includes data from Cargo.toml to README.md files: version, authors,...
+//! It works for workspaces and for single projects.  
+
+// region: use statements
 
 use chrono::Datelike;
 use chrono::Utc;
@@ -11,6 +14,8 @@ use std::fs;
 use unwrap::unwrap;
 
 use crate::auto_helper_functions_mod::*;
+
+// endregion: use statements
 
 lazy_static! {
     static ref REGEX_REMOVE_EMAIL: Regex = unwrap!(Regex::new(r#"( <.+?>)"#));
@@ -23,10 +28,9 @@ lazy_static! {
 }
 
 /// includes data from Cargo.toml to README.md files: version, authors,...
+/// It works for workspaces and for single projects.  
 /// To avoid out of sync data like version, authors and description in the README.md files, `auto_cargo_toml_to_md` includes this data from Cargo.toml.  
 /// Run it on every build with [cargo auto](https://crates.io/crates/cargo-auto).  
-///
-/// It works only for single projects and not for workspaces yet.  
 /// It works also with other md files in the project, not only README.md.  
 /// In the md file write these markers in markdown comments (invisible),  
 /// don't copy the numbers 1 and 2:  
@@ -45,10 +49,28 @@ lazy_static! {
 /// cargo run --example example_01_auto_cargo_toml_to_md
 /// ```  
 pub fn auto_cargo_toml_to_md() {
-    let version = crate::auto_cargo_toml_mod::package_version();
-    let authors = crate::auto_cargo_toml_mod::package_authors_string_without_emails();
-    let repository = crate::auto_cargo_toml_mod::package_repository().unwrap_or("".to_owned());
-    let description = crate::auto_cargo_toml_mod::package_description().unwrap_or("".to_owned());
+    let cargo_toml = crate::auto_cargo_toml_mod::CargoToml::read();
+    let members = cargo_toml.workspace_members();
+    match members {
+        None => do_one_project(),
+        Some(members) => {
+            // this will read cargo.toml from the first `main` member and inject into workspace README.md
+            do_one_project();
+            for member in members.iter() {
+                unwrap!(std::env::set_current_dir(member));
+                do_one_project();
+                unwrap!(std::env::set_current_dir(".."));
+            }
+        }
+    }
+}
+
+fn do_one_project() {
+    let cargo_toml = crate::auto_cargo_toml_mod::CargoToml::read();
+    let version = cargo_toml.package_version();
+    let authors = cargo_toml.package_authors_string_without_emails();
+    let repository = cargo_toml.package_repository().unwrap_or("".to_owned());
+    let description = cargo_toml.package_description().unwrap_or("".to_owned());
 
     let new_text = format!(
         "\n**{}**  \n***[repository]({}); version: {}  date: {} authors: {}***  \n\n",
@@ -79,6 +101,7 @@ pub fn auto_cargo_toml_to_md() {
         }
     }
 }
+
 /// utc now
 fn utc_now() -> String {
     let now = Utc::now();

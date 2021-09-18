@@ -1,6 +1,7 @@
 // auto_md_to_doc_comments_mod
 
 //! finds rs files with markers and include segments from md files
+//! It works for workspaces and for single projects.  
 
 use glob::glob;
 use lazy_static::lazy_static;
@@ -28,11 +29,11 @@ struct MdSegment {
 
 /// finds rs files with markers and include segments from md files
 /// Includes segments of md files into rs files as doc comments.  
+/// It works with workspaces and single projects.
 /// From this doc comments `cargo doc` will generated the documentation and auto-completion.  
 /// We don't want to manually copy this segments. We want them to be automatically in sync.  
 /// We will just run this function before every `cargo doc` with an automation task.  
 /// The `auto_md_to_doc_comments` function must be executed in the project root folder where is the Cargo.toml file.  
-/// TODO: It does not work in workspace folder, but every single member project must call it separately.  
 /// First it searches all the rs files in src, tests and examples folders.  
 /// If they contain the markers, than finds the md file and the named segment and include it as doc comments into the rs file.  
 /// The markers are always in pairs: start and end. So exactly the content in between is changed.
@@ -61,6 +62,23 @@ struct MdSegment {
 /// Before each line it will add the doc comment symbol as is defined in the marker.  
 /// Finally it will include the new lines as doc comments in the rs file.  
 pub fn auto_md_to_doc_comments() {
+    println!("auto_md_to_doc_comments");
+    // Cargo.toml contains the list of projects
+    let cargo_toml = crate::auto_cargo_toml_mod::CargoToml::read();
+    match cargo_toml.workspace_members() {
+        None => one_project(),
+        Some(members) => {
+            for member in members.iter() {
+                println!("{}", member);
+                unwrap!(std::env::set_current_dir(member));
+                one_project();
+                unwrap!(std::env::set_current_dir(".."));
+            }
+        }
+    }
+}
+
+fn one_project() {
     let mut cache_md_segments = vec![];
     for rs_filename in rs_files().iter() {
         let mut rs_text_content = unwrap!(fs::read_to_string(rs_filename));
@@ -83,7 +101,6 @@ pub fn auto_md_to_doc_comments() {
 
 /// All rs files in src, tests and examples folders.
 /// The current dir must be the project root where the Cargo.toml is.
-/// In case of workspace, all the members projects must be processed separately.
 fn rs_files() -> Vec<String> {
     let mut rs_files = vec![];
     // in Unix shell ** means recursive match through all the subdirectories

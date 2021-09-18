@@ -1,8 +1,10 @@
 // auto_version_from_date_mod
 
 //! new version as date is written to Cargo.toml and service_worker.js
+//! It works for workspaces and for single projects.  
 
-//region: use statements
+// region: use statements
+
 use chrono::DateTime;
 use chrono::Timelike;
 use chrono::{Datelike, Utc};
@@ -11,8 +13,9 @@ use serde_derive::{Deserialize, Serialize};
 use std::{fs, path::Path};
 use unwrap::unwrap;
 
-//endregion
+// endregion: use statements
 
+// region: structs
 /// file metadata
 #[derive(Serialize, Deserialize)]
 struct FileMetaData {
@@ -28,6 +31,10 @@ struct AutoVersionFromDate {
     /// vector of file metadata
     vec_file_metadata: Vec<FileMetaData>,
 }
+
+// endregion: structs
+
+// region: public functions
 
 /// Works for single projects and workspaces.  
 /// new version as date is written to Cargo.toml and service_worker.js
@@ -52,17 +59,22 @@ pub fn auto_version_from_date() {
 }
 
 /// Works for single projects and workspaces.  
-/// Just like auto_version_from_date_forced(), but force the new version even if no files are changed. 
+/// Just like auto_version_from_date(), but force the new version even if no files are changed.
 /// For workspaces `release` I want to have the same version in all members.  
 /// It is slower, but easier to understand when deployed.
 pub fn auto_version_from_date_forced() {
     auto_version_from_date_internal(true);
 }
 
+// endregion: public functions
+
+// region: private functions
+
 fn auto_version_from_date_internal(force_version: bool) {
     let date = Utc::now();
     let new_version = version_from_date(date);
-    let members = crate::auto_cargo_toml_mod::workspace_members();
+    let cargo_toml = crate::auto_cargo_toml_mod::CargoToml::read();
+    let members = cargo_toml.workspace_members();
     match members {
         None => do_one_project(&new_version, force_version),
         Some(members) => {
@@ -144,7 +156,7 @@ fn write_version_to_cargo_and_modify_metadata(
             let old_version: String = cargo_content.drain(start_version..end_version).collect();
             //println!(r#"old version: "{}""#, old_version.as_str());
             if new_version != old_version.as_str() {
-                println!("old -> new version {} -> {}",old_version, new_version);
+                println!("old -> new version {} -> {}", old_version, new_version);
                 cargo_content.insert_str(start_version, new_version);
                 // println!("{}write file: {}{}", *YELLOW, cargo_filename, *RESET);
                 let _x = fs::write(cargo_filename, cargo_content);
@@ -280,6 +292,8 @@ fn find_from(rs_content: &str, from: usize, find: &str) -> Option<usize> {
         option_location
     }
 }
+
+// endregion: private functions
 
 #[cfg(test)]
 mod test {

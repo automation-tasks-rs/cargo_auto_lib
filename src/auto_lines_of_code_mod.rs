@@ -1,26 +1,16 @@
 // auto_lines_of_code_mod
 
 //! inserts shield badges with lines_of_code into README.rs
+//! It works for workspaces and for single projects.  
 
 use anyhow;
 use regex::Regex;
-use serde_derive::Deserialize;
 use std::fs::File;
 use std::io::{BufRead, BufReader};
-use std::{env, fs, path::Path};
+use std::{fs, path::Path};
 use unwrap::unwrap;
 
 use crate::auto_helper_functions_mod::*;
-
-#[derive(Deserialize)]
-struct CargoToml {
-    workspace: Option<Workspace>,
-}
-
-#[derive(Deserialize)]
-struct Workspace {
-    members: Vec<String>,
-}
 
 #[derive(Default, Debug)]
 /// Struct that contains 4 types of lines count: code, doc comments, comments, test and examples.
@@ -38,7 +28,7 @@ pub struct LinesOfCode {
 }
 
 /// inserts shield badges with lines_of_code into README.rs
-/// the parameter Link to include in shield badge. If empty_string, the git remote repository will be used.
+/// the parameter Link will be used for shield badge. If empty_string, the git remote repository will be used.
 /// Lines of code are not a "perfect" measurement of anything.\
 /// Anybody can write a very big number of lines of useless code and comments.\
 /// But for 95% of the cases they are good enough.\
@@ -46,14 +36,11 @@ pub struct LinesOfCode {
 ///
 /// The `src_code_lines` is the most important count.\
 /// That is actual code written for that project without  doc comments, comments, unit tests, integration tests and examples.\
-/// Sometimes is great to see a big number here. It means there was a lot of work invested. But other times we want to see a small number. It /// means the developer understands the problem very well and don't try to solve anything outside that scope.  
-///
-/// The `src_doc_comment_lines` counts doc comments. They will eventually become docs. The count of lines shows how many documentation is /// written.  
-///
-/// The `src_comment_lines` counts code comments. Code comments are important to understand the code. The count of lines shows how /// understandable is the code.  
-///
+/// Sometimes is great to see a big number here. It means there was a lot of work invested. But other times we want to see a small number. It
+/// means the developer understands the problem very well and don't try to solve anything outside that scope.  
+/// The `src_doc_comment_lines` counts doc comments. They will eventually become docs. The count of lines shows how many documentation is written.  
+/// The `src_comment_lines` counts code comments. Code comments are important to understand the code. The count of lines shows how understandable is the code.  
 /// The `tests_lines` counts lines in tests and shows how good is the code tested. Here are the unit tests and integration test combined.  
-///
 /// The `examples_lines` counts lines in examples and shows how good is explained how to use the code.  
 ///
 /// ## Folder and file structure
@@ -63,24 +50,18 @@ pub struct LinesOfCode {
 /// The `src/` folder contains all the rust `*.rs` files.\
 /// The `tests/` folder contains integration tests.\
 /// The `examples/` folder contains examples.\
+/// Some rs files can be excluded from the count adding this line near the start of the file: // exclude from auto_lines_of_code
 /// Inside a rs file the doc comment line start with `///` or `//!`.\
 /// The normal comments start with `//` or `/!`.\
-/// I will ignore the block comments. They are usually NOT used for comments, but to temporarily disable a piece of code. So I count this as /// code and not comments.  
-///
-/// The `src/*.rs` file can contain unit tests that start with `#[cfg(test)]`. I assume that these are always at the end of the file. There /// should not be any normal code after `#[cfg(test)]`, only tests.  
-///
+/// I will ignore the block comments. They are usually NOT used for comments, but to temporarily disable a piece of code. So I count this as code and not comments.  
+/// The `src/*.rs` file can contain unit tests that start with `#[cfg(test)]`. I assume that these are always at the end of the file.
+/// There should not be any normal code after `#[cfg(test)]`, only tests.  
 /// All other files: `md`, `toml`, `html`, `js`, ... are not counted.  
 ///
 /// ### Workspace
 ///
 /// Workspaces have member projects, that are written in `Cargo.toml`.\
 /// The program counts lines of every project and sums them together.  
-///
-/// ## Output
-///
-/// The output is markdown text for shield badges.\
-/// The only parameter `link` will be used for the link of all 4 shield badges.  
-/// Else the app will try `git remote -v` to get the remote url.  
 ///
 /// ## Include into README.md
 ///
@@ -92,74 +73,43 @@ pub struct LinesOfCode {
 /// the function will include the shield badges code between them.  
 /// It will erase the previous content.  
 /// Use git diff to see the change.  
-///
-/// ## Testing
-///
-/// Testing is difficult, because I use this own project to get the lines of code for the tests.  
-/// These will change as the code is modified. Moreover, the result from `$ git remote -v` is different on different computers. To align with /// this changes, the testing has 2 const that must be manually updated to contain the actual data.  
-/// Testing will also modify the `README.md` file. Always after testing run `cargo make doc` to correct the `README.md`. Or just revert it /// using git.  
-///
-/// ## References
-///
-/// <https://blog.burntsushi.net/rust-error-handling/>
 pub fn auto_lines_of_code(link: &str) {
-    let text_to_include = text_to_include(link);
-    include_into_readme_md(&text_to_include);
-}
-fn text_to_include(link: &str) -> String {
-    let v = workspace_or_project_count_lines();
-
     let link = if link.is_empty() {
         process_git_remote()
     } else {
         link.to_string()
     };
-    let text_to_include = to_string_as_shield_badges(&v, &link);
-    // println!("{}", &text_to_include);
-    // return
-    text_to_include
-}
-/// Returns the struct LinesOfCode for 4 types of lines:
-/// code, doc comments, comments, test and examples.
-/// Automatically detects if this is a workspace or single rust project.
-///
-/// ## Example
-///
-/// ```
-/// let v = cargo_auto_lib::auto_lines_of_code_mod::workspace_or_project_count_lines();
-/// dbg!(&v);
-/// ```
-/// TODO: cargo-auto_lib could change the code to make some element visibility `pub` only for testing. And after return to normal.
-fn workspace_or_project_count_lines() -> LinesOfCode {
-    let mut lines_of_code = LinesOfCode::default();
-
-    let current_dir = unwrap!(env::current_dir());
-    println!(
-        "{}current_dir: {}{}",
-        *YELLOW,
-        unwrap!(current_dir.to_str()),
-        *RESET
-    );
-
     // Cargo.toml contains the list of projects
-    let cargo_toml = unwrap!(fs::read_to_string("Cargo.toml"));
-    let cargo_toml: CargoToml = unwrap!(toml::from_str(&cargo_toml));
-    if let Some(workspace) = cargo_toml.workspace {
-        for member in workspace.members.iter() {
-            println!("{}", &member);
-            let v = one_project_count_lines(&current_dir.join(member));
-            lines_of_code.src_code_lines += v.src_code_lines;
-            lines_of_code.src_doc_comment_lines += v.src_doc_comment_lines;
-            lines_of_code.src_comment_lines += v.src_comment_lines;
-            lines_of_code.tests_lines += v.tests_lines;
-            lines_of_code.examples_lines += v.examples_lines;
+    let cargo_toml = crate::auto_cargo_toml_mod::CargoToml::read();
+    match cargo_toml.workspace_members() {
+        None => {
+            let v = one_project_count_lines();
+            let text_to_include = to_string_as_shield_badges(&v, &link);
+            include_into_readme_md(&text_to_include);
         }
-    } else {
-        lines_of_code = one_project_count_lines(&current_dir);
+        Some(members) => {
+            let mut lines_of_code = LinesOfCode::default();
+            for member in members.iter() {
+                println!("{}", &member);
+                unwrap!(std::env::set_current_dir(member));
+                let v = one_project_count_lines();
+                let text_to_include = to_string_as_shield_badges(&v, &link);
+                include_into_readme_md(&text_to_include);
+                unwrap!(std::env::set_current_dir(".."));
+
+                lines_of_code.src_code_lines += v.src_code_lines;
+                lines_of_code.src_doc_comment_lines += v.src_doc_comment_lines;
+                lines_of_code.src_comment_lines += v.src_comment_lines;
+                lines_of_code.tests_lines += v.tests_lines;
+                lines_of_code.examples_lines += v.examples_lines;
+            }
+            // the workspace README.md
+            let text_to_include = to_string_as_shield_badges(&lines_of_code, &link);
+            include_into_readme_md(&text_to_include);
+        }
     }
-    // return
-    lines_of_code
 }
+
 /// Return the string for link for badges like: <https://github.com/LucianoBestia/auto_lines_of_code/>.  
 /// Get the output string after $ git remote -v.  
 /// Then finds out the link to the repository with regex.  
@@ -182,12 +132,12 @@ fn process_git_remote() -> String {
 }
 
 /// private function. Use public workspace_or_project_count_lines().
-fn one_project_count_lines(project_path: &Path) -> LinesOfCode {
+fn one_project_count_lines() -> LinesOfCode {
     let mut lines_of_code = LinesOfCode::default();
 
     // src folder
     let files = unwrap!(crate::utils_mod::traverse_dir_with_exclude_dir(
-        &project_path.join("src"),
+        &Path::new("src"),
         "/*.rs",
         // avoid big folders and other folders with *.crev
         &vec![
@@ -207,6 +157,9 @@ fn one_project_count_lines(project_path: &Path) -> LinesOfCode {
         for line in reader.lines() {
             let line = line.unwrap(); // Ignore errors.
             let line = line.trim_start();
+            if line == "// exclude from auto_lines_of_code" {
+                break;
+            }
             if line.starts_with("///") || line.starts_with("//!") {
                 lines_of_code.src_doc_comment_lines += 1;
             } else if line.starts_with("//") || line.starts_with("/!") {
@@ -222,7 +175,7 @@ fn one_project_count_lines(project_path: &Path) -> LinesOfCode {
     }
     // tests folder
     let files = unwrap!(crate::utils_mod::traverse_dir_with_exclude_dir(
-        &project_path.join("tests"),
+        &Path::new("tests"),
         "/*.rs",
         // avoid big folders and other folders with *.crev
         &vec![
@@ -245,7 +198,7 @@ fn one_project_count_lines(project_path: &Path) -> LinesOfCode {
 
     // examples folder
     let files = unwrap!(crate::utils_mod::traverse_dir_with_exclude_dir(
-        &project_path.join("examples"),
+        &Path::new("examples"),
         "/*.rs",
         // avoid big folders and other folders with *.crev
         &vec![

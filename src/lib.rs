@@ -110,21 +110,20 @@
 // region: mod, extern and use statements
 mod auto_cargo_toml_mod;
 mod auto_cargo_toml_to_md_mod;
+mod auto_check_micro_xml_mod;
 mod auto_delete_old_js_snippets_mod;
 mod auto_helper_functions_mod;
 mod auto_lines_of_code_mod;
 mod auto_md_to_doc_comments_mod;
 mod auto_semver_mod;
+mod auto_semver_or_date_mod;
 mod auto_version_from_date_mod;
 pub mod utils_mod;
 
 // reexport functions for callers of the library
-pub use auto_cargo_toml_mod::package_authors_string_without_emails;
-pub use auto_cargo_toml_mod::package_description;
-pub use auto_cargo_toml_mod::package_name;
-pub use auto_cargo_toml_mod::package_repository;
-pub use auto_cargo_toml_mod::package_version;
+pub use auto_cargo_toml_mod::CargoToml;
 pub use auto_cargo_toml_to_md_mod::auto_cargo_toml_to_md;
+pub use auto_check_micro_xml_mod::auto_check_micro_xml;
 pub use auto_delete_old_js_snippets_mod::auto_delete_old_js_snippets;
 pub use auto_helper_functions_mod::completion_return_one_or_more_sub_commands;
 pub use auto_helper_functions_mod::exit_if_not_run_in_rust_project_root_directory;
@@ -141,5 +140,7 @@ pub use auto_lines_of_code_mod::auto_lines_of_code;
 pub use auto_md_to_doc_comments_mod::auto_md_to_doc_comments;
 pub use auto_semver_mod::auto_semver_increment_minor;
 pub use auto_semver_mod::auto_semver_increment_patch;
+pub use auto_semver_or_date_mod::auto_version_increment_semver_or_date;
+pub use auto_semver_or_date_mod::auto_version_increment_semver_or_date_forced;
 pub use auto_version_from_date_mod::auto_version_from_date;
 pub use auto_version_from_date_mod::auto_version_from_date_forced;
