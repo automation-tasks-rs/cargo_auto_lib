@@ -133,13 +133,14 @@ fn task_increment_minor() {
 /// example how to call a list of shell commands and combine with rust code
 fn task_docs() {
     auto_md_to_doc_comments();
+    let cargo_toml = CargoToml::read();
     #[rustfmt::skip]
     let shell_commands = [
         "cargo doc --no-deps --document-private-items --open",        
         // copy target/doc into docs/ because it is github standard
         "rsync -a --info=progress2 --delete-after target/doc/ docs/",
         "echo Create simple index.html file in docs directory",
-        &format!("echo \"<meta http-equiv=\\\"refresh\\\" content=\\\"0; url={}/index.html\\\" />\" > docs/index.html",package_name().replace("-","_")) ,
+        &format!("echo \"<meta http-equiv=\\\"refresh\\\" content=\\\"0; url={}/index.html\\\" />\" > docs/index.html",cargo_toml.package_name().replace("-","_")) ,
     ];
     run_shell_commands(shell_commands.to_vec());
     // message to help user with next move
@@ -170,10 +171,11 @@ run `cargo auto publish_to_crates_io`
 
 /// example hot to publish to crates.io and git tag
 fn task_publish_to_crates_io() {
+    let cargo_toml = CargoToml::read();
     // git tag
     let shell_command = format!(
         "git tag -f -a v{version} -m version_{version}",
-        version = package_version()
+        version = cargo_toml.package_version()
     );
     run_shell_command(&shell_command);
 
@@ -185,8 +187,8 @@ After `cargo auto task_publish_to_crates_io',
 check `https://crates.io/crates/{package_name}`.
 Add dependency `{package_name} = "{package_version}"` to your rust project and check how it works.
 "#,
-        package_name = package_name(),
-        package_version = package_version()
+        package_name = cargo_toml.package_name(),
+        package_version = cargo_toml.package_version()
     );
 }
 
