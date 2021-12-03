@@ -183,8 +183,7 @@ fn task_publish_to_crates_io() {
         r#"
 After `cargo auto task_publish_to_crates_io', 
 check `https://crates.io/crates/{package_name}`.
-If binary then install with `cargo install {package_name}` and check how it works.
-If library then add dependency `{package_name} = "{package_version}"` to your rust project and check how it works.
+Add dependency `{package_name} = "{package_version}"` to your rust project and check how it works.
 "#,
         package_name = package_name(),
         package_version = package_version()
