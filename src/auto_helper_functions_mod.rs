@@ -2,6 +2,8 @@
 
 //! various helper functions
 
+use std::process::exit;
+
 use lazy_static::lazy_static;
 
 // termion ansi codes for terminal
@@ -24,20 +26,30 @@ lazy_static! {
 }
 
 /// run one shell command
+/// Stops task execution if the command has Exit Status != 0
 pub fn run_shell_command(shell_command: &str) {
     if !shell_command.starts_with("echo ") {
         println!("$ {}", shell_command);
     }
-    std::process::Command::new("sh")
+    let status = std::process::Command::new("sh")
         .arg("-c")
         .arg(shell_command)
         .spawn()
         .unwrap()
         .wait()
         .unwrap();
+    let exit_code = status.code();
+    if exit_code.is_some() && exit_code != Some(0) {
+        println!(
+            "!!! cargo_auto error {}. Stopping automation task execution !!!",
+            exit_code.unwrap()
+        );
+        exit(1);
+    }
 }
 
 /// run shell commands from a vector of strings.
+/// Stops task execution if oe of the commands has Exit Status != 0
 pub fn run_shell_commands(shell_commands: Vec<&str>) {
     for shell_command in shell_commands {
         run_shell_command(shell_command);
