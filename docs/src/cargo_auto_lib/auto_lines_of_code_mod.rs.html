@@ -441,7 +441,7 @@
     }
 }
 
-<span class="doccomment">/// Return the string for link for badges like: &lt;https://github.com/LucianoBestia/auto_lines_of_code/&gt;.  </span>
+<span class="doccomment">/// Return the string for link for badges like: &lt;https://github.com/bestia-dev/auto_lines_of_code/&gt;.  </span>
 <span class="doccomment">/// Get the output string after $ git remote -v.  </span>
 <span class="doccomment">/// Then finds out the link to the repository with regex.  </span>
 <span class="doccomment">/// Returns empty string if something goes wrong: no git, no remote,...  </span>
@@ -569,8 +569,8 @@
     <span class="comment">// on Github actions they don&#39;t use ssh, but https, I need to check that also</span>
     <span class="comment">// I test my regex on https://regex101.com/</span>
     <span class="comment">// regex capture 3 groups: website, user_name and repo_name</span>
-    <span class="comment">// &quot;origin  git@github.com:LucianoBestia/auto_lines_of_code.git (fetch)&quot;</span>
-    <span class="comment">// origin    https://github.com/LucianoBestia/auto_lines_of_code (fetch)</span>
+    <span class="comment">// &quot;origin  git@github.com:bestia-dev/auto_lines_of_code.git (fetch)&quot;</span>
+    <span class="comment">// origin    https://github.com/bestia-dev/auto_lines_of_code (fetch)</span>
     <span class="macro">println!</span>(<span class="string">&quot;{}&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">output</span>);
     <span class="kw">let</span> <span class="ident">reg</span> <span class="op">=</span> <span class="ident">Regex::new</span>(
         <span class="string">r#&quot;origin\s*(?:https://)?(?:git@)?([^:/]*?)[:/]([^/]*?)/([^. ]*?)(?:\.git)?\s*\(fetch\)&quot;#</span>,
