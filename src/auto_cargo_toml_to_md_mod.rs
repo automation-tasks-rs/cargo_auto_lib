@@ -18,7 +18,6 @@ use crate::auto_helper_functions_mod::*;
 // endregion: use statements
 
 lazy_static! {
-    static ref REGEX_REMOVE_EMAIL: Regex = unwrap!(Regex::new(r#"( <.+?>)"#));
     static ref REGEX_MD_START: Regex = unwrap!(Regex::new(
         r#"(?m)^\[comment\]: # \(auto_cargo_toml_to_md start\)$"#
     ));
@@ -68,17 +67,19 @@ pub fn auto_cargo_toml_to_md() {
 fn do_one_project() {
     let cargo_toml = crate::auto_cargo_toml_mod::CargoToml::read();
     let version = cargo_toml.package_version();
-    let authors = cargo_toml.package_authors_string_without_emails();
+    let author_name = cargo_toml.package_author_name();
+    let author_url = cargo_toml.package_author_url();
     let repository = cargo_toml.package_repository().unwrap_or("".to_owned());
     let description = cargo_toml.package_description().unwrap_or("".to_owned());
 
     let new_text = format!(
-        "\n**{}**  \n***[repository]({}); version: {}  date: {} authors: {}***  \n\n",
+        "\n**{}**  \n***version: {} date: {} author: [{}]({}) repository: [Github]({})***  \n\n",
         &description,
-        &repository,
         &version,
         &utc_now(),
-        &authors,
+        &author_name,
+        &author_url,
+        &repository,
     );
     println!("{}new text: '{}'{}", *GREEN, &new_text, *RESET);
     println!("warning: the md file must be with LF and not CRLF line endings!");

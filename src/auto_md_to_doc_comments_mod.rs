@@ -44,7 +44,7 @@ struct MdSegment {
 ///
 /// In the rs file write these markers (don't copy the numbers 1 and 2):  
 ///
-/// ```rust
+/// ```ignore
 /// 1. // region: auto_md_to_doc_comments include README.md //! A  
 /// 2. // endregion: auto_md_to_doc_comments include README.md //! A  
 /// ```

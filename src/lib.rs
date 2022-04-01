@@ -2,13 +2,13 @@
 //! # cargo_auto_lib
 //!
 //! **Library crate for common tasks when building rust projects. Intended for use with cargo-auto: automation tasks written in Rust language.**  
-//! ***[repository](https://github.com/bestia-dev/cargo_auto_lib); version: 0.7.23  date: 2021-12-03 authors: bestia.dev***  
+//! ***version: 0.7.25 date: 2022-04-01 author: [Bestia.dev](bestia.dev) repository: [Github](https://github.com/bestia-dev/cargo_auto_lib)***  
 //!
-//! [![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-1203-green.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
-//! [![Lines in Doc comments](https://img.shields.io/badge/Lines_in_Doc_comments-369-blue.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
-//! [![Lines in Comments](https://img.shields.io/badge/Lines_in_comments-127-purple.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
+//! [![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-1218-green.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
+//! [![Lines in Doc comments](https://img.shields.io/badge/Lines_in_Doc_comments-372-blue.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
+//! [![Lines in Comments](https://img.shields.io/badge/Lines_in_comments-129-purple.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
 //! [![Lines in examples](https://img.shields.io/badge/Lines_in_examples-0-yellow.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
-//! [![Lines in tests](https://img.shields.io/badge/Lines_in_tests-11-orange.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
+//! [![Lines in tests](https://img.shields.io/badge/Lines_in_tests-21-orange.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
 //!
 //! [![crates.io](https://img.shields.io/crates/v/cargo_auto_lib.svg)](https://crates.io/crates/cargo_auto_lib) [![Documentation](https://docs.rs/cargo_auto_lib/badge.svg)](https://docs.rs/cargo_auto_lib/) [![crev reviews](https://web.crev.dev/rust-reviews/badge/crev_count/cargo_auto_lib.svg)](https://web.crev.dev/rust-reviews/crate/cargo_auto_lib/) [![Lib.rs](https://img.shields.io/badge/Lib.rs-rust-orange.svg)](https://lib.rs/crates/cargo_auto_lib/) [![Licence](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/bestia-dev/cargo_auto_lib/blob/master/LICENSE) [![Rust](https://github.com/bestia-dev/cargo_auto_lib/workflows/RustAction/badge.svg)](https://github.com/bestia-dev/cargo_auto_lib/)  
 //!
@@ -31,7 +31,7 @@
 //! Preview the code and observe all the `auto_*` functions from `cargo_auto_lib`.  
 //! Example:  
 //!
-//! ```rust
+//! ```ignore
 //! fn task_release() {
 //!     auto_semver_increment_patch();
 //!     auto_cargo_toml_to_md();

@@ -8,7 +8,9 @@ use regex::*;
 use unwrap::unwrap;
 
 lazy_static! {
+    // from this string: authors = ["bestia.dev <info@bestia.dev>"]
     static ref REGEX_REMOVE_EMAIL: Regex = unwrap!(Regex::new(r#"( <.+?>)"#));
+    static ref REGEX_EXTRACT_DOMAIN: Regex = unwrap!(Regex::new(r#"@(.+?)>"#));
 }
 
 pub struct CargoToml {
@@ -62,10 +64,21 @@ impl CargoToml {
     }
 
     /// Cargo.toml package authors as string without emails
-    pub fn package_authors_string_without_emails(&self) -> String {
-        let authors = self.package_authors_string();
-        let authors = REGEX_REMOVE_EMAIL.replace_all(&authors, "").to_string();
-        authors
+    pub fn package_author_name(&self) -> String {
+        let author = self.package_authors_string();
+        let author = REGEX_REMOVE_EMAIL.replace_all(&author, "").to_string();
+        author
+    }
+
+    /// Cargo.toml package authors domain from email
+    pub fn package_author_url(&self) -> String {
+        let author = self.package_authors_string();
+        let author = match REGEX_EXTRACT_DOMAIN.captures(&author) {
+            Some(caps) => caps.get(1).map_or(".", |m| m.as_str()),
+            None => ".",
+        };
+        // return
+        author.to_string()
     }
 
     /// Cargo.toml package repository
@@ -84,5 +97,17 @@ impl CargoToml {
             None => None,
             Some(workspace) => Some(workspace.members.clone()),
         }
+    }
+}
+
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    #[test]
+    pub fn test_cargo_toml() {
+        let cargo_toml = CargoToml::read();
+        assert_eq!(cargo_toml.package_author_name(), "Bestia.dev");
+        assert_eq!(cargo_toml.package_author_url(), "bestia.dev");
     }
 }
