@@ -2,7 +2,9 @@
     "cSpell.words": [
         "chrono",
         "commitish",
+        "crev",
         "Datelike",
+        "deps",
         "endregion",
         "filedate",
         "filetime",
@@ -11,6 +13,7 @@
         "mmdd",
         "pathbuff",
         "repos",
+        "rustfmt",
         "serde",
         "termion",
         "UNHIDE",

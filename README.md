@@ -5,7 +5,7 @@
 [comment]: # (auto_cargo_toml_to_md start)
 
 **Library crate for common tasks when building rust projects. Intended for use with cargo-auto: automation tasks written in Rust language.**  
-***[repository](https://github.com/bestia-dev/cargo_auto_lib); version: 0.7.24  date: 2022-04-01 authors: Bestia.dev***  
+***version: 0.7.25 date: 2022-04-01 author: [Bestia.dev](bestia.dev) repository: [Github](https://github.com/bestia-dev/cargo_auto_lib)***  
 
 [comment]: # (auto_cargo_toml_to_md end)
 

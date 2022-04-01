@@ -26,13 +26,11 @@ fn match_arguments_and_call_tasks(mut args: std::env::Args) {
                 completion();
             } else {
                 println!("Running automation task: {}", &task);
-                if &task == "build" || &task == "b" {
+                if &task == "build" {
                     task_build();
-                } else if &task == "release" || &task == "r" {
+                } else if &task == "release" {
                     task_release();
-                } else if &task == "increment_minor" {
-                    task_increment_minor();
-                } else if &task == "docs" || &task == "doc" || &task == "d" {
+                } else if &task == "doc" {
                     task_docs();
                 } else if &task == "commit_and_push" {
                     let arg_2 = args.next();
@@ -55,7 +53,6 @@ fn print_help() {
 User defined tasks in automation_tasks_rs:
 cargo auto build - builds the crate in debug mode, fmt
 cargo auto release - builds the crate in release mode, version from date, fmt"
-cargo auto increment_minor - increments the semver version minor part (only for libraries)
 cargo auto docs - builds the docs, copy to docs directory
 cargo auto commit_and_push - commits with message and push with mandatory message
     if you use SSH, it is easy to start the ssh-agent in the background and ssh-add your credentials for git
@@ -93,17 +90,13 @@ fn completion() {
 
 // region: tasks
 
-/// example how to call a list of shell commands
 fn task_build() {
-    #[rustfmt::skip]
-    let shell_commands = [
-        "cargo fmt", 
-        "cargo build"];
-    run_shell_commands(shell_commands.to_vec());
+    run_shell_command("cargo fmt");
+    run_shell_command("cargo build");  
     println!(
         r#"
         After `cargo auto build`, run the tests and the code. If ok, then 
-        run`cargo auto release`
+        run `cargo auto release`
 "#
     );
 }
@@ -122,12 +115,6 @@ After `cargo auto release`, run the tests and the code. If ok, then
 run `cargo auto doc`
 "#
     );
-}
-
-/// semver is used for libraries, version_from_date is used for binary
-fn task_increment_minor() {
-    auto_semver_increment_minor();
-    auto_cargo_toml_to_md();
 }
 
 /// example how to call a list of shell commands and combine with rust code
