@@ -1,13 +1,19 @@
 {
     "cSpell.words": [
-        "UNHIDE",
+        "chrono",
         "commitish",
+        "Datelike",
+        "endregion",
         "filedate",
         "filetime",
         "hhmm",
+        "microxml",
         "mmdd",
+        "pathbuff",
         "repos",
+        "serde",
         "termion",
+        "UNHIDE",
         "zdravje"
     ]
 }

@@ -1,4 +1,6 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src&#x2F;auto_version_from_date_mod.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>auto_version_from_date_mod.rs - source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled ><script id="default-settings" ></script><script src="../../storage.js"></script><script src="../../crates.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../cargo_auto_lib/index.html'><div class='logo-container rust-logo'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="18" height="18" alt="Pick another theme!" src="../../brush.svg"></button><div id="theme-choices" role="menu"></div></div><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../../settings.html" title="settings"><img width="18" height="18" alt="Change settings" src="../../wheel.svg"></a></div></form></nav><section id="main" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src&#x2F;auto_version_from_date_mod.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>auto_version_from_date_mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script src="../../crates.js"></script><script defer src="../../main.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script>
+    <noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a class="sidebar-logo" href="../../cargo_auto_lib/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.png" alt="logo"></div>
+        </a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../cargo_auto_lib/index.html"><img class="rust-logo" src="../../rust-logo.png" alt="logo"></a><nav class="sub"><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="18" height="18" alt="Pick another theme!" src="../../brush.svg"></button><div id="theme-choices" role="menu"></div></div><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../../settings.html" title="settings"><img width="18" height="18" alt="Change settings" src="../../wheel.svg"></a></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -385,8 +387,8 @@
     <span class="kw">let</span> <span class="ident">cargo_toml</span> <span class="op">=</span> <span class="ident"><span class="kw">crate</span>::auto_cargo_toml_mod::CargoToml::read</span>();
     <span class="kw">let</span> <span class="ident">members</span> <span class="op">=</span> <span class="ident">cargo_toml</span>.<span class="ident">workspace_members</span>();
     <span class="kw">match</span> <span class="ident">members</span> {
-        <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">do_one_project</span>(<span class="kw-2">&amp;</span><span class="ident">new_version</span>, <span class="ident">force_version</span>),
-        <span class="prelude-val">Some</span>(<span class="ident">members</span>) <span class="op">=</span><span class="op">&gt;</span> {
+        <span class="prelude-val">None</span> =&gt; <span class="ident">do_one_project</span>(<span class="kw-2">&amp;</span><span class="ident">new_version</span>, <span class="ident">force_version</span>),
+        <span class="prelude-val">Some</span>(<span class="ident">members</span>) =&gt; {
             <span class="kw">for</span> <span class="ident">member</span> <span class="kw">in</span> <span class="ident">members</span>.<span class="ident">iter</span>() {
                 <span class="macro">unwrap!</span>(<span class="ident">std::env::set_current_dir</span>(<span class="ident">member</span>));
                 <span class="ident">do_one_project</span>(<span class="kw-2">&amp;</span><span class="ident">new_version</span>, <span class="ident">force_version</span>);
@@ -499,13 +501,13 @@
 <span class="kw">fn</span> <span class="ident">are_files_equal</span>(
     <span class="ident">vec_of_metadata</span>: <span class="kw-2">&amp;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">FileMetaData</span><span class="op">&gt;</span>,
     <span class="ident">js_vec_of_metadata</span>: <span class="kw-2">&amp;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">FileMetaData</span><span class="op">&gt;</span>,
-) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+) -&gt; <span class="ident">bool</span> {
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">is_files_equal</span> <span class="op">=</span> <span class="bool-val">true</span>;
     <span class="kw">for</span> <span class="ident">x</span> <span class="kw">in</span> <span class="ident">vec_of_metadata</span>.<span class="ident">iter</span>() {
         <span class="comment">//search in json file</span>
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">is_one_equal</span> <span class="op">=</span> <span class="bool-val">false</span>;
         <span class="kw">for</span> <span class="ident">y</span> <span class="kw">in</span> <span class="ident">js_vec_of_metadata</span>.<span class="ident">iter</span>() {
-            <span class="kw">if</span> <span class="ident">x</span>.<span class="ident">filename</span> <span class="op">=</span><span class="op">=</span> <span class="ident">y</span>.<span class="ident">filename</span> <span class="op">&amp;&amp;</span> <span class="ident">x</span>.<span class="ident">filedate</span> <span class="op">=</span><span class="op">=</span> <span class="ident">y</span>.<span class="ident">filedate</span> {
+            <span class="kw">if</span> <span class="ident">x</span>.<span class="ident">filename</span> <span class="op">==</span> <span class="ident">y</span>.<span class="ident">filename</span> <span class="op">&amp;&amp;</span> <span class="ident">x</span>.<span class="ident">filedate</span> <span class="op">==</span> <span class="ident">y</span>.<span class="ident">filedate</span> {
                 <span class="ident">is_one_equal</span> <span class="op">=</span> <span class="bool-val">true</span>;
                 <span class="kw">break</span>;
             }
@@ -520,7 +522,7 @@
 }
 
 <span class="doccomment">/// make a vector of file metadata</span>
-<span class="kw">fn</span> <span class="ident">read_file_metadata</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">FileMetaData</span><span class="op">&gt;</span> {
+<span class="kw">fn</span> <span class="ident">read_file_metadata</span>() -&gt; <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">FileMetaData</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">vec_of_metadata</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">FileMetaData</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">Vec::new</span>();
     <span class="kw">let</span> <span class="ident">filename</span> <span class="op">=</span> <span class="string">&quot;Cargo.toml&quot;</span>.<span class="ident">to_string</span>();
     <span class="kw">let</span> <span class="ident">metadata</span> <span class="op">=</span> <span class="macro">unwrap!</span>(<span class="ident">fs::metadata</span>(<span class="ident">filename</span>.<span class="ident">as_str</span>()));
@@ -543,16 +545,16 @@
 }
 
 <span class="doccomment">/// read .auto_version_from_date.json</span>
-<span class="kw">fn</span> <span class="ident">read_json_file</span>(<span class="ident">json_filepath</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">AutoVersionFromDate</span> {
+<span class="kw">fn</span> <span class="ident">read_json_file</span>(<span class="ident">json_filepath</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) -&gt; <span class="ident">AutoVersionFromDate</span> {
     <span class="kw">let</span> <span class="ident">js_struct</span>: <span class="ident">AutoVersionFromDate</span>;
     <span class="kw">let</span> <span class="ident">f</span> <span class="op">=</span> <span class="ident">fs::read_to_string</span>(<span class="ident">json_filepath</span>);
     <span class="kw">match</span> <span class="ident">f</span> {
-        <span class="prelude-val">Ok</span>(<span class="ident">x</span>) <span class="op">=</span><span class="op">&gt;</span> {
+        <span class="prelude-val">Ok</span>(<span class="ident">x</span>) =&gt; {
             <span class="comment">// println!(&quot;reading from {}&quot;, json_filepath);</span>
             <span class="comment">//read struct from file</span>
             <span class="ident">js_struct</span> <span class="op">=</span> <span class="macro">unwrap!</span>(<span class="ident">serde_json::from_str</span>(<span class="ident">x</span>.<span class="ident">as_str</span>()));
         }
-        <span class="prelude-val">Err</span>(<span class="ident">_error</span>) <span class="op">=</span><span class="op">&gt;</span> {
+        <span class="prelude-val">Err</span>(<span class="ident">_error</span>) =&gt; {
             <span class="comment">// println!(&quot;Creating new file: {}&quot;, json_filepath);</span>
             <span class="comment">//create empty struct</span>
             <span class="ident">js_struct</span> <span class="op">=</span> <span class="ident">AutoVersionFromDate</span> {
@@ -564,10 +566,10 @@
 }
 
 <span class="doccomment">/// converts a date to a version</span>
-<span class="kw">fn</span> <span class="ident">version_from_date</span>(<span class="ident">date</span>: <span class="ident">DateTime</span><span class="op">&lt;</span><span class="ident">Utc</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span> {
+<span class="kw">fn</span> <span class="ident">version_from_date</span>(<span class="ident">date</span>: <span class="ident">DateTime</span><span class="op">&lt;</span><span class="ident">Utc</span><span class="op">&gt;</span>) -&gt; <span class="ident">String</span> {
     <span class="comment">// in Rust the version must not begin with zero.</span>
     <span class="comment">// There is an exceptional situation where is midnight 00.</span>
-    <span class="kw">let</span> <span class="ident">new_version</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">date</span>.<span class="ident">hour</span>() <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
+    <span class="kw">let</span> <span class="ident">new_version</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">date</span>.<span class="ident">hour</span>() <span class="op">==</span> <span class="number">0</span> {
         <span class="macro">format!</span>(
             <span class="string">&quot;{:04}.{}{:02}.{}&quot;</span>,
             <span class="ident">date</span>.<span class="ident">year</span>(),
@@ -590,7 +592,7 @@
 }
 
 <span class="doccomment">/// in string find from position</span>
-<span class="kw">fn</span> <span class="ident">find_from</span>(<span class="ident">rs_content</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">from</span>: <span class="ident">usize</span>, <span class="ident">find</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
+<span class="kw">fn</span> <span class="ident">find_from</span>(<span class="ident">rs_content</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">from</span>: <span class="ident">usize</span>, <span class="ident">find</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="ident">slice01</span> <span class="op">=</span> <span class="ident">rs_content</span>.<span class="ident">get</span>(<span class="ident">from</span>..).<span class="ident">unwrap</span>();
     <span class="kw">let</span> <span class="ident">option_location</span> <span class="op">=</span> <span class="ident">slice01</span>.<span class="ident">find</span>(<span class="ident">find</span>);
     <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">location</span>) <span class="op">=</span> <span class="ident">option_location</span> {
@@ -617,6 +619,5 @@
     }
 }
 </code></pre></div>
-</section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../" data-current-crate="cargo_auto_lib" data-search-index-js="../../search-index.js" data-search-js="../../search.js"></div>
-    <script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script>
+</section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="cargo_auto_lib" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.59.0 (9d1b2106e 2022-02-23)" ></div>
 </body></html>
