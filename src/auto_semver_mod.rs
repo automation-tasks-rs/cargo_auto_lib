@@ -28,6 +28,12 @@ fn increment_part(part: VersionPart) {
     // println!("pub fn increment_patch");
     let cargo_toml_filename = "Cargo.toml";
     let cargo_toml_text = unwrap!(fs::read_to_string(cargo_toml_filename));
+
+    // check if file have CRLF instead of LF and show error
+    if cargo_toml_text.contains("\r\n") {
+        panic!("Error: {} has CRLF line endings instead of LF. The task auto_semver_increment cannot work! Closing.", cargo_toml_filename);
+    }
+
     // find the line with "version = " including the start quote
     if let Some(pos_start_data) =
         find_pos_start_data_after_delimiter(&cargo_toml_text, 0, r#"version = ""#)

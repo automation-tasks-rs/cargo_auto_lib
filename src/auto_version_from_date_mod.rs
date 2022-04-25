@@ -112,6 +112,12 @@ fn modify_service_js(new_version: &str) {
     )) {
         // println!("{}write version in {}{}", *GREEN, js_filename, *RESET);
         let mut js_content = unwrap!(fs::read_to_string(js_filename));
+
+        // check if file have CRLF instead of LF and show error
+        if js_content.contains("\r\n") {
+            panic!("Error: {} has CRLF line endings instead of LF. The task modify_service_js cannot work! Closing.", js_filename);
+        }
+
         let delimiter = r#"const CACHE_NAME = '"#;
         let delimiter_len = delimiter.len();
         let option_location = js_content.find(delimiter);
@@ -145,6 +151,12 @@ fn write_version_to_cargo_and_modify_metadata(
     // println!("{}write version to Cargo.toml{}", *GREEN, *RESET);
     let cargo_filename = "Cargo.toml";
     let mut cargo_content = unwrap!(fs::read_to_string(cargo_filename));
+
+    // check if file have CRLF instead of LF and show error
+    if cargo_content.contains("\r\n") {
+        panic!("Error: {} has CRLF line endings instead of LF. The task write_version_to_cargo cannot work! Closing.", cargo_filename);
+    }
+
     let delimiter = r#"version = ""#;
     let delimiter_len = delimiter.len();
     let option_location = cargo_content.find(delimiter);
@@ -237,9 +249,13 @@ fn read_file_metadata() -> Vec<FileMetaData> {
 fn read_json_file(json_filepath: &str) -> AutoVersionFromDate {
     let js_struct: AutoVersionFromDate;
     let f = fs::read_to_string(json_filepath);
+
     match f {
         Ok(x) => {
-            // println!("reading from {}", json_filepath);
+            // check if file have CRLF instead of LF and show error
+            if x.contains("\r\n") {
+                panic!("Error: {} has CRLF line endings instead of LF. The task read_json_file cannot work! Closing.", json_filepath);
+            }
             //read struct from file
             js_struct = unwrap!(serde_json::from_str(x.as_str()));
         }

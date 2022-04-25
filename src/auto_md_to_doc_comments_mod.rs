@@ -82,6 +82,12 @@ fn one_project() {
     let mut cache_md_segments = vec![];
     for rs_filename in rs_files().iter() {
         let mut rs_text_content = unwrap!(fs::read_to_string(rs_filename));
+
+        // check if file have CRLF instead of LF and show error
+        if rs_text_content.contains("\r\n") {
+            panic!("Error: {} has CRLF line endings instead of LF. The task auto_md_to_doc_comments cannot work! Closing.", rs_filename);
+        }
+
         let markers = rs_file_markers(&rs_text_content);
         if !markers.is_empty() {
             for marker in markers.iter().rev() {
@@ -186,6 +192,12 @@ fn get_md_segments_using_cache(
         // process the file
         println!("read file: {}", md_filename);
         let md_text_content = unwrap!(fs::read_to_string(md_filename));
+
+        // check if file have CRLF instead of LF and show error
+        if md_text_content.contains("\r\n") {
+            panic!("Error: {} has CRLF line endings instead of LF. The task auto_md_to_doc_comments cannot work! Closing.", md_filename);
+        }
+
         for cap in REGEX_MD_START.captures_iter(&md_text_content) {
             cache.push(MdSegment {
                 md_filename: md_filename.to_owned(),

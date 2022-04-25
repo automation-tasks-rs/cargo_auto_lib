@@ -109,7 +109,6 @@
 <span id="104">104</span>
 <span id="105">105</span>
 <span id="106">106</span>
-<span id="107">107</span>
 </pre><pre class="rust"><code><span class="comment">// auto_cargo_toml_mod</span>
 
 <span class="doccomment">//! functions to get data from Cargo.toml</span>
@@ -122,7 +121,6 @@
 <span class="macro">lazy_static!</span> {
     <span class="comment">// from this string: authors = [&quot;bestia.dev&quot;]</span>
     <span class="kw">static</span> <span class="kw-2">ref</span> <span class="ident">REGEX_REMOVE_EMAIL</span>: <span class="ident">Regex</span> <span class="op">=</span> <span class="macro">unwrap!</span>(<span class="ident">Regex::new</span>(<span class="string">r#&quot;( &lt;.+?&gt;)&quot;#</span>));
-    <span class="kw">static</span> <span class="kw-2">ref</span> <span class="ident">REGEX_EXTRACT_DOMAIN</span>: <span class="ident">Regex</span> <span class="op">=</span> <span class="macro">unwrap!</span>(<span class="ident">Regex::new</span>(<span class="string">r#&quot;@(.+?)&gt;&quot;#</span>));
 }
 
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CargoToml</span> {

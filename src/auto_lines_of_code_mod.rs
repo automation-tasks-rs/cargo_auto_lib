@@ -311,6 +311,11 @@ fn include_into_readme_md(include_str: &str) {
     let file_name = "README.md";
 
     if let Ok(readme_content) = fs::read_to_string(file_name) {
+        // check if file have CRLF instead of LF and show error
+        if readme_content.contains("\r\n") {
+            panic!("Error: {} has CRLF line endings instead of LF. The task include_into_readme_md cannot work! Closing.", file_name);
+        }
+
         let mut new_readme_content = String::with_capacity(readme_content.len());
         if let Some(mut pos_start) = readme_content.find(start_delimiter) {
             pos_start += start_delimiter.len();

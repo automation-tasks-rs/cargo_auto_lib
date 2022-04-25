@@ -82,12 +82,16 @@ fn do_one_project() {
         &repository,
     );
     println!("{}new text: '{}'{}", *GREEN, &new_text, *RESET);
-    println!("warning: the md file must be with LF and not CRLF line endings!");
     for filename_result in unwrap!(glob("*.md")) {
         let filename_pathbuff = unwrap!(filename_result);
         let md_filename = unwrap!(filename_pathbuff.to_str());
         println!("checking md_filename: {}", &md_filename);
         let mut md_text_content = unwrap!(fs::read_to_string(md_filename));
+
+        // check if file have CRLF and show error
+        if md_text_content.contains("\r\n") {
+            panic!("Error: {} has CRLF line endings instead of LF. The task auto_cargo_toml_to_md cannot work! Closing.", &md_filename);
+        }
 
         if let Some(cap) = REGEX_MD_START.captures(&md_text_content) {
             let pos_start = unwrap!(cap.get(0)).end() + 1;

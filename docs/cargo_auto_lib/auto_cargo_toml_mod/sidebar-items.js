@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["CargoToml",""],["REGEX_EXTRACT_DOMAIN",""],["REGEX_REMOVE_EMAIL",""]]});
+initSidebarItems({"struct":[["CargoToml",""],["REGEX_REMOVE_EMAIL",""]]});

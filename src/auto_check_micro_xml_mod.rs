@@ -14,6 +14,12 @@ pub fn auto_check_micro_xml(path_to_html_pages: &str) {
         let filename_pathbuff = unwrap!(filename_result);
         let file_name = unwrap!(unwrap!(filename_pathbuff.file_name()).to_str());
         let str_xml = unwrap!(std::fs::read_to_string(&filename_pathbuff));
+
+        // check if file have CRLF instead of LF and show error
+        if str_xml.contains("\r\n") {
+            panic!("Error: {} has CRLF line endings instead of LF. The task auto_check_micro_xml cannot work! Closing.", filename_pathbuff.to_string_lossy());
+        }
+
         // check microxml correctness. Panic on errors.
         check_micro_xml(&str_xml, file_name);
     }

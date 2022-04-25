@@ -2,14 +2,9 @@
 
 //! various utilities
 
-use lazy_static::lazy_static;
-use regex::Regex;
 use std::{fs, io, path::Path};
 use unwrap::unwrap;
 
-lazy_static! {
-    static ref REGEX_NUMBER_SPACE: Regex = Regex::new(r#"[0-9] "#).unwrap();
-}
 // region: delimiters cannot be INACTIVE like markers
 
 /// return the position of start of the delimited data after the delimiter

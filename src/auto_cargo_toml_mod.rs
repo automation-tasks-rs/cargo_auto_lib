@@ -10,7 +10,6 @@ use unwrap::unwrap;
 lazy_static! {
     // from this string: authors = ["bestia.dev"]
     static ref REGEX_REMOVE_EMAIL: Regex = unwrap!(Regex::new(r#"( <.+?>)"#));
-    static ref REGEX_EXTRACT_DOMAIN: Regex = unwrap!(Regex::new(r#"@(.+?)>"#));
 }
 
 pub struct CargoToml {

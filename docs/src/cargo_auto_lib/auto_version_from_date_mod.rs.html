@@ -312,6 +312,22 @@
 <span id="307">307</span>
 <span id="308">308</span>
 <span id="309">309</span>
+<span id="310">310</span>
+<span id="311">311</span>
+<span id="312">312</span>
+<span id="313">313</span>
+<span id="314">314</span>
+<span id="315">315</span>
+<span id="316">316</span>
+<span id="317">317</span>
+<span id="318">318</span>
+<span id="319">319</span>
+<span id="320">320</span>
+<span id="321">321</span>
+<span id="322">322</span>
+<span id="323">323</span>
+<span id="324">324</span>
+<span id="325">325</span>
 </pre><pre class="rust"><code><span class="comment">// auto_version_from_date_mod</span>
 
 <span class="doccomment">//! new version as date is written to Cargo.toml and service_worker.js</span>
@@ -426,6 +442,12 @@
     )) {
         <span class="comment">// println!(&quot;{}write version in {}{}&quot;, *GREEN, js_filename, *RESET);</span>
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">js_content</span> <span class="op">=</span> <span class="macro">unwrap!</span>(<span class="ident">fs::read_to_string</span>(<span class="ident">js_filename</span>));
+
+        <span class="comment">// check if file have CRLF instead of LF and show error</span>
+        <span class="kw">if</span> <span class="ident">js_content</span>.<span class="ident">contains</span>(<span class="string">&quot;\r\n&quot;</span>) {
+            <span class="macro">panic!</span>(<span class="string">&quot;Error: {} has CRLF line endings instead of LF. The task modify_service_js cannot work! Closing.&quot;</span>, <span class="ident">js_filename</span>);
+        }
+
         <span class="kw">let</span> <span class="ident">delimiter</span> <span class="op">=</span> <span class="string">r#&quot;const CACHE_NAME = &#39;&quot;#</span>;
         <span class="kw">let</span> <span class="ident">delimiter_len</span> <span class="op">=</span> <span class="ident">delimiter</span>.<span class="ident">len</span>();
         <span class="kw">let</span> <span class="ident">option_location</span> <span class="op">=</span> <span class="ident">js_content</span>.<span class="ident">find</span>(<span class="ident">delimiter</span>);
@@ -459,6 +481,12 @@
     <span class="comment">// println!(&quot;{}write version to Cargo.toml{}&quot;, *GREEN, *RESET);</span>
     <span class="kw">let</span> <span class="ident">cargo_filename</span> <span class="op">=</span> <span class="string">&quot;Cargo.toml&quot;</span>;
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">cargo_content</span> <span class="op">=</span> <span class="macro">unwrap!</span>(<span class="ident">fs::read_to_string</span>(<span class="ident">cargo_filename</span>));
+
+    <span class="comment">// check if file have CRLF instead of LF and show error</span>
+    <span class="kw">if</span> <span class="ident">cargo_content</span>.<span class="ident">contains</span>(<span class="string">&quot;\r\n&quot;</span>) {
+        <span class="macro">panic!</span>(<span class="string">&quot;Error: {} has CRLF line endings instead of LF. The task write_version_to_cargo cannot work! Closing.&quot;</span>, <span class="ident">cargo_filename</span>);
+    }
+
     <span class="kw">let</span> <span class="ident">delimiter</span> <span class="op">=</span> <span class="string">r#&quot;version = &quot;&quot;#</span>;
     <span class="kw">let</span> <span class="ident">delimiter_len</span> <span class="op">=</span> <span class="ident">delimiter</span>.<span class="ident">len</span>();
     <span class="kw">let</span> <span class="ident">option_location</span> <span class="op">=</span> <span class="ident">cargo_content</span>.<span class="ident">find</span>(<span class="ident">delimiter</span>);
@@ -551,9 +579,13 @@
 <span class="kw">fn</span> <span class="ident">read_json_file</span>(<span class="ident">json_filepath</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) -&gt; <span class="ident">AutoVersionFromDate</span> {
     <span class="kw">let</span> <span class="ident">js_struct</span>: <span class="ident">AutoVersionFromDate</span>;
     <span class="kw">let</span> <span class="ident">f</span> <span class="op">=</span> <span class="ident">fs::read_to_string</span>(<span class="ident">json_filepath</span>);
+
     <span class="kw">match</span> <span class="ident">f</span> {
         <span class="prelude-val">Ok</span>(<span class="ident">x</span>) =&gt; {
-            <span class="comment">// println!(&quot;reading from {}&quot;, json_filepath);</span>
+            <span class="comment">// check if file have CRLF instead of LF and show error</span>
+            <span class="kw">if</span> <span class="ident">x</span>.<span class="ident">contains</span>(<span class="string">&quot;\r\n&quot;</span>) {
+                <span class="macro">panic!</span>(<span class="string">&quot;Error: {} has CRLF line endings instead of LF. The task read_json_file cannot work! Closing.&quot;</span>, <span class="ident">json_filepath</span>);
+            }
             <span class="comment">//read struct from file</span>
             <span class="ident">js_struct</span> <span class="op">=</span> <span class="macro">unwrap!</span>(<span class="ident">serde_json::from_str</span>(<span class="ident">x</span>.<span class="ident">as_str</span>()));
         }
