@@ -70,17 +70,6 @@ impl CargoToml {
         author
     }
 
-    /// Cargo.toml package authors domain from email
-    pub fn package_author_url(&self) -> String {
-        let author = self.package_authors_string();
-        let author = match REGEX_EXTRACT_DOMAIN.captures(&author) {
-            Some(caps) => caps.get(1).map_or(".", |m| m.as_str()),
-            None => ".",
-        };
-        // return
-        author.to_string()
-    }
-
     /// Cargo.toml package repository
     pub fn package_repository(&self) -> Option<String> {
         self.package.repository.to_owned()
@@ -89,6 +78,11 @@ impl CargoToml {
     /// Cargo.toml package repository
     pub fn package_description(&self) -> Option<String> {
         self.package.description.to_owned()
+    }
+
+    /// Cargo.toml package homepage
+    pub fn package_homepage(&self) -> String {
+        self.package.homepage.to_owned().unwrap_or(String::new())
     }
 
     /// Cargo.toml workspace members
@@ -108,6 +102,6 @@ mod test {
     pub fn test_cargo_toml() {
         let cargo_toml = CargoToml::read();
         assert_eq!(cargo_toml.package_author_name(), "Bestia.dev");
-        assert_eq!(cargo_toml.package_author_url(), "bestia.dev");
+        assert_eq!(cargo_toml.package_homepage(), "https://bestia.dev");
     }
 }

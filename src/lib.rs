@@ -2,11 +2,11 @@
 //! # cargo_auto_lib
 //!
 //! **Library crate for common tasks when building rust projects. Intended for use with cargo-auto: automation tasks written in Rust language.**  
-//! ***version: 0.7.25 date: 2022-04-01 author: [Bestia.dev](bestia.dev) repository: [Github](https://github.com/bestia-dev/cargo_auto_lib)***  
+//! ***version: 0.7.26 date: 2022-04-25 author: [Bestia.dev](.) repository: [Github](https://github.com/bestia-dev/cargo_auto_lib)***  
 //!
-//! [![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-1218-green.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
+//! [![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-1213-green.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
 //! [![Lines in Doc comments](https://img.shields.io/badge/Lines_in_Doc_comments-372-blue.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
-//! [![Lines in Comments](https://img.shields.io/badge/Lines_in_comments-129-purple.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
+//! [![Lines in Comments](https://img.shields.io/badge/Lines_in_comments-128-purple.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
 //! [![Lines in examples](https://img.shields.io/badge/Lines_in_examples-0-yellow.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
 //! [![Lines in tests](https://img.shields.io/badge/Lines_in_tests-21-orange.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
 //!

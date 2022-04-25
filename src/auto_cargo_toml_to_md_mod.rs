@@ -68,7 +68,7 @@ fn do_one_project() {
     let cargo_toml = crate::auto_cargo_toml_mod::CargoToml::read();
     let version = cargo_toml.package_version();
     let author_name = cargo_toml.package_author_name();
-    let author_url = cargo_toml.package_author_url();
+    let homepage = cargo_toml.package_homepage();
     let repository = cargo_toml.package_repository().unwrap_or("".to_owned());
     let description = cargo_toml.package_description().unwrap_or("".to_owned());
 
@@ -78,7 +78,7 @@ fn do_one_project() {
         &version,
         &utc_now(),
         &author_name,
-        &author_url,
+        &homepage,
         &repository,
     );
     println!("{}new text: '{}'{}", *GREEN, &new_text, *RESET);
