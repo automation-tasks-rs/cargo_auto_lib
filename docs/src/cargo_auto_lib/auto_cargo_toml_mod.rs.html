@@ -123,7 +123,7 @@
 <span class="kw">use</span> <span class="ident">unwrap::unwrap</span>;
 
 <span class="macro">lazy_static!</span> {
-    <span class="comment">// from this string: authors = [&quot;bestia.dev &lt;info@bestia.dev&gt;&quot;]</span>
+    <span class="comment">// from this string: authors = [&quot;bestia.dev &lt;bestia.dev&gt;&quot;]</span>
     <span class="kw">static</span> <span class="kw-2">ref</span> <span class="ident">REGEX_REMOVE_EMAIL</span>: <span class="ident">Regex</span> <span class="op">=</span> <span class="macro">unwrap!</span>(<span class="ident">Regex::new</span>(<span class="string">r#&quot;( &lt;.+?&gt;)&quot;#</span>));
     <span class="kw">static</span> <span class="kw-2">ref</span> <span class="ident">REGEX_EXTRACT_DOMAIN</span>: <span class="ident">Regex</span> <span class="op">=</span> <span class="macro">unwrap!</span>(<span class="ident">Regex::new</span>(<span class="string">r#&quot;@(.+?)&gt;&quot;#</span>));
 }
