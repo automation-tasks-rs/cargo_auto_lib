@@ -261,14 +261,10 @@ fn regex_capture(output: String) -> anyhow::Result<String> {
 /// Every badge has the link to the url given as first parameter
 /// or automatically finds out the github git remote repository url.
 ///
-/// ## Example
-///
-/// ```ignore
 /// let v = cargo_auto_lib::auto_lines_of_code_mod::workspace_or_project_count_lines();
 /// let badges = cargo_auto_lib::auto_lines_of_code_mod::to_string_as_shield_badges(&v,"");
 ///
 /// println!("{}", badges);
-/// ```
 /// TODO: cargo-auto_lib could change the code to make some element visibility `pub` only for testing. And after return to normal.  
 fn to_string_as_shield_badges(v: &LinesOfCode, link: &str) -> String {
     //println!("to_string_as_shield_badges() start");
@@ -298,13 +294,7 @@ fn to_string_as_shield_badges(v: &LinesOfCode, link: &str) -> String {
 }
 
 /// Includes (writes, modifies) the shield badge code into README.md file.
-///
-/// ## Example
-///
-/// ```ignore
-/// cargo_auto_lib::auto_lines_of_code_mod::include_into_readme_md("test test test");
-/// ```
-/// TODO: cargo-auto_lib could change the code to make some element visibility `pub` only for testing. And after return to normal.  
+/// include_into_readme_md("test test test");
 fn include_into_readme_md(include_str: &str) {
     let start_delimiter = "[comment]: # (auto_lines_of_code start)";
     let end_delimiter = "[comment]: # (auto_lines_of_code end)";

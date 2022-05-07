@@ -5,20 +5,20 @@
 [comment]: # (auto_cargo_toml_to_md start)
 
 **Library crate for common tasks when building rust projects. Intended for use with cargo-auto: automation tasks written in Rust language.**  
-***version: 0.7.27 date: 2022-04-25 author: [Bestia.dev](https://bestia.dev) repository: [Github](https://github.com/bestia-dev/cargo_auto_lib)***  
+***version: 0.7.29 date: 2022-05-07 author: [Bestia.dev](https://bestia.dev) repository: [Github](https://github.com/bestia-dev/cargo_auto_lib)***  
 
 [comment]: # (auto_cargo_toml_to_md end)
 
 [comment]: # (auto_lines_of_code start)
-[![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-1248-green.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
-[![Lines in Doc comments](https://img.shields.io/badge/Lines_in_Doc_comments-372-blue.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
-[![Lines in Comments](https://img.shields.io/badge/Lines_in_comments-136-purple.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
-[![Lines in examples](https://img.shields.io/badge/Lines_in_examples-0-yellow.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
-[![Lines in tests](https://img.shields.io/badge/Lines_in_tests-21-orange.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
+[![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-1259-green.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
+[![Lines in Doc comments](https://img.shields.io/badge/Lines_in_Doc_comments-384-blue.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
+[![Lines in Comments](https://img.shields.io/badge/Lines_in_comments-139-purple.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
+[![Lines in examples](https://img.shields.io/badge/Lines_in_examples-10-yellow.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
+[![Lines in tests](https://img.shields.io/badge/Lines_in_tests-32-orange.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
 
 [comment]: # (auto_lines_of_code end)
 
-[![crates.io](https://img.shields.io/crates/v/cargo_auto_lib.svg)](https://crates.io/crates/cargo_auto_lib) [![Documentation](https://docs.rs/cargo_auto_lib/badge.svg)](https://docs.rs/cargo_auto_lib/) [![crev reviews](https://web.crev.dev/rust-reviews/badge/crev_count/cargo_auto_lib.svg)](https://web.crev.dev/rust-reviews/crate/cargo_auto_lib/) [![Lib.rs](https://img.shields.io/badge/Lib.rs-rust-orange.svg)](https://lib.rs/crates/cargo_auto_lib/) [![Licence](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/bestia-dev/cargo_auto_lib/blob/master/LICENSE) [![Rust](https://github.com/bestia-dev/cargo_auto_lib/workflows/RustAction/badge.svg)](https://github.com/bestia-dev/cargo_auto_lib/)  
+[![crates.io](https://img.shields.io/crates/v/cargo_auto_lib.svg)](https://crates.io/crates/cargo_auto_lib) [![Documentation](https://docs.rs/cargo_auto_lib/badge.svg)](https://docs.rs/cargo_auto_lib/) [![crev reviews](https://web.crev.dev/rust-reviews/badge/crev_count/cargo_auto_lib.svg)](https://web.crev.dev/rust-reviews/crate/cargo_auto_lib/) [![Lib.rs](https://img.shields.io/badge/Lib.rs-rust-orange.svg)](https://lib.rs/crates/cargo_auto_lib/) [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/bestia-dev/cargo_auto_lib/blob/master/LICENSE) [![Rust](https://github.com/bestia-dev/cargo_auto_lib/workflows/RustAction/badge.svg)](https://github.com/bestia-dev/cargo_auto_lib/)  
 
 ## Try it
 
@@ -39,14 +39,12 @@ cargo_auto_lib="0.7.*"
 Preview the code and observe all the `auto_*` functions from `cargo_auto_lib`.  
 Example:  
 
-```ignore
-fn task_release() {
-    auto_semver_increment_patch();
-    auto_cargo_toml_to_md();
-    auto_lines_of_code("");
-    auto_build();
-}
-```
+fn task_release() {  
+    auto_semver_increment_patch();  
+    auto_cargo_toml_to_md();  
+    auto_lines_of_code("");  
+    auto_build();  
+}  
 
 Go back to your main rust project.  
 Add markers to the beginning of README.md (don't copy the numbers 1 and 2):  

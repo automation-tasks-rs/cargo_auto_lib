@@ -18,9 +18,8 @@ The markers are always comments, so they don’t change the code.<br />
 It works only for files with LF line delimiter. No CR and no CRLF.</p>
 <h3 id="markers"><a href="#markers">markers</a></h3>
 <p>In the rs file write these markers (don’t copy the numbers 1 and 2):</p>
-
-<div class='information'><div class='tooltip ignore'>ⓘ</div></div><div class="example-wrap"><pre class="rust rust-example-rendered ignore"><code><span class="number">1.</span> <span class="comment">// region: auto_md_to_doc_comments include README.md //! A  </span>
-<span class="number">2.</span> <span class="comment">// endregion: auto_md_to_doc_comments include README.md //! A  </span></code></pre></div>
+<div class="example-wrap"><pre class="language-code"><code>1. // region: auto_md_to_doc_comments include README.md //! A  
+2. // endregion: auto_md_to_doc_comments include README.md //! A  </code></pre></div>
 <p>In the md file put markers to mark the segment:</p>
 <div class="example-wrap"><pre class="language-markdown"><code>1. [comment]: # (auto_md_to_doc_comments segment start A)  
 2. [comment]: # (auto_md_to_doc_comments segment end A)  </code></pre></div>

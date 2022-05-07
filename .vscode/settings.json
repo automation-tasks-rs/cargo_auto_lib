@@ -1,5 +1,7 @@
 {
     "cSpell.words": [
+        "alloc",
+        "bestia",
         "chrono",
         "commitish",
         "crev",
@@ -10,6 +12,7 @@
         "enduml",
         "filedate",
         "filetime",
+        "hasher",
         "hhmm",
         "markdownlint",
         "microxml",
@@ -17,11 +20,14 @@
         "pathbuff",
         "plantuml",
         "repos",
+        "reqwest",
         "rustfmt",
         "serde",
         "startuml",
         "termion",
+        "Txsr",
         "UNHIDE",
+        "Unpadded",
         "zdravje"
     ]
 }

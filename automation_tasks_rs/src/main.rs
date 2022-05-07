@@ -1,8 +1,7 @@
-//! automation_tasks_rs with_lib
+//! automation_tasks_rs for cargo_auto_lib
 
 use cargo_auto_lib::*;
 
-/// automation_tasks_rs with_lib
 fn main() {
     exit_if_not_run_in_rust_project_root_directory();
 
@@ -13,7 +12,7 @@ fn main() {
     match_arguments_and_call_tasks(args);
 }
 
-// region: match, help and completion. Take care to keep them in sync with the changes.
+// region: match, help and completion
 
 /// match arguments and call tasks functions
 fn match_arguments_and_call_tasks(mut args: std::env::Args) {
@@ -30,8 +29,10 @@ fn match_arguments_and_call_tasks(mut args: std::env::Args) {
                     task_build();
                 } else if &task == "release" {
                     task_release();
+                } else if &task == "test" {
+                    task_test();
                 } else if &task == "doc" {
-                    task_docs();
+                    task_doc();
                 } else if &task == "commit_and_push" {
                     let arg_2 = args.next();
                     task_commit_and_push(arg_2);
@@ -51,14 +52,25 @@ fn print_help() {
     println!(
         r#"
 User defined tasks in automation_tasks_rs:
-cargo auto build - builds the crate in debug mode, fmt
-cargo auto release - builds the crate in release mode, version from date, fmt"
-cargo auto docs - builds the docs, copy to docs directory
-cargo auto commit_and_push - commits with message and push with mandatory message
-    if you use SSH, it is easy to start the ssh-agent in the background and ssh-add your credentials for git
+cargo auto build - builds the crate in debug mode, fmt, increment version
+cargo auto release - builds the crate in release mode, fmt, increment version
+cargo auto doc - builds the docs, copy to docs directory
+cargo auto test - runs all the tests
+cargo auto commit_and_push "message" - commits with message and push with mandatory message
+      (If you use SSH, it is easy to start the ssh-agent in the background and ssh-add your credentials for git.)
 cargo auto publish_to_crates_io - publish to crates.io, git tag
+      (You need credentials for publishing. On crates.io get the 'access token'. Then save it locally once and forever with the command 
+      ` cargo login TOKEN` use a space before the command to avoid saving the secret token in bash history.)
 "#
     );
+    print_examples_cmd();
+}
+
+/// all example commands in one place
+fn print_examples_cmd(){
+    println!(r#"run examples:
+cargo run --example plantuml1
+"#);
 }
 
 /// sub-command for bash auto-completion of `cargo auto` using the crate `dev_bestia_cargo_completion`
@@ -68,13 +80,7 @@ fn completion() {
     let last_word = args[3].as_str();
 
     if last_word == "cargo-auto" || last_word == "auto" {
-        let sub_commands = vec![
-            "build",
-            "release",
-            "doc",
-            "commit_and_push",
-            "publish_to_crates_io",
-        ];
+        let sub_commands = vec!["build", "release", "doc", "test", "commit_and_push", "publish_to_crates_io",];
         completion_return_one_or_more_sub_commands(sub_commands, word_being_completed);
     }
     /*
@@ -86,24 +92,30 @@ fn completion() {
     */
 }
 
-// endregion: match, help and completion.
+// endregion: match, help and completion
 
 // region: tasks
 
+/// cargo build
 fn task_build() {
+//    let cargo_toml = CargoToml::read();
+    auto_version_increment_semver_or_date();
     run_shell_command("cargo fmt");
-    run_shell_command("cargo build");  
+    run_shell_command("cargo build");
     println!(
         r#"
-        After `cargo auto build`, run the tests and the code. If ok, then 
-        run `cargo auto release`
+After `cargo auto build`, run examples and test
+run `cargo auto test`, if ok, then,
+run `cargo auto release`
 "#
     );
+    print_examples_cmd();
 }
 
-/// example how to call one shell command and combine with rust code
+/// cargo build --release
 fn task_release() {
-    auto_semver_increment_patch();
+//    let cargo_toml = CargoToml::read();
+    auto_version_increment_semver_or_date();
     auto_cargo_toml_to_md();
     auto_lines_of_code("");
 
@@ -111,30 +123,42 @@ fn task_release() {
     run_shell_command("cargo build --release");
     println!(
         r#"
-After `cargo auto release`, run the tests and the code. If ok, then 
+After `cargo auto release`, run examples and test
+run `cargo auto test`, if ok, then,
 run `cargo auto doc`
+"#
+    );
+    print_examples_cmd();
+}
+
+/// cargo doc, then copies to /docs/ folder, because this is a github standard folder
+fn task_doc() {
+    let cargo_toml = CargoToml::read();
+    auto_cargo_toml_to_md();
+    auto_lines_of_code("");
+    auto_md_to_doc_comments();
+
+    run_shell_command("cargo doc --no-deps --document-private-items");
+    // copy target/doc into docs/ because it is github standard
+    run_shell_command("rsync -a --info=progress2 --delete-after target/doc/ docs/");
+    // Create simple index.html file in docs directory
+    run_shell_command(&format!("echo \"<meta http-equiv=\\\"refresh\\\" content=\\\"0; url={}/index.html\\\" />\" > docs/index.html",cargo_toml.package_name().replace("-","_")));    
+    // message to help user with next move
+    println!(
+        r#"
+After `cargo auto doc`, check `docs/index.html`. If ok, then test the documentation code examples
+run `cargo auto test`
 "#
     );
 }
 
-/// example how to call a list of shell commands and combine with rust code
-fn task_docs() {
-    auto_md_to_doc_comments();
-    let cargo_toml = CargoToml::read();
-    #[rustfmt::skip]
-    let shell_commands = [
-        "cargo doc --no-deps --document-private-items",        
-        // copy target/doc into docs/ because it is github standard
-        "rsync -a --info=progress2 --delete-after target/doc/ docs/",
-        "echo Create simple index.html file in docs directory",
-        &format!("echo \"<meta http-equiv=\\\"refresh\\\" content=\\\"0; url={}/index.html\\\" />\" > docs/index.html",cargo_toml.package_name().replace("-","_")) ,
-    ];
-    run_shell_commands(shell_commands.to_vec());
-    // message to help user with next move
+/// cargo test
+fn task_test() {
+    run_shell_command("cargo test");
     println!(
         r#"
-After `cargo auto doc`, check `docs/index.html`. If ok, then 
-run `cargo auto commit_and_push` with mandatory commit message
+After `cargo auto test`. If ok, then 
+run `cargo auto commit_and_push "message"` with mandatory commit message
 "#
     );
 }
@@ -144,11 +168,11 @@ fn task_commit_and_push(arg_2: Option<String>) {
     match arg_2 {
         None => println!("Error: message for commit is mandatory"),
         Some(message) => {
-            run_shell_command(&format!(r#"git add -A && git commit -m "{}""#, message));
+            run_shell_command(&format!(r#"git add -A && git commit --allow-empty -m "{}""#, message));
             run_shell_command("git push");
             println!(
                 r#"
-After `cargo auto commit and push`
+After `cargo auto commit_and_push "message"`
 run `cargo auto publish_to_crates_io`
 "#
             );
@@ -156,8 +180,9 @@ run `cargo auto publish_to_crates_io`
     }
 }
 
-/// example hot to publish to crates.io and git tag
+/// publish to crates.io and git tag
 fn task_publish_to_crates_io() {
+    println!(r#"The crates.io access token must already be saved locally with `cargo login TOKEN`"#);
     let cargo_toml = CargoToml::read();
     // git tag
     let shell_command = format!(
@@ -170,9 +195,9 @@ fn task_publish_to_crates_io() {
     run_shell_command("cargo publish");
     println!(
         r#"
-After `cargo auto task_publish_to_crates_io', 
+After `cargo auto publish_to_crates_io`, 
 check `https://crates.io/crates/{package_name}`.
-Add dependency `{package_name} = "{package_version}"` to your rust project and check how it works.
+Add the dependency `{package_name} = "{package_version}"` to your Rust project and check how it works.
 "#,
         package_name = cargo_toml.package_name(),
         package_version = cargo_toml.package_version()

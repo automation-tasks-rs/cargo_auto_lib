@@ -149,17 +149,18 @@
 <span id="144">144</span>
 <span id="145">145</span>
 <span id="146">146</span>
+<span id="147">147</span>
 </pre><pre class="rust"><code><span class="comment">// region: auto_md_to_doc_comments include README.md A //!</span>
 <span class="doccomment">//! # cargo_auto_lib</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! **Library crate for common tasks when building rust projects. Intended for use with cargo-auto: automation tasks written in Rust language.**  </span>
-<span class="doccomment">//! ***version: 0.7.27 date: 2022-04-25 author: [Bestia.dev](https://bestia.dev) repository: [Github](https://github.com/bestia-dev/cargo_auto_lib)***  </span>
+<span class="doccomment">//! ***version: 0.7.29 date: 2022-05-07 author: [Bestia.dev](https://bestia.dev) repository: [Github](https://github.com/bestia-dev/cargo_auto_lib)***  </span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! [![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-1248-green.svg)](https://github.com/bestia-dev/cargo_auto_lib/)</span>
-<span class="doccomment">//! [![Lines in Doc comments](https://img.shields.io/badge/Lines_in_Doc_comments-372-blue.svg)](https://github.com/bestia-dev/cargo_auto_lib/)</span>
-<span class="doccomment">//! [![Lines in Comments](https://img.shields.io/badge/Lines_in_comments-136-purple.svg)](https://github.com/bestia-dev/cargo_auto_lib/)</span>
-<span class="doccomment">//! [![Lines in examples](https://img.shields.io/badge/Lines_in_examples-0-yellow.svg)](https://github.com/bestia-dev/cargo_auto_lib/)</span>
-<span class="doccomment">//! [![Lines in tests](https://img.shields.io/badge/Lines_in_tests-21-orange.svg)](https://github.com/bestia-dev/cargo_auto_lib/)</span>
+<span class="doccomment">//! [![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-1259-green.svg)](https://github.com/bestia-dev/cargo_auto_lib/)</span>
+<span class="doccomment">//! [![Lines in Doc comments](https://img.shields.io/badge/Lines_in_Doc_comments-384-blue.svg)](https://github.com/bestia-dev/cargo_auto_lib/)</span>
+<span class="doccomment">//! [![Lines in Comments](https://img.shields.io/badge/Lines_in_comments-139-purple.svg)](https://github.com/bestia-dev/cargo_auto_lib/)</span>
+<span class="doccomment">//! [![Lines in examples](https://img.shields.io/badge/Lines_in_examples-10-yellow.svg)](https://github.com/bestia-dev/cargo_auto_lib/)</span>
+<span class="doccomment">//! [![Lines in tests](https://img.shields.io/badge/Lines_in_tests-32-orange.svg)](https://github.com/bestia-dev/cargo_auto_lib/)</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! [![crates.io](https://img.shields.io/crates/v/cargo_auto_lib.svg)](https://crates.io/crates/cargo_auto_lib) [![Documentation](https://docs.rs/cargo_auto_lib/badge.svg)](https://docs.rs/cargo_auto_lib/) [![crev reviews](https://web.crev.dev/rust-reviews/badge/crev_count/cargo_auto_lib.svg)](https://web.crev.dev/rust-reviews/crate/cargo_auto_lib/) [![Lib.rs](https://img.shields.io/badge/Lib.rs-rust-orange.svg)](https://lib.rs/crates/cargo_auto_lib/) [![Licence](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/bestia-dev/cargo_auto_lib/blob/master/LICENSE) [![Rust](https://github.com/bestia-dev/cargo_auto_lib/workflows/RustAction/badge.svg)](https://github.com/bestia-dev/cargo_auto_lib/)  </span>
 <span class="doccomment">//!</span>
@@ -182,14 +183,12 @@
 <span class="doccomment">//! Preview the code and observe all the `auto_*` functions from `cargo_auto_lib`.  </span>
 <span class="doccomment">//! Example:  </span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! ```ignore</span>
-<span class="doccomment">//! fn task_release() {</span>
-<span class="doccomment">//!     auto_semver_increment_patch();</span>
-<span class="doccomment">//!     auto_cargo_toml_to_md();</span>
-<span class="doccomment">//!     auto_lines_of_code(&quot;&quot;);</span>
-<span class="doccomment">//!     auto_build();</span>
-<span class="doccomment">//! }</span>
-<span class="doccomment">//! ```</span>
+<span class="doccomment">//! fn task_release() {  </span>
+<span class="doccomment">//!     auto_semver_increment_patch();  </span>
+<span class="doccomment">//!     auto_cargo_toml_to_md();  </span>
+<span class="doccomment">//!     auto_lines_of_code(&quot;&quot;);  </span>
+<span class="doccomment">//!     auto_build();  </span>
+<span class="doccomment">//! }  </span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! Go back to your main rust project.  </span>
 <span class="doccomment">//! Add markers to the beginning of README.md (don&#39;t copy the numbers 1 and 2):  </span>
@@ -266,9 +265,11 @@
 <span class="kw">mod</span> <span class="ident">auto_helper_functions_mod</span>;
 <span class="kw">mod</span> <span class="ident">auto_lines_of_code_mod</span>;
 <span class="kw">mod</span> <span class="ident">auto_md_to_doc_comments_mod</span>;
+<span class="kw">mod</span> <span class="ident">auto_plantuml_mod</span>;
 <span class="kw">mod</span> <span class="ident">auto_semver_mod</span>;
 <span class="kw">mod</span> <span class="ident">auto_semver_or_date_mod</span>;
 <span class="kw">mod</span> <span class="ident">auto_version_from_date_mod</span>;
+
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">utils_mod</span>;
 
 <span class="comment">// reexport functions for callers of the library</span>
@@ -289,6 +290,7 @@
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">auto_helper_functions_mod::YELLOW</span>;
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">auto_lines_of_code_mod::auto_lines_of_code</span>;
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">auto_md_to_doc_comments_mod::auto_md_to_doc_comments</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">auto_plantuml_mod::hash_for_filename</span>;
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">auto_semver_mod::auto_semver_increment_minor</span>;
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">auto_semver_mod::auto_semver_increment_patch</span>;
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">auto_semver_or_date_mod::auto_version_increment_semver_or_date</span>;
