@@ -82,25 +82,35 @@ pub fn auto_plantuml_for_path(path:&std::path::Path){
                     dbg!(&plantuml_code_hash);
                     if let Some(marker_end) = find_pos_end_data_before_delimiter(&md_text_content, pos,"\n[comment]: # (auto_plantuml end)\n"){
                         let img_link = md_text_content[code_end_after..marker_end].trim();
-                        if !img_link.is_empty(){
+                        let mut get_new_svg=false;
+                        if img_link.is_empty(){
+                            get_new_svg=true;
+                            dbg!("img_link is empty.");
+                        } else{
                             dbg!(img_link);
                             // parse this format ![svg_534231](images/svg_534231.svg)                          
                             let cap_group = REGEX_IMG_LINK .captures(img_link).unwrap();
                             let old_hash = &cap_group[1];
                             dbg!(old_hash);
                             if old_hash != &plantuml_code_hash{
-                                // rename the old image file to .obsolete
-                                // get the new svg image
-                                let svg_code = get_svg(plantuml_code);
-                                // dbg!(&svg_code);
-                                let new_file_path = std::path::Path::new(&md_filename).parent().unwrap().join("images").join(format!("svg_{}.svg",plantuml_code_hash));
-                                dbg!(&new_file_path);
-                                std::fs::write(&new_file_path, svg_code).unwrap();
+                                get_new_svg=true;                              
                             }
                         }
-                        else{
-                            dbg!("img_link is empty.");
+                        if get_new_svg==true{
+                            // rename the old image file to .obsolete
+                            // get the new svg image
+                            let svg_code = get_svg(plantuml_code);
+                            // dbg!(&svg_code);
+                            let new_file_path = std::path::Path::new(&md_filename).parent().unwrap().join("images").join(format!("svg_{}.svg",plantuml_code_hash));
+                            dbg!(&new_file_path);
+                            std::fs::write(&new_file_path, svg_code).unwrap();
+                            // create the new image lnk
+                            let img_link = format!("\n![svg_{}](images/svg_{}.svg)\n",plantuml_code_hash, plantuml_code_hash);
+                            // delete the old img_link and insert the new one
+                            //then write the modified md_file.
+                            
                         }
+                            
                     }
                 }
             }
