@@ -19,7 +19,7 @@
 //!
 //! ```bash
 //! cargo install cargo-auto
-//! cargo auto new with_lib
+//! cargo auto new
 //! ```
 //!
 //! In a new editor open the generated directory `automation_tasks_rs` as an independent rust project. There is already this dependency in `Cargo.toml`:  
