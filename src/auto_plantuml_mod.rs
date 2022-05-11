@@ -44,14 +44,16 @@ lazy_static! {
 /// finds markers (auto_plantuml start) and (auto_plantuml end) in md files
 /// if needed calls the web service and saves the svg file
 /// Between markers adds the link to the svg file
-pub fn auto_plantuml() {
+/// repo_url like <https://github.com/bestia-dev/sey_currency_converter_pwa>
+/// so the image file link is from the repository and accessible everywhere
+pub fn auto_plantuml(repo_url: &str) {
     let path = std::env::current_dir().unwrap();
-    auto_plantuml_for_path(&path);
+    auto_plantuml_for_path(&path, repo_url);
 }
 
 /// process plantuml for all md files
 /// for test and examples I need to provide the path
-pub fn auto_plantuml_for_path(path: &std::path::Path) {
+pub fn auto_plantuml_for_path(path: &std::path::Path, repo_url: &str) {
     //use traverse instead of glob
     let files = unwrap!(crate::utils_mod::traverse_dir_with_exclude_dir(
         path,
@@ -145,10 +147,17 @@ pub fn auto_plantuml_for_path(path: &std::path::Path) {
                                 .join(format!("svg_{}.svg", plantuml_code_hash));
                             dbg!(&new_file_path);
                             std::fs::write(&new_file_path, svg_code).unwrap();
+                            // if repo_url is not empty then prepare github url
+                            // https://github.com/bestia-dev/sey_currency_converter_pwa/raw/main/
+                            let repo_full_url = if repo_url.is_empty() {
+                                "".to_string()
+                            } else {
+                                format!("{}/raw/main/", repo_url.trim_end_matches("/"))
+                            };
                             // create the new image lnk
                             let img_link = format!(
-                                "\n![svg_{}](images/svg_{}.svg)\n",
-                                plantuml_code_hash, plantuml_code_hash
+                                "\n![svg_{}]({}images/svg_{}.svg)\n",
+                                plantuml_code_hash, &repo_full_url, plantuml_code_hash
                             );
                             // delete the old img_link and insert the new one
                             md_text_content.replace_range(code_end_after..marker_end, &img_link);
@@ -229,7 +238,7 @@ mod test {
         // endregion: prepare folders and files for this example
 
         let path = std::path::Path::new("examples/plantuml");
-        auto_plantuml_for_path(path);
+        auto_plantuml_for_path(path, "");
 
         // check the result
         let changed1 = std::fs::read_to_string("examples/plantuml/input1_for_plantuml.md").unwrap();

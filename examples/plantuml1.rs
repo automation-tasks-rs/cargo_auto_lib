@@ -27,5 +27,5 @@ fn main() {
     // endregion: prepare folders and files for this example
 
     let path = std::path::Path::new("examples/plantuml");
-    cargo_auto_lib::auto_plantuml_for_path(path);
+    cargo_auto_lib::auto_plantuml_for_path(path, "");
 }
