@@ -150,19 +150,25 @@
 <span id="145">145</span>
 <span id="146">146</span>
 <span id="147">147</span>
+<span id="148">148</span>
+<span id="149">149</span>
+<span id="150">150</span>
+<span id="151">151</span>
 </pre><pre class="rust"><code><span class="comment">// region: auto_md_to_doc_comments include README.md A //!</span>
 <span class="doccomment">//! # cargo_auto_lib</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! **Library crate for common tasks when building rust projects. Intended for use with cargo-auto: automation tasks written in Rust language.**  </span>
-<span class="doccomment">//! ***version: 0.7.29 date: 2022-05-07 author: [Bestia.dev](https://bestia.dev) repository: [Github](https://github.com/bestia-dev/cargo_auto_lib)***  </span>
+<span class="doccomment">//! ***version: 0.7.31 date: 2022-05-11 author: [Bestia.dev](https://bestia.dev) repository: [Github](https://github.com/bestia-dev/cargo_auto_lib)***  </span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! [![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-1259-green.svg)](https://github.com/bestia-dev/cargo_auto_lib/)</span>
-<span class="doccomment">//! [![Lines in Doc comments](https://img.shields.io/badge/Lines_in_Doc_comments-384-blue.svg)](https://github.com/bestia-dev/cargo_auto_lib/)</span>
-<span class="doccomment">//! [![Lines in Comments](https://img.shields.io/badge/Lines_in_comments-139-purple.svg)](https://github.com/bestia-dev/cargo_auto_lib/)</span>
-<span class="doccomment">//! [![Lines in examples](https://img.shields.io/badge/Lines_in_examples-10-yellow.svg)](https://github.com/bestia-dev/cargo_auto_lib/)</span>
-<span class="doccomment">//! [![Lines in tests](https://img.shields.io/badge/Lines_in_tests-32-orange.svg)](https://github.com/bestia-dev/cargo_auto_lib/)</span>
+<span class="doccomment">//! [![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-1410-green.svg)](https://github.com/bestia-dev/cargo_auto_lib/)</span>
+<span class="doccomment">//! [![Lines in Doc comments](https://img.shields.io/badge/Lines_in_Doc_comments-392-blue.svg)](https://github.com/bestia-dev/cargo_auto_lib/)</span>
+<span class="doccomment">//! [![Lines in Comments](https://img.shields.io/badge/Lines_in_comments-167-purple.svg)](https://github.com/bestia-dev/cargo_auto_lib/)</span>
+<span class="doccomment">//! [![Lines in examples](https://img.shields.io/badge/Lines_in_examples-31-yellow.svg)](https://github.com/bestia-dev/cargo_auto_lib/)</span>
+<span class="doccomment">//! [![Lines in tests](https://img.shields.io/badge/Lines_in_tests-93-orange.svg)](https://github.com/bestia-dev/cargo_auto_lib/)</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! [![crates.io](https://img.shields.io/crates/v/cargo_auto_lib.svg)](https://crates.io/crates/cargo_auto_lib) [![Documentation](https://docs.rs/cargo_auto_lib/badge.svg)](https://docs.rs/cargo_auto_lib/) [![crev reviews](https://web.crev.dev/rust-reviews/badge/crev_count/cargo_auto_lib.svg)](https://web.crev.dev/rust-reviews/crate/cargo_auto_lib/) [![Lib.rs](https://img.shields.io/badge/Lib.rs-rust-orange.svg)](https://lib.rs/crates/cargo_auto_lib/) [![Licence](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/bestia-dev/cargo_auto_lib/blob/master/LICENSE) [![Rust](https://github.com/bestia-dev/cargo_auto_lib/workflows/RustAction/badge.svg)](https://github.com/bestia-dev/cargo_auto_lib/)  </span>
+<span class="doccomment">//! [![crates.io](https://img.shields.io/crates/v/cargo_auto_lib.svg)](https://crates.io/crates/cargo_auto_lib) [![Documentation](https://docs.rs/cargo_auto_lib/badge.svg)](https://docs.rs/cargo_auto_lib/) [![crev reviews](https://web.crev.dev/rust-reviews/badge/crev_count/cargo_auto_lib.svg)](https://web.crev.dev/rust-reviews/crate/cargo_auto_lib/) [![Lib.rs](https://img.shields.io/badge/Lib.rs-rust-orange.svg)](https://lib.rs/crates/cargo_auto_lib/) [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/bestia-dev/cargo_auto_lib/blob/master/LICENSE) [![Rust](https://github.com/bestia-dev/cargo_auto_lib/workflows/RustAction/badge.svg)](https://github.com/bestia-dev/cargo_auto_lib/) [![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fbestia-dev%2Fcargo_auto_lib&amp;count_bg=%2379C83D&amp;title_bg=%23555555&amp;icon=&amp;icon_color=%23E7E7E7&amp;title=hits&amp;edge_flat=false)](https://hits.seeyoufarm.com)  </span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! Hashtags: #rustlang #buildtool #developmenttool</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! ## Try it</span>
 <span class="doccomment">//!</span>
@@ -171,13 +177,13 @@
 <span class="doccomment">//!</span>
 <span class="doccomment">//! ```bash</span>
 <span class="doccomment">//! cargo install cargo-auto</span>
-<span class="doccomment">//! cargo auto new with_lib</span>
+<span class="doccomment">//! cargo auto new</span>
 <span class="doccomment">//! ```</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! In a new editor open the generated directory `automation_tasks_rs` as an independent rust project. There is already this dependency in `Cargo.toml`:  </span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! ```toml</span>
-<span class="doccomment">//! cargo_auto_lib=&quot;0.7.*&quot;</span>
+<span class="doccomment">//! cargo_auto_lib=&quot;0.7.27&quot;</span>
 <span class="doccomment">//! ```</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! Preview the code and observe all the `auto_*` functions from `cargo_auto_lib`.  </span>
@@ -238,22 +244,22 @@
 <span class="doccomment">//!</span>
 <span class="doccomment">//! ## cargo crev reviews and advisory</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! We leave in times of danger with [supply chain attacks](https://en.wikipedia.org/wiki/Supply_chain_attack).  </span>
+<span class="doccomment">//! We live in times of danger with [supply chain attacks](https://en.wikipedia.org/wiki/Supply_chain_attack).  </span>
 <span class="doccomment">//! It is recommended to always use [cargo-crev](https://github.com/crev-dev/cargo-crev)  </span>
 <span class="doccomment">//! to verify the trustworthiness of each of your dependencies.  </span>
 <span class="doccomment">//! Please, spread this info.  </span>
-<span class="doccomment">//! You can also read reviews quickly on the web. Example for the crate `num-traits`:  </span>
-<span class="doccomment">//! &lt;https://web.crev.dev/rust-reviews/crate/num-traits/&gt;  </span>
+<span class="doccomment">//! You can also read reviews quickly on the web:  </span>
+<span class="doccomment">//! &lt;https://web.crev.dev/rust-reviews/crates/&gt;  </span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! ## open-source free and free as a beer</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! My open-source projects are free and free as a beer (MIT license).  </span>
+<span class="doccomment">//! My open-source projects are free as a beer (MIT license).  </span>
 <span class="doccomment">//! I just love programming.  </span>
 <span class="doccomment">//! But I need also to drink. If you find my projects and tutorials helpful,  </span>
-<span class="doccomment">//! please buy me a beer or two donating on my [paypal](https://paypal.me/LucianoBestia).  </span>
+<span class="doccomment">//! please buy me a beer donating on my [paypal](https://paypal.me/LucianoBestia).  </span>
 <span class="doccomment">//! You know the price of a beer in your local bar ;-)  </span>
 <span class="doccomment">//! So I can drink a free beer for your health :-)  </span>
-<span class="doccomment">//! [Na zdravje](https://translate.google.com/?hl=en&amp;sl=sl&amp;tl=en&amp;text=Na%20zdravje&amp;op=translate) !</span>
+<span class="doccomment">//! [Na zdravje!](https://translate.google.com/?hl=en&amp;sl=sl&amp;tl=en&amp;text=Na%20zdravje&amp;op=translate) [Alla salute!](https://dictionary.cambridge.org/dictionary/italian-english/alla-salute) [Prost!](https://dictionary.cambridge.org/dictionary/german-english/prost) [Nazdravlje!](https://matadornetwork.com/nights/how-to-say-cheers-in-50-languages/) 🍻</span>
 <span class="doccomment">//!</span>
 <span class="comment">// endregion: auto_md_to_doc_comments include README.md A //!</span>
 
@@ -290,6 +296,8 @@
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">auto_helper_functions_mod::YELLOW</span>;
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">auto_lines_of_code_mod::auto_lines_of_code</span>;
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">auto_md_to_doc_comments_mod::auto_md_to_doc_comments</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">auto_plantuml_mod::auto_plantuml</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">auto_plantuml_mod::auto_plantuml_for_path</span>;
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">auto_plantuml_mod::hash_for_filename</span>;
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">auto_semver_mod::auto_semver_increment_minor</span>;
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">auto_semver_mod::auto_semver_increment_patch</span>;
