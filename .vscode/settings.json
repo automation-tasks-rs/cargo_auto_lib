@@ -1,5 +1,6 @@
 {
     "cSpell.words": [
+        "Alla",
         "alloc",
         "bestia",
         "buildtool",
@@ -19,8 +20,10 @@
         "markdownlint",
         "microxml",
         "mmdd",
+        "Nazdravlje",
         "pathbuff",
         "plantuml",
+        "Prost",
         "repos",
         "reqwest",
         "rustfmt",
@@ -32,5 +35,5 @@
         "UNHIDE",
         "Unpadded",
         "zdravje"
-]
+    ]
 }
