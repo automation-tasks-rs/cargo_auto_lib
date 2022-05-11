@@ -42,6 +42,9 @@ lazy_static! {
 }
 
 /// process plantuml in current directory
+/// finds markers (auto_plantuml start) and (auto_plantuml end) in md files
+/// if needed calls the web service and saves the svg file
+/// Between markers adds the link to the svg file
 pub fn auto_plantuml(){
     let path = std::env::current_dir().unwrap();
     auto_plantuml_for_path(&path);
@@ -97,12 +100,17 @@ pub fn auto_plantuml_for_path(path:&std::path::Path){
                             dbg!(old_hash);
                             if old_hash != &plantuml_code_hash{
                                 get_new_svg=true;    
-                                // rename the old image file to .svg_obsolete
+                                // delete the old image file
                                 let old_file_path =md_filename.parent().unwrap().join("images").join(format!("svg_{}.svg",old_hash));
                                 if old_file_path.exists(){
-                                    std::fs::rename(&old_file_path,old_file_path.with_extension("svg_obsolete")).unwrap();
-                                }else{
-                                    println!("Old path not exist: {}", old_file_path.to_string_lossy());
+                                    std::fs::remove_file(&old_file_path).unwrap();
+                                }
+                            }
+                            else{
+                                // check if the svg file exists
+                                let old_file_path =md_filename.parent().unwrap().join("images").join(format!("svg_{}.svg",old_hash));
+                                if !old_file_path.exists(){
+                                    get_new_svg=true;  
                                 }
                             }
                         }
@@ -124,9 +132,9 @@ pub fn auto_plantuml_for_path(path:&std::path::Path){
                 }
             }
         }
-        // if changed then save with extension .md_new
+        // if changed, then write to disk
         if is_changed==true{
-           std::fs::write(md_filename.with_extension("md_new"), md_text_content).unwrap();
+           std::fs::write(md_filename, md_text_content).unwrap();
         }
     }
 }
@@ -174,6 +182,39 @@ pub fn compress_plant_uml_code(plant_uml_code: &str) -> String {
 #[cfg(test)]
 mod test {
     use super::*;
+
+
+    #[test]
+    pub fn examples_plantuml_test() {
+    // similar to examples/plantuml/plantuml1.rs and check the result
+    // region: prepare folders and files for this example
+    // empty the 'images' folder
+    std::fs::remove_dir_all ("examples/plantuml/images").unwrap();
+    std::fs::create_dir("examples/plantuml/images").unwrap();
+    // copy md files from sample_data to examples
+    std::fs::copy("sample_data/input1_for_plantuml.md", "examples/plantuml/input1_for_plantuml.md").unwrap();
+    std::fs::copy("sample_data/input2_for_plantuml.md", "examples/plantuml/input2_for_plantuml.md").unwrap();
+    // endregion: prepare folders and files for this example
+
+    let path = std::path::Path::new("examples/plantuml");
+    auto_plantuml_for_path(path);
+
+    // check the result
+    let changed1 = std::fs::read_to_string("examples/plantuml/input1_for_plantuml.md").unwrap();
+    let output1 = std::fs::read_to_string("sample_data/output1_for_plantuml.md").unwrap();
+    assert_eq!(changed1, output1);
+
+    let changed2 = std::fs::read_to_string("examples/plantuml/input2_for_plantuml.md").unwrap();
+    let output2 = std::fs::read_to_string("sample_data/output2_for_plantuml.md").unwrap();
+    assert_eq!(changed2, output2);
+
+    assert!(std::path::Path::new("examples/plantuml/images/svg_8eLHibrc2gjrY1qcezDiy--xk9mz1XwYyIcZwXvjlcE.svg").exists());
+    assert!(std::path::Path::new("examples/plantuml/images/svg_H8u0SNaGZzGAaYPHeY4eDF9TfWqVXhKa7M8wiwXSe_s.svg").exists());
+    assert!(std::path::Path::new("examples/plantuml/images/svg_KPAr4S3iGAVLbskqf6XXaqrWge8bXMlCkNk7EaimJs0.svg").exists());
+    assert!(std::path::Path::new("examples/plantuml/images/svg_lTG8S1eNgnLTJS1PruoYJEjQVW4dCn0x6Wl-pw6yPXM.svg").exists());
+    assert!(std::path::Path::new("examples/plantuml/images/svg_tosmzSqwSXyObaX7eRLFp9xsMzcM5UDT4NSaQSgnq-Q.svg").exists());
+       
+    }
 
     #[test]
     pub fn test_hash() {

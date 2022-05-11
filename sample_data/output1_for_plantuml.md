@@ -18,7 +18,24 @@ this has not yet the image link
 after first blah blah
 
 before second blah blah
-this already has the image link
+this already has the image link, but it is obsolete and must be replaced
+
+[comment]: # (auto_plantuml start)
+
+```plantuml
+@startuml
+[Johnny] ..> [Amber]
+@enduml
+```
+
+![svg_lTG8S1eNgnLTJS1PruoYJEjQVW4dCn0x6Wl-pw6yPXM](images/svg_lTG8S1eNgnLTJS1PruoYJEjQVW4dCn0x6Wl-pw6yPXM.svg)
+
+[comment]: # (auto_plantuml end)
+
+after second blah blah
+
+before third blah blah
+this already has the image link that is correct because, the plantuml code did not change
 
 [comment]: # (auto_plantuml start)
 
@@ -32,4 +49,4 @@ this already has the image link
 
 [comment]: # (auto_plantuml end)
 
-after second blah blah
+after third blah blah
