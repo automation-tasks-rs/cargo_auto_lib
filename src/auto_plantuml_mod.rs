@@ -23,10 +23,9 @@
 //! Call the plantuml.com server with the plantuml code and saves the result svg file in folder images/.
 //! Add the hash code to the filename.
 
-use unwrap::unwrap;
-use lazy_static::lazy_static;
 use crate::utils_mod::*;
-
+use lazy_static::lazy_static;
+use unwrap::unwrap;
 
 lazy_static! {
     static ref REGEX_PLANTUML_START: regex::Regex = unwrap!(regex::Regex::new(
@@ -42,14 +41,17 @@ lazy_static! {
 }
 
 /// process plantuml in current directory
-pub fn auto_plantuml(){
+/// finds markers (auto_plantuml start) and (auto_plantuml end) in md files
+/// if needed calls the web service and saves the svg file
+/// Between markers adds the link to the svg file
+pub fn auto_plantuml() {
     let path = std::env::current_dir().unwrap();
     auto_plantuml_for_path(&path);
 }
 
 /// process plantuml for all md files
 /// for test and examples I need to provide the path
-pub fn auto_plantuml_for_path(path:&std::path::Path){
+pub fn auto_plantuml_for_path(path: &std::path::Path) {
     //use traverse instead of glob
     let files = unwrap!(crate::utils_mod::traverse_dir_with_exclude_dir(
         path,
@@ -61,64 +63,107 @@ pub fn auto_plantuml_for_path(path:&std::path::Path){
             "/docs".to_string()
         ]
     ));
-    for md_filename in files{
+    for md_filename in files {
+        let md_filename = std::path::Path::new(&md_filename);
         dbg!(&md_filename);
-        let md_text_content = unwrap!(std::fs::read_to_string(&md_filename));
+
+        let mut is_changed = false;
+        let mut md_text_content = unwrap!(std::fs::read_to_string(md_filename));
 
         // check if file have CRLF and show error
         if md_text_content.contains("\r\n") {
-            panic!("Error: {} has CRLF line endings instead of LF. The task auto_plantuml cannot work! Closing.", &md_filename);
+            panic!("Error: {} has CRLF line endings instead of LF. The task auto_plantuml cannot work! Closing.", md_filename.to_string_lossy());
         }
         let mut pos = 0;
         // find markers
-        while let Some(marker_start) = find_pos_start_data_after_delimiter(&md_text_content, pos,"\n[comment]: # (auto_plantuml start)\n"){
-            pos = marker_start+34;
-            if let Some(code_start) = find_pos_start_data_after_delimiter(&md_text_content, marker_start,"\n```plantuml\n"){
-                if let Some(code_end) = find_pos_end_data_before_delimiter(&md_text_content, code_start,"\n```\n"){
-                    let code_end_after=code_end+5;
+        while let Some(marker_start) = find_pos_start_data_after_delimiter(
+            &md_text_content,
+            pos,
+            "\n[comment]: # (auto_plantuml start)\n",
+        ) {
+            pos = marker_start + 34;
+            if let Some(code_start) = find_pos_start_data_after_delimiter(
+                &md_text_content,
+                marker_start,
+                "\n```plantuml\n",
+            ) {
+                if let Some(code_end) =
+                    find_pos_end_data_before_delimiter(&md_text_content, code_start, "\n```\n")
+                {
+                    let code_end_after = code_end + 5;
                     let plantuml_code = &md_text_content[code_start..code_end];
                     dbg!(plantuml_code);
                     let plantuml_code_hash = hash_for_filename(plantuml_code);
                     dbg!(&plantuml_code_hash);
-                    if let Some(marker_end) = find_pos_end_data_before_delimiter(&md_text_content, pos,"\n[comment]: # (auto_plantuml end)\n"){
+                    if let Some(marker_end) = find_pos_end_data_before_delimiter(
+                        &md_text_content,
+                        pos,
+                        "\n[comment]: # (auto_plantuml end)\n",
+                    ) {
                         let img_link = md_text_content[code_end_after..marker_end].trim();
-                        let mut get_new_svg=false;
-                        if img_link.is_empty(){
-                            get_new_svg=true;
+                        let mut get_new_svg = false;
+                        if img_link.is_empty() {
+                            get_new_svg = true;
                             dbg!("img_link is empty.");
-                        } else{
+                        } else {
                             dbg!(img_link);
-                            // parse this format ![svg_534231](images/svg_534231.svg)                          
-                            let cap_group = REGEX_IMG_LINK .captures(img_link).unwrap();
+                            // parse this format ![svg_534231](images/svg_534231.svg)
+                            let cap_group = REGEX_IMG_LINK.captures(img_link).expect(&format!("Error: The old img link '{}' is NOT in this format '![svg_534231](images/svg_534231.svg)'",img_link));
                             let old_hash = &cap_group[1];
                             dbg!(old_hash);
-                            if old_hash != &plantuml_code_hash{
-                                get_new_svg=true;                              
+                            if old_hash != &plantuml_code_hash {
+                                get_new_svg = true;
+                                // delete the old image file
+                                let old_file_path = md_filename
+                                    .parent()
+                                    .unwrap()
+                                    .join("images")
+                                    .join(format!("svg_{}.svg", old_hash));
+                                if old_file_path.exists() {
+                                    std::fs::remove_file(&old_file_path).unwrap();
+                                }
+                            } else {
+                                // check if the svg file exists
+                                let old_file_path = md_filename
+                                    .parent()
+                                    .unwrap()
+                                    .join("images")
+                                    .join(format!("svg_{}.svg", old_hash));
+                                if !old_file_path.exists() {
+                                    get_new_svg = true;
+                                }
                             }
                         }
-                        if get_new_svg==true{
-                            // rename the old image file to .obsolete
+                        if get_new_svg == true {
                             // get the new svg image
                             let svg_code = get_svg(plantuml_code);
                             // dbg!(&svg_code);
-                            let new_file_path = std::path::Path::new(&md_filename).parent().unwrap().join("images").join(format!("svg_{}.svg",plantuml_code_hash));
+                            let new_file_path = md_filename
+                                .parent()
+                                .unwrap()
+                                .join("images")
+                                .join(format!("svg_{}.svg", plantuml_code_hash));
                             dbg!(&new_file_path);
                             std::fs::write(&new_file_path, svg_code).unwrap();
                             // create the new image lnk
-                            let img_link = format!("\n![svg_{}](images/svg_{}.svg)\n",plantuml_code_hash, plantuml_code_hash);
+                            let img_link = format!(
+                                "\n![svg_{}](images/svg_{}.svg)\n",
+                                plantuml_code_hash, plantuml_code_hash
+                            );
                             // delete the old img_link and insert the new one
-                            //then write the modified md_file.
-                            
+                            md_text_content.replace_range(code_end_after..marker_end, &img_link);
+                            is_changed = true;
                         }
-                            
                     }
                 }
             }
         }
+        // if changed, then write to disk
+        if is_changed == true {
+            std::fs::write(md_filename, md_text_content).unwrap();
+        }
     }
-
 }
-
 
 pub fn hash_for_filename(text: &str) -> String {
     let hash = <sha2::Sha256 as sha2::Digest>::digest(text.as_bytes());
@@ -164,6 +209,60 @@ mod test {
     use super::*;
 
     #[test]
+    pub fn examples_plantuml_test() {
+        // similar to examples/plantuml/plantuml1.rs and check the result
+        // region: prepare folders and files for this example
+        // empty the 'images' folder
+        std::fs::remove_dir_all("examples/plantuml/images").unwrap();
+        std::fs::create_dir("examples/plantuml/images").unwrap();
+        // copy md files from sample_data to examples
+        std::fs::copy(
+            "sample_data/input1_for_plantuml.md",
+            "examples/plantuml/input1_for_plantuml.md",
+        )
+        .unwrap();
+        std::fs::copy(
+            "sample_data/input2_for_plantuml.md",
+            "examples/plantuml/input2_for_plantuml.md",
+        )
+        .unwrap();
+        // endregion: prepare folders and files for this example
+
+        let path = std::path::Path::new("examples/plantuml");
+        auto_plantuml_for_path(path);
+
+        // check the result
+        let changed1 = std::fs::read_to_string("examples/plantuml/input1_for_plantuml.md").unwrap();
+        let output1 = std::fs::read_to_string("sample_data/output1_for_plantuml.md").unwrap();
+        assert_eq!(changed1, output1);
+
+        let changed2 = std::fs::read_to_string("examples/plantuml/input2_for_plantuml.md").unwrap();
+        let output2 = std::fs::read_to_string("sample_data/output2_for_plantuml.md").unwrap();
+        assert_eq!(changed2, output2);
+
+        assert!(std::path::Path::new(
+            "examples/plantuml/images/svg_8eLHibrc2gjrY1qcezDiy--xk9mz1XwYyIcZwXvjlcE.svg"
+        )
+        .exists());
+        assert!(std::path::Path::new(
+            "examples/plantuml/images/svg_H8u0SNaGZzGAaYPHeY4eDF9TfWqVXhKa7M8wiwXSe_s.svg"
+        )
+        .exists());
+        assert!(std::path::Path::new(
+            "examples/plantuml/images/svg_KPAr4S3iGAVLbskqf6XXaqrWge8bXMlCkNk7EaimJs0.svg"
+        )
+        .exists());
+        assert!(std::path::Path::new(
+            "examples/plantuml/images/svg_lTG8S1eNgnLTJS1PruoYJEjQVW4dCn0x6Wl-pw6yPXM.svg"
+        )
+        .exists());
+        assert!(std::path::Path::new(
+            "examples/plantuml/images/svg_tosmzSqwSXyObaX7eRLFp9xsMzcM5UDT4NSaQSgnq-Q.svg"
+        )
+        .exists());
+    }
+
+    #[test]
     pub fn test_hash() {
         assert_eq!(
             "n4bQgYhMfWWaL-qgxVrQFaO_TxsrC4Is0V1sFbDwCgg",
@@ -184,5 +283,4 @@ Bob --> Alice: Authentication Response
             "SoWkIImgAStDuNBCoKnELT2rKt3AJx9IS2mjoKZDAybCJYp9pCzJ24ejB4qjBk42oYde0jM05MDHLLoGdrUSokMGcfS2D1C0"
         );
     }
-
 }

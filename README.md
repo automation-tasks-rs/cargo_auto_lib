@@ -5,16 +5,16 @@
 [comment]: # (auto_cargo_toml_to_md start)
 
 **Library crate for common tasks when building rust projects. Intended for use with cargo-auto: automation tasks written in Rust language.**  
-***version: 0.7.29 date: 2022-05-07 author: [Bestia.dev](https://bestia.dev) repository: [Github](https://github.com/bestia-dev/cargo_auto_lib)***  
+***version: 0.7.31 date: 2022-05-11 author: [Bestia.dev](https://bestia.dev) repository: [Github](https://github.com/bestia-dev/cargo_auto_lib)***  
 
 [comment]: # (auto_cargo_toml_to_md end)
 
 [comment]: # (auto_lines_of_code start)
-[![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-1259-green.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
-[![Lines in Doc comments](https://img.shields.io/badge/Lines_in_Doc_comments-384-blue.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
-[![Lines in Comments](https://img.shields.io/badge/Lines_in_comments-139-purple.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
-[![Lines in examples](https://img.shields.io/badge/Lines_in_examples-10-yellow.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
-[![Lines in tests](https://img.shields.io/badge/Lines_in_tests-32-orange.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
+[![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-1410-green.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
+[![Lines in Doc comments](https://img.shields.io/badge/Lines_in_Doc_comments-392-blue.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
+[![Lines in Comments](https://img.shields.io/badge/Lines_in_comments-167-purple.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
+[![Lines in examples](https://img.shields.io/badge/Lines_in_examples-31-yellow.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
+[![Lines in tests](https://img.shields.io/badge/Lines_in_tests-93-orange.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
 
 [comment]: # (auto_lines_of_code end)
 
@@ -35,7 +35,7 @@ cargo auto new
 In a new editor open the generated directory `automation_tasks_rs` as an independent rust project. There is already this dependency in `Cargo.toml`:  
 
 ```toml
-cargo_auto_lib="0.7.*"
+cargo_auto_lib="0.7.27"
 ```
 
 Preview the code and observe all the `auto_*` functions from `cargo_auto_lib`.  
@@ -96,21 +96,21 @@ Automate badges for crates.io, doc.rs, lib.rs, license, crev review. Check if th
 
 ## cargo crev reviews and advisory
 
-We leave in times of danger with [supply chain attacks](https://en.wikipedia.org/wiki/Supply_chain_attack).  
+We live in times of danger with [supply chain attacks](https://en.wikipedia.org/wiki/Supply_chain_attack).  
 It is recommended to always use [cargo-crev](https://github.com/crev-dev/cargo-crev)  
 to verify the trustworthiness of each of your dependencies.  
 Please, spread this info.  
-You can also read reviews quickly on the web. Example for the crate `num-traits`:  
-<https://web.crev.dev/rust-reviews/crate/num-traits/>  
+You can also read reviews quickly on the web:  
+<https://web.crev.dev/rust-reviews/crates/>  
 
 ## open-source free and free as a beer
 
-My open-source projects are free and free as a beer (MIT license).  
+My open-source projects are free as a beer (MIT license).  
 I just love programming.  
 But I need also to drink. If you find my projects and tutorials helpful,  
-please buy me a beer or two donating on my [paypal](https://paypal.me/LucianoBestia).  
+please buy me a beer donating on my [paypal](https://paypal.me/LucianoBestia).  
 You know the price of a beer in your local bar ;-)  
 So I can drink a free beer for your health :-)  
-[Na zdravje](https://translate.google.com/?hl=en&sl=sl&tl=en&text=Na%20zdravje&op=translate) !
+[Na zdravje!](https://translate.google.com/?hl=en&sl=sl&tl=en&text=Na%20zdravje&op=translate) [Alla salute!](https://dictionary.cambridge.org/dictionary/italian-english/alla-salute) [Prost!](https://dictionary.cambridge.org/dictionary/german-english/prost) [Nazdravlje!](https://matadornetwork.com/nights/how-to-say-cheers-in-50-languages/) 🍻
 
 [comment]: # (auto_md_to_doc_comments segment end A)
