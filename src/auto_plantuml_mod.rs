@@ -62,12 +62,15 @@ pub fn auto_plantuml_for_path(path:&std::path::Path){
         ]
     ));
     for md_filename in files{
+        let md_filename = std::path::Path::new(&md_filename);
         dbg!(&md_filename);
-        let md_text_content = unwrap!(std::fs::read_to_string(&md_filename));
+
+        let mut is_changed=false;
+        let mut md_text_content = unwrap!(std::fs::read_to_string(md_filename));
 
         // check if file have CRLF and show error
         if md_text_content.contains("\r\n") {
-            panic!("Error: {} has CRLF line endings instead of LF. The task auto_plantuml cannot work! Closing.", &md_filename);
+            panic!("Error: {} has CRLF line endings instead of LF. The task auto_plantuml cannot work! Closing.", md_filename.to_string_lossy());
         }
         let mut pos = 0;
         // find markers
@@ -89,34 +92,43 @@ pub fn auto_plantuml_for_path(path:&std::path::Path){
                         } else{
                             dbg!(img_link);
                             // parse this format ![svg_534231](images/svg_534231.svg)                          
-                            let cap_group = REGEX_IMG_LINK .captures(img_link).unwrap();
+                            let cap_group = REGEX_IMG_LINK.captures(img_link).expect(&format!("Error: The old img link '{}' is NOT in this format '![svg_534231](images/svg_534231.svg)'",img_link));
                             let old_hash = &cap_group[1];
                             dbg!(old_hash);
                             if old_hash != &plantuml_code_hash{
-                                get_new_svg=true;                              
+                                get_new_svg=true;    
+                                // rename the old image file to .svg_obsolete
+                                let old_file_path =md_filename.parent().unwrap().join("images").join(format!("svg_{}.svg",old_hash));
+                                if old_file_path.exists(){
+                                    std::fs::rename(&old_file_path,old_file_path.with_extension("svg_obsolete")).unwrap();
+                                }else{
+                                    println!("Old path not exist: {}", old_file_path.to_string_lossy());
+                                }
                             }
                         }
-                        if get_new_svg==true{
-                            // rename the old image file to .obsolete
+                        if get_new_svg==true{                            
                             // get the new svg image
                             let svg_code = get_svg(plantuml_code);
                             // dbg!(&svg_code);
-                            let new_file_path = std::path::Path::new(&md_filename).parent().unwrap().join("images").join(format!("svg_{}.svg",plantuml_code_hash));
+                            let new_file_path = md_filename.parent().unwrap().join("images").join(format!("svg_{}.svg",plantuml_code_hash));
                             dbg!(&new_file_path);
                             std::fs::write(&new_file_path, svg_code).unwrap();
                             // create the new image lnk
                             let img_link = format!("\n![svg_{}](images/svg_{}.svg)\n",plantuml_code_hash, plantuml_code_hash);
                             // delete the old img_link and insert the new one
-                            //then write the modified md_file.
-                            
-                        }
-                            
+                            md_text_content.replace_range(code_end_after..marker_end, &img_link);                            
+                            is_changed=true;
+
+                        }                            
                     }
                 }
             }
         }
+        // if changed then save with extension .md_new
+        if is_changed==true{
+           std::fs::write(md_filename.with_extension("md_new"), md_text_content).unwrap();
+        }
     }
-
 }
 
 
