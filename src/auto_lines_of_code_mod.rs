@@ -10,7 +10,7 @@ use std::io::{BufRead, BufReader};
 use std::{fs, path::Path};
 use unwrap::unwrap;
 
-use crate::auto_helper_functions_mod::*;
+// use crate::auto_helper_functions_mod::*;
 
 #[derive(Default, Debug)]
 /// Struct that contains 4 types of lines count: code, doc comments, comments, test and examples.
@@ -74,6 +74,7 @@ pub struct LinesOfCode {
 /// It will erase the previous content.  
 /// Use git diff to see the change.  
 pub fn auto_lines_of_code(link: &str) {
+    println!("Running auto_lines_of_code");
     let link = if link.is_empty() {
         process_git_remote()
     } else {
@@ -108,6 +109,7 @@ pub fn auto_lines_of_code(link: &str) {
             include_into_readme_md(&text_to_include);
         }
     }
+    println!("Finished auto_lines_of_code");
 }
 
 /// Return the string for link for badges like: <https://github.com/bestia-dev/auto_lines_of_code/>.  
@@ -228,7 +230,7 @@ fn git_remote_output() -> anyhow::Result<String> {
         .output()?;
 
     let output = String::from_utf8(output.stdout)?;
-    println!("output: {}", &output);
+    //dbg!( &output);
     // return
     Ok(output)
 }
@@ -315,10 +317,12 @@ fn include_into_readme_md(include_str: &str) {
                 new_readme_content.push_str(include_str);
                 new_readme_content.push_str("\n");
                 new_readme_content.push_str(&readme_content[pos_end..]);
+                /*
                 println!(
                     "{}include_into_readme_md write file: {}{}",
                     *GREEN, file_name, *RESET
                 );
+                 */
                 unwrap!(fs::write(file_name, new_readme_content));
             }
         }

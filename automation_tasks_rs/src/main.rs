@@ -136,6 +136,8 @@ fn task_doc() {
     let cargo_toml = CargoToml::read();
     auto_cargo_toml_to_md();
     auto_lines_of_code("");
+    // we have sample data that we don't want to change, so I comment this line: 
+    // auto_plantuml(&cargo_toml.package_repository().unwrap());
     auto_md_to_doc_comments();
 
     run_shell_command("cargo doc --no-deps --document-private-items");
@@ -144,6 +146,7 @@ fn task_doc() {
     // Create simple index.html file in docs directory
     run_shell_command(&format!("echo \"<meta http-equiv=\\\"refresh\\\" content=\\\"0; url={}/index.html\\\" />\" > docs/index.html",cargo_toml.package_name().replace("-","_")));    
     // message to help user with next move
+    run_shell_command("cargo fmt");
     println!(
         r#"
 After `cargo auto doc`, check `docs/index.html`. If ok, then test the documentation code examples

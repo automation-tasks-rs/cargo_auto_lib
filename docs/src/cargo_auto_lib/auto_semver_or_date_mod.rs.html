@@ -73,6 +73,8 @@
 <span id="68">68</span>
 <span id="69">69</span>
 <span id="70">70</span>
+<span id="71">71</span>
+<span id="72">72</span>
 </pre><pre class="rust"><code><span class="comment">// auto_semver_or_date.rs</span>
 
 <span class="doccomment">//! it reads the version in Cargo.toml and if the major number</span>
@@ -85,7 +87,7 @@
 <span class="doccomment">/// if the major version is greater than 2000, it is a date version</span>
 <span class="doccomment">/// else it is semver and increments the patch part</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">auto_version_increment_semver_or_date</span>() {
-    <span class="macro">println!</span>(<span class="string">&quot;auto_semver_or_date&quot;</span>);
+    <span class="macro">println!</span>(<span class="string">&quot;Running auto_semver_or_date&quot;</span>);
     <span class="comment">// Cargo.toml contains the list of projects</span>
     <span class="kw">let</span> <span class="ident">cargo_toml</span> <span class="op">=</span> <span class="ident"><span class="kw">crate</span>::auto_cargo_toml_mod::CargoToml::read</span>();
     <span class="kw">match</span> <span class="ident">cargo_toml</span>.<span class="ident">workspace_members</span>() {
@@ -99,6 +101,7 @@
             }
         }
     }
+    <span class="macro">println!</span>(<span class="string">&quot;Finished auto_semver_or_date&quot;</span>);
 }
 
 <span class="doccomment">/// increments the version in Cargo.toml.</span>
@@ -106,7 +109,7 @@
 <span class="doccomment">/// forced is used in workspaces to force all members to have the same date version</span>
 <span class="doccomment">/// else it is semver and increments the patch part</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">auto_version_increment_semver_or_date_forced</span>() {
-    <span class="macro">println!</span>(<span class="string">&quot;auto_semver_or_date&quot;</span>);
+    <span class="macro">println!</span>(<span class="string">&quot;Running auto_semver_or_date&quot;</span>);
     <span class="comment">// Cargo.toml contains the list of projects</span>
     <span class="kw">let</span> <span class="ident">cargo_toml</span> <span class="op">=</span> <span class="ident"><span class="kw">crate</span>::auto_cargo_toml_mod::CargoToml::read</span>();
     <span class="kw">match</span> <span class="ident">cargo_toml</span>.<span class="ident">workspace_members</span>() {
@@ -120,6 +123,7 @@
             }
         }
     }
+    <span class="macro">println!</span>(<span class="string">&quot;Finished auto_semver_or_date&quot;</span>);
 }
 
 <span class="kw">fn</span> <span class="ident">one_project</span>() {

@@ -10,7 +10,7 @@ use unwrap::unwrap;
 /// if the major version is greater than 2000, it is a date version
 /// else it is semver and increments the patch part
 pub fn auto_version_increment_semver_or_date() {
-    println!("auto_semver_or_date");
+    println!("Running auto_semver_or_date");
     // Cargo.toml contains the list of projects
     let cargo_toml = crate::auto_cargo_toml_mod::CargoToml::read();
     match cargo_toml.workspace_members() {
@@ -24,6 +24,7 @@ pub fn auto_version_increment_semver_or_date() {
             }
         }
     }
+    println!("Finished auto_semver_or_date");
 }
 
 /// increments the version in Cargo.toml.
@@ -31,7 +32,7 @@ pub fn auto_version_increment_semver_or_date() {
 /// forced is used in workspaces to force all members to have the same date version
 /// else it is semver and increments the patch part
 pub fn auto_version_increment_semver_or_date_forced() {
-    println!("auto_semver_or_date");
+    println!("Running auto_semver_or_date");
     // Cargo.toml contains the list of projects
     let cargo_toml = crate::auto_cargo_toml_mod::CargoToml::read();
     match cargo_toml.workspace_members() {
@@ -45,6 +46,7 @@ pub fn auto_version_increment_semver_or_date_forced() {
             }
         }
     }
+    println!("Finished auto_semver_or_date");
 }
 
 fn one_project() {

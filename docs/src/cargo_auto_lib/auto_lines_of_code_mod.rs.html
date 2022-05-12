@@ -329,6 +329,10 @@
 <span id="324">324</span>
 <span id="325">325</span>
 <span id="326">326</span>
+<span id="327">327</span>
+<span id="328">328</span>
+<span id="329">329</span>
+<span id="330">330</span>
 </pre><pre class="rust"><code><span class="comment">// auto_lines_of_code_mod</span>
 
 <span class="doccomment">//! inserts shield badges with lines_of_code into README.rs</span>
@@ -341,7 +345,7 @@
 <span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">fs</span>, <span class="ident">path::Path</span>};
 <span class="kw">use</span> <span class="ident">unwrap::unwrap</span>;
 
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::auto_helper_functions_mod</span>::<span class="kw-2">*</span>;
+<span class="comment">// use crate::auto_helper_functions_mod::*;</span>
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Default</span>, <span class="ident">Debug</span>)]</span>
 <span class="doccomment">/// Struct that contains 4 types of lines count: code, doc comments, comments, test and examples.</span>
@@ -405,6 +409,7 @@
 <span class="doccomment">/// It will erase the previous content.  </span>
 <span class="doccomment">/// Use git diff to see the change.  </span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">auto_lines_of_code</span>(<span class="ident">link</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) {
+    <span class="macro">println!</span>(<span class="string">&quot;Running auto_lines_of_code&quot;</span>);
     <span class="kw">let</span> <span class="ident">link</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">link</span>.<span class="ident">is_empty</span>() {
         <span class="ident">process_git_remote</span>()
     } <span class="kw">else</span> {
@@ -439,6 +444,7 @@
             <span class="ident">include_into_readme_md</span>(<span class="kw-2">&amp;</span><span class="ident">text_to_include</span>);
         }
     }
+    <span class="macro">println!</span>(<span class="string">&quot;Finished auto_lines_of_code&quot;</span>);
 }
 
 <span class="doccomment">/// Return the string for link for badges like: &lt;https://github.com/bestia-dev/auto_lines_of_code/&gt;.  </span>
@@ -559,7 +565,7 @@
         .<span class="ident">output</span>()<span class="question-mark">?</span>;
 
     <span class="kw">let</span> <span class="ident">output</span> <span class="op">=</span> <span class="ident">String::from_utf8</span>(<span class="ident">output</span>.<span class="ident">stdout</span>)<span class="question-mark">?</span>;
-    <span class="macro">println!</span>(<span class="string">&quot;output: {}&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">output</span>);
+    <span class="comment">//dbg!( &amp;output);</span>
     <span class="comment">// return</span>
     <span class="prelude-val">Ok</span>(<span class="ident">output</span>)
 }
@@ -646,10 +652,12 @@
                 <span class="ident">new_readme_content</span>.<span class="ident">push_str</span>(<span class="ident">include_str</span>);
                 <span class="ident">new_readme_content</span>.<span class="ident">push_str</span>(<span class="string">&quot;\n&quot;</span>);
                 <span class="ident">new_readme_content</span>.<span class="ident">push_str</span>(<span class="kw-2">&amp;</span><span class="ident">readme_content</span>[<span class="ident">pos_end</span>..]);
-                <span class="macro">println!</span>(
-                    <span class="string">&quot;{}include_into_readme_md write file: {}{}&quot;</span>,
-                    <span class="kw-2">*</span><span class="ident">GREEN</span>, <span class="ident">file_name</span>, <span class="kw-2">*</span><span class="ident">RESET</span>
+                <span class="comment">/*
+                println!(
+                    &quot;{}include_into_readme_md write file: {}{}&quot;,
+                    *GREEN, file_name, *RESET
                 );
+                 */</span>
                 <span class="macro">unwrap!</span>(<span class="ident">fs::write</span>(<span class="ident">file_name</span>, <span class="ident">new_readme_content</span>));
             }
         }

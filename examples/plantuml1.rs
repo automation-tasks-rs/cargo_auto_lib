@@ -10,9 +10,8 @@ fn main() {
     println!("");
 
     // region: prepare folders and files for this example
-    // empty the 'images' folder
+    // remove the 'images' folder
     std::fs::remove_dir_all("examples/plantuml/images").unwrap();
-    std::fs::create_dir("examples/plantuml/images").unwrap();
     // copy md files from sample_data to examples
     std::fs::copy(
         "sample_data/input1_for_plantuml.md",

@@ -48,6 +48,7 @@ lazy_static! {
 /// cargo run --example example_01_auto_cargo_toml_to_md
 /// ```  
 pub fn auto_cargo_toml_to_md() {
+    println!("Running auto_cargo_toml_to_md");
     let cargo_toml = crate::auto_cargo_toml_mod::CargoToml::read();
     let members = cargo_toml.workspace_members();
     match members {
@@ -62,6 +63,7 @@ pub fn auto_cargo_toml_to_md() {
             }
         }
     }
+    println!("Finished auto_cargo_toml_to_md");
 }
 
 fn do_one_project() {

@@ -54,6 +54,7 @@ pub fn auto_plantuml(repo_url: &str) {
 /// process plantuml for all md files
 /// for test and examples I need to provide the path
 pub fn auto_plantuml_for_path(path: &std::path::Path, repo_url: &str) {
+    println!("Running auto_plantuml");
     //use traverse instead of glob
     let files = unwrap!(crate::utils_mod::traverse_dir_with_exclude_dir(
         path,
@@ -67,7 +68,6 @@ pub fn auto_plantuml_for_path(path: &std::path::Path, repo_url: &str) {
     ));
     for md_filename in files {
         let md_filename = std::path::Path::new(&md_filename);
-        dbg!(&md_filename);
 
         let mut is_changed = false;
         let mut md_text_content = unwrap!(std::fs::read_to_string(md_filename));
@@ -94,9 +94,9 @@ pub fn auto_plantuml_for_path(path: &std::path::Path, repo_url: &str) {
                 {
                     let code_end_after = code_end + 5;
                     let plantuml_code = &md_text_content[code_start..code_end];
-                    dbg!(plantuml_code);
+                    //dbg!(plantuml_code);
                     let plantuml_code_hash = hash_for_filename(plantuml_code);
-                    dbg!(&plantuml_code_hash);
+                    //dbg!(&plantuml_code_hash);
                     if let Some(marker_end) = find_pos_end_data_before_delimiter(
                         &md_text_content,
                         pos,
@@ -106,13 +106,13 @@ pub fn auto_plantuml_for_path(path: &std::path::Path, repo_url: &str) {
                         let mut get_new_svg = false;
                         if img_link.is_empty() {
                             get_new_svg = true;
-                            dbg!("img_link is empty.");
+                            //dbg!("img_link is empty.");
                         } else {
-                            dbg!(img_link);
+                            //dbg!(img_link);
                             // parse this format ![svg_534231](images/svg_534231.svg)
                             let cap_group = REGEX_IMG_LINK.captures(img_link).expect(&format!("Error: The old img link '{}' is NOT in this format '![svg_534231](images/svg_534231.svg)'",img_link));
                             let old_hash = &cap_group[1];
-                            dbg!(old_hash);
+                            //dbg!(old_hash);
                             if old_hash != &plantuml_code_hash {
                                 get_new_svg = true;
                                 // delete the old image file
@@ -137,6 +137,13 @@ pub fn auto_plantuml_for_path(path: &std::path::Path, repo_url: &str) {
                             }
                         }
                         if get_new_svg == true {
+                            let relative_md_filename = md_filename.strip_prefix(path).unwrap();
+                            println!(
+                                "{} get new svg {}",
+                                relative_md_filename.to_string_lossy(),
+                                plantuml_code_hash
+                            );
+
                             // get the new svg image
                             let svg_code = get_svg(plantuml_code);
                             // dbg!(&svg_code);
@@ -145,7 +152,8 @@ pub fn auto_plantuml_for_path(path: &std::path::Path, repo_url: &str) {
                                 .unwrap()
                                 .join("images")
                                 .join(format!("svg_{}.svg", plantuml_code_hash));
-                            dbg!(&new_file_path);
+                            //dbg!(&new_file_path);
+                            std::fs::create_dir_all(new_file_path.parent().unwrap()).unwrap();
                             std::fs::write(&new_file_path, svg_code).unwrap();
                             // if repo_url is not empty then prepare github url
                             // https://github.com/bestia-dev/sey_currency_converter_pwa/raw/main/
@@ -154,10 +162,15 @@ pub fn auto_plantuml_for_path(path: &std::path::Path, repo_url: &str) {
                             } else {
                                 format!("{}/raw/main/", repo_url.trim_end_matches("/"))
                             };
+                            // path relative to Cargo.toml (project root)
+                            let relative_svg_path = new_file_path.strip_prefix(path).unwrap();
+                            // dbg!(relative_svg_path);
                             // create the new image lnk
                             let img_link = format!(
-                                "\n![svg_{}]({}images/svg_{}.svg)\n",
-                                plantuml_code_hash, &repo_full_url, plantuml_code_hash
+                                "\n![svg_{}]({}{})\n",
+                                plantuml_code_hash,
+                                &repo_full_url,
+                                relative_svg_path.to_string_lossy()
                             );
                             // delete the old img_link and insert the new one
                             md_text_content.replace_range(code_end_after..marker_end, &img_link);
@@ -172,6 +185,7 @@ pub fn auto_plantuml_for_path(path: &std::path::Path, repo_url: &str) {
             std::fs::write(md_filename, md_text_content).unwrap();
         }
     }
+    println!("Finished auto_plantuml");
 }
 
 pub fn hash_for_filename(text: &str) -> String {
@@ -221,9 +235,8 @@ mod test {
     pub fn examples_plantuml_test() {
         // similar to examples/plantuml/plantuml1.rs and check the result
         // region: prepare folders and files for this example
-        // empty the 'images' folder
+        // remove the 'images' folder
         std::fs::remove_dir_all("examples/plantuml/images").unwrap();
-        std::fs::create_dir("examples/plantuml/images").unwrap();
         // copy md files from sample_data to examples
         std::fs::copy(
             "sample_data/input1_for_plantuml.md",
@@ -249,6 +262,7 @@ mod test {
         let output2 = std::fs::read_to_string("sample_data/output2_for_plantuml.md").unwrap();
         assert_eq!(changed2, output2);
 
+        /* cSpell:disable */
         assert!(std::path::Path::new(
             "examples/plantuml/images/svg_8eLHibrc2gjrY1qcezDiy--xk9mz1XwYyIcZwXvjlcE.svg"
         )
@@ -269,6 +283,7 @@ mod test {
             "examples/plantuml/images/svg_tosmzSqwSXyObaX7eRLFp9xsMzcM5UDT4NSaQSgnq-Q.svg"
         )
         .exists());
+        /* cSpell:enable */
     }
 
     #[test]

@@ -122,6 +122,8 @@
 <span id="117">117</span>
 <span id="118">118</span>
 <span id="119">119</span>
+<span id="120">120</span>
+<span id="121">121</span>
 </pre><pre class="rust"><code><span class="comment">// auto_cargo_toml_to_md_mod</span>
 
 <span class="doccomment">//! includes data from Cargo.toml to README.md files: version, authors,...</span>
@@ -172,6 +174,7 @@
 <span class="doccomment">/// cargo run --example example_01_auto_cargo_toml_to_md</span>
 <span class="doccomment">/// ```  </span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">auto_cargo_toml_to_md</span>() {
+    <span class="macro">println!</span>(<span class="string">&quot;Running auto_cargo_toml_to_md&quot;</span>);
     <span class="kw">let</span> <span class="ident">cargo_toml</span> <span class="op">=</span> <span class="ident"><span class="kw">crate</span>::auto_cargo_toml_mod::CargoToml::read</span>();
     <span class="kw">let</span> <span class="ident">members</span> <span class="op">=</span> <span class="ident">cargo_toml</span>.<span class="ident">workspace_members</span>();
     <span class="kw">match</span> <span class="ident">members</span> {
@@ -186,6 +189,7 @@
             }
         }
     }
+    <span class="macro">println!</span>(<span class="string">&quot;Finished auto_cargo_toml_to_md&quot;</span>);
 }
 
 <span class="kw">fn</span> <span class="ident">do_one_project</span>() {
