@@ -129,7 +129,7 @@ fn modify_service_js(new_version: &str) {
                 let old_version: String = js_content.drain(start_version..end_version).collect();
                 //println!(r#"old version: "{}""#, old_version.as_str());
                 if new_version != old_version {
-                    println!("old -> new version {} -> {}", old_version, new_version);
+                    println!("Modify version: {} -> {}", old_version, new_version);
                     js_content.insert_str(start_version, new_version);
                     //println!("{}write file: {}{}", *YELLOW, js_filename, *RESET);
                     let _x = fs::write(js_filename, js_content);
@@ -168,7 +168,7 @@ fn write_version_to_cargo_and_modify_metadata(
             let old_version: String = cargo_content.drain(start_version..end_version).collect();
             //println!(r#"old version: "{}""#, old_version.as_str());
             if new_version != old_version.as_str() {
-                println!("old -> new version {} -> {}", old_version, new_version);
+                println!("Modify version: {} -> {}", old_version, new_version);
                 cargo_content.insert_str(start_version, new_version);
                 // println!("{}write file: {}{}", *YELLOW, cargo_filename, *RESET);
                 let _x = fs::write(cargo_filename, cargo_content);

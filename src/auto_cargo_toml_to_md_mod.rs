@@ -83,11 +83,11 @@ fn do_one_project() {
         &homepage,
         &repository,
     );
-    println!("{}new text: '{}'{}", *GREEN, &new_text, *RESET);
+
     for filename_result in unwrap!(glob("*.md")) {
         let filename_pathbuff = unwrap!(filename_result);
         let md_filename = unwrap!(filename_pathbuff.to_str());
-        println!("checking md_filename: {}", &md_filename);
+        // println!("checking md_filename: {}", &md_filename);
         let mut md_text_content = unwrap!(fs::read_to_string(md_filename));
 
         // check if file have CRLF and show error
@@ -97,12 +97,11 @@ fn do_one_project() {
 
         if let Some(cap) = REGEX_MD_START.captures(&md_text_content) {
             let pos_start = unwrap!(cap.get(0)).end() + 1;
-            println!("found: [comment]: # (auto_cargo_toml_to_md start)");
             if let Some(cap) = REGEX_MD_END.captures(&md_text_content) {
                 let pos_end = unwrap!(cap.get(0)).start();
-                println!("found: [comment]: # (auto_cargo_toml_to_md end)");
                 md_text_content.replace_range(pos_start..pos_end, &new_text);
                 println!("{}write to md file: {}{}", *YELLOW, md_filename, *RESET);
+                println!("{}{}{}", *GREEN, &new_text.trim_end_matches("\n\n"), *RESET);
                 unwrap!(fs::write(md_filename, md_text_content));
             }
         }

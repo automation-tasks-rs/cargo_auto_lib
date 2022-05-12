@@ -91,7 +91,7 @@ pub fn auto_lines_of_code(link: &str) {
         Some(members) => {
             let mut lines_of_code = LinesOfCode::default();
             for member in members.iter() {
-                println!("{}", &member);
+                println!("Member: {}", &member);
                 unwrap!(std::env::set_current_dir(member));
                 let v = one_project_count_lines();
                 let text_to_include = to_string_as_shield_badges(&v, &link);
@@ -242,7 +242,7 @@ fn regex_capture(output: String) -> anyhow::Result<String> {
     // regex capture 3 groups: website, user_name and repo_name
     // "origin  git@github.com:bestia-dev/auto_lines_of_code.git (fetch)"
     // origin    https://github.com/bestia-dev/auto_lines_of_code (fetch)
-    println!("{}", &output);
+    // println!("{}", &output);
     let reg = Regex::new(
         r#"origin\s*(?:https://)?(?:git@)?([^:/]*?)[:/]([^/]*?)/([^. ]*?)(?:\.git)?\s*\(fetch\)"#,
     )?;

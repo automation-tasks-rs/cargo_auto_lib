@@ -17,7 +17,7 @@ pub fn auto_version_increment_semver_or_date() {
         None => one_project(),
         Some(members) => {
             for member in members.iter() {
-                println!("{}", member);
+                println!("Member: {}", member);
                 unwrap!(std::env::set_current_dir(member));
                 one_project();
                 unwrap!(std::env::set_current_dir(".."));

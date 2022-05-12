@@ -94,7 +94,7 @@
         <span class="prelude-val">None</span> =&gt; <span class="ident">one_project</span>(),
         <span class="prelude-val">Some</span>(<span class="ident">members</span>) =&gt; {
             <span class="kw">for</span> <span class="ident">member</span> <span class="kw">in</span> <span class="ident">members</span>.<span class="ident">iter</span>() {
-                <span class="macro">println!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">member</span>);
+                <span class="macro">println!</span>(<span class="string">&quot;Member: {}&quot;</span>, <span class="ident">member</span>);
                 <span class="macro">unwrap!</span>(<span class="ident">std::env::set_current_dir</span>(<span class="ident">member</span>));
                 <span class="ident">one_project</span>();
                 <span class="macro">unwrap!</span>(<span class="ident">std::env::set_current_dir</span>(<span class="string">&quot;..&quot;</span>));

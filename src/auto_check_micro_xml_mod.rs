@@ -7,7 +7,7 @@ use unwrap::unwrap;
 /// I want html pages to be correct microXML when I use them for single page application.
 /// Before build or release this function will check for correctness.
 pub fn auto_check_micro_xml(path_to_html_pages: &str) {
-    println!("auto_check_micro_xml {}", path_to_html_pages);
+    println!("Running auto_check_micro_xml {}", path_to_html_pages);
     let glob_str = format!("{}/*.html", path_to_html_pages.trim_end_matches("/"));
     // find html pages for single page application
     for filename_result in unwrap!(glob(&glob_str)) {
@@ -23,6 +23,7 @@ pub fn auto_check_micro_xml(path_to_html_pages: &str) {
         // check microxml correctness. Panic on errors.
         check_micro_xml(&str_xml, file_name);
     }
+    println!("Finished auto_check_micro_xml");
 }
 
 /// panics if the microXML string is not correct

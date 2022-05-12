@@ -459,7 +459,7 @@
                 <span class="kw">let</span> <span class="ident">old_version</span>: <span class="ident">String</span> <span class="op">=</span> <span class="ident">js_content</span>.<span class="ident">drain</span>(<span class="ident">start_version</span>..<span class="ident">end_version</span>).<span class="ident">collect</span>();
                 <span class="comment">//println!(r#&quot;old version: &quot;{}&quot;&quot;#, old_version.as_str());</span>
                 <span class="kw">if</span> <span class="ident">new_version</span> <span class="op">!</span><span class="op">=</span> <span class="ident">old_version</span> {
-                    <span class="macro">println!</span>(<span class="string">&quot;old -&gt; new version {} -&gt; {}&quot;</span>, <span class="ident">old_version</span>, <span class="ident">new_version</span>);
+                    <span class="macro">println!</span>(<span class="string">&quot;Modify version: {} -&gt; {}&quot;</span>, <span class="ident">old_version</span>, <span class="ident">new_version</span>);
                     <span class="ident">js_content</span>.<span class="ident">insert_str</span>(<span class="ident">start_version</span>, <span class="ident">new_version</span>);
                     <span class="comment">//println!(&quot;{}write file: {}{}&quot;, *YELLOW, js_filename, *RESET);</span>
                     <span class="kw">let</span> <span class="ident">_x</span> <span class="op">=</span> <span class="ident">fs::write</span>(<span class="ident">js_filename</span>, <span class="ident">js_content</span>);
@@ -498,7 +498,7 @@
             <span class="kw">let</span> <span class="ident">old_version</span>: <span class="ident">String</span> <span class="op">=</span> <span class="ident">cargo_content</span>.<span class="ident">drain</span>(<span class="ident">start_version</span>..<span class="ident">end_version</span>).<span class="ident">collect</span>();
             <span class="comment">//println!(r#&quot;old version: &quot;{}&quot;&quot;#, old_version.as_str());</span>
             <span class="kw">if</span> <span class="ident">new_version</span> <span class="op">!</span><span class="op">=</span> <span class="ident">old_version</span>.<span class="ident">as_str</span>() {
-                <span class="macro">println!</span>(<span class="string">&quot;old -&gt; new version {} -&gt; {}&quot;</span>, <span class="ident">old_version</span>, <span class="ident">new_version</span>);
+                <span class="macro">println!</span>(<span class="string">&quot;Modify version: {} -&gt; {}&quot;</span>, <span class="ident">old_version</span>, <span class="ident">new_version</span>);
                 <span class="ident">cargo_content</span>.<span class="ident">insert_str</span>(<span class="ident">start_version</span>, <span class="ident">new_version</span>);
                 <span class="comment">// println!(&quot;{}write file: {}{}&quot;, *YELLOW, cargo_filename, *RESET);</span>
                 <span class="kw">let</span> <span class="ident">_x</span> <span class="op">=</span> <span class="ident">fs::write</span>(<span class="ident">cargo_filename</span>, <span class="ident">cargo_content</span>);
