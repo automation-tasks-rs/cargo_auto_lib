@@ -29,10 +29,10 @@ use unwrap::unwrap;
 
 lazy_static! {
     static ref REGEX_PLANTUML_START: regex::Regex = unwrap!(regex::Regex::new(
-        r#"(?m)^\[\/\/\]: # \(auto_plantuml start\)$"#
+        r#"(?m)^\[//\]: # \(auto_plantuml start\)$"#
     ));
     static ref REGEX_PLANTUML_END: regex::Regex = unwrap!(regex::Regex::new(
-        r#"(?m)^\[\/\/\]: # \(auto_plantuml end\)$"#
+        r#"(?m)^\[//\]: # \(auto_plantuml end\)$"#
     ));
     // capture group
     static ref REGEX_IMG_LINK: regex::Regex = unwrap!(regex::Regex::new(

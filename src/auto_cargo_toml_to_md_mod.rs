@@ -19,10 +19,10 @@ use crate::auto_helper_functions_mod::*;
 
 lazy_static! {
     static ref REGEX_MD_START: Regex = unwrap!(Regex::new(
-        r#"(?m)^\[\/\/\]: # \(auto_cargo_toml_to_md start\)$"#
+        r#"(?m)^\[//\]: # \(auto_cargo_toml_to_md start\)$"#
     ));
     static ref REGEX_MD_END: Regex = unwrap!(Regex::new(
-        r#"(?m)^\[\/\/\]: # \(auto_cargo_toml_to_md end\)$"#
+        r#"(?m)^\[//\]: # \(auto_cargo_toml_to_md end\)$"#
     ));
 }
 

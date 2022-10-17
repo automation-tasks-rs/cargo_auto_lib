@@ -139,10 +139,10 @@
 
 <span class="macro">lazy_static!</span> {
     <span class="kw">static</span> <span class="kw-2">ref</span> <span class="ident">REGEX_MD_START</span>: <span class="ident">Regex</span> <span class="op">=</span> <span class="macro">unwrap!</span>(<span class="ident">Regex::new</span>(
-        <span class="string">r#&quot;(?m)^\[\/\/\]: # \(auto_cargo_toml_to_md start\)$&quot;#</span>
+        <span class="string">r#&quot;(?m)^\[//\]: # \(auto_cargo_toml_to_md start\)$&quot;#</span>
     ));
     <span class="kw">static</span> <span class="kw-2">ref</span> <span class="ident">REGEX_MD_END</span>: <span class="ident">Regex</span> <span class="op">=</span> <span class="macro">unwrap!</span>(<span class="ident">Regex::new</span>(
-        <span class="string">r#&quot;(?m)^\[\/\/\]: # \(auto_cargo_toml_to_md end\)$&quot;#</span>
+        <span class="string">r#&quot;(?m)^\[//\]: # \(auto_cargo_toml_to_md end\)$&quot;#</span>
     ));
 }
 

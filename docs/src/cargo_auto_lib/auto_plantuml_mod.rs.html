@@ -339,10 +339,10 @@
 
 <span class="macro">lazy_static!</span> {
     <span class="kw">static</span> <span class="kw-2">ref</span> <span class="ident">REGEX_PLANTUML_START</span>: <span class="ident">regex::Regex</span> <span class="op">=</span> <span class="macro">unwrap!</span>(<span class="ident">regex::Regex::new</span>(
-        <span class="string">r#&quot;(?m)^\[\/\/\]: # \(auto_plantuml start\)$&quot;#</span>
+        <span class="string">r#&quot;(?m)^\[//\]: # \(auto_plantuml start\)$&quot;#</span>
     ));
     <span class="kw">static</span> <span class="kw-2">ref</span> <span class="ident">REGEX_PLANTUML_END</span>: <span class="ident">regex::Regex</span> <span class="op">=</span> <span class="macro">unwrap!</span>(<span class="ident">regex::Regex::new</span>(
-        <span class="string">r#&quot;(?m)^\[\/\/\]: # \(auto_plantuml end\)$&quot;#</span>
+        <span class="string">r#&quot;(?m)^\[//\]: # \(auto_plantuml end\)$&quot;#</span>
     ));
     <span class="comment">// capture group</span>
     <span class="kw">static</span> <span class="kw-2">ref</span> <span class="ident">REGEX_IMG_LINK</span>: <span class="ident">regex::Regex</span> <span class="op">=</span> <span class="macro">unwrap!</span>(<span class="ident">regex::Regex::new</span>(

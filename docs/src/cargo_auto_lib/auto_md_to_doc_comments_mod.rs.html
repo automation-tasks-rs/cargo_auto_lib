@@ -401,11 +401,11 @@
 
 <span class="macro">lazy_static!</span> {
     <span class="kw">static</span> <span class="kw-2">ref</span> <span class="ident">REGEX_MD_START</span>: <span class="ident">Regex</span> <span class="op">=</span>
-        <span class="ident">Regex::new</span>(<span class="string">r#&quot;(?m)^\[\/\/\]: # \(auto_md_to_doc_comments segment start (.*?)\)$&quot;#</span>).<span class="ident">unwrap</span>();
+        <span class="ident">Regex::new</span>(<span class="string">r#&quot;(?m)^\[//\]: # \(auto_md_to_doc_comments segment start (.*?)\)$&quot;#</span>).<span class="ident">unwrap</span>();
 }
 <span class="macro">lazy_static!</span> {
     <span class="kw">static</span> <span class="kw-2">ref</span> <span class="ident">REGEX_MD_END</span>: <span class="ident">Regex</span> <span class="op">=</span>
-        <span class="ident">Regex::new</span>(<span class="string">r#&quot;(?m)^\[\/\/\]: # \(auto_md_to_doc_comments segment end (.*?)\)$&quot;#</span>).<span class="ident">unwrap</span>();
+        <span class="ident">Regex::new</span>(<span class="string">r#&quot;(?m)^\[//\]: # \(auto_md_to_doc_comments segment end (.*?)\)$&quot;#</span>).<span class="ident">unwrap</span>();
 }
 
 <span class="doccomment">/// The first time it is called</span>

@@ -163,11 +163,11 @@ fn rs_file_markers(rs_text_content: &str) -> Vec<RsMarker> {
 
 lazy_static! {
     static ref REGEX_MD_START: Regex =
-        Regex::new(r#"(?m)^\[\/\/\]: # \(auto_md_to_doc_comments segment start (.*?)\)$"#).unwrap();
+        Regex::new(r#"(?m)^\[//\]: # \(auto_md_to_doc_comments segment start (.*?)\)$"#).unwrap();
 }
 lazy_static! {
     static ref REGEX_MD_END: Regex =
-        Regex::new(r#"(?m)^\[\/\/\]: # \(auto_md_to_doc_comments segment end (.*?)\)$"#).unwrap();
+        Regex::new(r#"(?m)^\[//\]: # \(auto_md_to_doc_comments segment end (.*?)\)$"#).unwrap();
 }
 
 /// The first time it is called
