@@ -48,7 +48,7 @@ lazy_static! {
 /// cargo run --example example_01_auto_cargo_toml_to_md
 /// ```  
 pub fn auto_cargo_toml_to_md() {
-    println!("Running auto_cargo_toml_to_md");
+    println!("    Running auto_cargo_toml_to_md");
     let cargo_toml = crate::auto_cargo_toml_mod::CargoToml::read();
     let members = cargo_toml.workspace_members();
     match members {
@@ -63,7 +63,7 @@ pub fn auto_cargo_toml_to_md() {
             }
         }
     }
-    println!("Finished auto_cargo_toml_to_md");
+    println!("    Finished auto_cargo_toml_to_md");
 }
 
 fn do_one_project() {
@@ -100,8 +100,8 @@ fn do_one_project() {
             if let Some(cap) = REGEX_MD_END.captures(&md_text_content) {
                 let pos_end = unwrap!(cap.get(0)).start();
                 md_text_content.replace_range(pos_start..pos_end, &new_text);
-                println!("{}write to md file: {}{}", *YELLOW, md_filename, *RESET);
-                println!("{}{}{}", *GREEN, &new_text.trim_end_matches("\n\n"), *RESET);
+                println!("{YELLOW}write to md file: {}{RESET}", md_filename);
+                println!("{YELLOW}{}{RESET}", &new_text.trim_end_matches("\n\n"));
                 unwrap!(fs::write(md_filename, md_text_content));
             }
         }

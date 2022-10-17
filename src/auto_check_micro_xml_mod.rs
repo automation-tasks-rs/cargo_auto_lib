@@ -1,5 +1,6 @@
 // auto_check_micro_xml_mod.rs
 
+use crate::{RED, RESET};
 use glob::glob;
 use reader_for_microxml::{ReaderForMicroXml, Token};
 use unwrap::unwrap;
@@ -7,7 +8,7 @@ use unwrap::unwrap;
 /// I want html pages to be correct microXML when I use them for single page application.
 /// Before build or release this function will check for correctness.
 pub fn auto_check_micro_xml(path_to_html_pages: &str) {
-    println!("Running auto_check_micro_xml {}", path_to_html_pages);
+    println!("    Running auto_check_micro_xml {}", path_to_html_pages);
     let glob_str = format!("{}/*.html", path_to_html_pages.trim_end_matches("/"));
     // find html pages for single page application
     for filename_result in unwrap!(glob(&glob_str)) {
@@ -23,12 +24,12 @@ pub fn auto_check_micro_xml(path_to_html_pages: &str) {
         // check microxml correctness. Panic on errors.
         check_micro_xml(&str_xml, file_name);
     }
-    println!("Finished auto_check_micro_xml");
+    println!("    Finished auto_check_micro_xml");
 }
 
 /// panics if the microXML string is not correct
 fn check_micro_xml(str_xml: &str, file_name: &str) {
-    println!("Check MicroXml: {}", file_name);
+    println!("    Check MicroXml: {}", file_name);
     // remove <!DOCTYPE html> because it is not microXML
     let str_xml = str_xml.replace("<!DOCTYPE html>", "");
     let reader_iterator = ReaderForMicroXml::new(&str_xml);
@@ -47,24 +48,14 @@ fn check_micro_xml(str_xml: &str, file_name: &str) {
                     let start_element_name = unwrap!(vec_elem.pop());
                     if end_element_name != "" && end_element_name != start_element_name {
                         panic!(
-                            "{}MicroXml {} start {} does not match end {}{}",
-                            *crate::RED,
-                            file_name,
-                            start_element_name,
-                            end_element_name,
-                            *crate::RESET
+                            "{RED}MicroXml {} start {} does not match end {}{RESET}",
+                            file_name, start_element_name, end_element_name,
                         );
                     }
                 }
             },
             Err(err_msg) => {
-                panic!(
-                    "{}MicroXml {} incorrect : {}{}",
-                    *crate::RED,
-                    file_name,
-                    err_msg,
-                    *crate::RESET
-                );
+                panic!("{RED}MicroXml {} incorrect : {}{RESET}", file_name, err_msg,);
             }
         }
     }

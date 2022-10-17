@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["CargoToml",""],["REGEX_REMOVE_EMAIL",""]]});
+window.SIDEBAR_ITEMS = {"struct":[["CargoToml",""],["REGEX_REMOVE_EMAIL",""]]};

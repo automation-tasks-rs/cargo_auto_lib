@@ -5,7 +5,7 @@
 //! This markers around the plantuml code define that we want a svg file.
 //! If there are no markers, the plantuml will not be processed.
 //!
-//! 1. [comment]: # (auto_plantuml start)
+//! 1. [//]: # (auto_plantuml start)
 //! ```plantuml
 //! @startuml
 //! [Bob] ..> [Alice]
@@ -14,7 +14,7 @@
 //!
 //! ![svg_534231](images/svg_534231.svg)  
 //!
-//! 2. [comment]: # (auto_plantuml end)
+//! 2. [//]: # (auto_plantuml end)
 //!
 //! Between the last triple backtick and the end marker is the processed svg file.
 //! Calculate a short hash from the plantuml code.
@@ -29,10 +29,10 @@ use unwrap::unwrap;
 
 lazy_static! {
     static ref REGEX_PLANTUML_START: regex::Regex = unwrap!(regex::Regex::new(
-        r#"(?m)^\[comment\]: # \(auto_plantuml start\)$"#
+        r#"(?m)^\[\/\/\]: # \(auto_plantuml start\)$"#
     ));
     static ref REGEX_PLANTUML_END: regex::Regex = unwrap!(regex::Regex::new(
-        r#"(?m)^\[comment\]: # \(auto_plantuml end\)$"#
+        r#"(?m)^\[\/\/\]: # \(auto_plantuml end\)$"#
     ));
     // capture group
     static ref REGEX_IMG_LINK: regex::Regex = unwrap!(regex::Regex::new(
@@ -54,7 +54,7 @@ pub fn auto_plantuml(repo_url: &str) {
 /// process plantuml for all md files
 /// for test and examples I need to provide the path
 pub fn auto_plantuml_for_path(path: &std::path::Path, repo_url: &str) {
-    println!("Running auto_plantuml");
+    println!("    Running auto_plantuml");
     //use traverse instead of glob
     let files = unwrap!(crate::utils_mod::traverse_dir_with_exclude_dir(
         path,
@@ -81,7 +81,7 @@ pub fn auto_plantuml_for_path(path: &std::path::Path, repo_url: &str) {
         while let Some(marker_start) = find_pos_start_data_after_delimiter(
             &md_text_content,
             pos,
-            "\n[comment]: # (auto_plantuml start)\n",
+            "\n[//]: # (auto_plantuml start)\n",
         ) {
             pos = marker_start + 34;
             if let Some(code_start) = find_pos_start_data_after_delimiter(
@@ -100,7 +100,7 @@ pub fn auto_plantuml_for_path(path: &std::path::Path, repo_url: &str) {
                     if let Some(marker_end) = find_pos_end_data_before_delimiter(
                         &md_text_content,
                         pos,
-                        "\n[comment]: # (auto_plantuml end)\n",
+                        "\n[//]: # (auto_plantuml end)\n",
                     ) {
                         let img_link = md_text_content[code_end_after..marker_end].trim();
                         let mut get_new_svg = false;
@@ -139,7 +139,7 @@ pub fn auto_plantuml_for_path(path: &std::path::Path, repo_url: &str) {
                         if get_new_svg == true {
                             let relative_md_filename = md_filename.strip_prefix(path).unwrap();
                             println!(
-                                "{} get new svg {}",
+                                "    {} get new svg {}",
                                 relative_md_filename.to_string_lossy(),
                                 plantuml_code_hash
                             );
@@ -185,7 +185,7 @@ pub fn auto_plantuml_for_path(path: &std::path::Path, repo_url: &str) {
             std::fs::write(md_filename, md_text_content).unwrap();
         }
     }
-    println!("Finished auto_plantuml");
+    println!("    Finished auto_plantuml");
 }
 
 pub fn hash_for_filename(text: &str) -> String {

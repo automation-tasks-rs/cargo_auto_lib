@@ -3,13 +3,13 @@
 //! inserts shield badges with lines_of_code into README.rs
 //! It works for workspaces and for single projects.  
 
+use crate::{RED, RESET};
 use anyhow;
 use regex::Regex;
 use std::fs::File;
 use std::io::{BufRead, BufReader};
 use std::{fs, path::Path};
 use unwrap::unwrap;
-
 // use crate::auto_helper_functions_mod::*;
 
 #[derive(Default, Debug)]
@@ -74,7 +74,7 @@ pub struct LinesOfCode {
 /// It will erase the previous content.  
 /// Use git diff to see the change.  
 pub fn auto_lines_of_code(link: &str) {
-    println!("Running auto_lines_of_code");
+    println!("    Running auto_lines_of_code");
     let link = if link.is_empty() {
         process_git_remote()
     } else {
@@ -91,7 +91,7 @@ pub fn auto_lines_of_code(link: &str) {
         Some(members) => {
             let mut lines_of_code = LinesOfCode::default();
             for member in members.iter() {
-                println!("Member: {}", &member);
+                println!("    Member: {}", &member);
                 unwrap!(std::env::set_current_dir(member));
                 let v = one_project_count_lines();
                 let text_to_include = to_string_as_shield_badges(&v, &link);
@@ -109,7 +109,7 @@ pub fn auto_lines_of_code(link: &str) {
             include_into_readme_md(&text_to_include);
         }
     }
-    println!("Finished auto_lines_of_code");
+    println!("    Finished auto_lines_of_code");
 }
 
 /// Return the string for link for badges like: <https://github.com/bestia-dev/auto_lines_of_code/>.  
@@ -120,14 +120,14 @@ fn process_git_remote() -> String {
     let output = match git_remote_output() {
         Ok(s) => s,
         Err(e) => {
-            println!("{}", e);
+            println!("{RED}{}{RESET}", e);
             return "".to_string();
         }
     };
     match regex_capture(output) {
         Ok(s) => return s,
         Err(e) => {
-            println!("{}", e);
+            println!("{RED}{}{RESET}", e);
             return "".to_string();
         }
     }
@@ -298,8 +298,8 @@ fn to_string_as_shield_badges(v: &LinesOfCode, link: &str) -> String {
 /// Includes (writes, modifies) the shield badge code into README.md file.
 /// include_into_readme_md("test test test");
 fn include_into_readme_md(include_str: &str) {
-    let start_delimiter = "[comment]: # (auto_lines_of_code start)";
-    let end_delimiter = "[comment]: # (auto_lines_of_code end)";
+    let start_delimiter = "[//]: # (auto_lines_of_code start)";
+    let end_delimiter = "[//]: # (auto_lines_of_code end)";
     let file_name = "README.md";
 
     if let Ok(readme_content) = fs::read_to_string(file_name) {

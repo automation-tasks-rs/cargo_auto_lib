@@ -2,17 +2,18 @@
 //! # cargo_auto_lib
 //!
 //! **Library crate for common tasks when building rust projects. Intended for use with cargo-auto: automation tasks written in Rust language.**  
-//! ***version: 0.7.42 date: 2022-05-12 author: [Bestia.dev](https://bestia.dev) repository: [Github](https://github.com/bestia-dev/cargo_auto_lib)***  
+//! ***version: 0.8.53 date: 2022-10-17 author: [Bestia.dev](https://bestia.dev) repository: [Github](https://github.com/bestia-dev/cargo_auto_lib)***  
 //!
-//! [![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-1423-green.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
-//! [![Lines in Doc comments](https://img.shields.io/badge/Lines_in_Doc_comments-393-blue.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
+//! [![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-1412-green.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
+//! [![Lines in Doc comments](https://img.shields.io/badge/Lines_in_Doc_comments-387-blue.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
 //! [![Lines in Comments](https://img.shields.io/badge/Lines_in_comments-179-purple.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
 //! [![Lines in examples](https://img.shields.io/badge/Lines_in_examples-30-yellow.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
 //! [![Lines in tests](https://img.shields.io/badge/Lines_in_tests-94-orange.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
 //!
 //! [![crates.io](https://img.shields.io/crates/v/cargo_auto_lib.svg)](https://crates.io/crates/cargo_auto_lib) [![Documentation](https://docs.rs/cargo_auto_lib/badge.svg)](https://docs.rs/cargo_auto_lib/) [![crev reviews](https://web.crev.dev/rust-reviews/badge/crev_count/cargo_auto_lib.svg)](https://web.crev.dev/rust-reviews/crate/cargo_auto_lib/) [![Lib.rs](https://img.shields.io/badge/Lib.rs-rust-orange.svg)](https://lib.rs/crates/cargo_auto_lib/) [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/bestia-dev/cargo_auto_lib/blob/master/LICENSE) [![Rust](https://github.com/bestia-dev/cargo_auto_lib/workflows/RustAction/badge.svg)](https://github.com/bestia-dev/cargo_auto_lib/) ![Hits](https://bestia.dev/webpage_hit_counter/get_svg_image/276360626.svg)  
 //!
-//! Hashtags: #rustlang #buildtool #developmenttool
+//! Hashtags: #rustlang #buildtool #developmenttool  
+//! My projects on Github are more like a tutorial than a finished product: [bestia-dev tutorials](https://github.com/bestia-dev/tutorials_rust_wasm).
 //!
 //! ## Try it
 //!
@@ -131,13 +132,6 @@ pub use auto_helper_functions_mod::completion_return_one_or_more_sub_commands;
 pub use auto_helper_functions_mod::exit_if_not_run_in_rust_project_root_directory;
 pub use auto_helper_functions_mod::run_shell_command;
 pub use auto_helper_functions_mod::run_shell_commands;
-pub use auto_helper_functions_mod::CLEAR_ALL;
-pub use auto_helper_functions_mod::CLEAR_LINE;
-pub use auto_helper_functions_mod::GREEN;
-pub use auto_helper_functions_mod::RED;
-pub use auto_helper_functions_mod::RESET;
-pub use auto_helper_functions_mod::UNHIDE_CURSOR;
-pub use auto_helper_functions_mod::YELLOW;
 pub use auto_lines_of_code_mod::auto_lines_of_code;
 pub use auto_md_to_doc_comments_mod::auto_md_to_doc_comments;
 pub use auto_plantuml_mod::auto_plantuml;
@@ -149,3 +143,8 @@ pub use auto_semver_or_date_mod::auto_version_increment_semver_or_date;
 pub use auto_semver_or_date_mod::auto_version_increment_semver_or_date_forced;
 pub use auto_version_from_date_mod::auto_version_from_date;
 pub use auto_version_from_date_mod::auto_version_from_date_forced;
+
+pub use auto_helper_functions_mod::GREEN;
+pub use auto_helper_functions_mod::RED;
+pub use auto_helper_functions_mod::RESET;
+pub use auto_helper_functions_mod::YELLOW;

@@ -2,6 +2,17 @@
 
 use cargo_auto_lib::*;
 
+// ANSI colors for Linux terminal
+// https://github.com/shiena/ansicolor/blob/master/README.md
+#[allow(dead_code)]
+pub const RED: &str = "\x1b[31m";
+#[allow(dead_code)]
+pub const YELLOW: &str = "\x1b[33m";
+#[allow(dead_code)]
+pub const GREEN: &str = "\x1b[32m";
+#[allow(dead_code)]
+pub const RESET: &str = "\x1b[0m";
+
 fn main() {
     exit_if_not_run_in_rust_project_root_directory();
 
@@ -24,22 +35,22 @@ fn match_arguments_and_call_tasks(mut args: std::env::Args) {
             if &task == "completion" {
                 completion();
             } else {
-                println!("Running automation task: {}", &task);
+                println!("{YELLOW}Running automation task: {task}{RESET}");
                 if &task == "build" {
                     task_build();
                 } else if &task == "release" {
                     task_release();
-                } else if &task == "test" {
-                    task_test();
                 } else if &task == "doc" {
                     task_doc();
+                } else if &task == "test" {
+                    task_test();
                 } else if &task == "commit_and_push" {
                     let arg_2 = args.next();
                     task_commit_and_push(arg_2);
                 } else if &task == "publish_to_crates_io" {
                     task_publish_to_crates_io();
                 } else {
-                    println!("Task {} is unknown.", &task);
+                    println!("{RED}Error: Task {task} is unknown.{RESET}");
                     print_help();
                 }
             }
@@ -50,26 +61,31 @@ fn match_arguments_and_call_tasks(mut args: std::env::Args) {
 /// write a comprehensible help for user defined tasks
 fn print_help() {
     println!(
-        r#"
-User defined tasks in automation_tasks_rs:
-cargo auto build - builds the crate in debug mode, fmt, increment version
-cargo auto release - builds the crate in release mode, fmt, increment version
-cargo auto doc - builds the docs, copy to docs directory
-cargo auto test - runs all the tests
-cargo auto commit_and_push "message" - commits with message and push with mandatory message
-      (If you use SSH, it is easy to start the ssh-agent in the background and ssh-add your credentials for git.)
-cargo auto publish_to_crates_io - publish to crates.io, git tag
-      (You need credentials for publishing. On crates.io get the 'access token'. Then save it locally once and forever with the command 
-      ` cargo login TOKEN` use a space before the command to avoid saving the secret token in bash history.)
-"#
+    r#"
+    {YELLOW}Welcome to cargo-auto !
+    This program automates your custom tasks when developing a Rust project.{RESET}
+
+    User defined tasks in automation_tasks_rs:{RESET}
+{GREEN}cargo auto build{RESET}{YELLOW} - builds the crate in debug mode, fmt, increment version{RESET}
+{GREEN}cargo auto release{RESET}{YELLOW} - builds the crate in release mode, fmt, increment version{RESET}
+{GREEN}cargo auto doc{RESET}{YELLOW} - builds the docs, copy to docs directory{RESET}
+{GREEN}cargo auto test{RESET}{YELLOW} - runs all the tests{RESET}
+{GREEN}cargo auto commit_and_push "message"{RESET}{YELLOW} - commits with message and push with mandatory message
+      (If you use SSH, it is easy to start the ssh-agent in the background and ssh-add your credentials for git.){RESET}
+{GREEN}cargo auto publish_to_crates_io{RESET}{YELLOW} - publish to crates.io, git tag
+      (You need credentials for publishing. On crates.io get the 'access token'. Then save it locally once and forever with the command
+      ` cargo login TOKEN` use a space before the command to avoid saving the secret token in bash history.){RESET}
+
+      © 2022 bestia.dev  MIT License github.com/bestia-dev/cargo-auto
+      {RESET}"#
     );
     print_examples_cmd();
 }
 
 /// all example commands in one place
 fn print_examples_cmd(){
-    println!(r#"run examples:
-cargo run --example plantuml1
+    println!(r#"{YELLOW}run examples:{RESET}
+{GREEN}cargo run --example plantuml1{RESET}
 "#);
 }
 
@@ -103,11 +119,11 @@ fn task_build() {
     run_shell_command("cargo fmt");
     run_shell_command("cargo build");
     println!(
-        r#"
-After `cargo auto build`, run examples and test
-run `cargo auto test`, if ok, then,
-run `cargo auto release`
-"#
+        r#"{YELLOW}
+    After `cargo auto build`, examples and tests
+    if ok, then,{RESET}{GREEN}
+cargo auto release{RESET}{YELLOW}
+{RESET}"#,
     );
     print_examples_cmd();
 }
@@ -122,11 +138,11 @@ fn task_release() {
     run_shell_command("cargo fmt");
     run_shell_command("cargo build --release");
     println!(
-        r#"
-After `cargo auto release`, run examples and test
-run `cargo auto test`, if ok, then,
-run `cargo auto doc`
-"#
+        r#"{YELLOW}
+    After `cargo auto release`, run examples and tests
+    if ok, then,{RESET}{GREEN}
+cargo auto doc{RESET}{YELLOW}
+{RESET}"#
     );
     print_examples_cmd();
 }
@@ -148,10 +164,10 @@ fn task_doc() {
     // message to help user with next move
     run_shell_command("cargo fmt");
     println!(
-        r#"
-After `cargo auto doc`, check `docs/index.html`. If ok, then test the documentation code examples
-run `cargo auto test`
-"#
+        r#"{YELLOW}
+    After `cargo auto doc`, check `docs/index.html`. If ok, then test the documentation code examples{RESET}{GREEN}
+cargo auto test{RESET}{YELLOW}
+{RESET}"#
     );
 }
 
@@ -159,25 +175,26 @@ run `cargo auto test`
 fn task_test() {
     run_shell_command("cargo test");
     println!(
-        r#"
-After `cargo auto test`. If ok, then 
-run `cargo auto commit_and_push "message"` with mandatory commit message
-"#
+        r#"{YELLOW}
+    After `cargo auto test`. If ok, then {RESET}{GREEN}
+cargo auto commit_and_push "message"{RESET}{YELLOW}
+    with mandatory commit message{RESET}{GREEN}
+{RESET}"#
     );
 }
 
 /// commit and push
 fn task_commit_and_push(arg_2: Option<String>) {
     match arg_2 {
-        None => println!("Error: message for commit is mandatory"),
+        None => println!("{RED}Error: message for commit is mandatory.{RESET}"),
         Some(message) => {
             run_shell_command(&format!(r#"git add -A && git commit --allow-empty -m "{}""#, message));
             run_shell_command("git push");
             println!(
-                r#"
-After `cargo auto commit_and_push "message"`
-run `cargo auto publish_to_crates_io`
-"#
+                r#"{YELLOW}
+    After `cargo auto commit_and_push "message"`{RESET}{GREEN}
+cargo auto publish_to_crates_io{RESET}{YELLOW}
+{RESET}"#
             );
         }
     }
@@ -185,8 +202,9 @@ run `cargo auto publish_to_crates_io`
 
 /// publish to crates.io and git tag
 fn task_publish_to_crates_io() {
-    println!(r#"The crates.io access token must already be saved locally with `cargo login TOKEN`"#);
-    let cargo_toml = CargoToml::read();
+    println!(r#"{YELLOW}The crates.io access token must already be saved locally with `cargo login TOKEN`{RESET}"#);
+
+let cargo_toml = CargoToml::read();
     // git tag
     let shell_command = format!(
         "git tag -f -a v{version} -m version_{version}",
@@ -197,11 +215,12 @@ fn task_publish_to_crates_io() {
     // cargo publish
     run_shell_command("cargo publish");
     println!(
-        r#"
-After `cargo auto publish_to_crates_io`, 
-check `https://crates.io/crates/{package_name}`.
-Add the dependency `{package_name} = "{package_version}"` to your Rust project and check how it works.
-"#,
+    r#"{YELLOW}
+    After `cargo auto publish_to_crates_io`, check in browser{RESET}{GREEN}
+https://crates.io/crates/{package_name}{RESET}{YELLOW}
+    Add the dependency to your Rust project and check how it works.{RESET}{GREEN}
+{package_name} = "{package_version}"{RESET}{YELLOW}
+{RESET}"#,
         package_name = cargo_toml.package_name(),
         package_version = cargo_toml.package_version()
     );

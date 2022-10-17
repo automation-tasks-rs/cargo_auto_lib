@@ -1,17 +1,12 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/auto_helper_functions_mod.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>auto_helper_functions_mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script src="../../crates.js"></script><script defer src="../../main.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script>
-    <noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../cargo_auto_lib/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div>
-        </a><h2 class="location"></h2>
-    </nav>
-    <nav class="sidebar"><a class="sidebar-logo" href="../../cargo_auto_lib/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div>
-        </a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../cargo_auto_lib/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><div class="theme-picker hidden"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="22" height="22" alt="Pick another theme!" src="../../brush.svg"></button><div id="theme-choices" role="menu"></div></div><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1"> 1</span>
-<span id="2"> 2</span>
-<span id="3"> 3</span>
-<span id="4"> 4</span>
-<span id="5"> 5</span>
-<span id="6"> 6</span>
-<span id="7"> 7</span>
-<span id="8"> 8</span>
-<span id="9"> 9</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/auto_helper_functions_mod.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>auto_helper_functions_mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../cargo_auto_lib/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../cargo_auto_lib/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../cargo_auto_lib/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<span id="2">2</span>
+<span id="3">3</span>
+<span id="4">4</span>
+<span id="5">5</span>
+<span id="6">6</span>
+<span id="7">7</span>
+<span id="8">8</span>
+<span id="9">9</span>
 <span id="10">10</span>
 <span id="11">11</span>
 <span id="12">12</span>
@@ -84,47 +79,28 @@
 <span id="79">79</span>
 <span id="80">80</span>
 <span id="81">81</span>
-<span id="82">82</span>
-<span id="83">83</span>
-<span id="84">84</span>
-<span id="85">85</span>
-<span id="86">86</span>
-<span id="87">87</span>
-<span id="88">88</span>
-<span id="89">89</span>
-<span id="90">90</span>
 </pre><pre class="rust"><code><span class="comment">// auto_helper_functions_mod</span>
 
 <span class="doccomment">//! various helper functions</span>
 
 <span class="kw">use</span> <span class="ident">std::process::exit</span>;
 
-<span class="kw">use</span> <span class="ident">lazy_static::lazy_static</span>;
-
-<span class="comment">// termion ansi codes for terminal</span>
-<span class="comment">// format!(&quot;{}test{}&quot;, *RED,*RESET);</span>
-<span class="macro">lazy_static!</span> {
-    <span class="doccomment">/// ansi code for color</span>
-    <span class="kw">pub</span> <span class="kw">static</span> <span class="kw-2">ref</span> <span class="ident">GREEN</span>: <span class="ident">String</span> <span class="op">=</span> <span class="ident">termion::color::Fg</span>(<span class="ident">termion::color::Green</span>).<span class="ident">to_string</span>();
-    <span class="doccomment">/// ansi code for color</span>
-    <span class="kw">pub</span> <span class="kw">static</span> <span class="kw-2">ref</span> <span class="ident">YELLOW</span>: <span class="ident">String</span> <span class="op">=</span> <span class="ident">termion::color::Fg</span>(<span class="ident">termion::color::Yellow</span>).<span class="ident">to_string</span>();
-    <span class="doccomment">/// ansi code for color</span>
-    <span class="kw">pub</span> <span class="kw">static</span> <span class="kw-2">ref</span> <span class="ident">RED</span>: <span class="ident">String</span> <span class="op">=</span> <span class="ident">termion::color::Fg</span>(<span class="ident">termion::color::Red</span>).<span class="ident">to_string</span>();
-    <span class="doccomment">/// ansi code for reset color</span>
-    <span class="kw">pub</span> <span class="kw">static</span> <span class="kw-2">ref</span> <span class="ident">RESET</span>: <span class="ident">String</span> <span class="op">=</span> <span class="ident">termion::color::Fg</span>(<span class="ident">termion::color::Reset</span>).<span class="ident">to_string</span>();
-    <span class="doccomment">/// ansi code for clear line</span>
-    <span class="kw">pub</span> <span class="kw">static</span> <span class="kw-2">ref</span> <span class="ident">CLEAR_LINE</span>: <span class="ident">String</span> <span class="op">=</span> <span class="ident">termion::clear::CurrentLine</span>.<span class="ident">to_string</span>();
-    <span class="doccomment">/// ansi code for clear all</span>
-    <span class="kw">pub</span> <span class="kw">static</span> <span class="kw-2">ref</span> <span class="ident">CLEAR_ALL</span>: <span class="ident">String</span> <span class="op">=</span> <span class="ident">termion::clear::All</span>.<span class="ident">to_string</span>();
-    <span class="doccomment">/// ansi code to unhide cursor</span>
-    <span class="kw">pub</span> <span class="kw">static</span> <span class="kw-2">ref</span> <span class="ident">UNHIDE_CURSOR</span>: <span class="ident">String</span> <span class="op">=</span> <span class="ident">termion::cursor::Show</span>.<span class="ident">to_string</span>();
-}
+<span class="comment">// ANSI colors for Linux terminal</span>
+<span class="comment">// https://github.com/shiena/ansicolor/blob/master/README.md</span>
+<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">dead_code</span>)]</span>
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">RED</span>: <span class="kw-2">&amp;</span><span class="ident">str</span> <span class="op">=</span> <span class="string">&quot;\x1b[31m&quot;</span>;
+<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">dead_code</span>)]</span>
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">YELLOW</span>: <span class="kw-2">&amp;</span><span class="ident">str</span> <span class="op">=</span> <span class="string">&quot;\x1b[33m&quot;</span>;
+<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">dead_code</span>)]</span>
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">GREEN</span>: <span class="kw-2">&amp;</span><span class="ident">str</span> <span class="op">=</span> <span class="string">&quot;\x1b[32m&quot;</span>;
+<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">dead_code</span>)]</span>
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">RESET</span>: <span class="kw-2">&amp;</span><span class="ident">str</span> <span class="op">=</span> <span class="string">&quot;\x1b[0m&quot;</span>;
 
 <span class="doccomment">/// run one shell command</span>
 <span class="doccomment">/// Stops task execution if the command has Exit Status != 0</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">run_shell_command</span>(<span class="ident">shell_command</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) {
     <span class="kw">if</span> <span class="op">!</span><span class="ident">shell_command</span>.<span class="ident">starts_with</span>(<span class="string">&quot;echo &quot;</span>) {
-        <span class="macro">println!</span>(<span class="string">&quot;$ {}&quot;</span>, <span class="ident">shell_command</span>);
+        <span class="macro">println!</span>(<span class="string">&quot;    $ {}&quot;</span>, <span class="ident">shell_command</span>);
     }
     <span class="kw">let</span> <span class="ident">status</span> <span class="op">=</span> <span class="ident">std::process::Command::new</span>(<span class="string">&quot;sh&quot;</span>)
         .<span class="ident">arg</span>(<span class="string">&quot;-c&quot;</span>)
@@ -136,7 +112,7 @@
     <span class="kw">let</span> <span class="ident">exit_code</span> <span class="op">=</span> <span class="ident">status</span>.<span class="ident">code</span>();
     <span class="kw">if</span> <span class="ident">exit_code</span>.<span class="ident">is_some</span>() <span class="op">&amp;&amp;</span> <span class="ident">exit_code</span> <span class="op">!</span><span class="op">=</span> <span class="prelude-val">Some</span>(<span class="number">0</span>) {
         <span class="macro">println!</span>(
-            <span class="string">&quot;!!! cargo_auto error {}. Stopping automation task execution !!!&quot;</span>,
+            <span class="string">&quot;{RED}!!! cargo_auto error {}. Stopping automation task execution !!!{RESET}&quot;</span>,
             <span class="ident">exit_code</span>.<span class="ident">unwrap</span>()
         );
         <span class="ident">exit</span>(<span class="number">1</span>);
@@ -156,9 +132,10 @@
 <span class="doccomment">/// exit with error message if not</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">exit_if_not_run_in_rust_project_root_directory</span>() {
     <span class="kw">if</span> <span class="op">!</span>(<span class="ident">std::path::Path::new</span>(<span class="string">&quot;automation_tasks_rs&quot;</span>).<span class="ident">exists</span>()
-        <span class="op">&amp;&amp;</span> <span class="ident">std::path::Path::new</span>(<span class="string">&quot;Cargo.toml&quot;</span>).<span class="ident">exists</span>())
+        <span class="op">&amp;&amp;</span> (<span class="ident">std::path::Path::new</span>(<span class="string">&quot;Cargo.toml&quot;</span>).<span class="ident">exists</span>()
+            <span class="op">|</span><span class="op">|</span> <span class="ident">std::path::Path::new</span>(<span class="string">&quot;Cargo-auto.toml&quot;</span>).<span class="ident">exists</span>()))
     {
-        <span class="macro">println!</span>(<span class="string">&quot;Error: automation_tasks_rs must be called in the root directory of the rust project beside the Cargo.toml file and automation_tasks_rs directory.&quot;</span>);
+        <span class="macro">println!</span>(<span class="string">&quot;{RED}Error: automation_tasks_rs must be called in the root directory of the rust project beside the Cargo.toml (or Cargo-auto.toml) file and automation_tasks_rs directory.{RESET}&quot;</span>);
         <span class="comment">// early exit</span>
         <span class="ident">std::process::exit</span>(<span class="number">0</span>);
     }
@@ -184,5 +161,4 @@
     }
 }
 </code></pre></div>
-</section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="cargo_auto_lib" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.60.0 (7737e0b5c 2022-04-04)" ></div>
-</body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="cargo_auto_lib" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0 (a55dd71d5 2022-09-19)" ></div></body></html>

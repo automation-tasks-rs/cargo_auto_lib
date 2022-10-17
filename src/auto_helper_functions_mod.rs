@@ -4,32 +4,22 @@
 
 use std::process::exit;
 
-use lazy_static::lazy_static;
-
-// termion ansi codes for terminal
-// format!("{}test{}", *RED,*RESET);
-lazy_static! {
-    /// ansi code for color
-    pub static ref GREEN: String = termion::color::Fg(termion::color::Green).to_string();
-    /// ansi code for color
-    pub static ref YELLOW: String = termion::color::Fg(termion::color::Yellow).to_string();
-    /// ansi code for color
-    pub static ref RED: String = termion::color::Fg(termion::color::Red).to_string();
-    /// ansi code for reset color
-    pub static ref RESET: String = termion::color::Fg(termion::color::Reset).to_string();
-    /// ansi code for clear line
-    pub static ref CLEAR_LINE: String = termion::clear::CurrentLine.to_string();
-    /// ansi code for clear all
-    pub static ref CLEAR_ALL: String = termion::clear::All.to_string();
-    /// ansi code to unhide cursor
-    pub static ref UNHIDE_CURSOR: String = termion::cursor::Show.to_string();
-}
+// ANSI colors for Linux terminal
+// https://github.com/shiena/ansicolor/blob/master/README.md
+#[allow(dead_code)]
+pub const RED: &str = "\x1b[31m";
+#[allow(dead_code)]
+pub const YELLOW: &str = "\x1b[33m";
+#[allow(dead_code)]
+pub const GREEN: &str = "\x1b[32m";
+#[allow(dead_code)]
+pub const RESET: &str = "\x1b[0m";
 
 /// run one shell command
 /// Stops task execution if the command has Exit Status != 0
 pub fn run_shell_command(shell_command: &str) {
     if !shell_command.starts_with("echo ") {
-        println!("$ {}", shell_command);
+        println!("    $ {}", shell_command);
     }
     let status = std::process::Command::new("sh")
         .arg("-c")
@@ -41,7 +31,7 @@ pub fn run_shell_command(shell_command: &str) {
     let exit_code = status.code();
     if exit_code.is_some() && exit_code != Some(0) {
         println!(
-            "!!! cargo_auto error {}. Stopping automation task execution !!!",
+            "{RED}!!! cargo_auto error {}. Stopping automation task execution !!!{RESET}",
             exit_code.unwrap()
         );
         exit(1);
@@ -61,9 +51,10 @@ pub fn run_shell_commands(shell_commands: Vec<&str>) {
 /// exit with error message if not
 pub fn exit_if_not_run_in_rust_project_root_directory() {
     if !(std::path::Path::new("automation_tasks_rs").exists()
-        && std::path::Path::new("Cargo.toml").exists())
+        && (std::path::Path::new("Cargo.toml").exists()
+            || std::path::Path::new("Cargo-auto.toml").exists()))
     {
-        println!("Error: automation_tasks_rs must be called in the root directory of the rust project beside the Cargo.toml file and automation_tasks_rs directory.");
+        println!("{RED}Error: automation_tasks_rs must be called in the root directory of the rust project beside the Cargo.toml (or Cargo-auto.toml) file and automation_tasks_rs directory.{RESET}");
         // early exit
         std::process::exit(0);
     }

@@ -43,7 +43,7 @@ fn increment_part(part: VersionPart) {
             find_pos_end_data_before_delimiter(&cargo_toml_text, pos_start_data, r#"""#)
         {
             let version = cargo_toml_text[pos_start_data..pos_end_data].to_string();
-            println!(r#"old version: "{}""#, &version);
+            println!(r#"    old version: "{}""#, &version);
             //increment the last number
             let pos = pos_start_data;
             let (major, pos) = parse_next_number(&cargo_toml_text, pos);
@@ -66,7 +66,7 @@ fn increment_part(part: VersionPart) {
             }
             // println!(r#"major: {},minor: {}, patch: {}"#, major, minor, patch);
             let new_semver = format!("{}.{}.{}", major, minor, patch);
-            println!("{}new version: '{}'{}", *GREEN, &new_semver, *RESET);
+            println!("    {GREEN}new version: '{}'{RESET}", &new_semver);
             let new_cargo_toml_text = format!(
                 "{}{}{}",
                 &cargo_toml_text[..pos_start_data],

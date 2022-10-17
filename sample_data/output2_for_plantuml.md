@@ -3,7 +3,7 @@
 before first blah blah
 this has not yet the image link
 
-[comment]: # (auto_plantuml start)
+[//]: # (auto_plantuml start)
 
 ```plantuml
 @startuml
@@ -13,14 +13,14 @@ this has not yet the image link
 
 ![svg_tosmzSqwSXyObaX7eRLFp9xsMzcM5UDT4NSaQSgnq-Q](images/svg_tosmzSqwSXyObaX7eRLFp9xsMzcM5UDT4NSaQSgnq-Q.svg)
 
-[comment]: # (auto_plantuml end)
+[//]: # (auto_plantuml end)
 
 after first blah blah
 
 before second blah blah
 this already has the image link
 
-[comment]: # (auto_plantuml start)
+[//]: # (auto_plantuml start)
 
 ```plantuml
 @startuml
@@ -30,6 +30,6 @@ this already has the image link
 
 ![svg_8eLHibrc2gjrY1qcezDiy--xk9mz1XwYyIcZwXvjlcE](images/svg_8eLHibrc2gjrY1qcezDiy--xk9mz1XwYyIcZwXvjlcE.svg)
 
-[comment]: # (auto_plantuml end)
+[//]: # (auto_plantuml end)
 
 after second blah blah

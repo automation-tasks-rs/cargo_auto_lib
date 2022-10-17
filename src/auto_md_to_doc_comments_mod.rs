@@ -62,14 +62,14 @@ struct MdSegment {
 /// Before each line it will add the doc comment symbol as is defined in the marker.  
 /// Finally it will include the new lines as doc comments in the rs file.  
 pub fn auto_md_to_doc_comments() {
-    println!("auto_md_to_doc_comments");
+    println!("    auto_md_to_doc_comments");
     // Cargo.toml contains the list of projects
     let cargo_toml = crate::auto_cargo_toml_mod::CargoToml::read();
     match cargo_toml.workspace_members() {
         None => one_project(),
         Some(members) => {
             for member in members.iter() {
-                println!("{}", member);
+                println!("    {}", member);
                 unwrap!(std::env::set_current_dir(member));
                 one_project();
                 unwrap!(std::env::set_current_dir(".."));
@@ -99,7 +99,7 @@ fn one_project() {
                 );
                 rs_text_content.replace_range(marker.pos_start..marker.pos_end, &segment_text);
             }
-            println!("write file: {}", rs_filename);
+            println!("    write file: {}", rs_filename);
             unwrap!(fs::write(rs_filename, rs_text_content));
         }
     }
@@ -190,7 +190,7 @@ fn get_md_segments_using_cache(
         return segment.text.to_string();
     } else {
         // process the file
-        println!("read file: {}", md_filename);
+        println!("    read file: {}", md_filename);
         let md_text_content = unwrap!(fs::read_to_string(md_filename));
 
         // check if file have CRLF instead of LF and show error
@@ -215,7 +215,7 @@ fn get_md_segments_using_cache(
             // the segment begins with a comment, so don't include the next empty row
             let mut last_line_was_comment = true;
             for line in md_text_content[segment.pos_start..segment.pos_end].lines() {
-                if line.starts_with("[comment]: # (") {
+                if line.starts_with("[//]: # (") {
                     // don't include md comments
                     last_line_was_comment = true;
                 } else if last_line_was_comment == true && line.is_empty() {

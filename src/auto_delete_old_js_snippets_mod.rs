@@ -3,6 +3,7 @@
 //! deletes old js snippets when working with wasm-pack
 
 //region: use statements
+use crate::{RED, RESET};
 use filetime::FileTime;
 use std::env;
 use std::fs;
@@ -41,16 +42,16 @@ pub fn auto_delete_old_js_snippets() {
                 Some(first_mtime) => {
                     if second_mtime > first_mtime {
                         let first_folder = unwrap!(opt_first_folder);
-                        println!("delete first: {:?}", first_folder);
+                        println!("    delete first: {:?}", first_folder);
                         unwrap!(std::fs::remove_dir_all(first_folder));
 
                         opt_first_folder = Some(second_folder.clone());
                         opt_first_mtime = Some(second_mtime);
                     } else if first_mtime > second_mtime {
-                        println!("delete second: {:?}", second_folder);
+                        println!("    delete second: {:?}", second_folder);
                         unwrap!(std::fs::remove_dir_all(second_folder));
                     } else {
-                        println!("Error: folders have the same date?");
+                        println!("{RED}Error: folders have the same date?{RESET}");
                     }
                 }
             }

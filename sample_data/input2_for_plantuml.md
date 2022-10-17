@@ -3,7 +3,7 @@
 before first blah blah
 this has not yet the image link
 
-[comment]: # (auto_plantuml start)
+[//]: # (auto_plantuml start)
 
 ```plantuml
 @startuml
@@ -11,14 +11,14 @@ this has not yet the image link
 @enduml
 ```
 
-[comment]: # (auto_plantuml end)
+[//]: # (auto_plantuml end)
 
 after first blah blah
 
 before second blah blah
 this already has the image link
 
-[comment]: # (auto_plantuml start)
+[//]: # (auto_plantuml start)
 
 ```plantuml
 @startuml
@@ -28,6 +28,6 @@ this already has the image link
 
 ![svg_5987](images/svg_5987.svg)  
 
-[comment]: # (auto_plantuml end)
+[//]: # (auto_plantuml end)
 
 after second blah blah
