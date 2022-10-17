@@ -2,7 +2,7 @@
 //! # cargo_auto_lib
 //!
 //! **Library crate for common tasks when building rust projects. Intended for use with cargo-auto: automation tasks written in Rust language.**  
-//! ***version: 0.8.60 date: 2022-10-17 author: [Bestia.dev](https://bestia.dev) repository: [Github](https://github.com/bestia-dev/cargo_auto_lib)***  
+//! ***version: 0.8.63 date: 2022-10-17 author: [Bestia.dev](https://bestia.dev) repository: [Github](https://github.com/bestia-dev/cargo_auto_lib)***  
 //!
 //! [![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-1420-green.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
 //! [![Lines in Doc comments](https://img.shields.io/badge/Lines_in_Doc_comments-387-blue.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
@@ -28,7 +28,7 @@
 //! In a new editor open the generated directory `automation_tasks_rs` as an independent rust project. There is already this dependency in `Cargo.toml`:  
 //!
 //! ```toml
-//! cargo_auto_lib="0.7.27"
+//! cargo_auto_lib="0.8.60"
 //! ```
 //!
 //! Preview the code and observe all the `auto_*` functions from `cargo_auto_lib`.  
@@ -45,8 +45,8 @@
 //! Add markers to the beginning of README.md (don't copy the numbers 1 and 2):  
 //!
 //! ```md
-//! 1 [comment]: # (auto_cargo_toml_to_md start)
-//! 2 [comment]: # (auto_cargo_toml_to_md end)
+//! 1 [//]: # (auto_cargo_toml_to_md start)
+//! 2 [//]: # (auto_cargo_toml_to_md end)
 //! ```
 //!
 //! Run (in your main rust project):

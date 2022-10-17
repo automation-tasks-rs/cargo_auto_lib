@@ -1,22 +1,22 @@
-[comment]: # (auto_md_to_doc_comments segment start A)
+[//]: # (auto_md_to_doc_comments segment start A)
 
 # cargo_auto_lib
 
-[comment]: # (auto_cargo_toml_to_md start)
+[//]: # (auto_cargo_toml_to_md start)
 
 **Library crate for common tasks when building rust projects. Intended for use with cargo-auto: automation tasks written in Rust language.**  
-***version: 0.8.60 date: 2022-10-17 author: [Bestia.dev](https://bestia.dev) repository: [Github](https://github.com/bestia-dev/cargo_auto_lib)***  
+***version: 0.8.63 date: 2022-10-17 author: [Bestia.dev](https://bestia.dev) repository: [Github](https://github.com/bestia-dev/cargo_auto_lib)***  
 
-[comment]: # (auto_cargo_toml_to_md end)
+[//]: # (auto_cargo_toml_to_md end)
 
-[comment]: # (auto_lines_of_code start)
+[//]: # (auto_lines_of_code start)
 [![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-1420-green.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
 [![Lines in Doc comments](https://img.shields.io/badge/Lines_in_Doc_comments-387-blue.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
 [![Lines in Comments](https://img.shields.io/badge/Lines_in_comments-179-purple.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
 [![Lines in examples](https://img.shields.io/badge/Lines_in_examples-30-yellow.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
 [![Lines in tests](https://img.shields.io/badge/Lines_in_tests-94-orange.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
 
-[comment]: # (auto_lines_of_code end)
+[//]: # (auto_lines_of_code end)
 
 [![crates.io](https://img.shields.io/crates/v/cargo_auto_lib.svg)](https://crates.io/crates/cargo_auto_lib) [![Documentation](https://docs.rs/cargo_auto_lib/badge.svg)](https://docs.rs/cargo_auto_lib/) [![crev reviews](https://web.crev.dev/rust-reviews/badge/crev_count/cargo_auto_lib.svg)](https://web.crev.dev/rust-reviews/crate/cargo_auto_lib/) [![Lib.rs](https://img.shields.io/badge/Lib.rs-rust-orange.svg)](https://lib.rs/crates/cargo_auto_lib/) [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/bestia-dev/cargo_auto_lib/blob/master/LICENSE) [![Rust](https://github.com/bestia-dev/cargo_auto_lib/workflows/RustAction/badge.svg)](https://github.com/bestia-dev/cargo_auto_lib/) ![Hits](https://bestia.dev/webpage_hit_counter/get_svg_image/276360626.svg)  
 
@@ -36,7 +36,7 @@ cargo auto new
 In a new editor open the generated directory `automation_tasks_rs` as an independent rust project. There is already this dependency in `Cargo.toml`:  
 
 ```toml
-cargo_auto_lib="0.7.27"
+cargo_auto_lib="0.8.60"
 ```
 
 Preview the code and observe all the `auto_*` functions from `cargo_auto_lib`.  
@@ -53,8 +53,8 @@ Go back to your main rust project.
 Add markers to the beginning of README.md (don't copy the numbers 1 and 2):  
 
 ```md
-1 [comment]: # (auto_cargo_toml_to_md start)
-2 [comment]: # (auto_cargo_toml_to_md end)
+1 [//]: # (auto_cargo_toml_to_md start)
+2 [//]: # (auto_cargo_toml_to_md end)
 ```
 
 Run (in your main rust project):
@@ -114,4 +114,4 @@ You know the price of a beer in your local bar ;-)
 So I can drink a free beer for your health :-)  
 [Na zdravje!](https://translate.google.com/?hl=en&sl=sl&tl=en&text=Na%20zdravje&op=translate) [Alla salute!](https://dictionary.cambridge.org/dictionary/italian-english/alla-salute) [Prost!](https://dictionary.cambridge.org/dictionary/german-english/prost) [Nazdravlje!](https://matadornetwork.com/nights/how-to-say-cheers-in-50-languages/) 🍻
 
-[comment]: # (auto_md_to_doc_comments segment end A)
+[//]: # (auto_md_to_doc_comments segment end A)

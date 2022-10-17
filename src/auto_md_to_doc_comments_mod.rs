@@ -52,8 +52,8 @@ struct MdSegment {
 /// In the md file put markers to mark the segment:  
 ///
 /// ```markdown
-/// 1. [comment]: # (auto_md_to_doc_comments segment start A)  
-/// 2. [comment]: # (auto_md_to_doc_comments segment end A)  
+/// 1. [//]: # (auto_md_to_doc_comments segment start A)  
+/// 2. [//]: # (auto_md_to_doc_comments segment end A)  
 /// ```
 ///
 /// The marker must be exclusively in one line. No other text in the same line.  

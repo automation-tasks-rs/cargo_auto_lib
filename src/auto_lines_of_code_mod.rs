@@ -67,8 +67,8 @@ pub struct LinesOfCode {
 ///
 /// If the README.md file contains these markers (don't copy the numbers 1 and 2):  
 ///
-/// 1. `[comment]: # (auto_lines_of_code start)`  
-/// 2. `[comment]: # (auto_lines_of_code end)`  
+/// 1. `[//]: # (auto_lines_of_code start)`  
+/// 2. `[//]: # (auto_lines_of_code end)`  
 ///
 /// the function will include the shield badges code between them.  
 /// It will erase the previous content.  

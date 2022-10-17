@@ -15,8 +15,8 @@ It works only for files with LF line delimiter. No CR and no CRLF.</p>
 <div class="example-wrap"><pre class="language-code"><code>1. // region: auto_md_to_doc_comments include README.md //! A  
 2. // endregion: auto_md_to_doc_comments include README.md //! A  </code></pre></div>
 <p>In the md file put markers to mark the segment:</p>
-<div class="example-wrap"><pre class="language-markdown"><code>1. [comment]: # (auto_md_to_doc_comments segment start A)  
-2. [comment]: # (auto_md_to_doc_comments segment end A)  </code></pre></div>
+<div class="example-wrap"><pre class="language-markdown"><code>1. [//]: # (auto_md_to_doc_comments segment start A)  
+2. [//]: # (auto_md_to_doc_comments segment end A)  </code></pre></div>
 <p>The marker must be exclusively in one line. No other text in the same line.<br />
 auto_md_to_doc_comments will delete the old lines between the markers.<br />
 It will find the md file and read the content between the markers.<br />

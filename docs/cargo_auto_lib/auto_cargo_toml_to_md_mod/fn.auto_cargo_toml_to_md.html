@@ -5,8 +5,8 @@ Run it on every build with <a href="https://crates.io/crates/cargo-auto">cargo a
 It works also with other md files in the project, not only README.md.<br />
 In the md file write these markers in markdown comments (invisible),<br />
 don’t copy the numbers 1 and 2:</p>
-<div class="example-wrap"><pre class="language-markdown"><code>1 [comment]: # (auto_cargo_toml_to_md start)
-2 [comment]: # (auto_cargo_toml_to_md end)</code></pre></div>
+<div class="example-wrap"><pre class="language-markdown"><code>1 [//]: # (auto_cargo_toml_to_md start)
+2 [//]: # (auto_cargo_toml_to_md end)</code></pre></div>
 <p><code>auto_cargo_toml_to_md</code> deletes the old lines between the markers and includes the Cargo.toml data:<br />
 description, repository, version, &amp;utc_now(), authors</p>
 <p>Run the example:</p>

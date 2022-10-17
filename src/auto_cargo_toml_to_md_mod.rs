@@ -35,8 +35,8 @@ lazy_static! {
 /// don't copy the numbers 1 and 2:  
 ///
 /// ```markdown
-/// 1 [comment]: # (auto_cargo_toml_to_md start)
-/// 2 [comment]: # (auto_cargo_toml_to_md end)
+/// 1 [//]: # (auto_cargo_toml_to_md start)
+/// 2 [//]: # (auto_cargo_toml_to_md end)
 /// ```
 ///
 /// `auto_cargo_toml_to_md` deletes the old lines between the markers and includes the Cargo.toml data:  
@@ -101,7 +101,7 @@ fn do_one_project() {
                 let pos_end = unwrap!(cap.get(0)).start();
                 md_text_content.replace_range(pos_start..pos_end, &new_text);
                 println!("{YELLOW}write to md file: {}{RESET}", md_filename);
-                println!("{YELLOW}{}{RESET}", &new_text.trim_end_matches("\n\n"));
+                println!("{GREEN}{}{RESET}", &new_text.trim_end_matches("\n\n"));
                 unwrap!(fs::write(md_filename, md_text_content));
             }
         }

@@ -155,8 +155,8 @@
 <span class="doccomment">/// don&#39;t copy the numbers 1 and 2:  </span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// ```markdown</span>
-<span class="doccomment">/// 1 [comment]: # (auto_cargo_toml_to_md start)</span>
-<span class="doccomment">/// 2 [comment]: # (auto_cargo_toml_to_md end)</span>
+<span class="doccomment">/// 1 [//]: # (auto_cargo_toml_to_md start)</span>
+<span class="doccomment">/// 2 [//]: # (auto_cargo_toml_to_md end)</span>
 <span class="doccomment">/// ```</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// `auto_cargo_toml_to_md` deletes the old lines between the markers and includes the Cargo.toml data:  </span>
@@ -221,7 +221,7 @@
                 <span class="kw">let</span> <span class="ident">pos_end</span> <span class="op">=</span> <span class="macro">unwrap!</span>(<span class="ident">cap</span>.<span class="ident">get</span>(<span class="number">0</span>)).<span class="ident">start</span>();
                 <span class="ident">md_text_content</span>.<span class="ident">replace_range</span>(<span class="ident">pos_start</span>..<span class="ident">pos_end</span>, <span class="kw-2">&amp;</span><span class="ident">new_text</span>);
                 <span class="macro">println!</span>(<span class="string">&quot;{YELLOW}write to md file: {}{RESET}&quot;</span>, <span class="ident">md_filename</span>);
-                <span class="macro">println!</span>(<span class="string">&quot;{YELLOW}{}{RESET}&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">new_text</span>.<span class="ident">trim_end_matches</span>(<span class="string">&quot;\n\n&quot;</span>));
+                <span class="macro">println!</span>(<span class="string">&quot;{GREEN}{}{RESET}&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">new_text</span>.<span class="ident">trim_end_matches</span>(<span class="string">&quot;\n\n&quot;</span>));
                 <span class="macro">unwrap!</span>(<span class="ident">fs::write</span>(<span class="ident">md_filename</span>, <span class="ident">md_text_content</span>));
             }
         }
