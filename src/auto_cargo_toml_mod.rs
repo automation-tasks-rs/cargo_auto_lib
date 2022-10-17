@@ -53,12 +53,13 @@ impl CargoToml {
 
     /// Cargo.toml package version
     pub fn package_version(&self) -> String {
-        self.package.version.to_string()
+        self.package.version().to_string()
     }
 
     /// Cargo.toml package authors as string
     pub fn package_authors_string(&self) -> String {
-        let authors = crate::utils_mod::concatenate_vec_to_string(&self.package.authors, ", ");
+        let authors =
+            crate::utils_mod::concatenate_vec_to_string(&self.package.authors().to_vec(), ", ");
         authors
     }
 
@@ -71,17 +72,26 @@ impl CargoToml {
 
     /// Cargo.toml package repository
     pub fn package_repository(&self) -> Option<String> {
-        self.package.repository.to_owned()
+        match self.package.repository() {
+            None => None,
+            Some(x) => Some(x.to_string()),
+        }
     }
 
     /// Cargo.toml package repository
     pub fn package_description(&self) -> Option<String> {
-        self.package.description.to_owned()
+        match self.package.description() {
+            None => None,
+            Some(x) => Some(x.to_string()),
+        }
     }
 
     /// Cargo.toml package homepage
     pub fn package_homepage(&self) -> String {
-        self.package.homepage.to_owned().unwrap_or(String::new())
+        match self.package.homepage() {
+            None => String::new(),
+            Some(x) => x.to_string(),
+        }
     }
 
     /// Cargo.toml workspace members

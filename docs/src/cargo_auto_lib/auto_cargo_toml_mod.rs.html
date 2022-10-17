@@ -104,6 +104,16 @@
 <span id="104">104</span>
 <span id="105">105</span>
 <span id="106">106</span>
+<span id="107">107</span>
+<span id="108">108</span>
+<span id="109">109</span>
+<span id="110">110</span>
+<span id="111">111</span>
+<span id="112">112</span>
+<span id="113">113</span>
+<span id="114">114</span>
+<span id="115">115</span>
+<span id="116">116</span>
 </pre><pre class="rust"><code><span class="comment">// auto_cargo_toml_mod</span>
 
 <span class="doccomment">//! functions to get data from Cargo.toml</span>
@@ -159,12 +169,13 @@
 
     <span class="doccomment">/// Cargo.toml package version</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">package_version</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">String</span> {
-        <span class="self">self</span>.<span class="ident">package</span>.<span class="ident">version</span>.<span class="ident">to_string</span>()
+        <span class="self">self</span>.<span class="ident">package</span>.<span class="ident">version</span>().<span class="ident">to_string</span>()
     }
 
     <span class="doccomment">/// Cargo.toml package authors as string</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">package_authors_string</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">String</span> {
-        <span class="kw">let</span> <span class="ident">authors</span> <span class="op">=</span> <span class="ident"><span class="kw">crate</span>::utils_mod::concatenate_vec_to_string</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">package</span>.<span class="ident">authors</span>, <span class="string">&quot;, &quot;</span>);
+        <span class="kw">let</span> <span class="ident">authors</span> <span class="op">=</span>
+            <span class="ident"><span class="kw">crate</span>::utils_mod::concatenate_vec_to_string</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">package</span>.<span class="ident">authors</span>().<span class="ident">to_vec</span>(), <span class="string">&quot;, &quot;</span>);
         <span class="ident">authors</span>
     }
 
@@ -177,17 +188,26 @@
 
     <span class="doccomment">/// Cargo.toml package repository</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">package_repository</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">package</span>.<span class="ident">repository</span>.<span class="ident">to_owned</span>()
+        <span class="kw">match</span> <span class="self">self</span>.<span class="ident">package</span>.<span class="ident">repository</span>() {
+            <span class="prelude-val">None</span> =&gt; <span class="prelude-val">None</span>,
+            <span class="prelude-val">Some</span>(<span class="ident">x</span>) =&gt; <span class="prelude-val">Some</span>(<span class="ident">x</span>.<span class="ident">to_string</span>()),
+        }
     }
 
     <span class="doccomment">/// Cargo.toml package repository</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">package_description</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">package</span>.<span class="ident">description</span>.<span class="ident">to_owned</span>()
+        <span class="kw">match</span> <span class="self">self</span>.<span class="ident">package</span>.<span class="ident">description</span>() {
+            <span class="prelude-val">None</span> =&gt; <span class="prelude-val">None</span>,
+            <span class="prelude-val">Some</span>(<span class="ident">x</span>) =&gt; <span class="prelude-val">Some</span>(<span class="ident">x</span>.<span class="ident">to_string</span>()),
+        }
     }
 
     <span class="doccomment">/// Cargo.toml package homepage</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">package_homepage</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">String</span> {
-        <span class="self">self</span>.<span class="ident">package</span>.<span class="ident">homepage</span>.<span class="ident">to_owned</span>().<span class="ident">unwrap_or</span>(<span class="ident">String::new</span>())
+        <span class="kw">match</span> <span class="self">self</span>.<span class="ident">package</span>.<span class="ident">homepage</span>() {
+            <span class="prelude-val">None</span> =&gt; <span class="ident">String::new</span>(),
+            <span class="prelude-val">Some</span>(<span class="ident">x</span>) =&gt; <span class="ident">x</span>.<span class="ident">to_string</span>(),
+        }
     }
 
     <span class="doccomment">/// Cargo.toml workspace members</span>
