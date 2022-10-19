@@ -19,7 +19,7 @@ use unwrap::unwrap;
 // region: structs
 /// file metadata
 #[derive(Serialize, Deserialize)]
-struct FileMetaData {
+pub struct FileMetaData {
     /// filename with path from Cargo.toml folder
     filename: String,
     /// filedate from file
@@ -28,9 +28,9 @@ struct FileMetaData {
 
 /// the struct that represents the file .auto_version_from_date.json
 #[derive(Serialize, Deserialize)]
-struct AutoVersionFromDate {
+pub struct AutoVersionFromDate {
     /// vector of file metadata
-    vec_file_metadata: Vec<FileMetaData>,
+    pub vec_file_metadata: Vec<FileMetaData>,
 }
 
 // endregion: structs
@@ -173,22 +173,10 @@ fn write_version_to_cargo_and_modify_metadata(
                 cargo_content.insert_str(start_version, new_version);
                 // println!("{}write file: {}{}", *YELLOW, cargo_filename, *RESET);
                 let _x = fs::write(cargo_filename, cargo_content);
+
                 //the Cargo.toml is now different
-
-                //correct the vector
-                let filename = "Cargo.toml".to_string();
-                let metadata = unwrap!(fs::metadata(filename.as_str()));
-                let mtime = FileTime::from_last_modification_time(&metadata);
-                let filedate = format!("{}", mtime);
-                unwrap!(vec_of_metadata.get_mut(0)).filedate = filedate;
-
-                // println!("save the new file metadata");
-                let x = AutoVersionFromDate {
-                    vec_file_metadata: vec_of_metadata,
-                };
-                let y = unwrap!(serde_json::to_string(&x));
-                let json_filepath = ".auto_version_from_date.json";
-                let _f = fs::write(json_filepath, y);
+                correct_file_metadata_for_cargo_tom_inside_vec(&mut vec_of_metadata);
+                save_json_file_for_file_meta_data(vec_of_metadata);
             }
         } else {
             panic!("no end quote for version");
@@ -198,9 +186,19 @@ fn write_version_to_cargo_and_modify_metadata(
     }
 }
 
+/// the Cargo.toml is now different and needs to be changed in the vec of file metadata
+pub fn correct_file_metadata_for_cargo_tom_inside_vec(vec_of_metadata: &mut Vec<FileMetaData>) {
+    //correct the vector only for Cargo.toml file
+    let filename = "Cargo.toml".to_string();
+    let metadata = unwrap!(fs::metadata(filename.as_str()));
+    let mtime = FileTime::from_last_modification_time(&metadata);
+    let filedate = format!("{}", mtime);
+    unwrap!(vec_of_metadata.get_mut(0)).filedate = filedate;
+}
+
 /// if files are added or deleted, other files must be also changed
 /// I need to check if the files on the filesystem are the same as in the json
-fn are_files_equal(
+pub fn are_files_equal(
     vec_of_metadata: &Vec<FileMetaData>,
     js_vec_of_metadata: &Vec<FileMetaData>,
 ) -> bool {
@@ -224,7 +222,7 @@ fn are_files_equal(
 }
 
 /// make a vector of file metadata
-fn read_file_metadata() -> Vec<FileMetaData> {
+pub fn read_file_metadata() -> Vec<FileMetaData> {
     let mut vec_of_metadata: Vec<FileMetaData> = Vec::new();
     let filename = "Cargo.toml".to_string();
     let metadata = unwrap!(fs::metadata(filename.as_str()));
@@ -247,7 +245,7 @@ fn read_file_metadata() -> Vec<FileMetaData> {
 }
 
 /// read .auto_version_from_date.json
-fn read_json_file(json_filepath: &str) -> AutoVersionFromDate {
+pub fn read_json_file(json_filepath: &str) -> AutoVersionFromDate {
     let js_struct: AutoVersionFromDate;
     let f = fs::read_to_string(json_filepath);
 
@@ -269,6 +267,16 @@ fn read_json_file(json_filepath: &str) -> AutoVersionFromDate {
         }
     };
     js_struct
+}
+
+/// save the new file metadata
+pub fn save_json_file_for_file_meta_data(vec_of_metadata: Vec<FileMetaData>) {
+    let x = AutoVersionFromDate {
+        vec_file_metadata: vec_of_metadata,
+    };
+    let y = unwrap!(serde_json::to_string(&x));
+    let json_filepath = ".auto_version_from_date.json";
+    let _f = fs::write(json_filepath, y);
 }
 
 /// converts a date to a version
