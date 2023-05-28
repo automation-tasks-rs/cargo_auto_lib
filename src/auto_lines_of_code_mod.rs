@@ -127,7 +127,7 @@ fn process_git_remote() -> String {
     match regex_capture(output) {
         Ok(s) => return s,
         Err(e) => {
-            println!("{RED}{}{RESET}", e);
+            println!("{RED}process_git_remote error: {}{RESET}", e);
             return "".to_string();
         }
     }
