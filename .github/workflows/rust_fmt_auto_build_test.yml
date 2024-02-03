@@ -1,4 +1,4 @@
-name: RustAction
+name: rust_fmt_auto_build_test
 
 on:
   push:
@@ -10,7 +10,7 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
-  fmt_build_test:
+  rust_fmt_auto_build_test:
 
     runs-on: ubuntu-latest
 

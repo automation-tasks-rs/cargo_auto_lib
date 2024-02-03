@@ -75,7 +75,7 @@ fn do_one_project() {
     let description = cargo_toml.package_description().unwrap_or("".to_owned());
 
     let new_text = format!(
-        "\n**{}**  \n***version: {} date: {} author: [{}]({}) repository: [Github]({})***  \n\n",
+        "\n**{}**  \n***version: {} date: {} author: [{}]({}) repository: [GitHub]({})***  \n\n",
         &description,
         &version,
         &utc_now(),

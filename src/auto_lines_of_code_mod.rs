@@ -237,7 +237,7 @@ fn git_remote_output() -> anyhow::Result<String> {
 /// returns a Result.
 /// in the case of error the calling fn will return empty string.
 fn regex_capture(output: String) -> anyhow::Result<String> {
-    // on Github actions they don't use ssh, but https, I need to check that also
+    // on GitHub actions they don't use ssh, but https, I need to check that also
     // I test my regex on https://regex101.com/
     // regex capture 3 groups: website, user_name and repo_name
     // "origin  git@github.com:bestia-dev/auto_lines_of_code.git (fetch)"

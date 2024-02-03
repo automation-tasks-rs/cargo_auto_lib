@@ -5,10 +5,10 @@
 [//]: # (auto_cargo_toml_to_md start)
 
 **Library crate for common tasks when building rust projects. Intended for use with cargo-auto - automation tasks written in Rust language.**  
-***version: 0.8.65 date: 2022-10-17 author: [Bestia.dev](https://bestia.dev) repository: [Github](https://github.com/bestia-dev/cargo_auto_lib)***  
+***version: 0.8.65 date: 2022-10-17 author: [bestia.dev](https://bestia.dev) repository: [GitHub](https://github.com/bestia-dev/cargo_auto_lib)***  
 
-![status](https://img.shields.io/badge/maintained-green) 
-![status](https://img.shields.io/badge/ready_for_use-green) 
+ ![status](https://img.shields.io/badge/maintained-green)
+ ![status](https://img.shields.io/badge/ready_for_use-green)
 
 [//]: # (auto_cargo_toml_to_md end)
 
@@ -21,22 +21,27 @@
 
 [//]: # (auto_lines_of_code end)
 
-[![crates.io](https://img.shields.io/crates/v/cargo_auto_lib.svg)](https://crates.io/crates/cargo_auto_lib) [![Documentation](https://docs.rs/cargo_auto_lib/badge.svg)](https://docs.rs/cargo_auto_lib/) [![crev reviews](https://web.crev.dev/rust-reviews/badge/crev_count/cargo_auto_lib.svg)](https://web.crev.dev/rust-reviews/crate/cargo_auto_lib/) [![Lib.rs](https://img.shields.io/badge/Lib.rs-rust-orange.svg)](https://lib.rs/crates/cargo_auto_lib/) [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/bestia-dev/cargo_auto_lib/blob/master/LICENSE) [![Rust](https://github.com/bestia-dev/cargo_auto_lib/workflows/RustAction/badge.svg)](https://github.com/bestia-dev/cargo_auto_lib/) ![Hits](https://bestia.dev/webpage_hit_counter/get_svg_image/276360626.svg)  
+ [![crates.io](https://img.shields.io/crates/v/cargo_auto_lib.svg)](https://crates.io/crates/cargo_auto_lib)
+ [![Documentation](https://docs.rs/cargo_auto_lib/badge.svg)](https://docs.rs/cargo_auto_lib/)
+ [![crev reviews](https://web.crev.dev/rust-reviews/badge/crev_count/cargo_auto_lib.svg)](https://web.crev.dev/rust-reviews/crate/cargo_auto_lib/)
+ [![Lib.rs](https://img.shields.io/badge/Lib.rs-rust-orange.svg)](https://lib.rs/crates/cargo_auto_lib/)
+ [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/bestia-dev/cargo_auto_lib/blob/master/LICENSE)
+ [![Rust](https://github.com/bestia-dev/cargo_auto_lib/workflows/rust_fmt_auto_build_test/badge.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
+ ![Hits](https://bestia.dev/webpage_hit_counter/get_svg_image/276360626.svg)  
 
 Hashtags: #rustlang #buildtool #developmenttool  
-My projects on Github are more like a tutorial than a finished product: [bestia-dev tutorials](https://github.com/bestia-dev/tutorials_rust_wasm).
+My projects on GitHub are more like a tutorial than a finished product: [bestia-dev tutorials](https://github.com/bestia-dev/tutorials_rust_wasm).
 
 ## Try it
 
-In your rust project root directory (where the Cargo.toml is)  
-first install [cargo-auto](https://crates.io/crates/cargo-auto) and generate a new helper project:
+In your rust project root directory (where the `Cargo.toml` is) first, install [cargo-auto](https://crates.io/crates/cargo-auto) and generate a new helper project:
 
 ```bash
 cargo install cargo-auto
 cargo auto new
 ```
 
-In a new editor open the generated directory `automation_tasks_rs` as an independent rust project. There is already this dependency in `Cargo.toml`:  
+In a new editor open the generated directory `automation_tasks_rs` as an independent rust project. There is already this dependency inside `Cargo.toml`:  
 
 ```toml
 cargo_auto_lib="0.8.60"
@@ -45,12 +50,14 @@ cargo_auto_lib="0.8.60"
 Preview the code and observe all the `auto_*` functions from `cargo_auto_lib`.  
 Example:  
 
+```rust
 fn task_release() {  
     auto_semver_increment_patch();  
     auto_cargo_toml_to_md();  
     auto_lines_of_code("");  
     auto_build();  
 }  
+```
 
 Go back to your main rust project.  
 Add markers to the beginning of README.md (don't copy the numbers 1 and 2):  
@@ -66,7 +73,7 @@ Run (in your main rust project):
 cargo auto release
 ```
 
-With a little luck, it included the data of Cargo.toml into the `README.md` inside the markers:  
+With a little luck, it included the data of `Cargo.toml` into the `README.md` inside the markers:  
 
 ![auto_cargo_toml_to_md](https://github.com/bestia-dev/cargo_auto_lib/raw/main/images/auto_cargo_toml_to_md.png "auto_cargo_toml_to_md")
 
@@ -77,7 +84,7 @@ It is nice when you use a code editor with IntelliSense like VSCode.
 
 ## Caveats
 
-This crate will attempt to edit Cargo.toml. Unfortunately there's no great robust way right now to edit TOML file preserving formatting and comments and such, so right now I use just regex to do this.
+This crate will attempt to edit `Cargo.toml`. Unfortunately, there's no great robust way right now to edit TOML file preserving formatting and comments and such, so right now I use just regex to do this.
 If you find that the heuristics don't work for you though please let me know and I'll try to check in a fix!
 
 ## learn something new every day
@@ -86,13 +93,13 @@ I needed to copy large text into doc comments.
 It means every line must get a prefix like `///`.  
 In VSCode I selected the text, press  
 `alt+shift+i`
-Now I have `multiple cursors` on the end of every selected lines.  
+Now I have `multiple cursors` on the end of every selected line.  
 I press the key
 `home`
-And now I have multiple cursors on the beginning of every line.  
+And now I have multiple cursors at the beginning of every line.  
 I type (insert):
 `///`  
-and it's done ! Great !
+and it's done! Great!
 
 ## TODO
 

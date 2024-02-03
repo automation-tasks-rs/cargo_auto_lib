@@ -2,7 +2,7 @@
 //! # cargo_auto_lib
 //!
 //! **Library crate for common tasks when building rust projects. Intended for use with cargo-auto: automation tasks written in Rust language.**  
-//! ***version: 0.8.63 date: 2022-10-17 author: [Bestia.dev](https://bestia.dev) repository: [Github](https://github.com/bestia-dev/cargo_auto_lib)***  
+//! ***version: 0.8.63 date: 2022-10-17 author: [Bestia.dev](https://bestia.dev) repository: [GitHub](https://github.com/bestia-dev/cargo_auto_lib)***  
 //!
 //! [![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-1420-green.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
 //! [![Lines in Doc comments](https://img.shields.io/badge/Lines_in_Doc_comments-387-blue.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
@@ -10,10 +10,10 @@
 //! [![Lines in examples](https://img.shields.io/badge/Lines_in_examples-30-yellow.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
 //! [![Lines in tests](https://img.shields.io/badge/Lines_in_tests-94-orange.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
 //!
-//! [![crates.io](https://img.shields.io/crates/v/cargo_auto_lib.svg)](https://crates.io/crates/cargo_auto_lib) [![Documentation](https://docs.rs/cargo_auto_lib/badge.svg)](https://docs.rs/cargo_auto_lib/) [![crev reviews](https://web.crev.dev/rust-reviews/badge/crev_count/cargo_auto_lib.svg)](https://web.crev.dev/rust-reviews/crate/cargo_auto_lib/) [![Lib.rs](https://img.shields.io/badge/Lib.rs-rust-orange.svg)](https://lib.rs/crates/cargo_auto_lib/) [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/bestia-dev/cargo_auto_lib/blob/master/LICENSE) [![Rust](https://github.com/bestia-dev/cargo_auto_lib/workflows/RustAction/badge.svg)](https://github.com/bestia-dev/cargo_auto_lib/) ![Hits](https://bestia.dev/webpage_hit_counter/get_svg_image/276360626.svg)  
+//! [![crates.io](https://img.shields.io/crates/v/cargo_auto_lib.svg)](https://crates.io/crates/cargo_auto_lib) [![Documentation](https://docs.rs/cargo_auto_lib/badge.svg)](https://docs.rs/cargo_auto_lib/) [![crev reviews](https://web.crev.dev/rust-reviews/badge/crev_count/cargo_auto_lib.svg)](https://web.crev.dev/rust-reviews/crate/cargo_auto_lib/) [![Lib.rs](https://img.shields.io/badge/Lib.rs-rust-orange.svg)](https://lib.rs/crates/cargo_auto_lib/) [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/bestia-dev/cargo_auto_lib/blob/master/LICENSE) [![Rust](https://github.com/bestia-dev/cargo_auto_lib/workflows/rust_fmt_auto_build_test/badge.svg)](https://github.com/bestia-dev/cargo_auto_lib/) ![Hits](https://bestia.dev/webpage_hit_counter/get_svg_image/276360626.svg)  
 //!
 //! Hashtags: #rustlang #buildtool #developmenttool  
-//! My projects on Github are more like a tutorial than a finished product: [bestia-dev tutorials](https://github.com/bestia-dev/tutorials_rust_wasm).
+//! My projects on GitHub are more like a tutorial than a finished product: [bestia-dev tutorials](https://github.com/bestia-dev/tutorials_rust_wasm).
 //!
 //! ## Try it
 //!
