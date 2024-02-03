@@ -1,6 +1,6 @@
 [package]
 name = "cargo_auto_lib"
-version = "0.8.65"
+version = "1.0.74"
 authors = ["Bestia.dev"]
 homepage = "https://bestia.dev"
 edition = "2021"
@@ -8,7 +8,7 @@ description = "Library crate for common tasks when building rust projects. Inten
 repository = "https://github.com/bestia-dev/cargo_auto_lib"
 readme = "README.md"
 license = "MIT"
-keywords = ["rust","cargo-auto"]
+keywords = ["maintained","ready-for-use", "rust","cargo-auto"]
 categories = ["development-tools::build-utils"]
 # publish as a cargo tool. Only this files.
 publish = true
@@ -22,21 +22,21 @@ include = [
 [dependencies]
 unwrap = "1.2.1"
 lazy_static="1.4.0"
-regex = "1.6.0"
-termion = "1.5.6"
-glob = "0.3.0"
-chrono="0.4.22"
-filetime = "0.2.17"
-serde = "1.0.145"
-serde_derive = "1.0.145"
-serde_json = "1.0.86"
-toml = "0.5.9"
-anyhow="1.0.65"
-cargo_toml = "0.13.0"
+regex = "1.10.3"
+termion = "3.0.0"
+glob = "0.3.1"
+chrono="0.4.33"
+filetime = "0.2.23"
+serde = "1.0.196"
+serde_derive = "1.0.196"
+serde_json = "1.0.113"
+toml = "0.8.9"
+anyhow="1.0.79"
+cargo_toml = "0.19.1"
 reader_for_microxml="2.0.1"
 semver="1.0.14"
-sha2 = "0.10.6"
-base64ct = {version = "1.5.2", features = ["alloc"] }
+sha2 = "0.10.8"
+base64ct = {version = "1.6.0", features = ["alloc"] }
 deflate = "1.0.0"
 radix64 = "0.6.2"
-reqwest = { version = "0.11.12", features = ["blocking"] }
+reqwest = { version = "0.11.24", features = ["blocking"] }

@@ -326,7 +326,7 @@ mod test {
 
     #[test]
     pub fn test_date_to_version() {
-        let date_time = chrono::TimeZone::ymd(&Utc, 2020, 5, 22).and_hms(00, 34, 0);
+        let date_time = chrono::TimeZone::with_ymd_and_hms(&Utc, 2020, 5, 22, 00, 34, 0).unwrap();
 
         let version = version_from_date(date_time);
         assert_eq!(version, "2020.522.34");

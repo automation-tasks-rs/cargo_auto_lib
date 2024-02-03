@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":[["VersionPart",""]],"fn":[["auto_semver_increment_minor","Increments the minor version in Cargo.toml file."],["auto_semver_increment_patch","Increments the patch version in Cargo.toml file."],["increment_part",""],["parse_next_number",""]]};
+window.SIDEBAR_ITEMS = {"enum":["VersionPart"],"fn":["auto_semver_increment_minor","auto_semver_increment_minor_forced","auto_semver_increment_patch","auto_semver_increment_patch_forced","increment_part","parse_next_number"]};

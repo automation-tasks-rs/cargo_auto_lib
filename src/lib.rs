@@ -1,31 +1,28 @@
 // region: auto_md_to_doc_comments include README.md A //!
 //! # cargo_auto_lib
 //!
-//! **Library crate for common tasks when building rust projects. Intended for use with cargo-auto: automation tasks written in Rust language.**  
-//! ***version: 0.8.63 date: 2022-10-17 author: [Bestia.dev](https://bestia.dev) repository: [GitHub](https://github.com/bestia-dev/cargo_auto_lib)***  
+//! **Library crate for common tasks when building rust projects. Intended for use with cargo-auto - automation tasks written in Rust language.**  
+//! ***version: 1.0.74 date: 2024-02-03 author: [Bestia.dev](https://bestia.dev) repository: [Github](https://github.com/bestia-dev/cargo_auto_lib)***  
 //!
-//! [![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-1420-green.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
-//! [![Lines in Doc comments](https://img.shields.io/badge/Lines_in_Doc_comments-387-blue.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
+//! [![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-1458-green.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
+//! [![Lines in Doc comments](https://img.shields.io/badge/Lines_in_Doc_comments-394-blue.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
 //! [![Lines in Comments](https://img.shields.io/badge/Lines_in_comments-179-purple.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
 //! [![Lines in examples](https://img.shields.io/badge/Lines_in_examples-30-yellow.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
 //! [![Lines in tests](https://img.shields.io/badge/Lines_in_tests-94-orange.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
-//!
-//! [![crates.io](https://img.shields.io/crates/v/cargo_auto_lib.svg)](https://crates.io/crates/cargo_auto_lib) [![Documentation](https://docs.rs/cargo_auto_lib/badge.svg)](https://docs.rs/cargo_auto_lib/) [![crev reviews](https://web.crev.dev/rust-reviews/badge/crev_count/cargo_auto_lib.svg)](https://web.crev.dev/rust-reviews/crate/cargo_auto_lib/) [![Lib.rs](https://img.shields.io/badge/Lib.rs-rust-orange.svg)](https://lib.rs/crates/cargo_auto_lib/) [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/bestia-dev/cargo_auto_lib/blob/master/LICENSE) [![Rust](https://github.com/bestia-dev/cargo_auto_lib/workflows/rust_fmt_auto_build_test/badge.svg)](https://github.com/bestia-dev/cargo_auto_lib/) ![Hits](https://bestia.dev/webpage_hit_counter/get_svg_image/276360626.svg)  
 //!
 //! Hashtags: #rustlang #buildtool #developmenttool  
 //! My projects on GitHub are more like a tutorial than a finished product: [bestia-dev tutorials](https://github.com/bestia-dev/tutorials_rust_wasm).
 //!
 //! ## Try it
 //!
-//! In your rust project root directory (where the Cargo.toml is)  
-//! first install [cargo-auto](https://crates.io/crates/cargo-auto) and generate a new helper project:
+//! In your rust project root directory (where the `Cargo.toml` is) first, install [cargo-auto](https://crates.io/crates/cargo-auto) and generate a new helper project:
 //!
 //! ```bash
 //! cargo install cargo-auto
 //! cargo auto new
 //! ```
 //!
-//! In a new editor open the generated directory `automation_tasks_rs` as an independent rust project. There is already this dependency in `Cargo.toml`:  
+//! In a new editor open the generated directory `automation_tasks_rs` as an independent rust project. There is already this dependency inside `Cargo.toml`:  
 //!
 //! ```toml
 //! cargo_auto_lib="0.8.60"
@@ -34,12 +31,14 @@
 //! Preview the code and observe all the `auto_*` functions from `cargo_auto_lib`.  
 //! Example:  
 //!
+//! ```ignore
 //! fn task_release() {  
 //!     auto_semver_increment_patch();  
 //!     auto_cargo_toml_to_md();  
 //!     auto_lines_of_code("");  
 //!     auto_build();  
 //! }  
+//! ```
 //!
 //! Go back to your main rust project.  
 //! Add markers to the beginning of README.md (don't copy the numbers 1 and 2):  
@@ -55,7 +54,7 @@
 //! cargo auto release
 //! ```
 //!
-//! With a little luck, it included the data of Cargo.toml into the `README.md` inside the markers:  
+//! With a little luck, it included the data of `Cargo.toml` into the `README.md` inside the markers:  
 //!
 //! ![auto_cargo_toml_to_md](https://github.com/bestia-dev/cargo_auto_lib/raw/main/images/auto_cargo_toml_to_md.png "auto_cargo_toml_to_md")
 //!
@@ -66,7 +65,7 @@
 //!
 //! ## Caveats
 //!
-//! This crate will attempt to edit Cargo.toml. Unfortunately there's no great robust way right now to edit TOML file preserving formatting and comments and such, so right now I use just regex to do this.
+//! This crate will attempt to edit `Cargo.toml`. Unfortunately, there's no great robust way right now to edit TOML file preserving formatting and comments and such, so right now I use just regex to do this.
 //! If you find that the heuristics don't work for you though please let me know and I'll try to check in a fix!
 //!
 //! ## learn something new every day
@@ -75,13 +74,13 @@
 //! It means every line must get a prefix like `///`.  
 //! In VSCode I selected the text, press  
 //! `alt+shift+i`
-//! Now I have `multiple cursors` on the end of every selected lines.  
+//! Now I have `multiple cursors` on the end of every selected line.  
 //! I press the key
 //! `home`
-//! And now I have multiple cursors on the beginning of every line.  
+//! And now I have multiple cursors at the beginning of every line.  
 //! I type (insert):
 //! `///`  
-//! and it's done ! Great !
+//! and it's done! Great!
 //!
 //! ## TODO
 //!
@@ -96,15 +95,19 @@
 //! You can also read reviews quickly on the web:  
 //! <https://web.crev.dev/rust-reviews/crates/>  
 //!
-//! ## open-source free and free as a beer
+//! ## Open-source and free as a beer
 //!
 //! My open-source projects are free as a beer (MIT license).  
 //! I just love programming.  
-//! But I need also to drink. If you find my projects and tutorials helpful,  
-//! please buy me a beer donating on my [paypal](https://paypal.me/LucianoBestia).  
+//! But I need also to drink. If you find my projects and tutorials helpful, please buy me a beer by donating to my [PayPal](https://paypal.me/LucianoBestia).  
 //! You know the price of a beer in your local bar ;-)  
 //! So I can drink a free beer for your health :-)  
 //! [Na zdravje!](https://translate.google.com/?hl=en&sl=sl&tl=en&text=Na%20zdravje&op=translate) [Alla salute!](https://dictionary.cambridge.org/dictionary/italian-english/alla-salute) [Prost!](https://dictionary.cambridge.org/dictionary/german-english/prost) [Nazdravlje!](https://matadornetwork.com/nights/how-to-say-cheers-in-50-languages/) 🍻
+//!
+//! [//bestia.dev](https://bestia.dev)  
+//! [//github.com/bestia-dev](https://github.com/bestia-dev)  
+//! [//bestiadev.substack.com](https://bestiadev.substack.com)  
+//! [//youtube.com/@bestia-dev-tutorials](https://youtube.com/@bestia-dev-tutorials)  
 //!
 // endregion: auto_md_to_doc_comments include README.md A //!
 
