@@ -131,10 +131,15 @@ mod auto_plantuml_mod;
 mod auto_semver_mod;
 mod auto_semver_or_date_mod;
 mod auto_version_from_date_mod;
+mod error_mod;
 
 pub mod utils_mod;
 
 // reexport functions for callers of the library
+// TODO: It would be nice to have a test that checks that this exported functions did not change the signature or api
+// Once the library is deployed it is bad to change the api.
+// There should be a way to check that the new api didn't change in an incompatible way.
+// Adding functions, structs and enums is ok. Modifying existing one will break the compatibility.
 pub use auto_cargo_toml_mod::CargoToml;
 pub use auto_cargo_toml_to_md_mod::auto_cargo_toml_to_md;
 pub use auto_check_micro_xml_mod::auto_check_micro_xml;
@@ -156,6 +161,7 @@ pub use auto_semver_or_date_mod::auto_version_increment_semver_or_date;
 pub use auto_semver_or_date_mod::auto_version_increment_semver_or_date_forced;
 pub use auto_version_from_date_mod::auto_version_from_date;
 pub use auto_version_from_date_mod::auto_version_from_date_forced;
+pub use error_mod::LibError;
 
 pub use auto_helper_functions_mod::GREEN;
 pub use auto_helper_functions_mod::RED;

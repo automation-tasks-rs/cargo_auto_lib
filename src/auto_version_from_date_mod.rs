@@ -5,12 +5,14 @@
 
 // region: use statements
 
-use crate::{RED, RESET};
+use crate::error_mod::ResultWithLibError;
+use crate::{LibError, RED, RESET};
 use chrono::DateTime;
 use chrono::Timelike;
 use chrono::{Datelike, Utc};
-use filetime::FileTime;
 use serde_derive::{Deserialize, Serialize};
+use std::path::PathBuf;
+use std::str::FromStr;
 use std::{fs, path::Path};
 use unwrap::unwrap;
 
@@ -22,8 +24,8 @@ use unwrap::unwrap;
 pub struct FileMetaData {
     /// filename with path from Cargo.toml folder
     filename: String,
-    /// filedate from file
-    filedate: String,
+    /// hash of file
+    filehash: String,
 }
 
 /// the struct that represents the file .auto_version_from_date.json
@@ -56,7 +58,7 @@ pub struct AutoVersionFromDate {
 /// Warning: I don't check if the service worker has changed because it rarely does.  
 /// To know if the projects has changed or not, this function saves the dates of all files into `.auto_version_from_date.json` near Cargo.toml
 pub fn auto_version_from_date() {
-    auto_version_from_date_internal(false);
+    auto_version_from_date_internal(false).unwrap_or_else(|err| panic!("{}", err.to_string()));
 }
 
 /// Works for single projects and workspaces.  
@@ -64,43 +66,45 @@ pub fn auto_version_from_date() {
 /// For workspaces `release` I want to have the same version in all members.  
 /// It is slower, but easier to understand when deployed.
 pub fn auto_version_from_date_forced() {
-    auto_version_from_date_internal(true);
+    auto_version_from_date_internal(true).unwrap_or_else(|err| panic!("{}", err.to_string()));
 }
 
 // endregion: public functions
 
 // region: private functions
 
-fn auto_version_from_date_internal(force_version: bool) {
+fn auto_version_from_date_internal(force_version: bool) -> ResultWithLibError<()> {
     let date = Utc::now();
     let new_version = version_from_date(date);
     let cargo_toml = crate::auto_cargo_toml_mod::CargoToml::read();
     let members = cargo_toml.workspace_members();
     match members {
-        None => do_one_project(&new_version, force_version),
+        None => do_one_project(&new_version, force_version)?,
         Some(members) => {
             for member in members.iter() {
                 unwrap!(std::env::set_current_dir(member));
-                do_one_project(&new_version, force_version);
+                do_one_project(&new_version, force_version)?;
                 unwrap!(std::env::set_current_dir(".."));
             }
         }
     }
     modify_service_js(&new_version);
+    Ok(())
 }
 
-fn do_one_project(new_version: &str, force_version: bool) {
-    let vec_of_metadata = read_file_metadata();
+fn do_one_project(new_version: &str, force_version: bool) -> ResultWithLibError<()> {
+    let vec_of_metadata = read_file_metadata()?;
     let is_files_equal = if force_version {
         false
     } else {
-        let js_struct = read_json_file(".auto_version_from_date.json");
+        let js_struct = read_json_file(".auto_version_from_date.json")?;
         are_files_equal(&vec_of_metadata, &js_struct.vec_file_metadata)
     };
 
     if !is_files_equal {
-        write_version_to_cargo_and_modify_metadata(new_version, vec_of_metadata);
+        write_version_to_cargo_and_modify_metadata(new_version, vec_of_metadata)?;
     }
+    Ok(())
 }
 
 /// search for file service_worker.js and modify version
@@ -148,7 +152,7 @@ fn modify_service_js(new_version: &str) {
 fn write_version_to_cargo_and_modify_metadata(
     new_version: &str,
     mut vec_of_metadata: Vec<FileMetaData>,
-) {
+) -> ResultWithLibError<()> {
     // println!("{}write version to Cargo.toml{}", *GREEN, *RESET);
     let cargo_filename = "Cargo.toml";
     let mut cargo_content = unwrap!(fs::read_to_string(cargo_filename));
@@ -175,7 +179,7 @@ fn write_version_to_cargo_and_modify_metadata(
                 let _x = fs::write(cargo_filename, cargo_content);
 
                 //the Cargo.toml is now different
-                correct_file_metadata_for_cargo_tom_inside_vec(&mut vec_of_metadata);
+                correct_file_metadata_for_cargo_tom_inside_vec(&mut vec_of_metadata)?;
                 save_json_file_for_file_meta_data(vec_of_metadata);
             }
         } else {
@@ -184,16 +188,22 @@ fn write_version_to_cargo_and_modify_metadata(
     } else {
         panic!("Cargo.toml has no version");
     }
+    Ok(())
 }
 
 /// the Cargo.toml is now different and needs to be changed in the vec of file metadata
-pub fn correct_file_metadata_for_cargo_tom_inside_vec(vec_of_metadata: &mut Vec<FileMetaData>) {
+pub fn correct_file_metadata_for_cargo_tom_inside_vec(
+    vec_of_metadata: &mut Vec<FileMetaData>,
+) -> ResultWithLibError<()> {
     //correct the vector only for Cargo.toml file
     let filename = "Cargo.toml".to_string();
-    let metadata = unwrap!(fs::metadata(filename.as_str()));
-    let mtime = FileTime::from_last_modification_time(&metadata);
-    let filedate = format!("{}", mtime);
-    unwrap!(vec_of_metadata.get_mut(0)).filedate = filedate;
+    // calculate hash of file
+    let filehash = sha256_digest(PathBuf::from_str(&filename)?.as_path())?;
+    vec_of_metadata
+        .get_mut(0)
+        .ok_or(LibError::ErrorFromStr("error vec_of_metadata.get_mut(0)"))?
+        .filehash = filehash;
+    Ok(())
 }
 
 /// if files are added or deleted, other files must be also changed
@@ -207,7 +217,7 @@ pub fn are_files_equal(
         //search in json file
         let mut is_one_equal = false;
         for y in js_vec_of_metadata.iter() {
-            if x.filename == y.filename && x.filedate == y.filedate {
+            if x.filename == y.filename && x.filehash == y.filehash {
                 is_one_equal = true;
                 break;
             }
@@ -222,41 +232,63 @@ pub fn are_files_equal(
 }
 
 /// make a vector of file metadata
-pub fn read_file_metadata() -> Vec<FileMetaData> {
+pub fn read_file_metadata() -> ResultWithLibError<Vec<FileMetaData>> {
     let mut vec_of_metadata: Vec<FileMetaData> = Vec::new();
     let filename = "Cargo.toml".to_string();
-    let metadata = unwrap!(fs::metadata(filename.as_str()));
-    let mtime = FileTime::from_last_modification_time(&metadata);
-    let filedate = format!("{}", mtime);
-    vec_of_metadata.push(FileMetaData { filename, filedate });
-    for entry in unwrap!(fs::read_dir("src")) {
+    // calculate hash of file
+    let filehash = sha256_digest(PathBuf::from_str(&filename)?.as_path())?;
+    vec_of_metadata.push(FileMetaData { filename, filehash });
+
+    for entry in fs::read_dir("src")? {
         let entry = unwrap!(entry);
         let path = entry.file_name();
 
         let filename = format!("src/{:?}", path);
         let filename = filename.replace("\"", "");
-        //println!("filename: {}", &filename);
-        let metadata = unwrap!(fs::metadata(filename.as_str()));
-        let mtime = FileTime::from_last_modification_time(&metadata);
-        let filedate = format!("{}", mtime);
-        vec_of_metadata.push(FileMetaData { filename, filedate });
+        // calculate hash of file
+        let filehash = sha256_digest(PathBuf::from_str(&filename)?.as_path())?;
+        vec_of_metadata.push(FileMetaData { filename, filehash });
     }
-    vec_of_metadata
+    Ok(vec_of_metadata)
+}
+
+/// calculate the hash for a file
+fn sha256_digest(path: &Path) -> ResultWithLibError<String> {
+    let file = std::fs::File::open(path)?;
+    let mut reader = std::io::BufReader::new(file);
+    let mut context = ring::digest::Context::new(&ring::digest::SHA256);
+    let mut buffer = [0; 1024];
+    use std::io::Read;
+    loop {
+        let count = reader.read(&mut buffer)?;
+        if count == 0 {
+            break;
+        }
+        context.update(&buffer[..count]);
+    }
+    let digest = context.finish();
+    let hash_string = data_encoding::HEXLOWER.encode(digest.as_ref());
+    // return
+    Ok(hash_string)
 }
 
 /// read .auto_version_from_date.json
-pub fn read_json_file(json_filepath: &str) -> AutoVersionFromDate {
+pub fn read_json_file(json_filepath: &str) -> ResultWithLibError<AutoVersionFromDate> {
     let js_struct: AutoVersionFromDate;
     let f = fs::read_to_string(json_filepath);
 
     match f {
         Ok(x) => {
-            // check if file have CRLF instead of LF and show error
-            if x.contains("\r\n") {
-                panic!("Error: {} has CRLF line endings instead of LF. The task read_json_file cannot work! Closing.", json_filepath);
+            // check if file have CRLF instead of LF or contains old field "filedate". This are unusable - create empty struct
+            if x.contains("\r\n") || x.contains(r#""filedate""#) {
+                //create empty struct
+                js_struct = AutoVersionFromDate {
+                    vec_file_metadata: Vec::new(),
+                }
+            } else {
+                //read struct from file
+                js_struct = serde_json::from_str(x.as_str())?;
             }
-            //read struct from file
-            js_struct = unwrap!(serde_json::from_str(x.as_str()));
         }
         Err(_error) => {
             // println!("Creating new file: {}", json_filepath);
@@ -266,7 +298,7 @@ pub fn read_json_file(json_filepath: &str) -> AutoVersionFromDate {
             }
         }
     };
-    js_struct
+    Ok(js_struct)
 }
 
 /// save the new file metadata
@@ -323,6 +355,7 @@ fn find_from(rs_content: &str, from: usize, find: &str) -> Option<usize> {
 #[cfg(test)]
 mod test {
     use super::*;
+    use crate::LibError;
 
     #[test]
     pub fn test_date_to_version() {
@@ -330,5 +363,16 @@ mod test {
 
         let version = version_from_date(date_time);
         assert_eq!(version, "2020.522.34");
+    }
+
+    #[test]
+    pub fn test_sha256_digest() -> ResultWithLibError<()> {
+        let digest = sha256_digest(Path::new("LICENSE"))?;
+        let expected_hex = "09ca7e4eaa6e8ae9c7d261167129184883644d07dfba7cbfbc4c8a2e08360d5b";
+        let expected: Vec<u8> =
+            ring::test::from_hex(expected_hex).map_err(|err| LibError::ErrorFromStr("from_hex"))?;
+
+        assert_eq!(&digest.as_ref(), &expected);
+        Ok(())
     }
 }

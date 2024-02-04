@@ -2,10 +2,9 @@
 
 //! semver utilities
 
-use crate::utils_mod::*;
+use crate::{error_mod::ResultWithLibError, utils_mod::*, LibError};
 
 use std::fs;
-use unwrap::unwrap;
 
 use crate::auto_helper_functions_mod::*;
 
@@ -16,31 +15,31 @@ enum VersionPart {
 
 /// Increments the patch version in Cargo.toml file only if files are changed
 pub fn auto_semver_increment_patch() {
-    increment_part(VersionPart::Patch, false);
+    increment_part(VersionPart::Patch, false).unwrap_or_else(|err| panic!("{}", err.to_string()))
 }
 
 /// Increments the patch version in Cargo.toml file even if files are not changed
 pub fn auto_semver_increment_patch_forced() {
-    increment_part(VersionPart::Patch, true);
+    increment_part(VersionPart::Patch, true).unwrap_or_else(|err| panic!("{}", err.to_string()))
 }
 
 /// Increments the minor version in Cargo.toml file only if files are changed
 pub fn auto_semver_increment_minor() {
-    increment_part(VersionPart::Minor, false);
+    increment_part(VersionPart::Minor, false).unwrap_or_else(|err| panic!("{}", err.to_string()))
 }
 
 /// Increments the minor version in Cargo.toml file even if files are not changed
 pub fn auto_semver_increment_minor_forced() {
-    increment_part(VersionPart::Minor, true);
+    increment_part(VersionPart::Minor, true).unwrap_or_else(|err| panic!("{}", err.to_string()))
 }
 
-fn increment_part(part: VersionPart, force_version: bool) {
-    let mut vec_of_metadata = crate::auto_version_from_date_mod::read_file_metadata();
+fn increment_part(part: VersionPart, force_version: bool) -> ResultWithLibError<()> {
+    let mut vec_of_metadata = crate::auto_version_from_date_mod::read_file_metadata()?;
     let is_files_equal = if force_version {
         false
     } else {
         let js_struct =
-            crate::auto_version_from_date_mod::read_json_file(".auto_version_from_date.json");
+            crate::auto_version_from_date_mod::read_json_file(".auto_version_from_date.json")?;
         crate::auto_version_from_date_mod::are_files_equal(
             &vec_of_metadata,
             &js_struct.vec_file_metadata,
@@ -50,7 +49,7 @@ fn increment_part(part: VersionPart, force_version: bool) {
     if !is_files_equal {
         // println!("pub fn increment_patch");
         let cargo_toml_filename = "Cargo.toml";
-        let cargo_toml_text = unwrap!(fs::read_to_string(cargo_toml_filename));
+        let cargo_toml_text = fs::read_to_string(cargo_toml_filename)?;
 
         // check if file have CRLF instead of LF and show error
         if cargo_toml_text.contains("\r\n") {
@@ -69,13 +68,13 @@ fn increment_part(part: VersionPart, force_version: bool) {
                 println!(r#"    old version: "{}""#, &version);
                 //increment the last number
                 let pos = pos_start_data;
-                let (major, pos) = parse_next_number(&cargo_toml_text, pos);
+                let (major, pos) = parse_next_number(&cargo_toml_text, pos)?;
                 //jump over dot
                 let pos = pos + 1;
-                let (mut minor, pos) = parse_next_number(&cargo_toml_text, pos);
+                let (mut minor, pos) = parse_next_number(&cargo_toml_text, pos)?;
                 //jump over dot
                 let pos = pos + 1;
-                let (mut patch, pos) = parse_next_number(&cargo_toml_text, pos);
+                let (mut patch, pos) = parse_next_number(&cargo_toml_text, pos)?;
                 let pos_at_the_end_of_semver = pos;
                 // increment
                 match part {
@@ -102,7 +101,7 @@ fn increment_part(part: VersionPart, force_version: bool) {
                 //the Cargo.toml is now different
                 crate::auto_version_from_date_mod::correct_file_metadata_for_cargo_tom_inside_vec(
                     &mut vec_of_metadata,
-                );
+                )?;
                 crate::auto_version_from_date_mod::save_json_file_for_file_meta_data(
                     vec_of_metadata,
                 );
@@ -113,18 +112,25 @@ fn increment_part(part: VersionPart, force_version: bool) {
             panic!("Cargo.toml has no version");
         }
     }
+    Ok(())
 }
 
-fn parse_next_number(cargo_toml_text: &str, pos: usize) -> (usize, usize) {
+fn parse_next_number(cargo_toml_text: &str, pos: usize) -> ResultWithLibError<(usize, usize)> {
     let mut pos = pos;
     let mut number = "".to_string();
-    let mut one_char = cargo_toml_text[pos..pos + 1].chars().next().unwrap();
+    let mut one_char = cargo_toml_text[pos..pos + 1]
+        .chars()
+        .next()
+        .ok_or(LibError::ErrorFromStr("error chars().next()"))?;
     while one_char.is_numeric() {
         number.push(one_char);
         pos += 1;
-        one_char = cargo_toml_text[pos..pos + 1].chars().next().unwrap();
+        one_char = cargo_toml_text[pos..pos + 1]
+            .chars()
+            .next()
+            .ok_or(LibError::ErrorFromStr("error chars().next()"))?;
     }
-    let number: usize = unwrap!(number.parse());
+    let number: usize = number.parse()?;
     //return
-    (number, pos)
+    Ok((number, pos))
 }

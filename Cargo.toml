@@ -1,6 +1,6 @@
 [package]
 name = "cargo_auto_lib"
-version = "1.0.78"
+version = "1.0.93"
 authors = ["Bestia.dev"]
 homepage = "https://bestia.dev"
 edition = "2021"
@@ -34,9 +34,12 @@ toml = "0.8.9"
 anyhow="1.0.79"
 cargo_toml = "0.19.1"
 reader_for_microxml="2.0.1"
-semver="1.0.14"
+semver="1.0.21"
 sha2 = "0.10.8"
 base64ct = {version = "1.6.0", features = ["alloc"] }
 deflate = "1.0.0"
 radix64 = "0.6.2"
 reqwest = { version = "0.11.24", features = ["blocking"] }
+ring = "0.17.7"
+data-encoding = "2.5.0"
+thiserror="1.0.56"
