@@ -1,6 +1,6 @@
 // examples/plantuml1.rs
 
-/// $ cargo run --example plantuml1
+/// cargo run --example plantuml1
 
 fn main() {
     let text = "test";

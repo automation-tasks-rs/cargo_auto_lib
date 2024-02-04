@@ -28,7 +28,7 @@ pub struct FileMetaData {
     filehash: String,
 }
 
-/// the struct that represents the file .auto_version_from_date.json
+/// the struct that represents the file .automation_tasks_rs_file_hashes.json
 #[derive(Serialize, Deserialize)]
 pub struct AutoVersionFromDate {
     /// vector of file metadata
@@ -54,9 +54,9 @@ pub struct AutoVersionFromDate {
 /// ### no need to change version if no files changed
 ///
 /// If src/*.rs or Cargo.toml files are not changed from last compile, than no need to change version.  
-/// The dates of the files will be stored in the file .auto_version_from_date.json near to Cargo.toml.
+/// The dates of the files will be stored in the file .automation_tasks_rs_file_hashes.json near to Cargo.toml.
 /// Warning: I don't check if the service worker has changed because it rarely does.  
-/// To know if the projects has changed or not, this function saves the dates of all files into `.auto_version_from_date.json` near Cargo.toml
+/// To know if the projects has changed or not, this function saves the dates of all files into `.automation_tasks_rs_file_hashes.json` near Cargo.toml
 pub fn auto_version_from_date() {
     auto_version_from_date_internal(false).unwrap_or_else(|err| panic!("{}", err.to_string()));
 }
@@ -97,7 +97,7 @@ fn do_one_project(new_version: &str, force_version: bool) -> ResultWithLibError<
     let is_files_equal = if force_version {
         false
     } else {
-        let js_struct = read_json_file(".auto_version_from_date.json")?;
+        let js_struct = read_json_file(".automation_tasks_rs_file_hashes.json")?;
         are_files_equal(&vec_of_metadata, &js_struct.vec_file_metadata)
     };
 
@@ -272,7 +272,7 @@ fn sha256_digest(path: &Path) -> ResultWithLibError<String> {
     Ok(hash_string)
 }
 
-/// read .auto_version_from_date.json
+/// read .automation_tasks_rs_file_hashes.json
 pub fn read_json_file(json_filepath: &str) -> ResultWithLibError<AutoVersionFromDate> {
     let js_struct: AutoVersionFromDate;
     let f = fs::read_to_string(json_filepath);
@@ -307,7 +307,7 @@ pub fn save_json_file_for_file_meta_data(vec_of_metadata: Vec<FileMetaData>) {
         vec_file_metadata: vec_of_metadata,
     };
     let y = unwrap!(serde_json::to_string(&x));
-    let json_filepath = ".auto_version_from_date.json";
+    let json_filepath = ".automation_tasks_rs_file_hashes.json";
     let _f = fs::write(json_filepath, y);
 }
 
