@@ -128,14 +128,20 @@
 <a href="#128" id="128">128</a>
 <a href="#129" id="129">129</a>
 <a href="#130" id="130">130</a>
+<a href="#131" id="131">131</a>
+<a href="#132" id="132">132</a>
+<a href="#133" id="133">133</a>
+<a href="#134" id="134">134</a>
+<a href="#135" id="135">135</a>
+<a href="#136" id="136">136</a>
+<a href="#137" id="137">137</a>
 </pre></div><pre class="rust"><code><span class="comment">// auto_semver_mod
 
 </span><span class="doccomment">//! semver utilities
 
-</span><span class="kw">use </span><span class="kw">crate</span>::utils_mod::<span class="kw-2">*</span>;
+</span><span class="kw">use crate</span>::{error_mod::ResultWithLibError, utils_mod::<span class="kw-2">*</span>, LibError};
 
 <span class="kw">use </span>std::fs;
-<span class="kw">use </span>unwrap::unwrap;
 
 <span class="kw">use </span><span class="kw">crate</span>::auto_helper_functions_mod::<span class="kw-2">*</span>;
 
@@ -146,31 +152,32 @@
 
 <span class="doccomment">/// Increments the patch version in Cargo.toml file only if files are changed
 </span><span class="kw">pub fn </span>auto_semver_increment_patch() {
-    increment_part(VersionPart::Patch, <span class="bool-val">false</span>);
+    increment_part(VersionPart::Patch, <span class="bool-val">false</span>).unwrap_or_else(|err| <span class="macro">panic!</span>(<span class="string">&quot;{}&quot;</span>, err.to_string()))
 }
 
 <span class="doccomment">/// Increments the patch version in Cargo.toml file even if files are not changed
 </span><span class="kw">pub fn </span>auto_semver_increment_patch_forced() {
-    increment_part(VersionPart::Patch, <span class="bool-val">true</span>);
+    increment_part(VersionPart::Patch, <span class="bool-val">true</span>).unwrap_or_else(|err| <span class="macro">panic!</span>(<span class="string">&quot;{}&quot;</span>, err.to_string()))
 }
 
 <span class="doccomment">/// Increments the minor version in Cargo.toml file only if files are changed
 </span><span class="kw">pub fn </span>auto_semver_increment_minor() {
-    increment_part(VersionPart::Minor, <span class="bool-val">false</span>);
+    increment_part(VersionPart::Minor, <span class="bool-val">false</span>).unwrap_or_else(|err| <span class="macro">panic!</span>(<span class="string">&quot;{}&quot;</span>, err.to_string()))
 }
 
 <span class="doccomment">/// Increments the minor version in Cargo.toml file even if files are not changed
 </span><span class="kw">pub fn </span>auto_semver_increment_minor_forced() {
-    increment_part(VersionPart::Minor, <span class="bool-val">true</span>);
+    increment_part(VersionPart::Minor, <span class="bool-val">true</span>).unwrap_or_else(|err| <span class="macro">panic!</span>(<span class="string">&quot;{}&quot;</span>, err.to_string()))
 }
 
-<span class="kw">fn </span>increment_part(part: VersionPart, force_version: bool) {
-    <span class="kw">let </span><span class="kw-2">mut </span>vec_of_metadata = <span class="kw">crate</span>::auto_version_from_date_mod::read_file_metadata();
+<span class="kw">fn </span>increment_part(part: VersionPart, force_version: bool) -&gt; ResultWithLibError&lt;()&gt; {
+    <span class="kw">let </span><span class="kw-2">mut </span>vec_of_metadata = <span class="kw">crate</span>::auto_version_from_date_mod::read_file_metadata()<span class="question-mark">?</span>;
     <span class="kw">let </span>is_files_equal = <span class="kw">if </span>force_version {
         <span class="bool-val">false
     </span>} <span class="kw">else </span>{
-        <span class="kw">let </span>js_struct =
-            <span class="kw">crate</span>::auto_version_from_date_mod::read_json_file(<span class="string">&quot;.auto_version_from_date.json&quot;</span>);
+        <span class="kw">let </span>js_struct = <span class="kw">crate</span>::auto_version_from_date_mod::read_json_file(
+            <span class="string">&quot;.automation_tasks_rs_file_hashes.json&quot;</span>,
+        )<span class="question-mark">?</span>;
         <span class="kw">crate</span>::auto_version_from_date_mod::are_files_equal(
             <span class="kw-2">&amp;</span>vec_of_metadata,
             <span class="kw-2">&amp;</span>js_struct.vec_file_metadata,
@@ -180,7 +187,7 @@
     <span class="kw">if </span>!is_files_equal {
         <span class="comment">// println!(&quot;pub fn increment_patch&quot;);
         </span><span class="kw">let </span>cargo_toml_filename = <span class="string">&quot;Cargo.toml&quot;</span>;
-        <span class="kw">let </span>cargo_toml_text = <span class="macro">unwrap!</span>(fs::read_to_string(cargo_toml_filename));
+        <span class="kw">let </span>cargo_toml_text = fs::read_to_string(cargo_toml_filename)<span class="question-mark">?</span>;
 
         <span class="comment">// check if file have CRLF instead of LF and show error
         </span><span class="kw">if </span>cargo_toml_text.contains(<span class="string">&quot;\r\n&quot;</span>) {
@@ -199,13 +206,13 @@
                 <span class="macro">println!</span>(<span class="string">r#&quot;    old version: &quot;{}&quot;&quot;#</span>, <span class="kw-2">&amp;</span>version);
                 <span class="comment">//increment the last number
                 </span><span class="kw">let </span>pos = pos_start_data;
-                <span class="kw">let </span>(major, pos) = parse_next_number(<span class="kw-2">&amp;</span>cargo_toml_text, pos);
+                <span class="kw">let </span>(major, pos) = parse_next_number(<span class="kw-2">&amp;</span>cargo_toml_text, pos)<span class="question-mark">?</span>;
                 <span class="comment">//jump over dot
                 </span><span class="kw">let </span>pos = pos + <span class="number">1</span>;
-                <span class="kw">let </span>(<span class="kw-2">mut </span>minor, pos) = parse_next_number(<span class="kw-2">&amp;</span>cargo_toml_text, pos);
+                <span class="kw">let </span>(<span class="kw-2">mut </span>minor, pos) = parse_next_number(<span class="kw-2">&amp;</span>cargo_toml_text, pos)<span class="question-mark">?</span>;
                 <span class="comment">//jump over dot
                 </span><span class="kw">let </span>pos = pos + <span class="number">1</span>;
-                <span class="kw">let </span>(<span class="kw-2">mut </span>patch, pos) = parse_next_number(<span class="kw-2">&amp;</span>cargo_toml_text, pos);
+                <span class="kw">let </span>(<span class="kw-2">mut </span>patch, pos) = parse_next_number(<span class="kw-2">&amp;</span>cargo_toml_text, pos)<span class="question-mark">?</span>;
                 <span class="kw">let </span>pos_at_the_end_of_semver = pos;
                 <span class="comment">// increment
                 </span><span class="kw">match </span>part {
@@ -232,7 +239,7 @@
                 <span class="comment">//the Cargo.toml is now different
                 </span><span class="kw">crate</span>::auto_version_from_date_mod::correct_file_metadata_for_cargo_tom_inside_vec(
                     <span class="kw-2">&amp;mut </span>vec_of_metadata,
-                );
+                )<span class="question-mark">?</span>;
                 <span class="kw">crate</span>::auto_version_from_date_mod::save_json_file_for_file_meta_data(
                     vec_of_metadata,
                 );
@@ -243,19 +250,26 @@
             <span class="macro">panic!</span>(<span class="string">&quot;Cargo.toml has no version&quot;</span>);
         }
     }
+    <span class="prelude-val">Ok</span>(())
 }
 
-<span class="kw">fn </span>parse_next_number(cargo_toml_text: <span class="kw-2">&amp;</span>str, pos: usize) -&gt; (usize, usize) {
+<span class="kw">fn </span>parse_next_number(cargo_toml_text: <span class="kw-2">&amp;</span>str, pos: usize) -&gt; ResultWithLibError&lt;(usize, usize)&gt; {
     <span class="kw">let </span><span class="kw-2">mut </span>pos = pos;
     <span class="kw">let </span><span class="kw-2">mut </span>number = <span class="string">&quot;&quot;</span>.to_string();
-    <span class="kw">let </span><span class="kw-2">mut </span>one_char = cargo_toml_text[pos..pos + <span class="number">1</span>].chars().next().unwrap();
+    <span class="kw">let </span><span class="kw-2">mut </span>one_char = cargo_toml_text[pos..pos + <span class="number">1</span>]
+        .chars()
+        .next()
+        .ok_or(LibError::ErrorFromStr(<span class="string">&quot;error chars().next()&quot;</span>))<span class="question-mark">?</span>;
     <span class="kw">while </span>one_char.is_numeric() {
         number.push(one_char);
         pos += <span class="number">1</span>;
-        one_char = cargo_toml_text[pos..pos + <span class="number">1</span>].chars().next().unwrap();
+        one_char = cargo_toml_text[pos..pos + <span class="number">1</span>]
+            .chars()
+            .next()
+            .ok_or(LibError::ErrorFromStr(<span class="string">&quot;error chars().next()&quot;</span>))<span class="question-mark">?</span>;
     }
-    <span class="kw">let </span>number: usize = <span class="macro">unwrap!</span>(number.parse());
+    <span class="kw">let </span>number: usize = number.parse()<span class="question-mark">?</span>;
     <span class="comment">//return
-    </span>(number, pos)
+    </span><span class="prelude-val">Ok</span>((number, pos))
 }
 </code></pre></div></section></main></body></html>

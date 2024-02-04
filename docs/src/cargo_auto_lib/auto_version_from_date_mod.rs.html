@@ -332,6 +332,50 @@
 <a href="#332" id="332">332</a>
 <a href="#333" id="333">333</a>
 <a href="#334" id="334">334</a>
+<a href="#335" id="335">335</a>
+<a href="#336" id="336">336</a>
+<a href="#337" id="337">337</a>
+<a href="#338" id="338">338</a>
+<a href="#339" id="339">339</a>
+<a href="#340" id="340">340</a>
+<a href="#341" id="341">341</a>
+<a href="#342" id="342">342</a>
+<a href="#343" id="343">343</a>
+<a href="#344" id="344">344</a>
+<a href="#345" id="345">345</a>
+<a href="#346" id="346">346</a>
+<a href="#347" id="347">347</a>
+<a href="#348" id="348">348</a>
+<a href="#349" id="349">349</a>
+<a href="#350" id="350">350</a>
+<a href="#351" id="351">351</a>
+<a href="#352" id="352">352</a>
+<a href="#353" id="353">353</a>
+<a href="#354" id="354">354</a>
+<a href="#355" id="355">355</a>
+<a href="#356" id="356">356</a>
+<a href="#357" id="357">357</a>
+<a href="#358" id="358">358</a>
+<a href="#359" id="359">359</a>
+<a href="#360" id="360">360</a>
+<a href="#361" id="361">361</a>
+<a href="#362" id="362">362</a>
+<a href="#363" id="363">363</a>
+<a href="#364" id="364">364</a>
+<a href="#365" id="365">365</a>
+<a href="#366" id="366">366</a>
+<a href="#367" id="367">367</a>
+<a href="#368" id="368">368</a>
+<a href="#369" id="369">369</a>
+<a href="#370" id="370">370</a>
+<a href="#371" id="371">371</a>
+<a href="#372" id="372">372</a>
+<a href="#373" id="373">373</a>
+<a href="#374" id="374">374</a>
+<a href="#375" id="375">375</a>
+<a href="#376" id="376">376</a>
+<a href="#377" id="377">377</a>
+<a href="#378" id="378">378</a>
 </pre></div><pre class="rust"><code><span class="comment">// auto_version_from_date_mod
 
 </span><span class="doccomment">//! new version as date is written to Cargo.toml and service_worker.js
@@ -339,12 +383,14 @@
 
 </span><span class="comment">// region: use statements
 
-</span><span class="kw">use crate</span>::{RED, RESET};
+</span><span class="kw">use </span><span class="kw">crate</span>::error_mod::ResultWithLibError;
+<span class="kw">use crate</span>::{LibError, RED, RESET};
 <span class="kw">use </span>chrono::DateTime;
 <span class="kw">use </span>chrono::Timelike;
 <span class="kw">use </span>chrono::{Datelike, Utc};
-<span class="kw">use </span>filetime::FileTime;
 <span class="kw">use </span>serde_derive::{Deserialize, Serialize};
+<span class="kw">use </span>std::path::PathBuf;
+<span class="kw">use </span>std::str::FromStr;
 <span class="kw">use </span>std::{fs, path::Path};
 <span class="kw">use </span>unwrap::unwrap;
 
@@ -356,11 +402,11 @@
 </span><span class="kw">pub struct </span>FileMetaData {
     <span class="doccomment">/// filename with path from Cargo.toml folder
     </span>filename: String,
-    <span class="doccomment">/// filedate from file
-    </span>filedate: String,
+    <span class="doccomment">/// hash of file
+    </span>filehash: String,
 }
 
-<span class="doccomment">/// the struct that represents the file .auto_version_from_date.json
+<span class="doccomment">/// the struct that represents the file .automation_tasks_rs_file_hashes.json
 </span><span class="attr">#[derive(Serialize, Deserialize)]
 </span><span class="kw">pub struct </span>AutoVersionFromDate {
     <span class="doccomment">/// vector of file metadata
@@ -386,11 +432,11 @@
 /// ### no need to change version if no files changed
 ///
 /// If src/*.rs or Cargo.toml files are not changed from last compile, than no need to change version.  
-/// The dates of the files will be stored in the file .auto_version_from_date.json near to Cargo.toml.
+/// The dates of the files will be stored in the file .automation_tasks_rs_file_hashes.json near to Cargo.toml.
 /// Warning: I don&#39;t check if the service worker has changed because it rarely does.  
-/// To know if the projects has changed or not, this function saves the dates of all files into `.auto_version_from_date.json` near Cargo.toml
+/// To know if the projects has changed or not, this function saves the dates of all files into `.automation_tasks_rs_file_hashes.json` near Cargo.toml
 </span><span class="kw">pub fn </span>auto_version_from_date() {
-    auto_version_from_date_internal(<span class="bool-val">false</span>);
+    auto_version_from_date_internal(<span class="bool-val">false</span>).unwrap_or_else(|err| <span class="macro">panic!</span>(<span class="string">&quot;{}&quot;</span>, err.to_string()));
 }
 
 <span class="doccomment">/// Works for single projects and workspaces.  
@@ -398,43 +444,45 @@
 /// For workspaces `release` I want to have the same version in all members.  
 /// It is slower, but easier to understand when deployed.
 </span><span class="kw">pub fn </span>auto_version_from_date_forced() {
-    auto_version_from_date_internal(<span class="bool-val">true</span>);
+    auto_version_from_date_internal(<span class="bool-val">true</span>).unwrap_or_else(|err| <span class="macro">panic!</span>(<span class="string">&quot;{}&quot;</span>, err.to_string()));
 }
 
 <span class="comment">// endregion: public functions
 
 // region: private functions
 
-</span><span class="kw">fn </span>auto_version_from_date_internal(force_version: bool) {
+</span><span class="kw">fn </span>auto_version_from_date_internal(force_version: bool) -&gt; ResultWithLibError&lt;()&gt; {
     <span class="kw">let </span>date = Utc::now();
     <span class="kw">let </span>new_version = version_from_date(date);
     <span class="kw">let </span>cargo_toml = <span class="kw">crate</span>::auto_cargo_toml_mod::CargoToml::read();
     <span class="kw">let </span>members = cargo_toml.workspace_members();
     <span class="kw">match </span>members {
-        <span class="prelude-val">None </span>=&gt; do_one_project(<span class="kw-2">&amp;</span>new_version, force_version),
+        <span class="prelude-val">None </span>=&gt; do_one_project(<span class="kw-2">&amp;</span>new_version, force_version)<span class="question-mark">?</span>,
         <span class="prelude-val">Some</span>(members) =&gt; {
             <span class="kw">for </span>member <span class="kw">in </span>members.iter() {
                 <span class="macro">unwrap!</span>(std::env::set_current_dir(member));
-                do_one_project(<span class="kw-2">&amp;</span>new_version, force_version);
+                do_one_project(<span class="kw-2">&amp;</span>new_version, force_version)<span class="question-mark">?</span>;
                 <span class="macro">unwrap!</span>(std::env::set_current_dir(<span class="string">&quot;..&quot;</span>));
             }
         }
     }
     modify_service_js(<span class="kw-2">&amp;</span>new_version);
+    <span class="prelude-val">Ok</span>(())
 }
 
-<span class="kw">fn </span>do_one_project(new_version: <span class="kw-2">&amp;</span>str, force_version: bool) {
-    <span class="kw">let </span>vec_of_metadata = read_file_metadata();
+<span class="kw">fn </span>do_one_project(new_version: <span class="kw-2">&amp;</span>str, force_version: bool) -&gt; ResultWithLibError&lt;()&gt; {
+    <span class="kw">let </span>vec_of_metadata = read_file_metadata()<span class="question-mark">?</span>;
     <span class="kw">let </span>is_files_equal = <span class="kw">if </span>force_version {
         <span class="bool-val">false
     </span>} <span class="kw">else </span>{
-        <span class="kw">let </span>js_struct = read_json_file(<span class="string">&quot;.auto_version_from_date.json&quot;</span>);
+        <span class="kw">let </span>js_struct = read_json_file(<span class="string">&quot;.automation_tasks_rs_file_hashes.json&quot;</span>)<span class="question-mark">?</span>;
         are_files_equal(<span class="kw-2">&amp;</span>vec_of_metadata, <span class="kw-2">&amp;</span>js_struct.vec_file_metadata)
     };
 
     <span class="kw">if </span>!is_files_equal {
-        write_version_to_cargo_and_modify_metadata(new_version, vec_of_metadata);
+        write_version_to_cargo_and_modify_metadata(new_version, vec_of_metadata)<span class="question-mark">?</span>;
     }
+    <span class="prelude-val">Ok</span>(())
 }
 
 <span class="doccomment">/// search for file service_worker.js and modify version
@@ -482,7 +530,7 @@
 </span><span class="kw">fn </span>write_version_to_cargo_and_modify_metadata(
     new_version: <span class="kw-2">&amp;</span>str,
     <span class="kw-2">mut </span>vec_of_metadata: Vec&lt;FileMetaData&gt;,
-) {
+) -&gt; ResultWithLibError&lt;()&gt; {
     <span class="comment">// println!(&quot;{}write version to Cargo.toml{}&quot;, *GREEN, *RESET);
     </span><span class="kw">let </span>cargo_filename = <span class="string">&quot;Cargo.toml&quot;</span>;
     <span class="kw">let </span><span class="kw-2">mut </span>cargo_content = <span class="macro">unwrap!</span>(fs::read_to_string(cargo_filename));
@@ -509,7 +557,7 @@
                 </span><span class="kw">let </span>_x = fs::write(cargo_filename, cargo_content);
 
                 <span class="comment">//the Cargo.toml is now different
-                </span>correct_file_metadata_for_cargo_tom_inside_vec(<span class="kw-2">&amp;mut </span>vec_of_metadata);
+                </span>correct_file_metadata_for_cargo_tom_inside_vec(<span class="kw-2">&amp;mut </span>vec_of_metadata)<span class="question-mark">?</span>;
                 save_json_file_for_file_meta_data(vec_of_metadata);
             }
         } <span class="kw">else </span>{
@@ -518,16 +566,22 @@
     } <span class="kw">else </span>{
         <span class="macro">panic!</span>(<span class="string">&quot;Cargo.toml has no version&quot;</span>);
     }
+    <span class="prelude-val">Ok</span>(())
 }
 
 <span class="doccomment">/// the Cargo.toml is now different and needs to be changed in the vec of file metadata
-</span><span class="kw">pub fn </span>correct_file_metadata_for_cargo_tom_inside_vec(vec_of_metadata: <span class="kw-2">&amp;mut </span>Vec&lt;FileMetaData&gt;) {
+</span><span class="kw">pub fn </span>correct_file_metadata_for_cargo_tom_inside_vec(
+    vec_of_metadata: <span class="kw-2">&amp;mut </span>Vec&lt;FileMetaData&gt;,
+) -&gt; ResultWithLibError&lt;()&gt; {
     <span class="comment">//correct the vector only for Cargo.toml file
     </span><span class="kw">let </span>filename = <span class="string">&quot;Cargo.toml&quot;</span>.to_string();
-    <span class="kw">let </span>metadata = <span class="macro">unwrap!</span>(fs::metadata(filename.as_str()));
-    <span class="kw">let </span>mtime = FileTime::from_last_modification_time(<span class="kw-2">&amp;</span>metadata);
-    <span class="kw">let </span>filedate = <span class="macro">format!</span>(<span class="string">&quot;{}&quot;</span>, mtime);
-    <span class="macro">unwrap!</span>(vec_of_metadata.get_mut(<span class="number">0</span>)).filedate = filedate;
+    <span class="comment">// calculate hash of file
+    </span><span class="kw">let </span>filehash = sha256_digest(PathBuf::from_str(<span class="kw-2">&amp;</span>filename)<span class="question-mark">?</span>.as_path())<span class="question-mark">?</span>;
+    vec_of_metadata
+        .get_mut(<span class="number">0</span>)
+        .ok_or(LibError::ErrorFromStr(<span class="string">&quot;error vec_of_metadata.get_mut(0)&quot;</span>))<span class="question-mark">?
+        </span>.filehash = filehash;
+    <span class="prelude-val">Ok</span>(())
 }
 
 <span class="doccomment">/// if files are added or deleted, other files must be also changed
@@ -541,7 +595,7 @@
         <span class="comment">//search in json file
         </span><span class="kw">let </span><span class="kw-2">mut </span>is_one_equal = <span class="bool-val">false</span>;
         <span class="kw">for </span>y <span class="kw">in </span>js_vec_of_metadata.iter() {
-            <span class="kw">if </span>x.filename == y.filename &amp;&amp; x.filedate == y.filedate {
+            <span class="kw">if </span>x.filename == y.filename &amp;&amp; x.filehash == y.filehash {
                 is_one_equal = <span class="bool-val">true</span>;
                 <span class="kw">break</span>;
             }
@@ -556,41 +610,63 @@
 }
 
 <span class="doccomment">/// make a vector of file metadata
-</span><span class="kw">pub fn </span>read_file_metadata() -&gt; Vec&lt;FileMetaData&gt; {
+</span><span class="kw">pub fn </span>read_file_metadata() -&gt; ResultWithLibError&lt;Vec&lt;FileMetaData&gt;&gt; {
     <span class="kw">let </span><span class="kw-2">mut </span>vec_of_metadata: Vec&lt;FileMetaData&gt; = Vec::new();
     <span class="kw">let </span>filename = <span class="string">&quot;Cargo.toml&quot;</span>.to_string();
-    <span class="kw">let </span>metadata = <span class="macro">unwrap!</span>(fs::metadata(filename.as_str()));
-    <span class="kw">let </span>mtime = FileTime::from_last_modification_time(<span class="kw-2">&amp;</span>metadata);
-    <span class="kw">let </span>filedate = <span class="macro">format!</span>(<span class="string">&quot;{}&quot;</span>, mtime);
-    vec_of_metadata.push(FileMetaData { filename, filedate });
-    <span class="kw">for </span>entry <span class="kw">in </span><span class="macro">unwrap!</span>(fs::read_dir(<span class="string">&quot;src&quot;</span>)) {
+    <span class="comment">// calculate hash of file
+    </span><span class="kw">let </span>filehash = sha256_digest(PathBuf::from_str(<span class="kw-2">&amp;</span>filename)<span class="question-mark">?</span>.as_path())<span class="question-mark">?</span>;
+    vec_of_metadata.push(FileMetaData { filename, filehash });
+
+    <span class="kw">for </span>entry <span class="kw">in </span>fs::read_dir(<span class="string">&quot;src&quot;</span>)<span class="question-mark">? </span>{
         <span class="kw">let </span>entry = <span class="macro">unwrap!</span>(entry);
         <span class="kw">let </span>path = entry.file_name();
 
         <span class="kw">let </span>filename = <span class="macro">format!</span>(<span class="string">&quot;src/{:?}&quot;</span>, path);
         <span class="kw">let </span>filename = filename.replace(<span class="string">&quot;\&quot;&quot;</span>, <span class="string">&quot;&quot;</span>);
-        <span class="comment">//println!(&quot;filename: {}&quot;, &amp;filename);
-        </span><span class="kw">let </span>metadata = <span class="macro">unwrap!</span>(fs::metadata(filename.as_str()));
-        <span class="kw">let </span>mtime = FileTime::from_last_modification_time(<span class="kw-2">&amp;</span>metadata);
-        <span class="kw">let </span>filedate = <span class="macro">format!</span>(<span class="string">&quot;{}&quot;</span>, mtime);
-        vec_of_metadata.push(FileMetaData { filename, filedate });
+        <span class="comment">// calculate hash of file
+        </span><span class="kw">let </span>filehash = sha256_digest(PathBuf::from_str(<span class="kw-2">&amp;</span>filename)<span class="question-mark">?</span>.as_path())<span class="question-mark">?</span>;
+        vec_of_metadata.push(FileMetaData { filename, filehash });
     }
-    vec_of_metadata
+    <span class="prelude-val">Ok</span>(vec_of_metadata)
 }
 
-<span class="doccomment">/// read .auto_version_from_date.json
-</span><span class="kw">pub fn </span>read_json_file(json_filepath: <span class="kw-2">&amp;</span>str) -&gt; AutoVersionFromDate {
+<span class="doccomment">/// calculate the hash for a file
+</span><span class="kw">fn </span>sha256_digest(path: <span class="kw-2">&amp;</span>Path) -&gt; ResultWithLibError&lt;String&gt; {
+    <span class="kw">let </span>file = std::fs::File::open(path)<span class="question-mark">?</span>;
+    <span class="kw">let </span><span class="kw-2">mut </span>reader = std::io::BufReader::new(file);
+    <span class="kw">let </span><span class="kw-2">mut </span>context = ring::digest::Context::new(<span class="kw-2">&amp;</span>ring::digest::SHA256);
+    <span class="kw">let </span><span class="kw-2">mut </span>buffer = [<span class="number">0</span>; <span class="number">1024</span>];
+    <span class="kw">use </span>std::io::Read;
+    <span class="kw">loop </span>{
+        <span class="kw">let </span>count = reader.read(<span class="kw-2">&amp;mut </span>buffer)<span class="question-mark">?</span>;
+        <span class="kw">if </span>count == <span class="number">0 </span>{
+            <span class="kw">break</span>;
+        }
+        context.update(<span class="kw-2">&amp;</span>buffer[..count]);
+    }
+    <span class="kw">let </span>digest = context.finish();
+    <span class="kw">let </span>hash_string = data_encoding::HEXLOWER.encode(digest.as_ref());
+    <span class="comment">// return
+    </span><span class="prelude-val">Ok</span>(hash_string)
+}
+
+<span class="doccomment">/// read .automation_tasks_rs_file_hashes.json
+</span><span class="kw">pub fn </span>read_json_file(json_filepath: <span class="kw-2">&amp;</span>str) -&gt; ResultWithLibError&lt;AutoVersionFromDate&gt; {
     <span class="kw">let </span>js_struct: AutoVersionFromDate;
     <span class="kw">let </span>f = fs::read_to_string(json_filepath);
 
     <span class="kw">match </span>f {
         <span class="prelude-val">Ok</span>(x) =&gt; {
-            <span class="comment">// check if file have CRLF instead of LF and show error
+            <span class="comment">// check if file have CRLF instead of LF. This are unusable - create empty struct
             </span><span class="kw">if </span>x.contains(<span class="string">&quot;\r\n&quot;</span>) {
-                <span class="macro">panic!</span>(<span class="string">&quot;Error: {} has CRLF line endings instead of LF. The task read_json_file cannot work! Closing.&quot;</span>, json_filepath);
+                <span class="comment">//create empty struct
+                </span>js_struct = AutoVersionFromDate {
+                    vec_file_metadata: Vec::new(),
+                }
+            } <span class="kw">else </span>{
+                <span class="comment">//read struct from file
+                </span>js_struct = serde_json::from_str(x.as_str())<span class="question-mark">?</span>;
             }
-            <span class="comment">//read struct from file
-            </span>js_struct = <span class="macro">unwrap!</span>(serde_json::from_str(x.as_str()));
         }
         <span class="prelude-val">Err</span>(_error) =&gt; {
             <span class="comment">// println!(&quot;Creating new file: {}&quot;, json_filepath);
@@ -600,7 +676,7 @@
             }
         }
     };
-    js_struct
+    <span class="prelude-val">Ok</span>(js_struct)
 }
 
 <span class="doccomment">/// save the new file metadata
@@ -609,7 +685,7 @@
         vec_file_metadata: vec_of_metadata,
     };
     <span class="kw">let </span>y = <span class="macro">unwrap!</span>(serde_json::to_string(<span class="kw-2">&amp;</span>x));
-    <span class="kw">let </span>json_filepath = <span class="string">&quot;.auto_version_from_date.json&quot;</span>;
+    <span class="kw">let </span>json_filepath = <span class="string">&quot;.automation_tasks_rs_file_hashes.json&quot;</span>;
     <span class="kw">let </span>_f = fs::write(json_filepath, y);
 }
 
@@ -657,6 +733,7 @@
 </span><span class="attr">#[cfg(test)]
 </span><span class="kw">mod </span>test {
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
+    <span class="kw">use </span><span class="kw">crate</span>::LibError;
 
     <span class="attr">#[test]
     </span><span class="kw">pub fn </span>test_date_to_version() {
@@ -664,6 +741,17 @@
 
         <span class="kw">let </span>version = version_from_date(date_time);
         <span class="macro">assert_eq!</span>(version, <span class="string">&quot;2020.522.34&quot;</span>);
+    }
+
+    <span class="attr">#[test]
+    </span><span class="kw">pub fn </span>test_sha256_digest() -&gt; ResultWithLibError&lt;()&gt; {
+        <span class="kw">let </span>digest = sha256_digest(Path::new(<span class="string">&quot;LICENSE&quot;</span>))<span class="question-mark">?</span>;
+        <span class="kw">let </span>expected_hex = <span class="string">&quot;09ca7e4eaa6e8ae9c7d261167129184883644d07dfba7cbfbc4c8a2e08360d5b&quot;</span>;
+        <span class="kw">let </span>expected: Vec&lt;u8&gt; =
+            ring::test::from_hex(expected_hex).map_err(|err| LibError::ErrorFromStr(<span class="string">&quot;from_hex&quot;</span>))<span class="question-mark">?</span>;
+
+        <span class="macro">assert_eq!</span>(<span class="kw-2">&amp;</span>digest.as_ref(), <span class="kw-2">&amp;</span>expected);
+        <span class="prelude-val">Ok</span>(())
     }
 }
 </code></pre></div></section></main></body></html>

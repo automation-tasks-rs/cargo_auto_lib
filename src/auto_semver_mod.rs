@@ -38,8 +38,9 @@ fn increment_part(part: VersionPart, force_version: bool) -> ResultWithLibError<
     let is_files_equal = if force_version {
         false
     } else {
-        let js_struct =
-            crate::auto_version_from_date_mod::read_json_file(".automation_tasks_rs_file_hashes.json")?;
+        let js_struct = crate::auto_version_from_date_mod::read_json_file(
+            ".automation_tasks_rs_file_hashes.json",
+        )?;
         crate::auto_version_from_date_mod::are_files_equal(
             &vec_of_metadata,
             &js_struct.vec_file_metadata,

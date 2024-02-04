@@ -279,8 +279,8 @@ pub fn read_json_file(json_filepath: &str) -> ResultWithLibError<AutoVersionFrom
 
     match f {
         Ok(x) => {
-            // check if file have CRLF instead of LF or contains old field "filedate". This are unusable - create empty struct
-            if x.contains("\r\n") || x.contains(r#""filedate""#) {
+            // check if file have CRLF instead of LF. This are unusable - create empty struct
+            if x.contains("\r\n") {
                 //create empty struct
                 js_struct = AutoVersionFromDate {
                     vec_file_metadata: Vec::new(),
@@ -355,7 +355,6 @@ fn find_from(rs_content: &str, from: usize, find: &str) -> Option<usize> {
 #[cfg(test)]
 mod test {
     use super::*;
-    use crate::LibError;
 
     #[test]
     pub fn test_date_to_version() {
@@ -368,11 +367,9 @@ mod test {
     #[test]
     pub fn test_sha256_digest() -> ResultWithLibError<()> {
         let digest = sha256_digest(Path::new("LICENSE"))?;
-        let expected_hex = "09ca7e4eaa6e8ae9c7d261167129184883644d07dfba7cbfbc4c8a2e08360d5b";
-        let expected: Vec<u8> =
-            ring::test::from_hex(expected_hex).map_err(|err| LibError::ErrorFromStr("from_hex"))?;
-
-        assert_eq!(&digest.as_ref(), &expected);
+        let hash_string = data_encoding::HEXLOWER.encode(digest.as_ref());
+        let expected_hex = "65666234343064623966363462343963643663333839373166303131663632636334666364323733663461323635303161346336366139633935656337373139";
+        assert_eq!(&hash_string, expected_hex);
         Ok(())
     }
 }

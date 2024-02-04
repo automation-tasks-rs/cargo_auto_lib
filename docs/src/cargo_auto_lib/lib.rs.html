@@ -161,11 +161,17 @@
 <a href="#161" id="161">161</a>
 <a href="#162" id="162">162</a>
 <a href="#163" id="163">163</a>
+<a href="#164" id="164">164</a>
+<a href="#165" id="165">165</a>
+<a href="#166" id="166">166</a>
+<a href="#167" id="167">167</a>
+<a href="#168" id="168">168</a>
+<a href="#169" id="169">169</a>
 </pre></div><pre class="rust"><code><span class="comment">// region: auto_md_to_doc_comments include README.md A //!
 </span><span class="doccomment">//! # cargo_auto_lib
 //!
 //! **Library crate for common tasks when building rust projects. Intended for use with cargo-auto - automation tasks written in Rust language.**  
-//! ***version: 1.0.78 date: 2024-02-03 author: [Bestia.dev](https://bestia.dev) repository: [Github](https://github.com/bestia-dev/cargo_auto_lib)***  
+//! ***version: 1.0.96 date: 2024-02-04 author: [Bestia.dev](https://bestia.dev) repository: [GitHub](https://github.com/bestia-dev/cargo_auto_lib)***  
 //!
 //!  [![crates.io](https://img.shields.io/crates/v/cargo_auto_lib.svg)](https://crates.io/crates/cargo_auto_lib)
 //!  [![Documentation](https://docs.rs/cargo_auto_lib/badge.svg)](https://docs.rs/cargo_auto_lib/)
@@ -175,11 +181,11 @@
 //!  [![Rust](https://github.com/bestia-dev/cargo_auto_lib/workflows/rust_fmt_auto_build_test/badge.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
 //!  ![Hits](https://bestia.dev/webpage_hit_counter/get_svg_image/276360626.svg)
 //!
-//! [![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-1458-green.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
-//! [![Lines in Doc comments](https://img.shields.io/badge/Lines_in_Doc_comments-394-blue.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
-//! [![Lines in Comments](https://img.shields.io/badge/Lines_in_comments-179-purple.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
-//! [![Lines in examples](https://img.shields.io/badge/Lines_in_examples-30-yellow.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
-//! [![Lines in tests](https://img.shields.io/badge/Lines_in_tests-94-orange.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
+//! [![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-1523-green.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
+//! [![Lines in Doc comments](https://img.shields.io/badge/Lines_in_Doc_comments-410-blue.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
+//! [![Lines in Comments](https://img.shields.io/badge/Lines_in_comments-188-purple.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
+//! [![Lines in examples](https://img.shields.io/badge/Lines_in_examples-37-yellow.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
+//! [![Lines in tests](https://img.shields.io/badge/Lines_in_tests-106-orange.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
 //!
 //! Hashtags: #rustlang #buildtool #developmenttool  
 //! My projects on GitHub are more like a tutorial than a finished product: [bestia-dev tutorials](https://github.com/bestia-dev/tutorials_rust_wasm).
@@ -294,10 +300,15 @@
 <span class="kw">mod </span>auto_semver_mod;
 <span class="kw">mod </span>auto_semver_or_date_mod;
 <span class="kw">mod </span>auto_version_from_date_mod;
+<span class="kw">mod </span>error_mod;
 
 <span class="kw">pub mod </span>utils_mod;
 
 <span class="comment">// reexport functions for callers of the library
+// TODO: It would be nice to have a test that checks that this exported functions did not change the signature or api
+// Once the library is deployed it is bad to change the api.
+// There should be a way to check that the new api didn&#39;t change in an incompatible way.
+// Adding functions, structs and enums is ok. Modifying existing one will break the compatibility.
 </span><span class="kw">pub use </span>auto_cargo_toml_mod::CargoToml;
 <span class="kw">pub use </span>auto_cargo_toml_to_md_mod::auto_cargo_toml_to_md;
 <span class="kw">pub use </span>auto_check_micro_xml_mod::auto_check_micro_xml;
@@ -319,6 +330,7 @@
 <span class="kw">pub use </span>auto_semver_or_date_mod::auto_version_increment_semver_or_date_forced;
 <span class="kw">pub use </span>auto_version_from_date_mod::auto_version_from_date;
 <span class="kw">pub use </span>auto_version_from_date_mod::auto_version_from_date_forced;
+<span class="kw">pub use </span>error_mod::LibError;
 
 <span class="kw">pub use </span>auto_helper_functions_mod::GREEN;
 <span class="kw">pub use </span>auto_helper_functions_mod::RED;
