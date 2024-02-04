@@ -223,7 +223,7 @@ pub fn are_files_equal(
             }
         }
         if !is_one_equal {
-            // println!("{} {}", x.filename, x.filedate);
+            // println!("{} {}", x.filename, x.filehash);
             is_files_equal = false;
             break;
         }
