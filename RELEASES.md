@@ -1,8 +1,6 @@
 # Changelog cargo_auto_lib
 
-## Version 1.1.102 (2024-02-05)
-
-### Other changes in 1.1.102
+## Version 1.1.2 (2024-02-05)
 
 - Researching a way to make the Public API consistent for future releases I made a breaking change. I incremented the minor version number and reset the patch number to signal it is a breaking change. These functions are rarely used, so it will not be a big deal.
 
@@ -11,8 +9,10 @@ How to refactor the code:
 
 - find `utils_mod::` and replace with empty string.
 
+- In `automation_tasks_rs/Cargo.toml` replace for example `cargo_auto_lib = "1.0.96"` to `cargo_auto_lib = "1.1.2"`  
+
 ## Version 1.0.96 (2024-02-04)
 
-### Other changes in 1.0.96
-
 - Refactor many `unwrap()` to error handling with `thiserror`. The problem is that it could introduce unwanted braking changes. I need to research how to make my Public API more manageable.
+
+- In `automation_tasks_rs/Cargo.toml` replace for example `cargo_auto_lib = "0.8.60"` to `cargo_auto_lib = "1.0.96"`  
