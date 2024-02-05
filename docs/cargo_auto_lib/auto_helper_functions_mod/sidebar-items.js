@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"constant":["GREEN","RED","RESET","YELLOW"],"fn":["completion_return_one_or_more_sub_commands","exit_if_not_run_in_rust_project_root_directory","run_shell_command","run_shell_commands"]};
+window.SIDEBAR_ITEMS = {"fn":["completion_return_one_or_more_sub_commands","exit_if_not_run_in_rust_project_root_directory","run_shell_command","run_shell_commands"]};

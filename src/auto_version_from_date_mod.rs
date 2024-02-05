@@ -5,8 +5,8 @@
 
 // region: use statements
 
-use crate::error_mod::ResultWithLibError;
-use crate::{LibError, RED, RESET};
+use crate::error_mod::{LibError, ResultWithLibError};
+use crate::public_api_mod::{RED, RESET};
 use chrono::DateTime;
 use chrono::Timelike;
 use chrono::{Datelike, Utc};
@@ -15,6 +15,8 @@ use std::path::PathBuf;
 use std::str::FromStr;
 use std::{fs, path::Path};
 use unwrap::unwrap;
+// this trait must be in scope to use these methods of CargoToml
+use crate::public_api_mod::CargoTomlPublicApiMethods;
 
 // endregion: use statements
 

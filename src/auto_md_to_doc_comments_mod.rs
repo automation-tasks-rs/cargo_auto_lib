@@ -8,6 +8,8 @@ use lazy_static::lazy_static;
 use regex::Regex;
 use std::fs;
 use unwrap::unwrap;
+// this trait must be in scope to use these methods of CargoToml
+use crate::public_api_mod::CargoTomlPublicApiMethods;
 
 #[derive(Debug)]
 struct RsMarker {

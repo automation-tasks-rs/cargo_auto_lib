@@ -13,7 +13,10 @@ use regex::*;
 use std::fs;
 use unwrap::unwrap;
 
-use crate::auto_helper_functions_mod::*;
+// this trait must be in scope to use these methods of CargoToml
+use crate::public_api_mod::CargoTomlPublicApiMethods;
+
+use crate::public_api_mod::{GREEN, RESET, YELLOW};
 
 // endregion: use statements
 

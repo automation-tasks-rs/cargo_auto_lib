@@ -3,7 +3,7 @@
 //! deletes old js snippets when working with wasm-pack
 
 //region: use statements
-use crate::{RED, RESET};
+use crate::public_api_mod::{RED, RESET};
 use filetime::FileTime;
 use std::env;
 use std::fs;

@@ -1,20 +1,16 @@
 //! automation_tasks_rs for cargo_auto_lib
 
-use cargo_auto_lib::*;
+// region: library with basic automation tasks
+use cargo_auto_lib as cl;
 
-// ANSI colors for Linux terminal
-// https://github.com/shiena/ansicolor/blob/master/README.md
-#[allow(dead_code)]
-pub const RED: &str = "\x1b[31m";
-#[allow(dead_code)]
-pub const YELLOW: &str = "\x1b[33m";
-#[allow(dead_code)]
-pub const GREEN: &str = "\x1b[32m";
-#[allow(dead_code)]
-pub const RESET: &str = "\x1b[0m";
+use cargo_auto_lib::RED as RED;
+use cargo_auto_lib::YELLOW as YELLOW;
+use cargo_auto_lib::GREEN as GREEN;
+use cargo_auto_lib::RESET as RESET;
+// region: library with basic automation tasks
 
 fn main() {
-    exit_if_not_run_in_rust_project_root_directory();
+    cl::exit_if_not_run_in_rust_project_root_directory();
 
     // get CLI arguments
     let mut args = std::env::args();
@@ -76,7 +72,7 @@ fn print_help() {
       (You need credentials for publishing. On crates.io get the 'access token'. Then save it locally once and forever with the command
       ` cargo login TOKEN` use a space before the command to avoid saving the secret token in bash history.){RESET}
 
-      © 2022 bestia.dev  MIT License github.com/bestia-dev/cargo-auto
+      © 2024 bestia.dev  MIT License github.com/bestia-dev/cargo-auto
       {RESET}"#
     );
     print_examples_cmd();
@@ -97,7 +93,7 @@ fn completion() {
 
     if last_word == "cargo-auto" || last_word == "auto" {
         let sub_commands = vec!["build", "release", "doc", "test", "commit_and_push", "publish_to_crates_io",];
-        completion_return_one_or_more_sub_commands(sub_commands, word_being_completed);
+        cl::completion_return_one_or_more_sub_commands(sub_commands, word_being_completed);
     }
     /*
     // the second level if needed
@@ -115,9 +111,9 @@ fn completion() {
 /// cargo build
 fn task_build() {
 //    let cargo_toml = CargoToml::read();
-    auto_version_increment_semver_or_date();
-    run_shell_command("cargo fmt");
-    run_shell_command("cargo build");
+    cl::auto_version_increment_semver_or_date();
+    cl::run_shell_command("cargo fmt");
+    cl::run_shell_command("cargo build");
     println!(
         r#"{YELLOW}
     After `cargo auto build`, examples and tests
@@ -131,12 +127,12 @@ cargo auto release{RESET}{YELLOW}
 /// cargo build --release
 fn task_release() {
 //    let cargo_toml = CargoToml::read();
-    auto_version_increment_semver_or_date();
-    auto_cargo_toml_to_md();
-    auto_lines_of_code("");
+    cl::auto_version_increment_semver_or_date();
+    cl::auto_cargo_toml_to_md();
+    cl::auto_lines_of_code("");
 
-    run_shell_command("cargo fmt");
-    run_shell_command("cargo build --release");
+    cl::run_shell_command("cargo fmt");
+    cl::run_shell_command("cargo build --release");
     println!(
         r#"{YELLOW}
     After `cargo auto release`, run examples and tests
@@ -149,20 +145,20 @@ cargo auto doc{RESET}{YELLOW}
 
 /// cargo doc, then copies to /docs/ folder, because this is a github standard folder
 fn task_doc() {
-    let cargo_toml = CargoToml::read();
-    auto_cargo_toml_to_md();
-    auto_lines_of_code("");
+    let cargo_toml = cl::CargoToml::read();
+    cl::auto_cargo_toml_to_md();
+    cl::auto_lines_of_code("");
     // we have sample data that we don't want to change, so I comment this line: 
     // auto_plantuml(&cargo_toml.package_repository().unwrap());
-    auto_md_to_doc_comments();
+    cl::auto_md_to_doc_comments();
 
-    run_shell_command("cargo doc --no-deps --document-private-items");
+    cl::run_shell_command("cargo doc --no-deps --document-private-items");
     // copy target/doc into docs/ because it is github standard
-    run_shell_command("rsync -a --info=progress2 --delete-after target/doc/ docs/");
+    cl::run_shell_command("rsync -a --info=progress2 --delete-after target/doc/ docs/");
     // Create simple index.html file in docs directory
-    run_shell_command(&format!("echo \"<meta http-equiv=\\\"refresh\\\" content=\\\"0; url={}/index.html\\\" />\" > docs/index.html",cargo_toml.package_name().replace("-","_")));    
+    cl::run_shell_command(&format!("echo \"<meta http-equiv=\\\"refresh\\\" content=\\\"0; url={}/index.html\\\" />\" > docs/index.html",cargo_toml.package_name().replace("-","_")));    
     // message to help user with next move
-    run_shell_command("cargo fmt");
+    cl::run_shell_command("cargo fmt");
     println!(
         r#"{YELLOW}
     After `cargo auto doc`, check `docs/index.html`. If ok, then test the documentation code examples{RESET}{GREEN}
@@ -173,7 +169,7 @@ cargo auto test{RESET}{YELLOW}
 
 /// cargo test
 fn task_test() {
-    run_shell_command("cargo test");
+    cl::run_shell_command("cargo test");
     println!(
         r#"{YELLOW}
     After `cargo auto test`. If ok, then {RESET}{GREEN}
@@ -188,8 +184,8 @@ fn task_commit_and_push(arg_2: Option<String>) {
     match arg_2 {
         None => println!("{RED}Error: message for commit is mandatory.{RESET}"),
         Some(message) => {
-            run_shell_command(&format!(r#"git add -A && git commit --allow-empty -m "{}""#, message));
-            run_shell_command("git push");
+            cl::run_shell_command(&format!(r#"git add -A && git commit --allow-empty -m "{}""#, message));
+            cl::run_shell_command("git push");
             println!(
                 r#"{YELLOW}
     After `cargo auto commit_and_push "message"`{RESET}{GREEN}
@@ -204,16 +200,16 @@ cargo auto publish_to_crates_io{RESET}{YELLOW}
 fn task_publish_to_crates_io() {
     println!(r#"{YELLOW}The crates.io access token must already be saved locally with `cargo login TOKEN`{RESET}"#);
 
-let cargo_toml = CargoToml::read();
+let cargo_toml = cl::CargoToml::read();
     // git tag
     let shell_command = format!(
         "git tag -f -a v{version} -m version_{version}",
         version = cargo_toml.package_version()
     );
-    run_shell_command(&shell_command);
+    cl::run_shell_command(&shell_command);
 
     // cargo publish
-    run_shell_command("cargo publish");
+    cl::run_shell_command("cargo publish");
     println!(
     r#"{YELLOW}
     After `cargo auto publish_to_crates_io`, check in browser{RESET}{GREEN}

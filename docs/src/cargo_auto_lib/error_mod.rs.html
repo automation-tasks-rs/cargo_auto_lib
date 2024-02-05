@@ -31,6 +31,7 @@
 <a href="#31" id="31">31</a>
 <a href="#32" id="32">32</a>
 <a href="#33" id="33">33</a>
+<a href="#34" id="34">34</a>
 </pre></div><pre class="rust"><code><span class="comment">// error_mod.rs
 
 </span><span class="doccomment">//! I am using the crate thiserror to create an enum for all library errors.
@@ -54,14 +55,15 @@
     <span class="attr">#[error(<span class="string">&quot;ParseIntError: {0}&quot;</span>)]
     </span>ParseIntError(<span class="attr">#[from] </span>std::num::ParseIntError),
 
-    <span class="attr">#[error(<span class="string">&quot;ErrorFromString: {0}&quot;</span>)]
-    </span>ErrorFromString(String),
-    <span class="attr">#[error(<span class="string">&quot;ErrorFromStaticStr: {0}&quot;</span>)]
+    <span class="comment">//#[error(&quot;ErrorFromString: {0}&quot;)]
+    //ErrorFromString(String),
+    </span><span class="attr">#[error(<span class="string">&quot;ErrorFromStaticStr: {0}&quot;</span>)]
     </span>ErrorFromStr(<span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str),
-    <span class="attr">#[error(<span class="string">&quot;unknown error&quot;</span>)]
-    </span>UnknownError,
-}
+    <span class="comment">//#[error(&quot;unknown error&quot;)]
+    //UnknownError,
+</span>}
 
-<span class="doccomment">/// type for result with LibError using thiserror
+<span class="doccomment">/// for easier writing the returning type, that is mostly Result&lt;&gt;
+/// type for result with fixed LibError using thiserror
 </span><span class="kw">pub type </span>ResultWithLibError&lt;T, E = LibError&gt; = core::result::Result&lt;T, E&gt;;
 </code></pre></div></section></main></body></html>

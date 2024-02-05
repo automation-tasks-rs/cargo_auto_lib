@@ -546,7 +546,7 @@
         <span class="comment">// similar to examples/plantuml/plantuml1.rs and check the result
         // region: prepare folders and files for this example
         // remove the &#39;images&#39; folder
-        </span>std::fs::remove_dir_all(<span class="string">&quot;examples/plantuml/images&quot;</span>).unwrap();
+        </span>std::fs::remove_dir_all(<span class="string">&quot;examples/plantuml/images&quot;</span>).unwrap_or_else(|<span class="kw">_</span>| ());
         <span class="comment">// copy md files from sample_data to examples
         </span>std::fs::copy(
             <span class="string">&quot;sample_data/input1_for_plantuml.md&quot;</span>,

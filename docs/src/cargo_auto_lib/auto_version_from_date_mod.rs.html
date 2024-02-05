@@ -375,7 +375,6 @@
 <a href="#375" id="375">375</a>
 <a href="#376" id="376">376</a>
 <a href="#377" id="377">377</a>
-<a href="#378" id="378">378</a>
 </pre></div><pre class="rust"><code><span class="comment">// auto_version_from_date_mod
 
 </span><span class="doccomment">//! new version as date is written to Cargo.toml and service_worker.js
@@ -383,8 +382,8 @@
 
 </span><span class="comment">// region: use statements
 
-</span><span class="kw">use </span><span class="kw">crate</span>::error_mod::ResultWithLibError;
-<span class="kw">use crate</span>::{LibError, RED, RESET};
+</span><span class="kw">use </span><span class="kw">crate</span>::error_mod::{LibError, ResultWithLibError};
+<span class="kw">use </span><span class="kw">crate</span>::public_api_mod::{RED, RESET};
 <span class="kw">use </span>chrono::DateTime;
 <span class="kw">use </span>chrono::Timelike;
 <span class="kw">use </span>chrono::{Datelike, Utc};
@@ -393,6 +392,8 @@
 <span class="kw">use </span>std::str::FromStr;
 <span class="kw">use </span>std::{fs, path::Path};
 <span class="kw">use </span>unwrap::unwrap;
+<span class="comment">// this trait must be in scope to use these methods of CargoToml
+</span><span class="kw">use </span><span class="kw">crate</span>::public_api_mod::CargoTomlPublicApiMethods;
 
 <span class="comment">// endregion: use statements
 
@@ -601,7 +602,7 @@
             }
         }
         <span class="kw">if </span>!is_one_equal {
-            <span class="comment">// println!(&quot;{} {}&quot;, x.filename, x.filedate);
+            <span class="comment">// println!(&quot;{} {}&quot;, x.filename, x.filehash);
             </span>is_files_equal = <span class="bool-val">false</span>;
             <span class="kw">break</span>;
         }
@@ -733,7 +734,6 @@
 </span><span class="attr">#[cfg(test)]
 </span><span class="kw">mod </span>test {
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
-    <span class="kw">use </span><span class="kw">crate</span>::LibError;
 
     <span class="attr">#[test]
     </span><span class="kw">pub fn </span>test_date_to_version() {
@@ -746,11 +746,9 @@
     <span class="attr">#[test]
     </span><span class="kw">pub fn </span>test_sha256_digest() -&gt; ResultWithLibError&lt;()&gt; {
         <span class="kw">let </span>digest = sha256_digest(Path::new(<span class="string">&quot;LICENSE&quot;</span>))<span class="question-mark">?</span>;
-        <span class="kw">let </span>expected_hex = <span class="string">&quot;09ca7e4eaa6e8ae9c7d261167129184883644d07dfba7cbfbc4c8a2e08360d5b&quot;</span>;
-        <span class="kw">let </span>expected: Vec&lt;u8&gt; =
-            ring::test::from_hex(expected_hex).map_err(|err| LibError::ErrorFromStr(<span class="string">&quot;from_hex&quot;</span>))<span class="question-mark">?</span>;
-
-        <span class="macro">assert_eq!</span>(<span class="kw-2">&amp;</span>digest.as_ref(), <span class="kw-2">&amp;</span>expected);
+        <span class="kw">let </span>hash_string = data_encoding::HEXLOWER.encode(digest.as_ref());
+        <span class="kw">let </span>expected_hex = <span class="string">&quot;65666234343064623966363462343963643663333839373166303131663632636334666364323733663461323635303161346336366139633935656337373139&quot;</span>;
+        <span class="macro">assert_eq!</span>(<span class="kw-2">&amp;</span>hash_string, expected_hex);
         <span class="prelude-val">Ok</span>(())
     }
 }

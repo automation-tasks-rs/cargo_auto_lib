@@ -2,11 +2,12 @@
 
 //! semver utilities
 
-use crate::{error_mod::ResultWithLibError, utils_mod::*, LibError};
-
+use crate::public_api_mod::{GREEN, RESET};
+use crate::{
+    error_mod::{LibError, ResultWithLibError},
+    utils_mod::*,
+};
 use std::fs;
-
-use crate::auto_helper_functions_mod::*;
 
 enum VersionPart {
     Patch,

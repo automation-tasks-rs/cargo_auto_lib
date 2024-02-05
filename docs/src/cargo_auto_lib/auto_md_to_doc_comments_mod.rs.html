@@ -236,6 +236,8 @@
 <a href="#236" id="236">236</a>
 <a href="#237" id="237">237</a>
 <a href="#238" id="238">238</a>
+<a href="#239" id="239">239</a>
+<a href="#240" id="240">240</a>
 </pre></div><pre class="rust"><code><span class="comment">// auto_md_to_doc_comments_mod
 
 </span><span class="doccomment">//! finds rs files with markers and include segments from md files
@@ -246,6 +248,8 @@
 <span class="kw">use </span>regex::Regex;
 <span class="kw">use </span>std::fs;
 <span class="kw">use </span>unwrap::unwrap;
+<span class="comment">// this trait must be in scope to use these methods of CargoToml
+</span><span class="kw">use </span><span class="kw">crate</span>::public_api_mod::CargoTomlPublicApiMethods;
 
 <span class="attr">#[derive(Debug)]
 </span><span class="kw">struct </span>RsMarker {

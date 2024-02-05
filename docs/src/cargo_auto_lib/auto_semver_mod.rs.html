@@ -135,15 +135,17 @@
 <a href="#135" id="135">135</a>
 <a href="#136" id="136">136</a>
 <a href="#137" id="137">137</a>
+<a href="#138" id="138">138</a>
 </pre></div><pre class="rust"><code><span class="comment">// auto_semver_mod
 
 </span><span class="doccomment">//! semver utilities
 
-</span><span class="kw">use crate</span>::{error_mod::ResultWithLibError, utils_mod::<span class="kw-2">*</span>, LibError};
-
+</span><span class="kw">use </span><span class="kw">crate</span>::public_api_mod::{GREEN, RESET};
+<span class="kw">use crate</span>::{
+    error_mod::{LibError, ResultWithLibError},
+    utils_mod::<span class="kw-2">*</span>,
+};
 <span class="kw">use </span>std::fs;
-
-<span class="kw">use </span><span class="kw">crate</span>::auto_helper_functions_mod::<span class="kw-2">*</span>;
 
 <span class="kw">enum </span>VersionPart {
     Patch,

@@ -70,31 +70,13 @@
 <a href="#70" id="70">70</a>
 <a href="#71" id="71">71</a>
 <a href="#72" id="72">72</a>
-<a href="#73" id="73">73</a>
-<a href="#74" id="74">74</a>
-<a href="#75" id="75">75</a>
-<a href="#76" id="76">76</a>
-<a href="#77" id="77">77</a>
-<a href="#78" id="78">78</a>
-<a href="#79" id="79">79</a>
-<a href="#80" id="80">80</a>
-<a href="#81" id="81">81</a>
 </pre></div><pre class="rust"><code><span class="comment">// auto_helper_functions_mod
 
 </span><span class="doccomment">//! various helper functions
 
 </span><span class="kw">use </span>std::process::exit;
 
-<span class="comment">// ANSI colors for Linux terminal
-// https://github.com/shiena/ansicolor/blob/master/README.md
-</span><span class="attr">#[allow(dead_code)]
-</span><span class="kw">pub const </span>RED: <span class="kw-2">&amp;</span>str = <span class="string">&quot;\x1b[31m&quot;</span>;
-<span class="attr">#[allow(dead_code)]
-</span><span class="kw">pub const </span>YELLOW: <span class="kw-2">&amp;</span>str = <span class="string">&quot;\x1b[33m&quot;</span>;
-<span class="attr">#[allow(dead_code)]
-</span><span class="kw">pub const </span>GREEN: <span class="kw-2">&amp;</span>str = <span class="string">&quot;\x1b[32m&quot;</span>;
-<span class="attr">#[allow(dead_code)]
-</span><span class="kw">pub const </span>RESET: <span class="kw-2">&amp;</span>str = <span class="string">&quot;\x1b[0m&quot;</span>;
+<span class="kw">use </span><span class="kw">crate</span>::public_api_mod::{RED, RESET};
 
 <span class="doccomment">/// run one shell command
 /// Stops task execution if the command has Exit Status != 0

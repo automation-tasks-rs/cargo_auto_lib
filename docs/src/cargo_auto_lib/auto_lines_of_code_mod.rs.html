@@ -328,12 +328,14 @@
 <a href="#328" id="328">328</a>
 <a href="#329" id="329">329</a>
 <a href="#330" id="330">330</a>
+<a href="#331" id="331">331</a>
+<a href="#332" id="332">332</a>
 </pre></div><pre class="rust"><code><span class="comment">// auto_lines_of_code_mod
 
 </span><span class="doccomment">//! inserts shield badges with lines_of_code into README.rs
 //! It works for workspaces and for single projects.  
 
-</span><span class="kw">use crate</span>::{RED, RESET};
+</span><span class="kw">use </span><span class="kw">crate</span>::public_api_mod::{RED, RESET};
 <span class="kw">use </span>anyhow;
 <span class="kw">use </span>regex::Regex;
 <span class="kw">use </span>std::fs::File;
@@ -341,8 +343,10 @@
 <span class="kw">use </span>std::{fs, path::Path};
 <span class="kw">use </span>unwrap::unwrap;
 <span class="comment">// use crate::auto_helper_functions_mod::*;
+// this trait must be in scope to use these methods of CargoToml
+</span><span class="kw">use </span><span class="kw">crate</span>::public_api_mod::CargoTomlPublicApiMethods;
 
-</span><span class="attr">#[derive(Default, Debug)]
+<span class="attr">#[derive(Default, Debug)]
 </span><span class="doccomment">/// Struct that contains 4 types of lines count: code, doc comments, comments, test and examples.
 </span><span class="kw">pub struct </span>LinesOfCode {
     <span class="doccomment">/// lines with code in srs files

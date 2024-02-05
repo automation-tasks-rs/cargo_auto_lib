@@ -236,7 +236,7 @@ mod test {
         // similar to examples/plantuml/plantuml1.rs and check the result
         // region: prepare folders and files for this example
         // remove the 'images' folder
-        std::fs::remove_dir_all("examples/plantuml/images").unwrap();
+        std::fs::remove_dir_all("examples/plantuml/images").unwrap_or_else(|_| ());
         // copy md files from sample_data to examples
         std::fs::copy(
             "sample_data/input1_for_plantuml.md",

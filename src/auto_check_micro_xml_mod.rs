@@ -1,6 +1,6 @@
 // auto_check_micro_xml_mod.rs
 
-use crate::{RED, RESET};
+use crate::public_api_mod::{RED, RESET};
 use glob::glob;
 use reader_for_microxml::{ReaderForMicroXml, Token};
 use unwrap::unwrap;

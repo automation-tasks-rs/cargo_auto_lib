@@ -118,6 +118,9 @@
 <a href="#118" id="118">118</a>
 <a href="#119" id="119">119</a>
 <a href="#120" id="120">120</a>
+<a href="#121" id="121">121</a>
+<a href="#122" id="122">122</a>
+<a href="#123" id="123">123</a>
 </pre></div><pre class="rust"><code><span class="comment">// auto_cargo_toml_to_md_mod
 
 </span><span class="doccomment">//! includes data from Cargo.toml to README.md files: version, authors,...
@@ -133,7 +136,10 @@
 <span class="kw">use </span>std::fs;
 <span class="kw">use </span>unwrap::unwrap;
 
-<span class="kw">use </span><span class="kw">crate</span>::auto_helper_functions_mod::<span class="kw-2">*</span>;
+<span class="comment">// this trait must be in scope to use these methods of CargoToml
+</span><span class="kw">use </span><span class="kw">crate</span>::public_api_mod::CargoTomlPublicApiMethods;
+
+<span class="kw">use </span><span class="kw">crate</span>::public_api_mod::{GREEN, RESET, YELLOW};
 
 <span class="comment">// endregion: use statements
 

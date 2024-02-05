@@ -3,7 +3,7 @@
 //! inserts shield badges with lines_of_code into README.rs
 //! It works for workspaces and for single projects.  
 
-use crate::{RED, RESET};
+use crate::public_api_mod::{RED, RESET};
 use anyhow;
 use regex::Regex;
 use std::fs::File;
@@ -11,6 +11,8 @@ use std::io::{BufRead, BufReader};
 use std::{fs, path::Path};
 use unwrap::unwrap;
 // use crate::auto_helper_functions_mod::*;
+// this trait must be in scope to use these methods of CargoToml
+use crate::public_api_mod::CargoTomlPublicApiMethods;
 
 #[derive(Default, Debug)]
 /// Struct that contains 4 types of lines count: code, doc comments, comments, test and examples.

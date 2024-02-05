@@ -2,7 +2,7 @@
 //! # cargo_auto_lib
 //!
 //! **Library crate for common tasks when building rust projects. Intended for use with cargo-auto - automation tasks written in Rust language.**  
-//! ***version: 1.0.96 date: 2024-02-04 author: [Bestia.dev](https://bestia.dev) repository: [GitHub](https://github.com/bestia-dev/cargo_auto_lib)***  
+//! ***version: 1.1.2 date: 2024-02-05 author: [Bestia.dev](https://bestia.dev) repository: [GitHub](https://github.com/bestia-dev/cargo_auto_lib)***  
 //!
 //!  [![crates.io](https://img.shields.io/crates/v/cargo_auto_lib.svg)](https://crates.io/crates/cargo_auto_lib)
 //!  [![Documentation](https://docs.rs/cargo_auto_lib/badge.svg)](https://docs.rs/cargo_auto_lib/)
@@ -12,11 +12,11 @@
 //!  [![Rust](https://github.com/bestia-dev/cargo_auto_lib/workflows/rust_fmt_auto_build_test/badge.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
 //!  ![Hits](https://bestia.dev/webpage_hit_counter/get_svg_image/276360626.svg)
 //!
-//! [![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-1523-green.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
-//! [![Lines in Doc comments](https://img.shields.io/badge/Lines_in_Doc_comments-410-blue.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
-//! [![Lines in Comments](https://img.shields.io/badge/Lines_in_comments-188-purple.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
+//! [![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-1633-green.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
+//! [![Lines in Doc comments](https://img.shields.io/badge/Lines_in_Doc_comments-602-blue.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
+//! [![Lines in Comments](https://img.shields.io/badge/Lines_in_comments-227-purple.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
 //! [![Lines in examples](https://img.shields.io/badge/Lines_in_examples-37-yellow.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
-//! [![Lines in tests](https://img.shields.io/badge/Lines_in_tests-106-orange.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
+//! [![Lines in tests](https://img.shields.io/badge/Lines_in_tests-105-orange.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
 //!
 //! Hashtags: #rustlang #buildtool #developmenttool  
 //! My projects on GitHub are more like a tutorial than a finished product: [bestia-dev tutorials](https://github.com/bestia-dev/tutorials_rust_wasm).
@@ -132,38 +132,9 @@ mod auto_semver_mod;
 mod auto_semver_or_date_mod;
 mod auto_version_from_date_mod;
 mod error_mod;
+mod public_api_mod;
+mod utils_mod;
+// endregion
 
-pub mod utils_mod;
-
-// reexport functions for callers of the library
-// TODO: It would be nice to have a test that checks that this exported functions did not change the signature or api
-// Once the library is deployed it is bad to change the api.
-// There should be a way to check that the new api didn't change in an incompatible way.
-// Adding functions, structs and enums is ok. Modifying existing one will break the compatibility.
-pub use auto_cargo_toml_mod::CargoToml;
-pub use auto_cargo_toml_to_md_mod::auto_cargo_toml_to_md;
-pub use auto_check_micro_xml_mod::auto_check_micro_xml;
-pub use auto_delete_old_js_snippets_mod::auto_delete_old_js_snippets;
-pub use auto_helper_functions_mod::completion_return_one_or_more_sub_commands;
-pub use auto_helper_functions_mod::exit_if_not_run_in_rust_project_root_directory;
-pub use auto_helper_functions_mod::run_shell_command;
-pub use auto_helper_functions_mod::run_shell_commands;
-pub use auto_lines_of_code_mod::auto_lines_of_code;
-pub use auto_md_to_doc_comments_mod::auto_md_to_doc_comments;
-pub use auto_plantuml_mod::auto_plantuml;
-pub use auto_plantuml_mod::auto_plantuml_for_path;
-pub use auto_plantuml_mod::hash_for_filename;
-pub use auto_semver_mod::auto_semver_increment_minor;
-pub use auto_semver_mod::auto_semver_increment_minor_forced;
-pub use auto_semver_mod::auto_semver_increment_patch;
-pub use auto_semver_mod::auto_semver_increment_patch_forced;
-pub use auto_semver_or_date_mod::auto_version_increment_semver_or_date;
-pub use auto_semver_or_date_mod::auto_version_increment_semver_or_date_forced;
-pub use auto_version_from_date_mod::auto_version_from_date;
-pub use auto_version_from_date_mod::auto_version_from_date_forced;
-pub use error_mod::LibError;
-
-pub use auto_helper_functions_mod::GREEN;
-pub use auto_helper_functions_mod::RED;
-pub use auto_helper_functions_mod::RESET;
-pub use auto_helper_functions_mod::YELLOW;
+// only the Public API is exported (functions, structs, methods, enums, traits)
+pub use public_api_mod::*;

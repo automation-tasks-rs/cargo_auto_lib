@@ -4,9 +4,10 @@
 //! is greater than 2000, it is a date-version, else it is semver
 //! It works for workspaces and for single projects.  
 
-use unwrap::unwrap;
-
 use crate::error_mod::ResultWithLibError;
+use unwrap::unwrap;
+// this trait must be in scope to use these methods of CargoToml
+use crate::public_api_mod::CargoTomlPublicApiMethods;
 
 /// increments the version in Cargo.toml.
 /// if the major version is greater than 2000, it is a date version

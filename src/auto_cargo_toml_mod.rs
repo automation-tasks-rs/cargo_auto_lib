@@ -22,9 +22,9 @@ pub struct CargoToml {
     package: cargo_toml::Package,
 }
 
-impl CargoToml {
+impl crate::public_api_mod::CargoTomlPublicApiMethods for CargoToml {
     /// read Cargo.toml, for workspaces it is the Cargo.toml of the first member
-    pub fn read() -> Self {
+    fn read() -> Self {
         let cargo_toml_workspace_maybe = unwrap!(cargo_toml::Manifest::from_path("Cargo.toml"));
         let cargo_toml_main = match &cargo_toml_workspace_maybe.workspace {
             None => cargo_toml_workspace_maybe.clone(),
@@ -47,31 +47,31 @@ impl CargoToml {
     }
 
     /// Cargo.toml package name
-    pub fn package_name(&self) -> String {
+    fn package_name(&self) -> String {
         self.package.name.to_string()
     }
 
     /// Cargo.toml package version
-    pub fn package_version(&self) -> String {
+    fn package_version(&self) -> String {
         self.package.version().to_string()
     }
 
     /// Cargo.toml package authors as string
-    pub fn package_authors_string(&self) -> String {
+    fn package_authors_string(&self) -> String {
         let authors =
             crate::utils_mod::concatenate_vec_to_string(&self.package.authors().to_vec(), ", ");
         authors
     }
 
     /// Cargo.toml package authors as string without emails
-    pub fn package_author_name(&self) -> String {
+    fn package_author_name(&self) -> String {
         let author = self.package_authors_string();
         let author = REGEX_REMOVE_EMAIL.replace_all(&author, "").to_string();
         author
     }
 
     /// Cargo.toml package repository
-    pub fn package_repository(&self) -> Option<String> {
+    fn package_repository(&self) -> Option<String> {
         match self.package.repository() {
             None => None,
             Some(x) => Some(x.to_string()),
@@ -79,7 +79,7 @@ impl CargoToml {
     }
 
     /// Cargo.toml package repository
-    pub fn package_description(&self) -> Option<String> {
+    fn package_description(&self) -> Option<String> {
         match self.package.description() {
             None => None,
             Some(x) => Some(x.to_string()),
@@ -87,7 +87,7 @@ impl CargoToml {
     }
 
     /// Cargo.toml package homepage
-    pub fn package_homepage(&self) -> String {
+    fn package_homepage(&self) -> String {
         match self.package.homepage() {
             None => String::new(),
             Some(x) => x.to_string(),
@@ -95,7 +95,7 @@ impl CargoToml {
     }
 
     /// Cargo.toml workspace members
-    pub fn workspace_members(&self) -> Option<Vec<String>> {
+    fn workspace_members(&self) -> Option<Vec<String>> {
         match &self.cargo_toml_workspace_maybe.workspace {
             None => None,
             Some(workspace) => Some(workspace.members.clone()),
@@ -105,10 +105,13 @@ impl CargoToml {
 
 #[cfg(test)]
 mod test {
+
     use super::*;
 
     #[test]
     pub fn test_cargo_toml() {
+        // the method read is part of the CargoTomlPublicApiMethods trait
+        use crate::public_api_mod::CargoTomlPublicApiMethods;
         let cargo_toml = CargoToml::read();
         assert_eq!(cargo_toml.package_author_name(), "Bestia.dev");
         assert_eq!(cargo_toml.package_homepage(), "https://bestia.dev");

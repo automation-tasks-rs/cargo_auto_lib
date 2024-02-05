@@ -21,13 +21,14 @@ pub enum LibError {
     #[error("ParseIntError: {0}")]
     ParseIntError(#[from] std::num::ParseIntError),
 
-    #[error("ErrorFromString: {0}")]
-    ErrorFromString(String),
+    //#[error("ErrorFromString: {0}")]
+    //ErrorFromString(String),
     #[error("ErrorFromStaticStr: {0}")]
     ErrorFromStr(&'static str),
-    #[error("unknown error")]
-    UnknownError,
+    //#[error("unknown error")]
+    //UnknownError,
 }
 
-/// type for result with LibError using thiserror
+/// for easier writing the returning type, that is mostly Result<>
+/// type for result with fixed LibError using thiserror
 pub type ResultWithLibError<T, E = LibError> = core::result::Result<T, E>;
