@@ -9,10 +9,14 @@
 
 [//]: # (auto_cargo_toml_to_md end)
 
+ ![status](https://img.shields.io/badge/maintained-green)
+ ![status](https://img.shields.io/badge/ready_for_use-green)
+
  [![crates.io](https://img.shields.io/crates/v/cargo_auto_lib.svg)](https://crates.io/crates/cargo_auto_lib)
  [![Documentation](https://docs.rs/cargo_auto_lib/badge.svg)](https://docs.rs/cargo_auto_lib/)
  [![crev reviews](https://web.crev.dev/rust-reviews/badge/crev_count/cargo_auto_lib.svg)](https://web.crev.dev/rust-reviews/crate/cargo_auto_lib/)
-  [![Lib.rs](https://img.shields.io/badge/Lib.rs-rust-orange.svg)](https://lib.rs/crates/cargo_auto_lib/)
+ [![Lib.rs](https://img.shields.io/badge/Lib.rs-rust-orange.svg)](https://lib.rs/crates/cargo_auto_lib/)
+
  [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/bestia-dev/cargo_auto_lib/blob/master/LICENSE)
  [![Rust](https://github.com/bestia-dev/cargo_auto_lib/workflows/rust_fmt_auto_build_test/badge.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
  ![Hits](https://bestia.dev/webpage_hit_counter/get_svg_image/276360626.svg)
@@ -98,18 +102,32 @@ I type (insert):
 `///`  
 and it's done! Great!
 
+## Add a git tag for a past commit
+
+How to add a tag for an old commit with its GIT_COMMITTER_DATE?  
+<https://stackoverflow.com/questions/4404172/how-to-tag-an-older-commit-in-git>
+
+```bash
+# Set the HEAD to the old commit that we want to tag
+git checkout e408fcd6efb21e6f0df55f3d49afd0f3917738fd
+
+# temporarily set the date to the date of the HEAD commit, and add the tag
+GIT_COMMITTER_DATE="$(git show --format=%aD | head -1)" \
+git tag -a v1.0.96 -m"v1.0.96"
+
+# push to origin
+git push origin --tags
+
+# set HEAD back
+git checkout main
+
+```
+
 ## TODO
 
-Automate badges for crates.io, doc.rs, lib.rs, license, crev review. Check if they exist and create badges.
-
-## cargo crev reviews and advisory
-
-We live in times of danger with [supply chain attacks](https://en.wikipedia.org/wiki/Supply_chain_attack).  
-It is recommended to always use [cargo-crev](https://github.com/crev-dev/cargo-crev)  
-to verify the trustworthiness of each of your dependencies.  
-Please, spread this info.  
-You can also read reviews quickly on the web:  
-<https://web.crev.dev/rust-reviews/crates/>  
+Automate badges for crates.io, doc.rs, lib.rs, license, crev review. Check if they exist and create badges.  
+Create a git tag, a github release and in the same time CHANGELOG.md or RELEASES.md after publishing on crates.io.
+There is no binary upload for library releases.
 
 ## Open-source and free as a beer
 
