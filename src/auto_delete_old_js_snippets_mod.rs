@@ -39,21 +39,26 @@ pub fn auto_delete_old_js_snippets() {
                     opt_first_folder = Some(second_folder.clone());
                     opt_first_mtime = Some(second_mtime);
                 }
-                Some(first_mtime) => {
-                    if second_mtime > first_mtime {
+                Some(first_mtime) => match second_mtime.cmp(&first_mtime) {
+                    // if second_mtime > first_mtime {
+                    std::cmp::Ordering::Greater => {
                         let first_folder = unwrap!(opt_first_folder);
                         println!("    delete first: {:?}", first_folder);
                         unwrap!(std::fs::remove_dir_all(first_folder));
 
                         opt_first_folder = Some(second_folder.clone());
                         opt_first_mtime = Some(second_mtime);
-                    } else if first_mtime > second_mtime {
+                    }
+                    //  } else if first_mtime > second_mtime {
+                    std::cmp::Ordering::Less => {
                         println!("    delete second: {:?}", second_folder);
                         unwrap!(std::fs::remove_dir_all(second_folder));
-                    } else {
+                    }
+                    // else
+                    std::cmp::Ordering::Equal => {
                         println!("{RED}Error: folders have the same date?{RESET}");
                     }
-                }
+                },
             }
         }
     }

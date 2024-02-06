@@ -305,9 +305,6 @@
 <a href="#305" id="305">305</a>
 <a href="#306" id="306">306</a>
 <a href="#307" id="307">307</a>
-<a href="#308" id="308">308</a>
-<a href="#309" id="309">309</a>
-<a href="#310" id="310">310</a>
 </pre></div><pre class="rust"><code><span class="comment">// auto_plantuml_mod.rs
 
 </span><span class="doccomment">//! Find md files.
@@ -370,7 +367,7 @@
         path,
         <span class="string">&quot;/*.md&quot;</span>,
         <span class="comment">// avoid big folders and other folders with *.crev
-        </span><span class="kw-2">&amp;</span><span class="macro">vec!</span>[
+        </span><span class="kw-2">&amp;</span>[
             <span class="string">&quot;/.git&quot;</span>.to_string(),
             <span class="string">&quot;/target&quot;</span>.to_string(),
             <span class="string">&quot;/docs&quot;</span>.to_string()
@@ -420,10 +417,10 @@
                         </span>} <span class="kw">else </span>{
                             <span class="comment">//dbg!(img_link);
                             // parse this format ![svg_534231](images/svg_534231.svg)
-                            </span><span class="kw">let </span>cap_group = REGEX_IMG_LINK.captures(img_link).expect(<span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">&quot;Error: The old img link &#39;{}&#39; is NOT in this format &#39;![svg_534231](images/svg_534231.svg)&#39;&quot;</span>,img_link));
+                            </span><span class="kw">let </span>cap_group = REGEX_IMG_LINK.captures(img_link).unwrap_or_else(||<span class="macro">panic!</span>(<span class="string">&quot;Error: The old img link &#39;{}&#39; is NOT in this format &#39;![svg_534231](images/svg_534231.svg)&#39;&quot;</span>,img_link));
                             <span class="kw">let </span>old_hash = <span class="kw-2">&amp;</span>cap_group[<span class="number">1</span>];
                             <span class="comment">//dbg!(old_hash);
-                            </span><span class="kw">if </span>old_hash != <span class="kw-2">&amp;</span>plantuml_code_hash {
+                            </span><span class="kw">if </span>old_hash != plantuml_code_hash {
                                 get_new_svg = <span class="bool-val">true</span>;
                                 <span class="comment">// delete the old image file
                                 </span><span class="kw">let </span>old_file_path = md_filename
@@ -446,7 +443,7 @@
                                 }
                             }
                         }
-                        <span class="kw">if </span>get_new_svg == <span class="bool-val">true </span>{
+                        <span class="kw">if </span>get_new_svg {
                             <span class="kw">let </span>relative_md_filename = md_filename.strip_prefix(path).unwrap();
                             <span class="macro">println!</span>(
                                 <span class="string">&quot;    {} get new svg {}&quot;</span>,
@@ -470,7 +467,7 @@
                             </span><span class="kw">let </span>repo_full_url = <span class="kw">if </span>repo_url.is_empty() {
                                 <span class="string">&quot;&quot;</span>.to_string()
                             } <span class="kw">else </span>{
-                                <span class="macro">format!</span>(<span class="string">&quot;{}/raw/main/&quot;</span>, repo_url.trim_end_matches(<span class="string">&quot;/&quot;</span>))
+                                <span class="macro">format!</span>(<span class="string">&quot;{}/raw/main/&quot;</span>, repo_url.trim_end_matches(<span class="string">&#39;/&#39;</span>))
                             };
                             <span class="comment">// path relative to Cargo.toml (project root)
                             </span><span class="kw">let </span>relative_svg_path = new_file_path.strip_prefix(path).unwrap();
@@ -491,7 +488,7 @@
             }
         }
         <span class="comment">// if changed, then write to disk
-        </span><span class="kw">if </span>is_changed == <span class="bool-val">true </span>{
+        </span><span class="kw">if </span>is_changed {
             std::fs::write(md_filename, md_text_content).unwrap();
         }
     }
@@ -501,9 +498,8 @@
 <span class="kw">pub fn </span>hash_for_filename(text: <span class="kw-2">&amp;</span>str) -&gt; String {
     <span class="kw">let </span>hash = &lt;sha2::Sha256 <span class="kw">as </span>sha2::Digest&gt;::digest(text.as_bytes());
     <span class="comment">// base64ct = {version = &quot;1.5.0&quot;, features = [&quot;alloc&quot;] }
-    </span><span class="kw">let </span>base64_hash = &lt;base64ct::Base64UrlUnpadded <span class="kw">as </span>base64ct::Encoding&gt;::encode_string(<span class="kw-2">&amp;</span>hash);
-    <span class="comment">// return
-    </span>base64_hash
+    // return base64_hash
+    </span>&lt;base64ct::Base64UrlUnpadded <span class="kw">as </span>base64ct::Encoding&gt;::encode_string(<span class="kw-2">&amp;</span>hash)
 }
 
 <span class="kw">pub fn </span>get_svg(plant_uml_code: <span class="kw-2">&amp;</span>str) -&gt; String {
@@ -511,12 +507,11 @@
     <span class="kw">let </span>url_parameter = compress_plant_uml_code(plant_uml_code);
     <span class="kw">let </span>url = <span class="macro">format!</span>(<span class="string">&quot;{}/svg/{}&quot;</span>, base_url, url_parameter);
     <span class="comment">// use reqwest to GET from plantuml.com server
-    </span><span class="kw">let </span>resp = reqwest::blocking::get(<span class="kw-2">&amp;</span>url)
+    // return response
+    </span>reqwest::blocking::get(url)
         .unwrap()
         .text_with_charset(<span class="string">&quot;utf-8&quot;</span>)
-        .unwrap();
-    <span class="comment">// return
-    </span>resp
+        .unwrap()
 }
 
 <span class="doccomment">/// deflate and strange base64, that is Url_safe
@@ -532,9 +527,8 @@
     .no_padding()
     .build()
     .unwrap();
-    <span class="kw">let </span>b64 = my_cfg.encode(<span class="kw-2">&amp;</span>compressed);
     <span class="comment">// return
-    </span>b64
+    </span>my_cfg.encode(<span class="kw-2">&amp;</span>compressed)
 }
 
 <span class="attr">#[cfg(test)]

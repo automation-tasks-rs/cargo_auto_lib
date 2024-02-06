@@ -60,7 +60,7 @@ pub fn auto_plantuml_for_path(path: &std::path::Path, repo_url: &str) {
         path,
         "/*.md",
         // avoid big folders and other folders with *.crev
-        &vec![
+        &[
             "/.git".to_string(),
             "/target".to_string(),
             "/docs".to_string()
@@ -110,10 +110,10 @@ pub fn auto_plantuml_for_path(path: &std::path::Path, repo_url: &str) {
                         } else {
                             //dbg!(img_link);
                             // parse this format ![svg_534231](images/svg_534231.svg)
-                            let cap_group = REGEX_IMG_LINK.captures(img_link).expect(&format!("Error: The old img link '{}' is NOT in this format '![svg_534231](images/svg_534231.svg)'",img_link));
+                            let cap_group = REGEX_IMG_LINK.captures(img_link).unwrap_or_else(||panic!("Error: The old img link '{}' is NOT in this format '![svg_534231](images/svg_534231.svg)'",img_link));
                             let old_hash = &cap_group[1];
                             //dbg!(old_hash);
-                            if old_hash != &plantuml_code_hash {
+                            if old_hash != plantuml_code_hash {
                                 get_new_svg = true;
                                 // delete the old image file
                                 let old_file_path = md_filename
@@ -136,7 +136,7 @@ pub fn auto_plantuml_for_path(path: &std::path::Path, repo_url: &str) {
                                 }
                             }
                         }
-                        if get_new_svg == true {
+                        if get_new_svg {
                             let relative_md_filename = md_filename.strip_prefix(path).unwrap();
                             println!(
                                 "    {} get new svg {}",
@@ -160,7 +160,7 @@ pub fn auto_plantuml_for_path(path: &std::path::Path, repo_url: &str) {
                             let repo_full_url = if repo_url.is_empty() {
                                 "".to_string()
                             } else {
-                                format!("{}/raw/main/", repo_url.trim_end_matches("/"))
+                                format!("{}/raw/main/", repo_url.trim_end_matches('/'))
                             };
                             // path relative to Cargo.toml (project root)
                             let relative_svg_path = new_file_path.strip_prefix(path).unwrap();
@@ -181,7 +181,7 @@ pub fn auto_plantuml_for_path(path: &std::path::Path, repo_url: &str) {
             }
         }
         // if changed, then write to disk
-        if is_changed == true {
+        if is_changed {
             std::fs::write(md_filename, md_text_content).unwrap();
         }
     }
@@ -191,9 +191,8 @@ pub fn auto_plantuml_for_path(path: &std::path::Path, repo_url: &str) {
 pub fn hash_for_filename(text: &str) -> String {
     let hash = <sha2::Sha256 as sha2::Digest>::digest(text.as_bytes());
     // base64ct = {version = "1.5.0", features = ["alloc"] }
-    let base64_hash = <base64ct::Base64UrlUnpadded as base64ct::Encoding>::encode_string(&hash);
-    // return
-    base64_hash
+    // return base64_hash
+    <base64ct::Base64UrlUnpadded as base64ct::Encoding>::encode_string(&hash)
 }
 
 pub fn get_svg(plant_uml_code: &str) -> String {
@@ -201,12 +200,11 @@ pub fn get_svg(plant_uml_code: &str) -> String {
     let url_parameter = compress_plant_uml_code(plant_uml_code);
     let url = format!("{}/svg/{}", base_url, url_parameter);
     // use reqwest to GET from plantuml.com server
-    let resp = reqwest::blocking::get(&url)
+    // return response
+    reqwest::blocking::get(url)
         .unwrap()
         .text_with_charset("utf-8")
-        .unwrap();
-    // return
-    resp
+        .unwrap()
 }
 
 /// deflate and strange base64, that is Url_safe
@@ -222,9 +220,8 @@ pub fn compress_plant_uml_code(plant_uml_code: &str) -> String {
     .no_padding()
     .build()
     .unwrap();
-    let b64 = my_cfg.encode(&compressed);
     // return
-    b64
+    my_cfg.encode(&compressed)
 }
 
 #[cfg(test)]

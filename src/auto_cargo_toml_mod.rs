@@ -30,7 +30,7 @@ impl crate::public_api_mod::CargoTomlPublicApiMethods for CargoToml {
             None => cargo_toml_workspace_maybe.clone(),
             Some(workspace) => {
                 let main_member = &workspace.members[0];
-                let cargo_main = unwrap!(cargo_toml::Manifest::from_path(&format!(
+                let cargo_main = unwrap!(cargo_toml::Manifest::from_path(format!(
                     "{}/Cargo.toml",
                     main_member
                 )));
@@ -58,8 +58,7 @@ impl crate::public_api_mod::CargoTomlPublicApiMethods for CargoToml {
 
     /// Cargo.toml package authors as string
     fn package_authors_string(&self) -> String {
-        let authors =
-            crate::utils_mod::concatenate_vec_to_string(&self.package.authors().to_vec(), ", ");
+        let authors = crate::utils_mod::concatenate_vec_to_string(self.package.authors(), ", ");
         authors
     }
 
@@ -72,18 +71,12 @@ impl crate::public_api_mod::CargoTomlPublicApiMethods for CargoToml {
 
     /// Cargo.toml package repository
     fn package_repository(&self) -> Option<String> {
-        match self.package.repository() {
-            None => None,
-            Some(x) => Some(x.to_string()),
-        }
+        self.package.repository().map(|x| x.to_string())
     }
 
     /// Cargo.toml package repository
     fn package_description(&self) -> Option<String> {
-        match self.package.description() {
-            None => None,
-            Some(x) => Some(x.to_string()),
-        }
+        self.package.description().map(|x| x.to_string())
     }
 
     /// Cargo.toml package homepage
@@ -96,10 +89,10 @@ impl crate::public_api_mod::CargoTomlPublicApiMethods for CargoToml {
 
     /// Cargo.toml workspace members
     fn workspace_members(&self) -> Option<Vec<String>> {
-        match &self.cargo_toml_workspace_maybe.workspace {
-            None => None,
-            Some(workspace) => Some(workspace.members.clone()),
-        }
+        self.cargo_toml_workspace_maybe
+            .workspace
+            .as_ref()
+            .map(|workspace| workspace.members.clone())
     }
 }
 

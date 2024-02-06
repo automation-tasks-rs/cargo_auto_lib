@@ -138,23 +138,45 @@
 <a href="#138" id="138">138</a>
 <a href="#139" id="139">139</a>
 <a href="#140" id="140">140</a>
+<a href="#141" id="141">141</a>
+<a href="#142" id="142">142</a>
+<a href="#143" id="143">143</a>
+<a href="#144" id="144">144</a>
+<a href="#145" id="145">145</a>
+<a href="#146" id="146">146</a>
+<a href="#147" id="147">147</a>
+<a href="#148" id="148">148</a>
+<a href="#149" id="149">149</a>
+<a href="#150" id="150">150</a>
+<a href="#151" id="151">151</a>
+<a href="#152" id="152">152</a>
+<a href="#153" id="153">153</a>
+<a href="#154" id="154">154</a>
+<a href="#155" id="155">155</a>
+<a href="#156" id="156">156</a>
+<a href="#157" id="157">157</a>
+<a href="#158" id="158">158</a>
 </pre></div><pre class="rust"><code><span class="comment">// region: auto_md_to_doc_comments include README.md A //!
 </span><span class="doccomment">//! # cargo_auto_lib
 //!
 //! **Library crate for common tasks when building rust projects. Intended for use with cargo-auto - automation tasks written in Rust language.**  
-//! ***version: 1.1.2 date: 2024-02-05 author: [Bestia.dev](https://bestia.dev) repository: [GitHub](https://github.com/bestia-dev/cargo_auto_lib)***  
+//! ***version: 1.1.18 date: 2024-02-06 author: [Bestia.dev](https://bestia.dev) repository: [GitHub](https://github.com/bestia-dev/cargo_auto_lib)***  
+//!
+//!  ![status](https://img.shields.io/badge/maintained-green)
+//!  ![status](https://img.shields.io/badge/ready_for_use-green)
 //!
 //!  [![crates.io](https://img.shields.io/crates/v/cargo_auto_lib.svg)](https://crates.io/crates/cargo_auto_lib)
 //!  [![Documentation](https://docs.rs/cargo_auto_lib/badge.svg)](https://docs.rs/cargo_auto_lib/)
 //!  [![crev reviews](https://web.crev.dev/rust-reviews/badge/crev_count/cargo_auto_lib.svg)](https://web.crev.dev/rust-reviews/crate/cargo_auto_lib/)
-//!   [![Lib.rs](https://img.shields.io/badge/Lib.rs-rust-orange.svg)](https://lib.rs/crates/cargo_auto_lib/)
+//!  [![Lib.rs](https://img.shields.io/badge/Lib.rs-rust-orange.svg)](https://lib.rs/crates/cargo_auto_lib/)
+//!
 //!  [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/bestia-dev/cargo_auto_lib/blob/master/LICENSE)
 //!  [![Rust](https://github.com/bestia-dev/cargo_auto_lib/workflows/rust_fmt_auto_build_test/badge.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
 //!  ![Hits](https://bestia.dev/webpage_hit_counter/get_svg_image/276360626.svg)
 //!
-//! [![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-1633-green.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
+//! [![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-1623-green.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
 //! [![Lines in Doc comments](https://img.shields.io/badge/Lines_in_Doc_comments-602-blue.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
-//! [![Lines in Comments](https://img.shields.io/badge/Lines_in_comments-227-purple.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
+//! [![Lines in Comments](https://img.shields.io/badge/Lines_in_comments-231-purple.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
 //! [![Lines in examples](https://img.shields.io/badge/Lines_in_examples-37-yellow.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
 //! [![Lines in tests](https://img.shields.io/badge/Lines_in_tests-105-orange.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
 //!
@@ -230,18 +252,32 @@
 //! `///`  
 //! and it&#39;s done! Great!
 //!
+//! ## Add a git tag for a past commit
+//!
+//! How to add a tag for an old commit with its GIT_COMMITTER_DATE?  
+//! &lt;https://stackoverflow.com/questions/4404172/how-to-tag-an-older-commit-in-git&gt;
+//!
+//! ```bash
+//! # Set the HEAD to the old commit that we want to tag
+//! git checkout e408fcd6efb21e6f0df55f3d49afd0f3917738fd
+//!
+//! # temporarily set the date to the date of the HEAD commit, and add the tag
+//! GIT_COMMITTER_DATE=&quot;$(git show --format=%aD | head -1)&quot; \
+//! git tag -a v1.0.96 -m&quot;v1.0.96&quot;
+//!
+//! # push to origin
+//! git push origin --tags
+//!
+//! # set HEAD back
+//! git checkout main
+//!
+//! ```
+//!
 //! ## TODO
 //!
-//! Automate badges for crates.io, doc.rs, lib.rs, license, crev review. Check if they exist and create badges.
-//!
-//! ## cargo crev reviews and advisory
-//!
-//! We live in times of danger with [supply chain attacks](https://en.wikipedia.org/wiki/Supply_chain_attack).  
-//! It is recommended to always use [cargo-crev](https://github.com/crev-dev/cargo-crev)  
-//! to verify the trustworthiness of each of your dependencies.  
-//! Please, spread this info.  
-//! You can also read reviews quickly on the web:  
-//! &lt;https://web.crev.dev/rust-reviews/crates/&gt;  
+//! Automate badges for crates.io, doc.rs, lib.rs, license, crev review. Check if they exist and create badges.  
+//! Create a git tag, a github release and in the same time CHANGELOG.md or RELEASES.md after publishing on crates.io.
+//! There is no binary upload for library releases.
 //!
 //! ## Open-source and free as a beer
 //!

@@ -374,7 +374,6 @@
 <a href="#374" id="374">374</a>
 <a href="#375" id="375">375</a>
 <a href="#376" id="376">376</a>
-<a href="#377" id="377">377</a>
 </pre></div><pre class="rust"><code><span class="comment">// auto_version_from_date_mod
 
 </span><span class="doccomment">//! new version as date is written to Cargo.toml and service_worker.js
@@ -492,7 +491,7 @@
     <span class="kw">for </span>js_filename <span class="kw">in </span><span class="kw-2">&amp;</span><span class="macro">unwrap!</span>(<span class="kw">crate</span>::utils_mod::traverse_dir_with_exclude_dir(
         start_dir,
         <span class="string">&quot;/service_worker.js&quot;</span>,
-        <span class="kw-2">&amp;</span><span class="macro">vec!</span>[<span class="string">&quot;/.git&quot;</span>.to_string(), <span class="string">&quot;/target&quot;</span>.to_string()]
+        <span class="kw-2">&amp;</span>[<span class="string">&quot;/.git&quot;</span>.to_string(), <span class="string">&quot;/target&quot;</span>.to_string()]
     )) {
         <span class="comment">// println!(&quot;{}write version in {}{}&quot;, *GREEN, js_filename, *RESET);
         </span><span class="kw">let </span><span class="kw-2">mut </span>js_content = <span class="macro">unwrap!</span>(fs::read_to_string(js_filename));
@@ -572,7 +571,7 @@
 
 <span class="doccomment">/// the Cargo.toml is now different and needs to be changed in the vec of file metadata
 </span><span class="kw">pub fn </span>correct_file_metadata_for_cargo_tom_inside_vec(
-    vec_of_metadata: <span class="kw-2">&amp;mut </span>Vec&lt;FileMetaData&gt;,
+    vec_of_metadata: <span class="kw-2">&amp;mut </span>[FileMetaData],
 ) -&gt; ResultWithLibError&lt;()&gt; {
     <span class="comment">//correct the vector only for Cargo.toml file
     </span><span class="kw">let </span>filename = <span class="string">&quot;Cargo.toml&quot;</span>.to_string();
@@ -588,8 +587,8 @@
 <span class="doccomment">/// if files are added or deleted, other files must be also changed
 /// I need to check if the files on the filesystem are the same as in the json
 </span><span class="kw">pub fn </span>are_files_equal(
-    vec_of_metadata: <span class="kw-2">&amp;</span>Vec&lt;FileMetaData&gt;,
-    js_vec_of_metadata: <span class="kw-2">&amp;</span>Vec&lt;FileMetaData&gt;,
+    vec_of_metadata: <span class="kw-2">&amp;</span>[FileMetaData],
+    js_vec_of_metadata: <span class="kw-2">&amp;</span>[FileMetaData],
 ) -&gt; bool {
     <span class="kw">let </span><span class="kw-2">mut </span>is_files_equal = <span class="bool-val">true</span>;
     <span class="kw">for </span>x <span class="kw">in </span>vec_of_metadata.iter() {
@@ -623,7 +622,7 @@
         <span class="kw">let </span>path = entry.file_name();
 
         <span class="kw">let </span>filename = <span class="macro">format!</span>(<span class="string">&quot;src/{:?}&quot;</span>, path);
-        <span class="kw">let </span>filename = filename.replace(<span class="string">&quot;\&quot;&quot;</span>, <span class="string">&quot;&quot;</span>);
+        <span class="kw">let </span>filename = filename.replace(<span class="string">&#39;\&quot;&#39;</span>, <span class="string">&quot;&quot;</span>);
         <span class="comment">// calculate hash of file
         </span><span class="kw">let </span>filehash = sha256_digest(PathBuf::from_str(<span class="kw-2">&amp;</span>filename)<span class="question-mark">?</span>.as_path())<span class="question-mark">?</span>;
         vec_of_metadata.push(FileMetaData { filename, filehash });
@@ -694,7 +693,8 @@
 </span><span class="kw">fn </span>version_from_date(date: DateTime&lt;Utc&gt;) -&gt; String {
     <span class="comment">// in Rust the version must not begin with zero.
     // There is an exceptional situation where is midnight 00.
-    </span><span class="kw">let </span>new_version = <span class="kw">if </span>date.hour() == <span class="number">0 </span>{
+    //return
+    </span><span class="kw">if </span>date.hour() == <span class="number">0 </span>{
         <span class="macro">format!</span>(
             <span class="string">&quot;{:04}.{}{:02}.{}&quot;</span>,
             date.year(),
@@ -711,9 +711,7 @@
             date.hour(),
             date.minute()
         )
-    };
-    <span class="comment">//return
-    </span>new_version
+    }
 }
 
 <span class="doccomment">/// in string find from position

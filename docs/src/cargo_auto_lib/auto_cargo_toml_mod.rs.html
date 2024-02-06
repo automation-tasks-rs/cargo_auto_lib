@@ -110,13 +110,6 @@
 <a href="#110" id="110">110</a>
 <a href="#111" id="111">111</a>
 <a href="#112" id="112">112</a>
-<a href="#113" id="113">113</a>
-<a href="#114" id="114">114</a>
-<a href="#115" id="115">115</a>
-<a href="#116" id="116">116</a>
-<a href="#117" id="117">117</a>
-<a href="#118" id="118">118</a>
-<a href="#119" id="119">119</a>
 </pre></div><pre class="rust"><code><span class="comment">// auto_cargo_toml_mod
 
 </span><span class="doccomment">//! functions to get data from Cargo.toml
@@ -149,7 +142,7 @@
             <span class="prelude-val">None </span>=&gt; cargo_toml_workspace_maybe.clone(),
             <span class="prelude-val">Some</span>(workspace) =&gt; {
                 <span class="kw">let </span>main_member = <span class="kw-2">&amp;</span>workspace.members[<span class="number">0</span>];
-                <span class="kw">let </span>cargo_main = <span class="macro">unwrap!</span>(cargo_toml::Manifest::from_path(<span class="kw-2">&amp;</span><span class="macro">format!</span>(
+                <span class="kw">let </span>cargo_main = <span class="macro">unwrap!</span>(cargo_toml::Manifest::from_path(<span class="macro">format!</span>(
                     <span class="string">&quot;{}/Cargo.toml&quot;</span>,
                     main_member
                 )));
@@ -177,8 +170,7 @@
 
     <span class="doccomment">/// Cargo.toml package authors as string
     </span><span class="kw">fn </span>package_authors_string(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; String {
-        <span class="kw">let </span>authors =
-            <span class="kw">crate</span>::utils_mod::concatenate_vec_to_string(<span class="kw-2">&amp;</span><span class="self">self</span>.package.authors().to_vec(), <span class="string">&quot;, &quot;</span>);
+        <span class="kw">let </span>authors = <span class="kw">crate</span>::utils_mod::concatenate_vec_to_string(<span class="self">self</span>.package.authors(), <span class="string">&quot;, &quot;</span>);
         authors
     }
 
@@ -191,18 +183,12 @@
 
     <span class="doccomment">/// Cargo.toml package repository
     </span><span class="kw">fn </span>package_repository(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;String&gt; {
-        <span class="kw">match </span><span class="self">self</span>.package.repository() {
-            <span class="prelude-val">None </span>=&gt; <span class="prelude-val">None</span>,
-            <span class="prelude-val">Some</span>(x) =&gt; <span class="prelude-val">Some</span>(x.to_string()),
-        }
+        <span class="self">self</span>.package.repository().map(|x| x.to_string())
     }
 
     <span class="doccomment">/// Cargo.toml package repository
     </span><span class="kw">fn </span>package_description(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;String&gt; {
-        <span class="kw">match </span><span class="self">self</span>.package.description() {
-            <span class="prelude-val">None </span>=&gt; <span class="prelude-val">None</span>,
-            <span class="prelude-val">Some</span>(x) =&gt; <span class="prelude-val">Some</span>(x.to_string()),
-        }
+        <span class="self">self</span>.package.description().map(|x| x.to_string())
     }
 
     <span class="doccomment">/// Cargo.toml package homepage
@@ -215,10 +201,10 @@
 
     <span class="doccomment">/// Cargo.toml workspace members
     </span><span class="kw">fn </span>workspace_members(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;Vec&lt;String&gt;&gt; {
-        <span class="kw">match </span><span class="kw-2">&amp;</span><span class="self">self</span>.cargo_toml_workspace_maybe.workspace {
-            <span class="prelude-val">None </span>=&gt; <span class="prelude-val">None</span>,
-            <span class="prelude-val">Some</span>(workspace) =&gt; <span class="prelude-val">Some</span>(workspace.members.clone()),
-        }
+        <span class="self">self</span>.cargo_toml_workspace_maybe
+            .workspace
+            .as_ref()
+            .map(|workspace| workspace.members.clone())
     }
 }
 

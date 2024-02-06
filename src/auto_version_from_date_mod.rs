@@ -115,7 +115,7 @@ fn modify_service_js(new_version: &str) {
     for js_filename in &unwrap!(crate::utils_mod::traverse_dir_with_exclude_dir(
         start_dir,
         "/service_worker.js",
-        &vec!["/.git".to_string(), "/target".to_string()]
+        &["/.git".to_string(), "/target".to_string()]
     )) {
         // println!("{}write version in {}{}", *GREEN, js_filename, *RESET);
         let mut js_content = unwrap!(fs::read_to_string(js_filename));
@@ -195,7 +195,7 @@ fn write_version_to_cargo_and_modify_metadata(
 
 /// the Cargo.toml is now different and needs to be changed in the vec of file metadata
 pub fn correct_file_metadata_for_cargo_tom_inside_vec(
-    vec_of_metadata: &mut Vec<FileMetaData>,
+    vec_of_metadata: &mut [FileMetaData],
 ) -> ResultWithLibError<()> {
     //correct the vector only for Cargo.toml file
     let filename = "Cargo.toml".to_string();
@@ -211,8 +211,8 @@ pub fn correct_file_metadata_for_cargo_tom_inside_vec(
 /// if files are added or deleted, other files must be also changed
 /// I need to check if the files on the filesystem are the same as in the json
 pub fn are_files_equal(
-    vec_of_metadata: &Vec<FileMetaData>,
-    js_vec_of_metadata: &Vec<FileMetaData>,
+    vec_of_metadata: &[FileMetaData],
+    js_vec_of_metadata: &[FileMetaData],
 ) -> bool {
     let mut is_files_equal = true;
     for x in vec_of_metadata.iter() {
@@ -246,7 +246,7 @@ pub fn read_file_metadata() -> ResultWithLibError<Vec<FileMetaData>> {
         let path = entry.file_name();
 
         let filename = format!("src/{:?}", path);
-        let filename = filename.replace("\"", "");
+        let filename = filename.replace('\"', "");
         // calculate hash of file
         let filehash = sha256_digest(PathBuf::from_str(&filename)?.as_path())?;
         vec_of_metadata.push(FileMetaData { filename, filehash });
@@ -317,7 +317,8 @@ pub fn save_json_file_for_file_meta_data(vec_of_metadata: Vec<FileMetaData>) {
 fn version_from_date(date: DateTime<Utc>) -> String {
     // in Rust the version must not begin with zero.
     // There is an exceptional situation where is midnight 00.
-    let new_version = if date.hour() == 0 {
+    //return
+    if date.hour() == 0 {
         format!(
             "{:04}.{}{:02}.{}",
             date.year(),
@@ -334,9 +335,7 @@ fn version_from_date(date: DateTime<Utc>) -> String {
             date.hour(),
             date.minute()
         )
-    };
-    //return
-    new_version
+    }
 }
 
 /// in string find from position

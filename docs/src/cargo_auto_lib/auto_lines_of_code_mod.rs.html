@@ -329,14 +329,12 @@
 <a href="#329" id="329">329</a>
 <a href="#330" id="330">330</a>
 <a href="#331" id="331">331</a>
-<a href="#332" id="332">332</a>
 </pre></div><pre class="rust"><code><span class="comment">// auto_lines_of_code_mod
 
 </span><span class="doccomment">//! inserts shield badges with lines_of_code into README.rs
 //! It works for workspaces and for single projects.  
 
 </span><span class="kw">use </span><span class="kw">crate</span>::public_api_mod::{RED, RESET};
-<span class="kw">use </span>anyhow;
 <span class="kw">use </span>regex::Regex;
 <span class="kw">use </span>std::fs::File;
 <span class="kw">use </span>std::io::{BufRead, BufReader};
@@ -459,10 +457,10 @@
         }
     };
     <span class="kw">match </span>regex_capture(output) {
-        <span class="prelude-val">Ok</span>(s) =&gt; <span class="kw">return </span>s,
+        <span class="prelude-val">Ok</span>(s) =&gt; s,
         <span class="prelude-val">Err</span>(e) =&gt; {
             <span class="macro">println!</span>(<span class="string">&quot;{RED}process_git_remote error: {}{RESET}&quot;</span>, e);
-            <span class="kw">return </span><span class="string">&quot;&quot;</span>.to_string();
+            <span class="string">&quot;&quot;</span>.to_string()
         }
     }
 }
@@ -473,10 +471,10 @@
 
     <span class="comment">// src folder
     </span><span class="kw">let </span>files = <span class="macro">unwrap!</span>(<span class="kw">crate</span>::utils_mod::traverse_dir_with_exclude_dir(
-        <span class="kw-2">&amp;</span>Path::new(<span class="string">&quot;src&quot;</span>),
+        Path::new(<span class="string">&quot;src&quot;</span>),
         <span class="string">&quot;/*.rs&quot;</span>,
         <span class="comment">// avoid big folders and other folders with *.crev
-        </span><span class="kw-2">&amp;</span><span class="macro">vec!</span>[
+        </span><span class="kw-2">&amp;</span>[
             <span class="string">&quot;/.git&quot;</span>.to_string(),
             <span class="string">&quot;/target&quot;</span>.to_string(),
             <span class="string">&quot;/docs&quot;</span>.to_string()
@@ -502,7 +500,7 @@
                 lines_of_code.src_comment_lines += <span class="number">1</span>;
             } <span class="kw">else if </span>line.starts_with(<span class="string">&quot;#[cfg(test)]&quot;</span>) {
                 is_unit_test = <span class="bool-val">true</span>;
-            } <span class="kw">else if </span>is_unit_test == <span class="bool-val">true </span>{
+            } <span class="kw">else if </span>is_unit_test {
                 lines_of_code.tests_lines += <span class="number">1</span>;
             } <span class="kw">else </span>{
                 lines_of_code.src_code_lines += <span class="number">1</span>;
@@ -511,10 +509,10 @@
     }
     <span class="comment">// tests folder
     </span><span class="kw">let </span>files = <span class="macro">unwrap!</span>(<span class="kw">crate</span>::utils_mod::traverse_dir_with_exclude_dir(
-        <span class="kw-2">&amp;</span>Path::new(<span class="string">&quot;tests&quot;</span>),
+        Path::new(<span class="string">&quot;tests&quot;</span>),
         <span class="string">&quot;/*.rs&quot;</span>,
         <span class="comment">// avoid big folders and other folders with *.crev
-        </span><span class="kw-2">&amp;</span><span class="macro">vec!</span>[
+        </span><span class="kw-2">&amp;</span>[
             <span class="string">&quot;/.git&quot;</span>.to_string(),
             <span class="string">&quot;/target&quot;</span>.to_string(),
             <span class="string">&quot;/docs&quot;</span>.to_string()
@@ -534,10 +532,10 @@
 
     <span class="comment">// examples folder
     </span><span class="kw">let </span>files = <span class="macro">unwrap!</span>(<span class="kw">crate</span>::utils_mod::traverse_dir_with_exclude_dir(
-        <span class="kw-2">&amp;</span>Path::new(<span class="string">&quot;examples&quot;</span>),
+        Path::new(<span class="string">&quot;examples&quot;</span>),
         <span class="string">&quot;/*.rs&quot;</span>,
         <span class="comment">// avoid big folders and other folders with *.crev
-        </span><span class="kw-2">&amp;</span><span class="macro">vec!</span>[
+        </span><span class="kw-2">&amp;</span>[
             <span class="string">&quot;/.git&quot;</span>.to_string(),
             <span class="string">&quot;/target&quot;</span>.to_string(),
             <span class="string">&quot;/docs&quot;</span>.to_string()
@@ -590,7 +588,7 @@
         cap.len() == <span class="number">4</span>,
         <span class="string">&quot;Error: cap len is not 4, because there are 4 capture groups in regex.&quot;
     </span>);
-    <span class="kw">return </span><span class="prelude-val">Ok</span>(<span class="macro">format!</span>(<span class="string">&quot;https://{}/{}/{}/&quot;</span>, <span class="kw-2">&amp;</span>cap[<span class="number">1</span>], <span class="kw-2">&amp;</span>cap[<span class="number">2</span>], <span class="kw-2">&amp;</span>cap[<span class="number">3</span>]));
+    <span class="prelude-val">Ok</span>(<span class="macro">format!</span>(<span class="string">&quot;https://{}/{}/{}/&quot;</span>, <span class="kw-2">&amp;</span>cap[<span class="number">1</span>], <span class="kw-2">&amp;</span>cap[<span class="number">2</span>], <span class="kw-2">&amp;</span>cap[<span class="number">3</span>]))
 }
 <span class="doccomment">/// Returns a string with the markdown code for 4 shield badges.
 ///
@@ -647,9 +645,9 @@
             pos_start += start_delimiter.len();
             <span class="kw">if let </span><span class="prelude-val">Some</span>(pos_end) = readme_content.find(end_delimiter) {
                 new_readme_content.push_str(<span class="kw-2">&amp;</span>readme_content[..pos_start]);
-                new_readme_content.push_str(<span class="string">&quot;\n&quot;</span>);
+                new_readme_content.push(<span class="string">&#39;\n&#39;</span>);
                 new_readme_content.push_str(include_str);
-                new_readme_content.push_str(<span class="string">&quot;\n&quot;</span>);
+                new_readme_content.push(<span class="string">&#39;\n&#39;</span>);
                 new_readme_content.push_str(<span class="kw-2">&amp;</span>readme_content[pos_end..]);
                 <span class="comment">/*
                 println!(

@@ -451,19 +451,19 @@
 }
 
 <span class="doccomment">/// the original `concat()` function does not have a delimiter
-</span><span class="kw">pub fn </span>concatenate_vec_to_string(vec: <span class="kw-2">&amp;</span>Vec&lt;String&gt;, delimiter: <span class="kw-2">&amp;</span>str) -&gt; String {
+</span><span class="kw">pub fn </span>concatenate_vec_to_string(vec: <span class="kw-2">&amp;</span>[String], delimiter: <span class="kw-2">&amp;</span>str) -&gt; String {
     <span class="kw">crate</span>::utils_mod::concatenate_vec_to_string(vec, delimiter)
 }
 
-<span class="comment">//// Traverse dir and its sub-dir, but avoid excluded dirs.
-</span><span class="doccomment">/// The find_file and the exclude dir strings must start with /.
+<span class="doccomment">/// Traverse dir and its sub-dir, but avoid excluded dirs.
+/// The find_file and the exclude dir strings must start with /.
 ///
 /// ## Example
 ///
 /// ```
 /// use std::path::Path;
 ///
-/// let files = cargo_auto_lib::utils_mod::traverse_dir_with_exclude_dir(
+/// let files = cargo_auto_lib::traverse_dir_with_exclude_dir(
 ///     Path::new(&quot;/home/project/src&quot;),
 ///     &quot;/*.rs&quot;,
 ///     // avoid big folders and other folders with *.crev

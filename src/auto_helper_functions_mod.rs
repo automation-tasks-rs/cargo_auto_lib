@@ -63,7 +63,7 @@ pub fn completion_return_one_or_more_sub_commands(
             sub_found = true;
         }
     }
-    if sub_found == false {
+    if !sub_found {
         // print all sub-commands
         for sub_command in sub_commands.iter() {
             println!("{}", sub_command);

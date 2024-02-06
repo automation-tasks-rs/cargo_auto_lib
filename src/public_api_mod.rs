@@ -85,11 +85,11 @@ pub fn find_pos_start_data_after_delimiter(
 }
 
 /// the original `concat()` function does not have a delimiter
-pub fn concatenate_vec_to_string(vec: &Vec<String>, delimiter: &str) -> String {
+pub fn concatenate_vec_to_string(vec: &[String], delimiter: &str) -> String {
     crate::utils_mod::concatenate_vec_to_string(vec, delimiter)
 }
 
-//// Traverse dir and its sub-dir, but avoid excluded dirs.
+/// Traverse dir and its sub-dir, but avoid excluded dirs.
 /// The find_file and the exclude dir strings must start with /.
 ///
 /// ## Example

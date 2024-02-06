@@ -71,7 +71,7 @@
 /// Before build or release this function will check for correctness.
 </span><span class="kw">pub fn </span>auto_check_micro_xml(path_to_html_pages: <span class="kw-2">&amp;</span>str) {
     <span class="macro">println!</span>(<span class="string">&quot;    Running auto_check_micro_xml {}&quot;</span>, path_to_html_pages);
-    <span class="kw">let </span>glob_str = <span class="macro">format!</span>(<span class="string">&quot;{}/*.html&quot;</span>, path_to_html_pages.trim_end_matches(<span class="string">&quot;/&quot;</span>));
+    <span class="kw">let </span>glob_str = <span class="macro">format!</span>(<span class="string">&quot;{}/*.html&quot;</span>, path_to_html_pages.trim_end_matches(<span class="string">&#39;/&#39;</span>));
     <span class="comment">// find html pages for single page application
     </span><span class="kw">for </span>filename_result <span class="kw">in </span><span class="macro">unwrap!</span>(glob(<span class="kw-2">&amp;</span>glob_str)) {
         <span class="kw">let </span>filename_pathbuff = <span class="macro">unwrap!</span>(filename_result);
@@ -108,7 +108,7 @@
                 Token::Comment(_txt) =&gt; <span class="kw">continue</span>,
                 Token::EndElement(end_element_name) =&gt; {
                     <span class="kw">let </span>start_element_name = <span class="macro">unwrap!</span>(vec_elem.pop());
-                    <span class="kw">if </span>end_element_name != <span class="string">&quot;&quot; </span>&amp;&amp; end_element_name != start_element_name {
+                    <span class="kw">if </span>!end_element_name.is_empty() &amp;&amp; end_element_name != start_element_name {
                         <span class="macro">panic!</span>(
                             <span class="string">&quot;{RED}MicroXml {} start {} does not match end {}{RESET}&quot;</span>,
                             file_name, start_element_name, end_element_name,

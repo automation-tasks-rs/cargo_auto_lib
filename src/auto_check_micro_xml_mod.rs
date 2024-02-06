@@ -9,7 +9,7 @@ use unwrap::unwrap;
 /// Before build or release this function will check for correctness.
 pub fn auto_check_micro_xml(path_to_html_pages: &str) {
     println!("    Running auto_check_micro_xml {}", path_to_html_pages);
-    let glob_str = format!("{}/*.html", path_to_html_pages.trim_end_matches("/"));
+    let glob_str = format!("{}/*.html", path_to_html_pages.trim_end_matches('/'));
     // find html pages for single page application
     for filename_result in unwrap!(glob(&glob_str)) {
         let filename_pathbuff = unwrap!(filename_result);
@@ -46,7 +46,7 @@ fn check_micro_xml(str_xml: &str, file_name: &str) {
                 Token::Comment(_txt) => continue,
                 Token::EndElement(end_element_name) => {
                     let start_element_name = unwrap!(vec_elem.pop());
-                    if end_element_name != "" && end_element_name != start_element_name {
+                    if !end_element_name.is_empty() && end_element_name != start_element_name {
                         panic!(
                             "{RED}MicroXml {} start {} does not match end {}{RESET}",
                             file_name, start_element_name, end_element_name,

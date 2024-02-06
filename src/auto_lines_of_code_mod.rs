@@ -4,7 +4,6 @@
 //! It works for workspaces and for single projects.  
 
 use crate::public_api_mod::{RED, RESET};
-use anyhow;
 use regex::Regex;
 use std::fs::File;
 use std::io::{BufRead, BufReader};
@@ -127,10 +126,10 @@ fn process_git_remote() -> String {
         }
     };
     match regex_capture(output) {
-        Ok(s) => return s,
+        Ok(s) => s,
         Err(e) => {
             println!("{RED}process_git_remote error: {}{RESET}", e);
-            return "".to_string();
+            "".to_string()
         }
     }
 }
@@ -141,10 +140,10 @@ fn one_project_count_lines() -> LinesOfCode {
 
     // src folder
     let files = unwrap!(crate::utils_mod::traverse_dir_with_exclude_dir(
-        &Path::new("src"),
+        Path::new("src"),
         "/*.rs",
         // avoid big folders and other folders with *.crev
-        &vec![
+        &[
             "/.git".to_string(),
             "/target".to_string(),
             "/docs".to_string()
@@ -170,7 +169,7 @@ fn one_project_count_lines() -> LinesOfCode {
                 lines_of_code.src_comment_lines += 1;
             } else if line.starts_with("#[cfg(test)]") {
                 is_unit_test = true;
-            } else if is_unit_test == true {
+            } else if is_unit_test {
                 lines_of_code.tests_lines += 1;
             } else {
                 lines_of_code.src_code_lines += 1;
@@ -179,10 +178,10 @@ fn one_project_count_lines() -> LinesOfCode {
     }
     // tests folder
     let files = unwrap!(crate::utils_mod::traverse_dir_with_exclude_dir(
-        &Path::new("tests"),
+        Path::new("tests"),
         "/*.rs",
         // avoid big folders and other folders with *.crev
-        &vec![
+        &[
             "/.git".to_string(),
             "/target".to_string(),
             "/docs".to_string()
@@ -202,10 +201,10 @@ fn one_project_count_lines() -> LinesOfCode {
 
     // examples folder
     let files = unwrap!(crate::utils_mod::traverse_dir_with_exclude_dir(
-        &Path::new("examples"),
+        Path::new("examples"),
         "/*.rs",
         // avoid big folders and other folders with *.crev
-        &vec![
+        &[
             "/.git".to_string(),
             "/target".to_string(),
             "/docs".to_string()
@@ -258,7 +257,7 @@ fn regex_capture(output: String) -> anyhow::Result<String> {
         cap.len() == 4,
         "Error: cap len is not 4, because there are 4 capture groups in regex."
     );
-    return Ok(format!("https://{}/{}/{}/", &cap[1], &cap[2], &cap[3]));
+    Ok(format!("https://{}/{}/{}/", &cap[1], &cap[2], &cap[3]))
 }
 /// Returns a string with the markdown code for 4 shield badges.
 ///
@@ -315,9 +314,9 @@ fn include_into_readme_md(include_str: &str) {
             pos_start += start_delimiter.len();
             if let Some(pos_end) = readme_content.find(end_delimiter) {
                 new_readme_content.push_str(&readme_content[..pos_start]);
-                new_readme_content.push_str("\n");
+                new_readme_content.push('\n');
                 new_readme_content.push_str(include_str);
-                new_readme_content.push_str("\n");
+                new_readme_content.push('\n');
                 new_readme_content.push_str(&readme_content[pos_end..]);
                 /*
                 println!(

@@ -49,7 +49,7 @@ pub fn find_from(text: &str, from_pos: usize, find: &str) -> Option<usize> {
     }
 }
 
-//// Traverse dir and its sub-dir, but avoid excluded dirs.
+/// Traverse dir and its sub-dir, but avoid excluded dirs.
 /// The find_file and the exclude dir strings must start with /.
 ///
 /// ## Example
@@ -106,7 +106,7 @@ pub fn traverse_dir_with_exclude_dir(
 }
 
 /// the original `concat()` function does not have a delimiter
-pub fn concatenate_vec_to_string(vec: &Vec<String>, delimiter: &str) -> String {
+pub fn concatenate_vec_to_string(vec: &[String], delimiter: &str) -> String {
     let size = vec.iter().fold(0, |a, b| a + b.len());
     let mut concatenated_string = String::with_capacity(size);
     for (i, item) in vec.iter().enumerate() {

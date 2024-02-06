@@ -187,7 +187,7 @@ fn get_md_segments_using_cache(
         let segment = unwrap!(cache
             .iter()
             .find(|m| m.md_filename == md_filename && m.marker_name == marker_name));
-        return segment.text.to_string();
+        segment.text.to_string()
     } else {
         // process the file
         println!("    read file: {}", md_filename);
@@ -218,14 +218,14 @@ fn get_md_segments_using_cache(
                 if line.starts_with("[//]: # (") {
                     // don't include md comments
                     last_line_was_comment = true;
-                } else if last_line_was_comment == true && line.is_empty() {
+                } else if last_line_was_comment && line.is_empty() {
                     // don't include empty line after md comments
                     last_line_was_comment = false;
                 } else {
                     last_line_was_comment = false;
                     segment.text.push_str(comment_symbol);
                     if !line.is_empty() {
-                        segment.text.push_str(" ");
+                        segment.text.push(' ');
                     }
                     segment.text.push_str(line);
                     segment.text.push('\n');
@@ -235,6 +235,7 @@ fn get_md_segments_using_cache(
         let segment = unwrap!(cache
             .iter()
             .find(|m| m.md_filename == md_filename && m.marker_name == marker_name));
-        return segment.text.to_string();
+        //return
+        segment.text.to_string()
     }
 }

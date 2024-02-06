@@ -135,7 +135,7 @@
             sub_found = <span class="bool-val">true</span>;
         }
     }
-    <span class="kw">if </span>sub_found == <span class="bool-val">false </span>{
+    <span class="kw">if </span>!sub_found {
         <span class="comment">// print all sub-commands
         </span><span class="kw">for </span>sub_command <span class="kw">in </span>sub_commands.iter() {
             <span class="macro">println!</span>(<span class="string">&quot;{}&quot;</span>, sub_command);
