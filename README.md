@@ -129,6 +129,10 @@ Automate badges for crates.io, doc.rs, lib.rs, license, crev review. Check if th
 Create a git tag, a github release and in the same time CHANGELOG.md or RELEASES.md after publishing on crates.io.
 There is no binary upload for library releases.
 
+Separate commit for docs. To not interfere with actual code commits.
+The docs html does not have enought newlines, so the diff is very bad.
+The file_hashes json files don't have enough newlines, so the diff is very bad.
+
 ## Open-source and free as a beer
 
 My open-source projects are free as a beer (MIT license).  
