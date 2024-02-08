@@ -184,7 +184,10 @@ fn task_commit_and_push(arg_2: Option<String>) {
     match arg_2 {
         None => println!("{RED}Error: message for commit is mandatory.{RESET}"),
         Some(message) => {
-            cl::run_shell_command(&format!(r#"git add -A && git commit --allow-empty -m "{}""#, message));
+            // separate commit for docs if they changed, to not make a lot of noise in the real commit
+            cl::run_shell_command(r#"git add docs && git diff --staged --quiet || git commit -m "update docs" "#);
+            // the real commit of code
+            cl::run_shell_command(&format!(r#"git add -A && git diff --staged --quiet || git commit -m "{}" "#, message));
             cl::run_shell_command("git push");
             println!(
                 r#"{YELLOW}
