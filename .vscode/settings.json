@@ -2,8 +2,8 @@
     "workbench.colorCustomizations": {
         "titleBar.activeForeground": "#fff",
         "titleBar.inactiveForeground": "#ffffffcc",
-        "titleBar.activeBackground": "#477587",
-        "titleBar.inactiveBackground": "#3F758DCC"
+        "titleBar.activeBackground": "#47875c",
+        "titleBar.inactiveBackground": "#3f8d5acc"
       },
       "spellright.language": [
         "en"
