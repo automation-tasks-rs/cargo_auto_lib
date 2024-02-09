@@ -1,12 +1,11 @@
 name: rust_fmt_auto_build_test
 
 on:
+  # push to all branches
   push:
-    branches: 
-    - "**"
+
+  # all pull requests
   pull_request:
-    branches: 
-    - "**"
 
 env:
   CARGO_TERM_COLOR: always
@@ -41,9 +40,10 @@ jobs:
       uses: actions/cache@v4.0.0
       with:
         path: |
-          /home/runner/work/cargo-auto/cargo-auto/automation_tasks_rs/.file_hashes.json 
-          /home/runner/work/cargo-auto/cargo-auto/automation_tasks_rs/target 
-          /home/runner/work/cargo-auto/cargo-auto/automation_tasks_rs/Cargo.toml
+          automation_tasks_rs/.file_hashes.json 
+          automation_tasks_rs/target 
+          automation_tasks_rs/Cargo.toml
+          automation_tasks_rs/Cargo.lock
         key: automation_tasks_rs
 
     - name: cargo auto build

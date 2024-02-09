@@ -2,6 +2,8 @@
 
 // region: library with basic automation tasks
 use cargo_auto_lib as cl;
+// traits must be in scope (Rust strangeness)
+use cl::CargoTomlPublicApiMethods;
 
 use cargo_auto_lib::RED as RED;
 use cargo_auto_lib::YELLOW as YELLOW;
@@ -184,7 +186,10 @@ fn task_commit_and_push(arg_2: Option<String>) {
     match arg_2 {
         None => println!("{RED}Error: message for commit is mandatory.{RESET}"),
         Some(message) => {
-            cl::run_shell_command(&format!(r#"git add -A && git commit --allow-empty -m "{}""#, message));
+            // separate commit for docs if they changed, to not make a lot of noise in the real commit
+            cl::run_shell_command(r#"git add docs && git diff --staged --quiet || git commit -m "update docs" "#);
+            // the real commit of code
+            cl::run_shell_command(&format!(r#"git add -A && git diff --staged --quiet || git commit -m "{}" "#, message));
             cl::run_shell_command("git push");
             println!(
                 r#"{YELLOW}
@@ -199,8 +204,7 @@ cargo auto publish_to_crates_io{RESET}{YELLOW}
 /// publish to crates.io and git tag
 fn task_publish_to_crates_io() {
     println!(r#"{YELLOW}The crates.io access token must already be saved locally with `cargo login TOKEN`{RESET}"#);
-
-let cargo_toml = cl::CargoToml::read();
+    let cargo_toml = cl::CargoToml::read();
     // git tag
     let shell_command = format!(
         "git tag -f -a v{version} -m version_{version}",

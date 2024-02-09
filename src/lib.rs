@@ -2,7 +2,7 @@
 //! # cargo_auto_lib
 //!
 //! **Library crate for common tasks when building rust projects. Intended for use with cargo-auto - automation tasks written in Rust language.**  
-//! ***version: 1.1.18 date: 2024-02-06 author: [Bestia.dev](https://bestia.dev) repository: [GitHub](https://github.com/bestia-dev/cargo_auto_lib)***  
+//! ***version: 1.1.21 date: 2024-02-09 author: [Bestia.dev](https://bestia.dev) repository: [GitHub](https://github.com/bestia-dev/cargo_auto_lib)***  
 //!
 //!  ![status](https://img.shields.io/badge/maintained-green)
 //!  ![status](https://img.shields.io/badge/ready_for_use-green)
@@ -17,7 +17,7 @@
 //!  ![Hits](https://bestia.dev/webpage_hit_counter/get_svg_image/276360626.svg)
 //!
 //! [![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-1623-green.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
-//! [![Lines in Doc comments](https://img.shields.io/badge/Lines_in_Doc_comments-602-blue.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
+//! [![Lines in Doc comments](https://img.shields.io/badge/Lines_in_Doc_comments-624-blue.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
 //! [![Lines in Comments](https://img.shields.io/badge/Lines_in_comments-231-purple.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
 //! [![Lines in examples](https://img.shields.io/badge/Lines_in_examples-37-yellow.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
 //! [![Lines in tests](https://img.shields.io/badge/Lines_in_tests-105-orange.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
@@ -120,6 +120,10 @@
 //! Automate badges for crates.io, doc.rs, lib.rs, license, crev review. Check if they exist and create badges.  
 //! Create a git tag, a github release and in the same time CHANGELOG.md or RELEASES.md after publishing on crates.io.
 //! There is no binary upload for library releases.
+//!
+//! Separate commit for docs. To not interfere with actual code commits.
+//! The docs html does not have enought newlines, so the diff is very bad.
+//! The file_hashes json files don't have enough newlines, so the diff is very bad.
 //!
 //! ## Open-source and free as a beer
 //!
