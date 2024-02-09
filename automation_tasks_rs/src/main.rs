@@ -2,6 +2,8 @@
 
 // region: library with basic automation tasks
 use cargo_auto_lib as cl;
+// traits must be in scope (Rust strangeness)
+use cl::CargoTomlPublicApiMethods;
 
 use cargo_auto_lib::RED as RED;
 use cargo_auto_lib::YELLOW as YELLOW;
@@ -145,6 +147,8 @@ cargo auto doc{RESET}{YELLOW}
 
 /// cargo doc, then copies to /docs/ folder, because this is a github standard folder
 fn task_doc() {
+    // trait must be in scope ?
+    
     let cargo_toml = cl::CargoToml::read();
     cl::auto_cargo_toml_to_md();
     cl::auto_lines_of_code("");
@@ -202,8 +206,7 @@ cargo auto publish_to_crates_io{RESET}{YELLOW}
 /// publish to crates.io and git tag
 fn task_publish_to_crates_io() {
     println!(r#"{YELLOW}The crates.io access token must already be saved locally with `cargo login TOKEN`{RESET}"#);
-
-let cargo_toml = cl::CargoToml::read();
+    let cargo_toml = cl::CargoToml::read();
     // git tag
     let shell_command = format!(
         "git tag -f -a v{version} -m version_{version}",
