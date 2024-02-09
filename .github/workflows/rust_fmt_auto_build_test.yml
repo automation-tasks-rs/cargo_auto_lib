@@ -2,9 +2,11 @@ name: rust_fmt_auto_build_test
 
 on:
   push:
-    branches: [ main ]
+    branches: 
+    - "**"
   pull_request:
-    branches: [ main ]
+    branches: 
+    - "**"
 
 env:
   CARGO_TERM_COLOR: always
