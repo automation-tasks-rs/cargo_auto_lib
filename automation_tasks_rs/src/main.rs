@@ -147,8 +147,6 @@ cargo auto doc{RESET}{YELLOW}
 
 /// cargo doc, then copies to /docs/ folder, because this is a github standard folder
 fn task_doc() {
-    // trait must be in scope ?
-    
     let cargo_toml = cl::CargoToml::read();
     cl::auto_cargo_toml_to_md();
     cl::auto_lines_of_code("");
