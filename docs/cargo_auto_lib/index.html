@@ -180,14 +180,16 @@ cargo auto doc{RESET}{YELLOW}
             </div>
             <p>Now open the README.md and you will see the data that this automation task copied from other places. Therefore you change this data only in one
             place, the automation task copies them wherever needed.</p>
-            <h3 id="based-on-simple-functions"><a href="#based-on-simple-functions">Based on simple functions</a></h3>
-            <p>All the functions have extensive help/docs to describe how they work.<br>
-            This is nice when you use a code editor with IntelliSense like VSCode.<br>
-            Inside the <code>automation_tasks_rs</code> you can write your own code. No limits there. It is just Rust.</p>
             <h3 id="caveats"><a href="#caveats">Caveats</a></h3>
             <p>This crate will attempt to edit <code>Cargo.toml</code>. Unfortunately, there’s no great robust way right now to edit TOML file preserving
             formatting and comments and such, so right now I use just regex to do this. If you find that the heuristics don’t work for you though please let me
             know and I’ll try to check in a fix!</p>
+            <h3 id="development-details"><a href="#development-details">Development details</a></h3>
+            <p>Read the development details in a separate md file:<br>
+            <a href="https://github.com/bestia-dev/cargo-auto/blob/main/DEVELOPMENT.md">DEVELOPMENT.md</a></p>
+            <h3 id="changelog"><a href="#changelog">Changelog</a></h3>
+            <p>Read the changelog in a separate md file:<br>
+            <a href="https://github.com/bestia-dev/cargo-auto/blob/main/RELEASES.md">RELEASES.md</a></p>
             <h3 id="todo"><a href="#todo">TODO</a></h3>
             <p>Use the new <code>#![doc=include_str!("README.md")]</code> to avoid super clutter in <code>lib.rs</code> doc comments.</p>
             <p>Automate badges for crates.io, doc.rs, lib.rs, license, crev review. Check if they exist and create badges.<br>
