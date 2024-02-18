@@ -1,9 +1,23 @@
+// lib.rs
+
+// logo for docs.rs in png
+#![doc(
+    html_logo_url = "https://github.com/bestia-dev/cargo-auto/raw/main/images/logo/logo_cargo_auto.svg"
+)]
+// even favicon ico can be changed
+// #![doc(html_favicon_url = "/logo.ico")]
+// playground for examples
+#![doc(html_playground_url = "https://play.rust-lang.org/")]
+// example how to insert a svg file inside the documentation
+// #![doc=include_str!("shared-bus.svg")]
+
 // region: auto_md_to_doc_comments include README.md A //!
 //! # cargo_auto_lib
 //!
 //! **Library crate for common tasks when building rust projects. Intended for use with cargo-auto - automation tasks written in Rust language.**  
-//! ***version: 1.1.21 date: 2024-02-09 author: [Bestia.dev](https://bestia.dev) repository: [GitHub](https://github.com/bestia-dev/cargo_auto_lib)***  
+//! ***version: 1.1.21 date: 2024-02-18 author: [Bestia.dev](https://bestia.dev) repository: [GitHub](https://github.com/bestia-dev/cargo_auto_lib)***  
 //!
+//!  ![logo](https://raw.githubusercontent.com/bestia-dev/cargo-auto/main/images/logo/logo_cargo_auto.svg)
 //!  ![status](https://img.shields.io/badge/maintained-green)
 //!  ![status](https://img.shields.io/badge/ready_for_use-green)
 //!
@@ -16,9 +30,9 @@
 //!  [![Rust](https://github.com/bestia-dev/cargo_auto_lib/workflows/rust_fmt_auto_build_test/badge.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
 //!  ![Hits](https://bestia.dev/webpage_hit_counter/get_svg_image/276360626.svg)
 //!
-//! [![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-1623-green.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
+//! [![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-1627-green.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
 //! [![Lines in Doc comments](https://img.shields.io/badge/Lines_in_Doc_comments-624-blue.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
-//! [![Lines in Comments](https://img.shields.io/badge/Lines_in_comments-231-purple.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
+//! [![Lines in Comments](https://img.shields.io/badge/Lines_in_comments-238-purple.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
 //! [![Lines in examples](https://img.shields.io/badge/Lines_in_examples-37-yellow.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
 //! [![Lines in tests](https://img.shields.io/badge/Lines_in_tests-105-orange.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
 //!
@@ -80,50 +94,13 @@
 //! This crate will attempt to edit `Cargo.toml`. Unfortunately, there's no great robust way right now to edit TOML file preserving formatting and comments and such, so right now I use just regex to do this.
 //! If you find that the heuristics don't work for you though please let me know and I'll try to check in a fix!
 //!
-//! ## learn something new every day
-//!
-//! I needed to copy large text into doc comments.  
-//! It means every line must get a prefix like `///`.  
-//! In VSCode I selected the text, press  
-//! `alt+shift+i`
-//! Now I have `multiple cursors` on the end of every selected line.  
-//! I press the key
-//! `home`
-//! And now I have multiple cursors at the beginning of every line.  
-//! I type (insert):
-//! `///`  
-//! and it's done! Great!
-//!
-//! ## Add a git tag for a past commit
-//!
-//! How to add a tag for an old commit with its GIT_COMMITTER_DATE?  
-//! <https://stackoverflow.com/questions/4404172/how-to-tag-an-older-commit-in-git>
-//!
-//! ```bash
-//! # Set the HEAD to the old commit that we want to tag
-//! git checkout e408fcd6efb21e6f0df55f3d49afd0f3917738fd
-//!
-//! # temporarily set the date to the date of the HEAD commit, and add the tag
-//! GIT_COMMITTER_DATE="$(git show --format=%aD | head -1)" \
-//! git tag -a v1.0.96 -m"v1.0.96"
-//!
-//! # push to origin
-//! git push origin --tags
-//!
-//! # set HEAD back
-//! git checkout main
-//!
-//! ```
-//!
 //! ## TODO
 //!
 //! Automate badges for crates.io, doc.rs, lib.rs, license, crev review. Check if they exist and create badges.  
-//! Create a git tag, a github release and in the same time CHANGELOG.md or RELEASES.md after publishing on crates.io.
+//! Create a git tag, a github release and in the same time RELEASES.md after publishing on crates.io.
 //! There is no binary upload for library releases.
 //!
-//! Separate commit for docs. To not interfere with actual code commits.
-//! The docs html does not have enought newlines, so the diff is very bad.
-//! The file_hashes json files don't have enough newlines, so the diff is very bad.
+//!
 //!
 //! ## Open-source and free as a beer
 //!
