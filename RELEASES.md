@@ -1,4 +1,4 @@
-# Changelog between releases for cargo_auto_lib
+# Releases of cargo_auto_lib
 
 All notable changes to this project will be documented in this file.  
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).  
@@ -8,11 +8,8 @@ I will use the cargo-auto automation tasks to use the content of this file to cr
 
 ## [Unreleased]
 
-The ongoing changes that are not released are visible in the git commits and github pull requests.
-
-TODO: Automate badges for crates.io, doc.rs, lib.rs, license, crev review. Check if they exist and create badges.  
-Create a git tag and github release after publishing on crates.io with the content of RELEASES.md.
-There is no binary upload for library releases. I will need to parse this document, therefor the format must be consistent.
+The ongoing changes that are not released are visible in the git commits and github pull requests.  
+The TODO section is part of the README.md.
 
 ## Version 1.1.2 (2024-02-05)
 

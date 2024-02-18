@@ -102,16 +102,20 @@ cargo auto release
 
 Now open the README.md and you will see the data that this automation task copied from other places. Therefore you change this data only in one place, the automation task copies them wherever needed.
 
-## Based on simple functions
-
-All the functions have extensive help/docs to describe how they work.  
-This is nice when you use a code editor with IntelliSense like VSCode.  
-Inside the `automation_tasks_rs` you can write your own code. No limits there. It is just Rust.  
-
 ## Caveats
 
 This crate will attempt to edit `Cargo.toml`. Unfortunately, there's no great robust way right now to edit TOML file preserving formatting and comments and such, so right now I use just regex to do this.
 If you find that the heuristics don't work for you though please let me know and I'll try to check in a fix!
+
+## Development details
+
+Read the development details in a separate md file:  
+[DEVELOPMENT.md](https://github.com/bestia-dev/cargo-auto/blob/main/DEVELOPMENT.md)
+
+## Changelog
+
+Read the changelog in a separate md file:  
+[RELEASES.md](https://github.com/bestia-dev/cargo-auto/blob/main/RELEASES.md)
 
 ## TODO
 
