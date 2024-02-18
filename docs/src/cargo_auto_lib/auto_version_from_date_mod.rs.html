@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/auto_version_from_date_mod.rs`."><title>auto_version_from_date_mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-fa3bb1812debf86c.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="cargo_auto_lib" data-themes="" data-resource-suffix="" data-rustdoc-version="1.74.1 (a28077b28 2023-12-04)" data-channel="1.74.1" data-search-js="search-8be46b629f5f14a8.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-c5bd66d33317d69f.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../cargo_auto_lib/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/auto_version_from_date_mod.rs`."><title>auto_version_from_date_mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-ac92e1bbe349e143.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="cargo_auto_lib" data-themes="" data-resource-suffix="" data-rustdoc-version="1.76.0 (07dca489a 2024-02-04)" data-channel="1.76.0" data-search-js="search-2b6ce74ff89ae146.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-f2adc0d6ca4d09fb.js"></script><script defer src="../../static.files/src-script-39ed315d46fb705f.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-305769736d49e732.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-feafe1bb7466e4bd.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><div class="sidebar-resizer"></div>
+    <main><nav class="sub"><a class="sub-logo-container" href="../../cargo_auto_lib/index.html"><img src="https://github.com/bestia-dev/cargo-auto/raw/main/images/logo/logo_cargo_auto.svg" alt="cargo_auto_lib"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -433,10 +434,10 @@
 ///
 /// If src/*.rs or Cargo.toml files are not changed from last compile, than no need to change version.  
 /// The dates of the files will be stored in the file .automation_tasks_rs_file_hashes.json near to Cargo.toml.
-/// Warning: I don&#39;t check if the service worker has changed because it rarely does.  
+/// Warning: I don't check if the service worker has changed because it rarely does.  
 /// To know if the projects has changed or not, this function saves the dates of all files into `.automation_tasks_rs_file_hashes.json` near Cargo.toml
 </span><span class="kw">pub fn </span>auto_version_from_date() {
-    auto_version_from_date_internal(<span class="bool-val">false</span>).unwrap_or_else(|err| <span class="macro">panic!</span>(<span class="string">&quot;{}&quot;</span>, err.to_string()));
+    auto_version_from_date_internal(<span class="bool-val">false</span>).unwrap_or_else(|err| <span class="macro">panic!</span>(<span class="string">"{}"</span>, err.to_string()));
 }
 
 <span class="doccomment">/// Works for single projects and workspaces.  
@@ -444,7 +445,7 @@
 /// For workspaces `release` I want to have the same version in all members.  
 /// It is slower, but easier to understand when deployed.
 </span><span class="kw">pub fn </span>auto_version_from_date_forced() {
-    auto_version_from_date_internal(<span class="bool-val">true</span>).unwrap_or_else(|err| <span class="macro">panic!</span>(<span class="string">&quot;{}&quot;</span>, err.to_string()));
+    auto_version_from_date_internal(<span class="bool-val">true</span>).unwrap_or_else(|err| <span class="macro">panic!</span>(<span class="string">"{}"</span>, err.to_string()));
 }
 
 <span class="comment">// endregion: public functions
@@ -462,7 +463,7 @@
             <span class="kw">for </span>member <span class="kw">in </span>members.iter() {
                 <span class="macro">unwrap!</span>(std::env::set_current_dir(member));
                 do_one_project(<span class="kw-2">&amp;</span>new_version, force_version)<span class="question-mark">?</span>;
-                <span class="macro">unwrap!</span>(std::env::set_current_dir(<span class="string">&quot;..&quot;</span>));
+                <span class="macro">unwrap!</span>(std::env::set_current_dir(<span class="string">".."</span>));
             }
         }
     }
@@ -475,7 +476,7 @@
     <span class="kw">let </span>is_files_equal = <span class="kw">if </span>force_version {
         <span class="bool-val">false
     </span>} <span class="kw">else </span>{
-        <span class="kw">let </span>js_struct = read_json_file(<span class="string">&quot;.automation_tasks_rs_file_hashes.json&quot;</span>)<span class="question-mark">?</span>;
+        <span class="kw">let </span>js_struct = read_json_file(<span class="string">".automation_tasks_rs_file_hashes.json"</span>)<span class="question-mark">?</span>;
         are_files_equal(<span class="kw-2">&amp;</span>vec_of_metadata, <span class="kw-2">&amp;</span>js_struct.vec_file_metadata)
     };
 
@@ -487,41 +488,41 @@
 
 <span class="doccomment">/// search for file service_worker.js and modify version
 </span><span class="kw">fn </span>modify_service_js(new_version: <span class="kw-2">&amp;</span>str) {
-    <span class="kw">let </span>start_dir = Path::new(<span class="string">&quot;./&quot;</span>);
+    <span class="kw">let </span>start_dir = Path::new(<span class="string">"./"</span>);
     <span class="kw">for </span>js_filename <span class="kw">in </span><span class="kw-2">&amp;</span><span class="macro">unwrap!</span>(<span class="kw">crate</span>::utils_mod::traverse_dir_with_exclude_dir(
         start_dir,
-        <span class="string">&quot;/service_worker.js&quot;</span>,
-        <span class="kw-2">&amp;</span>[<span class="string">&quot;/.git&quot;</span>.to_string(), <span class="string">&quot;/target&quot;</span>.to_string()]
+        <span class="string">"/service_worker.js"</span>,
+        <span class="kw-2">&amp;</span>[<span class="string">"/.git"</span>.to_string(), <span class="string">"/target"</span>.to_string()]
     )) {
-        <span class="comment">// println!(&quot;{}write version in {}{}&quot;, *GREEN, js_filename, *RESET);
+        <span class="comment">// println!("{}write version in {}{}", *GREEN, js_filename, *RESET);
         </span><span class="kw">let </span><span class="kw-2">mut </span>js_content = <span class="macro">unwrap!</span>(fs::read_to_string(js_filename));
 
         <span class="comment">// check if file have CRLF instead of LF and show error
-        </span><span class="kw">if </span>js_content.contains(<span class="string">&quot;\r\n&quot;</span>) {
-            <span class="macro">panic!</span>(<span class="string">&quot;Error: {} has CRLF line endings instead of LF. The task modify_service_js cannot work! Closing.&quot;</span>, js_filename);
+        </span><span class="kw">if </span>js_content.contains(<span class="string">"\r\n"</span>) {
+            <span class="macro">panic!</span>(<span class="string">"Error: {} has CRLF line endings instead of LF. The task modify_service_js cannot work! Closing."</span>, js_filename);
         }
 
-        <span class="kw">let </span>delimiter = <span class="string">r#&quot;const CACHE_NAME = &#39;&quot;#</span>;
+        <span class="kw">let </span>delimiter = <span class="string">r#"const CACHE_NAME = '"#</span>;
         <span class="kw">let </span>delimiter_len = delimiter.len();
         <span class="kw">let </span>option_location = js_content.find(delimiter);
         <span class="kw">if let </span><span class="prelude-val">Some</span>(location) = option_location {
             <span class="kw">let </span>start_version = location + delimiter_len;
-            <span class="kw">let </span>option_end_quote = find_from(js_content.as_str(), start_version, <span class="string">r#&quot;&#39;;&quot;#</span>);
+            <span class="kw">let </span>option_end_quote = find_from(js_content.as_str(), start_version, <span class="string">r#"';"#</span>);
             <span class="kw">if let </span><span class="prelude-val">Some</span>(end_version) = option_end_quote {
                 <span class="comment">//delete all the characters in between the markers
                 </span><span class="kw">let </span>old_version: String = js_content.drain(start_version..end_version).collect();
-                <span class="comment">//println!(r#&quot;old version: &quot;{}&quot;&quot;#, old_version.as_str());
+                <span class="comment">//println!(r#"old version: "{}""#, old_version.as_str());
                 </span><span class="kw">if </span>new_version != old_version {
-                    <span class="macro">println!</span>(<span class="string">&quot;    Modify version: {} -&gt; {}&quot;</span>, old_version, new_version);
+                    <span class="macro">println!</span>(<span class="string">"    Modify version: {} -&gt; {}"</span>, old_version, new_version);
                     js_content.insert_str(start_version, new_version);
-                    <span class="comment">//println!(&quot;{}write file: {}{}&quot;, *YELLOW, js_filename, *RESET);
+                    <span class="comment">//println!("{}write file: {}{}", *YELLOW, js_filename, *RESET);
                     </span><span class="kw">let </span>_x = fs::write(js_filename, js_content);
                 }
             } <span class="kw">else </span>{
-                <span class="macro">panic!</span>(<span class="string">&quot;no end quote for version&quot;</span>);
+                <span class="macro">panic!</span>(<span class="string">"no end quote for version"</span>);
             }
         } <span class="kw">else </span>{
-            <span class="macro">panic!</span>(<span class="string">&quot;service_worker.js has no version&quot;</span>);
+            <span class="macro">panic!</span>(<span class="string">"service_worker.js has no version"</span>);
         }
     }
 }
@@ -531,29 +532,29 @@
     new_version: <span class="kw-2">&amp;</span>str,
     <span class="kw-2">mut </span>vec_of_metadata: Vec&lt;FileMetaData&gt;,
 ) -&gt; ResultWithLibError&lt;()&gt; {
-    <span class="comment">// println!(&quot;{}write version to Cargo.toml{}&quot;, *GREEN, *RESET);
-    </span><span class="kw">let </span>cargo_filename = <span class="string">&quot;Cargo.toml&quot;</span>;
+    <span class="comment">// println!("{}write version to Cargo.toml{}", *GREEN, *RESET);
+    </span><span class="kw">let </span>cargo_filename = <span class="string">"Cargo.toml"</span>;
     <span class="kw">let </span><span class="kw-2">mut </span>cargo_content = <span class="macro">unwrap!</span>(fs::read_to_string(cargo_filename));
 
     <span class="comment">// check if file have CRLF instead of LF and show error
-    </span><span class="kw">if </span>cargo_content.contains(<span class="string">&quot;\r\n&quot;</span>) {
-        <span class="macro">panic!</span>(<span class="string">&quot;{RED}Error: {} has CRLF line endings instead of LF. The task write_version_to_cargo cannot work! Closing.{RESET}&quot;</span>, cargo_filename);
+    </span><span class="kw">if </span>cargo_content.contains(<span class="string">"\r\n"</span>) {
+        <span class="macro">panic!</span>(<span class="string">"{RED}Error: {} has CRLF line endings instead of LF. The task write_version_to_cargo cannot work! Closing.{RESET}"</span>, cargo_filename);
     }
 
-    <span class="kw">let </span>delimiter = <span class="string">r#&quot;version = &quot;&quot;#</span>;
+    <span class="kw">let </span>delimiter = <span class="string">r#"version = ""#</span>;
     <span class="kw">let </span>delimiter_len = delimiter.len();
     <span class="kw">let </span>option_location = cargo_content.find(delimiter);
     <span class="kw">if let </span><span class="prelude-val">Some</span>(location) = option_location {
         <span class="kw">let </span>start_version = location + delimiter_len;
-        <span class="kw">let </span>option_end_quote = find_from(cargo_content.as_str(), start_version, <span class="string">r#&quot;&quot;&quot;#</span>);
+        <span class="kw">let </span>option_end_quote = find_from(cargo_content.as_str(), start_version, <span class="string">r#"""#</span>);
         <span class="kw">if let </span><span class="prelude-val">Some</span>(end_version) = option_end_quote {
             <span class="comment">//delete all the characters in between the markers
             </span><span class="kw">let </span>old_version: String = cargo_content.drain(start_version..end_version).collect();
-            <span class="comment">//println!(r#&quot;old version: &quot;{}&quot;&quot;#, old_version.as_str());
+            <span class="comment">//println!(r#"old version: "{}""#, old_version.as_str());
             </span><span class="kw">if </span>new_version != old_version.as_str() {
-                <span class="macro">println!</span>(<span class="string">&quot;    Modify version: {} -&gt; {}&quot;</span>, old_version, new_version);
+                <span class="macro">println!</span>(<span class="string">"    Modify version: {} -&gt; {}"</span>, old_version, new_version);
                 cargo_content.insert_str(start_version, new_version);
-                <span class="comment">// println!(&quot;{}write file: {}{}&quot;, *YELLOW, cargo_filename, *RESET);
+                <span class="comment">// println!("{}write file: {}{}", *YELLOW, cargo_filename, *RESET);
                 </span><span class="kw">let </span>_x = fs::write(cargo_filename, cargo_content);
 
                 <span class="comment">//the Cargo.toml is now different
@@ -561,10 +562,10 @@
                 save_json_file_for_file_meta_data(vec_of_metadata);
             }
         } <span class="kw">else </span>{
-            <span class="macro">panic!</span>(<span class="string">&quot;no end quote for version&quot;</span>);
+            <span class="macro">panic!</span>(<span class="string">"no end quote for version"</span>);
         }
     } <span class="kw">else </span>{
-        <span class="macro">panic!</span>(<span class="string">&quot;Cargo.toml has no version&quot;</span>);
+        <span class="macro">panic!</span>(<span class="string">"Cargo.toml has no version"</span>);
     }
     <span class="prelude-val">Ok</span>(())
 }
@@ -574,12 +575,12 @@
     vec_of_metadata: <span class="kw-2">&amp;mut </span>[FileMetaData],
 ) -&gt; ResultWithLibError&lt;()&gt; {
     <span class="comment">//correct the vector only for Cargo.toml file
-    </span><span class="kw">let </span>filename = <span class="string">&quot;Cargo.toml&quot;</span>.to_string();
+    </span><span class="kw">let </span>filename = <span class="string">"Cargo.toml"</span>.to_string();
     <span class="comment">// calculate hash of file
     </span><span class="kw">let </span>filehash = sha256_digest(PathBuf::from_str(<span class="kw-2">&amp;</span>filename)<span class="question-mark">?</span>.as_path())<span class="question-mark">?</span>;
     vec_of_metadata
         .get_mut(<span class="number">0</span>)
-        .ok_or(LibError::ErrorFromStr(<span class="string">&quot;error vec_of_metadata.get_mut(0)&quot;</span>))<span class="question-mark">?
+        .ok_or(LibError::ErrorFromStr(<span class="string">"error vec_of_metadata.get_mut(0)"</span>))<span class="question-mark">?
         </span>.filehash = filehash;
     <span class="prelude-val">Ok</span>(())
 }
@@ -601,7 +602,7 @@
             }
         }
         <span class="kw">if </span>!is_one_equal {
-            <span class="comment">// println!(&quot;{} {}&quot;, x.filename, x.filehash);
+            <span class="comment">// println!("{} {}", x.filename, x.filehash);
             </span>is_files_equal = <span class="bool-val">false</span>;
             <span class="kw">break</span>;
         }
@@ -612,17 +613,17 @@
 <span class="doccomment">/// make a vector of file metadata
 </span><span class="kw">pub fn </span>read_file_metadata() -&gt; ResultWithLibError&lt;Vec&lt;FileMetaData&gt;&gt; {
     <span class="kw">let </span><span class="kw-2">mut </span>vec_of_metadata: Vec&lt;FileMetaData&gt; = Vec::new();
-    <span class="kw">let </span>filename = <span class="string">&quot;Cargo.toml&quot;</span>.to_string();
+    <span class="kw">let </span>filename = <span class="string">"Cargo.toml"</span>.to_string();
     <span class="comment">// calculate hash of file
     </span><span class="kw">let </span>filehash = sha256_digest(PathBuf::from_str(<span class="kw-2">&amp;</span>filename)<span class="question-mark">?</span>.as_path())<span class="question-mark">?</span>;
     vec_of_metadata.push(FileMetaData { filename, filehash });
 
-    <span class="kw">for </span>entry <span class="kw">in </span>fs::read_dir(<span class="string">&quot;src&quot;</span>)<span class="question-mark">? </span>{
+    <span class="kw">for </span>entry <span class="kw">in </span>fs::read_dir(<span class="string">"src"</span>)<span class="question-mark">? </span>{
         <span class="kw">let </span>entry = <span class="macro">unwrap!</span>(entry);
         <span class="kw">let </span>path = entry.file_name();
 
-        <span class="kw">let </span>filename = <span class="macro">format!</span>(<span class="string">&quot;src/{:?}&quot;</span>, path);
-        <span class="kw">let </span>filename = filename.replace(<span class="string">&#39;\&quot;&#39;</span>, <span class="string">&quot;&quot;</span>);
+        <span class="kw">let </span>filename = <span class="macro">format!</span>(<span class="string">"src/{:?}"</span>, path);
+        <span class="kw">let </span>filename = filename.replace(<span class="string">'\"'</span>, <span class="string">""</span>);
         <span class="comment">// calculate hash of file
         </span><span class="kw">let </span>filehash = sha256_digest(PathBuf::from_str(<span class="kw-2">&amp;</span>filename)<span class="question-mark">?</span>.as_path())<span class="question-mark">?</span>;
         vec_of_metadata.push(FileMetaData { filename, filehash });
@@ -658,7 +659,7 @@
     <span class="kw">match </span>f {
         <span class="prelude-val">Ok</span>(x) =&gt; {
             <span class="comment">// check if file have CRLF instead of LF. This are unusable - create empty struct
-            </span><span class="kw">if </span>x.contains(<span class="string">&quot;\r\n&quot;</span>) {
+            </span><span class="kw">if </span>x.contains(<span class="string">"\r\n"</span>) {
                 <span class="comment">//create empty struct
                 </span>js_struct = AutoVersionFromDate {
                     vec_file_metadata: Vec::new(),
@@ -669,7 +670,7 @@
             }
         }
         <span class="prelude-val">Err</span>(_error) =&gt; {
-            <span class="comment">// println!(&quot;Creating new file: {}&quot;, json_filepath);
+            <span class="comment">// println!("Creating new file: {}", json_filepath);
             //create empty struct
             </span>js_struct = AutoVersionFromDate {
                 vec_file_metadata: Vec::new(),
@@ -685,7 +686,7 @@
         vec_file_metadata: vec_of_metadata,
     };
     <span class="kw">let </span>y = <span class="macro">unwrap!</span>(serde_json::to_string(<span class="kw-2">&amp;</span>x));
-    <span class="kw">let </span>json_filepath = <span class="string">&quot;.automation_tasks_rs_file_hashes.json&quot;</span>;
+    <span class="kw">let </span>json_filepath = <span class="string">".automation_tasks_rs_file_hashes.json"</span>;
     <span class="kw">let </span>_f = fs::write(json_filepath, y);
 }
 
@@ -696,7 +697,7 @@
     //return
     </span><span class="kw">if </span>date.hour() == <span class="number">0 </span>{
         <span class="macro">format!</span>(
-            <span class="string">&quot;{:04}.{}{:02}.{}&quot;</span>,
+            <span class="string">"{:04}.{}{:02}.{}"</span>,
             date.year(),
             date.month(),
             date.day(),
@@ -704,7 +705,7 @@
         )
     } <span class="kw">else </span>{
         <span class="macro">format!</span>(
-            <span class="string">&quot;{:04}.{}{:02}.{}{:02}&quot;</span>,
+            <span class="string">"{:04}.{}{:02}.{}{:02}"</span>,
             date.year(),
             date.month(),
             date.day(),
@@ -738,14 +739,14 @@
         <span class="kw">let </span>date_time = chrono::TimeZone::with_ymd_and_hms(<span class="kw-2">&amp;</span>Utc, <span class="number">2020</span>, <span class="number">5</span>, <span class="number">22</span>, <span class="number">00</span>, <span class="number">34</span>, <span class="number">0</span>).unwrap();
 
         <span class="kw">let </span>version = version_from_date(date_time);
-        <span class="macro">assert_eq!</span>(version, <span class="string">&quot;2020.522.34&quot;</span>);
+        <span class="macro">assert_eq!</span>(version, <span class="string">"2020.522.34"</span>);
     }
 
     <span class="attr">#[test]
     </span><span class="kw">pub fn </span>test_sha256_digest() -&gt; ResultWithLibError&lt;()&gt; {
-        <span class="kw">let </span>digest = sha256_digest(Path::new(<span class="string">&quot;LICENSE&quot;</span>))<span class="question-mark">?</span>;
+        <span class="kw">let </span>digest = sha256_digest(Path::new(<span class="string">"LICENSE"</span>))<span class="question-mark">?</span>;
         <span class="kw">let </span>hash_string = data_encoding::HEXLOWER.encode(digest.as_ref());
-        <span class="kw">let </span>expected_hex = <span class="string">&quot;65666234343064623966363462343963643663333839373166303131663632636334666364323733663461323635303161346336366139633935656337373139&quot;</span>;
+        <span class="kw">let </span>expected_hex = <span class="string">"65666234343064623966363462343963643663333839373166303131663632636334666364323733663461323635303161346336366139633935656337373139"</span>;
         <span class="macro">assert_eq!</span>(<span class="kw-2">&amp;</span>hash_string, expected_hex);
         <span class="prelude-val">Ok</span>(())
     }

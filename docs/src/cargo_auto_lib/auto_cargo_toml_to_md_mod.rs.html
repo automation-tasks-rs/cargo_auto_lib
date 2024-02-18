@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/auto_cargo_toml_to_md_mod.rs`."><title>auto_cargo_toml_to_md_mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-fa3bb1812debf86c.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="cargo_auto_lib" data-themes="" data-resource-suffix="" data-rustdoc-version="1.74.1 (a28077b28 2023-12-04)" data-channel="1.74.1" data-search-js="search-8be46b629f5f14a8.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-c5bd66d33317d69f.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../cargo_auto_lib/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/auto_cargo_toml_to_md_mod.rs`."><title>auto_cargo_toml_to_md_mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-ac92e1bbe349e143.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="cargo_auto_lib" data-themes="" data-resource-suffix="" data-rustdoc-version="1.76.0 (07dca489a 2024-02-04)" data-channel="1.76.0" data-search-js="search-2b6ce74ff89ae146.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-f2adc0d6ca4d09fb.js"></script><script defer src="../../static.files/src-script-39ed315d46fb705f.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-305769736d49e732.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-feafe1bb7466e4bd.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><div class="sidebar-resizer"></div>
+    <main><nav class="sub"><a class="sub-logo-container" href="../../cargo_auto_lib/index.html"><img src="https://github.com/bestia-dev/cargo-auto/raw/main/images/logo/logo_cargo_auto.svg" alt="cargo_auto_lib"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -145,10 +146,10 @@
 
 </span><span class="macro">lazy_static! </span>{
     <span class="kw">static </span><span class="kw-2">ref </span>REGEX_MD_START: Regex = <span class="macro">unwrap!</span>(Regex::new(
-        <span class="string">r#&quot;(?m)^\[//\]: # \(auto_cargo_toml_to_md start\)$&quot;#
+        <span class="string">r#"(?m)^\[//\]: # \(auto_cargo_toml_to_md start\)$"#
     </span>));
     <span class="kw">static </span><span class="kw-2">ref </span>REGEX_MD_END: Regex = <span class="macro">unwrap!</span>(Regex::new(
-        <span class="string">r#&quot;(?m)^\[//\]: # \(auto_cargo_toml_to_md end\)$&quot;#
+        <span class="string">r#"(?m)^\[//\]: # \(auto_cargo_toml_to_md end\)$"#
     </span>));
 }
 
@@ -158,7 +159,7 @@
 /// Run it on every build with [cargo auto](https://crates.io/crates/cargo-auto).  
 /// It works also with other md files in the project, not only README.md.  
 /// In the md file write these markers in markdown comments (invisible),  
-/// don&#39;t copy the numbers 1 and 2:  
+/// don't copy the numbers 1 and 2:  
 ///
 /// ```markdown
 /// 1 [//]: # (auto_cargo_toml_to_md start)
@@ -174,7 +175,7 @@
 /// cargo run --example example_01_auto_cargo_toml_to_md
 /// ```  
 </span><span class="kw">pub fn </span>auto_cargo_toml_to_md() {
-    <span class="macro">println!</span>(<span class="string">&quot;    Running auto_cargo_toml_to_md&quot;</span>);
+    <span class="macro">println!</span>(<span class="string">"    Running auto_cargo_toml_to_md"</span>);
     <span class="kw">let </span>cargo_toml = <span class="kw">crate</span>::auto_cargo_toml_mod::CargoToml::read();
     <span class="kw">let </span>members = cargo_toml.workspace_members();
     <span class="kw">match </span>members {
@@ -185,11 +186,11 @@
             <span class="kw">for </span>member <span class="kw">in </span>members.iter() {
                 <span class="macro">unwrap!</span>(std::env::set_current_dir(member));
                 do_one_project();
-                <span class="macro">unwrap!</span>(std::env::set_current_dir(<span class="string">&quot;..&quot;</span>));
+                <span class="macro">unwrap!</span>(std::env::set_current_dir(<span class="string">".."</span>));
             }
         }
     }
-    <span class="macro">println!</span>(<span class="string">&quot;    Finished auto_cargo_toml_to_md&quot;</span>);
+    <span class="macro">println!</span>(<span class="string">"    Finished auto_cargo_toml_to_md"</span>);
 }
 
 <span class="kw">fn </span>do_one_project() {
@@ -197,11 +198,11 @@
     <span class="kw">let </span>version = cargo_toml.package_version();
     <span class="kw">let </span>author_name = cargo_toml.package_author_name();
     <span class="kw">let </span>homepage = cargo_toml.package_homepage();
-    <span class="kw">let </span>repository = cargo_toml.package_repository().unwrap_or(<span class="string">&quot;&quot;</span>.to_owned());
-    <span class="kw">let </span>description = cargo_toml.package_description().unwrap_or(<span class="string">&quot;&quot;</span>.to_owned());
+    <span class="kw">let </span>repository = cargo_toml.package_repository().unwrap_or(<span class="string">""</span>.to_owned());
+    <span class="kw">let </span>description = cargo_toml.package_description().unwrap_or(<span class="string">""</span>.to_owned());
 
     <span class="kw">let </span>new_text = <span class="macro">format!</span>(
-        <span class="string">&quot;\n**{}**  \n***version: {} date: {} author: [{}]({}) repository: [GitHub]({})***  \n\n&quot;</span>,
+        <span class="string">"\n**{}**  \n***version: {} date: {} author: [{}]({}) repository: [GitHub]({})***  \n\n"</span>,
         <span class="kw-2">&amp;</span>description,
         <span class="kw-2">&amp;</span>version,
         <span class="kw-2">&amp;</span>utc_now(),
@@ -210,15 +211,15 @@
         <span class="kw-2">&amp;</span>repository,
     );
 
-    <span class="kw">for </span>filename_result <span class="kw">in </span><span class="macro">unwrap!</span>(glob(<span class="string">&quot;*.md&quot;</span>)) {
+    <span class="kw">for </span>filename_result <span class="kw">in </span><span class="macro">unwrap!</span>(glob(<span class="string">"*.md"</span>)) {
         <span class="kw">let </span>filename_pathbuff = <span class="macro">unwrap!</span>(filename_result);
         <span class="kw">let </span>md_filename = <span class="macro">unwrap!</span>(filename_pathbuff.to_str());
-        <span class="comment">// println!(&quot;checking md_filename: {}&quot;, &amp;md_filename);
+        <span class="comment">// println!("checking md_filename: {}", &amp;md_filename);
         </span><span class="kw">let </span><span class="kw-2">mut </span>md_text_content = <span class="macro">unwrap!</span>(fs::read_to_string(md_filename));
 
         <span class="comment">// check if file have CRLF and show error
-        </span><span class="kw">if </span>md_text_content.contains(<span class="string">&quot;\r\n&quot;</span>) {
-            <span class="macro">panic!</span>(<span class="string">&quot;Error: {} has CRLF line endings instead of LF. The task auto_cargo_toml_to_md cannot work! Closing.&quot;</span>, <span class="kw-2">&amp;</span>md_filename);
+        </span><span class="kw">if </span>md_text_content.contains(<span class="string">"\r\n"</span>) {
+            <span class="macro">panic!</span>(<span class="string">"Error: {} has CRLF line endings instead of LF. The task auto_cargo_toml_to_md cannot work! Closing."</span>, <span class="kw-2">&amp;</span>md_filename);
         }
 
         <span class="kw">if let </span><span class="prelude-val">Some</span>(cap) = REGEX_MD_START.captures(<span class="kw-2">&amp;</span>md_text_content) {
@@ -226,8 +227,8 @@
             <span class="kw">if let </span><span class="prelude-val">Some</span>(cap) = REGEX_MD_END.captures(<span class="kw-2">&amp;</span>md_text_content) {
                 <span class="kw">let </span>pos_end = <span class="macro">unwrap!</span>(cap.get(<span class="number">0</span>)).start();
                 md_text_content.replace_range(pos_start..pos_end, <span class="kw-2">&amp;</span>new_text);
-                <span class="macro">println!</span>(<span class="string">&quot;{YELLOW}write to md file: {}{RESET}&quot;</span>, md_filename);
-                <span class="macro">println!</span>(<span class="string">&quot;{GREEN}{}{RESET}&quot;</span>, <span class="kw-2">&amp;</span>new_text.trim_end_matches(<span class="string">&quot;\n\n&quot;</span>));
+                <span class="macro">println!</span>(<span class="string">"{YELLOW}write to md file: {}{RESET}"</span>, md_filename);
+                <span class="macro">println!</span>(<span class="string">"{GREEN}{}{RESET}"</span>, <span class="kw-2">&amp;</span>new_text.trim_end_matches(<span class="string">"\n\n"</span>));
                 <span class="macro">unwrap!</span>(fs::write(md_filename, md_text_content));
             }
         }
@@ -238,7 +239,7 @@
 </span><span class="kw">fn </span>utc_now() -&gt; String {
     <span class="kw">let </span>now = Utc::now();
     <span class="macro">format!</span>(
-        <span class="string">&quot;{:04}-{:02}-{:02}&quot;</span>,
+        <span class="string">"{:04}-{:02}-{:02}"</span>,
         now.year(),
         now.month() <span class="kw">as </span>i32,
         now.day() <span class="kw">as </span>i32,

@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/auto_plantuml_mod.rs`."><title>auto_plantuml_mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-fa3bb1812debf86c.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="cargo_auto_lib" data-themes="" data-resource-suffix="" data-rustdoc-version="1.74.1 (a28077b28 2023-12-04)" data-channel="1.74.1" data-search-js="search-8be46b629f5f14a8.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-c5bd66d33317d69f.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../cargo_auto_lib/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/auto_plantuml_mod.rs`."><title>auto_plantuml_mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-ac92e1bbe349e143.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="cargo_auto_lib" data-themes="" data-resource-suffix="" data-rustdoc-version="1.76.0 (07dca489a 2024-02-04)" data-channel="1.76.0" data-search-js="search-2b6ce74ff89ae146.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-f2adc0d6ca4d09fb.js"></script><script defer src="../../static.files/src-script-39ed315d46fb705f.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-305769736d49e732.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-feafe1bb7466e4bd.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><div class="sidebar-resizer"></div>
+    <main><nav class="sub"><a class="sub-logo-container" href="../../cargo_auto_lib/index.html"><img src="https://github.com/bestia-dev/cargo-auto/raw/main/images/logo/logo_cargo_auto.svg" alt="cargo_auto_lib"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -336,14 +337,14 @@
 
 <span class="macro">lazy_static! </span>{
     <span class="kw">static </span><span class="kw-2">ref </span>REGEX_PLANTUML_START: regex::Regex = <span class="macro">unwrap!</span>(regex::Regex::new(
-        <span class="string">r#&quot;(?m)^\[//\]: # \(auto_plantuml start\)$&quot;#
+        <span class="string">r#"(?m)^\[//\]: # \(auto_plantuml start\)$"#
     </span>));
     <span class="kw">static </span><span class="kw-2">ref </span>REGEX_PLANTUML_END: regex::Regex = <span class="macro">unwrap!</span>(regex::Regex::new(
-        <span class="string">r#&quot;(?m)^\[//\]: # \(auto_plantuml end\)$&quot;#
+        <span class="string">r#"(?m)^\[//\]: # \(auto_plantuml end\)$"#
     </span>));
     <span class="comment">// capture group
     </span><span class="kw">static </span><span class="kw-2">ref </span>REGEX_IMG_LINK: regex::Regex = <span class="macro">unwrap!</span>(regex::Regex::new(
-    <span class="string">r#&quot;!\[.+\]\(.+/svg_(.+)\.svg\)&quot;#
+    <span class="string">r#"!\[.+\]\(.+/svg_(.+)\.svg\)"#
     </span>));
 }
 
@@ -361,16 +362,16 @@
 <span class="doccomment">/// process plantuml for all md files
 /// for test and examples I need to provide the path
 </span><span class="kw">pub fn </span>auto_plantuml_for_path(path: <span class="kw-2">&amp;</span>std::path::Path, repo_url: <span class="kw-2">&amp;</span>str) {
-    <span class="macro">println!</span>(<span class="string">&quot;    Running auto_plantuml&quot;</span>);
+    <span class="macro">println!</span>(<span class="string">"    Running auto_plantuml"</span>);
     <span class="comment">//use traverse instead of glob
     </span><span class="kw">let </span>files = <span class="macro">unwrap!</span>(<span class="kw">crate</span>::utils_mod::traverse_dir_with_exclude_dir(
         path,
-        <span class="string">&quot;/*.md&quot;</span>,
+        <span class="string">"/*.md"</span>,
         <span class="comment">// avoid big folders and other folders with *.crev
         </span><span class="kw-2">&amp;</span>[
-            <span class="string">&quot;/.git&quot;</span>.to_string(),
-            <span class="string">&quot;/target&quot;</span>.to_string(),
-            <span class="string">&quot;/docs&quot;</span>.to_string()
+            <span class="string">"/.git"</span>.to_string(),
+            <span class="string">"/target"</span>.to_string(),
+            <span class="string">"/docs"</span>.to_string()
         ]
     ));
     <span class="kw">for </span>md_filename <span class="kw">in </span>files {
@@ -380,24 +381,24 @@
         <span class="kw">let </span><span class="kw-2">mut </span>md_text_content = <span class="macro">unwrap!</span>(std::fs::read_to_string(md_filename));
 
         <span class="comment">// check if file have CRLF and show error
-        </span><span class="kw">if </span>md_text_content.contains(<span class="string">&quot;\r\n&quot;</span>) {
-            <span class="macro">panic!</span>(<span class="string">&quot;Error: {} has CRLF line endings instead of LF. The task auto_plantuml cannot work! Closing.&quot;</span>, md_filename.to_string_lossy());
+        </span><span class="kw">if </span>md_text_content.contains(<span class="string">"\r\n"</span>) {
+            <span class="macro">panic!</span>(<span class="string">"Error: {} has CRLF line endings instead of LF. The task auto_plantuml cannot work! Closing."</span>, md_filename.to_string_lossy());
         }
         <span class="kw">let </span><span class="kw-2">mut </span>pos = <span class="number">0</span>;
         <span class="comment">// find markers
         </span><span class="kw">while let </span><span class="prelude-val">Some</span>(marker_start) = find_pos_start_data_after_delimiter(
             <span class="kw-2">&amp;</span>md_text_content,
             pos,
-            <span class="string">&quot;\n[//]: # (auto_plantuml start)\n&quot;</span>,
+            <span class="string">"\n[//]: # (auto_plantuml start)\n"</span>,
         ) {
             pos = marker_start + <span class="number">34</span>;
             <span class="kw">if let </span><span class="prelude-val">Some</span>(code_start) = find_pos_start_data_after_delimiter(
                 <span class="kw-2">&amp;</span>md_text_content,
                 marker_start,
-                <span class="string">&quot;\n```plantuml\n&quot;</span>,
+                <span class="string">"\n```plantuml\n"</span>,
             ) {
                 <span class="kw">if let </span><span class="prelude-val">Some</span>(code_end) =
-                    find_pos_end_data_before_delimiter(<span class="kw-2">&amp;</span>md_text_content, code_start, <span class="string">&quot;\n```\n&quot;</span>)
+                    find_pos_end_data_before_delimiter(<span class="kw-2">&amp;</span>md_text_content, code_start, <span class="string">"\n```\n"</span>)
                 {
                     <span class="kw">let </span>code_end_after = code_end + <span class="number">5</span>;
                     <span class="kw">let </span>plantuml_code = <span class="kw-2">&amp;</span>md_text_content[code_start..code_end];
@@ -407,17 +408,17 @@
                     </span><span class="kw">if let </span><span class="prelude-val">Some</span>(marker_end) = find_pos_end_data_before_delimiter(
                         <span class="kw-2">&amp;</span>md_text_content,
                         pos,
-                        <span class="string">&quot;\n[//]: # (auto_plantuml end)\n&quot;</span>,
+                        <span class="string">"\n[//]: # (auto_plantuml end)\n"</span>,
                     ) {
                         <span class="kw">let </span>img_link = md_text_content[code_end_after..marker_end].trim();
                         <span class="kw">let </span><span class="kw-2">mut </span>get_new_svg = <span class="bool-val">false</span>;
                         <span class="kw">if </span>img_link.is_empty() {
                             get_new_svg = <span class="bool-val">true</span>;
-                            <span class="comment">//dbg!(&quot;img_link is empty.&quot;);
+                            <span class="comment">//dbg!("img_link is empty.");
                         </span>} <span class="kw">else </span>{
                             <span class="comment">//dbg!(img_link);
                             // parse this format ![svg_534231](images/svg_534231.svg)
-                            </span><span class="kw">let </span>cap_group = REGEX_IMG_LINK.captures(img_link).unwrap_or_else(||<span class="macro">panic!</span>(<span class="string">&quot;Error: The old img link &#39;{}&#39; is NOT in this format &#39;![svg_534231](images/svg_534231.svg)&#39;&quot;</span>,img_link));
+                            </span><span class="kw">let </span>cap_group = REGEX_IMG_LINK.captures(img_link).unwrap_or_else(||<span class="macro">panic!</span>(<span class="string">"Error: The old img link '{}' is NOT in this format '![svg_534231](images/svg_534231.svg)'"</span>,img_link));
                             <span class="kw">let </span>old_hash = <span class="kw-2">&amp;</span>cap_group[<span class="number">1</span>];
                             <span class="comment">//dbg!(old_hash);
                             </span><span class="kw">if </span>old_hash != plantuml_code_hash {
@@ -426,8 +427,8 @@
                                 </span><span class="kw">let </span>old_file_path = md_filename
                                     .parent()
                                     .unwrap()
-                                    .join(<span class="string">&quot;images&quot;</span>)
-                                    .join(<span class="macro">format!</span>(<span class="string">&quot;svg_{}.svg&quot;</span>, old_hash));
+                                    .join(<span class="string">"images"</span>)
+                                    .join(<span class="macro">format!</span>(<span class="string">"svg_{}.svg"</span>, old_hash));
                                 <span class="kw">if </span>old_file_path.exists() {
                                     std::fs::remove_file(<span class="kw-2">&amp;</span>old_file_path).unwrap();
                                 }
@@ -436,8 +437,8 @@
                                 </span><span class="kw">let </span>old_file_path = md_filename
                                     .parent()
                                     .unwrap()
-                                    .join(<span class="string">&quot;images&quot;</span>)
-                                    .join(<span class="macro">format!</span>(<span class="string">&quot;svg_{}.svg&quot;</span>, old_hash));
+                                    .join(<span class="string">"images"</span>)
+                                    .join(<span class="macro">format!</span>(<span class="string">"svg_{}.svg"</span>, old_hash));
                                 <span class="kw">if </span>!old_file_path.exists() {
                                     get_new_svg = <span class="bool-val">true</span>;
                                 }
@@ -446,7 +447,7 @@
                         <span class="kw">if </span>get_new_svg {
                             <span class="kw">let </span>relative_md_filename = md_filename.strip_prefix(path).unwrap();
                             <span class="macro">println!</span>(
-                                <span class="string">&quot;    {} get new svg {}&quot;</span>,
+                                <span class="string">"    {} get new svg {}"</span>,
                                 relative_md_filename.to_string_lossy(),
                                 plantuml_code_hash
                             );
@@ -457,24 +458,24 @@
                             </span><span class="kw">let </span>new_file_path = md_filename
                                 .parent()
                                 .unwrap()
-                                .join(<span class="string">&quot;images&quot;</span>)
-                                .join(<span class="macro">format!</span>(<span class="string">&quot;svg_{}.svg&quot;</span>, plantuml_code_hash));
+                                .join(<span class="string">"images"</span>)
+                                .join(<span class="macro">format!</span>(<span class="string">"svg_{}.svg"</span>, plantuml_code_hash));
                             <span class="comment">//dbg!(&amp;new_file_path);
                             </span>std::fs::create_dir_all(new_file_path.parent().unwrap()).unwrap();
                             std::fs::write(<span class="kw-2">&amp;</span>new_file_path, svg_code).unwrap();
                             <span class="comment">// if repo_url is not empty then prepare github url
                             // https://github.com/bestia-dev/sey_currency_converter_pwa/raw/main/
                             </span><span class="kw">let </span>repo_full_url = <span class="kw">if </span>repo_url.is_empty() {
-                                <span class="string">&quot;&quot;</span>.to_string()
+                                <span class="string">""</span>.to_string()
                             } <span class="kw">else </span>{
-                                <span class="macro">format!</span>(<span class="string">&quot;{}/raw/main/&quot;</span>, repo_url.trim_end_matches(<span class="string">&#39;/&#39;</span>))
+                                <span class="macro">format!</span>(<span class="string">"{}/raw/main/"</span>, repo_url.trim_end_matches(<span class="string">'/'</span>))
                             };
                             <span class="comment">// path relative to Cargo.toml (project root)
                             </span><span class="kw">let </span>relative_svg_path = new_file_path.strip_prefix(path).unwrap();
                             <span class="comment">// dbg!(relative_svg_path);
                             // create the new image lnk
                             </span><span class="kw">let </span>img_link = <span class="macro">format!</span>(
-                                <span class="string">&quot;\n![svg_{}]({}{})\n&quot;</span>,
+                                <span class="string">"\n![svg_{}]({}{})\n"</span>,
                                 plantuml_code_hash,
                                 <span class="kw-2">&amp;</span>repo_full_url,
                                 relative_svg_path.to_string_lossy()
@@ -492,25 +493,25 @@
             std::fs::write(md_filename, md_text_content).unwrap();
         }
     }
-    <span class="macro">println!</span>(<span class="string">&quot;    Finished auto_plantuml&quot;</span>);
+    <span class="macro">println!</span>(<span class="string">"    Finished auto_plantuml"</span>);
 }
 
 <span class="kw">pub fn </span>hash_for_filename(text: <span class="kw-2">&amp;</span>str) -&gt; String {
     <span class="kw">let </span>hash = &lt;sha2::Sha256 <span class="kw">as </span>sha2::Digest&gt;::digest(text.as_bytes());
-    <span class="comment">// base64ct = {version = &quot;1.5.0&quot;, features = [&quot;alloc&quot;] }
+    <span class="comment">// base64ct = {version = "1.5.0", features = ["alloc"] }
     // return base64_hash
     </span>&lt;base64ct::Base64UrlUnpadded <span class="kw">as </span>base64ct::Encoding&gt;::encode_string(<span class="kw-2">&amp;</span>hash)
 }
 
 <span class="kw">pub fn </span>get_svg(plant_uml_code: <span class="kw-2">&amp;</span>str) -&gt; String {
-    <span class="kw">let </span>base_url = <span class="string">&quot;https://plantuml.com/plantuml&quot;</span>;
+    <span class="kw">let </span>base_url = <span class="string">"https://plantuml.com/plantuml"</span>;
     <span class="kw">let </span>url_parameter = compress_plant_uml_code(plant_uml_code);
-    <span class="kw">let </span>url = <span class="macro">format!</span>(<span class="string">&quot;{}/svg/{}&quot;</span>, base_url, url_parameter);
+    <span class="kw">let </span>url = <span class="macro">format!</span>(<span class="string">"{}/svg/{}"</span>, base_url, url_parameter);
     <span class="comment">// use reqwest to GET from plantuml.com server
     // return response
     </span>reqwest::blocking::get(url)
         .unwrap()
-        .text_with_charset(<span class="string">&quot;utf-8&quot;</span>)
+        .text_with_charset(<span class="string">"utf-8"</span>)
         .unwrap()
 }
 
@@ -522,7 +523,7 @@
     <span class="comment">// then the strange base64
     // https://plantuml.com/text-encoding
     </span><span class="kw">let </span>my_cfg = radix64::CustomConfig::with_alphabet(
-        <span class="string">&quot;0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_&quot;</span>,
+        <span class="string">"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_"</span>,
     )
     .no_padding()
     .build()
@@ -539,52 +540,52 @@
     </span><span class="kw">pub fn </span>examples_plantuml_test() {
         <span class="comment">// similar to examples/plantuml/plantuml1.rs and check the result
         // region: prepare folders and files for this example
-        // remove the &#39;images&#39; folder
-        </span>std::fs::remove_dir_all(<span class="string">&quot;examples/plantuml/images&quot;</span>).unwrap_or_else(|<span class="kw">_</span>| ());
+        // remove the 'images' folder
+        </span>std::fs::remove_dir_all(<span class="string">"examples/plantuml/images"</span>).unwrap_or_else(|<span class="kw">_</span>| ());
         <span class="comment">// copy md files from sample_data to examples
         </span>std::fs::copy(
-            <span class="string">&quot;sample_data/input1_for_plantuml.md&quot;</span>,
-            <span class="string">&quot;examples/plantuml/input1_for_plantuml.md&quot;</span>,
+            <span class="string">"sample_data/input1_for_plantuml.md"</span>,
+            <span class="string">"examples/plantuml/input1_for_plantuml.md"</span>,
         )
         .unwrap();
         std::fs::copy(
-            <span class="string">&quot;sample_data/input2_for_plantuml.md&quot;</span>,
-            <span class="string">&quot;examples/plantuml/input2_for_plantuml.md&quot;</span>,
+            <span class="string">"sample_data/input2_for_plantuml.md"</span>,
+            <span class="string">"examples/plantuml/input2_for_plantuml.md"</span>,
         )
         .unwrap();
         <span class="comment">// endregion: prepare folders and files for this example
 
-        </span><span class="kw">let </span>path = std::path::Path::new(<span class="string">&quot;examples/plantuml&quot;</span>);
-        auto_plantuml_for_path(path, <span class="string">&quot;&quot;</span>);
+        </span><span class="kw">let </span>path = std::path::Path::new(<span class="string">"examples/plantuml"</span>);
+        auto_plantuml_for_path(path, <span class="string">""</span>);
 
         <span class="comment">// check the result
-        </span><span class="kw">let </span>changed1 = std::fs::read_to_string(<span class="string">&quot;examples/plantuml/input1_for_plantuml.md&quot;</span>).unwrap();
-        <span class="kw">let </span>output1 = std::fs::read_to_string(<span class="string">&quot;sample_data/output1_for_plantuml.md&quot;</span>).unwrap();
+        </span><span class="kw">let </span>changed1 = std::fs::read_to_string(<span class="string">"examples/plantuml/input1_for_plantuml.md"</span>).unwrap();
+        <span class="kw">let </span>output1 = std::fs::read_to_string(<span class="string">"sample_data/output1_for_plantuml.md"</span>).unwrap();
         <span class="macro">assert_eq!</span>(changed1, output1);
 
-        <span class="kw">let </span>changed2 = std::fs::read_to_string(<span class="string">&quot;examples/plantuml/input2_for_plantuml.md&quot;</span>).unwrap();
-        <span class="kw">let </span>output2 = std::fs::read_to_string(<span class="string">&quot;sample_data/output2_for_plantuml.md&quot;</span>).unwrap();
+        <span class="kw">let </span>changed2 = std::fs::read_to_string(<span class="string">"examples/plantuml/input2_for_plantuml.md"</span>).unwrap();
+        <span class="kw">let </span>output2 = std::fs::read_to_string(<span class="string">"sample_data/output2_for_plantuml.md"</span>).unwrap();
         <span class="macro">assert_eq!</span>(changed2, output2);
 
         <span class="comment">/* cSpell:disable */
         </span><span class="macro">assert!</span>(std::path::Path::new(
-            <span class="string">&quot;examples/plantuml/images/svg_8eLHibrc2gjrY1qcezDiy--xk9mz1XwYyIcZwXvjlcE.svg&quot;
+            <span class="string">"examples/plantuml/images/svg_8eLHibrc2gjrY1qcezDiy--xk9mz1XwYyIcZwXvjlcE.svg"
         </span>)
         .exists());
         <span class="macro">assert!</span>(std::path::Path::new(
-            <span class="string">&quot;examples/plantuml/images/svg_H8u0SNaGZzGAaYPHeY4eDF9TfWqVXhKa7M8wiwXSe_s.svg&quot;
+            <span class="string">"examples/plantuml/images/svg_H8u0SNaGZzGAaYPHeY4eDF9TfWqVXhKa7M8wiwXSe_s.svg"
         </span>)
         .exists());
         <span class="macro">assert!</span>(std::path::Path::new(
-            <span class="string">&quot;examples/plantuml/images/svg_KPAr4S3iGAVLbskqf6XXaqrWge8bXMlCkNk7EaimJs0.svg&quot;
+            <span class="string">"examples/plantuml/images/svg_KPAr4S3iGAVLbskqf6XXaqrWge8bXMlCkNk7EaimJs0.svg"
         </span>)
         .exists());
         <span class="macro">assert!</span>(std::path::Path::new(
-            <span class="string">&quot;examples/plantuml/images/svg_lTG8S1eNgnLTJS1PruoYJEjQVW4dCn0x6Wl-pw6yPXM.svg&quot;
+            <span class="string">"examples/plantuml/images/svg_lTG8S1eNgnLTJS1PruoYJEjQVW4dCn0x6Wl-pw6yPXM.svg"
         </span>)
         .exists());
         <span class="macro">assert!</span>(std::path::Path::new(
-            <span class="string">&quot;examples/plantuml/images/svg_tosmzSqwSXyObaX7eRLFp9xsMzcM5UDT4NSaQSgnq-Q.svg&quot;
+            <span class="string">"examples/plantuml/images/svg_tosmzSqwSXyObaX7eRLFp9xsMzcM5UDT4NSaQSgnq-Q.svg"
         </span>)
         .exists());
         <span class="comment">/* cSpell:enable */
@@ -593,8 +594,8 @@
     <span class="attr">#[test]
     </span><span class="kw">pub fn </span>test_hash() {
         <span class="macro">assert_eq!</span>(
-            <span class="string">&quot;n4bQgYhMfWWaL-qgxVrQFaO_TxsrC4Is0V1sFbDwCgg&quot;</span>,
-            hash_for_filename(<span class="string">&quot;test&quot;</span>)
+            <span class="string">"n4bQgYhMfWWaL-qgxVrQFaO_TxsrC4Is0V1sFbDwCgg"</span>,
+            hash_for_filename(<span class="string">"test"</span>)
         );
     }
 
@@ -603,12 +604,12 @@
         <span class="comment">// http://www.plantuml.com/plantuml/uml/SoWkIImgAStDuNBCoKnELT2rKt3AJx9IS2mjoKZDAybCJYp9pCzJ24ejB4qjBk42oYde0jM05MDHLLoGdrUSokMGcfS2D1C0
         </span><span class="macro">assert_eq!</span>(
             compress_plant_uml_code(
-                <span class="string">r#&quot;@startuml
+                <span class="string">r#"@startuml
 Alice -&gt; Bob: Authentication Request
 Bob --&gt; Alice: Authentication Response
-@enduml&quot;#
+@enduml"#
             </span>),
-            <span class="string">&quot;SoWkIImgAStDuNBCoKnELT2rKt3AJx9IS2mjoKZDAybCJYp9pCzJ24ejB4qjBk42oYde0jM05MDHLLoGdrUSokMGcfS2D1C0&quot;
+            <span class="string">"SoWkIImgAStDuNBCoKnELT2rKt3AJx9IS2mjoKZDAybCJYp9pCzJ24ejB4qjBk42oYde0jM05MDHLLoGdrUSokMGcfS2D1C0"
         </span>);
     }
 }
