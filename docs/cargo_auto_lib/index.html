@@ -35,7 +35,7 @@
     <div class="sidebar-crate">
       <a class="logo-container" href="../cargo_auto_lib/index.html"><img src=
       "https://github.com/bestia-dev/cargo-auto/raw/main/images/logo/logo_cargo_auto.svg" alt="logo"></a>
-      <h2><a href="../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">1.1.21</span></h2>
+      <h2><a href="../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">1.1.23</span></h2>
     </div>
     <div class="sidebar-elems">
       <ul class="block">
@@ -59,6 +59,9 @@
           </li>
           <li>
             <a href="#functions">Functions</a>
+          </li>
+          <li>
+            <a href="#types">Type Aliases</a>
           </li>
         </ul>
       </section>
@@ -85,7 +88,7 @@
         <div class="main-heading">
           <h1>Crate <a class="mod" href="#">cargo_auto_lib</a><button id="copy-path" title="Copy item path to clipboard"><img src=
           "../static.files/clipboard-7571035ce49a181d.svg" width="19" height="18" alt="Copy item path"></button></h1><span class="out-of-band"><a class="src"
-          href="../src/cargo_auto_lib/lib.rs.html#4-35">source</a> · <button id="toggle-all-docs" title="collapse all docs">[<span>−</span>]</button></span>
+          href="../src/cargo_auto_lib/lib.rs.html#4-36">source</a> · <button id="toggle-all-docs" title="collapse all docs">[<span>−</span>]</button></span>
         </div>
         <details class="toggle top-doc" open="">
           <summary class="hideme">
@@ -95,7 +98,7 @@
             <h2 id="cargo_auto_lib"><a href="#cargo_auto_lib">cargo_auto_lib</a></h2>
             <p><strong>Library crate for common tasks when building rust projects. Intended for use with cargo-auto - automation tasks written in Rust
             language.</strong><br>
-            <em><strong>version: 1.1.21 date: 2024-02-18 author: <a href="https://bestia.dev">Bestia.dev</a> repository: <a href=
+            <em><strong>version: 1.1.23 date: 2024-02-18 author: <a href="https://bestia.dev">Bestia.dev</a> repository: <a href=
             "https://github.com/bestia-dev/cargo_auto_lib">GitHub</a></strong></em></p>
             <p><img src="https://raw.githubusercontent.com/bestia-dev/cargo-auto/main/images/logo/logo_cargo_auto.svg" alt="logo"> <img src=
             "https://img.shields.io/badge/maintained-green" alt="status"> <img src="https://img.shields.io/badge/ready_for_use-green" alt="status"></p>
@@ -108,10 +111,10 @@
             "License"></a> <a href="https://github.com/bestia-dev/cargo_auto_lib/"><img src=
             "https://github.com/bestia-dev/cargo_auto_lib/workflows/rust_fmt_auto_build_test/badge.svg" alt="Rust"></a> <img src=
             "https://bestia.dev/webpage_hit_counter/get_svg_image/276360626.svg" alt="Hits"></p>
-            <p><a href="https://github.com/bestia-dev/cargo_auto_lib/"><img src="https://img.shields.io/badge/Lines_in_Rust-1630-green.svg" alt=
+            <p><a href="https://github.com/bestia-dev/cargo_auto_lib/"><img src="https://img.shields.io/badge/Lines_in_Rust-1654-green.svg" alt=
             "Lines in Rust code"></a> <a href="https://github.com/bestia-dev/cargo_auto_lib/"><img src=
-            "https://img.shields.io/badge/Lines_in_Doc_comments-484-blue.svg" alt="Lines in Doc comments"></a> <a href=
-            "https://github.com/bestia-dev/cargo_auto_lib/"><img src="https://img.shields.io/badge/Lines_in_comments-237-purple.svg" alt=
+            "https://img.shields.io/badge/Lines_in_Doc_comments-497-blue.svg" alt="Lines in Doc comments"></a> <a href=
+            "https://github.com/bestia-dev/cargo_auto_lib/"><img src="https://img.shields.io/badge/Lines_in_comments-249-purple.svg" alt=
             "Lines in Comments"></a> <a href="https://github.com/bestia-dev/cargo_auto_lib/"><img src=
             "https://img.shields.io/badge/Lines_in_examples-37-yellow.svg" alt="Lines in examples"></a> <a href=
             "https://github.com/bestia-dev/cargo_auto_lib/"><img src="https://img.shields.io/badge/Lines_in_tests-105-orange.svg" alt="Lines in tests"></a></p>
@@ -245,6 +248,12 @@ cargo auto doc{RESET}{YELLOW}
             </div>
             <div class="desc docblock-short">
               deletes old js snippets when working with wasm-pack
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="mod" href="auto_doc_tidy_html_mod/index.html" title="mod cargo_auto_lib::auto_doc_tidy_html_mod">auto_doc_tidy_html_mod</a><span title=
+              "Restricted Visibility">&nbsp;🔒</span>
             </div>
           </li>
           <li>
@@ -411,6 +420,16 @@ cargo auto doc{RESET}{YELLOW}
               The old folders for <code>js snippets</code> are not automatically deleted on building with <code>wasm-pack</code>.<br>
               This utils do that.<br>
               The function must be executed in the root project folder where is the Cargo.toml.
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="fn" href="fn.auto_doc_tidy_html.html" title="fn cargo_auto_lib::auto_doc_tidy_html">auto_doc_tidy_html</a>
+            </div>
+            <div class="desc docblock-short">
+              The HTML generated by <code>cargo doc</code> is ugly and difficult to <code>git diff</code> tidy HTML is a HTML checker and formatter installed
+              on most Linuxes. If it is not installed run: <code>sudo apt install -y tidy</code> From the bash you can install it inside the podman container
+              like this: <code>podman exec --user root rust_dev_vscode_cnt apt install -y tidy</code>
             </div>
           </li>
           <li>
@@ -621,6 +640,18 @@ cargo auto doc{RESET}{YELLOW}
             </div>
             <div class="desc docblock-short">
               Traverse dir and its sub-dir, but avoid excluded dirs. The find_file and the exclude dir strings must start with /.
+            </div>
+          </li>
+        </ul>
+        <h2 id="types" class="section-header"><a href="#types">Type Aliases</a></h2>
+        <ul class="item-table">
+          <li>
+            <div class="item-name">
+              <a class="type" href="type.ResultWithLibError.html" title="type cargo_auto_lib::ResultWithLibError">ResultWithLibError</a>
+            </div>
+            <div class="desc docblock-short">
+              I use thiserror to return errors from the library. for easier writing the returning type, that is mostly Result&lt;&gt; type for result with
+              fixed LibError using thiserror
             </div>
           </li>
         </ul>

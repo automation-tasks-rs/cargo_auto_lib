@@ -36,7 +36,7 @@
     <div class="sidebar-crate">
       <a class="logo-container" href="../cargo_auto_lib/index.html"><img src=
       "https://github.com/bestia-dev/cargo-auto/raw/main/images/logo/logo_cargo_auto.svg" alt="logo"></a>
-      <h2><a href="../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">1.1.21</span></h2>
+      <h2><a href="../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">1.1.23</span></h2>
     </div>
     <div class="sidebar-elems"></div>
   </nav>
@@ -61,7 +61,7 @@
         <div class="main-heading">
           <h1>Function <a href="index.html">cargo_auto_lib</a>::<wbr><a class="fn" href="#">auto_md_to_doc_comments</a><button id="copy-path" title=
           "Copy item path to clipboard"><img src="../static.files/clipboard-7571035ce49a181d.svg" width="19" height="18" alt=
-          "Copy item path"></button></h1><span class="out-of-band"><a class="src" href="../src/cargo_auto_lib/public_api_mod.rs.html#275-277">source</a> ·
+          "Copy item path"></button></h1><span class="out-of-band"><a class="src" href="../src/cargo_auto_lib/public_api_mod.rs.html#283-285">source</a> ·
           <button id="toggle-all-docs" title="collapse all docs">[<span>−</span>]</button></span>
         </div>
         <pre class="rust item-decl"><code>pub fn auto_md_to_doc_comments()</code></pre>
@@ -82,10 +82,10 @@
             the code.<br>
             It works only for files with LF line delimiter. No CR and no CRLF.</p>
             <h3 id="markers"><a href="#markers">markers</a></h3>
-            <p>In the rs file write these markers (don’t copy the numbers 1 and 2):</p>
+            <p>In the rs file write these markers (don’t copy the numbers 1 and 2 and x):</p>
             <div class="example-wrap">
-              <pre class="language-code"><code>1. // region: auto_md_to_doc_comments include README.md //! A  
-2. // endregion: auto_md_to_doc_comments include README.md //! A  
+              <pre class="language-code"><code>1. // xregion: auto_md_to_doc_comments include README.md //! A  
+2. // xendregion: auto_md_to_doc_comments include README.md //! A  
 </code></pre>
             </div>
             <p>In the md file put markers to mark the segment:</p>
@@ -98,7 +98,9 @@
             auto_md_to_doc_comments will delete the old lines between the markers.<br>
             It will find the md file and read the content between the markers.<br>
             Before each line it will add the doc comment symbol as is defined in the marker.<br>
-            Finally it will include the new lines as doc comments in the rs file.</p>
+            Finally it will include the new lines as doc comments in the rs file.<br>
+            Warning: Rustdoc introduced the #![doc=include_str!(“../README.md”)] macro and it is great for including the whole file. But sometimes we need to
+            include just a segment of a md file. Then we should still use this function.</p>
           </div>
         </details>
       </section>

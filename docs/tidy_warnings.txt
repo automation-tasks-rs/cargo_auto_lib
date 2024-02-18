@@ -50,6 +50,10 @@ line 2 column 241 - Warning: trimming empty <span>
 Document: "2" is not a file!
 
 line 2 column 241 - Warning: trimming empty <span>
+./docs/src/cargo_auto_lib/auto_doc_tidy_html_mod.rs.html
+Document: "2" is not a file!
+
+line 2 column 241 - Warning: trimming empty <span>
 ./docs/src/cargo_auto_lib/utils_mod.rs.html
 Document: "2" is not a file!
 
@@ -623,6 +627,10 @@ line 821 column 1024 - Warning: trimming empty <summary>
 line 821 column 2019 - Warning: trimming empty <summary>
 line 821 column 2288 - Warning: trimming empty <summary>
 line 823 column 113 - Warning: trimming empty <summary>
+./docs/cargo_auto_lib/type.ResultWithLibError.html
+Document: "2" is not a file!
+
+line 2 column 81 - Warning: trimming empty <span>
 ./docs/cargo_auto_lib/fn.auto_plantuml.html
 Document: "2" is not a file!
 
@@ -2870,6 +2878,14 @@ line 18 column 60 - Warning: trimming empty <summary>
 line 19 column 60 - Warning: trimming empty <summary>
 line 20 column 60 - Warning: trimming empty <summary>
 line 21 column 60 - Warning: trimming empty <summary>
+./docs/cargo_auto_lib/auto_doc_tidy_html_mod/index.html
+Document: "2" is not a file!
+
+line 2 column 81 - Warning: trimming empty <span>
+./docs/cargo_auto_lib/auto_doc_tidy_html_mod/fn.auto_doc_tidy_html.html
+Document: "2" is not a file!
+
+line 2 column 81 - Warning: trimming empty <span>
 ./docs/cargo_auto_lib/fn.auto_plantuml_for_path.html
 Document: "2" is not a file!
 
@@ -3173,6 +3189,10 @@ line 2 column 81 - Warning: trimming empty <span>
 Document: "2" is not a file!
 
 line 2 column 81 - Warning: trimming empty <span>
+./docs/cargo_auto_lib/public_api_mod/fn.auto_doc_tidy_html.html
+Document: "2" is not a file!
+
+line 2 column 81 - Warning: trimming empty <span>
 ./docs/cargo_auto_lib/public_api_mod/constant.RESET.html
 Document: "2" is not a file!
 
@@ -3202,6 +3222,10 @@ Document: "2" is not a file!
 
 line 2 column 81 - Warning: trimming empty <span>
 ./docs/cargo_auto_lib/fn.auto_version_from_date.html
+Document: "2" is not a file!
+
+line 2 column 81 - Warning: trimming empty <span>
+./docs/cargo_auto_lib/fn.auto_doc_tidy_html.html
 Document: "2" is not a file!
 
 line 2 column 81 - Warning: trimming empty <span>
