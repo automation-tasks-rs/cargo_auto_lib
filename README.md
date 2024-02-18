@@ -1,5 +1,3 @@
-[//]: # (auto_md_to_doc_comments segment start A)
-
 # cargo_auto_lib
 
 [//]: # (auto_cargo_toml_to_md start)
@@ -23,9 +21,9 @@
  ![Hits](https://bestia.dev/webpage_hit_counter/get_svg_image/276360626.svg)
 
 [//]: # (auto_lines_of_code start)
-[![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-1627-green.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
-[![Lines in Doc comments](https://img.shields.io/badge/Lines_in_Doc_comments-624-blue.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
-[![Lines in Comments](https://img.shields.io/badge/Lines_in_comments-238-purple.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
+[![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-1630-green.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
+[![Lines in Doc comments](https://img.shields.io/badge/Lines_in_Doc_comments-484-blue.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
+[![Lines in Comments](https://img.shields.io/badge/Lines_in_comments-237-purple.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
 [![Lines in examples](https://img.shields.io/badge/Lines_in_examples-37-yellow.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
 [![Lines in tests](https://img.shields.io/badge/Lines_in_tests-105-orange.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
 
@@ -36,38 +34,65 @@ My projects on GitHub are more like a tutorial than a finished product: [bestia-
 
 ## Try it
 
-In your rust project root directory (where the `Cargo.toml` is) first, install [cargo-auto](https://crates.io/crates/cargo-auto) and generate a new helper project:
+First, install the tool for task automation in Rust projects:
 
 ```bash
 cargo install cargo-auto
-cargo auto new
 ```
 
-In a new editor open the generated directory `automation_tasks_rs` as an independent rust project. There is already this dependency inside `Cargo.toml`:  
+Generate a new Rust CLI project:
+
+```bash
+cargo auto new_cli hello_world
+```
+
+Open the `hello_world` project in VSCode:
+
+```bash
+code hello_world
+```
+
+Open the generated directory `automation_tasks_rs` as an independent rust project in VSCode.
+
+```bash
+code hello_world/automation_tasks_rs
+```
+
+Now we can analyze the automation code. There is already the dependency inside `Cargo.toml` for our library:  
 
 ```toml
-cargo_auto_lib="0.8.60"
+cargo_auto_lib="1.1.2"
 ```
 
-Preview the code and observe all the `auto_*` functions from `cargo_auto_lib`.  
+Review the code in `automation_tasks_rs/main.rs`. The `cl::` namespace is the alias for `cargo_auto_lib`.  
 Example:  
 
 ```rust ignore
-fn task_release() {  
-    auto_semver_increment_patch();  
-    auto_cargo_toml_to_md();  
-    auto_lines_of_code("");  
-    auto_build();  
-}  
+/// cargo build --release
+fn task_release() {
+//    let cargo_toml = CargoToml::read();
+    cl::auto_version_increment_semver_or_date();
+    cl::auto_cargo_toml_to_md();
+    cl::auto_lines_of_code("");
+
+    cl::run_shell_command("cargo fmt");
+    cl::run_shell_command("cargo build --release");
+    println!(
+        r#"{YELLOW}
+    After `cargo auto release`, run examples and tests
+    if ok, then,{RESET}{GREEN}
+cargo auto doc{RESET}{YELLOW}
+{RESET}"#
+    );
+    print_examples_cmd();
+}
 ```
 
-Go back to your main rust project.  
-Add markers to the beginning of README.md (don't copy the numbers 1 and 2):  
-
-```md
-1 [//]: # (auto_cargo_toml_to_md start)
-2 [//]: # (auto_cargo_toml_to_md end)
-```
+You can see this function will increment the version in Cargo.toml.  
+Then it will copy some data from Cargo.toml to README.md (title, description, version, author,...).  
+It will count the lines of code and create badges in README.md.  
+Then comes the traditional Rust part: cargo fmt and cargo build --release.  
+Finally, it will show on the screen the instructions on how to continue developing.  
 
 Run (in your main rust project):
 
@@ -75,14 +100,13 @@ Run (in your main rust project):
 cargo auto release
 ```
 
-With a little luck, it included the data of `Cargo.toml` into the `README.md` inside the markers:  
+Now open the README.md and you will see the data that this automation task copied from other places. Therefore you change this data only in one place, the automation task copies them wherever needed.
 
-![auto_cargo_toml_to_md](https://github.com/bestia-dev/cargo_auto_lib/raw/main/images/auto_cargo_toml_to_md.png "auto_cargo_toml_to_md")
-
-## based on simple functions
+## Based on simple functions
 
 All the functions have extensive help/docs to describe how they work.  
-It is nice when you use a code editor with IntelliSense like VSCode.  
+This is nice when you use a code editor with IntelliSense like VSCode.  
+Inside the `automation_tasks_rs` you can write your own code. No limits there. It is just Rust.  
 
 ## Caveats
 
@@ -91,11 +115,11 @@ If you find that the heuristics don't work for you though please let me know and
 
 ## TODO
 
+Use the new `#![doc=include_str!("README.md")]` to avoid super clutter in `lib.rs` doc comments.
+
 Automate badges for crates.io, doc.rs, lib.rs, license, crev review. Check if they exist and create badges.  
-Create a git tag, a github release and in the same time RELEASES.md after publishing on crates.io.
+Create a git tag, a GitHub release and at the same time RELEASES.md after publishing on crates.io.
 There is no binary upload for library releases.
-
-
 
 ## Open-source and free as a beer
 
@@ -110,5 +134,3 @@ So I can drink a free beer for your health :-)
 [//github.com/bestia-dev](https://github.com/bestia-dev)  
 [//bestiadev.substack.com](https://bestiadev.substack.com)  
 [//youtube.com/@bestia-dev-tutorials](https://youtube.com/@bestia-dev-tutorials)  
-
-[//]: # (auto_md_to_doc_comments segment end A)
