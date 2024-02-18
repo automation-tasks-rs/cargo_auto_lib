@@ -1,5 +1,55 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/auto_delete_old_js_snippets_mod.rs`."><title>auto_delete_old_js_snippets_mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-ac92e1bbe349e143.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="cargo_auto_lib" data-themes="" data-resource-suffix="" data-rustdoc-version="1.76.0 (07dca489a 2024-02-04)" data-channel="1.76.0" data-search-js="search-2b6ce74ff89ae146.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-f2adc0d6ca4d09fb.js"></script><script defer src="../../static.files/src-script-39ed315d46fb705f.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-305769736d49e732.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-feafe1bb7466e4bd.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><div class="sidebar-resizer"></div>
-    <main><nav class="sub"><a class="sub-logo-container" href="../../cargo_auto_lib/index.html"><img src="https://github.com/bestia-dev/cargo-auto/raw/main/images/logo/logo_cargo_auto.svg" alt="cargo_auto_lib"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.6.0">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="generator" content="rustdoc">
+  <meta name="description" content="Source of the Rust file `src/auto_delete_old_js_snippets_mod.rs`.">
+  <title>auto_delete_old_js_snippets_mod.rs - source</title>
+  <link rel="preload" as="font" type="font/woff2" crossorigin="" href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin="" href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin="" href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin="" href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin="" href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2">
+  <link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css">
+  <link rel="stylesheet" href="../../static.files/rustdoc-ac92e1bbe349e143.css">
+  <meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="cargo_auto_lib" data-themes=""
+  data-resource-suffix="" data-rustdoc-version="1.76.0 (07dca489a 2024-02-04)" data-channel="1.76.0" data-search-js="search-2b6ce74ff89ae146.js"
+  data-settings-js="settings-4313503d2e1961c2.js">
+  <script src="../../static.files/storage-f2adc0d6ca4d09fb.js"></script>
+  <script defer src="../../static.files/src-script-39ed315d46fb705f.js"></script>
+  <script defer src="../../src-files.js"></script>
+  <script defer src="../../static.files/main-305769736d49e732.js"></script><noscript>
+  <link rel="stylesheet" href="../../static.files/noscript-feafe1bb7466e4bd.css"></noscript>
+  <link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png">
+  <link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png">
+  <link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg">
+</head>
+<body class="rustdoc src">
+  <!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]-->
+  <nav class="sidebar"></nav>
+  <div class="sidebar-resizer"></div>
+  <main>
+    <nav class="sub">
+      <a class="sub-logo-container" href="../../cargo_auto_lib/index.html"><img src=
+      "https://github.com/bestia-dev/cargo-auto/raw/main/images/logo/logo_cargo_auto.svg" alt="cargo_auto_lib"></a>
+      <form class="search-form">
+        <input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder=
+        "Click or press ‘S’ to search, ‘?’ for more options…" type="search">
+        <div id="help-button" tabindex="-1">
+          <a href="../../help.html" title="help">?</a>
+        </div>
+        <div id="settings-menu" tabindex="-1">
+          <a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src=
+          "../../static.files/wheel-7b819b6101059cd0.svg"></a>
+        </div>
+      </form>
+    </nav>
+    <section id="main-content" class="content">
+      <div class="example-wrap">
+        <div data-nosnippet="">
+          <pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -64,7 +114,9 @@
 <a href="#63" id="63">63</a>
 <a href="#64" id="64">64</a>
 <a href="#65" id="65">65</a>
-</pre></div><pre class="rust"><code><span class="comment">// auto_delete_old_js_snippets_mod
+</pre>
+        </div>
+        <pre class="rust"><code><span class="comment">// auto_delete_old_js_snippets_mod
 
 </span><span class="doccomment">//! deletes old js snippets when working with wasm-pack
 
@@ -85,8 +137,10 @@
     <span class="kw">let </span>current_dir = <span class="macro">unwrap!</span>(env::current_dir());
     <span class="kw">let </span>snippets_dir = current_dir.join(<span class="string">"pkg"</span>).join(<span class="string">"snippets"</span>);
     <span class="comment">//the first folder can be None
-    </span><span class="kw">let </span><span class="kw-2">mut </span>opt_first_folder: <span class="prelude-ty">Option</span>&lt;PathBuf&gt; = <span class="prelude-val">None</span>;
-    <span class="kw">let </span><span class="kw-2">mut </span>opt_first_mtime: <span class="prelude-ty">Option</span>&lt;FileTime&gt; = <span class="prelude-val">None</span>;
+    </span><span class="kw">let </span><span class="kw-2">mut </span>opt_first_folder: <span class="prelude-ty">Option</span>&lt;PathBuf&gt; = <span class=
+"prelude-val">None</span>;
+    <span class="kw">let </span><span class="kw-2">mut </span>opt_first_mtime: <span class="prelude-ty">Option</span>&lt;FileTime&gt; = <span class=
+"prelude-val">None</span>;
 
     <span class="comment">//find the newer folder and remove the older folder
     //but not with dodrio_xxx name
@@ -96,8 +150,8 @@
         <span class="kw">let </span>second_name = <span class="macro">unwrap!</span>(entry.file_name().into_string()).to_lowercase();
         <span class="kw">if </span>!second_name.starts_with(<span class="string">"dodrio"</span>) {
             <span class="comment">//println!("{:?}",second_folder);
-            </span><span class="kw">let </span>second_metadata = <span class="macro">unwrap!</span>(fs::metadata(<span class="kw-2">&amp;</span>second_folder));
-            <span class="kw">let </span>second_mtime = FileTime::from_last_modification_time(<span class="kw-2">&amp;</span>second_metadata);
+            </span><span class="kw">let </span>second_metadata = <span class="macro">unwrap!</span>(fs::metadata(<span class="kw-2">&</span>second_folder));
+            <span class="kw">let </span>second_mtime = FileTime::from_last_modification_time(<span class="kw-2">&</span>second_metadata);
             <span class="comment">//println!("{:?}",second_mtime);
 
             </span><span class="kw">match </span>opt_first_mtime {
@@ -105,7 +159,8 @@
                     opt_first_folder = <span class="prelude-val">Some</span>(second_folder.clone());
                     opt_first_mtime = <span class="prelude-val">Some</span>(second_mtime);
                 }
-                <span class="prelude-val">Some</span>(first_mtime) =&gt; <span class="kw">match </span>second_mtime.cmp(<span class="kw-2">&amp;</span>first_mtime) {
+                <span class="prelude-val">Some</span>(first_mtime) =&gt; <span class="kw">match </span>second_mtime.cmp(<span class=
+"kw-2">&</span>first_mtime) {
                     <span class="comment">// if second_mtime &gt; first_mtime {
                     </span>std::cmp::Ordering::Greater =&gt; {
                         <span class="kw">let </span>first_folder = <span class="macro">unwrap!</span>(opt_first_folder);
@@ -129,4 +184,9 @@
         }
     }
 }
-</code></pre></div></section></main></body></html>
+</code></pre>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

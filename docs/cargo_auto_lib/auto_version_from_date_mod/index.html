@@ -1,13 +1,242 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="new version as date is written to Cargo.toml and service_worker.js It works for workspaces and for single projects.  "><title>cargo_auto_lib::auto_version_from_date_mod - Rust</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-ac92e1bbe349e143.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="cargo_auto_lib" data-themes="" data-resource-suffix="" data-rustdoc-version="1.76.0 (07dca489a 2024-02-04)" data-channel="1.76.0" data-search-js="search-2b6ce74ff89ae146.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-f2adc0d6ca4d09fb.js"></script><script defer src="../sidebar-items.js"></script><script defer src="../../static.files/main-305769736d49e732.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-feafe1bb7466e4bd.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc mod"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="logo-container" href="../../cargo_auto_lib/index.html"><img src="https://github.com/bestia-dev/cargo-auto/raw/main/images/logo/logo_cargo_auto.svg" alt=""></a></nav><nav class="sidebar"><div class="sidebar-crate"><a class="logo-container" href="../../cargo_auto_lib/index.html"><img src="https://github.com/bestia-dev/cargo-auto/raw/main/images/logo/logo_cargo_auto.svg" alt="logo"></a><h2><a href="../../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">1.1.21</span></h2></div><h2 class="location"><a href="#">Module auto_version_from_date_mod</a></h2><div class="sidebar-elems"><section><ul class="block"><li><a href="#structs">Structs</a></li><li><a href="#functions">Functions</a></li></ul></section><h2><a href="../index.html">In crate cargo_auto_lib</a></h2></div></nav><div class="sidebar-resizer"></div>
-    <main><div class="width-limiter"><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../cargo_auto_lib/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="main-heading"><h1>Module <a href="../index.html">cargo_auto_lib</a>::<wbr><a class="mod" href="#">auto_version_from_date_mod</a><button id="copy-path" title="Copy item path to clipboard"><img src="../../static.files/clipboard-7571035ce49a181d.svg" width="19" height="18" alt="Copy item path"></button></h1><span class="out-of-band"><a class="src" href="../../src/cargo_auto_lib/auto_version_from_date_mod.rs.html#3-376">source</a> · <button id="toggle-all-docs" title="collapse all docs">[<span>&#x2212;</span>]</button></span></div><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>new version as date is written to Cargo.toml and service_worker.js
-It works for workspaces and for single projects.  </p>
-</div></details><h2 id="structs" class="section-header"><a href="#structs">Structs</a></h2><ul class="item-table"><li><div class="item-name"><a class="struct" href="struct.AutoVersionFromDate.html" title="struct cargo_auto_lib::auto_version_from_date_mod::AutoVersionFromDate">AutoVersionFromDate</a></div><div class="desc docblock-short">the struct that represents the file .automation_tasks_rs_file_hashes.json</div></li><li><div class="item-name"><a class="struct" href="struct.FileMetaData.html" title="struct cargo_auto_lib::auto_version_from_date_mod::FileMetaData">FileMetaData</a></div><div class="desc docblock-short">file metadata</div></li></ul><h2 id="functions" class="section-header"><a href="#functions">Functions</a></h2><ul class="item-table"><li><div class="item-name"><a class="fn" href="fn.are_files_equal.html" title="fn cargo_auto_lib::auto_version_from_date_mod::are_files_equal">are_files_equal</a></div><div class="desc docblock-short">if files are added or deleted, other files must be also changed
-I need to check if the files on the filesystem are the same as in the json</div></li><li><div class="item-name"><a class="fn" href="fn.auto_version_from_date.html" title="fn cargo_auto_lib::auto_version_from_date_mod::auto_version_from_date">auto_version_from_date</a></div><div class="desc docblock-short">Works for single projects and workspaces.<br />
-new version as date is written to Cargo.toml and service_worker.js
-In Cargo.toml writes the version as the date <code>yyyy.mmdd.HHMM</code> ex. <code>2019.1221.2359</code>.<br />
-For non-library projects, the semver specification is not really useful.<br />
-Having the version as the date is just fine for executables and much more human readable.<br />
-The function must be executed in the root project folder of a single project or workspace where is the Cargo.toml.</div></li><li><div class="item-name"><a class="fn" href="fn.auto_version_from_date_forced.html" title="fn cargo_auto_lib::auto_version_from_date_mod::auto_version_from_date_forced">auto_version_from_date_forced</a></div><div class="desc docblock-short">Works for single projects and workspaces.<br />
-Just like auto_version_from_date(), but force the new version even if no files are changed.
-For workspaces <code>release</code> I want to have the same version in all members.<br />
-It is slower, but easier to understand when deployed.</div></li><li><div class="item-name"><a class="fn" href="fn.auto_version_from_date_internal.html" title="fn cargo_auto_lib::auto_version_from_date_mod::auto_version_from_date_internal">auto_version_from_date_internal</a><span title="Restricted Visibility">&nbsp;🔒</span> </div></li><li><div class="item-name"><a class="fn" href="fn.correct_file_metadata_for_cargo_tom_inside_vec.html" title="fn cargo_auto_lib::auto_version_from_date_mod::correct_file_metadata_for_cargo_tom_inside_vec">correct_file_metadata_for_cargo_tom_inside_vec</a></div><div class="desc docblock-short">the Cargo.toml is now different and needs to be changed in the vec of file metadata</div></li><li><div class="item-name"><a class="fn" href="fn.do_one_project.html" title="fn cargo_auto_lib::auto_version_from_date_mod::do_one_project">do_one_project</a><span title="Restricted Visibility">&nbsp;🔒</span> </div></li><li><div class="item-name"><a class="fn" href="fn.find_from.html" title="fn cargo_auto_lib::auto_version_from_date_mod::find_from">find_from</a><span title="Restricted Visibility">&nbsp;🔒</span> </div><div class="desc docblock-short">in string find from position</div></li><li><div class="item-name"><a class="fn" href="fn.modify_service_js.html" title="fn cargo_auto_lib::auto_version_from_date_mod::modify_service_js">modify_service_js</a><span title="Restricted Visibility">&nbsp;🔒</span> </div><div class="desc docblock-short">search for file service_worker.js and modify version</div></li><li><div class="item-name"><a class="fn" href="fn.read_file_metadata.html" title="fn cargo_auto_lib::auto_version_from_date_mod::read_file_metadata">read_file_metadata</a></div><div class="desc docblock-short">make a vector of file metadata</div></li><li><div class="item-name"><a class="fn" href="fn.read_json_file.html" title="fn cargo_auto_lib::auto_version_from_date_mod::read_json_file">read_json_file</a></div><div class="desc docblock-short">read .automation_tasks_rs_file_hashes.json</div></li><li><div class="item-name"><a class="fn" href="fn.save_json_file_for_file_meta_data.html" title="fn cargo_auto_lib::auto_version_from_date_mod::save_json_file_for_file_meta_data">save_json_file_for_file_meta_data</a></div><div class="desc docblock-short">save the new file metadata</div></li><li><div class="item-name"><a class="fn" href="fn.sha256_digest.html" title="fn cargo_auto_lib::auto_version_from_date_mod::sha256_digest">sha256_digest</a><span title="Restricted Visibility">&nbsp;🔒</span> </div><div class="desc docblock-short">calculate the hash for a file</div></li><li><div class="item-name"><a class="fn" href="fn.version_from_date.html" title="fn cargo_auto_lib::auto_version_from_date_mod::version_from_date">version_from_date</a><span title="Restricted Visibility">&nbsp;🔒</span> </div><div class="desc docblock-short">converts a date to a version</div></li><li><div class="item-name"><a class="fn" href="fn.write_version_to_cargo_and_modify_metadata.html" title="fn cargo_auto_lib::auto_version_from_date_mod::write_version_to_cargo_and_modify_metadata">write_version_to_cargo_and_modify_metadata</a><span title="Restricted Visibility">&nbsp;🔒</span> </div><div class="desc docblock-short">move vec_of_metadata</div></li></ul></section></div></main></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.6.0">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="generator" content="rustdoc">
+  <meta name="description" content="new version as date is written to Cargo.toml and service_worker.js It works for workspaces and for single projects.">
+  <title>cargo_auto_lib::auto_version_from_date_mod - Rust</title>
+  <link rel="preload" as="font" type="font/woff2" crossorigin="" href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin="" href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin="" href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin="" href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin="" href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2">
+  <link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css">
+  <link rel="stylesheet" href="../../static.files/rustdoc-ac92e1bbe349e143.css">
+  <meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="cargo_auto_lib" data-themes=""
+  data-resource-suffix="" data-rustdoc-version="1.76.0 (07dca489a 2024-02-04)" data-channel="1.76.0" data-search-js="search-2b6ce74ff89ae146.js"
+  data-settings-js="settings-4313503d2e1961c2.js">
+  <script src="../../static.files/storage-f2adc0d6ca4d09fb.js"></script>
+  <script defer src="../sidebar-items.js"></script>
+  <script defer src="../../static.files/main-305769736d49e732.js"></script><noscript>
+  <link rel="stylesheet" href="../../static.files/noscript-feafe1bb7466e4bd.css"></noscript>
+  <link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png">
+  <link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png">
+  <link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg">
+</head>
+<body class="rustdoc mod">
+  <!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]-->
+  <nav class="mobile-topbar">
+    <button class="sidebar-menu-toggle">☰</button><a class="logo-container" href="../../cargo_auto_lib/index.html"><img src=
+    "https://github.com/bestia-dev/cargo-auto/raw/main/images/logo/logo_cargo_auto.svg" alt=""></a>
+  </nav>
+  <nav class="sidebar">
+    <div class="sidebar-crate">
+      <a class="logo-container" href="../../cargo_auto_lib/index.html"><img src=
+      "https://github.com/bestia-dev/cargo-auto/raw/main/images/logo/logo_cargo_auto.svg" alt="logo"></a>
+      <h2><a href="../../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">1.1.21</span></h2>
+    </div>
+    <h2 class="location"><a href="#">Module auto_version_from_date_mod</a></h2>
+    <div class="sidebar-elems">
+      <section>
+        <ul class="block">
+          <li>
+            <a href="#structs">Structs</a>
+          </li>
+          <li>
+            <a href="#functions">Functions</a>
+          </li>
+        </ul>
+      </section>
+      <h2><a href="../index.html">In crate cargo_auto_lib</a></h2>
+    </div>
+  </nav>
+  <div class="sidebar-resizer"></div>
+  <main>
+    <div class="width-limiter">
+      <nav class="sub">
+        <form class="search-form">
+          <div id="sidebar-button" tabindex="-1">
+            <a href="../../cargo_auto_lib/all.html" title="show sidebar"></a>
+          </div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder=
+          "Click or press ‘S’ to search, ‘?’ for more options…" type="search">
+          <div id="help-button" tabindex="-1">
+            <a href="../../help.html" title="help">?</a>
+          </div>
+          <div id="settings-menu" tabindex="-1">
+            <a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src=
+            "../../static.files/wheel-7b819b6101059cd0.svg"></a>
+          </div>
+        </form>
+      </nav>
+      <section id="main-content" class="content">
+        <div class="main-heading">
+          <h1>Module <a href="../index.html">cargo_auto_lib</a>::<wbr><a class="mod" href="#">auto_version_from_date_mod</a><button id="copy-path" title=
+          "Copy item path to clipboard"><img src="../../static.files/clipboard-7571035ce49a181d.svg" width="19" height="18" alt=
+          "Copy item path"></button></h1><span class="out-of-band"><a class="src" href=
+          "../../src/cargo_auto_lib/auto_version_from_date_mod.rs.html#3-376">source</a> · <button id="toggle-all-docs" title=
+          "collapse all docs">[<span>−</span>]</button></span>
+        </div>
+        <details class="toggle top-doc" open="">
+          <summary class="hideme">
+            <span>Expand description</span>
+          </summary>
+          <div class="docblock">
+            <p>new version as date is written to Cargo.toml and service_worker.js It works for workspaces and for single projects.</p>
+          </div>
+        </details>
+        <h2 id="structs" class="section-header"><a href="#structs">Structs</a></h2>
+        <ul class="item-table">
+          <li>
+            <div class="item-name">
+              <a class="struct" href="struct.AutoVersionFromDate.html" title=
+              "struct cargo_auto_lib::auto_version_from_date_mod::AutoVersionFromDate">AutoVersionFromDate</a>
+            </div>
+            <div class="desc docblock-short">
+              the struct that represents the file .automation_tasks_rs_file_hashes.json
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="struct" href="struct.FileMetaData.html" title="struct cargo_auto_lib::auto_version_from_date_mod::FileMetaData">FileMetaData</a>
+            </div>
+            <div class="desc docblock-short">
+              file metadata
+            </div>
+          </li>
+        </ul>
+        <h2 id="functions" class="section-header"><a href="#functions">Functions</a></h2>
+        <ul class="item-table">
+          <li>
+            <div class="item-name">
+              <a class="fn" href="fn.are_files_equal.html" title="fn cargo_auto_lib::auto_version_from_date_mod::are_files_equal">are_files_equal</a>
+            </div>
+            <div class="desc docblock-short">
+              if files are added or deleted, other files must be also changed I need to check if the files on the filesystem are the same as in the json
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="fn" href="fn.auto_version_from_date.html" title=
+              "fn cargo_auto_lib::auto_version_from_date_mod::auto_version_from_date">auto_version_from_date</a>
+            </div>
+            <div class="desc docblock-short">
+              Works for single projects and workspaces.<br>
+              new version as date is written to Cargo.toml and service_worker.js In Cargo.toml writes the version as the date <code>yyyy.mmdd.HHMM</code> ex.
+              <code>2019.1221.2359</code>.<br>
+              For non-library projects, the semver specification is not really useful.<br>
+              Having the version as the date is just fine for executables and much more human readable.<br>
+              The function must be executed in the root project folder of a single project or workspace where is the Cargo.toml.
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="fn" href="fn.auto_version_from_date_forced.html" title=
+              "fn cargo_auto_lib::auto_version_from_date_mod::auto_version_from_date_forced">auto_version_from_date_forced</a>
+            </div>
+            <div class="desc docblock-short">
+              Works for single projects and workspaces.<br>
+              Just like auto_version_from_date(), but force the new version even if no files are changed. For workspaces <code>release</code> I want to have
+              the same version in all members.<br>
+              It is slower, but easier to understand when deployed.
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="fn" href="fn.auto_version_from_date_internal.html" title=
+              "fn cargo_auto_lib::auto_version_from_date_mod::auto_version_from_date_internal">auto_version_from_date_internal</a><span title=
+              "Restricted Visibility">&nbsp;🔒</span>
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="fn" href="fn.correct_file_metadata_for_cargo_tom_inside_vec.html" title=
+              "fn cargo_auto_lib::auto_version_from_date_mod::correct_file_metadata_for_cargo_tom_inside_vec">correct_file_metadata_for_cargo_tom_inside_vec</a>
+            </div>
+            <div class="desc docblock-short">
+              the Cargo.toml is now different and needs to be changed in the vec of file metadata
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="fn" href="fn.do_one_project.html" title="fn cargo_auto_lib::auto_version_from_date_mod::do_one_project">do_one_project</a><span title=
+              "Restricted Visibility">&nbsp;🔒</span>
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="fn" href="fn.find_from.html" title="fn cargo_auto_lib::auto_version_from_date_mod::find_from">find_from</a><span title=
+              "Restricted Visibility">&nbsp;🔒</span>
+            </div>
+            <div class="desc docblock-short">
+              in string find from position
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="fn" href="fn.modify_service_js.html" title=
+              "fn cargo_auto_lib::auto_version_from_date_mod::modify_service_js">modify_service_js</a><span title="Restricted Visibility">&nbsp;🔒</span>
+            </div>
+            <div class="desc docblock-short">
+              search for file service_worker.js and modify version
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="fn" href="fn.read_file_metadata.html" title="fn cargo_auto_lib::auto_version_from_date_mod::read_file_metadata">read_file_metadata</a>
+            </div>
+            <div class="desc docblock-short">
+              make a vector of file metadata
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="fn" href="fn.read_json_file.html" title="fn cargo_auto_lib::auto_version_from_date_mod::read_json_file">read_json_file</a>
+            </div>
+            <div class="desc docblock-short">
+              read .automation_tasks_rs_file_hashes.json
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="fn" href="fn.save_json_file_for_file_meta_data.html" title=
+              "fn cargo_auto_lib::auto_version_from_date_mod::save_json_file_for_file_meta_data">save_json_file_for_file_meta_data</a>
+            </div>
+            <div class="desc docblock-short">
+              save the new file metadata
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="fn" href="fn.sha256_digest.html" title="fn cargo_auto_lib::auto_version_from_date_mod::sha256_digest">sha256_digest</a><span title=
+              "Restricted Visibility">&nbsp;🔒</span>
+            </div>
+            <div class="desc docblock-short">
+              calculate the hash for a file
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="fn" href="fn.version_from_date.html" title=
+              "fn cargo_auto_lib::auto_version_from_date_mod::version_from_date">version_from_date</a><span title="Restricted Visibility">&nbsp;🔒</span>
+            </div>
+            <div class="desc docblock-short">
+              converts a date to a version
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="fn" href="fn.write_version_to_cargo_and_modify_metadata.html" title=
+              "fn cargo_auto_lib::auto_version_from_date_mod::write_version_to_cargo_and_modify_metadata">write_version_to_cargo_and_modify_metadata</a><span title="Restricted Visibility">&nbsp;🔒</span>
+            </div>
+            <div class="desc docblock-short">
+              move vec_of_metadata
+            </div>
+          </li>
+        </ul>
+      </section>
+    </div>
+  </main>
+</body>
+</html>

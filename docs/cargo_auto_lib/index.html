@@ -1,135 +1,629 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="cargo_auto_lib"><title>cargo_auto_lib - Rust</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../static.files/rustdoc-ac92e1bbe349e143.css"><meta name="rustdoc-vars" data-root-path="../" data-static-root-path="../static.files/" data-current-crate="cargo_auto_lib" data-themes="" data-resource-suffix="" data-rustdoc-version="1.76.0 (07dca489a 2024-02-04)" data-channel="1.76.0" data-search-js="search-2b6ce74ff89ae146.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../static.files/storage-f2adc0d6ca4d09fb.js"></script><script defer src="../crates.js"></script><script defer src="../static.files/main-305769736d49e732.js"></script><noscript><link rel="stylesheet" href="../static.files/noscript-feafe1bb7466e4bd.css"></noscript><link rel="alternate icon" type="image/png" href="../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc mod crate"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="logo-container" href="../cargo_auto_lib/index.html"><img src="https://github.com/bestia-dev/cargo-auto/raw/main/images/logo/logo_cargo_auto.svg" alt=""></a></nav><nav class="sidebar"><div class="sidebar-crate"><a class="logo-container" href="../cargo_auto_lib/index.html"><img src="https://github.com/bestia-dev/cargo-auto/raw/main/images/logo/logo_cargo_auto.svg" alt="logo"></a><h2><a href="../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">1.1.21</span></h2></div><div class="sidebar-elems"><ul class="block">
-            <li><a id="all-types" href="all.html">All Items</a></li></ul><section><ul class="block"><li><a href="#modules">Modules</a></li><li><a href="#structs">Structs</a></li><li><a href="#constants">Constants</a></li><li><a href="#traits">Traits</a></li><li><a href="#functions">Functions</a></li></ul></section></div></nav><div class="sidebar-resizer"></div>
-    <main><div class="width-limiter"><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../cargo_auto_lib/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="main-heading"><h1>Crate <a class="mod" href="#">cargo_auto_lib</a><button id="copy-path" title="Copy item path to clipboard"><img src="../static.files/clipboard-7571035ce49a181d.svg" width="19" height="18" alt="Copy item path"></button></h1><span class="out-of-band"><a class="src" href="../src/cargo_auto_lib/lib.rs.html#4-137">source</a> · <button id="toggle-all-docs" title="collapse all docs">[<span>&#x2212;</span>]</button></span></div><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><h2 id="cargo_auto_lib"><a href="#cargo_auto_lib">cargo_auto_lib</a></h2>
-<p><strong>Library crate for common tasks when building rust projects. Intended for use with cargo-auto - automation tasks written in Rust language.</strong><br />
-<em><strong>version: 1.1.21 date: 2024-02-18 author: <a href="https://bestia.dev">Bestia.dev</a> repository: <a href="https://github.com/bestia-dev/cargo_auto_lib">GitHub</a></strong></em></p>
-<p><img src="https://raw.githubusercontent.com/bestia-dev/cargo-auto/main/images/logo/logo_cargo_auto.svg" alt="logo" />
-<img src="https://img.shields.io/badge/maintained-green" alt="status" />
-<img src="https://img.shields.io/badge/ready_for_use-green" alt="status" /></p>
-<p><a href="https://crates.io/crates/cargo_auto_lib"><img src="https://img.shields.io/crates/v/cargo_auto_lib.svg" alt="crates.io" /></a>
-<a href="https://docs.rs/cargo_auto_lib/"><img src="https://docs.rs/cargo_auto_lib/badge.svg" alt="Documentation" /></a>
-<a href="https://web.crev.dev/rust-reviews/crate/cargo_auto_lib/"><img src="https://web.crev.dev/rust-reviews/badge/crev_count/cargo_auto_lib.svg" alt="crev reviews" /></a>
-<a href="https://lib.rs/crates/cargo_auto_lib/"><img src="https://img.shields.io/badge/Lib.rs-rust-orange.svg" alt="Lib.rs" /></a></p>
-<p><a href="https://github.com/bestia-dev/cargo_auto_lib/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License" /></a>
-<a href="https://github.com/bestia-dev/cargo_auto_lib/"><img src="https://github.com/bestia-dev/cargo_auto_lib/workflows/rust_fmt_auto_build_test/badge.svg" alt="Rust" /></a>
-<img src="https://bestia.dev/webpage_hit_counter/get_svg_image/276360626.svg" alt="Hits" /></p>
-<p><a href="https://github.com/bestia-dev/cargo_auto_lib/"><img src="https://img.shields.io/badge/Lines_in_Rust-1627-green.svg" alt="Lines in Rust code" /></a>
-<a href="https://github.com/bestia-dev/cargo_auto_lib/"><img src="https://img.shields.io/badge/Lines_in_Doc_comments-624-blue.svg" alt="Lines in Doc comments" /></a>
-<a href="https://github.com/bestia-dev/cargo_auto_lib/"><img src="https://img.shields.io/badge/Lines_in_comments-238-purple.svg" alt="Lines in Comments" /></a>
-<a href="https://github.com/bestia-dev/cargo_auto_lib/"><img src="https://img.shields.io/badge/Lines_in_examples-37-yellow.svg" alt="Lines in examples" /></a>
-<a href="https://github.com/bestia-dev/cargo_auto_lib/"><img src="https://img.shields.io/badge/Lines_in_tests-105-orange.svg" alt="Lines in tests" /></a></p>
-<p>Hashtags: #rustlang #buildtool #developmenttool<br />
-My projects on GitHub are more like a tutorial than a finished product: <a href="https://github.com/bestia-dev/tutorials_rust_wasm">bestia-dev tutorials</a>.</p>
-<h3 id="try-it"><a href="#try-it">Try it</a></h3>
-<p>In your rust project root directory (where the <code>Cargo.toml</code> is) first, install <a href="https://crates.io/crates/cargo-auto">cargo-auto</a> and generate a new helper project:</p>
-<div class="example-wrap"><pre class="language-bash"><code>cargo install cargo-auto
-cargo auto new
-</code></pre></div>
-<p>In a new editor open the generated directory <code>automation_tasks_rs</code> as an independent rust project. There is already this dependency inside <code>Cargo.toml</code>:</p>
-<div class="example-wrap"><pre class="language-toml"><code>cargo_auto_lib=&quot;0.8.60&quot;
-</code></pre></div>
-<p>Preview the code and observe all the <code>auto_*</code> functions from <code>cargo_auto_lib</code>.<br />
-Example:</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.6.0">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="generator" content="rustdoc">
+  <meta name="description" content="cargo_auto_lib">
+  <title>cargo_auto_lib - Rust</title>
+  <link rel="preload" as="font" type="font/woff2" crossorigin="" href="../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin="" href="../static.files/FiraSans-Regular-018c141bf0843ffd.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin="" href="../static.files/FiraSans-Medium-8f9a781e4970d388.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin="" href="../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin="" href="../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2">
+  <link rel="stylesheet" href="../static.files/normalize-76eba96aa4d2e634.css">
+  <link rel="stylesheet" href="../static.files/rustdoc-ac92e1bbe349e143.css">
+  <meta name="rustdoc-vars" data-root-path="../" data-static-root-path="../static.files/" data-current-crate="cargo_auto_lib" data-themes=""
+  data-resource-suffix="" data-rustdoc-version="1.76.0 (07dca489a 2024-02-04)" data-channel="1.76.0" data-search-js="search-2b6ce74ff89ae146.js"
+  data-settings-js="settings-4313503d2e1961c2.js">
+  <script src="../static.files/storage-f2adc0d6ca4d09fb.js"></script>
+  <script defer src="../crates.js"></script>
+  <script defer src="../static.files/main-305769736d49e732.js"></script><noscript>
+  <link rel="stylesheet" href="../static.files/noscript-feafe1bb7466e4bd.css"></noscript>
+  <link rel="alternate icon" type="image/png" href="../static.files/favicon-16x16-8b506e7a72182f1c.png">
+  <link rel="alternate icon" type="image/png" href="../static.files/favicon-32x32-422f7d1d52889060.png">
+  <link rel="icon" type="image/svg+xml" href="../static.files/favicon-2c020d218678b618.svg">
+</head>
+<body class="rustdoc mod crate">
+  <!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]-->
+  <nav class="mobile-topbar">
+    <button class="sidebar-menu-toggle">☰</button><a class="logo-container" href="../cargo_auto_lib/index.html"><img src=
+    "https://github.com/bestia-dev/cargo-auto/raw/main/images/logo/logo_cargo_auto.svg" alt=""></a>
+  </nav>
+  <nav class="sidebar">
+    <div class="sidebar-crate">
+      <a class="logo-container" href="../cargo_auto_lib/index.html"><img src=
+      "https://github.com/bestia-dev/cargo-auto/raw/main/images/logo/logo_cargo_auto.svg" alt="logo"></a>
+      <h2><a href="../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">1.1.21</span></h2>
+    </div>
+    <div class="sidebar-elems">
+      <ul class="block">
+        <li>
+          <a id="all-types" href="all.html">All Items</a>
+        </li>
+      </ul>
+      <section>
+        <ul class="block">
+          <li>
+            <a href="#modules">Modules</a>
+          </li>
+          <li>
+            <a href="#structs">Structs</a>
+          </li>
+          <li>
+            <a href="#constants">Constants</a>
+          </li>
+          <li>
+            <a href="#traits">Traits</a>
+          </li>
+          <li>
+            <a href="#functions">Functions</a>
+          </li>
+        </ul>
+      </section>
+    </div>
+  </nav>
+  <div class="sidebar-resizer"></div>
+  <main>
+    <div class="width-limiter">
+      <nav class="sub">
+        <form class="search-form">
+          <div id="sidebar-button" tabindex="-1">
+            <a href="../cargo_auto_lib/all.html" title="show sidebar"></a>
+          </div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder=
+          "Click or press ‘S’ to search, ‘?’ for more options…" type="search">
+          <div id="help-button" tabindex="-1">
+            <a href="../help.html" title="help">?</a>
+          </div>
+          <div id="settings-menu" tabindex="-1">
+            <a href="../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../static.files/wheel-7b819b6101059cd0.svg"></a>
+          </div>
+        </form>
+      </nav>
+      <section id="main-content" class="content">
+        <div class="main-heading">
+          <h1>Crate <a class="mod" href="#">cargo_auto_lib</a><button id="copy-path" title="Copy item path to clipboard"><img src=
+          "../static.files/clipboard-7571035ce49a181d.svg" width="19" height="18" alt="Copy item path"></button></h1><span class="out-of-band"><a class="src"
+          href="../src/cargo_auto_lib/lib.rs.html#4-35">source</a> · <button id="toggle-all-docs" title="collapse all docs">[<span>−</span>]</button></span>
+        </div>
+        <details class="toggle top-doc" open="">
+          <summary class="hideme">
+            <span>Expand description</span>
+          </summary>
+          <div class="docblock">
+            <h2 id="cargo_auto_lib"><a href="#cargo_auto_lib">cargo_auto_lib</a></h2>
+            <p><strong>Library crate for common tasks when building rust projects. Intended for use with cargo-auto - automation tasks written in Rust
+            language.</strong><br>
+            <em><strong>version: 1.1.21 date: 2024-02-18 author: <a href="https://bestia.dev">Bestia.dev</a> repository: <a href=
+            "https://github.com/bestia-dev/cargo_auto_lib">GitHub</a></strong></em></p>
+            <p><img src="https://raw.githubusercontent.com/bestia-dev/cargo-auto/main/images/logo/logo_cargo_auto.svg" alt="logo"> <img src=
+            "https://img.shields.io/badge/maintained-green" alt="status"> <img src="https://img.shields.io/badge/ready_for_use-green" alt="status"></p>
+            <p><a href="https://crates.io/crates/cargo_auto_lib"><img src="https://img.shields.io/crates/v/cargo_auto_lib.svg" alt="crates.io"></a> <a href=
+            "https://docs.rs/cargo_auto_lib/"><img src="https://docs.rs/cargo_auto_lib/badge.svg" alt="Documentation"></a> <a href=
+            "https://web.crev.dev/rust-reviews/crate/cargo_auto_lib/"><img src="https://web.crev.dev/rust-reviews/badge/crev_count/cargo_auto_lib.svg" alt=
+            "crev reviews"></a> <a href="https://lib.rs/crates/cargo_auto_lib/"><img src="https://img.shields.io/badge/Lib.rs-rust-orange.svg" alt=
+            "Lib.rs"></a></p>
+            <p><a href="https://github.com/bestia-dev/cargo_auto_lib/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt=
+            "License"></a> <a href="https://github.com/bestia-dev/cargo_auto_lib/"><img src=
+            "https://github.com/bestia-dev/cargo_auto_lib/workflows/rust_fmt_auto_build_test/badge.svg" alt="Rust"></a> <img src=
+            "https://bestia.dev/webpage_hit_counter/get_svg_image/276360626.svg" alt="Hits"></p>
+            <p><a href="https://github.com/bestia-dev/cargo_auto_lib/"><img src="https://img.shields.io/badge/Lines_in_Rust-1630-green.svg" alt=
+            "Lines in Rust code"></a> <a href="https://github.com/bestia-dev/cargo_auto_lib/"><img src=
+            "https://img.shields.io/badge/Lines_in_Doc_comments-484-blue.svg" alt="Lines in Doc comments"></a> <a href=
+            "https://github.com/bestia-dev/cargo_auto_lib/"><img src="https://img.shields.io/badge/Lines_in_comments-237-purple.svg" alt=
+            "Lines in Comments"></a> <a href="https://github.com/bestia-dev/cargo_auto_lib/"><img src=
+            "https://img.shields.io/badge/Lines_in_examples-37-yellow.svg" alt="Lines in examples"></a> <a href=
+            "https://github.com/bestia-dev/cargo_auto_lib/"><img src="https://img.shields.io/badge/Lines_in_tests-105-orange.svg" alt="Lines in tests"></a></p>
+            <p>Hashtags: #rustlang #buildtool #developmenttool<br>
+            My projects on GitHub are more like a tutorial than a finished product: <a href="https://github.com/bestia-dev/tutorials_rust_wasm">bestia-dev
+            tutorials</a>.</p>
+            <h3 id="try-it"><a href="#try-it">Try it</a></h3>
+            <p>First, install the tool for task automation in Rust projects:</p>
+            <div class="example-wrap">
+              <pre class="language-bash"><code>cargo install cargo-auto
+</code></pre>
+            </div>
+            <p>Generate a new Rust CLI project:</p>
+            <div class="example-wrap">
+              <pre class="language-bash"><code>cargo auto new_cli hello_world
+</code></pre>
+            </div>
+            <p>Open the <code>hello_world</code> project in VSCode:</p>
+            <div class="example-wrap">
+              <pre class="language-bash"><code>code hello_world
+</code></pre>
+            </div>
+            <p>Open the generated directory <code>automation_tasks_rs</code> as an independent rust project in VSCode.</p>
+            <div class="example-wrap">
+              <pre class="language-bash"><code>code hello_world/automation_tasks_rs
+</code></pre>
+            </div>
+            <p>Now we can analyze the automation code. There is already the dependency inside <code>Cargo.toml</code> for our library:</p>
+            <div class="example-wrap">
+              <pre class="language-toml"><code>cargo_auto_lib="1.1.2"
+</code></pre>
+            </div>
+            <p>Review the code in <code>automation_tasks_rs/main.rs</code>. The <code>cl::</code> namespace is the alias for <code>cargo_auto_lib</code>.<br>
+            Example:</p>
+            <div class="example-wrap ignore">
+              <a href="#" class="tooltip" title="This example is not tested">ⓘ</a>
+              <pre class="rust rust-example-rendered"><code><span class="doccomment">/// cargo build --release
+</span><span class="kw">fn </span>task_release() {
+<span class="comment">//    let cargo_toml = CargoToml::read();
+    </span>cl::auto_version_increment_semver_or_date();
+    cl::auto_cargo_toml_to_md();
+    cl::auto_lines_of_code(<span class="string">""</span>);
 
-<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="kw">fn </span>task_release() {  
-    auto_semver_increment_patch();  
-    auto_cargo_toml_to_md();  
-    auto_lines_of_code(<span class="string">""</span>);  
-    auto_build();  
-}  </code></pre><a class="test-arrow" target="_blank" href="https://play.rust-lang.org/?code=%23!%5Ballow(unused)%5D%0Afn+main()+%7B%0Afn+task_release()+%7B++%0A++++auto_semver_increment_patch();++%0A++++auto_cargo_toml_to_md();++%0A++++auto_lines_of_code(%22%22);++%0A++++auto_build();++%0A%7D%0A%7D&amp;edition=2021">Run</a></div>
-<p>Go back to your main rust project.<br />
-Add markers to the beginning of README.md (don’t copy the numbers 1 and 2):</p>
-<div class="example-wrap"><pre class="language-md"><code>1 [//]: # (auto_cargo_toml_to_md start)
-2 [//]: # (auto_cargo_toml_to_md end)
-</code></pre></div>
-<p>Run (in your main rust project):</p>
-<div class="example-wrap"><pre class="language-bash"><code>cargo auto release
-</code></pre></div>
-<p>With a little luck, it included the data of <code>Cargo.toml</code> into the <code>README.md</code> inside the markers:</p>
-<p><img src="https://github.com/bestia-dev/cargo_auto_lib/raw/main/images/auto_cargo_toml_to_md.png" alt="auto_cargo_toml_to_md" title="auto_cargo_toml_to_md" /></p>
-<h3 id="based-on-simple-functions"><a href="#based-on-simple-functions">based on simple functions</a></h3>
-<p>All the functions have extensive help/docs to describe how they work.<br />
-It is nice when you use a code editor with IntelliSense like VSCode.</p>
-<h3 id="caveats"><a href="#caveats">Caveats</a></h3>
-<p>This crate will attempt to edit <code>Cargo.toml</code>. Unfortunately, there’s no great robust way right now to edit TOML file preserving formatting and comments and such, so right now I use just regex to do this.
-If you find that the heuristics don’t work for you though please let me know and I’ll try to check in a fix!</p>
-<h3 id="todo"><a href="#todo">TODO</a></h3>
-<p>Automate badges for crates.io, doc.rs, lib.rs, license, crev review. Check if they exist and create badges.<br />
-Create a git tag, a github release and in the same time RELEASES.md after publishing on crates.io.
-There is no binary upload for library releases.</p>
-<h3 id="open-source-and-free-as-a-beer"><a href="#open-source-and-free-as-a-beer">Open-source and free as a beer</a></h3>
-<p>My open-source projects are free as a beer (MIT license).<br />
-I just love programming.<br />
-But I need also to drink. If you find my projects and tutorials helpful, please buy me a beer by donating to my <a href="https://paypal.me/LucianoBestia">PayPal</a>.<br />
-You know the price of a beer in your local bar ;-)<br />
-So I can drink a free beer for your health :-)<br />
-<a href="https://translate.google.com/?hl=en&amp;sl=sl&amp;tl=en&amp;text=Na%20zdravje&amp;op=translate">Na zdravje!</a> <a href="https://dictionary.cambridge.org/dictionary/italian-english/alla-salute">Alla salute!</a> <a href="https://dictionary.cambridge.org/dictionary/german-english/prost">Prost!</a> <a href="https://matadornetwork.com/nights/how-to-say-cheers-in-50-languages/">Nazdravlje!</a> 🍻</p>
-<p><a href="https://bestia.dev">//bestia.dev</a><br />
-<a href="https://github.com/bestia-dev">//github.com/bestia-dev</a><br />
-<a href="https://bestiadev.substack.com">//bestiadev.substack.com</a><br />
-<a href="https://youtube.com/@bestia-dev-tutorials">//youtube.com/@bestia-dev-tutorials</a></p>
-</div></details><h2 id="modules" class="section-header"><a href="#modules">Modules</a></h2><ul class="item-table"><li><div class="item-name"><a class="mod" href="auto_cargo_toml_mod/index.html" title="mod cargo_auto_lib::auto_cargo_toml_mod">auto_cargo_toml_mod</a><span title="Restricted Visibility">&nbsp;🔒</span> </div><div class="desc docblock-short">functions to get data from Cargo.toml
-It works for workspaces and for single projects.  </div></li><li><div class="item-name"><a class="mod" href="auto_cargo_toml_to_md_mod/index.html" title="mod cargo_auto_lib::auto_cargo_toml_to_md_mod">auto_cargo_toml_to_md_mod</a><span title="Restricted Visibility">&nbsp;🔒</span> </div><div class="desc docblock-short">includes data from Cargo.toml to README.md files: version, authors,…
-It works for workspaces and for single projects.  </div></li><li><div class="item-name"><a class="mod" href="auto_check_micro_xml_mod/index.html" title="mod cargo_auto_lib::auto_check_micro_xml_mod">auto_check_micro_xml_mod</a><span title="Restricted Visibility">&nbsp;🔒</span> </div></li><li><div class="item-name"><a class="mod" href="auto_delete_old_js_snippets_mod/index.html" title="mod cargo_auto_lib::auto_delete_old_js_snippets_mod">auto_delete_old_js_snippets_mod</a><span title="Restricted Visibility">&nbsp;🔒</span> </div><div class="desc docblock-short">deletes old js snippets when working with wasm-pack</div></li><li><div class="item-name"><a class="mod" href="auto_helper_functions_mod/index.html" title="mod cargo_auto_lib::auto_helper_functions_mod">auto_helper_functions_mod</a><span title="Restricted Visibility">&nbsp;🔒</span> </div><div class="desc docblock-short">various helper functions</div></li><li><div class="item-name"><a class="mod" href="auto_lines_of_code_mod/index.html" title="mod cargo_auto_lib::auto_lines_of_code_mod">auto_lines_of_code_mod</a><span title="Restricted Visibility">&nbsp;🔒</span> </div><div class="desc docblock-short">inserts shield badges with lines_of_code into README.rs
-It works for workspaces and for single projects.  </div></li><li><div class="item-name"><a class="mod" href="auto_md_to_doc_comments_mod/index.html" title="mod cargo_auto_lib::auto_md_to_doc_comments_mod">auto_md_to_doc_comments_mod</a><span title="Restricted Visibility">&nbsp;🔒</span> </div><div class="desc docblock-short">finds rs files with markers and include segments from md files
-It works for workspaces and for single projects.  </div></li><li><div class="item-name"><a class="mod" href="auto_plantuml_mod/index.html" title="mod cargo_auto_lib::auto_plantuml_mod">auto_plantuml_mod</a><span title="Restricted Visibility">&nbsp;🔒</span> </div><div class="desc docblock-short">Find md files.
-Search for marker (auto_plantuml start) and (auto_plantuml end).
-This markers around the plantuml code define that we want a svg file.
-If there are no markers, the plantuml will not be processed.</div></li><li><div class="item-name"><a class="mod" href="auto_semver_mod/index.html" title="mod cargo_auto_lib::auto_semver_mod">auto_semver_mod</a><span title="Restricted Visibility">&nbsp;🔒</span> </div><div class="desc docblock-short">semver utilities</div></li><li><div class="item-name"><a class="mod" href="auto_semver_or_date_mod/index.html" title="mod cargo_auto_lib::auto_semver_or_date_mod">auto_semver_or_date_mod</a><span title="Restricted Visibility">&nbsp;🔒</span> </div><div class="desc docblock-short">it reads the version in Cargo.toml and if the major number
-is greater than 2000, it is a date-version, else it is semver
-It works for workspaces and for single projects.  </div></li><li><div class="item-name"><a class="mod" href="auto_version_from_date_mod/index.html" title="mod cargo_auto_lib::auto_version_from_date_mod">auto_version_from_date_mod</a><span title="Restricted Visibility">&nbsp;🔒</span> </div><div class="desc docblock-short">new version as date is written to Cargo.toml and service_worker.js
-It works for workspaces and for single projects.  </div></li><li><div class="item-name"><a class="mod" href="error_mod/index.html" title="mod cargo_auto_lib::error_mod">error_mod</a><span title="Restricted Visibility">&nbsp;🔒</span> </div><div class="desc docblock-short">I am using the crate thiserror to create an enum for all library errors.
-It mostly forwards the source “from” error.
-The library never writes to the screen, because it contains only the logic.
-Is the bin project that knows if it is CLI, TUI or GUI and it presents the errors to the user and developer.
-Then in the bin project I use the crate anyhow.</div></li><li><div class="item-name"><a class="mod" href="public_api_mod/index.html" title="mod cargo_auto_lib::public_api_mod">public_api_mod</a><span title="Restricted Visibility">&nbsp;🔒</span> </div></li><li><div class="item-name"><a class="mod" href="utils_mod/index.html" title="mod cargo_auto_lib::utils_mod">utils_mod</a><span title="Restricted Visibility">&nbsp;🔒</span> </div><div class="desc docblock-short">various utilities</div></li></ul><h2 id="structs" class="section-header"><a href="#structs">Structs</a></h2><ul class="item-table"><li><div class="item-name"><a class="struct" href="struct.CargoToml.html" title="struct cargo_auto_lib::CargoToml">CargoToml</a></div></li></ul><h2 id="constants" class="section-header"><a href="#constants">Constants</a></h2><ul class="item-table"><li><div class="item-name"><a class="constant" href="constant.GREEN.html" title="constant cargo_auto_lib::GREEN">GREEN</a></div></li><li><div class="item-name"><a class="constant" href="constant.RED.html" title="constant cargo_auto_lib::RED">RED</a></div></li><li><div class="item-name"><a class="constant" href="constant.RESET.html" title="constant cargo_auto_lib::RESET">RESET</a></div></li><li><div class="item-name"><a class="constant" href="constant.YELLOW.html" title="constant cargo_auto_lib::YELLOW">YELLOW</a></div></li></ul><h2 id="traits" class="section-header"><a href="#traits">Traits</a></h2><ul class="item-table"><li><div class="item-name"><a class="trait" href="trait.CargoTomlPublicApiMethods.html" title="trait cargo_auto_lib::CargoTomlPublicApiMethods">CargoTomlPublicApiMethods</a></div></li></ul><h2 id="functions" class="section-header"><a href="#functions">Functions</a></h2><ul class="item-table"><li><div class="item-name"><a class="fn" href="fn.auto_cargo_toml_to_md.html" title="fn cargo_auto_lib::auto_cargo_toml_to_md">auto_cargo_toml_to_md</a></div><div class="desc docblock-short">includes data from Cargo.toml to README.md files: version, authors,…
-It works for workspaces and for single projects.<br />
-To avoid out of sync data like version, authors and description in the README.md files, <code>auto_cargo_toml_to_md</code> includes this data from Cargo.toml.<br />
-Run it on every build with <a href="https://crates.io/crates/cargo-auto">cargo auto</a>.<br />
-It works also with other md files in the project, not only README.md.<br />
-In the md file write these markers in markdown comments (invisible),<br />
-don’t copy the numbers 1 and 2:</div></li><li><div class="item-name"><a class="fn" href="fn.auto_check_micro_xml.html" title="fn cargo_auto_lib::auto_check_micro_xml">auto_check_micro_xml</a></div><div class="desc docblock-short">I want html pages to be correct microXML when I use them for single page application.
-Before build or release this function will check for correctness.</div></li><li><div class="item-name"><a class="fn" href="fn.auto_delete_old_js_snippets.html" title="fn cargo_auto_lib::auto_delete_old_js_snippets">auto_delete_old_js_snippets</a></div><div class="desc docblock-short">deletes old js snippets when working with wasm-pack<br />
-The old folders for <code>js snippets</code> are not automatically deleted on building with <code>wasm-pack</code>.<br />
-This utils do that.<br />
-The function must be executed in the root project folder where is the Cargo.toml.  </div></li><li><div class="item-name"><a class="fn" href="fn.auto_lines_of_code.html" title="fn cargo_auto_lib::auto_lines_of_code">auto_lines_of_code</a></div><div class="desc docblock-short">inserts shield badges with lines_of_code into README.rs
-the parameter Link will be used for shield badge. If empty_string, the git remote repository will be used.
-Lines of code are not a “perfect” measurement of anything.<br />
-Anybody can write a very big number of lines of useless code and comments.<br />
-But for 95% of the cases they are good enough.<br />
-Most of the developers use some “standard” coding practices and that is quantifiable and comparable.</div></li><li><div class="item-name"><a class="fn" href="fn.auto_md_to_doc_comments.html" title="fn cargo_auto_lib::auto_md_to_doc_comments">auto_md_to_doc_comments</a></div><div class="desc docblock-short">finds rs files with markers and include segments from md files
-Includes segments of md files into rs files as doc comments.<br />
-It works with workspaces and single projects.
-From this doc comments <code>cargo doc</code> will generated the documentation and auto-completion.<br />
-We don’t want to manually copy this segments. We want them to be automatically in sync.<br />
-We will just run this function before every <code>cargo doc</code> with an automation task.<br />
-The <code>auto_md_to_doc_comments</code> function must be executed in the project root folder where is the Cargo.toml file.<br />
-First it searches all the rs files in src, tests and examples folders.<br />
-If they contain the markers, than finds the md file and the named segment and include it as doc comments into the rs file.<br />
-The markers are always in pairs: start and end. So exactly the content in between is changed.
-The markers are always comments, so they don’t change the code.<br />
-It works only for files with LF line delimiter. No CR and no CRLF.</div></li><li><div class="item-name"><a class="fn" href="fn.auto_plantuml.html" title="fn cargo_auto_lib::auto_plantuml">auto_plantuml</a></div><div class="desc docblock-short">process plantuml in current directory
-finds markers (auto_plantuml start) and (auto_plantuml end) in md files
-if needed calls the web service and saves the svg file
-Between markers adds the link to the svg file
-repo_url like <a href="https://github.com/bestia-dev/sey_currency_converter_pwa">https://github.com/bestia-dev/sey_currency_converter_pwa</a>
-so the image file link is from the repository and accessible everywhere</div></li><li><div class="item-name"><a class="fn" href="fn.auto_plantuml_for_path.html" title="fn cargo_auto_lib::auto_plantuml_for_path">auto_plantuml_for_path</a></div><div class="desc docblock-short">process plantuml for all md files
-for test and examples I need to provide the path</div></li><li><div class="item-name"><a class="fn" href="fn.auto_semver_increment_minor.html" title="fn cargo_auto_lib::auto_semver_increment_minor">auto_semver_increment_minor</a></div><div class="desc docblock-short">Increments the minor version in Cargo.toml file only if files are changed</div></li><li><div class="item-name"><a class="fn" href="fn.auto_semver_increment_minor_forced.html" title="fn cargo_auto_lib::auto_semver_increment_minor_forced">auto_semver_increment_minor_forced</a></div><div class="desc docblock-short">Increments the minor version in Cargo.toml file even if files are not changed</div></li><li><div class="item-name"><a class="fn" href="fn.auto_semver_increment_patch.html" title="fn cargo_auto_lib::auto_semver_increment_patch">auto_semver_increment_patch</a></div><div class="desc docblock-short">Increments the patch version in Cargo.toml file only if files are changed</div></li><li><div class="item-name"><a class="fn" href="fn.auto_semver_increment_patch_forced.html" title="fn cargo_auto_lib::auto_semver_increment_patch_forced">auto_semver_increment_patch_forced</a></div><div class="desc docblock-short">Increments the patch version in Cargo.toml file even if files are not changed</div></li><li><div class="item-name"><a class="fn" href="fn.auto_version_from_date.html" title="fn cargo_auto_lib::auto_version_from_date">auto_version_from_date</a></div><div class="desc docblock-short">Works for single projects and workspaces.<br />
-new version as date is written to Cargo.toml and service_worker.js
-In Cargo.toml writes the version as the date <code>yyyy.mmdd.HHMM</code> ex. <code>2019.1221.2359</code>.<br />
-For non-library projects, the semver specification is not really useful.<br />
-Having the version as the date is just fine for executables and much more human readable.<br />
-The function must be executed in the root project folder of a single project or workspace where is the Cargo.toml.</div></li><li><div class="item-name"><a class="fn" href="fn.auto_version_from_date_forced.html" title="fn cargo_auto_lib::auto_version_from_date_forced">auto_version_from_date_forced</a></div><div class="desc docblock-short">Works for single projects and workspaces.<br />
-Just like auto_version_from_date(), but force the new version even if no files are changed.
-For workspaces <code>release</code> I want to have the same version in all members.<br />
-It is slower, but easier to understand when deployed.</div></li><li><div class="item-name"><a class="fn" href="fn.auto_version_increment_semver_or_date.html" title="fn cargo_auto_lib::auto_version_increment_semver_or_date">auto_version_increment_semver_or_date</a></div><div class="desc docblock-short">increments the version in Cargo.toml.
-if the major version is greater than 2000, it is a date version
-else it is semver and increments the patch part</div></li><li><div class="item-name"><a class="fn" href="fn.auto_version_increment_semver_or_date_forced.html" title="fn cargo_auto_lib::auto_version_increment_semver_or_date_forced">auto_version_increment_semver_or_date_forced</a></div><div class="desc docblock-short">increments the version in Cargo.toml.
-if the major version is greater than 2000, it is a date version
-forced is used in workspaces to force all members to have the same date version
-else it is semver and increments the patch part</div></li><li><div class="item-name"><a class="fn" href="fn.completion_return_one_or_more_sub_commands.html" title="fn cargo_auto_lib::completion_return_one_or_more_sub_commands">completion_return_one_or_more_sub_commands</a></div><div class="desc docblock-short">println one, more or all sub_commands</div></li><li><div class="item-name"><a class="fn" href="fn.concatenate_vec_to_string.html" title="fn cargo_auto_lib::concatenate_vec_to_string">concatenate_vec_to_string</a></div><div class="desc docblock-short">the original <code>concat()</code> function does not have a delimiter</div></li><li><div class="item-name"><a class="fn" href="fn.exit_if_not_run_in_rust_project_root_directory.html" title="fn cargo_auto_lib::exit_if_not_run_in_rust_project_root_directory">exit_if_not_run_in_rust_project_root_directory</a></div><div class="desc docblock-short">check if run in rust project root directory error
-there must be Cargo.toml and the directory automation_tasks_rs
-exit with error message if not</div></li><li><div class="item-name"><a class="fn" href="fn.find_from.html" title="fn cargo_auto_lib::find_from">find_from</a></div><div class="desc docblock-short">find from_pos</div></li><li><div class="item-name"><a class="fn" href="fn.find_pos_end_data_before_delimiter.html" title="fn cargo_auto_lib::find_pos_end_data_before_delimiter">find_pos_end_data_before_delimiter</a></div><div class="desc docblock-short">return the position of end of the delimited data before the delimiter</div></li><li><div class="item-name"><a class="fn" href="fn.find_pos_start_data_after_delimiter.html" title="fn cargo_auto_lib::find_pos_start_data_after_delimiter">find_pos_start_data_after_delimiter</a></div><div class="desc docblock-short">return the position of start of the delimited data after the delimiter</div></li><li><div class="item-name"><a class="fn" href="fn.hash_for_filename.html" title="fn cargo_auto_lib::hash_for_filename">hash_for_filename</a></div></li><li><div class="item-name"><a class="fn" href="fn.run_shell_command.html" title="fn cargo_auto_lib::run_shell_command">run_shell_command</a></div><div class="desc docblock-short">run one shell command
-Stops task execution if the command has Exit Status != 0</div></li><li><div class="item-name"><a class="fn" href="fn.run_shell_commands.html" title="fn cargo_auto_lib::run_shell_commands">run_shell_commands</a></div><div class="desc docblock-short">run shell commands from a vector of strings.
-Stops task execution if oe of the commands has Exit Status != 0</div></li><li><div class="item-name"><a class="fn" href="fn.traverse_dir_with_exclude_dir.html" title="fn cargo_auto_lib::traverse_dir_with_exclude_dir">traverse_dir_with_exclude_dir</a></div><div class="desc docblock-short">Traverse dir and its sub-dir, but avoid excluded dirs.
-The find_file and the exclude dir strings must start with /.</div></li></ul></section></div></main></body></html>
+    cl::run_shell_command(<span class="string">"cargo fmt"</span>);
+    cl::run_shell_command(<span class="string">"cargo build --release"</span>);
+    <span class="macro">println!</span>(
+        <span class="string">r#"{YELLOW}
+    After `cargo auto release`, run examples and tests
+    if ok, then,{RESET}{GREEN}
+cargo auto doc{RESET}{YELLOW}
+{RESET}"#
+    </span>);
+    print_examples_cmd();
+}</code></pre><a class="test-arrow" target="_blank" href=
+"https://play.rust-lang.org/?code=%23!%5Ballow(unused)%5D%0Afn+main()+%7B%0A///+cargo+build+--release%0Afn+task_release()+%7B%0A//++++let+cargo_toml+=+CargoToml::read();%0A++++cl::auto_version_increment_semver_or_date();%0A++++cl::auto_cargo_toml_to_md();%0A++++cl::auto_lines_of_code(%22%22);%0A%0A++++cl::run_shell_command(%22cargo+fmt%22);%0A++++cl::run_shell_command(%22cargo+build+--release%22);%0A++++println!(%0A++++++++r%23%22%7BYELLOW%7D%0A++++After+%60cargo+auto+release%60,+run+examples+and+tests%0A++++if+ok,+then,%7BRESET%7D%7BGREEN%7D%0Acargo+auto+doc%7BRESET%7D%7BYELLOW%7D%0A%7BRESET%7D%22%23%0A++++);%0A++++print_examples_cmd();%0A%7D%0A%7D&amp;edition=2021">Run</a>
+            </div>
+            <p>You can see this function will increment the version in Cargo.toml.<br>
+            Then it will copy some data from Cargo.toml to README.md (title, description, version, author,…).<br>
+            It will count the lines of code and create badges in README.md.<br>
+            Then comes the traditional Rust part: cargo fmt and cargo build –release.<br>
+            Finally, it will show on the screen the instructions on how to continue developing.</p>
+            <p>Run (in your main rust project):</p>
+            <div class="example-wrap">
+              <pre class="language-bash"><code>cargo auto release
+</code></pre>
+            </div>
+            <p>Now open the README.md and you will see the data that this automation task copied from other places. Therefore you change this data only in one
+            place, the automation task copies them wherever needed.</p>
+            <h3 id="based-on-simple-functions"><a href="#based-on-simple-functions">Based on simple functions</a></h3>
+            <p>All the functions have extensive help/docs to describe how they work.<br>
+            This is nice when you use a code editor with IntelliSense like VSCode.<br>
+            Inside the <code>automation_tasks_rs</code> you can write your own code. No limits there. It is just Rust.</p>
+            <h3 id="caveats"><a href="#caveats">Caveats</a></h3>
+            <p>This crate will attempt to edit <code>Cargo.toml</code>. Unfortunately, there’s no great robust way right now to edit TOML file preserving
+            formatting and comments and such, so right now I use just regex to do this. If you find that the heuristics don’t work for you though please let me
+            know and I’ll try to check in a fix!</p>
+            <h3 id="todo"><a href="#todo">TODO</a></h3>
+            <p>Use the new <code>#![doc=include_str!("README.md")]</code> to avoid super clutter in <code>lib.rs</code> doc comments.</p>
+            <p>Automate badges for crates.io, doc.rs, lib.rs, license, crev review. Check if they exist and create badges.<br>
+            Create a git tag, a GitHub release and at the same time RELEASES.md after publishing on crates.io. There is no binary upload for library
+            releases.</p>
+            <h3 id="open-source-and-free-as-a-beer"><a href="#open-source-and-free-as-a-beer">Open-source and free as a beer</a></h3>
+            <p>My open-source projects are free as a beer (MIT license).<br>
+            I just love programming.<br>
+            But I need also to drink. If you find my projects and tutorials helpful, please buy me a beer by donating to my <a href=
+            "https://paypal.me/LucianoBestia">PayPal</a>.<br>
+            You know the price of a beer in your local bar ;-)<br>
+            So I can drink a free beer for your health :-)<br>
+            <a href="https://translate.google.com/?hl=en&amp;sl=sl&amp;tl=en&amp;text=Na%20zdravje&amp;op=translate">Na zdravje!</a> <a href=
+            "https://dictionary.cambridge.org/dictionary/italian-english/alla-salute">Alla salute!</a> <a href=
+            "https://dictionary.cambridge.org/dictionary/german-english/prost">Prost!</a> <a href=
+            "https://matadornetwork.com/nights/how-to-say-cheers-in-50-languages/">Nazdravlje!</a> 🍻</p>
+            <p><a href="https://bestia.dev">//bestia.dev</a><br>
+            <a href="https://github.com/bestia-dev">//github.com/bestia-dev</a><br>
+            <a href="https://bestiadev.substack.com">//bestiadev.substack.com</a><br>
+            <a href="https://youtube.com/@bestia-dev-tutorials">//youtube.com/@bestia-dev-tutorials</a></p>
+          </div>
+        </details>
+        <h2 id="modules" class="section-header"><a href="#modules">Modules</a></h2>
+        <ul class="item-table">
+          <li>
+            <div class="item-name">
+              <a class="mod" href="auto_cargo_toml_mod/index.html" title="mod cargo_auto_lib::auto_cargo_toml_mod">auto_cargo_toml_mod</a><span title=
+              "Restricted Visibility">&nbsp;🔒</span>
+            </div>
+            <div class="desc docblock-short">
+              functions to get data from Cargo.toml It works for workspaces and for single projects.
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="mod" href="auto_cargo_toml_to_md_mod/index.html" title=
+              "mod cargo_auto_lib::auto_cargo_toml_to_md_mod">auto_cargo_toml_to_md_mod</a><span title="Restricted Visibility">&nbsp;🔒</span>
+            </div>
+            <div class="desc docblock-short">
+              includes data from Cargo.toml to README.md files: version, authors,… It works for workspaces and for single projects.
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="mod" href="auto_check_micro_xml_mod/index.html" title=
+              "mod cargo_auto_lib::auto_check_micro_xml_mod">auto_check_micro_xml_mod</a><span title="Restricted Visibility">&nbsp;🔒</span>
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="mod" href="auto_delete_old_js_snippets_mod/index.html" title=
+              "mod cargo_auto_lib::auto_delete_old_js_snippets_mod">auto_delete_old_js_snippets_mod</a><span title="Restricted Visibility">&nbsp;🔒</span>
+            </div>
+            <div class="desc docblock-short">
+              deletes old js snippets when working with wasm-pack
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="mod" href="auto_helper_functions_mod/index.html" title=
+              "mod cargo_auto_lib::auto_helper_functions_mod">auto_helper_functions_mod</a><span title="Restricted Visibility">&nbsp;🔒</span>
+            </div>
+            <div class="desc docblock-short">
+              various helper functions
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="mod" href="auto_lines_of_code_mod/index.html" title="mod cargo_auto_lib::auto_lines_of_code_mod">auto_lines_of_code_mod</a><span title=
+              "Restricted Visibility">&nbsp;🔒</span>
+            </div>
+            <div class="desc docblock-short">
+              inserts shield badges with lines_of_code into README.rs It works for workspaces and for single projects.
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="mod" href="auto_md_to_doc_comments_mod/index.html" title=
+              "mod cargo_auto_lib::auto_md_to_doc_comments_mod">auto_md_to_doc_comments_mod</a><span title="Restricted Visibility">&nbsp;🔒</span>
+            </div>
+            <div class="desc docblock-short">
+              finds rs files with markers and include segments from md files It works for workspaces and for single projects.
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="mod" href="auto_plantuml_mod/index.html" title="mod cargo_auto_lib::auto_plantuml_mod">auto_plantuml_mod</a><span title=
+              "Restricted Visibility">&nbsp;🔒</span>
+            </div>
+            <div class="desc docblock-short">
+              Find md files. Search for marker (auto_plantuml start) and (auto_plantuml end). This markers around the plantuml code define that we want a svg
+              file. If there are no markers, the plantuml will not be processed.
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="mod" href="auto_semver_mod/index.html" title="mod cargo_auto_lib::auto_semver_mod">auto_semver_mod</a><span title=
+              "Restricted Visibility">&nbsp;🔒</span>
+            </div>
+            <div class="desc docblock-short">
+              semver utilities
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="mod" href="auto_semver_or_date_mod/index.html" title=
+              "mod cargo_auto_lib::auto_semver_or_date_mod">auto_semver_or_date_mod</a><span title="Restricted Visibility">&nbsp;🔒</span>
+            </div>
+            <div class="desc docblock-short">
+              it reads the version in Cargo.toml and if the major number is greater than 2000, it is a date-version, else it is semver It works for workspaces
+              and for single projects.
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="mod" href="auto_version_from_date_mod/index.html" title=
+              "mod cargo_auto_lib::auto_version_from_date_mod">auto_version_from_date_mod</a><span title="Restricted Visibility">&nbsp;🔒</span>
+            </div>
+            <div class="desc docblock-short">
+              new version as date is written to Cargo.toml and service_worker.js It works for workspaces and for single projects.
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="mod" href="error_mod/index.html" title="mod cargo_auto_lib::error_mod">error_mod</a><span title="Restricted Visibility">&nbsp;🔒</span>
+            </div>
+            <div class="desc docblock-short">
+              I am using the crate thiserror to create an enum for all library errors. It mostly forwards the source “from” error. The library never writes to
+              the screen, because it contains only the logic. Is the bin project that knows if it is CLI, TUI or GUI and it presents the errors to the user and
+              developer. Then in the bin project I use the crate anyhow.
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="mod" href="public_api_mod/index.html" title="mod cargo_auto_lib::public_api_mod">public_api_mod</a><span title=
+              "Restricted Visibility">&nbsp;🔒</span>
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="mod" href="utils_mod/index.html" title="mod cargo_auto_lib::utils_mod">utils_mod</a><span title="Restricted Visibility">&nbsp;🔒</span>
+            </div>
+            <div class="desc docblock-short">
+              various utilities
+            </div>
+          </li>
+        </ul>
+        <h2 id="structs" class="section-header"><a href="#structs">Structs</a></h2>
+        <ul class="item-table">
+          <li>
+            <div class="item-name">
+              <a class="struct" href="struct.CargoToml.html" title="struct cargo_auto_lib::CargoToml">CargoToml</a>
+            </div>
+          </li>
+        </ul>
+        <h2 id="constants" class="section-header"><a href="#constants">Constants</a></h2>
+        <ul class="item-table">
+          <li>
+            <div class="item-name">
+              <a class="constant" href="constant.GREEN.html" title="constant cargo_auto_lib::GREEN">GREEN</a>
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="constant" href="constant.RED.html" title="constant cargo_auto_lib::RED">RED</a>
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="constant" href="constant.RESET.html" title="constant cargo_auto_lib::RESET">RESET</a>
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="constant" href="constant.YELLOW.html" title="constant cargo_auto_lib::YELLOW">YELLOW</a>
+            </div>
+          </li>
+        </ul>
+        <h2 id="traits" class="section-header"><a href="#traits">Traits</a></h2>
+        <ul class="item-table">
+          <li>
+            <div class="item-name">
+              <a class="trait" href="trait.CargoTomlPublicApiMethods.html" title=
+              "trait cargo_auto_lib::CargoTomlPublicApiMethods">CargoTomlPublicApiMethods</a>
+            </div>
+          </li>
+        </ul>
+        <h2 id="functions" class="section-header"><a href="#functions">Functions</a></h2>
+        <ul class="item-table">
+          <li>
+            <div class="item-name">
+              <a class="fn" href="fn.auto_cargo_toml_to_md.html" title="fn cargo_auto_lib::auto_cargo_toml_to_md">auto_cargo_toml_to_md</a>
+            </div>
+            <div class="desc docblock-short">
+              includes data from Cargo.toml to README.md files: version, authors,… It works for workspaces and for single projects.<br>
+              To avoid out of sync data like version, authors and description in the README.md files, <code>auto_cargo_toml_to_md</code> includes this data
+              from Cargo.toml.<br>
+              Run it on every build with <a href="https://crates.io/crates/cargo-auto">cargo auto</a>.<br>
+              It works also with other md files in the project, not only README.md.<br>
+              In the md file write these markers in markdown comments (invisible),<br>
+              don’t copy the numbers 1 and 2:
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="fn" href="fn.auto_check_micro_xml.html" title="fn cargo_auto_lib::auto_check_micro_xml">auto_check_micro_xml</a>
+            </div>
+            <div class="desc docblock-short">
+              I want html pages to be correct microXML when I use them for single page application. Before build or release this function will check for
+              correctness.
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="fn" href="fn.auto_delete_old_js_snippets.html" title="fn cargo_auto_lib::auto_delete_old_js_snippets">auto_delete_old_js_snippets</a>
+            </div>
+            <div class="desc docblock-short">
+              deletes old js snippets when working with wasm-pack<br>
+              The old folders for <code>js snippets</code> are not automatically deleted on building with <code>wasm-pack</code>.<br>
+              This utils do that.<br>
+              The function must be executed in the root project folder where is the Cargo.toml.
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="fn" href="fn.auto_lines_of_code.html" title="fn cargo_auto_lib::auto_lines_of_code">auto_lines_of_code</a>
+            </div>
+            <div class="desc docblock-short">
+              inserts shield badges with lines_of_code into README.rs the parameter Link will be used for shield badge. If empty_string, the git remote
+              repository will be used. Lines of code are not a “perfect” measurement of anything.<br>
+              Anybody can write a very big number of lines of useless code and comments.<br>
+              But for 95% of the cases they are good enough.<br>
+              Most of the developers use some “standard” coding practices and that is quantifiable and comparable.
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="fn" href="fn.auto_md_to_doc_comments.html" title="fn cargo_auto_lib::auto_md_to_doc_comments">auto_md_to_doc_comments</a>
+            </div>
+            <div class="desc docblock-short">
+              finds rs files with markers and include segments from md files Includes segments of md files into rs files as doc comments.<br>
+              It works with workspaces and single projects. From this doc comments <code>cargo doc</code> will generated the documentation and
+              auto-completion.<br>
+              We don’t want to manually copy this segments. We want them to be automatically in sync.<br>
+              We will just run this function before every <code>cargo doc</code> with an automation task.<br>
+              The <code>auto_md_to_doc_comments</code> function must be executed in the project root folder where is the Cargo.toml file.<br>
+              First it searches all the rs files in src, tests and examples folders.<br>
+              If they contain the markers, than finds the md file and the named segment and include it as doc comments into the rs file.<br>
+              The markers are always in pairs: start and end. So exactly the content in between is changed. The markers are always comments, so they don’t
+              change the code.<br>
+              It works only for files with LF line delimiter. No CR and no CRLF.
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="fn" href="fn.auto_plantuml.html" title="fn cargo_auto_lib::auto_plantuml">auto_plantuml</a>
+            </div>
+            <div class="desc docblock-short">
+              process plantuml in current directory finds markers (auto_plantuml start) and (auto_plantuml end) in md files if needed calls the web service and
+              saves the svg file Between markers adds the link to the svg file repo_url like <a href=
+              "https://github.com/bestia-dev/sey_currency_converter_pwa">https://github.com/bestia-dev/sey_currency_converter_pwa</a> so the image file link is
+              from the repository and accessible everywhere
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="fn" href="fn.auto_plantuml_for_path.html" title="fn cargo_auto_lib::auto_plantuml_for_path">auto_plantuml_for_path</a>
+            </div>
+            <div class="desc docblock-short">
+              process plantuml for all md files for test and examples I need to provide the path
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="fn" href="fn.auto_semver_increment_minor.html" title="fn cargo_auto_lib::auto_semver_increment_minor">auto_semver_increment_minor</a>
+            </div>
+            <div class="desc docblock-short">
+              Increments the minor version in Cargo.toml file only if files are changed
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="fn" href="fn.auto_semver_increment_minor_forced.html" title=
+              "fn cargo_auto_lib::auto_semver_increment_minor_forced">auto_semver_increment_minor_forced</a>
+            </div>
+            <div class="desc docblock-short">
+              Increments the minor version in Cargo.toml file even if files are not changed
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="fn" href="fn.auto_semver_increment_patch.html" title="fn cargo_auto_lib::auto_semver_increment_patch">auto_semver_increment_patch</a>
+            </div>
+            <div class="desc docblock-short">
+              Increments the patch version in Cargo.toml file only if files are changed
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="fn" href="fn.auto_semver_increment_patch_forced.html" title=
+              "fn cargo_auto_lib::auto_semver_increment_patch_forced">auto_semver_increment_patch_forced</a>
+            </div>
+            <div class="desc docblock-short">
+              Increments the patch version in Cargo.toml file even if files are not changed
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="fn" href="fn.auto_version_from_date.html" title="fn cargo_auto_lib::auto_version_from_date">auto_version_from_date</a>
+            </div>
+            <div class="desc docblock-short">
+              Works for single projects and workspaces.<br>
+              new version as date is written to Cargo.toml and service_worker.js In Cargo.toml writes the version as the date <code>yyyy.mmdd.HHMM</code> ex.
+              <code>2019.1221.2359</code>.<br>
+              For non-library projects, the semver specification is not really useful.<br>
+              Having the version as the date is just fine for executables and much more human readable.<br>
+              The function must be executed in the root project folder of a single project or workspace where is the Cargo.toml.
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="fn" href="fn.auto_version_from_date_forced.html" title=
+              "fn cargo_auto_lib::auto_version_from_date_forced">auto_version_from_date_forced</a>
+            </div>
+            <div class="desc docblock-short">
+              Works for single projects and workspaces.<br>
+              Just like auto_version_from_date(), but force the new version even if no files are changed. For workspaces <code>release</code> I want to have
+              the same version in all members.<br>
+              It is slower, but easier to understand when deployed.
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="fn" href="fn.auto_version_increment_semver_or_date.html" title=
+              "fn cargo_auto_lib::auto_version_increment_semver_or_date">auto_version_increment_semver_or_date</a>
+            </div>
+            <div class="desc docblock-short">
+              increments the version in Cargo.toml. if the major version is greater than 2000, it is a date version else it is semver and increments the patch
+              part
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="fn" href="fn.auto_version_increment_semver_or_date_forced.html" title=
+              "fn cargo_auto_lib::auto_version_increment_semver_or_date_forced">auto_version_increment_semver_or_date_forced</a>
+            </div>
+            <div class="desc docblock-short">
+              increments the version in Cargo.toml. if the major version is greater than 2000, it is a date version forced is used in workspaces to force all
+              members to have the same date version else it is semver and increments the patch part
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="fn" href="fn.completion_return_one_or_more_sub_commands.html" title=
+              "fn cargo_auto_lib::completion_return_one_or_more_sub_commands">completion_return_one_or_more_sub_commands</a>
+            </div>
+            <div class="desc docblock-short">
+              println one, more or all sub_commands
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="fn" href="fn.concatenate_vec_to_string.html" title="fn cargo_auto_lib::concatenate_vec_to_string">concatenate_vec_to_string</a>
+            </div>
+            <div class="desc docblock-short">
+              the original <code>concat()</code> function does not have a delimiter
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="fn" href="fn.exit_if_not_run_in_rust_project_root_directory.html" title=
+              "fn cargo_auto_lib::exit_if_not_run_in_rust_project_root_directory">exit_if_not_run_in_rust_project_root_directory</a>
+            </div>
+            <div class="desc docblock-short">
+              check if run in rust project root directory error there must be Cargo.toml and the directory automation_tasks_rs exit with error message if not
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="fn" href="fn.find_from.html" title="fn cargo_auto_lib::find_from">find_from</a>
+            </div>
+            <div class="desc docblock-short">
+              find from_pos
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="fn" href="fn.find_pos_end_data_before_delimiter.html" title=
+              "fn cargo_auto_lib::find_pos_end_data_before_delimiter">find_pos_end_data_before_delimiter</a>
+            </div>
+            <div class="desc docblock-short">
+              return the position of end of the delimited data before the delimiter
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="fn" href="fn.find_pos_start_data_after_delimiter.html" title=
+              "fn cargo_auto_lib::find_pos_start_data_after_delimiter">find_pos_start_data_after_delimiter</a>
+            </div>
+            <div class="desc docblock-short">
+              return the position of start of the delimited data after the delimiter
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="fn" href="fn.hash_for_filename.html" title="fn cargo_auto_lib::hash_for_filename">hash_for_filename</a>
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="fn" href="fn.run_shell_command.html" title="fn cargo_auto_lib::run_shell_command">run_shell_command</a>
+            </div>
+            <div class="desc docblock-short">
+              run one shell command Stops task execution if the command has Exit Status != 0
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="fn" href="fn.run_shell_commands.html" title="fn cargo_auto_lib::run_shell_commands">run_shell_commands</a>
+            </div>
+            <div class="desc docblock-short">
+              run shell commands from a vector of strings. Stops task execution if oe of the commands has Exit Status != 0
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="fn" href="fn.traverse_dir_with_exclude_dir.html" title=
+              "fn cargo_auto_lib::traverse_dir_with_exclude_dir">traverse_dir_with_exclude_dir</a>
+            </div>
+            <div class="desc docblock-short">
+              Traverse dir and its sub-dir, but avoid excluded dirs. The find_file and the exclude dir strings must start with /.
+            </div>
+          </li>
+        </ul>
+      </section>
+    </div>
+  </main>
+</body>
+</html>
