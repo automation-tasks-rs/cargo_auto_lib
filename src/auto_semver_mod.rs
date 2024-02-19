@@ -16,22 +16,22 @@ enum VersionPart {
 
 /// Increments the patch version in Cargo.toml file only if files are changed
 pub fn auto_semver_increment_patch() {
-    increment_part(VersionPart::Patch, false).unwrap_or_else(|err| panic!("{}", err.to_string()))
+    increment_part(VersionPart::Patch, false).unwrap_or_else(|err| panic!("{}", err))
 }
 
 /// Increments the patch version in Cargo.toml file even if files are not changed
 pub fn auto_semver_increment_patch_forced() {
-    increment_part(VersionPart::Patch, true).unwrap_or_else(|err| panic!("{}", err.to_string()))
+    increment_part(VersionPart::Patch, true).unwrap_or_else(|err| panic!("{}", err))
 }
 
 /// Increments the minor version in Cargo.toml file only if files are changed
 pub fn auto_semver_increment_minor() {
-    increment_part(VersionPart::Minor, false).unwrap_or_else(|err| panic!("{}", err.to_string()))
+    increment_part(VersionPart::Minor, false).unwrap_or_else(|err| panic!("{}", err))
 }
 
 /// Increments the minor version in Cargo.toml file even if files are not changed
 pub fn auto_semver_increment_minor_forced() {
-    increment_part(VersionPart::Minor, true).unwrap_or_else(|err| panic!("{}", err.to_string()))
+    increment_part(VersionPart::Minor, true).unwrap_or_else(|err| panic!("{}", err))
 }
 
 fn increment_part(part: VersionPart, force_version: bool) -> ResultWithLibError<()> {

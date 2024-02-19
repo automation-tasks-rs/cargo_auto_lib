@@ -241,12 +241,14 @@ pub fn read_file_metadata() -> ResultWithLibError<Vec<FileMetaData>> {
     let filehash = sha256_digest(PathBuf::from_str(&filename)?.as_path())?;
     vec_of_metadata.push(FileMetaData { filename, filehash });
 
-    for entry in fs::read_dir("src")? {
-        let entry = unwrap!(entry);
-        let path = entry.file_name();
+    let files_paths = unwrap!(crate::utils_mod::traverse_dir_with_exclude_dir(
+        Path::new("src"),
+        "/*.rs",
+        // avoid big folders and other folders with *.crev
+        &[]
+    ));
 
-        let filename = format!("src/{:?}", path);
-        let filename = filename.replace('\"', "");
+    for filename in files_paths {
         // calculate hash of file
         let filehash = sha256_digest(PathBuf::from_str(&filename)?.as_path())?;
         vec_of_metadata.push(FileMetaData { filename, filehash });
@@ -308,7 +310,7 @@ pub fn save_json_file_for_file_meta_data(vec_of_metadata: Vec<FileMetaData>) {
     let x = AutoVersionFromDate {
         vec_file_metadata: vec_of_metadata,
     };
-    let y = unwrap!(serde_json::to_string(&x));
+    let y = unwrap!(serde_json::to_string_pretty(&x));
     let json_filepath = ".automation_tasks_rs_file_hashes.json";
     let _f = fs::write(json_filepath, y);
 }
