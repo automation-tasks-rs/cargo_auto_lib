@@ -208,25 +208,25 @@
 <span class="doccomment">/// Increments the patch version in Cargo.toml file only if files are changed
 </span><span class="kw">pub fn </span>auto_semver_increment_patch() {
     increment_part(VersionPart::Patch, <span class="bool-val">false</span>).unwrap_or_else(|err| <span class="macro">panic!</span>(<span class=
-"string">"{}"</span>, err.to_string()))
+"string">"{}"</span>, err))
 }
 
 <span class="doccomment">/// Increments the patch version in Cargo.toml file even if files are not changed
 </span><span class="kw">pub fn </span>auto_semver_increment_patch_forced() {
     increment_part(VersionPart::Patch, <span class="bool-val">true</span>).unwrap_or_else(|err| <span class="macro">panic!</span>(<span class=
-"string">"{}"</span>, err.to_string()))
+"string">"{}"</span>, err))
 }
 
 <span class="doccomment">/// Increments the minor version in Cargo.toml file only if files are changed
 </span><span class="kw">pub fn </span>auto_semver_increment_minor() {
     increment_part(VersionPart::Minor, <span class="bool-val">false</span>).unwrap_or_else(|err| <span class="macro">panic!</span>(<span class=
-"string">"{}"</span>, err.to_string()))
+"string">"{}"</span>, err))
 }
 
 <span class="doccomment">/// Increments the minor version in Cargo.toml file even if files are not changed
 </span><span class="kw">pub fn </span>auto_semver_increment_minor_forced() {
     increment_part(VersionPart::Minor, <span class="bool-val">true</span>).unwrap_or_else(|err| <span class="macro">panic!</span>(<span class=
-"string">"{}"</span>, err.to_string()))
+"string">"{}"</span>, err))
 }
 
 <span class="kw">fn </span>increment_part(part: VersionPart, force_version: bool) -&gt; ResultWithLibError&lt;()&gt; {

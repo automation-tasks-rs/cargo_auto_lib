@@ -425,6 +425,8 @@
 <a href="#374" id="374">374</a>
 <a href="#375" id="375">375</a>
 <a href="#376" id="376">376</a>
+<a href="#377" id="377">377</a>
+<a href="#378" id="378">378</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// auto_version_from_date_mod
@@ -678,12 +680,14 @@
 "question-mark">?</span>.as_path())<span class="question-mark">?</span>;
     vec_of_metadata.push(FileMetaData { filename, filehash });
 
-    <span class="kw">for </span>entry <span class="kw">in </span>fs::read_dir(<span class="string">"src"</span>)<span class="question-mark">? </span>{
-        <span class="kw">let </span>entry = <span class="macro">unwrap!</span>(entry);
-        <span class="kw">let </span>path = entry.file_name();
+    <span class="kw">let </span>files_paths = <span class="macro">unwrap!</span>(<span class="kw">crate</span>::utils_mod::traverse_dir_with_exclude_dir(
+        Path::new(<span class="string">"src"</span>),
+        <span class="string">"/*.rs"</span>,
+        <span class="comment">// avoid big folders and other folders with *.crev
+        </span><span class="kw-2">&</span>[]
+    ));
 
-        <span class="kw">let </span>filename = <span class="macro">format!</span>(<span class="string">"src/{:?}"</span>, path);
-        <span class="kw">let </span>filename = filename.replace(<span class="string">'\"'</span>, <span class="string">""</span>);
+    <span class="kw">for </span>filename <span class="kw">in </span>files_paths {
         <span class="comment">// calculate hash of file
         </span><span class="kw">let </span>filehash = sha256_digest(PathBuf::from_str(<span class="kw-2">&</span>filename)<span class=
 "question-mark">?</span>.as_path())<span class="question-mark">?</span>;
@@ -746,7 +750,7 @@
     <span class="kw">let </span>x = AutoVersionFromDate {
         vec_file_metadata: vec_of_metadata,
     };
-    <span class="kw">let </span>y = <span class="macro">unwrap!</span>(serde_json::to_string(<span class="kw-2">&</span>x));
+    <span class="kw">let </span>y = <span class="macro">unwrap!</span>(serde_json::to_string_pretty(<span class="kw-2">&</span>x));
     <span class="kw">let </span>json_filepath = <span class="string">".automation_tasks_rs_file_hashes.json"</span>;
     <span class="kw">let </span>_f = fs::write(json_filepath, y);
 }
