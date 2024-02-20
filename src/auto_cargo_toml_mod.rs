@@ -94,6 +94,20 @@ impl crate::public_api_mod::CargoTomlPublicApiMethods for CargoToml {
             .as_ref()
             .map(|workspace| workspace.members.clone())
     }
+
+    /// github owner from package_repository
+    fn github_owner(&self) -> Option<String> {
+        match self.package_repository() {
+            Some(repository) => {
+                let splitted: Vec<&str> = repository
+                    .trim_start_matches("https://")
+                    .split("/")
+                    .collect();
+                Some(splitted[1].to_string())
+            }
+            None => None,
+        }
+    }
 }
 
 #[cfg(test)]

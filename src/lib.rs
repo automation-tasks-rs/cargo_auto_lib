@@ -20,6 +20,8 @@ mod auto_cargo_toml_to_md_mod;
 mod auto_check_micro_xml_mod;
 mod auto_delete_old_js_snippets_mod;
 mod auto_doc_tidy_html_mod;
+mod auto_git_mod;
+mod auto_github_mod;
 mod auto_helper_functions_mod;
 mod auto_lines_of_code_mod;
 mod auto_md_to_doc_comments_mod;

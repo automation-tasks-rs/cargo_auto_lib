@@ -6,6 +6,17 @@ use std::process::exit;
 
 use crate::public_api_mod::{RED, RESET};
 
+/// similar to std::process::Output, but with i32 and Strings for easier work
+#[derive(Debug)]
+pub struct ShellOutput {
+    /// The status (exit code) of the process.
+    pub status: i32,
+    /// The string that the process wrote to stdout.
+    pub stdout: String,
+    /// The string that the process wrote to stderr.
+    pub stderr: String,
+}
+
 /// run one shell command
 /// Stops task execution if the command has Exit Status != 0
 pub fn run_shell_command(shell_command: &str) {
@@ -21,7 +32,7 @@ pub fn run_shell_command(shell_command: &str) {
         .unwrap();
     let exit_code = status.code();
     if exit_code.is_some() && exit_code != Some(0) {
-        println!(
+        eprintln!(
             "{RED}!!! cargo_auto error {}. Stopping automation task execution !!!{RESET}",
             exit_code.unwrap()
         );
@@ -37,6 +48,24 @@ pub fn run_shell_commands(shell_commands: Vec<&str>) {
     }
 }
 
+/// run one shell command and return output {exit_status,stdout,stderr}
+pub fn run_shell_command_output(shell_command: &str) -> ShellOutput {
+    if !shell_command.starts_with("echo ") {
+        println!("    $ {}", shell_command);
+    }
+    let output = std::process::Command::new("sh")
+        .arg("-c")
+        .arg(shell_command)
+        .output()
+        .unwrap();
+    // return
+    ShellOutput {
+        status: output.status.code().unwrap(),
+        stdout: String::from_utf8(output.stdout).unwrap(),
+        stderr: String::from_utf8(output.stderr).unwrap(),
+    }
+}
+
 /// check if run in rust project root directory error
 /// there must be Cargo.toml and the directory automation_tasks_rs
 /// exit with error message if not
@@ -45,7 +74,7 @@ pub fn exit_if_not_run_in_rust_project_root_directory() {
         && (std::path::Path::new("Cargo.toml").exists()
             || std::path::Path::new("Cargo-auto.toml").exists()))
     {
-        println!("{RED}Error: automation_tasks_rs must be called in the root directory of the rust project beside the Cargo.toml (or Cargo-auto.toml) file and automation_tasks_rs directory.{RESET}");
+        eprintln!("{RED}Error: automation_tasks_rs must be called in the root directory of the rust project beside the Cargo.toml (or Cargo-auto.toml) file and automation_tasks_rs directory.{RESET}");
         // early exit
         std::process::exit(0);
     }
@@ -68,5 +97,20 @@ pub fn completion_return_one_or_more_sub_commands(
         for sub_command in sub_commands.iter() {
             println!("{}", sub_command);
         }
+    }
+}
+
+/// home_dir() using the home crate
+/// panics if HOME not found
+pub fn home_dir() -> std::path::PathBuf {
+    match home::home_dir() {
+        Some(path_buff) => {
+            if !path_buff.as_os_str().is_empty() {
+                path_buff
+            } else {
+                panic!("Unable to get your home dir!");
+            }
+        }
+        None => panic!("Unable to get your home dir!"),
     }
 }

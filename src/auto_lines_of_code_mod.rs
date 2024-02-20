@@ -121,14 +121,14 @@ fn process_git_remote() -> String {
     let output = match git_remote_output() {
         Ok(s) => s,
         Err(e) => {
-            println!("{RED}{}{RESET}", e);
+            eprintln!("{RED}{}{RESET}", e);
             return "".to_string();
         }
     };
     match regex_capture(output) {
         Ok(s) => s,
         Err(_e) => {
-            // println!("{RED}process_git_remote error: {}{RESET}", e);
+            // eprintln!("{RED}process_git_remote error: {}{RESET}", e);
             "".to_string()
         }
     }

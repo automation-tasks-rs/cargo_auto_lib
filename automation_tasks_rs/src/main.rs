@@ -48,7 +48,7 @@ fn match_arguments_and_call_tasks(mut args: std::env::Args) {
                 } else if &task == "publish_to_crates_io" {
                     task_publish_to_crates_io();
                 } else {
-                    println!("{RED}Error: Task {task} is unknown.{RESET}");
+                    eprintln!("{RED}Error: Task {task} is unknown.{RESET}");
                     print_help();
                 }
             }
@@ -186,7 +186,7 @@ cargo auto commit_and_push "message"{RESET}{YELLOW}
 /// commit and push
 fn task_commit_and_push(arg_2: Option<String>) {
     match arg_2 {
-        None => println!("{RED}Error: message for commit is mandatory.{RESET}"),
+        None => eprintln!("{RED}Error: message for commit is mandatory.{RESET}"),
         Some(message) => {
             // separate commit for docs if they changed, to not make a lot of noise in the real commit
             cl::run_shell_command(r#"git add docs && git diff --staged --quiet || git commit -m "update docs" "#);

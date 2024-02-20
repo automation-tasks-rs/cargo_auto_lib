@@ -56,7 +56,7 @@ pub fn auto_delete_old_js_snippets() {
                     }
                     // else
                     std::cmp::Ordering::Equal => {
-                        println!("{RED}Error: folders have the same date?{RESET}");
+                        eprintln!("{RED}Error: folders have the same date?{RESET}");
                     }
                 },
             }

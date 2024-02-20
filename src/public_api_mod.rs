@@ -36,6 +36,8 @@ pub const RESET: &str = "\x1b[0m";
 /// I use thiserror to return errors from the library.
 pub use crate::error_mod::ResultWithLibError;
 
+pub use crate::auto_helper_functions_mod::ShellOutput;
+
 // reexporting a struct needs to export the trait to also reexports all the methods
 pub use crate::auto_cargo_toml_mod::CargoToml;
 
@@ -57,12 +59,14 @@ pub trait CargoTomlPublicApiMethods {
     fn package_author_name(&self) -> String;
     /// Cargo.toml package repository
     fn package_repository(&self) -> Option<String>;
-    /// Cargo.toml package repository
+    /// Cargo.toml package description
     fn package_description(&self) -> Option<String>;
     /// Cargo.toml package homepage
     fn package_homepage(&self) -> String;
     /// Cargo.toml workspace members
     fn workspace_members(&self) -> Option<Vec<String>>;
+    /// github owner from package.repository
+    fn github_owner(&self) -> Option<String>;
 }
 // endregion:: Public API structs and methods
 
@@ -377,6 +381,64 @@ pub fn auto_version_from_date_forced() {
 pub fn auto_doc_tidy_html() -> ResultWithLibError<()> {
     crate::auto_doc_tidy_html_mod::auto_doc_tidy_html()
 }
+
+/// has git remote
+pub fn git_has_remote() -> bool {
+    crate::auto_git_mod::git_has_remote()
+}
+
+/// check if this folder is a local Git repository
+pub fn git_is_local_repository() -> bool {
+    crate::auto_git_mod::git_is_local_repository()
+}
+
+/// creates a new github repository
+pub fn api_call_repository_new(owner: &str, name: &str, description: &str) -> serde_json::Value {
+    crate::auto_github_mod::api_call_repository_new(owner, name, description)
+}
+pub fn run_shell_command_output(shell_command: &str) -> ShellOutput {
+    crate::auto_helper_functions_mod::run_shell_command_output(shell_command)
+}
+
+/// home_dir() using the home crate.
+/// panics if HOME not found
+pub fn home_dir() -> std::path::PathBuf {
+    crate::auto_helper_functions_mod::home_dir()
+}
+
+/// init repository if needed. A new local git repository and remote GitHub repository.
+pub fn init_repository_if_needed(message: &str) -> bool {
+    crate::auto_github_mod::init_repository_if_needed(message)
+}
+
+/// interactive ask to create a new remote GitHub repository
+pub fn new_remote_github_repository() -> Option<String> {
+    crate::auto_github_mod::new_remote_github_repository()
+}
+
+/// interactive ask to create a new local git repository
+pub fn new_local_repository(message: &str) -> Option<()> {
+    crate::auto_github_mod::new_local_repository(message)
+}
+
+/// check if this file is in ssh-add. Only the first 56 ascii characters are the fingerprint.
+/// After is a description, not important and sometimes different.
+/// if is not, then ssh-add and the user will enter the passcode.
+pub fn ssh_add_if_needed(github_ssh_for_push: String) -> Option<()> {
+    crate::auto_github_mod::ssh_add_if_needed(github_ssh_for_push)
+}
+
+/// parse the ~/.ssh/config. 99% probably there should be a record for github and there is the identity_file.
+pub fn get_identity_from_ssh_config() -> String {
+    crate::auto_github_mod::get_identity_from_ssh_config()
+}
+
+/// Ask the user for the filename of the ssh key used to push to GitHub.
+/// The default is githubssh1.
+pub fn ask_for_github_ssh_for_push() -> Option<std::path::PathBuf> {
+    crate::auto_github_mod::ask_for_github_ssh_for_push()
+}
+
 // endregion: Public API functions
 
 // endregion: PUBLIC API defines externally accessible functions and struct
