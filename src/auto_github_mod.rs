@@ -50,7 +50,7 @@ pub fn github_api_create_new_release(
     ...
     }
     */
- check_or_get_github_token().unwrap();
+    check_or_get_github_token().unwrap();
     let token = std::env::var("GITHUB_TOKEN").expect("GITHUB_TOKEN env variable is required");
     let releases_url = format!("https://api.github.com/repos/{owner}/{repo}/releases");
     let body = serde_json::json!({
@@ -284,7 +284,7 @@ pub fn new_remote_github_repository() -> Option<String> {
 
 /// check if the env var GITHUB_TOKEN exist
 /// or ask user interactively to type it
-fn check_or_get_github_token()->Option<()>{
+fn check_or_get_github_token() -> Option<()> {
     // read ENV variable GITHUB_TOKEN
     // if it does not exist, ask for it here.
     match std::env::var("GITHUB_TOKEN") {
@@ -430,4 +430,57 @@ You will not be asked to enter this filename manually every time.
     }
     // return
     Some(github_ssh_for_push)
+}
+
+/// sync, check, create, push git tag
+pub fn git_tag_sync_check_create_push(version: &str) -> String {
+    // sync the local and remote tags
+    crate::run_shell_command("git fetch origin --tags --force");
+
+    let tags = crate::run_shell_command_output("git tag").stdout;
+    let tag_name_version = format!("v{}", &version);
+    if !tags.contains(&format!("{}\n", tag_name_version)) {
+        // create git tag and push
+        let shell_command = format!("git tag -f -a {tag_name_version} -m version_{version}");
+        crate::run_shell_command(&shell_command);
+        crate::run_shell_command("git push origin --tags");
+    }
+    // return
+    tag_name_version
+}
+
+/// First, the user must write the content into file RELEASES.md in the section ## Unreleased.
+/// Then the automation task will copy the content to GitHub release
+/// and create a new Version title in RELEASES.md.
+pub fn body_text_from_releases_md(release_name: &str) -> Option<String> {
+    let release_md = std::fs::read_to_string("RELEASES.md").unwrap();
+    // find the start of ## Unreleased
+    let Some(pos_start_data) =
+        crate::find_pos_start_data_after_delimiter(&release_md, 0, "## Unreleased\n")
+    else {
+        return None;
+    };
+    // find the beginning of the next ## Version
+    let Some(pos_end_data) =
+        crate::find_pos_end_data_before_delimiter(&release_md, pos_start_data, "## Version ")
+    else {
+        return None;
+    };
+    let body_md_text = release_md[pos_start_data..pos_end_data - 1].to_string();
+
+    // create a new Version title after ## Unreleased in RELEASES.md
+    let new_release_md = format!(
+        "{}\n## {}\n{}",
+        &release_md[..pos_start_data],
+        &release_name,
+        &release_md[pos_start_data..]
+    );
+    std::fs::write("RELEASES.md", new_release_md).unwrap();
+    // return
+    Some(body_md_text)
+}
+
+/// the UTC date in iso standard 2024-12-31
+pub fn now_utc_date_iso() -> String {
+    chrono::Utc::now().format("%Y-%m-%d").to_string()
 }

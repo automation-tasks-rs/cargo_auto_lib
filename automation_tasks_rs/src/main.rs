@@ -81,8 +81,6 @@ fn print_help() {
 {GREEN}cargo auto github_new_release{RESET}{YELLOW} - creates new release on github{RESET}
     {YELLOW}This task needs the Personal Access Token Classic from <https://github.com/settings/tokens>{RESET}
 
-{GREEN} export GITHUB_TOKEN=paste_token_here{RESET}
-
     {YELLOW}© 2024 bestia.dev  MIT License github.com/bestia-dev/cargo-auto{RESET}
 "#
     );
@@ -241,17 +239,11 @@ fn task_commit_and_push(arg_2: Option<String>) {
 
 /// publish to crates.io and git tag
 fn task_publish_to_crates_io() {
-    println!(
-        r#"{YELLOW}The crates.io access token must already be saved locally with ` cargo login TOKEN`{RESET}"#
-    );
-
     let cargo_toml = cl::CargoToml::read();
-    // git tag
-    let shell_command = format!(
-        "git tag -f -a v{version} -m version_{version}",
-        version = cargo_toml.package_version()
-    );
-    cl::run_shell_command(&shell_command);
+    let package_name = cargo_toml.package_name();
+    let version = cargo_toml.package_version();
+    // take care of tags
+    let tag_name_version = cl::git_tag_sync_check_create_push(&version);
 
     // cargo publish
     cl::run_shell_command("cargo publish");
@@ -260,42 +252,31 @@ fn task_publish_to_crates_io() {
     {YELLOW}After `cargo auto publish_to_crates_io`, check in browser{RESET}
 {GREEN}https://crates.io/crates/{package_name}{RESET}
     {YELLOW}Add the dependency to your Rust project and check how it works.{RESET}
-{GREEN}{package_name} = "{package_version}"{RESET}
-    {YELLOW}Then create the GitHub-Release.{RESET}    
+{GREEN}{package_name} = "{version}"{RESET}
+    {YELLOW}Then create the GitHub-Release for {tag_name_version}.{RESET}
+    {YELLOW}First write the content of the release in the RELEASES.md in the `## Unreleased` section, then{RESET}
 {GREEN}cargo auto github_new_release{RESET}
-"#,
-        package_name = cargo_toml.package_name(),
-        package_version = cargo_toml.package_version()
+"#
     );
 }
 
 /// create a new release on github
 fn task_github_new_release() {
     let cargo_toml = cl::CargoToml::read();
-    // TODO: if env var not exist, ask user interactively for the TOKEN
-    println!("
-    {YELLOW}The env variable GITHUB_TOKEN must be set:  export GITHUB_TOKEN=paste_token_here{RESET}"
-);
-
-    // the git tag was already created when we published to crates.io
-    // TODO: if git tag does not exist, create it.
+    let version = cargo_toml.package_version();
+    // take care of tags
+    let tag_name_version = cl::git_tag_sync_check_create_push(&version);
 
     let owner = cargo_toml.github_owner().unwrap();
     let repo_name = cargo_toml.package_name();
-    let tag_name_version = format!("v{}", cargo_toml.package_version());
-    let release_name = format!("Release v{}", cargo_toml.package_version());
+    let now_date = cl::now_utc_date_iso();
+    let release_name = format!("Version {} ({})", &version, now_date);
     let branch = "main";
 
-    // TODO: read the body from the file RELEASES.md
-    // The user have to write first into this file, then the automation will copy it to GitHub.
-    // But first i want this task, to generate the consistent template for the RELEASES.md.
-    let body_md_text = &format!(
-        r#"## Changed
-
-- edit the list of changes
-          
-"#
-    );
+    // First, the user must write the content into file RELEASES.md in the section ## Unreleased.
+    // Then the automation task will copy the content to GitHub release
+    // and create a new Version title in RELEASES.md.
+    let body_md_text = cl::body_text_from_releases_md(&release_name).unwrap();
 
     let _release_id = cl::github_api_create_new_release(
         &owner,
@@ -303,30 +284,38 @@ fn task_github_new_release() {
         &tag_name_version,
         &release_name,
         branch,
-        body_md_text,
+        &body_md_text,
     );
+
     println!(
         "
-    {YELLOW}New GitHub release created: {release_name}.{RESET}"
+    {YELLOW}New GitHub release created: {release_name}.{RESET}
+"
     );
 
     /*
-            // region: upload asset only for executables, not for libraries
-            println!("
-        {YELLOW}Now uploading release asset. This can take some time if the files are big. Wait...{RESET}"
+        // region: upload asset only for executables, not for libraries
+        println!("
+        {YELLOW}Now uploading release asset. This can take some time if the files are big. Wait...{RESET}
+    ");
+        // compress files tar.gz
+        let tar_name = format!("{repo_name}-{tag_name_version}-x86_64-unknown-linux-gnu.tar.gz");
+        cl::run_shell_command(&format!("tar -zcvf {tar_name} target/release/{repo_name}"));
+
+        // upload asset
+        cl::github_api_upload_asset_to_release(&owner, &repo_name, &release_id, &tar_name).await;
+        cl::run_shell_command(&format!("rm {tar_name}"));
+
+        println!("
+        {YELLOW}Asset uploaded. Open and edit the description on GitHub Releases in the browser.{RESET}
+    ");
+        // endregion: upload asset only for executables, not for libraries
+
+        */
+    println!(
+        "
+{GREEN}https://github.com/{owner}/{repo_name}/releases{RESET}
+    "
     );
-            // compress files tar.gz
-            let tar_name = format!("{repo_name}-{tag_name_version}-x86_64-unknown-linux-gnu.tar.gz");
-            cl::run_shell_command(&format!("tar -zcvf {tar_name} target/release/{repo_name}"));
-
-            // upload asset
-            cl::github_api_upload_asset_to_release(&owner, &repo_name, &release_id, &tar_name).await;
-            cl::run_shell_command(&format!("rm {tar_name}"));
-
-            println!("    {YELLOW}Asset uploaded. Open and edit the description on GitHub Releases in the browser.{RESET}");
-            // endregion: upload asset only for executables, not for libraries
-
-    */
-    println!("{GREEN}https://github.com/{owner}/{repo_name}/releases{RESET}");
 }
 // endregion: tasks

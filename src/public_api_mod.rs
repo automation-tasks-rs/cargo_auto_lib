@@ -492,6 +492,23 @@ pub fn github_api_upload_asset_to_release(
     )
 }
 
+/// sync, check, create, push git tag
+pub fn git_tag_sync_check_create_push(version: &str) -> String {
+    crate::auto_github_mod::git_tag_sync_check_create_push(version)
+}
+
+/// First, the user must write the content into file RELEASES.md in the section ## Unreleased.
+/// Then the automation task will copy the content to GitHub release
+/// and create a new Version title in RELEASES.md.
+pub fn body_text_from_releases_md(release_name: &str) -> Option<String> {
+    crate::auto_github_mod::body_text_from_releases_md(release_name)
+}
+
+/// the UTC date in iso standard 2024-12-31
+pub fn now_utc_date_iso() -> String {
+    crate::auto_github_mod::now_utc_date_iso()
+}
+
 // endregion: Public API functions
 
 // endregion: PUBLIC API defines externally accessible functions and struct

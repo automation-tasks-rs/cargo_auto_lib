@@ -70,6 +70,7 @@ name = "automation_tasks_rs"
 version = "0.1.1"
 dependencies = [
  "cargo_auto_lib",
+ "pretty_dbg",
 ]
 
 [[package]]
@@ -134,7 +135,7 @@ checksum = "a2bd12c1caf447e69cd4528f47f94d203fd2582878ecb9e9465484c4148a8223"
 
 [[package]]
 name = "cargo_auto_lib"
-version = "1.2.3"
+version = "1.2.4"
 dependencies = [
  "anyhow",
  "base64ct",

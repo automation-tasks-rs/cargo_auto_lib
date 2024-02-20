@@ -3,13 +3,12 @@
 All notable changes to this project will be documented in this file.  
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).  
 The library releases will be published on crates.io.  
-A git tag and GitHub release will be created with the same text as this file.  
-I will use the cargo-auto automation tasks to use the content of this file to create a tag and github release consistently.  
+The cargo-auto automation task will use the content of the section `## Unreleased` to create
+the GitHub release consistently with this file.  
+The ongoing changes that are not released, are visible in the git commits and github pull requests.  
+The TODO section is part of the [README.md](https://github.com/bestia-dev/cargo_auto_lib).  
 
 ## Unreleased
-
-The ongoing changes that are not released are visible in the git commits and github pull requests.  
-The TODO section is part of the [README.md](https://github.com/bestia-dev/cargo_auto_lib).  
 
 ## Version 1.2.3 (2024-02-20)
 
