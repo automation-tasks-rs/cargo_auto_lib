@@ -35,7 +35,7 @@
     <div class="sidebar-crate">
       <a class="logo-container" href="../../cargo_auto_lib/index.html"><img src=
       "https://github.com/bestia-dev/cargo-auto/raw/main/images/logo/logo_cargo_auto.svg" alt="logo"></a>
-      <h2><a href="../../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">1.2.3</span></h2>
+      <h2><a href="../../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">1.2.4</span></h2>
     </div>
     <h2 class="location"><a href="#">Module auto_github_mod</a></h2>
     <div class="sidebar-elems">
@@ -71,7 +71,7 @@
         <div class="main-heading">
           <h1>Module <a href="../index.html">cargo_auto_lib</a>::<wbr><a class="mod" href="#">auto_github_mod</a><button id="copy-path" title=
           "Copy item path to clipboard"><img src="../../static.files/clipboard-7571035ce49a181d.svg" width="19" height="18" alt=
-          "Copy item path"></button></h1><span class="out-of-band"><a class="src" href="../../src/cargo_auto_lib/auto_github_mod.rs.html#3-427">source</a> ·
+          "Copy item path"></button></h1><span class="out-of-band"><a class="src" href="../../src/cargo_auto_lib/auto_github_mod.rs.html#3-486">source</a> ·
           <button id="toggle-all-docs" title="collapse all docs">[<span>−</span>]</button></span>
         </div>
         <h2 id="functions" class="section-header"><a href="#functions">Functions</a></h2>
@@ -87,11 +87,39 @@
           </li>
           <li>
             <div class="item-name">
+              <a class="fn" href="fn.body_text_from_releases_md.html" title=
+              "fn cargo_auto_lib::auto_github_mod::body_text_from_releases_md">body_text_from_releases_md</a>
+            </div>
+            <div class="desc docblock-short">
+              First, the user must write the content into file RELEASES.md in the section ## Unreleased. Then the automation task will copy the content to
+              GitHub release and create a new Version title in RELEASES.md.
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="fn" href="fn.check_or_get_github_token.html" title=
+              "fn cargo_auto_lib::auto_github_mod::check_or_get_github_token">check_or_get_github_token</a><span title="Restricted Visibility">&nbsp;🔒</span>
+            </div>
+            <div class="desc docblock-short">
+              check if the env var GITHUB_TOKEN exist or ask user interactively to type it
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
               <a class="fn" href="fn.get_identity_from_ssh_config.html" title=
               "fn cargo_auto_lib::auto_github_mod::get_identity_from_ssh_config">get_identity_from_ssh_config</a>
             </div>
             <div class="desc docblock-short">
               parse the ~/.ssh/config. 99% probably there should be a record for github and there is the identity_file.
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="fn" href="fn.git_tag_sync_check_create_push.html" title=
+              "fn cargo_auto_lib::auto_github_mod::git_tag_sync_check_create_push">git_tag_sync_check_create_push</a>
+            </div>
+            <div class="desc docblock-short">
+              sync, check, create, push git tag
             </div>
           </li>
           <li>
@@ -157,6 +185,14 @@
             </div>
             <div class="desc docblock-short">
               interactive ask to create a new remote GitHub repository
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="fn" href="fn.now_utc_date_iso.html" title="fn cargo_auto_lib::auto_github_mod::now_utc_date_iso">now_utc_date_iso</a>
+            </div>
+            <div class="desc docblock-short">
+              the UTC date in iso standard 2024-12-31
             </div>
           </li>
           <li>

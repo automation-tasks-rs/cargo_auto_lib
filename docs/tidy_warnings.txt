@@ -1209,6 +1209,10 @@ line 2 column 81 - Warning: trimming empty <span>
 Document: "2" is not a file!
 
 line 2 column 81 - Warning: trimming empty <span>
+./docs/cargo_auto_lib/fn.git_tag_sync_check_create_push.html
+Document: "2" is not a file!
+
+line 2 column 81 - Warning: trimming empty <span>
 ./docs/cargo_auto_lib/auto_version_from_date_mod/fn.are_files_equal.html
 Document: "2" is not a file!
 
@@ -1821,6 +1825,10 @@ Document: "2" is not a file!
 
 line 2 column 81 - Warning: trimming empty <span>
 ./docs/cargo_auto_lib/constant.RED.html
+Document: "2" is not a file!
+
+line 2 column 81 - Warning: trimming empty <span>
+./docs/cargo_auto_lib/fn.now_utc_date_iso.html
 Document: "2" is not a file!
 
 line 2 column 81 - Warning: trimming empty <span>
@@ -3098,6 +3106,10 @@ line 2 column 81 - Warning: trimming empty <span>
 Document: "2" is not a file!
 
 line 2 column 81 - Warning: trimming empty <span>
+./docs/cargo_auto_lib/auto_github_mod/fn.git_tag_sync_check_create_push.html
+Document: "2" is not a file!
+
+line 2 column 81 - Warning: trimming empty <span>
 ./docs/cargo_auto_lib/auto_github_mod/fn.new_remote_github_repository.html
 Document: "2" is not a file!
 
@@ -3106,7 +3118,15 @@ line 2 column 81 - Warning: trimming empty <span>
 Document: "2" is not a file!
 
 line 2 column 81 - Warning: trimming empty <span>
+./docs/cargo_auto_lib/auto_github_mod/fn.now_utc_date_iso.html
+Document: "2" is not a file!
+
+line 2 column 81 - Warning: trimming empty <span>
 ./docs/cargo_auto_lib/auto_github_mod/fn.github_api_repository_new.html
+Document: "2" is not a file!
+
+line 2 column 81 - Warning: trimming empty <span>
+./docs/cargo_auto_lib/auto_github_mod/fn.check_or_get_github_token.html
 Document: "2" is not a file!
 
 line 2 column 81 - Warning: trimming empty <span>
@@ -3119,6 +3139,10 @@ Document: "2" is not a file!
 
 line 2 column 81 - Warning: trimming empty <span>
 ./docs/cargo_auto_lib/auto_github_mod/fn.init_repository_if_needed.html
+Document: "2" is not a file!
+
+line 2 column 81 - Warning: trimming empty <span>
+./docs/cargo_auto_lib/auto_github_mod/fn.body_text_from_releases_md.html
 Document: "2" is not a file!
 
 line 2 column 81 - Warning: trimming empty <span>
@@ -3428,6 +3452,10 @@ line 2 column 81 - Warning: trimming empty <span>
 Document: "2" is not a file!
 
 line 2 column 81 - Warning: trimming empty <span>
+./docs/cargo_auto_lib/public_api_mod/fn.git_tag_sync_check_create_push.html
+Document: "2" is not a file!
+
+line 2 column 81 - Warning: trimming empty <span>
 ./docs/cargo_auto_lib/public_api_mod/fn.exit_if_not_run_in_rust_project_root_directory.html
 Document: "2" is not a file!
 
@@ -3465,6 +3493,10 @@ Document: "2" is not a file!
 
 line 2 column 81 - Warning: trimming empty <span>
 ./docs/cargo_auto_lib/public_api_mod/constant.RED.html
+Document: "2" is not a file!
+
+line 2 column 81 - Warning: trimming empty <span>
+./docs/cargo_auto_lib/public_api_mod/fn.now_utc_date_iso.html
 Document: "2" is not a file!
 
 line 2 column 81 - Warning: trimming empty <span>
@@ -3555,6 +3587,10 @@ line 2 column 81 - Warning: trimming empty <span>
 Document: "2" is not a file!
 
 line 2 column 81 - Warning: trimming empty <span>
+./docs/cargo_auto_lib/public_api_mod/fn.body_text_from_releases_md.html
+Document: "2" is not a file!
+
+line 2 column 81 - Warning: trimming empty <span>
 ./docs/cargo_auto_lib/public_api_mod/fn.auto_version_from_date.html
 Document: "2" is not a file!
 
@@ -3592,6 +3628,10 @@ Document: "2" is not a file!
 
 line 2 column 81 - Warning: trimming empty <span>
 ./docs/cargo_auto_lib/public_api_mod/fn.run_shell_commands.html
+Document: "2" is not a file!
+
+line 2 column 81 - Warning: trimming empty <span>
+./docs/cargo_auto_lib/fn.body_text_from_releases_md.html
 Document: "2" is not a file!
 
 line 2 column 81 - Warning: trimming empty <span>
