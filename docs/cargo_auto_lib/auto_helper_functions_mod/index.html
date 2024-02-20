@@ -35,12 +35,15 @@
     <div class="sidebar-crate">
       <a class="logo-container" href="../../cargo_auto_lib/index.html"><img src=
       "https://github.com/bestia-dev/cargo-auto/raw/main/images/logo/logo_cargo_auto.svg" alt="logo"></a>
-      <h2><a href="../../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">1.1.32</span></h2>
+      <h2><a href="../../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">1.1.35</span></h2>
     </div>
     <h2 class="location"><a href="#">Module auto_helper_functions_mod</a></h2>
     <div class="sidebar-elems">
       <section>
         <ul class="block">
+          <li>
+            <a href="#structs">Structs</a>
+          </li>
           <li>
             <a href="#functions">Functions</a>
           </li>
@@ -72,7 +75,7 @@
           <h1>Module <a href="../index.html">cargo_auto_lib</a>::<wbr><a class="mod" href="#">auto_helper_functions_mod</a><button id="copy-path" title=
           "Copy item path to clipboard"><img src="../../static.files/clipboard-7571035ce49a181d.svg" width="19" height="18" alt=
           "Copy item path"></button></h1><span class="out-of-band"><a class="src" href=
-          "../../src/cargo_auto_lib/auto_helper_functions_mod.rs.html#3-72">source</a> · <button id="toggle-all-docs" title=
+          "../../src/cargo_auto_lib/auto_helper_functions_mod.rs.html#3-116">source</a> · <button id="toggle-all-docs" title=
           "collapse all docs">[<span>−</span>]</button></span>
         </div>
         <details class="toggle top-doc" open="">
@@ -83,6 +86,17 @@
             <p>various helper functions</p>
           </div>
         </details>
+        <h2 id="structs" class="section-header"><a href="#structs">Structs</a></h2>
+        <ul class="item-table">
+          <li>
+            <div class="item-name">
+              <a class="struct" href="struct.ShellOutput.html" title="struct cargo_auto_lib::auto_helper_functions_mod::ShellOutput">ShellOutput</a>
+            </div>
+            <div class="desc docblock-short">
+              similar to std::process::Output, but with i32 and Strings for easier work
+            </div>
+          </li>
+        </ul>
         <h2 id="functions" class="section-header"><a href="#functions">Functions</a></h2>
         <ul class="item-table">
           <li>
@@ -105,10 +119,27 @@
           </li>
           <li>
             <div class="item-name">
+              <a class="fn" href="fn.home_dir.html" title="fn cargo_auto_lib::auto_helper_functions_mod::home_dir">home_dir</a>
+            </div>
+            <div class="desc docblock-short">
+              home_dir() using the home crate panics if HOME not found
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
               <a class="fn" href="fn.run_shell_command.html" title="fn cargo_auto_lib::auto_helper_functions_mod::run_shell_command">run_shell_command</a>
             </div>
             <div class="desc docblock-short">
               run one shell command Stops task execution if the command has Exit Status != 0
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="fn" href="fn.run_shell_command_output.html" title=
+              "fn cargo_auto_lib::auto_helper_functions_mod::run_shell_command_output">run_shell_command_output</a>
+            </div>
+            <div class="desc docblock-short">
+              run one shell command and return output {exit_status,stdout,stderr}
             </div>
           </li>
           <li>

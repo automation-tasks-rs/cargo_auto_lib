@@ -35,7 +35,7 @@
     <div class="sidebar-crate">
       <a class="logo-container" href="../../cargo_auto_lib/index.html"><img src=
       "https://github.com/bestia-dev/cargo-auto/raw/main/images/logo/logo_cargo_auto.svg" alt="logo"></a>
-      <h2><a href="../../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">1.1.32</span></h2>
+      <h2><a href="../../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">1.1.35</span></h2>
     </div>
     <h2 class="location"><a href="#">Module public_api_mod</a></h2>
     <div class="sidebar-elems">
@@ -80,7 +80,7 @@
         <div class="main-heading">
           <h1>Module <a href="../index.html">cargo_auto_lib</a>::<wbr><a class="mod" href="#">public_api_mod</a><button id="copy-path" title=
           "Copy item path to clipboard"><img src="../../static.files/clipboard-7571035ce49a181d.svg" width="19" height="18" alt=
-          "Copy item path"></button></h1><span class="out-of-band"><a class="src" href="../../src/cargo_auto_lib/public_api_mod.rs.html#28-379">source</a> ·
+          "Copy item path"></button></h1><span class="out-of-band"><a class="src" href="../../src/cargo_auto_lib/public_api_mod.rs.html#28-440">source</a> ·
           <button id="toggle-all-docs" title="collapse all docs">[<span>−</span>]</button></span>
         </div>
         <h2 id="reexports" class="section-header"><a href="#reexports">Re-exports</a></h2>
@@ -89,6 +89,12 @@
             <div class="item-name" id="reexport.ResultWithLibError">
               <code>pub use crate::error_mod::<a class="type" href="../error_mod/type.ResultWithLibError.html" title=
               "type cargo_auto_lib::error_mod::ResultWithLibError">ResultWithLibError</a>;</code>
+            </div>
+          </li>
+          <li>
+            <div class="item-name" id="reexport.ShellOutput">
+              <code>pub use crate::auto_helper_functions_mod::<a class="struct" href="../auto_helper_functions_mod/struct.ShellOutput.html" title=
+              "struct cargo_auto_lib::auto_helper_functions_mod::ShellOutput">ShellOutput</a>;</code>
             </div>
           </li>
           <li>
@@ -132,6 +138,24 @@
         </ul>
         <h2 id="functions" class="section-header"><a href="#functions">Functions</a></h2>
         <ul class="item-table">
+          <li>
+            <div class="item-name">
+              <a class="fn" href="fn.api_call_repository_new.html" title=
+              "fn cargo_auto_lib::public_api_mod::api_call_repository_new">api_call_repository_new</a>
+            </div>
+            <div class="desc docblock-short">
+              creates a new github repository
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="fn" href="fn.ask_for_github_ssh_for_push.html" title=
+              "fn cargo_auto_lib::public_api_mod::ask_for_github_ssh_for_push">ask_for_github_ssh_for_push</a>
+            </div>
+            <div class="desc docblock-short">
+              Ask the user for the filename of the ssh key used to push to GitHub. The default is githubssh1.
+            </div>
+          </li>
           <li>
             <div class="item-name">
               <a class="fn" href="fn.auto_cargo_toml_to_md.html" title="fn cargo_auto_lib::public_api_mod::auto_cargo_toml_to_md">auto_cargo_toml_to_md</a>
@@ -363,7 +387,67 @@
           </li>
           <li>
             <div class="item-name">
+              <a class="fn" href="fn.get_identity_from_ssh_config.html" title=
+              "fn cargo_auto_lib::public_api_mod::get_identity_from_ssh_config">get_identity_from_ssh_config</a>
+            </div>
+            <div class="desc docblock-short">
+              parse the ~/.ssh/config. 99% probably there should be a record for github and there is the identity_file.
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="fn" href="fn.git_has_remote.html" title="fn cargo_auto_lib::public_api_mod::git_has_remote">git_has_remote</a>
+            </div>
+            <div class="desc docblock-short">
+              has git remote
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="fn" href="fn.git_is_local_repository.html" title=
+              "fn cargo_auto_lib::public_api_mod::git_is_local_repository">git_is_local_repository</a>
+            </div>
+            <div class="desc docblock-short">
+              check if this folder is a local Git repository
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
               <a class="fn" href="fn.hash_for_filename.html" title="fn cargo_auto_lib::public_api_mod::hash_for_filename">hash_for_filename</a>
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="fn" href="fn.home_dir.html" title="fn cargo_auto_lib::public_api_mod::home_dir">home_dir</a>
+            </div>
+            <div class="desc docblock-short">
+              home_dir() using the home crate. panics if HOME not found
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="fn" href="fn.init_repository_if_needed.html" title=
+              "fn cargo_auto_lib::public_api_mod::init_repository_if_needed">init_repository_if_needed</a>
+            </div>
+            <div class="desc docblock-short">
+              init repository if needed. A new local git repository and remote GitHub repository.
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="fn" href="fn.new_local_repository.html" title="fn cargo_auto_lib::public_api_mod::new_local_repository">new_local_repository</a>
+            </div>
+            <div class="desc docblock-short">
+              interactive ask to create a new local git repository
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="fn" href="fn.new_remote_github_repository.html" title=
+              "fn cargo_auto_lib::public_api_mod::new_remote_github_repository">new_remote_github_repository</a>
+            </div>
+            <div class="desc docblock-short">
+              interactive ask to create a new remote GitHub repository
             </div>
           </li>
           <li>
@@ -376,10 +460,25 @@
           </li>
           <li>
             <div class="item-name">
+              <a class="fn" href="fn.run_shell_command_output.html" title=
+              "fn cargo_auto_lib::public_api_mod::run_shell_command_output">run_shell_command_output</a>
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
               <a class="fn" href="fn.run_shell_commands.html" title="fn cargo_auto_lib::public_api_mod::run_shell_commands">run_shell_commands</a>
             </div>
             <div class="desc docblock-short">
               run shell commands from a vector of strings. Stops task execution if oe of the commands has Exit Status != 0
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="fn" href="fn.ssh_add_if_needed.html" title="fn cargo_auto_lib::public_api_mod::ssh_add_if_needed">ssh_add_if_needed</a>
+            </div>
+            <div class="desc docblock-short">
+              check if this file is in ssh-add. Only the first 56 ascii characters are the fingerprint. After is a description, not important and sometimes
+              different. if is not, then ssh-add and the user will enter the passcode.
             </div>
           </li>
           <li>

@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":["git_has_remote","git_is_local_repository"]};

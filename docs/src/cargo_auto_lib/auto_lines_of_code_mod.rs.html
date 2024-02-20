@@ -506,14 +506,14 @@
     <span class="kw">let </span>output = <span class="kw">match </span>git_remote_output() {
         <span class="prelude-val">Ok</span>(s) =&gt; s,
         <span class="prelude-val">Err</span>(e) =&gt; {
-            <span class="macro">println!</span>(<span class="string">"{RED}{}{RESET}"</span>, e);
+            <span class="macro">eprintln!</span>(<span class="string">"{RED}{}{RESET}"</span>, e);
             <span class="kw">return </span><span class="string">""</span>.to_string();
         }
     };
     <span class="kw">match </span>regex_capture(output) {
         <span class="prelude-val">Ok</span>(s) =&gt; s,
         <span class="prelude-val">Err</span>(_e) =&gt; {
-            <span class="comment">// println!("{RED}process_git_remote error: {}{RESET}", e);
+            <span class="comment">// eprintln!("{RED}process_git_remote error: {}{RESET}", e);
             </span><span class="string">""</span>.to_string()
         }
     }

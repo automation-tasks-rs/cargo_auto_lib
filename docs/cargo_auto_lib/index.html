@@ -35,7 +35,7 @@
     <div class="sidebar-crate">
       <a class="logo-container" href="../cargo_auto_lib/index.html"><img src=
       "https://github.com/bestia-dev/cargo-auto/raw/main/images/logo/logo_cargo_auto.svg" alt="logo"></a>
-      <h2><a href="../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">1.1.32</span></h2>
+      <h2><a href="../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">1.1.35</span></h2>
     </div>
     <div class="sidebar-elems">
       <ul class="block">
@@ -88,7 +88,7 @@
         <div class="main-heading">
           <h1>Crate <a class="mod" href="#">cargo_auto_lib</a><button id="copy-path" title="Copy item path to clipboard"><img src=
           "../static.files/clipboard-7571035ce49a181d.svg" width="19" height="18" alt="Copy item path"></button></h1><span class="out-of-band"><a class="src"
-          href="../src/cargo_auto_lib/lib.rs.html#4-36">source</a> · <button id="toggle-all-docs" title="collapse all docs">[<span>−</span>]</button></span>
+          href="../src/cargo_auto_lib/lib.rs.html#4-38">source</a> · <button id="toggle-all-docs" title="collapse all docs">[<span>−</span>]</button></span>
         </div>
         <details class="toggle top-doc" open="">
           <summary class="hideme">
@@ -98,7 +98,7 @@
             <h2 id="cargo_auto_lib"><a href="#cargo_auto_lib">cargo_auto_lib</a></h2>
             <p><strong>Library crate for common tasks when building rust projects. Intended for use with cargo-auto - automation tasks written in Rust
             language.</strong><br>
-            <em><strong>version: 1.1.32 date: 2024-02-19 author: <a href="https://bestia.dev">Bestia.dev</a> repository: <a href=
+            <em><strong>version: 1.1.35 date: 2024-02-20 author: <a href="https://bestia.dev">Bestia.dev</a> repository: <a href=
             "https://github.com/bestia-dev/cargo_auto_lib">GitHub</a></strong></em></p>
             <p><img src="https://raw.githubusercontent.com/bestia-dev/cargo-auto/main/images/logo/logo_cargo_auto.svg" alt="logo"> <img src=
             "https://img.shields.io/badge/maintained-green" alt="status"> <img src="https://img.shields.io/badge/ready_for_use-green" alt="status"></p>
@@ -111,10 +111,10 @@
             "License"></a> <a href="https://github.com/bestia-dev/cargo_auto_lib/"><img src=
             "https://github.com/bestia-dev/cargo_auto_lib/workflows/rust_fmt_auto_build_test/badge.svg" alt="Rust"></a> <img src=
             "https://bestia.dev/webpage_hit_counter/get_svg_image/276360626.svg" alt="Hits"></p>
-            <p><a href="https://github.com/bestia-dev/cargo_auto_lib/"><img src="https://img.shields.io/badge/Lines_in_Rust-1654-green.svg" alt=
+            <p><a href="https://github.com/bestia-dev/cargo_auto_lib/"><img src="https://img.shields.io/badge/Lines_in_Rust-2013-green.svg" alt=
             "Lines in Rust code"></a> <a href="https://github.com/bestia-dev/cargo_auto_lib/"><img src=
-            "https://img.shields.io/badge/Lines_in_Doc_comments-497-blue.svg" alt="Lines in Doc comments"></a> <a href=
-            "https://github.com/bestia-dev/cargo_auto_lib/"><img src="https://img.shields.io/badge/Lines_in_comments-251-purple.svg" alt=
+            "https://img.shields.io/badge/Lines_in_Doc_comments-533-blue.svg" alt="Lines in Doc comments"></a> <a href=
+            "https://github.com/bestia-dev/cargo_auto_lib/"><img src="https://img.shields.io/badge/Lines_in_comments-296-purple.svg" alt=
             "Lines in Comments"></a> <a href="https://github.com/bestia-dev/cargo_auto_lib/"><img src=
             "https://img.shields.io/badge/Lines_in_examples-37-yellow.svg" alt="Lines in examples"></a> <a href=
             "https://github.com/bestia-dev/cargo_auto_lib/"><img src="https://img.shields.io/badge/Lines_in_tests-105-orange.svg" alt="Lines in tests"></a></p>
@@ -258,6 +258,21 @@ cargo auto doc{RESET}{YELLOW}
           </li>
           <li>
             <div class="item-name">
+              <a class="mod" href="auto_git_mod/index.html" title="mod cargo_auto_lib::auto_git_mod">auto_git_mod</a><span title=
+              "Restricted Visibility">&nbsp;🔒</span>
+            </div>
+            <div class="desc docblock-short">
+              Functions to work with git from automation_tasks_rs
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="mod" href="auto_github_mod/index.html" title="mod cargo_auto_lib::auto_github_mod">auto_github_mod</a><span title=
+              "Restricted Visibility">&nbsp;🔒</span>
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
               <a class="mod" href="auto_helper_functions_mod/index.html" title=
               "mod cargo_auto_lib::auto_helper_functions_mod">auto_helper_functions_mod</a><span title="Restricted Visibility">&nbsp;🔒</span>
             </div>
@@ -353,6 +368,14 @@ cargo auto doc{RESET}{YELLOW}
               <a class="struct" href="struct.CargoToml.html" title="struct cargo_auto_lib::CargoToml">CargoToml</a>
             </div>
           </li>
+          <li>
+            <div class="item-name">
+              <a class="struct" href="struct.ShellOutput.html" title="struct cargo_auto_lib::ShellOutput">ShellOutput</a>
+            </div>
+            <div class="desc docblock-short">
+              similar to std::process::Output, but with i32 and Strings for easier work
+            </div>
+          </li>
         </ul>
         <h2 id="constants" class="section-header"><a href="#constants">Constants</a></h2>
         <ul class="item-table">
@@ -388,6 +411,22 @@ cargo auto doc{RESET}{YELLOW}
         </ul>
         <h2 id="functions" class="section-header"><a href="#functions">Functions</a></h2>
         <ul class="item-table">
+          <li>
+            <div class="item-name">
+              <a class="fn" href="fn.api_call_repository_new.html" title="fn cargo_auto_lib::api_call_repository_new">api_call_repository_new</a>
+            </div>
+            <div class="desc docblock-short">
+              creates a new github repository
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="fn" href="fn.ask_for_github_ssh_for_push.html" title="fn cargo_auto_lib::ask_for_github_ssh_for_push">ask_for_github_ssh_for_push</a>
+            </div>
+            <div class="desc docblock-short">
+              Ask the user for the filename of the ssh key used to push to GitHub. The default is githubssh1.
+            </div>
+          </li>
           <li>
             <div class="item-name">
               <a class="fn" href="fn.auto_cargo_toml_to_md.html" title="fn cargo_auto_lib::auto_cargo_toml_to_md">auto_cargo_toml_to_md</a>
@@ -614,7 +653,65 @@ cargo auto doc{RESET}{YELLOW}
           </li>
           <li>
             <div class="item-name">
+              <a class="fn" href="fn.get_identity_from_ssh_config.html" title=
+              "fn cargo_auto_lib::get_identity_from_ssh_config">get_identity_from_ssh_config</a>
+            </div>
+            <div class="desc docblock-short">
+              parse the ~/.ssh/config. 99% probably there should be a record for github and there is the identity_file.
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="fn" href="fn.git_has_remote.html" title="fn cargo_auto_lib::git_has_remote">git_has_remote</a>
+            </div>
+            <div class="desc docblock-short">
+              has git remote
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="fn" href="fn.git_is_local_repository.html" title="fn cargo_auto_lib::git_is_local_repository">git_is_local_repository</a>
+            </div>
+            <div class="desc docblock-short">
+              check if this folder is a local Git repository
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
               <a class="fn" href="fn.hash_for_filename.html" title="fn cargo_auto_lib::hash_for_filename">hash_for_filename</a>
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="fn" href="fn.home_dir.html" title="fn cargo_auto_lib::home_dir">home_dir</a>
+            </div>
+            <div class="desc docblock-short">
+              home_dir() using the home crate. panics if HOME not found
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="fn" href="fn.init_repository_if_needed.html" title="fn cargo_auto_lib::init_repository_if_needed">init_repository_if_needed</a>
+            </div>
+            <div class="desc docblock-short">
+              init repository if needed. A new local git repository and remote GitHub repository.
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="fn" href="fn.new_local_repository.html" title="fn cargo_auto_lib::new_local_repository">new_local_repository</a>
+            </div>
+            <div class="desc docblock-short">
+              interactive ask to create a new local git repository
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="fn" href="fn.new_remote_github_repository.html" title=
+              "fn cargo_auto_lib::new_remote_github_repository">new_remote_github_repository</a>
+            </div>
+            <div class="desc docblock-short">
+              interactive ask to create a new remote GitHub repository
             </div>
           </li>
           <li>
@@ -627,10 +724,24 @@ cargo auto doc{RESET}{YELLOW}
           </li>
           <li>
             <div class="item-name">
+              <a class="fn" href="fn.run_shell_command_output.html" title="fn cargo_auto_lib::run_shell_command_output">run_shell_command_output</a>
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
               <a class="fn" href="fn.run_shell_commands.html" title="fn cargo_auto_lib::run_shell_commands">run_shell_commands</a>
             </div>
             <div class="desc docblock-short">
               run shell commands from a vector of strings. Stops task execution if oe of the commands has Exit Status != 0
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="fn" href="fn.ssh_add_if_needed.html" title="fn cargo_auto_lib::ssh_add_if_needed">ssh_add_if_needed</a>
+            </div>
+            <div class="desc docblock-short">
+              check if this file is in ssh-add. Only the first 56 ascii characters are the fingerprint. After is a description, not important and sometimes
+              different. if is not, then ssh-add and the user will enter the passcode.
             </div>
           </li>
           <li>
