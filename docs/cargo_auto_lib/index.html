@@ -35,7 +35,7 @@
     <div class="sidebar-crate">
       <a class="logo-container" href="../cargo_auto_lib/index.html"><img src=
       "https://github.com/bestia-dev/cargo-auto/raw/main/images/logo/logo_cargo_auto.svg" alt="logo"></a>
-      <h2><a href="../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">1.2.4</span></h2>
+      <h2><a href="../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">1.2.13</span></h2>
     </div>
     <div class="sidebar-elems">
       <ul class="block">
@@ -88,7 +88,7 @@
         <div class="main-heading">
           <h1>Crate <a class="mod" href="#">cargo_auto_lib</a><button id="copy-path" title="Copy item path to clipboard"><img src=
           "../static.files/clipboard-7571035ce49a181d.svg" width="19" height="18" alt="Copy item path"></button></h1><span class="out-of-band"><a class="src"
-          href="../src/cargo_auto_lib/lib.rs.html#4-38">source</a> · <button id="toggle-all-docs" title="collapse all docs">[<span>−</span>]</button></span>
+          href="../src/cargo_auto_lib/lib.rs.html#4-39">source</a> · <button id="toggle-all-docs" title="collapse all docs">[<span>−</span>]</button></span>
         </div>
         <details class="toggle top-doc" open="">
           <summary class="hideme">
@@ -98,7 +98,7 @@
             <h2 id="cargo_auto_lib"><a href="#cargo_auto_lib">cargo_auto_lib</a></h2>
             <p><strong>Library crate for common tasks when building rust projects. Intended for use with cargo-auto - automation tasks written in Rust
             language.</strong><br>
-            <em><strong>version: 1.2.4 date: 2024-02-20 author: <a href="https://bestia.dev">Bestia.dev</a> repository: <a href=
+            <em><strong>version: 1.2.13 date: 2024-02-20 author: <a href="https://bestia.dev">Bestia.dev</a> repository: <a href=
             "https://github.com/bestia-dev/cargo_auto_lib">GitHub</a></strong></em></p>
             <p><img src="https://raw.githubusercontent.com/bestia-dev/cargo-auto/main/images/logo/logo_cargo_auto.svg" alt="logo"> <img src=
             "https://img.shields.io/badge/maintained-green" alt="status"> <img src="https://img.shields.io/badge/ready_for_use-green" alt="status"></p>
@@ -111,10 +111,10 @@
             "License"></a> <a href="https://github.com/bestia-dev/cargo_auto_lib/"><img src=
             "https://github.com/bestia-dev/cargo_auto_lib/workflows/rust_fmt_auto_build_test/badge.svg" alt="Rust"></a> <img src=
             "https://bestia.dev/webpage_hit_counter/get_svg_image/276360626.svg" alt="Hits"></p>
-            <p><a href="https://github.com/bestia-dev/cargo_auto_lib/"><img src="https://img.shields.io/badge/Lines_in_Rust-2208-green.svg" alt=
+            <p><a href="https://github.com/bestia-dev/cargo_auto_lib/"><img src="https://img.shields.io/badge/Lines_in_Rust-2293-green.svg" alt=
             "Lines in Rust code"></a> <a href="https://github.com/bestia-dev/cargo_auto_lib/"><img src=
-            "https://img.shields.io/badge/Lines_in_Doc_comments-587-blue.svg" alt="Lines in Doc comments"></a> <a href=
-            "https://github.com/bestia-dev/cargo_auto_lib/"><img src="https://img.shields.io/badge/Lines_in_comments-307-purple.svg" alt=
+            "https://img.shields.io/badge/Lines_in_Doc_comments-599-blue.svg" alt="Lines in Doc comments"></a> <a href=
+            "https://github.com/bestia-dev/cargo_auto_lib/"><img src="https://img.shields.io/badge/Lines_in_comments-317-purple.svg" alt=
             "Lines in Comments"></a> <a href="https://github.com/bestia-dev/cargo_auto_lib/"><img src=
             "https://img.shields.io/badge/Lines_in_examples-37-yellow.svg" alt="Lines in examples"></a> <a href=
             "https://github.com/bestia-dev/cargo_auto_lib/"><img src="https://img.shields.io/badge/Lines_in_tests-105-orange.svg" alt="Lines in tests"></a></p>
@@ -239,6 +239,12 @@ cargo auto doc{RESET}{YELLOW}
             <div class="item-name">
               <a class="mod" href="auto_check_micro_xml_mod/index.html" title=
               "mod cargo_auto_lib::auto_check_micro_xml_mod">auto_check_micro_xml_mod</a><span title="Restricted Visibility">&nbsp;🔒</span>
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="mod" href="auto_copy_files_to_strings_mod/index.html" title=
+              "mod cargo_auto_lib::auto_copy_files_to_strings_mod">auto_copy_files_to_strings_mod</a><span title="Restricted Visibility">&nbsp;🔒</span>
             </div>
           </li>
           <li>
@@ -615,6 +621,17 @@ cargo auto doc{RESET}{YELLOW}
             </div>
             <div class="desc docblock-short">
               the original <code>concat()</code> function does not have a delimiter
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="fn" href="fn.copy_folder_files_into_module.html" title=
+              "fn cargo_auto_lib::copy_folder_files_into_module">copy_folder_files_into_module</a>
+            </div>
+            <div class="desc docblock-short">
+              copy all files from the folder into a module as strings (static &amp;str) the module has the markers: region: files copied into strings by
+              automation tasks and endregion: the string will be in a vector with the file name first we create the complete text, then we check if the old
+              text needs to be replaced ext_for_binary_files=vec![“.ico”,“.jpg”,“.png”,“.woff2”]; exclude_big_folders = vec![“/.git”,“/target”,“/docs”];
             </div>
           </li>
           <li>

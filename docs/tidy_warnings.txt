@@ -30,6 +30,10 @@ line 2 column 241 - Warning: trimming empty <span>
 Document: "2" is not a file!
 
 line 2 column 241 - Warning: trimming empty <span>
+./docs/src/cargo_auto_lib/auto_copy_files_to_strings_mod.rs.html
+Document: "2" is not a file!
+
+line 2 column 241 - Warning: trimming empty <span>
 ./docs/src/cargo_auto_lib/auto_helper_functions_mod.rs.html
 Document: "2" is not a file!
 
@@ -1546,14 +1550,14 @@ line 9 column 8888 - Warning: discarding unexpected </span>
 line 9 column 9163 - Warning: missing </summary> before <section>
 line 9 column 9818 - Warning: discarding unexpected </summary>
 line 9 column 9895 - Warning: missing </summary> before <section>
-line 9 column 10399 - Warning: discarding unexpected </summary>
-line 9 column 10554 - Warning: missing </summary> before <section>
-line 9 column 11204 - Warning: discarding unexpected </summary>
-line 9 column 11281 - Warning: missing </summary> before <section>
-line 9 column 11780 - Warning: discarding unexpected </summary>
-line 9 column 11935 - Warning: missing </summary> before <section>
-line 9 column 12599 - Warning: discarding unexpected </summary>
-line 9 column 12676 - Warning: missing </summary> before <section>
+line 9 column 10403 - Warning: discarding unexpected </summary>
+line 9 column 10558 - Warning: missing </summary> before <section>
+line 9 column 11208 - Warning: discarding unexpected </summary>
+line 9 column 11285 - Warning: missing </summary> before <section>
+line 9 column 11784 - Warning: discarding unexpected </summary>
+line 9 column 11939 - Warning: missing </summary> before <section>
+line 9 column 12603 - Warning: discarding unexpected </summary>
+line 9 column 12680 - Warning: missing </summary> before <section>
 line 9 column 13183 - Warning: discarding unexpected </summary>
 line 9 column 13338 - Warning: missing </summary> before <section>
 line 9 column 14028 - Warning: discarding unexpected </summary>
@@ -1642,10 +1646,10 @@ line 9 column 8145 - Warning: trimming empty <summary>
 line 9 column 8707 - Warning: trimming empty <span>
 line 9 column 9163 - Warning: trimming empty <summary>
 line 9 column 9895 - Warning: trimming empty <summary>
-line 9 column 10554 - Warning: trimming empty <summary>
-line 9 column 11281 - Warning: trimming empty <summary>
-line 9 column 11935 - Warning: trimming empty <summary>
-line 9 column 12676 - Warning: trimming empty <summary>
+line 9 column 10558 - Warning: trimming empty <summary>
+line 9 column 11285 - Warning: trimming empty <summary>
+line 9 column 11939 - Warning: trimming empty <summary>
+line 9 column 12680 - Warning: trimming empty <summary>
 line 9 column 13338 - Warning: trimming empty <summary>
 line 9 column 14105 - Warning: trimming empty <summary>
 line 9 column 17197 - Warning: trimming empty <summary>
@@ -3400,6 +3404,14 @@ line 2 column 81 - Warning: trimming empty <span>
 Document: "2" is not a file!
 
 line 2 column 81 - Warning: trimming empty <span>
+./docs/cargo_auto_lib/auto_copy_files_to_strings_mod/index.html
+Document: "2" is not a file!
+
+line 2 column 81 - Warning: trimming empty <span>
+./docs/cargo_auto_lib/auto_copy_files_to_strings_mod/fn.copy_folder_files_into_module.html
+Document: "2" is not a file!
+
+line 2 column 81 - Warning: trimming empty <span>
 ./docs/cargo_auto_lib/public_api_mod/fn.concatenate_vec_to_string.html
 Document: "2" is not a file!
 
@@ -3627,6 +3639,10 @@ line 2 column 81 - Warning: trimming empty <span>
 Document: "2" is not a file!
 
 line 2 column 81 - Warning: trimming empty <span>
+./docs/cargo_auto_lib/public_api_mod/fn.copy_folder_files_into_module.html
+Document: "2" is not a file!
+
+line 2 column 81 - Warning: trimming empty <span>
 ./docs/cargo_auto_lib/public_api_mod/fn.run_shell_commands.html
 Document: "2" is not a file!
 
@@ -3822,6 +3838,10 @@ Document: "2" is not a file!
 
 line 2 column 81 - Warning: trimming empty <span>
 ./docs/cargo_auto_lib/fn.auto_semver_increment_minor_forced.html
+Document: "2" is not a file!
+
+line 2 column 81 - Warning: trimming empty <span>
+./docs/cargo_auto_lib/fn.copy_folder_files_into_module.html
 Document: "2" is not a file!
 
 line 2 column 81 - Warning: trimming empty <span>
