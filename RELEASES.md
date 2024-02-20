@@ -11,10 +11,16 @@ I will use the cargo-auto automation tasks to use the content of this file to cr
 The ongoing changes that are not released are visible in the git commits and github pull requests.  
 The TODO section is part of the [README.md](https://github.com/bestia-dev/cargo_auto_lib).  
 
-### Breaking changes in Unreleased
+## Version 1.2.3 (2024-02-20)
 
-api_call_repository_new renamed to github_api_repository_new
+- move here the functions from crate cargo_auto_github_lib
+- github_api_create_new_release
+- github_api_upload_asset_to_release
+- automation add task github_new_release for library
 
+### Breaking changes in v1.2.3
+
+- rename api_call_repository_new to github_api_repository_new
 
 ## Version 1.1.35 (2024-02-20)
 
@@ -33,10 +39,6 @@ api_call_repository_new renamed to github_api_repository_new
 
 ## Version 1.1.2 (2024-02-05)
 
-Release published to [crates.io](https://crates.io/crates/cargo_auto_lib/1.1.2).
-
-- In `automation_tasks_rs/Cargo.toml` replace for example `cargo_auto_lib = "1.0.96"` to `cargo_auto_lib = "1.1.2"`  
-
 ### Breaking changes in v1.1.2
 
 - Researching a way to make the Public API consistent for future releases I made a breaking change.  
@@ -50,12 +52,6 @@ How to refactor your code to resolve the issue:
 - find `utils_mod::` and replace with empty string.
 
 ## Version 1.0.96 (2024-02-04)
-
-Release published to [crates.io](https://crates.io/crates/cargo_auto_lib/1.0.96).
-
-- In `automation_tasks_rs/Cargo.toml` replace for example `cargo_auto_lib = "0.8.60"` to `cargo_auto_lib = "1.0.96"`
-  
-### Changes in v1.0.96
 
 - Refactor many `unwrap()` to error handling with `thiserror`.  
 The problem is that it could introduce unwanted braking changes.  

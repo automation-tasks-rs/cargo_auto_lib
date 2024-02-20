@@ -50,6 +50,7 @@ pub fn github_api_create_new_release(
     ...
     }
     */
+ check_or_get_github_token().unwrap();
     let token = std::env::var("GITHUB_TOKEN").expect("GITHUB_TOKEN env variable is required");
     let releases_url = format!("https://api.github.com/repos/{owner}/{repo}/releases");
     let body = serde_json::json!({
@@ -78,7 +79,7 @@ pub fn github_api_create_new_release(
     //dbg!(&response_text);
 
     let parsed: serde_json::Value = serde_json::from_str(&response_text).unwrap();
-    let new_release_id = parsed["id"].as_str().unwrap().to_string();
+    let new_release_id = parsed.get("id").unwrap().as_i64().unwrap().to_string();
     //dbg!(&new_release_id);
     new_release_id
 }
@@ -100,6 +101,7 @@ pub fn github_api_upload_asset_to_release(
     release_id: &str,
     path_to_file: &str,
 ) {
+    check_or_get_github_token().unwrap();
     let token = std::env::var("GITHUB_TOKEN").expect("GITHUB_TOKEN env variable is required");
 
     println!("path_to_file: {}", path_to_file);
@@ -166,6 +168,7 @@ pub fn github_api_repository_new(owner: &str, name: &str, description: &str) -> 
     ...
     }
     */
+    check_or_get_github_token().unwrap();
     let token = std::env::var("GITHUB_TOKEN").expect("GITHUB_TOKEN env variable is required");
     let repos_url = format!("https://api.github.com/user/repos");
     let body = serde_json::json!({
@@ -257,11 +260,35 @@ pub fn new_remote_github_repository() -> Option<String> {
     }
     // continue if answer is "y"
 
-    // region: check if env var GITHUB_TOKEN exists
+    let cargo_toml = crate::CargoToml::read();
+    let name = cargo_toml.package_name();
+    let owner = cargo_toml.github_owner().unwrap();
+    let description = cargo_toml.package_description().unwrap();
+    let json: serde_json::Value = crate::github_api_repository_new(&owner, &name, &description);
+    // get just the name, description and html_url from json
+    println!("name: {}", json.get("name").unwrap().as_str().unwrap());
+    println!(
+        "description: {}",
+        json.get("description").unwrap().as_str().unwrap()
+    );
+    let repo_html_url = json.get("html_url").unwrap().as_str().unwrap().to_string();
+    println!("url: {}", &repo_html_url);
+
+    // add this GitHub repository to origin remote over SSH (use sshadd for passcode)
+    crate::run_shell_command(&format!(
+        "git remote add origin git@github.com:{owner}/{name}.git"
+    ));
+    crate::run_shell_command("git push -u origin main");
+    Some(repo_html_url)
+}
+
+/// check if the env var GITHUB_TOKEN exist
+/// or ask user interactively to type it
+fn check_or_get_github_token()->Option<()>{
     // read ENV variable GITHUB_TOKEN
     // if it does not exist, ask for it here.
     match std::env::var("GITHUB_TOKEN") {
-        Ok(_g) => {}
+        Ok(_g) => Some(()),
         Err(_err) => {
             println!(
                 r#"{RED}Cannot find the GITHUB_TOKEN env variable.{RESET}
@@ -283,30 +310,9 @@ The token is a secret just like a password, use it with caution.
             // set the env var for the token, but just for this process
             // The parent process will still be without this env var.
             std::env::set_var("GITHUB_TOKEN", answer);
+            Some(())
         }
     }
-    // endregion: check if env var GITHUB_TOKEN exists
-
-    let cargo_toml = crate::CargoToml::read();
-    let name = cargo_toml.package_name();
-    let owner = cargo_toml.github_owner().unwrap();
-    let description = cargo_toml.package_description().unwrap();
-    let json: serde_json::Value = crate::github_api_repository_new(&owner, &name, &description);
-    // get just the name, description and html_url from json
-    println!("name: {}", json.get("name").unwrap().as_str().unwrap());
-    println!(
-        "description: {}",
-        json.get("description").unwrap().as_str().unwrap()
-    );
-    let repo_html_url = json.get("html_url").unwrap().as_str().unwrap().to_string();
-    println!("url: {}", &repo_html_url);
-
-    // add this GitHub repository to origin remote over SSH (use sshadd for passcode)
-    crate::run_shell_command(&format!(
-        "git remote add origin git@github.com:{owner}/{name}.git"
-    ));
-    crate::run_shell_command("git push -u origin main");
-    Some(repo_html_url)
 }
 
 /// interactive ask to create a new local git repository
