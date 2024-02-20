@@ -10,6 +10,10 @@ The TODO section is part of the [README.md](https://github.com/bestia-dev/cargo_
 
 ## Unreleased
 
+## Version 1.2.4 (2024-02-20)
+
+- github release from RELEASES.md
+
 ## Version 1.2.3 (2024-02-20)
 
 - move here the functions from crate cargo_auto_github_lib
