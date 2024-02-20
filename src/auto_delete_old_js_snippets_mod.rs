@@ -8,7 +8,6 @@ use filetime::FileTime;
 use std::env;
 use std::fs;
 use std::path::PathBuf;
-use unwrap::unwrap;
 //endregion
 
 /// deletes old js snippets when working with wasm-pack  
@@ -16,7 +15,7 @@ use unwrap::unwrap;
 /// This utils do that.  
 /// The function must be executed in the root project folder where is the Cargo.toml.  
 pub fn auto_delete_old_js_snippets() {
-    let current_dir = unwrap!(env::current_dir());
+    let current_dir = env::current_dir().unwrap();
     let snippets_dir = current_dir.join("pkg").join("snippets");
     //the first folder can be None
     let mut opt_first_folder: Option<PathBuf> = None;
@@ -24,13 +23,13 @@ pub fn auto_delete_old_js_snippets() {
 
     //find the newer folder and remove the older folder
     //but not with dodrio_xxx name
-    for entry in unwrap!(fs::read_dir(snippets_dir)) {
-        let entry = unwrap!(entry);
+    for entry in fs::read_dir(snippets_dir).unwrap() {
+        let entry = entry.unwrap();
         let second_folder = entry.path();
-        let second_name = unwrap!(entry.file_name().into_string()).to_lowercase();
+        let second_name = entry.file_name().into_string().unwrap().to_lowercase();
         if !second_name.starts_with("dodrio") {
             //println!("{:?}",second_folder);
-            let second_metadata = unwrap!(fs::metadata(&second_folder));
+            let second_metadata = fs::metadata(&second_folder).unwrap();
             let second_mtime = FileTime::from_last_modification_time(&second_metadata);
             //println!("{:?}",second_mtime);
 
@@ -42,9 +41,9 @@ pub fn auto_delete_old_js_snippets() {
                 Some(first_mtime) => match second_mtime.cmp(&first_mtime) {
                     // if second_mtime > first_mtime {
                     std::cmp::Ordering::Greater => {
-                        let first_folder = unwrap!(opt_first_folder);
+                        let first_folder = opt_first_folder.unwrap();
                         println!("    delete first: {:?}", first_folder);
-                        unwrap!(std::fs::remove_dir_all(first_folder));
+                        std::fs::remove_dir_all(first_folder).unwrap();
 
                         opt_first_folder = Some(second_folder.clone());
                         opt_first_mtime = Some(second_mtime);
@@ -52,7 +51,7 @@ pub fn auto_delete_old_js_snippets() {
                     //  } else if first_mtime > second_mtime {
                     std::cmp::Ordering::Less => {
                         println!("    delete second: {:?}", second_folder);
-                        unwrap!(std::fs::remove_dir_all(second_folder));
+                        std::fs::remove_dir_all(second_folder).unwrap();
                     }
                     // else
                     std::cmp::Ordering::Equal => {

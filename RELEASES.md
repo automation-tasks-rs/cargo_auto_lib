@@ -1,15 +1,35 @@
-# Releases of cargo_auto_lib
+# Releases changelog of cargo_auto_lib
 
 All notable changes to this project will be documented in this file.  
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).  
 The library releases will be published on crates.io.  
-A git tag and github release will be created with the same content as this file.  
+A git tag and GitHub release will be created with the same text as this file.  
 I will use the cargo-auto automation tasks to use the content of this file to create a tag and github release consistently.  
 
-## [Unreleased]
+## Unreleased
 
 The ongoing changes that are not released are visible in the git commits and github pull requests.  
-The TODO section is part of the README.md.
+The TODO section is part of the [README.md](https://github.com/bestia-dev/cargo_auto_lib).  
+
+### Breaking changes in Unreleased
+
+api_call_repository_new renamed to github_api_repository_new
+
+
+## Version 1.1.35 (2024-02-20)
+
+- functions for init repo and GitHub
+
+## Version 1.1.32 (2024-02-18)
+
+- update calculate hash
+
+## Version 1.1.23 (2024-02-18)
+
+- separate commit of docs if changed
+- logo
+- doc include_str
+- tidy
 
 ## Version 1.1.2 (2024-02-05)
 

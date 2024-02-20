@@ -393,8 +393,8 @@ pub fn git_is_local_repository() -> bool {
 }
 
 /// creates a new github repository
-pub fn api_call_repository_new(owner: &str, name: &str, description: &str) -> serde_json::Value {
-    crate::auto_github_mod::api_call_repository_new(owner, name, description)
+pub fn github_api_repository_new(owner: &str, name: &str, description: &str) -> serde_json::Value {
+    crate::auto_github_mod::github_api_repository_new(owner, name, description)
 }
 pub fn run_shell_command_output(shell_command: &str) -> ShellOutput {
     crate::auto_helper_functions_mod::run_shell_command_output(shell_command)
@@ -437,6 +437,59 @@ pub fn get_identity_from_ssh_config() -> String {
 /// The default is githubssh1.
 pub fn ask_for_github_ssh_for_push() -> Option<std::path::PathBuf> {
     crate::auto_github_mod::ask_for_github_ssh_for_push()
+}
+
+/// create new release on Github  
+/// return release_id  
+/// it needs env variable `export GITHUB_TOKEN=paste_github_personal_authorization_token_here`  
+/// <https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token>  
+/// ```ignore
+///       let release_id =  github_create_new_release(&owner, &repo, &version, &name, branch, body_md_text);  
+///       println!("release_id={release_id}");
+///       upload_asset_to_github_release(&owner, &repo, &release_id, &path_to_file);  
+///       println!("Asset uploaded.");    
+/// ```
+pub fn github_api_create_new_release(
+    owner: &str,
+    repo: &str,
+    tag_name_version: &str,
+    name: &str,
+    branch: &str,
+    body_md_text: &str,
+) -> String {
+    crate::auto_github_mod::github_api_create_new_release(
+        owner,
+        repo,
+        tag_name_version,
+        name,
+        branch,
+        body_md_text,
+    )
+}
+
+/// upload asset to github release  
+/// release_upload_url example: <https://uploads.github.com/repos/owner/repo/releases/48127727/assets>  
+/// it needs env variable `export GITHUB_TOKEN=paste_github_personal_authorization_token_here`  
+/// <https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token>  
+/// async function can be called from sync code:  
+/// ```ignore
+///       let release_id =  github_create_new_release(&owner, &repo, &version, &name, branch, body_md_text);  
+///       println!("release_id={release_id}");
+///       upload_asset_to_github_release(&owner, &repo, &release_id, &path_to_file);  
+///       println!("Asset uploaded.");  
+/// ```
+pub fn github_api_upload_asset_to_release(
+    owner: &str,
+    repo: &str,
+    release_id: &str,
+    path_to_file: &str,
+) {
+    crate::auto_github_mod::github_api_upload_asset_to_release(
+        owner,
+        repo,
+        release_id,
+        path_to_file,
+    )
 }
 
 // endregion: Public API functions

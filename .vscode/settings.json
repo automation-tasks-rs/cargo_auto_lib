@@ -45,6 +45,7 @@
         "passcode",
         "pathbuff",
         "plantuml",
+        "println",
         "Prost",
         "repos",
         "reqwest",

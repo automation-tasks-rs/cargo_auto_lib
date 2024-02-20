@@ -3,7 +3,7 @@
 [//]: # (auto_cargo_toml_to_md start)
 
 **Library crate for common tasks when building rust projects. Intended for use with cargo-auto - automation tasks written in Rust language.**  
-***version: 1.1.35 date: 2024-02-20 author: [Bestia.dev](https://bestia.dev) repository: [GitHub](https://github.com/bestia-dev/cargo_auto_lib)***  
+***version: 1.2.3 date: 2024-02-20 author: [Bestia.dev](https://bestia.dev) repository: [GitHub](https://github.com/bestia-dev/cargo_auto_lib)***  
 
 [//]: # (auto_cargo_toml_to_md end)
 
@@ -21,9 +21,9 @@
  ![Hits](https://bestia.dev/webpage_hit_counter/get_svg_image/276360626.svg)
 
 [//]: # (auto_lines_of_code start)
-[![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-2013-green.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
-[![Lines in Doc comments](https://img.shields.io/badge/Lines_in_Doc_comments-533-blue.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
-[![Lines in Comments](https://img.shields.io/badge/Lines_in_comments-296-purple.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
+[![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-2149-green.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
+[![Lines in Doc comments](https://img.shields.io/badge/Lines_in_Doc_comments-575-blue.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
+[![Lines in Comments](https://img.shields.io/badge/Lines_in_comments-302-purple.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
 [![Lines in examples](https://img.shields.io/badge/Lines_in_examples-37-yellow.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
 [![Lines in tests](https://img.shields.io/badge/Lines_in_tests-105-orange.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
 
@@ -112,9 +112,9 @@ If you find that the heuristics don't work for you though please let me know and
 Read the development details in a separate md file:  
 [DEVELOPMENT.md](https://github.com/bestia-dev/cargo-auto/blob/main/DEVELOPMENT.md)
 
-## Changelog
+## Releases changelog
 
-Read the changelog in a separate md file:  
+Read the release changelog in a separate md file:  
 [RELEASES.md](https://github.com/bestia-dev/cargo-auto/blob/main/RELEASES.md)
 
 ## TODO

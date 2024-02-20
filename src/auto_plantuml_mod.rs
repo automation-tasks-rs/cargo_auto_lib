@@ -25,19 +25,18 @@
 
 use crate::utils_mod::*;
 use lazy_static::lazy_static;
-use unwrap::unwrap;
 
 lazy_static! {
-    static ref REGEX_PLANTUML_START: regex::Regex = unwrap!(regex::Regex::new(
+    static ref REGEX_PLANTUML_START: regex::Regex = regex::Regex::new(
         r#"(?m)^\[//\]: # \(auto_plantuml start\)$"#
-    ));
-    static ref REGEX_PLANTUML_END: regex::Regex = unwrap!(regex::Regex::new(
+    ).unwrap();
+    static ref REGEX_PLANTUML_END: regex::Regex = regex::Regex::new(
         r#"(?m)^\[//\]: # \(auto_plantuml end\)$"#
-    ));
+    ).unwrap();
     // capture group
-    static ref REGEX_IMG_LINK: regex::Regex = unwrap!(regex::Regex::new(
+    static ref REGEX_IMG_LINK: regex::Regex = regex::Regex::new(
     r#"!\[.+\]\(.+/svg_(.+)\.svg\)"#
-    ));
+    ).unwrap();
 }
 
 /// process plantuml in current directory
@@ -56,21 +55,22 @@ pub fn auto_plantuml(repo_url: &str) {
 pub fn auto_plantuml_for_path(path: &std::path::Path, repo_url: &str) {
     println!("    Running auto_plantuml");
     //use traverse instead of glob
-    let files = unwrap!(crate::utils_mod::traverse_dir_with_exclude_dir(
+    let files = crate::utils_mod::traverse_dir_with_exclude_dir(
         path,
         "/*.md",
         // avoid big folders and other folders with *.crev
         &[
             "/.git".to_string(),
             "/target".to_string(),
-            "/docs".to_string()
-        ]
-    ));
+            "/docs".to_string(),
+        ],
+    )
+    .unwrap();
     for md_filename in files {
         let md_filename = std::path::Path::new(&md_filename);
 
         let mut is_changed = false;
-        let mut md_text_content = unwrap!(std::fs::read_to_string(md_filename));
+        let mut md_text_content = std::fs::read_to_string(md_filename).unwrap();
 
         // check if file have CRLF and show error
         if md_text_content.contains("\r\n") {

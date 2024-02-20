@@ -5,11 +5,10 @@
 
 use lazy_static::lazy_static;
 use regex::*;
-use unwrap::unwrap;
 
 lazy_static! {
     // from this string: authors = ["bestia.dev"]
-    static ref REGEX_REMOVE_EMAIL: Regex = unwrap!(Regex::new(r#"( <.+?>)"#));
+    static ref REGEX_REMOVE_EMAIL: Regex = Regex::new(r#"( <.+?>)"#).unwrap();
 }
 
 pub struct CargoToml {
@@ -25,20 +24,18 @@ pub struct CargoToml {
 impl crate::public_api_mod::CargoTomlPublicApiMethods for CargoToml {
     /// read Cargo.toml, for workspaces it is the Cargo.toml of the first member
     fn read() -> Self {
-        let cargo_toml_workspace_maybe = unwrap!(cargo_toml::Manifest::from_path("Cargo.toml"));
+        let cargo_toml_workspace_maybe = cargo_toml::Manifest::from_path("Cargo.toml").unwrap();
         let cargo_toml_main = match &cargo_toml_workspace_maybe.workspace {
             None => cargo_toml_workspace_maybe.clone(),
             Some(workspace) => {
                 let main_member = &workspace.members[0];
-                let cargo_main = unwrap!(cargo_toml::Manifest::from_path(format!(
-                    "{}/Cargo.toml",
-                    main_member
-                )));
+                let cargo_main =
+                    cargo_toml::Manifest::from_path(format!("{}/Cargo.toml", main_member)).unwrap();
                 //return
                 cargo_main
             }
         };
-        let package = unwrap!(cargo_toml_main.package.as_ref()).to_owned();
+        let package = cargo_toml_main.package.as_ref().unwrap().to_owned();
         CargoToml {
             cargo_toml_workspace_maybe,
             _cargo_toml_main: cargo_toml_main,

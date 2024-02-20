@@ -3,7 +3,6 @@
 //! various utilities
 
 use std::{fs, io, path::Path};
-use unwrap::unwrap;
 
 // region: delimiters cannot be INACTIVE like markers
 
@@ -84,7 +83,7 @@ pub fn traverse_dir_with_exclude_dir(
         for entry in fs::read_dir(dir)? {
             let entry = entry?;
             let path = entry.path();
-            let str_path = unwrap!(path.to_str());
+            let str_path = path.to_str().unwrap();
             if path.is_dir() {
                 let mut is_excluded = false;
                 for excl in exclude_dirs {

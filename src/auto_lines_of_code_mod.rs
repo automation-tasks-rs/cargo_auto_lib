@@ -8,7 +8,6 @@ use regex::Regex;
 use std::fs::File;
 use std::io::{BufRead, BufReader};
 use std::{fs, path::Path};
-use unwrap::unwrap;
 // use crate::auto_helper_functions_mod::*;
 // this trait must be in scope to use these methods of CargoToml
 use crate::public_api_mod::CargoTomlPublicApiMethods;
@@ -93,11 +92,11 @@ pub fn auto_lines_of_code(link: &str) {
             let mut lines_of_code = LinesOfCode::default();
             for member in members.iter() {
                 println!("    Member: {}", &member);
-                unwrap!(std::env::set_current_dir(member));
+                std::env::set_current_dir(member).unwrap();
                 let v = one_project_count_lines();
                 let text_to_include = to_string_as_shield_badges(&v, &link);
                 include_into_readme_md(&text_to_include);
-                unwrap!(std::env::set_current_dir(".."));
+                std::env::set_current_dir("..").unwrap();
 
                 lines_of_code.src_code_lines += v.src_code_lines;
                 lines_of_code.src_doc_comment_lines += v.src_doc_comment_lines;
@@ -139,16 +138,17 @@ fn one_project_count_lines() -> LinesOfCode {
     let mut lines_of_code = LinesOfCode::default();
 
     // src folder
-    let files = unwrap!(crate::utils_mod::traverse_dir_with_exclude_dir(
+    let files = crate::utils_mod::traverse_dir_with_exclude_dir(
         Path::new("src"),
         "/*.rs",
         // avoid big folders and other folders with *.crev
         &[
             "/.git".to_string(),
             "/target".to_string(),
-            "/docs".to_string()
-        ]
-    ));
+            "/docs".to_string(),
+        ],
+    )
+    .unwrap();
     // println!("{:#?}", files);
     for rs_file_name in files.iter() {
         //dbg!(&rs_file_name);
@@ -177,16 +177,17 @@ fn one_project_count_lines() -> LinesOfCode {
         }
     }
     // tests folder
-    let files = unwrap!(crate::utils_mod::traverse_dir_with_exclude_dir(
+    let files = crate::utils_mod::traverse_dir_with_exclude_dir(
         Path::new("tests"),
         "/*.rs",
         // avoid big folders and other folders with *.crev
         &[
             "/.git".to_string(),
             "/target".to_string(),
-            "/docs".to_string()
-        ]
-    ));
+            "/docs".to_string(),
+        ],
+    )
+    .unwrap();
     // println!("{:#?}", files);
     for rs_file_name in files.iter() {
         //dbg!(&rs_file_name);
@@ -200,16 +201,17 @@ fn one_project_count_lines() -> LinesOfCode {
     }
 
     // examples folder
-    let files = unwrap!(crate::utils_mod::traverse_dir_with_exclude_dir(
+    let files = crate::utils_mod::traverse_dir_with_exclude_dir(
         Path::new("examples"),
         "/*.rs",
         // avoid big folders and other folders with *.crev
         &[
             "/.git".to_string(),
             "/target".to_string(),
-            "/docs".to_string()
-        ]
-    ));
+            "/docs".to_string(),
+        ],
+    )
+    .unwrap();
     for rs_file_name in files.iter() {
         //dbg!(&rs_file_name);
         // Open the file in read-only mode (ignoring errors).
@@ -324,7 +326,7 @@ fn include_into_readme_md(include_str: &str) {
                     *GREEN, file_name, *RESET
                 );
                  */
-                unwrap!(fs::write(file_name, new_readme_content));
+                fs::write(file_name, new_readme_content).unwrap();
             }
         }
     }

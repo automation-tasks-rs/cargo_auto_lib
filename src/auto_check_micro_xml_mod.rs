@@ -3,7 +3,6 @@
 use crate::public_api_mod::{RED, RESET};
 use glob::glob;
 use reader_for_microxml::{ReaderForMicroXml, Token};
-use unwrap::unwrap;
 
 /// I want html pages to be correct microXML when I use them for single page application.
 /// Before build or release this function will check for correctness.
@@ -11,10 +10,10 @@ pub fn auto_check_micro_xml(path_to_html_pages: &str) {
     println!("    Running auto_check_micro_xml {}", path_to_html_pages);
     let glob_str = format!("{}/*.html", path_to_html_pages.trim_end_matches('/'));
     // find html pages for single page application
-    for filename_result in unwrap!(glob(&glob_str)) {
-        let filename_pathbuff = unwrap!(filename_result);
-        let file_name = unwrap!(unwrap!(filename_pathbuff.file_name()).to_str());
-        let str_xml = unwrap!(std::fs::read_to_string(&filename_pathbuff));
+    for filename_result in glob(&glob_str).unwrap() {
+        let filename_pathbuff = filename_result.unwrap();
+        let file_name = filename_pathbuff.file_name().unwrap().to_str().unwrap();
+        let str_xml = std::fs::read_to_string(&filename_pathbuff).unwrap();
 
         // check if file have CRLF instead of LF and show error
         if str_xml.contains("\r\n") {
@@ -45,7 +44,7 @@ fn check_micro_xml(str_xml: &str, file_name: &str) {
                 Token::TextNode(_txt) => continue,
                 Token::Comment(_txt) => continue,
                 Token::EndElement(end_element_name) => {
-                    let start_element_name = unwrap!(vec_elem.pop());
+                    let start_element_name = vec_elem.pop().unwrap();
                     if !end_element_name.is_empty() && end_element_name != start_element_name {
                         panic!(
                             "{RED}MicroXml {} start {} does not match end {}{RESET}",

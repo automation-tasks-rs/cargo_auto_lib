@@ -6,8 +6,142 @@ use crate::RED;
 use crate::RESET;
 use crate::YELLOW;
 
+/// create new release on Github  
+/// return release_id  
+/// it needs env variable `export GITHUB_TOKEN=paste_github_personal_authorization_token_here`  
+/// <https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token>  
+/// ```ignore
+///       let release_id =  github_create_new_release(&owner, &repo, &version, &name, branch, body_md_text);  
+///       println!("release_id={release_id}");
+///       upload_asset_to_github_release(&owner, &repo, &release_id, &path_to_file);  
+///       println!("Asset uploaded.");    
+/// ```
+pub fn github_api_create_new_release(
+    owner: &str,
+    repo: &str,
+    tag_name_version: &str,
+    name: &str,
+    branch: &str,
+    body_md_text: &str,
+) -> String {
+    /*
+    https://docs.github.com/en/rest/releases/releases?apiVersion=2022-11-28#create-a-release
+    Request like :
+    curl -L \
+    -X POST \
+    -H "Accept: application/vnd.github+json" \
+    -H "Authorization: Bearer <YOUR-TOKEN>"\
+    -H "X-GitHub-Api-Version: 2022-11-28" \
+    https://api.github.com/repos/OWNER/REPO/releases \
+    -d '
+    {
+        "tag_name":"v1.0.0",
+        "target_commitish":"master",
+        "name":"v1.0.0",
+        "body":"Description of the release",
+        "draft":false,
+        "prerelease":false,
+        "generate_release_notes":false
+    }'
+
+    Response (short)
+    {
+    "id": 1,
+    ...
+    }
+    */
+    let token = std::env::var("GITHUB_TOKEN").expect("GITHUB_TOKEN env variable is required");
+    let releases_url = format!("https://api.github.com/repos/{owner}/{repo}/releases");
+    let body = serde_json::json!({
+        "tag_name": tag_name_version,
+        "target_commitish":branch,
+        "name":name,
+        "body":body_md_text,
+        "draft":false,
+        "prerelease":false,
+        "generate_release_notes":false,
+    });
+    let body = body.to_string();
+    //dbg!(&body);
+
+    let response_text = reqwest::blocking::Client::new()
+        .post(releases_url.as_str())
+        .header("Content-Type", "application/vnd.github+json")
+        .header("Authorization", format!("Bearer {token}"))
+        .header("X-GitHub-Api-Version", "2022-11-28")
+        .header("User-Agent", "cargo_auto_lib")
+        .body(body)
+        .send()
+        .unwrap()
+        .text()
+        .unwrap();
+    //dbg!(&response_text);
+
+    let parsed: serde_json::Value = serde_json::from_str(&response_text).unwrap();
+    let new_release_id = parsed["id"].as_str().unwrap().to_string();
+    //dbg!(&new_release_id);
+    new_release_id
+}
+
+/// upload asset to github release  
+/// release_upload_url example: <https://uploads.github.com/repos/owner/repo/releases/48127727/assets>  
+/// it needs env variable `export GITHUB_TOKEN=paste_github_personal_authorization_token_here`  
+/// <https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token>  
+/// async function can be called from sync code:  
+/// ```ignore
+///       let release_id =  github_create_new_release(&owner, &repo, &version, &name, branch, body_md_text);  
+///       println!("release_id={release_id}");
+///       upload_asset_to_github_release(&owner, &repo, &release_id, &path_to_file);  
+///       println!("Asset uploaded.");  
+/// ```
+pub fn github_api_upload_asset_to_release(
+    owner: &str,
+    repo: &str,
+    release_id: &str,
+    path_to_file: &str,
+) {
+    let token = std::env::var("GITHUB_TOKEN").expect("GITHUB_TOKEN env variable is required");
+
+    println!("path_to_file: {}", path_to_file);
+    let file = std::path::Path::new(&path_to_file);
+    let file_name = file.file_name().unwrap().to_str().unwrap();
+
+    let release_upload_url =
+        format!("https://uploads.github.com/repos/{owner}/{repo}/releases/{release_id}/assets");
+    let mut release_upload_url =
+        <url::Url as std::str::FromStr>::from_str(&release_upload_url).unwrap();
+    release_upload_url.set_query(Some(format!("{}={}", "name", file_name).as_str()));
+    println!("upload_url: {}", release_upload_url);
+    let file_size = std::fs::metadata(file).unwrap().len();
+    println!(
+        "file_size: {}. It can take some time to upload. Wait...",
+        file_size
+    );
+    // region: async code made sync locally
+    use tokio::runtime::Runtime;
+    let rt = Runtime::new().unwrap();
+    rt.block_on(async move {
+        let file = tokio::fs::File::open(file).await.unwrap();
+        let stream = tokio_util::codec::FramedRead::new(file, tokio_util::codec::BytesCodec::new());
+        let body = reqwest::Body::wrap_stream(stream);
+
+        let _response = reqwest::Client::new()
+            .post(release_upload_url.as_str())
+            .header("Content-Type", "application/octet-stream")
+            .header("Content-Length", file_size.to_string())
+            .header("Authorization", format!("Bearer {token}"))
+            .body(body)
+            .send()
+            .await
+            .unwrap();
+
+        // dbg!(response);
+    });
+    // endregion: async code made sync locally
+}
+
 /// creates a new github repository
-pub fn api_call_repository_new(owner: &str, name: &str, description: &str) -> serde_json::Value {
+pub fn github_api_repository_new(owner: &str, name: &str, description: &str) -> serde_json::Value {
     /*
     https://docs.github.com/en/rest/repos/repos?apiVersion=2022-11-28#create-a-repository-for-the-authenticated-user
 
@@ -57,7 +191,7 @@ pub fn api_call_repository_new(owner: &str, name: &str, description: &str) -> se
         .header("Accept", "application/vnd.github+json")
         .header("Authorization", format!("Bearer {token}"))
         .header("X-GitHub-Api-Version", "2022-11-28")
-        .header("User-Agent", "github_repository_settings")
+        .header("User-Agent", "cargo_auto_lib")
         .body(body)
         .send()
         .unwrap()
@@ -157,7 +291,7 @@ The token is a secret just like a password, use it with caution.
     let name = cargo_toml.package_name();
     let owner = cargo_toml.github_owner().unwrap();
     let description = cargo_toml.package_description().unwrap();
-    let json: serde_json::Value = crate::api_call_repository_new(&owner, &name, &description);
+    let json: serde_json::Value = crate::github_api_repository_new(&owner, &name, &description);
     // get just the name, description and html_url from json
     println!("name: {}", json.get("name").unwrap().as_str().unwrap());
     println!(

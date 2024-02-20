@@ -14,7 +14,6 @@ use serde_derive::{Deserialize, Serialize};
 use std::path::PathBuf;
 use std::str::FromStr;
 use std::{fs, path::Path};
-use unwrap::unwrap;
 // this trait must be in scope to use these methods of CargoToml
 use crate::public_api_mod::CargoTomlPublicApiMethods;
 
@@ -84,9 +83,9 @@ fn auto_version_from_date_internal(force_version: bool) -> ResultWithLibError<()
         None => do_one_project(&new_version, force_version)?,
         Some(members) => {
             for member in members.iter() {
-                unwrap!(std::env::set_current_dir(member));
+                std::env::set_current_dir(member).unwrap();
                 do_one_project(&new_version, force_version)?;
-                unwrap!(std::env::set_current_dir(".."));
+                std::env::set_current_dir("..").unwrap();
             }
         }
     }
@@ -112,13 +111,15 @@ fn do_one_project(new_version: &str, force_version: bool) -> ResultWithLibError<
 /// search for file service_worker.js and modify version
 fn modify_service_js(new_version: &str) {
     let start_dir = Path::new("./");
-    for js_filename in &unwrap!(crate::utils_mod::traverse_dir_with_exclude_dir(
+    for js_filename in &crate::utils_mod::traverse_dir_with_exclude_dir(
         start_dir,
         "/service_worker.js",
-        &["/.git".to_string(), "/target".to_string()]
-    )) {
+        &["/.git".to_string(), "/target".to_string()],
+    )
+    .unwrap()
+    {
         // println!("{}write version in {}{}", *GREEN, js_filename, *RESET);
-        let mut js_content = unwrap!(fs::read_to_string(js_filename));
+        let mut js_content = fs::read_to_string(js_filename).unwrap();
 
         // check if file have CRLF instead of LF and show error
         if js_content.contains("\r\n") {
@@ -157,7 +158,7 @@ fn write_version_to_cargo_and_modify_metadata(
 ) -> ResultWithLibError<()> {
     // println!("{}write version to Cargo.toml{}", *GREEN, *RESET);
     let cargo_filename = "Cargo.toml";
-    let mut cargo_content = unwrap!(fs::read_to_string(cargo_filename));
+    let mut cargo_content = fs::read_to_string(cargo_filename).unwrap();
 
     // check if file have CRLF instead of LF and show error
     if cargo_content.contains("\r\n") {
@@ -241,12 +242,13 @@ pub fn read_file_metadata() -> ResultWithLibError<Vec<FileMetaData>> {
     let filehash = sha256_digest(PathBuf::from_str(&filename)?.as_path())?;
     vec_of_metadata.push(FileMetaData { filename, filehash });
 
-    let files_paths = unwrap!(crate::utils_mod::traverse_dir_with_exclude_dir(
+    let files_paths = crate::utils_mod::traverse_dir_with_exclude_dir(
         Path::new("src"),
         "/*.rs",
         // avoid big folders and other folders with *.crev
-        &[]
-    ));
+        &[],
+    )
+    .unwrap();
 
     for filename in files_paths {
         // calculate hash of file
@@ -310,7 +312,7 @@ pub fn save_json_file_for_file_meta_data(vec_of_metadata: Vec<FileMetaData>) {
     let x = AutoVersionFromDate {
         vec_file_metadata: vec_of_metadata,
     };
-    let y = unwrap!(serde_json::to_string_pretty(&x));
+    let y = serde_json::to_string_pretty(&x).unwrap();
     let json_filepath = ".automation_tasks_rs_file_hashes.json";
     let _f = fs::write(json_filepath, y);
 }

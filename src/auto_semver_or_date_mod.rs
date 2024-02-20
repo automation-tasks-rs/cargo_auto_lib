@@ -5,7 +5,6 @@
 //! It works for workspaces and for single projects.  
 
 use crate::error_mod::ResultWithLibError;
-use unwrap::unwrap;
 // this trait must be in scope to use these methods of CargoToml
 use crate::public_api_mod::CargoTomlPublicApiMethods;
 
@@ -21,9 +20,9 @@ pub fn auto_version_increment_semver_or_date() {
         Some(members) => {
             for member in members.iter() {
                 println!("    Member: {}", member);
-                unwrap!(std::env::set_current_dir(member));
+                std::env::set_current_dir(member).unwrap();
                 one_project().unwrap_or_else(|err| panic!("{}", err.to_string()));
-                unwrap!(std::env::set_current_dir(".."));
+                std::env::set_current_dir("..").unwrap();
             }
         }
     }
@@ -43,9 +42,9 @@ pub fn auto_version_increment_semver_or_date_forced() {
         Some(members) => {
             for member in members.iter() {
                 println!("    {}", member);
-                unwrap!(std::env::set_current_dir(member));
+                std::env::set_current_dir(member).unwrap();
                 one_project_forced().unwrap_or_else(|err| panic!("{}", err.to_string()));
-                unwrap!(std::env::set_current_dir(".."));
+                std::env::set_current_dir("..").unwrap();
             }
         }
     }

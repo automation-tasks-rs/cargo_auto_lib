@@ -11,7 +11,6 @@ use glob::glob;
 use lazy_static::lazy_static;
 use regex::*;
 use std::fs;
-use unwrap::unwrap;
 
 // this trait must be in scope to use these methods of CargoToml
 use crate::public_api_mod::CargoTomlPublicApiMethods;
@@ -21,12 +20,10 @@ use crate::public_api_mod::{GREEN, RESET, YELLOW};
 // endregion: use statements
 
 lazy_static! {
-    static ref REGEX_MD_START: Regex = unwrap!(Regex::new(
-        r#"(?m)^\[//\]: # \(auto_cargo_toml_to_md start\)$"#
-    ));
-    static ref REGEX_MD_END: Regex = unwrap!(Regex::new(
-        r#"(?m)^\[//\]: # \(auto_cargo_toml_to_md end\)$"#
-    ));
+    static ref REGEX_MD_START: Regex =
+        Regex::new(r#"(?m)^\[//\]: # \(auto_cargo_toml_to_md start\)$"#).unwrap();
+    static ref REGEX_MD_END: Regex =
+        Regex::new(r#"(?m)^\[//\]: # \(auto_cargo_toml_to_md end\)$"#).unwrap();
 }
 
 /// includes data from Cargo.toml to README.md files: version, authors,...
@@ -60,9 +57,9 @@ pub fn auto_cargo_toml_to_md() {
             // this will read cargo.toml from the first `main` member and inject into workspace README.md
             do_one_project();
             for member in members.iter() {
-                unwrap!(std::env::set_current_dir(member));
+                std::env::set_current_dir(member).unwrap();
                 do_one_project();
-                unwrap!(std::env::set_current_dir(".."));
+                std::env::set_current_dir("..").unwrap();
             }
         }
     }
@@ -87,11 +84,11 @@ fn do_one_project() {
         &repository,
     );
 
-    for filename_result in unwrap!(glob("*.md")) {
-        let filename_pathbuff = unwrap!(filename_result);
-        let md_filename = unwrap!(filename_pathbuff.to_str());
+    for filename_result in glob("*.md").unwrap() {
+        let filename_pathbuff = filename_result.unwrap();
+        let md_filename = filename_pathbuff.to_str().unwrap();
         // println!("checking md_filename: {}", &md_filename);
-        let mut md_text_content = unwrap!(fs::read_to_string(md_filename));
+        let mut md_text_content = fs::read_to_string(md_filename).unwrap();
 
         // check if file have CRLF and show error
         if md_text_content.contains("\r\n") {
@@ -99,13 +96,13 @@ fn do_one_project() {
         }
 
         if let Some(cap) = REGEX_MD_START.captures(&md_text_content) {
-            let pos_start = unwrap!(cap.get(0)).end() + 1;
+            let pos_start = cap.get(0).unwrap().end() + 1;
             if let Some(cap) = REGEX_MD_END.captures(&md_text_content) {
-                let pos_end = unwrap!(cap.get(0)).start();
+                let pos_end = cap.get(0).unwrap().start();
                 md_text_content.replace_range(pos_start..pos_end, &new_text);
                 println!("{YELLOW}write to md file: {}{RESET}", md_filename);
                 println!("{GREEN}{}{RESET}", &new_text.trim_end_matches("\n\n"));
-                unwrap!(fs::write(md_filename, md_text_content));
+                fs::write(md_filename, md_text_content).unwrap();
             }
         }
     }
