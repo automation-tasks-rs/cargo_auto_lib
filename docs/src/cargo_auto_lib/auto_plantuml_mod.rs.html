@@ -385,19 +385,18 @@
 
 </span><span class="kw">use </span><span class="kw">crate</span>::utils_mod::<span class="kw-2">*</span>;
 <span class="kw">use </span>lazy_static::lazy_static;
-<span class="kw">use </span>unwrap::unwrap;
 
 <span class="macro">lazy_static! </span>{
-    <span class="kw">static </span><span class="kw-2">ref </span>REGEX_PLANTUML_START: regex::Regex = <span class="macro">unwrap!</span>(regex::Regex::new(
+    <span class="kw">static </span><span class="kw-2">ref </span>REGEX_PLANTUML_START: regex::Regex = regex::Regex::new(
         <span class="string">r#"(?m)^\[//\]: # \(auto_plantuml start\)$"#
-    </span>));
-    <span class="kw">static </span><span class="kw-2">ref </span>REGEX_PLANTUML_END: regex::Regex = <span class="macro">unwrap!</span>(regex::Regex::new(
+    </span>).unwrap();
+    <span class="kw">static </span><span class="kw-2">ref </span>REGEX_PLANTUML_END: regex::Regex = regex::Regex::new(
         <span class="string">r#"(?m)^\[//\]: # \(auto_plantuml end\)$"#
-    </span>));
+    </span>).unwrap();
     <span class="comment">// capture group
-    </span><span class="kw">static </span><span class="kw-2">ref </span>REGEX_IMG_LINK: regex::Regex = <span class="macro">unwrap!</span>(regex::Regex::new(
+    </span><span class="kw">static </span><span class="kw-2">ref </span>REGEX_IMG_LINK: regex::Regex = regex::Regex::new(
     <span class="string">r#"!\[.+\]\(.+/svg_(.+)\.svg\)"#
-    </span>));
+    </span>).unwrap();
 }
 
 <span class="doccomment">/// process plantuml in current directory
@@ -416,21 +415,22 @@
 </span><span class="kw">pub fn </span>auto_plantuml_for_path(path: <span class="kw-2">&</span>std::path::Path, repo_url: <span class="kw-2">&</span>str) {
     <span class="macro">println!</span>(<span class="string">"    Running auto_plantuml"</span>);
     <span class="comment">//use traverse instead of glob
-    </span><span class="kw">let </span>files = <span class="macro">unwrap!</span>(<span class="kw">crate</span>::utils_mod::traverse_dir_with_exclude_dir(
+    </span><span class="kw">let </span>files = <span class="kw">crate</span>::utils_mod::traverse_dir_with_exclude_dir(
         path,
         <span class="string">"/*.md"</span>,
         <span class="comment">// avoid big folders and other folders with *.crev
         </span><span class="kw-2">&</span>[
             <span class="string">"/.git"</span>.to_string(),
             <span class="string">"/target"</span>.to_string(),
-            <span class="string">"/docs"</span>.to_string()
-        ]
-    ));
+            <span class="string">"/docs"</span>.to_string(),
+        ],
+    )
+    .unwrap();
     <span class="kw">for </span>md_filename <span class="kw">in </span>files {
         <span class="kw">let </span>md_filename = std::path::Path::new(<span class="kw-2">&</span>md_filename);
 
         <span class="kw">let </span><span class="kw-2">mut </span>is_changed = <span class="bool-val">false</span>;
-        <span class="kw">let </span><span class="kw-2">mut </span>md_text_content = <span class="macro">unwrap!</span>(std::fs::read_to_string(md_filename));
+        <span class="kw">let </span><span class="kw-2">mut </span>md_text_content = std::fs::read_to_string(md_filename).unwrap();
 
         <span class="comment">// check if file have CRLF and show error
         </span><span class="kw">if </span>md_text_content.contains(<span class="string">"\r\n"</span>) {

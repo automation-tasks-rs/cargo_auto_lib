@@ -427,6 +427,8 @@
 <a href="#376" id="376">376</a>
 <a href="#377" id="377">377</a>
 <a href="#378" id="378">378</a>
+<a href="#379" id="379">379</a>
+<a href="#380" id="380">380</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// auto_version_from_date_mod
@@ -445,7 +447,6 @@
 <span class="kw">use </span>std::path::PathBuf;
 <span class="kw">use </span>std::str::FromStr;
 <span class="kw">use </span>std::{fs, path::Path};
-<span class="kw">use </span>unwrap::unwrap;
 <span class="comment">// this trait must be in scope to use these methods of CargoToml
 </span><span class="kw">use </span><span class="kw">crate</span>::public_api_mod::CargoTomlPublicApiMethods;
 
@@ -517,9 +518,9 @@
         <span class="prelude-val">None </span>=&gt; do_one_project(<span class="kw-2">&</span>new_version, force_version)<span class="question-mark">?</span>,
         <span class="prelude-val">Some</span>(members) =&gt; {
             <span class="kw">for </span>member <span class="kw">in </span>members.iter() {
-                <span class="macro">unwrap!</span>(std::env::set_current_dir(member));
+                std::env::set_current_dir(member).unwrap();
                 do_one_project(<span class="kw-2">&</span>new_version, force_version)<span class="question-mark">?</span>;
-                <span class="macro">unwrap!</span>(std::env::set_current_dir(<span class="string">".."</span>));
+                std::env::set_current_dir(<span class="string">".."</span>).unwrap();
             }
         }
     }
@@ -546,14 +547,16 @@
 <span class="doccomment">/// search for file service_worker.js and modify version
 </span><span class="kw">fn </span>modify_service_js(new_version: <span class="kw-2">&</span>str) {
     <span class="kw">let </span>start_dir = Path::new(<span class="string">"./"</span>);
-    <span class="kw">for </span>js_filename <span class="kw">in </span><span class="kw-2">&</span><span class="macro">unwrap!</span>(<span class=
+    <span class="kw">for </span>js_filename <span class="kw">in </span><span class="kw-2">&</span><span class=
 "kw">crate</span>::utils_mod::traverse_dir_with_exclude_dir(
         start_dir,
         <span class="string">"/service_worker.js"</span>,
-        <span class="kw-2">&</span>[<span class="string">"/.git"</span>.to_string(), <span class="string">"/target"</span>.to_string()]
-    )) {
+        <span class="kw-2">&</span>[<span class="string">"/.git"</span>.to_string(), <span class="string">"/target"</span>.to_string()],
+    )
+    .unwrap()
+    {
         <span class="comment">// println!("{}write version in {}{}", *GREEN, js_filename, *RESET);
-        </span><span class="kw">let </span><span class="kw-2">mut </span>js_content = <span class="macro">unwrap!</span>(fs::read_to_string(js_filename));
+        </span><span class="kw">let </span><span class="kw-2">mut </span>js_content = fs::read_to_string(js_filename).unwrap();
 
         <span class="comment">// check if file have CRLF instead of LF and show error
         </span><span class="kw">if </span>js_content.contains(<span class="string">"\r\n"</span>) {
@@ -593,7 +596,7 @@
 ) -&gt; ResultWithLibError&lt;()&gt; {
     <span class="comment">// println!("{}write version to Cargo.toml{}", *GREEN, *RESET);
     </span><span class="kw">let </span>cargo_filename = <span class="string">"Cargo.toml"</span>;
-    <span class="kw">let </span><span class="kw-2">mut </span>cargo_content = <span class="macro">unwrap!</span>(fs::read_to_string(cargo_filename));
+    <span class="kw">let </span><span class="kw-2">mut </span>cargo_content = fs::read_to_string(cargo_filename).unwrap();
 
     <span class="comment">// check if file have CRLF instead of LF and show error
     </span><span class="kw">if </span>cargo_content.contains(<span class="string">"\r\n"</span>) {
@@ -680,12 +683,13 @@
 "question-mark">?</span>.as_path())<span class="question-mark">?</span>;
     vec_of_metadata.push(FileMetaData { filename, filehash });
 
-    <span class="kw">let </span>files_paths = <span class="macro">unwrap!</span>(<span class="kw">crate</span>::utils_mod::traverse_dir_with_exclude_dir(
+    <span class="kw">let </span>files_paths = <span class="kw">crate</span>::utils_mod::traverse_dir_with_exclude_dir(
         Path::new(<span class="string">"src"</span>),
         <span class="string">"/*.rs"</span>,
         <span class="comment">// avoid big folders and other folders with *.crev
-        </span><span class="kw-2">&</span>[]
-    ));
+        </span><span class="kw-2">&</span>[],
+    )
+    .unwrap();
 
     <span class="kw">for </span>filename <span class="kw">in </span>files_paths {
         <span class="comment">// calculate hash of file
@@ -750,7 +754,7 @@
     <span class="kw">let </span>x = AutoVersionFromDate {
         vec_file_metadata: vec_of_metadata,
     };
-    <span class="kw">let </span>y = <span class="macro">unwrap!</span>(serde_json::to_string_pretty(<span class="kw-2">&</span>x));
+    <span class="kw">let </span>y = serde_json::to_string_pretty(<span class="kw-2">&</span>x).unwrap();
     <span class="kw">let </span>json_filepath = <span class="string">".automation_tasks_rs_file_hashes.json"</span>;
     <span class="kw">let </span>_f = fs::write(json_filepath, y);
 }

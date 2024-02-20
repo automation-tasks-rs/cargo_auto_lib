@@ -113,7 +113,6 @@
 <a href="#62" id="62">62</a>
 <a href="#63" id="63">63</a>
 <a href="#64" id="64">64</a>
-<a href="#65" id="65">65</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// auto_delete_old_js_snippets_mod
@@ -126,7 +125,6 @@
 <span class="kw">use </span>std::env;
 <span class="kw">use </span>std::fs;
 <span class="kw">use </span>std::path::PathBuf;
-<span class="kw">use </span>unwrap::unwrap;
 <span class="comment">//endregion
 
 </span><span class="doccomment">/// deletes old js snippets when working with wasm-pack  
@@ -134,7 +132,7 @@
 /// This utils do that.  
 /// The function must be executed in the root project folder where is the Cargo.toml.  
 </span><span class="kw">pub fn </span>auto_delete_old_js_snippets() {
-    <span class="kw">let </span>current_dir = <span class="macro">unwrap!</span>(env::current_dir());
+    <span class="kw">let </span>current_dir = env::current_dir().unwrap();
     <span class="kw">let </span>snippets_dir = current_dir.join(<span class="string">"pkg"</span>).join(<span class="string">"snippets"</span>);
     <span class="comment">//the first folder can be None
     </span><span class="kw">let </span><span class="kw-2">mut </span>opt_first_folder: <span class="prelude-ty">Option</span>&lt;PathBuf&gt; = <span class=
@@ -144,13 +142,13 @@
 
     <span class="comment">//find the newer folder and remove the older folder
     //but not with dodrio_xxx name
-    </span><span class="kw">for </span>entry <span class="kw">in </span><span class="macro">unwrap!</span>(fs::read_dir(snippets_dir)) {
-        <span class="kw">let </span>entry = <span class="macro">unwrap!</span>(entry);
+    </span><span class="kw">for </span>entry <span class="kw">in </span>fs::read_dir(snippets_dir).unwrap() {
+        <span class="kw">let </span>entry = entry.unwrap();
         <span class="kw">let </span>second_folder = entry.path();
-        <span class="kw">let </span>second_name = <span class="macro">unwrap!</span>(entry.file_name().into_string()).to_lowercase();
+        <span class="kw">let </span>second_name = entry.file_name().into_string().unwrap().to_lowercase();
         <span class="kw">if </span>!second_name.starts_with(<span class="string">"dodrio"</span>) {
             <span class="comment">//println!("{:?}",second_folder);
-            </span><span class="kw">let </span>second_metadata = <span class="macro">unwrap!</span>(fs::metadata(<span class="kw-2">&</span>second_folder));
+            </span><span class="kw">let </span>second_metadata = fs::metadata(<span class="kw-2">&</span>second_folder).unwrap();
             <span class="kw">let </span>second_mtime = FileTime::from_last_modification_time(<span class="kw-2">&</span>second_metadata);
             <span class="comment">//println!("{:?}",second_mtime);
 
@@ -163,9 +161,9 @@
 "kw-2">&</span>first_mtime) {
                     <span class="comment">// if second_mtime &gt; first_mtime {
                     </span>std::cmp::Ordering::Greater =&gt; {
-                        <span class="kw">let </span>first_folder = <span class="macro">unwrap!</span>(opt_first_folder);
+                        <span class="kw">let </span>first_folder = opt_first_folder.unwrap();
                         <span class="macro">println!</span>(<span class="string">"    delete first: {:?}"</span>, first_folder);
-                        <span class="macro">unwrap!</span>(std::fs::remove_dir_all(first_folder));
+                        std::fs::remove_dir_all(first_folder).unwrap();
 
                         opt_first_folder = <span class="prelude-val">Some</span>(second_folder.clone());
                         opt_first_mtime = <span class="prelude-val">Some</span>(second_mtime);
@@ -173,7 +171,7 @@
                     <span class="comment">//  } else if first_mtime &gt; second_mtime {
                     </span>std::cmp::Ordering::Less =&gt; {
                         <span class="macro">println!</span>(<span class="string">"    delete second: {:?}"</span>, second_folder);
-                        <span class="macro">unwrap!</span>(std::fs::remove_dir_all(second_folder));
+                        std::fs::remove_dir_all(second_folder).unwrap();
                     }
                     <span class="comment">// else
                     </span>std::cmp::Ordering::Equal =&gt; {

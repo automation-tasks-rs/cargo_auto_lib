@@ -168,7 +168,6 @@
 <a href="#117" id="117">117</a>
 <a href="#118" id="118">118</a>
 <a href="#119" id="119">119</a>
-<a href="#120" id="120">120</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// utils_mod.rs
@@ -176,7 +175,6 @@
 </span><span class="doccomment">//! various utilities
 
 </span><span class="kw">use </span>std::{fs, io, path::Path};
-<span class="kw">use </span>unwrap::unwrap;
 
 <span class="comment">// region: delimiters cannot be INACTIVE like markers
 
@@ -259,7 +257,7 @@
         <span class="kw">for </span>entry <span class="kw">in </span>fs::read_dir(dir)<span class="question-mark">? </span>{
             <span class="kw">let </span>entry = entry<span class="question-mark">?</span>;
             <span class="kw">let </span>path = entry.path();
-            <span class="kw">let </span>str_path = <span class="macro">unwrap!</span>(path.to_str());
+            <span class="kw">let </span>str_path = path.to_str().unwrap();
             <span class="kw">if </span>path.is_dir() {
                 <span class="kw">let </span><span class="kw-2">mut </span>is_excluded = <span class="bool-val">false</span>;
                 <span class="kw">for </span>excl <span class="kw">in </span>exclude_dirs {

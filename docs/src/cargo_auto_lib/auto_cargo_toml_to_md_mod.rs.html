@@ -169,9 +169,6 @@
 <a href="#118" id="118">118</a>
 <a href="#119" id="119">119</a>
 <a href="#120" id="120">120</a>
-<a href="#121" id="121">121</a>
-<a href="#122" id="122">122</a>
-<a href="#123" id="123">123</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// auto_cargo_toml_to_md_mod
@@ -187,7 +184,6 @@
 <span class="kw">use </span>lazy_static::lazy_static;
 <span class="kw">use </span>regex::<span class="kw-2">*</span>;
 <span class="kw">use </span>std::fs;
-<span class="kw">use </span>unwrap::unwrap;
 
 <span class="comment">// this trait must be in scope to use these methods of CargoToml
 </span><span class="kw">use </span><span class="kw">crate</span>::public_api_mod::CargoTomlPublicApiMethods;
@@ -197,12 +193,10 @@
 <span class="comment">// endregion: use statements
 
 </span><span class="macro">lazy_static! </span>{
-    <span class="kw">static </span><span class="kw-2">ref </span>REGEX_MD_START: Regex = <span class="macro">unwrap!</span>(Regex::new(
-        <span class="string">r#"(?m)^\[//\]: # \(auto_cargo_toml_to_md start\)$"#
-    </span>));
-    <span class="kw">static </span><span class="kw-2">ref </span>REGEX_MD_END: Regex = <span class="macro">unwrap!</span>(Regex::new(
-        <span class="string">r#"(?m)^\[//\]: # \(auto_cargo_toml_to_md end\)$"#
-    </span>));
+    <span class="kw">static </span><span class="kw-2">ref </span>REGEX_MD_START: Regex =
+        Regex::new(<span class="string">r#"(?m)^\[//\]: # \(auto_cargo_toml_to_md start\)$"#</span>).unwrap();
+    <span class="kw">static </span><span class="kw-2">ref </span>REGEX_MD_END: Regex =
+        Regex::new(<span class="string">r#"(?m)^\[//\]: # \(auto_cargo_toml_to_md end\)$"#</span>).unwrap();
 }
 
 <span class="doccomment">/// includes data from Cargo.toml to README.md files: version, authors,...
@@ -236,9 +230,9 @@
             <span class="comment">// this will read cargo.toml from the first `main` member and inject into workspace README.md
             </span>do_one_project();
             <span class="kw">for </span>member <span class="kw">in </span>members.iter() {
-                <span class="macro">unwrap!</span>(std::env::set_current_dir(member));
+                std::env::set_current_dir(member).unwrap();
                 do_one_project();
-                <span class="macro">unwrap!</span>(std::env::set_current_dir(<span class="string">".."</span>));
+                std::env::set_current_dir(<span class="string">".."</span>).unwrap();
             }
         }
     }
@@ -263,11 +257,11 @@
         <span class="kw-2">&</span>repository,
     );
 
-    <span class="kw">for </span>filename_result <span class="kw">in </span><span class="macro">unwrap!</span>(glob(<span class="string">"*.md"</span>)) {
-        <span class="kw">let </span>filename_pathbuff = <span class="macro">unwrap!</span>(filename_result);
-        <span class="kw">let </span>md_filename = <span class="macro">unwrap!</span>(filename_pathbuff.to_str());
+    <span class="kw">for </span>filename_result <span class="kw">in </span>glob(<span class="string">"*.md"</span>).unwrap() {
+        <span class="kw">let </span>filename_pathbuff = filename_result.unwrap();
+        <span class="kw">let </span>md_filename = filename_pathbuff.to_str().unwrap();
         <span class="comment">// println!("checking md_filename: {}", &amp;md_filename);
-        </span><span class="kw">let </span><span class="kw-2">mut </span>md_text_content = <span class="macro">unwrap!</span>(fs::read_to_string(md_filename));
+        </span><span class="kw">let </span><span class="kw-2">mut </span>md_text_content = fs::read_to_string(md_filename).unwrap();
 
         <span class="comment">// check if file have CRLF and show error
         </span><span class="kw">if </span>md_text_content.contains(<span class="string">"\r\n"</span>) {
@@ -276,15 +270,14 @@
         }
 
         <span class="kw">if let </span><span class="prelude-val">Some</span>(cap) = REGEX_MD_START.captures(<span class="kw-2">&</span>md_text_content) {
-            <span class="kw">let </span>pos_start = <span class="macro">unwrap!</span>(cap.get(<span class="number">0</span>)).end() + <span class=
-"number">1</span>;
+            <span class="kw">let </span>pos_start = cap.get(<span class="number">0</span>).unwrap().end() + <span class="number">1</span>;
             <span class="kw">if let </span><span class="prelude-val">Some</span>(cap) = REGEX_MD_END.captures(<span class="kw-2">&</span>md_text_content) {
-                <span class="kw">let </span>pos_end = <span class="macro">unwrap!</span>(cap.get(<span class="number">0</span>)).start();
+                <span class="kw">let </span>pos_end = cap.get(<span class="number">0</span>).unwrap().start();
                 md_text_content.replace_range(pos_start..pos_end, <span class="kw-2">&</span>new_text);
                 <span class="macro">println!</span>(<span class="string">"{YELLOW}write to md file: {}{RESET}"</span>, md_filename);
                 <span class="macro">println!</span>(<span class="string">"{GREEN}{}{RESET}"</span>, <span class=
 "kw-2">&</span>new_text.trim_end_matches(<span class="string">"\n\n"</span>));
-                <span class="macro">unwrap!</span>(fs::write(md_filename, md_text_content));
+                fs::write(md_filename, md_text_content).unwrap();
             }
         }
     }

@@ -35,7 +35,7 @@
     <div class="sidebar-crate">
       <a class="logo-container" href="../cargo_auto_lib/index.html"><img src=
       "https://github.com/bestia-dev/cargo-auto/raw/main/images/logo/logo_cargo_auto.svg" alt="logo"></a>
-      <h2><a href="../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">1.1.35</span></h2>
+      <h2><a href="../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">1.2.3</span></h2>
     </div>
     <div class="sidebar-elems">
       <ul class="block">
@@ -98,7 +98,7 @@
             <h2 id="cargo_auto_lib"><a href="#cargo_auto_lib">cargo_auto_lib</a></h2>
             <p><strong>Library crate for common tasks when building rust projects. Intended for use with cargo-auto - automation tasks written in Rust
             language.</strong><br>
-            <em><strong>version: 1.1.35 date: 2024-02-20 author: <a href="https://bestia.dev">Bestia.dev</a> repository: <a href=
+            <em><strong>version: 1.2.3 date: 2024-02-20 author: <a href="https://bestia.dev">Bestia.dev</a> repository: <a href=
             "https://github.com/bestia-dev/cargo_auto_lib">GitHub</a></strong></em></p>
             <p><img src="https://raw.githubusercontent.com/bestia-dev/cargo-auto/main/images/logo/logo_cargo_auto.svg" alt="logo"> <img src=
             "https://img.shields.io/badge/maintained-green" alt="status"> <img src="https://img.shields.io/badge/ready_for_use-green" alt="status"></p>
@@ -111,10 +111,10 @@
             "License"></a> <a href="https://github.com/bestia-dev/cargo_auto_lib/"><img src=
             "https://github.com/bestia-dev/cargo_auto_lib/workflows/rust_fmt_auto_build_test/badge.svg" alt="Rust"></a> <img src=
             "https://bestia.dev/webpage_hit_counter/get_svg_image/276360626.svg" alt="Hits"></p>
-            <p><a href="https://github.com/bestia-dev/cargo_auto_lib/"><img src="https://img.shields.io/badge/Lines_in_Rust-2013-green.svg" alt=
+            <p><a href="https://github.com/bestia-dev/cargo_auto_lib/"><img src="https://img.shields.io/badge/Lines_in_Rust-2149-green.svg" alt=
             "Lines in Rust code"></a> <a href="https://github.com/bestia-dev/cargo_auto_lib/"><img src=
-            "https://img.shields.io/badge/Lines_in_Doc_comments-533-blue.svg" alt="Lines in Doc comments"></a> <a href=
-            "https://github.com/bestia-dev/cargo_auto_lib/"><img src="https://img.shields.io/badge/Lines_in_comments-296-purple.svg" alt=
+            "https://img.shields.io/badge/Lines_in_Doc_comments-575-blue.svg" alt="Lines in Doc comments"></a> <a href=
+            "https://github.com/bestia-dev/cargo_auto_lib/"><img src="https://img.shields.io/badge/Lines_in_comments-302-purple.svg" alt=
             "Lines in Comments"></a> <a href="https://github.com/bestia-dev/cargo_auto_lib/"><img src=
             "https://img.shields.io/badge/Lines_in_examples-37-yellow.svg" alt="Lines in examples"></a> <a href=
             "https://github.com/bestia-dev/cargo_auto_lib/"><img src="https://img.shields.io/badge/Lines_in_tests-105-orange.svg" alt="Lines in tests"></a></p>
@@ -190,8 +190,8 @@ cargo auto doc{RESET}{YELLOW}
             <h3 id="development-details"><a href="#development-details">Development details</a></h3>
             <p>Read the development details in a separate md file:<br>
             <a href="https://github.com/bestia-dev/cargo-auto/blob/main/DEVELOPMENT.md">DEVELOPMENT.md</a></p>
-            <h3 id="changelog"><a href="#changelog">Changelog</a></h3>
-            <p>Read the changelog in a separate md file:<br>
+            <h3 id="releases-changelog"><a href="#releases-changelog">Releases changelog</a></h3>
+            <p>Read the release changelog in a separate md file:<br>
             <a href="https://github.com/bestia-dev/cargo-auto/blob/main/RELEASES.md">RELEASES.md</a></p>
             <h3 id="todo"><a href="#todo">TODO</a></h3>
             <p>Use the new <code>#![doc=include_str!("README.md")]</code> to avoid super clutter in <code>lib.rs</code> doc comments.</p>
@@ -411,14 +411,6 @@ cargo auto doc{RESET}{YELLOW}
         </ul>
         <h2 id="functions" class="section-header"><a href="#functions">Functions</a></h2>
         <ul class="item-table">
-          <li>
-            <div class="item-name">
-              <a class="fn" href="fn.api_call_repository_new.html" title="fn cargo_auto_lib::api_call_repository_new">api_call_repository_new</a>
-            </div>
-            <div class="desc docblock-short">
-              creates a new github repository
-            </div>
-          </li>
           <li>
             <div class="item-name">
               <a class="fn" href="fn.ask_for_github_ssh_for_push.html" title="fn cargo_auto_lib::ask_for_github_ssh_for_push">ask_for_github_ssh_for_push</a>
@@ -674,6 +666,44 @@ cargo auto doc{RESET}{YELLOW}
             </div>
             <div class="desc docblock-short">
               check if this folder is a local Git repository
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="fn" href="fn.github_api_create_new_release.html" title=
+              "fn cargo_auto_lib::github_api_create_new_release">github_api_create_new_release</a>
+            </div>
+            <div class="desc docblock-short">
+              create new release on Github<br>
+              return release_id<br>
+              it needs env variable <code>export GITHUB_TOKEN=paste_github_personal_authorization_token_here</code><br>
+              <a href=
+              "https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token">https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token</a>
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="fn" href="fn.github_api_repository_new.html" title="fn cargo_auto_lib::github_api_repository_new">github_api_repository_new</a>
+            </div>
+            <div class="desc docblock-short">
+              creates a new github repository
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="fn" href="fn.github_api_upload_asset_to_release.html" title=
+              "fn cargo_auto_lib::github_api_upload_asset_to_release">github_api_upload_asset_to_release</a>
+            </div>
+            <div class="desc docblock-short">
+              upload asset to github release<br>
+              release_upload_url example: <a href=
+              "https://uploads.github.com/repos/owner/repo/releases/48127727/assets">https://uploads.github.com/repos/owner/repo/releases/48127727/assets</a><br>
+
+              it needs env variable <code>export GITHUB_TOKEN=paste_github_personal_authorization_token_here</code><br>
+              <a href=
+              "https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token">https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token</a><br>
+
+              async function can be called from sync code:
             </div>
           </li>
           <li>

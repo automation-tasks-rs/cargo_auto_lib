@@ -172,9 +172,6 @@
 <a href="#121" id="121">121</a>
 <a href="#122" id="122">122</a>
 <a href="#123" id="123">123</a>
-<a href="#124" id="124">124</a>
-<a href="#125" id="125">125</a>
-<a href="#126" id="126">126</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// auto_cargo_toml_mod
@@ -184,12 +181,11 @@
 
 </span><span class="kw">use </span>lazy_static::lazy_static;
 <span class="kw">use </span>regex::<span class="kw-2">*</span>;
-<span class="kw">use </span>unwrap::unwrap;
 
 <span class="macro">lazy_static! </span>{
     <span class="comment">// from this string: authors = ["bestia.dev"]
-    </span><span class="kw">static </span><span class="kw-2">ref </span>REGEX_REMOVE_EMAIL: Regex = <span class="macro">unwrap!</span>(Regex::new(<span class=
-"string">r#"( &lt;.+?&gt;)"#</span>));
+    </span><span class="kw">static </span><span class="kw-2">ref </span>REGEX_REMOVE_EMAIL: Regex = Regex::new(<span class=
+"string">r#"( &lt;.+?&gt;)"#</span>).unwrap();
 }
 
 <span class="kw">pub struct </span>CargoToml {
@@ -205,21 +201,18 @@
 <span class="kw">impl </span><span class="kw">crate</span>::public_api_mod::CargoTomlPublicApiMethods <span class="kw">for </span>CargoToml {
     <span class="doccomment">/// read Cargo.toml, for workspaces it is the Cargo.toml of the first member
     </span><span class="kw">fn </span>read() -&gt; <span class="self">Self </span>{
-        <span class="kw">let </span>cargo_toml_workspace_maybe = <span class="macro">unwrap!</span>(cargo_toml::Manifest::from_path(<span class=
-"string">"Cargo.toml"</span>));
+        <span class="kw">let </span>cargo_toml_workspace_maybe = cargo_toml::Manifest::from_path(<span class="string">"Cargo.toml"</span>).unwrap();
         <span class="kw">let </span>cargo_toml_main = <span class="kw">match </span><span class="kw-2">&</span>cargo_toml_workspace_maybe.workspace {
             <span class="prelude-val">None </span>=&gt; cargo_toml_workspace_maybe.clone(),
             <span class="prelude-val">Some</span>(workspace) =&gt; {
                 <span class="kw">let </span>main_member = <span class="kw-2">&</span>workspace.members[<span class="number">0</span>];
-                <span class="kw">let </span>cargo_main = <span class="macro">unwrap!</span>(cargo_toml::Manifest::from_path(<span class="macro">format!</span>(
-                    <span class="string">"{}/Cargo.toml"</span>,
-                    main_member
-                )));
+                <span class="kw">let </span>cargo_main =
+                    cargo_toml::Manifest::from_path(<span class="macro">format!</span>(<span class="string">"{}/Cargo.toml"</span>, main_member)).unwrap();
                 <span class="comment">//return
                 </span>cargo_main
             }
         };
-        <span class="kw">let </span>package = <span class="macro">unwrap!</span>(cargo_toml_main.package.as_ref()).to_owned();
+        <span class="kw">let </span>package = cargo_toml_main.package.as_ref().unwrap().to_owned();
         CargoToml {
             cargo_toml_workspace_maybe,
             _cargo_toml_main: cargo_toml_main,

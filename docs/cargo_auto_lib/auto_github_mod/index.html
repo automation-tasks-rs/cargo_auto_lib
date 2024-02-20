@@ -35,7 +35,7 @@
     <div class="sidebar-crate">
       <a class="logo-container" href="../../cargo_auto_lib/index.html"><img src=
       "https://github.com/bestia-dev/cargo-auto/raw/main/images/logo/logo_cargo_auto.svg" alt="logo"></a>
-      <h2><a href="../../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">1.1.35</span></h2>
+      <h2><a href="../../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">1.2.3</span></h2>
     </div>
     <h2 class="location"><a href="#">Module auto_github_mod</a></h2>
     <div class="sidebar-elems">
@@ -71,20 +71,11 @@
         <div class="main-heading">
           <h1>Module <a href="../index.html">cargo_auto_lib</a>::<wbr><a class="mod" href="#">auto_github_mod</a><button id="copy-path" title=
           "Copy item path to clipboard"><img src="../../static.files/clipboard-7571035ce49a181d.svg" width="19" height="18" alt=
-          "Copy item path"></button></h1><span class="out-of-band"><a class="src" href="../../src/cargo_auto_lib/auto_github_mod.rs.html#3-293">source</a> ·
+          "Copy item path"></button></h1><span class="out-of-band"><a class="src" href="../../src/cargo_auto_lib/auto_github_mod.rs.html#3-427">source</a> ·
           <button id="toggle-all-docs" title="collapse all docs">[<span>−</span>]</button></span>
         </div>
         <h2 id="functions" class="section-header"><a href="#functions">Functions</a></h2>
         <ul class="item-table">
-          <li>
-            <div class="item-name">
-              <a class="fn" href="fn.api_call_repository_new.html" title=
-              "fn cargo_auto_lib::auto_github_mod::api_call_repository_new">api_call_repository_new</a>
-            </div>
-            <div class="desc docblock-short">
-              creates a new github repository
-            </div>
-          </li>
           <li>
             <div class="item-name">
               <a class="fn" href="fn.ask_for_github_ssh_for_push.html" title=
@@ -101,6 +92,45 @@
             </div>
             <div class="desc docblock-short">
               parse the ~/.ssh/config. 99% probably there should be a record for github and there is the identity_file.
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="fn" href="fn.github_api_create_new_release.html" title=
+              "fn cargo_auto_lib::auto_github_mod::github_api_create_new_release">github_api_create_new_release</a>
+            </div>
+            <div class="desc docblock-short">
+              create new release on Github<br>
+              return release_id<br>
+              it needs env variable <code>export GITHUB_TOKEN=paste_github_personal_authorization_token_here</code><br>
+              <a href=
+              "https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token">https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token</a>
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="fn" href="fn.github_api_repository_new.html" title=
+              "fn cargo_auto_lib::auto_github_mod::github_api_repository_new">github_api_repository_new</a>
+            </div>
+            <div class="desc docblock-short">
+              creates a new github repository
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="fn" href="fn.github_api_upload_asset_to_release.html" title=
+              "fn cargo_auto_lib::auto_github_mod::github_api_upload_asset_to_release">github_api_upload_asset_to_release</a>
+            </div>
+            <div class="desc docblock-short">
+              upload asset to github release<br>
+              release_upload_url example: <a href=
+              "https://uploads.github.com/repos/owner/repo/releases/48127727/assets">https://uploads.github.com/repos/owner/repo/releases/48127727/assets</a><br>
+
+              it needs env variable <code>export GITHUB_TOKEN=paste_github_personal_authorization_token_here</code><br>
+              <a href=
+              "https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token">https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token</a><br>
+
+              async function can be called from sync code:
             </div>
           </li>
           <li>

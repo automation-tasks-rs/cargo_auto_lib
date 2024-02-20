@@ -110,7 +110,6 @@
 <a href="#59" id="59">59</a>
 <a href="#60" id="60">60</a>
 <a href="#61" id="61">61</a>
-<a href="#62" id="62">62</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// auto_check_micro_xml_mod.rs
@@ -118,7 +117,6 @@
 </span><span class="kw">use </span><span class="kw">crate</span>::public_api_mod::{RED, RESET};
 <span class="kw">use </span>glob::glob;
 <span class="kw">use </span>reader_for_microxml::{ReaderForMicroXml, Token};
-<span class="kw">use </span>unwrap::unwrap;
 
 <span class="doccomment">/// I want html pages to be correct microXML when I use them for single page application.
 /// Before build or release this function will check for correctness.
@@ -127,11 +125,10 @@
     <span class="kw">let </span>glob_str = <span class="macro">format!</span>(<span class=
 "string">"{}/*.html"</span>, path_to_html_pages.trim_end_matches(<span class="string">'/'</span>));
     <span class="comment">// find html pages for single page application
-    </span><span class="kw">for </span>filename_result <span class="kw">in </span><span class="macro">unwrap!</span>(glob(<span class=
-"kw-2">&</span>glob_str)) {
-        <span class="kw">let </span>filename_pathbuff = <span class="macro">unwrap!</span>(filename_result);
-        <span class="kw">let </span>file_name = <span class="macro">unwrap!</span>(<span class="macro">unwrap!</span>(filename_pathbuff.file_name()).to_str());
-        <span class="kw">let </span>str_xml = <span class="macro">unwrap!</span>(std::fs::read_to_string(<span class="kw-2">&</span>filename_pathbuff));
+    </span><span class="kw">for </span>filename_result <span class="kw">in </span>glob(<span class="kw-2">&</span>glob_str).unwrap() {
+        <span class="kw">let </span>filename_pathbuff = filename_result.unwrap();
+        <span class="kw">let </span>file_name = filename_pathbuff.file_name().unwrap().to_str().unwrap();
+        <span class="kw">let </span>str_xml = std::fs::read_to_string(<span class="kw-2">&</span>filename_pathbuff).unwrap();
 
         <span class="comment">// check if file have CRLF instead of LF and show error
         </span><span class="kw">if </span>str_xml.contains(<span class="string">"\r\n"</span>) {
@@ -163,7 +160,7 @@
                 Token::TextNode(_txt) =&gt; <span class="kw">continue</span>,
                 Token::Comment(_txt) =&gt; <span class="kw">continue</span>,
                 Token::EndElement(end_element_name) =&gt; {
-                    <span class="kw">let </span>start_element_name = <span class="macro">unwrap!</span>(vec_elem.pop());
+                    <span class="kw">let </span>start_element_name = vec_elem.pop().unwrap();
                     <span class="kw">if </span>!end_element_name.is_empty() &amp;& end_element_name != start_element_name {
                         <span class="macro">panic!</span>(
                             <span class="string">"{RED}MicroXml {} start {} does not match end {}{RESET}"</span>,
