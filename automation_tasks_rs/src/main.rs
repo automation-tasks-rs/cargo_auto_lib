@@ -1,4 +1,4 @@
-//! automation_tasks_rs for cargo_auto_lib
+// automation_tasks_rs for cargo_auto_lib
 
 // region: library with basic automation tasks
 use cargo_auto_lib as cl;
@@ -9,6 +9,7 @@ use cargo_auto_lib::GREEN;
 use cargo_auto_lib::RED;
 use cargo_auto_lib::RESET;
 use cargo_auto_lib::YELLOW;
+
 // region: library with basic automation tasks
 
 fn main() {

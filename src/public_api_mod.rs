@@ -509,6 +509,25 @@ pub fn now_utc_date_iso() -> String {
     crate::auto_github_mod::now_utc_date_iso()
 }
 
+/// copy all files from the folder into a module as strings (static &str)
+/// the module has the markers: region: files copied into strings by automation tasks and endregion:
+/// the string will be in a vector with the file name
+/// first we create the complete text, then we check if the old text needs to be replaced
+/// ext_for_binary_files=vec![".ico",".jpg",".png",".woff2"];
+/// exclude_big_folders = vec!["/.git","/target","/docs"];
+pub fn copy_folder_files_into_module(
+    folder_path: &std::path::Path,
+    module_path: &std::path::Path,
+    ext_for_binary_files: &[&str],
+    exclude_big_folders: &[String],
+) {
+    crate::auto_copy_files_to_strings_mod::copy_folder_files_into_module(
+        folder_path,
+        module_path,
+        ext_for_binary_files,
+        exclude_big_folders,
+    )
+}
 // endregion: Public API functions
 
 // endregion: PUBLIC API defines externally accessible functions and struct

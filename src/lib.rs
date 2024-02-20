@@ -18,6 +18,7 @@
 mod auto_cargo_toml_mod;
 mod auto_cargo_toml_to_md_mod;
 mod auto_check_micro_xml_mod;
+mod auto_copy_files_to_strings_mod;
 mod auto_delete_old_js_snippets_mod;
 mod auto_doc_tidy_html_mod;
 mod auto_git_mod;
