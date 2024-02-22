@@ -35,7 +35,7 @@
     <div class="sidebar-crate">
       <a class="logo-container" href="../../cargo_auto_lib/index.html"><img src=
       "https://github.com/bestia-dev/cargo-auto/raw/main/images/logo/logo_cargo_auto.svg" alt="logo"></a>
-      <h2><a href="../../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">1.3.3</span></h2>
+      <h2><a href="../../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">1.3.4</span></h2>
     </div>
     <h2 class="location"><a href="#">REGEX_RS_END</a></h2>
     <div class="sidebar-elems">
@@ -232,8 +232,7 @@
 
 <span class="kw">let </span>re = Regex::new(<span class="string">r"\b\w{13}\b"</span>).unwrap();
 <span class="kw">let </span>hay = <span class="string">"I categorically deny having triskaidekaphobia."</span>;
-<span class="macro">assert!</span>(re.is_match(hay));</code></pre><a class="test-arrow" target="_blank" href=
-"https://play.rust-lang.org/?code=%23!%5Ballow(unused)%5D%0Afn+main()+%7B%0Ause+regex::Regex;%0A%0Alet+re+=+Regex::new(r%22%5Cb%5Cw%7B13%7D%5Cb%22).unwrap();%0Alet+hay+=+%22I+categorically+deny+having+triskaidekaphobia.%22;%0Aassert!(re.is_match(hay));%0A%7D&amp;edition=2021">Run</a>
+<span class="macro">assert!</span>(re.is_match(hay));</code></pre>
               </div>
             </div>
           </details>
@@ -257,9 +256,7 @@
 <span class="kw">let </span>hay = <span class="string">"I categorically deny having triskaidekaphobia."</span>;
 <span class="kw">let </span>mat = re.find(hay).unwrap();
 <span class="macro">assert_eq!</span>(<span class="number">2</span>..<span class="number">15</span>, mat.range());
-<span class="macro">assert_eq!</span>(<span class="string">"categorically"</span>, mat.as_str());</code></pre><a class="test-arrow" target="_blank"
-                href=
-                "https://play.rust-lang.org/?code=%23!%5Ballow(unused)%5D%0Afn+main()+%7B%0Ause+regex::Regex;%0A%0Alet+re+=+Regex::new(r%22%5Cb%5Cw%7B13%7D%5Cb%22).unwrap();%0Alet+hay+=+%22I+categorically+deny+having+triskaidekaphobia.%22;%0Alet+mat+=+re.find(hay).unwrap();%0Aassert_eq!(2..15,+mat.range());%0Aassert_eq!(%22categorically%22,+mat.as_str());%0A%7D&amp;edition=2021">Run</a>
+<span class="macro">assert_eq!</span>(<span class="string">"categorically"</span>, mat.as_str());</code></pre>
               </div>
             </div>
           </details>
@@ -287,8 +284,7 @@
     <span class="string">"relinquishing"</span>,
     <span class="string">"remunerations"</span>,
     <span class="string">"reprehensible"</span>,
-]);</code></pre><a class="test-arrow" target="_blank" href=
-"https://play.rust-lang.org/?code=%23!%5Ballow(unused)%5D%0Afn+main()+%7B%0Ause+regex::Regex;%0A%0Alet+re+=+Regex::new(r%22%5Cb%5Cw%7B13%7D%5Cb%22).unwrap();%0Alet+hay+=+%22Retroactively+relinquishing+remunerations+is+reprehensible.%22;%0Alet+matches:+Vec%3C_%3E+=+re.find_iter(hay).map(%7Cm%7C+m.as_str()).collect();%0Aassert_eq!(matches,+vec!%5B%0A++++%22Retroactively%22,%0A++++%22relinquishing%22,%0A++++%22remunerations%22,%0A++++%22reprehensible%22,%0A%5D);%0A%7D&amp;edition=2021">Run</a>
+]);</code></pre>
               </div>
             </div>
           </details>
@@ -326,9 +322,7 @@
 </span><span class="macro">assert_eq!</span>(<span class="kw-2">&</span>caps[<span class="number">0</span>], <span class=
 "string">"'Citizen Kane' (1941)"</span>);
 <span class="macro">assert_eq!</span>(<span class="kw-2">&</span>caps[<span class="number">1</span>], <span class="string">"Citizen Kane"</span>);
-<span class="macro">assert_eq!</span>(<span class="kw-2">&</span>caps[<span class="number">2</span>], <span class=
-                "string">"1941"</span>);</code></pre><a class="test-arrow" target="_blank" href=
-                "https://play.rust-lang.org/?code=%23!%5Ballow(unused)%5D%0Afn+main()+%7B%0Ause+regex::Regex;%0A%0Alet+re+=+Regex::new(r%22'(%5B%5E'%5D%2B)'%5Cs%2B%5C((%5Cd%7B4%7D)%5C)%22).unwrap();%0Alet+hay+=+%22Not+my+favorite+movie:+'Citizen+Kane'+(1941).%22;%0Alet+caps+=+re.captures(hay).unwrap();%0Aassert_eq!(caps.get(0).unwrap().as_str(),+%22'Citizen+Kane'+(1941)%22);%0Aassert_eq!(caps.get(1).unwrap().as_str(),+%22Citizen+Kane%22);%0Aassert_eq!(caps.get(2).unwrap().as_str(),+%221941%22);%0A//+You+can+also+access+the+groups+by+index+using+the+Index+notation.%0A//+Note+that+this+will+panic+on+an+invalid+index.+In+this+case,+these%0A//+accesses+are+always+correct+because+the+overall+regex+will+only%0A//+match+when+these+capture+groups+match.%0Aassert_eq!(%26caps%5B0%5D,+%22'Citizen+Kane'+(1941)%22);%0Aassert_eq!(%26caps%5B1%5D,+%22Citizen+Kane%22);%0Aassert_eq!(%26caps%5B2%5D,+%221941%22);%0A%7D&amp;edition=2021">Run</a>
+<span class="macro">assert_eq!</span>(<span class="kw-2">&</span>caps[<span class="number">2</span>], <span class="string">"1941"</span>);</code></pre>
               </div>
               <p>Note that the full match is at capture group <code>0</code>. Each subsequent capture group is indexed by the order of its opening
               <code>(</code>.</p>
@@ -349,9 +343,7 @@
 </span><span class="macro">assert_eq!</span>(<span class="kw-2">&</span>caps[<span class="number">0</span>], <span class=
 "string">"'Citizen Kane' (1941)"</span>);
 <span class="macro">assert_eq!</span>(<span class="kw-2">&</span>caps[<span class="string">"title"</span>], <span class="string">"Citizen Kane"</span>);
-<span class="macro">assert_eq!</span>(<span class="kw-2">&</span>caps[<span class="string">"year"</span>], <span class=
-"string">"1941"</span>);</code></pre><a class="test-arrow" target="_blank" href=
-"https://play.rust-lang.org/?code=%23!%5Ballow(unused)%5D%0Afn+main()+%7B%0Ause+regex::Regex;%0A%0Alet+re+=+Regex::new(r%22'(?%3Ctitle%3E%5B%5E'%5D%2B)'%5Cs%2B%5C((?%3Cyear%3E%5Cd%7B4%7D)%5C)%22).unwrap();%0Alet+hay+=+%22Not+my+favorite+movie:+'Citizen+Kane'+(1941).%22;%0Alet+caps+=+re.captures(hay).unwrap();%0Aassert_eq!(caps.get(0).unwrap().as_str(),+%22'Citizen+Kane'+(1941)%22);%0Aassert_eq!(caps.name(%22title%22).unwrap().as_str(),+%22Citizen+Kane%22);%0Aassert_eq!(caps.name(%22year%22).unwrap().as_str(),+%221941%22);%0A//+You+can+also+access+the+groups+by+name+using+the+Index+notation.%0A//+Note+that+this+will+panic+on+an+invalid+group+name.+In+this+case,%0A//+these+accesses+are+always+correct+because+the+overall+regex+will%0A//+only+match+when+these+capture+groups+match.%0Aassert_eq!(%26caps%5B0%5D,+%22'Citizen+Kane'+(1941)%22);%0Aassert_eq!(%26caps%5B%22title%22%5D,+%22Citizen+Kane%22);%0Aassert_eq!(%26caps%5B%22year%22%5D,+%221941%22);%0A%7D&amp;edition=2021">Run</a>
+<span class="macro">assert_eq!</span>(<span class="kw-2">&</span>caps[<span class="string">"year"</span>], <span class="string">"1941"</span>);</code></pre>
               </div>
               <p>Here we name the capture groups, which we can access with the <code>name</code> method or the <code>Index</code> notation with a
               <code>&amp;str</code>. Note that the named capture groups are still accessible with <code>get</code> or the <code>Index</code> notation with a
@@ -366,8 +358,7 @@
 <span class="kw">let </span>(full, [title, year]) = re.captures(hay).unwrap().extract();
 <span class="macro">assert_eq!</span>(full, <span class="string">"'Citizen Kane' (1941)"</span>);
 <span class="macro">assert_eq!</span>(title, <span class="string">"Citizen Kane"</span>);
-<span class="macro">assert_eq!</span>(year, <span class="string">"1941"</span>);</code></pre><a class="test-arrow" target="_blank" href=
-"https://play.rust-lang.org/?code=%23!%5Ballow(unused)%5D%0Afn+main()+%7B%0Ause+regex::Regex;%0A%0Alet+re+=+Regex::new(r%22'(%5B%5E'%5D%2B)'%5Cs%2B%5C((%5Cd%7B4%7D)%5C)%22).unwrap();%0Alet+hay+=+%22Not+my+favorite+movie:+'Citizen+Kane'+(1941).%22;%0Alet+(full,+%5Btitle,+year%5D)+=+re.captures(hay).unwrap().extract();%0Aassert_eq!(full,+%22'Citizen+Kane'+(1941)%22);%0Aassert_eq!(title,+%22Citizen+Kane%22);%0Aassert_eq!(year,+%221941%22);%0A%7D&amp;edition=2021">Run</a>
+<span class="macro">assert_eq!</span>(year, <span class="string">"1941"</span>);</code></pre>
               </div>
             </div>
           </details>
@@ -400,8 +391,7 @@
     (<span class="string">"Citizen Kane"</span>, <span class="number">1941</span>),
     (<span class="string">"The Wizard of Oz"</span>, <span class="number">1939</span>),
     (<span class="string">"M"</span>, <span class="number">1931</span>),
-]);</code></pre><a class="test-arrow" target="_blank" href=
-"https://play.rust-lang.org/?code=%23!%5Ballow(unused)%5D%0Afn+main()+%7B+fn+_inner()+-%3E+Result%3C(),+impl+core::fmt::Debug%3E+%7B%0Ause+regex::Regex;%0A%0Alet+re+=+Regex::new(r%22'(%5B%5E'%5D%2B)'%5Cs%2B%5C((%5B0-9%5D%7B4%7D)%5C)%22).unwrap();%0Alet+hay+=+%22'Citizen+Kane'+(1941),+'The+Wizard+of+Oz'+(1939),+'M'+(1931).%22;%0Alet+mut+movies+=+vec!%5B%5D;%0Afor+(_,+%5Btitle,+year%5D)+in+re.captures_iter(hay).map(%7Cc%7C+c.extract())+%7B%0A++++movies.push((title,+year.parse::%3Ci64%3E()?));%0A%7D%0Aassert_eq!(movies,+vec!%5B%0A++++(%22Citizen+Kane%22,+1941),%0A++++(%22The+Wizard+of+Oz%22,+1939),%0A++++(%22M%22,+1931),%0A%5D);%0AOk::%3C(),+Box%3Cdyn+std::error::Error%3E%3E(())%0A%7D+_inner().unwrap()+%7D&amp;edition=2021">Run</a>
+]);</code></pre>
               </div>
               <p>Or with named groups:</p>
               <div class="example-wrap">
@@ -421,9 +411,7 @@
 
 <span class="kw">let </span>caps = it.next().unwrap();
 <span class="macro">assert_eq!</span>(<span class="kw-2">&</span>caps[<span class="string">"title"</span>], <span class="string">"M"</span>);
-<span class="macro">assert_eq!</span>(<span class="kw-2">&</span>caps[<span class="string">"year"</span>], <span class=
-"string">"1931"</span>);</code></pre><a class="test-arrow" target="_blank" href=
-"https://play.rust-lang.org/?code=%23!%5Ballow(unused)%5D%0Afn+main()+%7B%0Ause+regex::Regex;%0A%0Alet+re+=+Regex::new(r%22'(?%3Ctitle%3E%5B%5E'%5D%2B)'%5Cs%2B%5C((?%3Cyear%3E%5B0-9%5D%7B4%7D)%5C)%22).unwrap();%0Alet+hay+=+%22'Citizen+Kane'+(1941),+'The+Wizard+of+Oz'+(1939),+'M'+(1931).%22;%0Alet+mut+it+=+re.captures_iter(hay);%0A%0Alet+caps+=+it.next().unwrap();%0Aassert_eq!(%26caps%5B%22title%22%5D,+%22Citizen+Kane%22);%0Aassert_eq!(%26caps%5B%22year%22%5D,+%221941%22);%0A%0Alet+caps+=+it.next().unwrap();%0Aassert_eq!(%26caps%5B%22title%22%5D,+%22The+Wizard+of+Oz%22);%0Aassert_eq!(%26caps%5B%22year%22%5D,+%221939%22);%0A%0Alet+caps+=+it.next().unwrap();%0Aassert_eq!(%26caps%5B%22title%22%5D,+%22M%22);%0Aassert_eq!(%26caps%5B%22year%22%5D,+%221931%22);%0A%7D&amp;edition=2021">Run</a>
+<span class="macro">assert_eq!</span>(<span class="kw-2">&</span>caps[<span class="string">"year"</span>], <span class="string">"1931"</span>);</code></pre>
               </div>
             </div>
           </details>
@@ -447,8 +435,7 @@
 <span class="kw">let </span>hay = <span class="string">"a b \t  c\td    e"</span>;
 <span class="kw">let </span>fields: Vec&lt;<span class="kw-2">&</span>str&gt; = re.split(hay).collect();
 <span class="macro">assert_eq!</span>(fields, <span class="macro">vec!</span>[<span class="string">"a"</span>, <span class="string">"b"</span>, <span class=
-"string">"c"</span>, <span class="string">"d"</span>, <span class="string">"e"</span>]);</code></pre><a class="test-arrow" target="_blank"
-                href="https://play.rust-lang.org/?code=%23!%5Ballow(unused)%5D%0Afn+main()+%7B%0Ause+regex::Regex;%0A%0Alet+re+=+Regex::new(r%22%5B+%5Ct%5D%2B%22).unwrap();%0Alet+hay+=+%22a+b+%5Ct++c%5Ctd++++e%22;%0Alet+fields:+Vec%3C%26str%3E+=+re.split(hay).collect();%0Aassert_eq!(fields,+vec!%5B%22a%22,+%22b%22,+%22c%22,+%22d%22,+%22e%22%5D);%0A%7D&amp;edition=2021">Run</a>
+"string">"c"</span>, <span class="string">"d"</span>, <span class="string">"e"</span>]);</code></pre>
               </div>
               <h5 id="example-more-cases"><a href="#example-more-cases">Example: more cases</a></h5>
               <p>Basic usage:</p>
@@ -476,8 +463,7 @@
 <span class="kw">let </span>hay = <span class="string">"lion::tiger::leopard"</span>;
 <span class="kw">let </span>got: Vec&lt;<span class="kw-2">&</span>str&gt; = re.split(hay).collect();
 <span class="macro">assert_eq!</span>(got, <span class="macro">vec!</span>[<span class="string">"lion"</span>, <span class=
-"string">"tiger"</span>, <span class="string">"leopard"</span>]);</code></pre><a class="test-arrow" target="_blank" href=
-"https://play.rust-lang.org/?code=%23!%5Ballow(unused)%5D%0Afn+main()+%7B%0Ause+regex::Regex;%0A%0Alet+re+=+Regex::new(r%22+%22).unwrap();%0Alet+hay+=+%22Mary+had+a+little+lamb%22;%0Alet+got:+Vec%3C%26str%3E+=+re.split(hay).collect();%0Aassert_eq!(got,+vec!%5B%22Mary%22,+%22had%22,+%22a%22,+%22little%22,+%22lamb%22%5D);%0A%0Alet+re+=+Regex::new(r%22X%22).unwrap();%0Alet+hay+=+%22%22;%0Alet+got:+Vec%3C%26str%3E+=+re.split(hay).collect();%0Aassert_eq!(got,+vec!%5B%22%22%5D);%0A%0Alet+re+=+Regex::new(r%22X%22).unwrap();%0Alet+hay+=+%22lionXXtigerXleopard%22;%0Alet+got:+Vec%3C%26str%3E+=+re.split(hay).collect();%0Aassert_eq!(got,+vec!%5B%22lion%22,+%22%22,+%22tiger%22,+%22leopard%22%5D);%0A%0Alet+re+=+Regex::new(r%22::%22).unwrap();%0Alet+hay+=+%22lion::tiger::leopard%22;%0Alet+got:+Vec%3C%26str%3E+=+re.split(hay).collect();%0Aassert_eq!(got,+vec!%5B%22lion%22,+%22tiger%22,+%22leopard%22%5D);%0A%7D&amp;edition=2021">Run</a>
+"string">"tiger"</span>, <span class="string">"leopard"</span>]);</code></pre>
               </div>
               <p>If a haystack contains multiple contiguous matches, you will end up with empty spans yielded by the iterator:</p>
               <div class="example-wrap">
@@ -494,8 +480,7 @@
 <span class="kw">let </span>hay = <span class="string">"(///)"</span>;
 <span class="kw">let </span>got: Vec&lt;<span class="kw-2">&</span>str&gt; = re.split(hay).collect();
 <span class="macro">assert_eq!</span>(got, <span class="macro">vec!</span>[<span class="string">"("</span>, <span class="string">""</span>, <span class=
-"string">""</span>, <span class="string">")"</span>]);</code></pre><a class="test-arrow" target="_blank" href=
-"https://play.rust-lang.org/?code=%23!%5Ballow(unused)%5D%0Afn+main()+%7B%0Ause+regex::Regex;%0A%0Alet+re+=+Regex::new(r%22X%22).unwrap();%0Alet+hay+=+%22XXXXaXXbXc%22;%0Alet+got:+Vec%3C%26str%3E+=+re.split(hay).collect();%0Aassert_eq!(got,+vec!%5B%22%22,+%22%22,+%22%22,+%22%22,+%22a%22,+%22%22,+%22b%22,+%22c%22%5D);%0A%0Alet+re+=+Regex::new(r%22/%22).unwrap();%0Alet+hay+=+%22(///)%22;%0Alet+got:+Vec%3C%26str%3E+=+re.split(hay).collect();%0Aassert_eq!(got,+vec!%5B%22(%22,+%22%22,+%22%22,+%22)%22%5D);%0A%7D&amp;edition=2021">Run</a>
+"string">""</span>, <span class="string">")"</span>]);</code></pre>
               </div>
               <p>Separators at the start or end of a haystack are neighbored by empty substring.</p>
               <div class="example-wrap">
@@ -505,8 +490,7 @@
 <span class="kw">let </span>hay = <span class="string">"010"</span>;
 <span class="kw">let </span>got: Vec&lt;<span class="kw-2">&</span>str&gt; = re.split(hay).collect();
 <span class="macro">assert_eq!</span>(got, <span class="macro">vec!</span>[<span class="string">""</span>, <span class="string">"1"</span>, <span class=
-"string">""</span>]);</code></pre><a class="test-arrow" target="_blank" href=
-"https://play.rust-lang.org/?code=%23!%5Ballow(unused)%5D%0Afn+main()+%7B%0Ause+regex::Regex;%0A%0Alet+re+=+Regex::new(r%220%22).unwrap();%0Alet+hay+=+%22010%22;%0Alet+got:+Vec%3C%26str%3E+=+re.split(hay).collect();%0Aassert_eq!(got,+vec!%5B%22%22,+%221%22,+%22%22%5D);%0A%7D&amp;edition=2021">Run</a>
+"string">""</span>]);</code></pre>
               </div>
               <p>When the empty string is used as a regex, it splits at every valid UTF-8 boundary by default (which includes the beginning and end of the
               haystack):</p>
@@ -524,8 +508,7 @@
 <span class="kw">let </span>hay = <span class="string">"☃"</span>;
 <span class="kw">let </span>got: Vec&lt;<span class="kw-2">&</span>str&gt; = re.split(hay).collect();
 <span class="macro">assert_eq!</span>(got, <span class="macro">vec!</span>[<span class="string">""</span>, <span class="string">"☃"</span>, <span class=
-"string">""</span>]);</code></pre><a class="test-arrow" target="_blank" href=
-"https://play.rust-lang.org/?code=%23!%5Ballow(unused)%5D%0Afn+main()+%7B%0Ause+regex::Regex;%0A%0Alet+re+=+Regex::new(r%22%22).unwrap();%0Alet+hay+=+%22rust%22;%0Alet+got:+Vec%3C%26str%3E+=+re.split(hay).collect();%0Aassert_eq!(got,+vec!%5B%22%22,+%22r%22,+%22u%22,+%22s%22,+%22t%22,+%22%22%5D);%0A%0A//+Splitting+by+an+empty+string+is+UTF-8+aware+by+default!%0Alet+re+=+Regex::new(r%22%22).unwrap();%0Alet+hay+=+%22%E2%98%83%22;%0Alet+got:+Vec%3C%26str%3E+=+re.split(hay).collect();%0Aassert_eq!(got,+vec!%5B%22%22,+%22%E2%98%83%22,+%22%22%5D);%0A%7D&amp;edition=2021">Run</a>
+"string">""</span>]);</code></pre>
               </div>
               <p>Contiguous separators (commonly shows up with whitespace), can lead to possibly surprising behavior. For example, this code is correct:</p>
               <div class="example-wrap">
@@ -536,8 +519,7 @@
 <span class="kw">let </span>got: Vec&lt;<span class="kw-2">&</span>str&gt; = re.split(hay).collect();
 <span class="macro">assert_eq!</span>(got, <span class="macro">vec!</span>[<span class="string">""</span>, <span class="string">""</span>, <span class=
 "string">""</span>, <span class="string">""</span>, <span class="string">"a"</span>, <span class="string">""</span>, <span class=
-"string">"b"</span>, <span class="string">"c"</span>]);</code></pre><a class="test-arrow" target="_blank" href=
-"https://play.rust-lang.org/?code=%23!%5Ballow(unused)%5D%0Afn+main()+%7B%0Ause+regex::Regex;%0A%0Alet+re+=+Regex::new(r%22+%22).unwrap();%0Alet+hay+=+%22++++a++b+c%22;%0Alet+got:+Vec%3C%26str%3E+=+re.split(hay).collect();%0Aassert_eq!(got,+vec!%5B%22%22,+%22%22,+%22%22,+%22%22,+%22a%22,+%22%22,+%22b%22,+%22c%22%5D);%0A%7D&amp;edition=2021">Run</a>
+"string">"b"</span>, <span class="string">"c"</span>]);</code></pre>
               </div>
               <p>It does <em>not</em> give you <code>["a", "b", "c"]</code>. For that behavior, you’d want to match contiguous space characters:</p>
               <div class="example-wrap">
@@ -549,8 +531,7 @@
 <span class="comment">// N.B. This does still include a leading empty span because ' +'
 // matches at the beginning of the haystack.
 </span><span class="macro">assert_eq!</span>(got, <span class="macro">vec!</span>[<span class="string">""</span>, <span class="string">"a"</span>, <span class=
-"string">"b"</span>, <span class="string">"c"</span>]);</code></pre><a class="test-arrow" target="_blank" href=
-"https://play.rust-lang.org/?code=%23!%5Ballow(unused)%5D%0Afn+main()+%7B%0Ause+regex::Regex;%0A%0Alet+re+=+Regex::new(r%22+%2B%22).unwrap();%0Alet+hay+=+%22++++a++b+c%22;%0Alet+got:+Vec%3C%26str%3E+=+re.split(hay).collect();%0A//+N.B.+This+does+still+include+a+leading+empty+span+because+'+%2B'%0A//+matches+at+the+beginning+of+the+haystack.%0Aassert_eq!(got,+vec!%5B%22%22,+%22a%22,+%22b%22,+%22c%22%5D);%0A%7D&amp;edition=2021">Run</a>
+"string">"b"</span>, <span class="string">"c"</span>]);</code></pre>
               </div>
             </div>
           </details>
@@ -577,8 +558,7 @@
 <span class="kw">let </span>hay = <span class="string">"Hey! How are you?"</span>;
 <span class="kw">let </span>fields: Vec&lt;<span class="kw-2">&</span>str&gt; = re.splitn(hay, <span class="number">3</span>).collect();
 <span class="macro">assert_eq!</span>(fields, <span class="macro">vec!</span>[<span class="string">"Hey"</span>, <span class=
-"string">"How"</span>, <span class="string">"are you?"</span>]);</code></pre><a class="test-arrow" target="_blank" href=
-"https://play.rust-lang.org/?code=%23!%5Ballow(unused)%5D%0Afn+main()+%7B%0Ause+regex::Regex;%0A%0Alet+re+=+Regex::new(r%22%5CW%2B%22).unwrap();%0Alet+hay+=+%22Hey!+How+are+you?%22;%0Alet+fields:+Vec%3C%26str%3E+=+re.splitn(hay,+3).collect();%0Aassert_eq!(fields,+vec!%5B%22Hey%22,+%22How%22,+%22are+you?%22%5D);%0A%7D&amp;edition=2021">Run</a>
+"string">"How"</span>, <span class="string">"are you?"</span>]);</code></pre>
               </div>
               <h5 id="examples-more-cases"><a href="#examples-more-cases">Examples: more cases</a></h5>
               <div class="example-wrap">
@@ -619,8 +599,7 @@
 <span class="kw">let </span>re = Regex::new(<span class="string">r"X"</span>).unwrap();
 <span class="kw">let </span>hay = <span class="string">"abcXdef"</span>;
 <span class="kw">let </span>got: Vec&lt;<span class="kw-2">&</span>str&gt; = re.splitn(hay, <span class="number">0</span>).collect();
-<span class="macro">assert!</span>(got.is_empty());</code></pre><a class="test-arrow" target="_blank" href=
-"https://play.rust-lang.org/?code=%23!%5Ballow(unused)%5D%0Afn+main()+%7B%0Ause+regex::Regex;%0A%0Alet+re+=+Regex::new(r%22+%22).unwrap();%0Alet+hay+=+%22Mary+had+a+little+lamb%22;%0Alet+got:+Vec%3C%26str%3E+=+re.splitn(hay,+3).collect();%0Aassert_eq!(got,+vec!%5B%22Mary%22,+%22had%22,+%22a+little+lamb%22%5D);%0A%0Alet+re+=+Regex::new(r%22X%22).unwrap();%0Alet+hay+=+%22%22;%0Alet+got:+Vec%3C%26str%3E+=+re.splitn(hay,+3).collect();%0Aassert_eq!(got,+vec!%5B%22%22%5D);%0A%0Alet+re+=+Regex::new(r%22X%22).unwrap();%0Alet+hay+=+%22lionXXtigerXleopard%22;%0Alet+got:+Vec%3C%26str%3E+=+re.splitn(hay,+3).collect();%0Aassert_eq!(got,+vec!%5B%22lion%22,+%22%22,+%22tigerXleopard%22%5D);%0A%0Alet+re+=+Regex::new(r%22::%22).unwrap();%0Alet+hay+=+%22lion::tiger::leopard%22;%0Alet+got:+Vec%3C%26str%3E+=+re.splitn(hay,+2).collect();%0Aassert_eq!(got,+vec!%5B%22lion%22,+%22tiger::leopard%22%5D);%0A%0Alet+re+=+Regex::new(r%22X%22).unwrap();%0Alet+hay+=+%22abcXdef%22;%0Alet+got:+Vec%3C%26str%3E+=+re.splitn(hay,+1).collect();%0Aassert_eq!(got,+vec!%5B%22abcXdef%22%5D);%0A%0Alet+re+=+Regex::new(r%22X%22).unwrap();%0Alet+hay+=+%22abcdef%22;%0Alet+got:+Vec%3C%26str%3E+=+re.splitn(hay,+2).collect();%0Aassert_eq!(got,+vec!%5B%22abcdef%22%5D);%0A%0Alet+re+=+Regex::new(r%22X%22).unwrap();%0Alet+hay+=+%22abcXdef%22;%0Alet+got:+Vec%3C%26str%3E+=+re.splitn(hay,+0).collect();%0Aassert!(got.is_empty());%0A%7D&amp;edition=2021">Run</a>
+<span class="macro">assert!</span>(got.is_empty());</code></pre>
               </div>
             </div>
           </details>
@@ -658,8 +637,7 @@
 
 <span class="kw">let </span>re = Regex::new(<span class="string">r"[^01]+"</span>).unwrap();
 <span class="macro">assert_eq!</span>(re.replace(<span class="string">"1078910"</span>, <span class="string">""</span>), <span class=
-"string">"1010"</span>);</code></pre><a class="test-arrow" target="_blank" href=
-"https://play.rust-lang.org/?code=%23!%5Ballow(unused)%5D%0Afn+main()+%7B%0Ause+regex::Regex;%0A%0Alet+re+=+Regex::new(r%22%5B%5E01%5D%2B%22).unwrap();%0Aassert_eq!(re.replace(%221078910%22,+%22%22),+%221010%22);%0A%7D&amp;edition=2021">Run</a>
+"string">"1010"</span>);</code></pre>
               </div>
               <p>But anything satisfying the [<code>Replacer</code>] trait will work. For example, a closure of type <code>|&amp;Captures| -&gt; String</code>
               provides direct access to the captures corresponding to a match. This allows one to access capturing group matches easily:</p>
@@ -671,9 +649,7 @@
     <span class="macro">format!</span>(<span class="string">"{} {}"</span>, <span class="kw-2">&</span>caps[<span class="number">2</span>], <span class=
 "kw-2">&</span>caps[<span class="number">1</span>])
 });
-<span class="macro">assert_eq!</span>(result, <span class="string">"Bruce Springsteen"</span>);</code></pre><a class="test-arrow" target="_blank"
-                href=
-                "https://play.rust-lang.org/?code=%23!%5Ballow(unused)%5D%0Afn+main()+%7B%0Ause+regex::%7BCaptures,+Regex%7D;%0A%0Alet+re+=+Regex::new(r%22(%5B%5E,%5Cs%5D%2B),%5Cs%2B(%5CS%2B)%22).unwrap();%0Alet+result+=+re.replace(%22Springsteen,+Bruce%22,+%7Ccaps:+%26Captures%7C+%7B%0A++++format!(%22%7B%7D+%7B%7D%22,+%26caps%5B2%5D,+%26caps%5B1%5D)%0A%7D);%0Aassert_eq!(result,+%22Bruce+Springsteen%22);%0A%7D&amp;edition=2021">Run</a>
+<span class="macro">assert_eq!</span>(result, <span class="string">"Bruce Springsteen"</span>);</code></pre>
               </div>
               <p>But this is a bit cumbersome to use all the time. Instead, a simple syntax is supported (as described above) that expands <code>$name</code>
               into the corresponding capture group. Here’s the last example, but using this expansion technique with named capture groups:</p>
@@ -682,9 +658,7 @@
 
 <span class="kw">let </span>re = Regex::new(<span class="string">r"(?&lt;last&gt;[^,\s]+),\s+(?&lt;first&gt;\S+)"</span>).unwrap();
 <span class="kw">let </span>result = re.replace(<span class="string">"Springsteen, Bruce"</span>, <span class="string">"$first $last"</span>);
-<span class="macro">assert_eq!</span>(result, <span class="string">"Bruce Springsteen"</span>);</code></pre><a class="test-arrow" target="_blank"
-                href=
-                "https://play.rust-lang.org/?code=%23!%5Ballow(unused)%5D%0Afn+main()+%7B%0Ause+regex::Regex;%0A%0Alet+re+=+Regex::new(r%22(?%3Clast%3E%5B%5E,%5Cs%5D%2B),%5Cs%2B(?%3Cfirst%3E%5CS%2B)%22).unwrap();%0Alet+result+=+re.replace(%22Springsteen,+Bruce%22,+%22%24first+%24last%22);%0Aassert_eq!(result,+%22Bruce+Springsteen%22);%0A%7D&amp;edition=2021">Run</a>
+<span class="macro">assert_eq!</span>(result, <span class="string">"Bruce Springsteen"</span>);</code></pre>
               </div>
               <p>Note that using <code>$2</code> instead of <code>$first</code> or <code>$1</code> instead of <code>$last</code> would produce the same result.
               To write a literal <code>$</code> use <code>$$</code>.</p>
@@ -695,8 +669,7 @@
 
 <span class="kw">let </span>re = Regex::new(<span class="string">r"(?&lt;first&gt;\w+)\s+(?&lt;second&gt;\w+)"</span>).unwrap();
 <span class="kw">let </span>result = re.replace(<span class="string">"deep fried"</span>, <span class="string">"${first}_$second"</span>);
-<span class="macro">assert_eq!</span>(result, <span class="string">"deep_fried"</span>);</code></pre><a class="test-arrow" target="_blank"
-                href="https://play.rust-lang.org/?code=%23!%5Ballow(unused)%5D%0Afn+main()+%7B%0Ause+regex::Regex;%0A%0Alet+re+=+Regex::new(r%22(?%3Cfirst%3E%5Cw%2B)%5Cs%2B(?%3Csecond%3E%5Cw%2B)%22).unwrap();%0Alet+result+=+re.replace(%22deep+fried%22,+%22%24%7Bfirst%7D_%24second%22);%0Aassert_eq!(result,+%22deep_fried%22);%0A%7D&amp;edition=2021">Run</a>
+<span class="macro">assert_eq!</span>(result, <span class="string">"deep_fried"</span>);</code></pre>
               </div>
               <p>Without the curly braces, the capture group name <code>first_</code> would be used, and since it doesn’t exist, it would be replaced with the
               empty string.</p>
@@ -707,8 +680,7 @@
 
 <span class="kw">let </span>re = Regex::new(<span class="string">r"(?&lt;last&gt;[^,\s]+),\s+(\S+)"</span>).unwrap();
 <span class="kw">let </span>result = re.replace(<span class="string">"Springsteen, Bruce"</span>, NoExpand(<span class="string">"$2 $last"</span>));
-<span class="macro">assert_eq!</span>(result, <span class="string">"$2 $last"</span>);</code></pre><a class="test-arrow" target="_blank" href=
-"https://play.rust-lang.org/?code=%23!%5Ballow(unused)%5D%0Afn+main()+%7B%0Ause+regex::%7BNoExpand,+Regex%7D;%0A%0Alet+re+=+Regex::new(r%22(?%3Clast%3E%5B%5E,%5Cs%5D%2B),%5Cs%2B(%5CS%2B)%22).unwrap();%0Alet+result+=+re.replace(%22Springsteen,+Bruce%22,+NoExpand(%22%242+%24last%22));%0Aassert_eq!(result,+%22%242+%24last%22);%0A%7D&amp;edition=2021">Run</a>
+<span class="macro">assert_eq!</span>(result, <span class="string">"$2 $last"</span>);</code></pre>
               </div>
               <p>Using <code>NoExpand</code> may also be faster, since the replacement string won’t need to be parsed for the <code>$</code> syntax.</p>
             </div>
@@ -769,8 +741,7 @@
     replace_all(<span class="kw-2">&</span>re, <span class="string">"hi how are you?"</span>, <span class="kw-2">&</span>replacement),
 );
 <span class="macro">assert!</span>(replace_all(<span class="kw-2">&</span>re, <span class="string">"hi there"</span>, <span class=
-"kw-2">&</span>replacement).is_err());</code></pre><a class="test-arrow" target="_blank" href=
-"https://play.rust-lang.org/?code=%23!%5Ballow(unused)%5D%0Afn+main()+%7B%0Ause+regex::%7BCaptures,+Regex%7D;%0A%0Afn+replace_all%3CE%3E(%0A++++re:+%26Regex,%0A++++haystack:+%26str,%0A++++replacement:+impl+Fn(%26Captures)+-%3E+Result%3CString,+E%3E,%0A)+-%3E+Result%3CString,+E%3E+%7B%0A++++let+mut+new+=+String::with_capacity(haystack.len());%0A++++let+mut+last_match+=+0;%0A++++for+caps+in+re.captures_iter(haystack)+%7B%0A++++++++let+m+=+caps.get(0).unwrap();%0A++++++++new.push_str(%26haystack%5Blast_match..m.start()%5D);%0A++++++++new.push_str(%26replacement(%26caps)?);%0A++++++++last_match+=+m.end();%0A++++%7D%0A++++new.push_str(%26haystack%5Blast_match..%5D);%0A++++Ok(new)%0A%7D%0A%0A//+Let's+replace+each+word+with+the+number+of+bytes+in+that+word.%0A//+But+if+we+see+a+word+that+is+%22too+long,%22+we'll+give+up.%0Alet+re+=+Regex::new(r%22%5Cw%2B%22).unwrap();%0Alet+replacement+=+%7Ccaps:+%26Captures%7C+-%3E+Result%3CString,+%26'static+str%3E+%7B%0A++++if+caps%5B0%5D.len()+%3E=+5+%7B%0A++++++++return+Err(%22word+too+long%22);%0A++++%7D%0A++++Ok(caps%5B0%5D.len().to_string())%0A%7D;%0Aassert_eq!(%0A++++Ok(%222+3+3+3?%22.to_string()),%0A++++replace_all(%26re,+%22hi+how+are+you?%22,+%26replacement),%0A);%0Aassert!(replace_all(%26re,+%22hi+there%22,+%26replacement).is_err());%0A%7D&amp;edition=2021">Run</a>
+"kw-2">&</span>replacement).is_err());</code></pre>
               </div>
               <h5 id="example-8"><a href="#example-8">Example</a></h5>
               <p>This example shows how to flip the order of whitespace (excluding line terminators) delimited fields, and normalizes the whitespace that
@@ -793,8 +764,7 @@ TheRiver 1980
 1975 BornToRun
 1978 Darkness
 1980 TheRiver
-"</span>);</code></pre><a class="test-arrow" target="_blank" href=
-"https://play.rust-lang.org/?code=%23!%5Ballow(unused)%5D%0Afn+main()+%7B%0Ause+regex::Regex;%0A%0Alet+re+=+Regex::new(r%22(?m)%5E(%5CS%2B)%5B%5Cs--%5Cr%5Cn%5D%2B(%5CS%2B)%24%22).unwrap();%0Alet+hay+=+%22%0AGreetings++1973%0AWild%5Ct1973%0ABornToRun%5Ct%5Ct%5Ct%5Ct1975%0ADarkness++++++++++++++++++++1978%0ATheRiver+1980%0A%22;%0Alet+new+=+re.replace_all(hay,+%22%242+%241%22);%0Aassert_eq!(new,+%22%0A1973+Greetings%0A1973+Wild%0A1975+BornToRun%0A1978+Darkness%0A1980+TheRiver%0A%22);%0A%7D&amp;edition=2021">Run</a>
+"</span>);</code></pre>
               </div>
             </div>
           </details>
@@ -842,8 +812,7 @@ TheRiver 1980
 BornToRun\t\t\t\t1975
 Darkness                    1978
 TheRiver 1980
-"</span>);</code></pre><a class="test-arrow" target="_blank" href=
-"https://play.rust-lang.org/?code=%23!%5Ballow(unused)%5D%0Afn+main()+%7B%0Ause+regex::Regex;%0A%0Alet+re+=+Regex::new(r%22(?m)%5E(%5CS%2B)%5B%5Cs--%5Cr%5Cn%5D%2B(%5CS%2B)%24%22).unwrap();%0Alet+hay+=+%22%0AGreetings++1973%0AWild%5Ct1973%0ABornToRun%5Ct%5Ct%5Ct%5Ct1975%0ADarkness++++++++++++++++++++1978%0ATheRiver+1980%0A%22;%0Alet+new+=+re.replacen(hay,+2,+%22%242+%241%22);%0Aassert_eq!(new,+%22%0A1973+Greetings%0A1973+Wild%0ABornToRun%5Ct%5Ct%5Ct%5Ct1975%0ADarkness++++++++++++++++++++1978%0ATheRiver+1980%0A%22);%0A%7D&amp;edition=2021">Run</a>
+"</span>);</code></pre>
               </div>
             </div>
           </details>
@@ -870,8 +839,7 @@ TheRiver 1980
 
 <span class="kw">let </span>re = Regex::new(<span class="string">r"a+"</span>).unwrap();
 <span class="kw">let </span>offset = re.shortest_match(<span class="string">"aaaaa"</span>).unwrap();
-<span class="macro">assert_eq!</span>(offset, <span class="number">1</span>);</code></pre><a class="test-arrow" target="_blank" href=
-"https://play.rust-lang.org/?code=%23!%5Ballow(unused)%5D%0Afn+main()+%7B%0Ause+regex::Regex;%0A%0Alet+re+=+Regex::new(r%22a%2B%22).unwrap();%0Alet+offset+=+re.shortest_match(%22aaaaa%22).unwrap();%0Aassert_eq!(offset,+1);%0A%7D&amp;edition=2021">Run</a>
+<span class="macro">assert_eq!</span>(offset, <span class="number">1</span>);</code></pre>
               </div>
             </div>
           </details>
@@ -902,9 +870,7 @@ TheRiver 1980
 </span><span class="macro">assert_eq!</span>(re.shortest_match(<span class="kw-2">&</span>hay[<span class="number">2</span>..]), <span class=
 "prelude-val">Some</span>(<span class="number">4</span>));
 <span class="comment">// No match because the  assertions take the context into account.
-</span><span class="macro">assert_eq!</span>(re.shortest_match_at(hay, <span class="number">2</span>), <span class=
-"prelude-val">None</span>);</code></pre><a class="test-arrow" target="_blank" href=
-"https://play.rust-lang.org/?code=%23!%5Ballow(unused)%5D%0Afn+main()+%7B%0Ause+regex::Regex;%0A%0Alet+re+=+Regex::new(r%22%5Cbchew%5Cb%22).unwrap();%0Alet+hay+=+%22eschew%22;%0A//+We+get+a+match+here,+but+it's+probably+not+intended.%0Aassert_eq!(re.shortest_match(%26hay%5B2..%5D),+Some(4));%0A//+No+match+because+the++assertions+take+the+context+into+account.%0Aassert_eq!(re.shortest_match_at(hay,+2),+None);%0A%7D&amp;edition=2021">Run</a>
+</span><span class="macro">assert_eq!</span>(re.shortest_match_at(hay, <span class="number">2</span>), <span class="prelude-val">None</span>);</code></pre>
               </div>
             </div>
           </details>
@@ -932,9 +898,7 @@ TheRiver 1980
 <span class="comment">// We get a match here, but it's probably not intended.
 </span><span class="macro">assert!</span>(re.is_match(<span class="kw-2">&</span>hay[<span class="number">2</span>..]));
 <span class="comment">// No match because the  assertions take the context into account.
-</span><span class="macro">assert!</span>(!re.is_match_at(hay, <span class="number">2</span>));</code></pre><a class="test-arrow" target="_blank"
-                href=
-                "https://play.rust-lang.org/?code=%23!%5Ballow(unused)%5D%0Afn+main()+%7B%0Ause+regex::Regex;%0A%0Alet+re+=+Regex::new(r%22%5Cbchew%5Cb%22).unwrap();%0Alet+hay+=+%22eschew%22;%0A//+We+get+a+match+here,+but+it's+probably+not+intended.%0Aassert!(re.is_match(%26hay%5B2..%5D));%0A//+No+match+because+the++assertions+take+the+context+into+account.%0Aassert!(!re.is_match_at(hay,+2));%0A%7D&amp;edition=2021">Run</a>
+</span><span class="macro">assert!</span>(!re.is_match_at(hay, <span class="number">2</span>));</code></pre>
               </div>
             </div>
           </details>
@@ -963,9 +927,7 @@ TheRiver 1980
 </span><span class="macro">assert_eq!</span>(re.find(<span class="kw-2">&</span>hay[<span class="number">2</span>..]).map(|m| m.range()), <span class=
 "prelude-val">Some</span>(<span class="number">0</span>..<span class="number">4</span>));
 <span class="comment">// No match because the  assertions take the context into account.
-</span><span class="macro">assert_eq!</span>(re.find_at(hay, <span class="number">2</span>), <span class=
-                "prelude-val">None</span>);</code></pre><a class="test-arrow" target="_blank" href=
-                "https://play.rust-lang.org/?code=%23!%5Ballow(unused)%5D%0Afn+main()+%7B%0Ause+regex::Regex;%0A%0Alet+re+=+Regex::new(r%22%5Cbchew%5Cb%22).unwrap();%0Alet+hay+=+%22eschew%22;%0A//+We+get+a+match+here,+but+it's+probably+not+intended.%0Aassert_eq!(re.find(%26hay%5B2..%5D).map(%7Cm%7C+m.range()),+Some(0..4));%0A//+No+match+because+the++assertions+take+the+context+into+account.%0Aassert_eq!(re.find_at(hay,+2),+None);%0A%7D&amp;edition=2021">Run</a>
+</span><span class="macro">assert_eq!</span>(re.find_at(hay, <span class="number">2</span>), <span class="prelude-val">None</span>);</code></pre>
               </div>
             </div>
           </details>
@@ -994,9 +956,7 @@ TheRiver 1980
 </span><span class="macro">assert_eq!</span>(<span class="kw-2">&</span>re.captures(<span class="kw-2">&</span>hay[<span class=
 "number">2</span>..]).unwrap()[<span class="number">0</span>], <span class="string">"chew"</span>);
 <span class="comment">// No match because the  assertions take the context into account.
-</span><span class="macro">assert!</span>(re.captures_at(hay, <span class="number">2</span>).is_none());</code></pre><a class="test-arrow" target="_blank"
-                href=
-                "https://play.rust-lang.org/?code=%23!%5Ballow(unused)%5D%0Afn+main()+%7B%0Ause+regex::Regex;%0A%0Alet+re+=+Regex::new(r%22%5Cbchew%5Cb%22).unwrap();%0Alet+hay+=+%22eschew%22;%0A//+We+get+a+match+here,+but+it's+probably+not+intended.%0Aassert_eq!(%26re.captures(%26hay%5B2..%5D).unwrap()%5B0%5D,+%22chew%22);%0A//+No+match+because+the++assertions+take+the+context+into+account.%0Aassert!(re.captures_at(hay,+2).is_none());%0A%7D&amp;edition=2021">Run</a>
+</span><span class="macro">assert!</span>(re.captures_at(hay, <span class="number">2</span>).is_none());</code></pre>
               </div>
             </div>
           </details>
@@ -1029,8 +989,7 @@ TheRiver 1980
 <span class="macro">assert_eq!</span>(<span class="prelude-val">Some</span>((<span class="number">0</span>, <span class=
 "number">2</span>)), locs.get(<span class="number">1</span>));
 <span class="macro">assert_eq!</span>(<span class="prelude-val">Some</span>((<span class="number">3</span>, <span class=
-"number">9</span>)), locs.get(<span class="number">2</span>));</code></pre><a class="test-arrow" target="_blank" href=
-"https://play.rust-lang.org/?code=%23!%5Ballow(unused)%5D%0Afn+main()+%7B%0Ause+regex::Regex;%0A%0Alet+re+=+Regex::new(r%22%5E(%5Ba-z%5D%2B)=(%5CS*)%24%22).unwrap();%0Alet+mut+locs+=+re.capture_locations();%0Aassert!(re.captures_read(%26mut+locs,+%22id=foo123%22).is_some());%0Aassert_eq!(Some((0,+9)),+locs.get(0));%0Aassert_eq!(Some((0,+2)),+locs.get(1));%0Aassert_eq!(Some((3,+9)),+locs.get(2));%0A%7D&amp;edition=2021">Run</a>
+"number">9</span>)), locs.get(<span class="number">2</span>));</code></pre>
               </div>
             </div>
           </details>
@@ -1062,8 +1021,7 @@ TheRiver 1980
 "number">2</span>..]).is_some());
 <span class="comment">// No match because the  assertions take the context into account.
 </span><span class="macro">assert!</span>(re.captures_read_at(<span class="kw-2">&amp;mut </span>locs, hay, <span class=
-"number">2</span>).is_none());</code></pre><a class="test-arrow" target="_blank" href=
-"https://play.rust-lang.org/?code=%23!%5Ballow(unused)%5D%0Afn+main()+%7B%0Ause+regex::Regex;%0A%0Alet+re+=+Regex::new(r%22%5Cbchew%5Cb%22).unwrap();%0Alet+hay+=+%22eschew%22;%0Alet+mut+locs+=+re.capture_locations();%0A//+We+get+a+match+here,+but+it's+probably+not+intended.%0Aassert!(re.captures_read(%26mut+locs,+%26hay%5B2..%5D).is_some());%0A//+No+match+because+the++assertions+take+the+context+into+account.%0Aassert!(re.captures_read_at(%26mut+locs,+hay,+2).is_none());%0A%7D&amp;edition=2021">Run</a>
+"number">2</span>).is_none());</code></pre>
               </div>
             </div>
           </details>
@@ -1079,8 +1037,7 @@ TheRiver 1980
                 <pre class="rust rust-example-rendered"><code><span class="kw">use </span>regex::Regex;
 
 <span class="kw">let </span>re = Regex::new(<span class="string">r"foo\w+bar"</span>).unwrap();
-<span class="macro">assert_eq!</span>(re.as_str(), <span class="string">r"foo\w+bar"</span>);</code></pre><a class="test-arrow" target="_blank"
-                href="https://play.rust-lang.org/?code=%23!%5Ballow(unused)%5D%0Afn+main()+%7B%0Ause+regex::Regex;%0A%0Alet+re+=+Regex::new(r%22foo%5Cw%2Bbar%22).unwrap();%0Aassert_eq!(re.as_str(),+r%22foo%5Cw%2Bbar%22);%0A%7D&amp;edition=2021">Run</a>
+<span class="macro">assert_eq!</span>(re.as_str(), <span class="string">r"foo\w+bar"</span>);</code></pre>
               </div>
             </div>
           </details>
@@ -1110,8 +1067,7 @@ TheRiver 1980
 <span class="comment">// the '(?:.)' group is non-capturing and so doesn't appear here!
 </span><span class="macro">assert_eq!</span>(names.next(), <span class="prelude-val">Some</span>(<span class="prelude-val">Some</span>(<span class=
 "string">"c"</span>)));
-<span class="macro">assert_eq!</span>(names.next(), <span class="prelude-val">None</span>);</code></pre><a class="test-arrow" target="_blank"
-                href="https://play.rust-lang.org/?code=%23!%5Ballow(unused)%5D%0Afn+main()+%7B%0Ause+regex::Regex;%0A%0Alet+re+=+Regex::new(r%22(?%3Ca%3E.(?%3Cb%3E.))(.)(?:.)(?%3Cc%3E.)%22).unwrap();%0Alet+mut+names+=+re.capture_names();%0Aassert_eq!(names.next(),+Some(None));%0Aassert_eq!(names.next(),+Some(Some(%22a%22)));%0Aassert_eq!(names.next(),+Some(Some(%22b%22)));%0Aassert_eq!(names.next(),+Some(None));%0A//+the+'(?:.)'+group+is+non-capturing+and+so+doesn't+appear+here!%0Aassert_eq!(names.next(),+Some(Some(%22c%22)));%0Aassert_eq!(names.next(),+None);%0A%7D&amp;edition=2021">Run</a>
+<span class="macro">assert_eq!</span>(names.next(), <span class="prelude-val">None</span>);</code></pre>
               </div>
               <p>The iterator always yields at least one element, even for regexes with no capture groups and even for regexes that can never match:</p>
               <div class="example-wrap">
@@ -1125,8 +1081,7 @@ TheRiver 1980
 <span class="kw">let </span>re = Regex::new(<span class="string">r"[a&amp;&amp;b]"</span>).unwrap();
 <span class="kw">let </span><span class="kw-2">mut </span>names = re.capture_names();
 <span class="macro">assert_eq!</span>(names.next(), <span class="prelude-val">Some</span>(<span class="prelude-val">None</span>));
-<span class="macro">assert_eq!</span>(names.next(), <span class="prelude-val">None</span>);</code></pre><a class="test-arrow" target="_blank"
-                href="https://play.rust-lang.org/?code=%23!%5Ballow(unused)%5D%0Afn+main()+%7B%0Ause+regex::Regex;%0A%0Alet+re+=+Regex::new(r%22%22).unwrap();%0Alet+mut+names+=+re.capture_names();%0Aassert_eq!(names.next(),+Some(None));%0Aassert_eq!(names.next(),+None);%0A%0Alet+re+=+Regex::new(r%22%5Ba%26%26b%5D%22).unwrap();%0Alet+mut+names+=+re.capture_names();%0Aassert_eq!(names.next(),+Some(None));%0Aassert_eq!(names.next(),+None);%0A%7D&amp;edition=2021">Run</a>
+<span class="macro">assert_eq!</span>(names.next(), <span class="prelude-val">None</span>);</code></pre>
               </div>
             </div>
           </details>
@@ -1154,8 +1109,7 @@ TheRiver 1980
 <span class="macro">assert_eq!</span>(<span class="number">5</span>, re.captures_len());
 
 <span class="kw">let </span>re = Regex::new(<span class="string">r"[a&amp;&amp;b]"</span>).unwrap();
-<span class="macro">assert_eq!</span>(<span class="number">1</span>, re.captures_len());</code></pre><a class="test-arrow" target="_blank"
-                href="https://play.rust-lang.org/?code=%23!%5Ballow(unused)%5D%0Afn+main()+%7B%0Ause+regex::Regex;%0A%0Alet+re+=+Regex::new(r%22foo%22).unwrap();%0Aassert_eq!(1,+re.captures_len());%0A%0Alet+re+=+Regex::new(r%22(foo)%22).unwrap();%0Aassert_eq!(2,+re.captures_len());%0A%0Alet+re+=+Regex::new(r%22(?%3Ca%3E.(?%3Cb%3E.))(.)(?:.)(?%3Cc%3E.)%22).unwrap();%0Aassert_eq!(5,+re.captures_len());%0A%0Alet+re+=+Regex::new(r%22%5Ba%26%26b%5D%22).unwrap();%0Aassert_eq!(1,+re.captures_len());%0A%7D&amp;edition=2021">Run</a>
+<span class="macro">assert_eq!</span>(<span class="number">1</span>, re.captures_len());</code></pre>
               </div>
             </div>
           </details>
@@ -1194,8 +1148,7 @@ TheRiver 1980
 <span class="macro">assert_eq!</span>(<span class="prelude-val">None</span>, len(<span class="string">"(b)*"</span>)<span class="question-mark">?</span>);
 <span class="macro">assert_eq!</span>(<span class="prelude-val">Some</span>(<span class="number">2</span>), len(<span class="string">"(b)+"</span>)<span class=
 "question-mark">?</span>);
-</code></pre><a class="test-arrow" target="_blank" href=
-"https://play.rust-lang.org/?code=%23!%5Ballow(unused)%5D%0Afn+main()+%7B+fn+_inner()+-%3E+Result%3C(),+impl+core::fmt::Debug%3E+%7B%0Ause+regex::Regex;%0A%0Alet+len+=+%7Cpattern%7C+%7B%0A++++Regex::new(pattern).map(%7Cre%7C+re.static_captures_len())%0A%7D;%0A%0Aassert_eq!(Some(1),+len(%22a%22)?);%0Aassert_eq!(Some(2),+len(%22(a)%22)?);%0Aassert_eq!(Some(2),+len(%22(a)%7C(b)%22)?);%0Aassert_eq!(Some(3),+len(%22(a)(b)%7C(c)(d)%22)?);%0Aassert_eq!(None,+len(%22(a)%7Cb%22)?);%0Aassert_eq!(None,+len(%22a%7C(b)%22)?);%0Aassert_eq!(None,+len(%22(b)*%22)?);%0Aassert_eq!(Some(2),+len(%22(b)%2B%22)?);%0A%0AOk::%3C(),+Box%3Cdyn+std::error::Error%3E%3E(())%0A%7D+_inner().unwrap()+%7D&amp;edition=2021">Run</a>
+</code></pre>
               </div>
             </div>
           </details>
@@ -1222,8 +1175,7 @@ TheRiver 1980
 <span class="macro">assert_eq!</span>(locs.get(<span class="number">2</span>), <span class="prelude-val">Some</span>((<span class=
 "number">1</span>, <span class="number">2</span>)));
 <span class="macro">assert_eq!</span>(locs.get(<span class="number">3</span>), <span class="prelude-val">Some</span>((<span class=
-"number">2</span>, <span class="number">6</span>)));</code></pre><a class="test-arrow" target="_blank" href=
-"https://play.rust-lang.org/?code=%23!%5Ballow(unused)%5D%0Afn+main()+%7B%0Ause+regex::Regex;%0A%0Alet+re+=+Regex::new(r%22(.)(.)(%5Cw%2B)%22).unwrap();%0Alet+mut+locs+=+re.capture_locations();%0Aassert!(re.captures_read(%26mut+locs,+%22Padron%22).is_some());%0Aassert_eq!(locs.get(0),+Some((0,+6)));%0Aassert_eq!(locs.get(1),+Some((0,+1)));%0Aassert_eq!(locs.get(2),+Some((1,+2)));%0Aassert_eq!(locs.get(3),+Some((2,+6)));%0A%7D&amp;edition=2021">Run</a>
+"number">2</span>, <span class="number">6</span>)));</code></pre>
               </div>
             </div>
           </details>
