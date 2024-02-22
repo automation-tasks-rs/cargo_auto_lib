@@ -558,30 +558,6 @@
 <a href="#507" id="507">507</a>
 <a href="#508" id="508">508</a>
 <a href="#509" id="509">509</a>
-<a href="#510" id="510">510</a>
-<a href="#511" id="511">511</a>
-<a href="#512" id="512">512</a>
-<a href="#513" id="513">513</a>
-<a href="#514" id="514">514</a>
-<a href="#515" id="515">515</a>
-<a href="#516" id="516">516</a>
-<a href="#517" id="517">517</a>
-<a href="#518" id="518">518</a>
-<a href="#519" id="519">519</a>
-<a href="#520" id="520">520</a>
-<a href="#521" id="521">521</a>
-<a href="#522" id="522">522</a>
-<a href="#523" id="523">523</a>
-<a href="#524" id="524">524</a>
-<a href="#525" id="525">525</a>
-<a href="#526" id="526">526</a>
-<a href="#527" id="527">527</a>
-<a href="#528" id="528">528</a>
-<a href="#529" id="529">529</a>
-<a href="#530" id="530">530</a>
-<a href="#531" id="531">531</a>
-<a href="#532" id="532">532</a>
-<a href="#533" id="533">533</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// public_api_mod.rs
@@ -984,12 +960,8 @@
     <span class="kw">crate</span>::auto_git_mod::git_is_local_repository()
 }
 
-<span class="doccomment">/// creates a new github repository
-</span><span class="kw">pub fn </span>github_api_repository_new(owner: <span class="kw-2">&</span>str, name: <span class=
-"kw-2">&</span>str, description: <span class="kw-2">&</span>str) -&gt; serde_json::Value {
-    <span class="kw">crate</span>::auto_github_mod::github_api_repository_new(owner, name, description)
-}
-<span class="kw">pub fn </span>run_shell_command_output(shell_command: <span class="kw-2">&</span>str) -&gt; ShellOutput {
+<span class="doccomment">/// run one shell command and return ShellOutput {exit_status,stdout,stderr}
+</span><span class="kw">pub fn </span>run_shell_command_output(shell_command: <span class="kw-2">&</span>str) -&gt; ShellOutput {
     <span class="kw">crate</span>::auto_helper_functions_mod::run_shell_command_output(shell_command)
 }
 
@@ -1004,32 +976,11 @@
     <span class="kw">crate</span>::auto_github_mod::init_repository_if_needed(message)
 }
 
-<span class="doccomment">/// interactive ask to create a new remote GitHub repository
-</span><span class="kw">pub fn </span>new_remote_github_repository() -&gt; <span class="prelude-ty">Option</span>&lt;String&gt; {
-    <span class="kw">crate</span>::auto_github_mod::new_remote_github_repository()
-}
-
-<span class="doccomment">/// interactive ask to create a new local git repository
-</span><span class="kw">pub fn </span>new_local_repository(message: <span class="kw-2">&</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;()&gt; {
-    <span class="kw">crate</span>::auto_github_mod::new_local_repository(message)
-}
-
-<span class="doccomment">/// check if this file is in ssh-add. Only the first 56 ascii characters are the fingerprint.
-/// After is a description, not important and sometimes different.
-/// if is not, then ssh-add and the user will enter the passcode.
-</span><span class="kw">pub fn </span>ssh_add_if_needed(github_ssh_for_push: String) -&gt; <span class="prelude-ty">Option</span>&lt;()&gt; {
-    <span class="kw">crate</span>::auto_github_mod::ssh_add_if_needed(github_ssh_for_push)
-}
-
-<span class="doccomment">/// parse the ~/.ssh/config. 99% probably there should be a record for github and there is the identity_file.
-</span><span class="kw">pub fn </span>get_identity_from_ssh_config() -&gt; String {
-    <span class="kw">crate</span>::auto_github_mod::get_identity_from_ssh_config()
-}
-
-<span class="doccomment">/// Ask the user for the filename of the ssh key used to push to GitHub.
-/// The default is githubssh1.
-</span><span class="kw">pub fn </span>ask_for_github_ssh_for_push() -&gt; <span class="prelude-ty">Option</span>&lt;std::path::PathBuf&gt; {
-    <span class="kw">crate</span>::auto_github_mod::ask_for_github_ssh_for_push()
+<span class="doccomment">/// Find the filename of the identity_file for ssh connection to host_name, to find out if need ssh-add or not.
+/// parse the ~/.ssh/config. 99% probably there should be a record for host_name and there is the identity_file.
+/// else ask user for filename, then run ssh-add
+</span><span class="kw">pub fn </span>ssh_add_resolve(host_name: <span class="kw-2">&</span>str, default_host_name: <span class="kw-2">&</span>str) {
+    <span class="kw">crate</span>::auto_github_mod::ssh_add_resolve(host_name, default_host_name)
 }
 
 <span class="doccomment">/// create new release on Github  
