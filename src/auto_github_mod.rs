@@ -494,10 +494,10 @@ The TODO section is part of the [README.md](https://github.com/{github_owner}/{p
 
 "#
         );
-        std::fs::write("RELEASES_MD", template).unwrap();
+        std::fs::write(RELEASES_MD, template).unwrap();
     }
 
-    let release_md = std::fs::read_to_string("RELEASES_MD").unwrap();
+    let release_md = std::fs::read_to_string(RELEASES_MD).unwrap();
     // find the start of ## Unreleased
     let Some(pos_start_data) =
         crate::find_pos_start_data_after_delimiter(&release_md, 0, "## Unreleased\n")
@@ -519,7 +519,7 @@ The TODO section is part of the [README.md](https://github.com/{github_owner}/{p
         &release_name,
         &release_md[pos_start_data..]
     );
-    std::fs::write("RELEASES_MD", new_release_md).unwrap();
+    std::fs::write(RELEASES_MD, new_release_md).unwrap();
     // return
     Some(body_md_text)
 }
