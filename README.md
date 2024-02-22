@@ -110,20 +110,16 @@ If you find that the heuristics don't work for you though please let me know and
 ## Development details
 
 Read the development details in a separate md file:  
-[DEVELOPMENT.md](https://github.com/bestia-dev/cargo-auto/blob/main/DEVELOPMENT.md)
+[DEVELOPMENT.md](https://github.com/bestia-dev/cargo_auto_lib/blob/main/DEVELOPMENT.md)
 
 ## Releases changelog
 
 Read the release changelog in a separate md file:  
-[RELEASES.md](https://github.com/bestia-dev/cargo-auto/blob/main/RELEASES.md)
+[RELEASES.md](https://github.com/bestia-dev/cargo_auto_lib/blob/main/RELEASES.md)
 
 ## TODO
 
-Use the new `#![doc=include_str!("README.md")]` to avoid super clutter in `lib.rs` doc comments.
-
-Automate badges for crates.io, doc.rs, lib.rs, license, crev review. Check if they exist and create badges.  
-Create a git tag, a GitHub release and at the same time RELEASES.md after publishing on crates.io.
-There is no binary upload for library releases.
+Nothing big for now.
 
 ## Open-source and free as a beer
 

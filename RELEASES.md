@@ -10,6 +10,10 @@ The TODO section is part of the [README.md](https://github.com/bestia-dev/cargo_
 
 ## Unreleased
 
+## Version 1.3.3 (2024-02-22)
+
+- ssh_add_resolve
+
 ## Version 1.2.13 (2024-02-20)
 
 - auto_copy_files_to_strings_mod
