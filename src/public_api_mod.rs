@@ -392,10 +392,7 @@ pub fn git_is_local_repository() -> bool {
     crate::auto_git_mod::git_is_local_repository()
 }
 
-/// creates a new github repository
-pub fn github_api_repository_new(owner: &str, name: &str, description: &str) -> serde_json::Value {
-    crate::auto_github_mod::github_api_repository_new(owner, name, description)
-}
+/// run one shell command and return ShellOutput {exit_status,stdout,stderr}
 pub fn run_shell_command_output(shell_command: &str) -> ShellOutput {
     crate::auto_helper_functions_mod::run_shell_command_output(shell_command)
 }
@@ -411,32 +408,11 @@ pub fn init_repository_if_needed(message: &str) -> bool {
     crate::auto_github_mod::init_repository_if_needed(message)
 }
 
-/// interactive ask to create a new remote GitHub repository
-pub fn new_remote_github_repository() -> Option<String> {
-    crate::auto_github_mod::new_remote_github_repository()
-}
-
-/// interactive ask to create a new local git repository
-pub fn new_local_repository(message: &str) -> Option<()> {
-    crate::auto_github_mod::new_local_repository(message)
-}
-
-/// check if this file is in ssh-add. Only the first 56 ascii characters are the fingerprint.
-/// After is a description, not important and sometimes different.
-/// if is not, then ssh-add and the user will enter the passcode.
-pub fn ssh_add_if_needed(github_ssh_for_push: String) -> Option<()> {
-    crate::auto_github_mod::ssh_add_if_needed(github_ssh_for_push)
-}
-
-/// parse the ~/.ssh/config. 99% probably there should be a record for github and there is the identity_file.
-pub fn get_identity_from_ssh_config() -> String {
-    crate::auto_github_mod::get_identity_from_ssh_config()
-}
-
-/// Ask the user for the filename of the ssh key used to push to GitHub.
-/// The default is githubssh1.
-pub fn ask_for_github_ssh_for_push() -> Option<std::path::PathBuf> {
-    crate::auto_github_mod::ask_for_github_ssh_for_push()
+/// Find the filename of the identity_file for ssh connection to host_name, to find out if need ssh-add or not.
+/// parse the ~/.ssh/config. 99% probably there should be a record for host_name and there is the identity_file.
+/// else ask user for filename, then run ssh-add
+pub fn ssh_add_resolve(host_name: &str, default_host_name: &str) {
+    crate::auto_github_mod::ssh_add_resolve(host_name, default_host_name)
 }
 
 /// create new release on Github  

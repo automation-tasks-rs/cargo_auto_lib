@@ -6,6 +6,8 @@ use crate::RED;
 use crate::RESET;
 use crate::YELLOW;
 
+pub const RELEASES_MD: &str = "RELEASES.md";
+
 /// create new release on Github  
 /// return release_id  
 /// it needs env variable `export GITHUB_TOKEN=paste_github_personal_authorization_token_here`  
@@ -209,26 +211,17 @@ pub fn github_api_repository_new(owner: &str, name: &str, description: &str) -> 
 
 /// init repository if needed. A new local git repository and remote GitHub repository.
 pub fn init_repository_if_needed(message: &str) -> bool {
-    let mut is_init_repository = false;
+    // Find the filename of the identity_file for ssh connection to host_name, to find out if need ssh-add or not.
+    // parse the ~/.ssh/config. 99% probably there should be a record for host_name and there is the identity_file.
+    // else ask user for filename, then run ssh-add
+    ssh_add_resolve("github.com", "githubssh1");
 
-    // I must find the filename of the identity_file for ssh connection to github.com, to find out if I need ssh-add or not.
-    // 1. parse the ~/.ssh/config. 99% probably there should be a record for github and there is the identity_file.
-    let mut github_ssh_for_push = get_identity_from_ssh_config();
-
-    // 2. if not found in ssh/config then ask the user to provide the filename
-    if github_ssh_for_push.is_empty() {
-        if let Some(filename) = ask_for_github_ssh_for_push() {
-            github_ssh_for_push = filename.to_string_lossy().to_string();
-        }
-    }
-    // ssh-add only if needed
-    if !github_ssh_for_push.is_empty() {
-        ssh_add_if_needed(github_ssh_for_push).unwrap();
-    }
     // crate new local git repository
     if !crate::git_is_local_repository() {
         new_local_repository(message).unwrap();
     }
+
+    let mut is_init_repository = false;
     // create new remote GitHub repository
     if !crate::git_has_remote() {
         let repo_html_url = new_remote_github_repository().unwrap();
@@ -245,6 +238,27 @@ pub fn init_repository_if_needed(message: &str) -> bool {
     }
     // return
     is_init_repository
+}
+
+/// Find the filename of the identity_file for ssh connection to host_name, to find out if need ssh-add or not.
+/// parse the ~/.ssh/config. 99% probably there should be a record for host_name and there is the identity_file.
+/// else ask user for filename, then run ssh-add
+pub fn ssh_add_resolve(host_name: &str, default_host_name: &str) {
+    // I must find the filename of the identity_file for ssh connection to host_name,
+    // to find out if I need ssh-add or not.
+    // 1. parse the ~/.ssh/config. 99% probably there should be a record for github and there is the identity_file.
+    let mut identity_from_ssh_config = get_identity_from_ssh_config(host_name);
+
+    // 2. if not found in ssh/config then ask the user to provide the filename
+    if identity_from_ssh_config.is_empty() {
+        if let Some(filename) = ask_for_identity_file_for_ssh(host_name, default_host_name) {
+            identity_from_ssh_config = filename.to_string_lossy().to_string();
+        }
+    }
+    // ssh-add only if needed
+    if !identity_from_ssh_config.is_empty() {
+        ssh_add_if_needed(identity_from_ssh_config).unwrap();
+    }
 }
 
 /// interactive ask to create a new remote GitHub repository
@@ -264,7 +278,8 @@ pub fn new_remote_github_repository() -> Option<String> {
     let name = cargo_toml.package_name();
     let owner = cargo_toml.github_owner().unwrap();
     let description = cargo_toml.package_description().unwrap();
-    let json: serde_json::Value = crate::github_api_repository_new(&owner, &name, &description);
+    let json: serde_json::Value =
+        crate::auto_github_mod::github_api_repository_new(&owner, &name, &description);
     // get just the name, description and html_url from json
     println!("name: {}", json.get("name").unwrap().as_str().unwrap());
     println!(
@@ -370,36 +385,39 @@ pub fn ssh_add_if_needed(github_ssh_for_push: String) -> Option<()> {
 }
 
 /// parse the ~/.ssh/config. 99% probably there should be a record for github and there is the identity_file.
-pub fn get_identity_from_ssh_config() -> String {
-    let mut github_ssh_for_push = String::new();
+pub fn get_identity_from_ssh_config(host_name: &str) -> String {
+    let mut identity_for_ssh = String::new();
     if let Ok(config) = ssh2_config::SshConfig::parse_default_file(ssh2_config::ParseRule::STRICT) {
         // find the filename
         for x in config.get_hosts().iter() {
-            if let Some(host_name) = x.params.host_name.as_ref() {
-                if host_name == "github.com" {
+            if let Some(x_host_name) = x.params.host_name.as_ref() {
+                if x_host_name == host_name {
                     if let Some(identity_files) = x.params.identity_file.as_ref() {
                         if !identity_files.is_empty() {
                             // there can be more identity_files, but I will use only the first
-                            github_ssh_for_push = identity_files[0].to_string_lossy().to_string();
+                            identity_for_ssh = identity_files[0].to_string_lossy().to_string();
                         }
                     }
                     break;
                 }
             }
         }
-        if !github_ssh_for_push.is_empty() {
-            println!("github_ssh_for_push is {github_ssh_for_push}");
+        if !identity_for_ssh.is_empty() {
+            println!("identity_for_ssh is {identity_for_ssh}");
         }
     }
-    github_ssh_for_push
+    identity_for_ssh
 }
 
-/// Ask the user for the filename of the ssh key used to push to GitHub.
-/// The default is githubssh1.
-pub fn ask_for_github_ssh_for_push() -> Option<std::path::PathBuf> {
+/// Ask the user for the filename of the ssh key used to connect with SSH/git to a server.
+/// host_name is like: github.com or bestia.dev, default like githubssh1 and webserverssh1
+pub fn ask_for_identity_file_for_ssh(
+    host_name: &str,
+    default_host_name: &str,
+) -> Option<std::path::PathBuf> {
     println!(
         r#"{RED}Cannot find identity in ~/.ssh/config.{RESET}
-It should contain the filename of the ssh key used to push to GitHub.
+It should contain the filename of the ssh key used to push to {host_name}.
 The filename itself is not a secret. Just the content of the file is a secret.
 Without this filename I cannot check if it is ssh-added to the ssh-agent.
 If you create the file ~/.ssh/config with content like this: 
@@ -407,29 +425,30 @@ If you create the file ~/.ssh/config with content like this:
 You will not be asked to enter this filename manually every time.
 "#,
     );
-    let github_ssh_for_push =
-        inquire::Text::new("What file in the .ssh folder has the ssh key for push to GitHub? ")
-            .with_initial_value("githubssh1")
-            .prompt()
-            .unwrap();
-    if github_ssh_for_push.is_empty() {
+    let identity_file_for_ssh = inquire::Text::new(&format!(
+        "Which file in the .ssh folder has the ssh identity for {host_name}?"
+    ))
+    .with_initial_value(default_host_name)
+    .prompt()
+    .unwrap();
+    if identity_file_for_ssh.is_empty() {
         // early exit
         eprintln!("{RED}The filename for the ssh key was not given. Exiting.{RESET}");
         return None;
     }
 
     // check if the file exists
-    let github_ssh_for_push = crate::home_dir().join(".ssh").join(github_ssh_for_push);
-    if !github_ssh_for_push.exists() {
+    let identity_file_for_ssh = crate::home_dir().join(".ssh").join(identity_file_for_ssh);
+    if !identity_file_for_ssh.exists() {
         eprintln!(
             "{RED}File {} does not exist! Exiting.{RESET}",
-            github_ssh_for_push.to_string_lossy()
+            identity_file_for_ssh.to_string_lossy()
         );
         // early exit
         return None;
     }
     // return
-    Some(github_ssh_for_push)
+    Some(identity_file_for_ssh)
 }
 
 /// sync, check, create, push git tag
@@ -453,7 +472,32 @@ pub fn git_tag_sync_check_create_push(version: &str) -> String {
 /// Then the automation task will copy the content to GitHub release
 /// and create a new Version title in RELEASES.md.
 pub fn body_text_from_releases_md(release_name: &str) -> Option<String> {
-    let release_md = std::fs::read_to_string("RELEASES.md").unwrap();
+    if !std::path::Path::new(RELEASES_MD).exists() {
+        // create the template file
+        let cargo_toml = crate::CargoToml::read();
+        let project_name = cargo_toml.package_name();
+        let github_owner = cargo_toml.github_owner().unwrap();
+        let template = format!(
+            r#"# Releases changelog of {project_name}
+
+All notable changes to this project will be documented in this file.  
+This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).  
+The library releases will be published on crates.io.  
+The cargo-auto automation task will use the content of the section `## Unreleased` to create
+the GitHub release consistently with this file.  
+The ongoing changes that are not released, are visible in the git commits and github pull requests.  
+The TODO section is part of the [README.md](https://github.com/{github_owner}/{project_name}).  
+
+## Unreleased
+
+## Version 0.0.1
+
+"#
+        );
+        std::fs::write("RELEASES_MD", template).unwrap();
+    }
+
+    let release_md = std::fs::read_to_string("RELEASES_MD").unwrap();
     // find the start of ## Unreleased
     let Some(pos_start_data) =
         crate::find_pos_start_data_after_delimiter(&release_md, 0, "## Unreleased\n")
@@ -475,7 +519,7 @@ pub fn body_text_from_releases_md(release_name: &str) -> Option<String> {
         &release_name,
         &release_md[pos_start_data..]
     );
-    std::fs::write("RELEASES.md", new_release_md).unwrap();
+    std::fs::write("RELEASES_MD", new_release_md).unwrap();
     // return
     Some(body_md_text)
 }

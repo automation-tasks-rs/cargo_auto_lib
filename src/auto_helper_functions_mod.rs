@@ -48,7 +48,7 @@ pub fn run_shell_commands(shell_commands: Vec<&str>) {
     }
 }
 
-/// run one shell command and return output {exit_status,stdout,stderr}
+/// run one shell command and return ShellOutput {exit_status,stdout,stderr}
 pub fn run_shell_command_output(shell_command: &str) -> ShellOutput {
     if !shell_command.starts_with("echo ") {
         println!("    $ {}", shell_command);
