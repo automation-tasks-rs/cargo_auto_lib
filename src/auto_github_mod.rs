@@ -214,7 +214,7 @@ pub fn init_repository_if_needed(message: &str) -> bool {
     // Find the filename of the identity_file for ssh connection to host_name, to find out if need ssh-add or not.
     // parse the ~/.ssh/config. 99% probably there should be a record for host_name and there is the identity_file.
     // else ask user for filename, then run ssh-add
-    ssh_add_resolve("github.com", "githubssh1");
+    ssh_add_resolve("github.com", "github_com_ssh_1");
 
     // crate new local git repository
     if !crate::git_is_local_repository() {
@@ -410,7 +410,7 @@ pub fn get_identity_from_ssh_config(host_name: &str) -> String {
 }
 
 /// Ask the user for the filename of the ssh key used to connect with SSH/git to a server.
-/// host_name is like: github.com or bestia.dev, default like githubssh1 and webserverssh1
+/// host_name is like: github.com or bestia.dev, default like github_com_ssh_1 and bestia_dev_ssh_1
 pub fn ask_for_identity_file_for_ssh(
     host_name: &str,
     default_host_name: &str,
