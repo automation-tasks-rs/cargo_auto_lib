@@ -223,7 +223,7 @@ fn task_commit_and_push(arg_2: Option<String>) {
                 r#"git add docs && git diff --staged --quiet || git commit -m "update docs" "#,
             );
         }
-        // cl::add_message_to_unreleased(message);
+        cl::add_message_to_unreleased(&message);
         // the real commit of code
         cl::run_shell_command(&format!(r#"git add -A && git diff --staged --quiet || git commit -m "{message}" "#));
         cl::run_shell_command("git push");
