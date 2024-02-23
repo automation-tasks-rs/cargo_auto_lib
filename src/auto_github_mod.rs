@@ -472,31 +472,7 @@ pub fn git_tag_sync_check_create_push(version: &str) -> String {
 /// Then the automation task will copy the content to GitHub release
 /// and create a new Version title in RELEASES.md.
 pub fn body_text_from_releases_md(release_name: &str) -> Option<String> {
-    if !std::path::Path::new(RELEASES_MD).exists() {
-        // create the template file
-        let cargo_toml = crate::CargoToml::read();
-        let project_name = cargo_toml.package_name();
-        let github_owner = cargo_toml.github_owner().unwrap();
-        let template = format!(
-            r#"# Releases changelog of {project_name}
-
-All notable changes to this project will be documented in this file.  
-This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).  
-The library releases will be published on crates.io.  
-The cargo-auto automation task will use the content of the section `## Unreleased` to create
-the GitHub release consistently with this file.  
-The ongoing changes that are not released, are visible in the git commits and github pull requests.  
-The TODO section is part of the [README.md](https://github.com/{github_owner}/{project_name}).  
-
-## Unreleased
-
-## Version 0.0.1
-
-"#
-        );
-        std::fs::write(RELEASES_MD, template).unwrap();
-    }
-
+    create_releases_md_if_file_not_exist();
     let release_md = std::fs::read_to_string(RELEASES_MD).unwrap();
     // find the start of ## Unreleased
     let Some(pos_start_data) =
@@ -524,7 +500,56 @@ The TODO section is part of the [README.md](https://github.com/{github_owner}/{p
     Some(body_md_text)
 }
 
+/// create RELEASES.md if file not exist
+fn create_releases_md_if_file_not_exist() {
+    if !std::path::Path::new(RELEASES_MD).exists() {
+        // create the template file
+        let cargo_toml = crate::CargoToml::read();
+        let project_name = cargo_toml.package_name();
+        let github_owner = cargo_toml.github_owner().unwrap();
+        let template = format!(
+            r#"# Releases changelog of {project_name}
+
+All notable changes to this project will be documented in this file.  
+This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).  
+The library releases will be published on crates.io.  
+The cargo-auto automation task will use the content of the section `## Unreleased` to create
+the GitHub release consistently with this file.  
+The ongoing changes that are not released, are visible in the git commits and github pull requests.  
+The TODO section is part of the [README.md](https://github.com/{github_owner}/{project_name}).  
+
+## Unreleased
+
+## Version 0.0.1
+
+"#
+        );
+        std::fs::write(RELEASES_MD, template).unwrap();
+    }
+}
+
 /// the UTC date in iso standard 2024-12-31
 pub fn now_utc_date_iso() -> String {
     chrono::Utc::now().format("%Y-%m-%d").to_string()
+}
+
+/// add commit message to Unreleased in RELEASES.md
+pub fn add_message_to_unreleased(message: &str) {
+    create_releases_md_if_file_not_exist();
+    let release_md = std::fs::read_to_string(RELEASES_MD).unwrap();
+    // find the beginning of the first ## Version
+    let Some(pos_end_data) =
+        crate::find_pos_end_data_before_delimiter(&release_md, 0, "## Version ")
+    else {
+        return;
+    };
+    // add before the first ## Version
+    // I expect only one empty line before ## Version
+    let added_message_md = format!(
+        "{}- {}\n{}",
+        &release_md[..pos_end_data - 1],
+        message,
+        &release_md[pos_end_data - 1..]
+    );
+    std::fs::write(RELEASES_MD, added_message_md).unwrap();
 }

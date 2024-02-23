@@ -504,6 +504,11 @@ pub fn copy_folder_files_into_module(
         exclude_big_folders,
     )
 }
+
+/// add commit message to Unreleased in RELEASES.md
+pub fn add_message_to_unreleased(message: &str) {
+    crate::auto_github_mod::add_message_to_unreleased(message)
+}
 // endregion: Public API functions
 
 // endregion: PUBLIC API defines externally accessible functions and struct
