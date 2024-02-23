@@ -10,6 +10,7 @@ The TODO section is part of the [README.md](https://github.com/bestia-dev/cargo_
 
 ## Unreleased
 - auto_playground_mod
+- auto_playground_mod
 
 ## Version 1.3.6 (2024-02-23)
 
