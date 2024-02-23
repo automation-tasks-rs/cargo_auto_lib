@@ -7,11 +7,7 @@ use std::{fs, io, path::Path};
 // region: delimiters cannot be INACTIVE like markers
 
 /// return the position of start of the delimited data after the delimiter
-pub fn find_pos_start_data_after_delimiter(
-    md_text_content: &str,
-    pos: usize,
-    delimiter: &str,
-) -> Option<usize> {
+pub fn find_pos_start_data_after_delimiter(md_text_content: &str, pos: usize, delimiter: &str) -> Option<usize> {
     if let Some(pos_start_data) = find_from(md_text_content, pos, delimiter) {
         let pos_start_data = pos_start_data + delimiter.len();
         return Some(pos_start_data);
@@ -21,11 +17,7 @@ pub fn find_pos_start_data_after_delimiter(
 }
 
 /// return the position of end of the delimited data before the delimiter
-pub fn find_pos_end_data_before_delimiter(
-    md_text_content: &str,
-    pos: usize,
-    delimiter: &str,
-) -> Option<usize> {
+pub fn find_pos_end_data_before_delimiter(md_text_content: &str, pos: usize, delimiter: &str) -> Option<usize> {
     if let Some(pos_end_data) = find_from(md_text_content, pos, delimiter) {
         return Some(pos_end_data);
     }
@@ -70,11 +62,7 @@ pub fn find_from(text: &str, from_pos: usize, find: &str) -> Option<usize> {
 ///     println!("{}", &rs_file_name);
 /// }
 /// ```
-pub fn traverse_dir_with_exclude_dir(
-    dir: &Path,
-    find_file: &str,
-    exclude_dirs: &[String],
-) -> io::Result<Vec<String>> {
+pub fn traverse_dir_with_exclude_dir(dir: &Path, find_file: &str, exclude_dirs: &[String]) -> io::Result<Vec<String>> {
     // if the parameter is /*.rs, I can eliminate /*
     let find_file = &find_file.replace("/*", "");
 

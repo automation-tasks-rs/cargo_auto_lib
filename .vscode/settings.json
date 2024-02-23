@@ -62,6 +62,7 @@
         "Txsr",
         "UNHIDE",
         "Unpadded",
+        "urlencoding",
         "webserverssh",
         "xendregion",
         "xregion",

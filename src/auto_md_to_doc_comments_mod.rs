@@ -86,18 +86,13 @@ fn one_project() {
 
         // check if file have CRLF instead of LF and show error
         if rs_text_content.contains("\r\n") {
-            panic!("Error: {} has CRLF line endings instead of LF. The task auto_md_to_doc_comments cannot work! Closing.", rs_filename);
+            panic!("Error: {} has CRLF line endings instead of LF. The task auto_md_to_doc_comments cannot work! Exiting..", rs_filename);
         }
 
         let markers = rs_file_markers(&rs_text_content);
         if !markers.is_empty() {
             for marker in markers.iter().rev() {
-                let segment_text = get_md_segments_using_cache(
-                    &mut cache_md_segments,
-                    &marker.md_filename,
-                    &marker.marker_name,
-                    &marker.comment_symbol,
-                );
+                let segment_text = get_md_segments_using_cache(&mut cache_md_segments, &marker.md_filename, &marker.marker_name, &marker.comment_symbol);
                 rs_text_content.replace_range(marker.pos_start..marker.pos_end, &segment_text);
             }
             println!("    write file: {}", rs_filename);
@@ -131,14 +126,10 @@ fn rs_files() -> Vec<String> {
 }
 
 lazy_static! {
-    static ref REGEX_RS_START: Regex =
-        Regex::new(r#"(?m)^ *?// region: auto_md_to_doc_comments include (.*?) (.*?) (.*?)$"#)
-            .unwrap();
+    static ref REGEX_RS_START: Regex = Regex::new(r#"(?m)^ *?// region: auto_md_to_doc_comments include (.*?) (.*?) (.*?)$"#).unwrap();
 }
 lazy_static! {
-    static ref REGEX_RS_END: Regex =
-        Regex::new(r#"(?m)^ *?// endregion: auto_md_to_doc_comments include (.*?) (.*?) (.*?)$"#)
-            .unwrap();
+    static ref REGEX_RS_END: Regex = Regex::new(r#"(?m)^ *?// endregion: auto_md_to_doc_comments include (.*?) (.*?) (.*?)$"#).unwrap();
 }
 /// markers in rs files
 fn rs_file_markers(rs_text_content: &str) -> Vec<RsMarker> {
@@ -153,10 +144,7 @@ fn rs_file_markers(rs_text_content: &str) -> Vec<RsMarker> {
         });
     }
     for cap in REGEX_RS_END.captures_iter(rs_text_content) {
-        let marker = markers
-            .iter_mut()
-            .find(|m| m.md_filename == cap[1] && m.marker_name == cap[2])
-            .unwrap();
+        let marker = markers.iter_mut().find(|m| m.md_filename == cap[1] && m.marker_name == cap[2]).unwrap();
         marker.pos_end = cap.get(0).unwrap().start();
     }
     // return
@@ -164,30 +152,20 @@ fn rs_file_markers(rs_text_content: &str) -> Vec<RsMarker> {
 }
 
 lazy_static! {
-    static ref REGEX_MD_START: Regex =
-        Regex::new(r#"(?m)^\[//\]: # \(auto_md_to_doc_comments segment start (.*?)\)$"#).unwrap();
+    static ref REGEX_MD_START: Regex = Regex::new(r#"(?m)^\[//\]: # \(auto_md_to_doc_comments segment start (.*?)\)$"#).unwrap();
 }
 lazy_static! {
-    static ref REGEX_MD_END: Regex =
-        Regex::new(r#"(?m)^\[//\]: # \(auto_md_to_doc_comments segment end (.*?)\)$"#).unwrap();
+    static ref REGEX_MD_END: Regex = Regex::new(r#"(?m)^\[//\]: # \(auto_md_to_doc_comments segment end (.*?)\)$"#).unwrap();
 }
 
 /// The first time it is called
 /// reads the file and extracts all the segments
 /// into a cache vector.
 /// Subsequent calls read from the cache.
-fn get_md_segments_using_cache(
-    cache: &mut Vec<MdSegment>,
-    md_filename: &str,
-    marker_name: &str,
-    comment_symbol: &str,
-) -> String {
+fn get_md_segments_using_cache(cache: &mut Vec<MdSegment>, md_filename: &str, marker_name: &str, comment_symbol: &str) -> String {
     // check the cache
     if let Some(_seg) = cache.iter().find(|m| m.md_filename == md_filename) {
-        let segment = cache
-            .iter()
-            .find(|m| m.md_filename == md_filename && m.marker_name == marker_name)
-            .unwrap();
+        let segment = cache.iter().find(|m| m.md_filename == md_filename && m.marker_name == marker_name).unwrap();
         segment.text.to_string()
     } else {
         // process the file
@@ -196,7 +174,7 @@ fn get_md_segments_using_cache(
 
         // check if file have CRLF instead of LF and show error
         if md_text_content.contains("\r\n") {
-            panic!("Error: {} has CRLF line endings instead of LF. The task auto_md_to_doc_comments cannot work! Closing.", md_filename);
+            panic!("Error: {} has CRLF line endings instead of LF. The task auto_md_to_doc_comments cannot work! Exiting..", md_filename);
         }
 
         for cap in REGEX_MD_START.captures_iter(&md_text_content) {
@@ -209,10 +187,7 @@ fn get_md_segments_using_cache(
             });
         }
         for cap in REGEX_MD_END.captures_iter(&md_text_content) {
-            let segment = cache
-                .iter_mut()
-                .find(|m| m.md_filename == md_filename && m.marker_name == cap[1])
-                .unwrap();
+            let segment = cache.iter_mut().find(|m| m.md_filename == md_filename && m.marker_name == cap[1]).unwrap();
             segment.pos_end = cap.get(0).unwrap().start();
             // the segment begins with a comment, so don't include the next empty row
             let mut last_line_was_comment = true;
@@ -234,10 +209,7 @@ fn get_md_segments_using_cache(
                 }
             }
         }
-        let segment = cache
-            .iter()
-            .find(|m| m.md_filename == md_filename && m.marker_name == marker_name)
-            .unwrap();
+        let segment = cache.iter().find(|m| m.md_filename == md_filename && m.marker_name == marker_name).unwrap();
         //return
         segment.text.to_string()
     }

@@ -29,8 +29,7 @@ impl crate::public_api_mod::CargoTomlPublicApiMethods for CargoToml {
             None => cargo_toml_workspace_maybe.clone(),
             Some(workspace) => {
                 let main_member = &workspace.members[0];
-                let cargo_main =
-                    cargo_toml::Manifest::from_path(format!("{}/Cargo.toml", main_member)).unwrap();
+                let cargo_main = cargo_toml::Manifest::from_path(format!("{}/Cargo.toml", main_member)).unwrap();
                 //return
                 cargo_main
             }
@@ -86,20 +85,14 @@ impl crate::public_api_mod::CargoTomlPublicApiMethods for CargoToml {
 
     /// Cargo.toml workspace members
     fn workspace_members(&self) -> Option<Vec<String>> {
-        self.cargo_toml_workspace_maybe
-            .workspace
-            .as_ref()
-            .map(|workspace| workspace.members.clone())
+        self.cargo_toml_workspace_maybe.workspace.as_ref().map(|workspace| workspace.members.clone())
     }
 
     /// github owner from package_repository
     fn github_owner(&self) -> Option<String> {
         match self.package_repository() {
             Some(repository) => {
-                let splitted: Vec<&str> = repository
-                    .trim_start_matches("https://")
-                    .split("/")
-                    .collect();
+                let splitted: Vec<&str> = repository.trim_start_matches("https://").split("/").collect();
                 Some(splitted[1].to_string())
             }
             None => None,

@@ -17,7 +17,10 @@ pub fn auto_check_micro_xml(path_to_html_pages: &str) {
 
         // check if file have CRLF instead of LF and show error
         if str_xml.contains("\r\n") {
-            panic!("Error: {} has CRLF line endings instead of LF. The task auto_check_micro_xml cannot work! Closing.", filename_pathbuff.to_string_lossy());
+            panic!(
+                "Error: {} has CRLF line endings instead of LF. The task auto_check_micro_xml cannot work! Exiting..",
+                filename_pathbuff.to_string_lossy()
+            );
         }
 
         // check microxml correctness. Panic on errors.
@@ -46,10 +49,7 @@ fn check_micro_xml(str_xml: &str, file_name: &str) {
                 Token::EndElement(end_element_name) => {
                     let start_element_name = vec_elem.pop().unwrap();
                     if !end_element_name.is_empty() && end_element_name != start_element_name {
-                        panic!(
-                            "{RED}MicroXml {} start {} does not match end {}{RESET}",
-                            file_name, start_element_name, end_element_name,
-                        );
+                        panic!("{RED}MicroXml {} start {} does not match end {}{RESET}", file_name, start_element_name, end_element_name,);
                     }
                 }
             },

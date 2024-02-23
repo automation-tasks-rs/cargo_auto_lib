@@ -1,9 +1,7 @@
 // lib.rs
 
 // logo for docs.rs in png
-#![doc(
-    html_logo_url = "https://github.com/bestia-dev/cargo-auto/raw/main/images/logo/logo_cargo_auto.svg"
-)]
+#![doc(html_logo_url = "https://github.com/bestia-dev/cargo-auto/raw/main/images/logo/logo_cargo_auto.svg")]
 // even favicon ico can be changed
 // #![doc(html_favicon_url = "/logo.ico")]
 // playground for examples. Warning: It didn't work well for me. And it works only in docs. Not in Github and not in crates.io.
@@ -28,6 +26,7 @@ mod auto_helper_functions_mod;
 mod auto_lines_of_code_mod;
 mod auto_md_to_doc_comments_mod;
 mod auto_plantuml_mod;
+mod auto_playground_mod;
 mod auto_semver_mod;
 mod auto_semver_or_date_mod;
 mod auto_version_from_date_mod;

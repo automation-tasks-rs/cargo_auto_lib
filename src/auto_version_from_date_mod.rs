@@ -111,19 +111,13 @@ fn do_one_project(new_version: &str, force_version: bool) -> ResultWithLibError<
 /// search for file service_worker.js and modify version
 fn modify_service_js(new_version: &str) {
     let start_dir = Path::new("./");
-    for js_filename in &crate::utils_mod::traverse_dir_with_exclude_dir(
-        start_dir,
-        "/service_worker.js",
-        &["/.git".to_string(), "/target".to_string()],
-    )
-    .unwrap()
-    {
+    for js_filename in &crate::utils_mod::traverse_dir_with_exclude_dir(start_dir, "/service_worker.js", &["/.git".to_string(), "/target".to_string()]).unwrap() {
         // println!("{}write version in {}{}", *GREEN, js_filename, *RESET);
         let mut js_content = fs::read_to_string(js_filename).unwrap();
 
         // check if file have CRLF instead of LF and show error
         if js_content.contains("\r\n") {
-            panic!("Error: {} has CRLF line endings instead of LF. The task modify_service_js cannot work! Closing.", js_filename);
+            panic!("Error: {} has CRLF line endings instead of LF. The task modify_service_js cannot work! Exiting..", js_filename);
         }
 
         let delimiter = r#"const CACHE_NAME = '"#;
@@ -152,17 +146,17 @@ fn modify_service_js(new_version: &str) {
 }
 
 /// move vec_of_metadata
-fn write_version_to_cargo_and_modify_metadata(
-    new_version: &str,
-    mut vec_of_metadata: Vec<FileMetaData>,
-) -> ResultWithLibError<()> {
+fn write_version_to_cargo_and_modify_metadata(new_version: &str, mut vec_of_metadata: Vec<FileMetaData>) -> ResultWithLibError<()> {
     // println!("{}write version to Cargo.toml{}", *GREEN, *RESET);
     let cargo_filename = "Cargo.toml";
     let mut cargo_content = fs::read_to_string(cargo_filename).unwrap();
 
     // check if file have CRLF instead of LF and show error
     if cargo_content.contains("\r\n") {
-        panic!("{RED}Error: {} has CRLF line endings instead of LF. The task write_version_to_cargo cannot work! Closing.{RESET}", cargo_filename);
+        panic!(
+            "{RED}Error: {} has CRLF line endings instead of LF. The task write_version_to_cargo cannot work! Exiting..{RESET}",
+            cargo_filename
+        );
     }
 
     let delimiter = r#"version = ""#;
@@ -195,26 +189,18 @@ fn write_version_to_cargo_and_modify_metadata(
 }
 
 /// the Cargo.toml is now different and needs to be changed in the vec of file metadata
-pub fn correct_file_metadata_for_cargo_tom_inside_vec(
-    vec_of_metadata: &mut [FileMetaData],
-) -> ResultWithLibError<()> {
+pub fn correct_file_metadata_for_cargo_tom_inside_vec(vec_of_metadata: &mut [FileMetaData]) -> ResultWithLibError<()> {
     //correct the vector only for Cargo.toml file
     let filename = "Cargo.toml".to_string();
     // calculate hash of file
     let filehash = sha256_digest(PathBuf::from_str(&filename)?.as_path())?;
-    vec_of_metadata
-        .get_mut(0)
-        .ok_or(LibError::ErrorFromStr("error vec_of_metadata.get_mut(0)"))?
-        .filehash = filehash;
+    vec_of_metadata.get_mut(0).ok_or(LibError::ErrorFromStr("error vec_of_metadata.get_mut(0)"))?.filehash = filehash;
     Ok(())
 }
 
 /// if files are added or deleted, other files must be also changed
 /// I need to check if the files on the filesystem are the same as in the json
-pub fn are_files_equal(
-    vec_of_metadata: &[FileMetaData],
-    js_vec_of_metadata: &[FileMetaData],
-) -> bool {
+pub fn are_files_equal(vec_of_metadata: &[FileMetaData], js_vec_of_metadata: &[FileMetaData]) -> bool {
     let mut is_files_equal = true;
     for x in vec_of_metadata.iter() {
         //search in json file
@@ -288,9 +274,7 @@ pub fn read_json_file(json_filepath: &str) -> ResultWithLibError<AutoVersionFrom
             // check if file have CRLF instead of LF. This are unusable - create empty struct
             if x.contains("\r\n") {
                 //create empty struct
-                js_struct = AutoVersionFromDate {
-                    vec_file_metadata: Vec::new(),
-                }
+                js_struct = AutoVersionFromDate { vec_file_metadata: Vec::new() }
             } else {
                 //read struct from file
                 js_struct = serde_json::from_str(x.as_str())?;
@@ -299,9 +283,7 @@ pub fn read_json_file(json_filepath: &str) -> ResultWithLibError<AutoVersionFrom
         Err(_error) => {
             // println!("Creating new file: {}", json_filepath);
             //create empty struct
-            js_struct = AutoVersionFromDate {
-                vec_file_metadata: Vec::new(),
-            }
+            js_struct = AutoVersionFromDate { vec_file_metadata: Vec::new() }
         }
     };
     Ok(js_struct)
@@ -309,9 +291,7 @@ pub fn read_json_file(json_filepath: &str) -> ResultWithLibError<AutoVersionFrom
 
 /// save the new file metadata
 pub fn save_json_file_for_file_meta_data(vec_of_metadata: Vec<FileMetaData>) {
-    let x = AutoVersionFromDate {
-        vec_file_metadata: vec_of_metadata,
-    };
+    let x = AutoVersionFromDate { vec_file_metadata: vec_of_metadata };
     let y = serde_json::to_string_pretty(&x).unwrap();
     let json_filepath = ".automation_tasks_rs_file_hashes.json";
     let _f = fs::write(json_filepath, y);
@@ -323,22 +303,9 @@ fn version_from_date(date: DateTime<Utc>) -> String {
     // There is an exceptional situation where is midnight 00.
     //return
     if date.hour() == 0 {
-        format!(
-            "{:04}.{}{:02}.{}",
-            date.year(),
-            date.month(),
-            date.day(),
-            date.minute()
-        )
+        format!("{:04}.{}{:02}.{}", date.year(), date.month(), date.day(), date.minute())
     } else {
-        format!(
-            "{:04}.{}{:02}.{}{:02}",
-            date.year(),
-            date.month(),
-            date.day(),
-            date.hour(),
-            date.minute()
-        )
+        format!("{:04}.{}{:02}.{}{:02}", date.year(), date.month(), date.day(), date.hour(), date.minute())
     }
 }
 

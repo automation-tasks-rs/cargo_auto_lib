@@ -20,10 +20,8 @@ use crate::public_api_mod::{GREEN, RESET, YELLOW};
 // endregion: use statements
 
 lazy_static! {
-    static ref REGEX_MD_START: Regex =
-        Regex::new(r#"(?m)^\[//\]: # \(auto_cargo_toml_to_md start\)$"#).unwrap();
-    static ref REGEX_MD_END: Regex =
-        Regex::new(r#"(?m)^\[//\]: # \(auto_cargo_toml_to_md end\)$"#).unwrap();
+    static ref REGEX_MD_START: Regex = Regex::new(r#"(?m)^\[//\]: # \(auto_cargo_toml_to_md start\)$"#).unwrap();
+    static ref REGEX_MD_END: Regex = Regex::new(r#"(?m)^\[//\]: # \(auto_cargo_toml_to_md end\)$"#).unwrap();
 }
 
 /// includes data from Cargo.toml to README.md files: version, authors,...
@@ -92,7 +90,7 @@ fn do_one_project() {
 
         // check if file have CRLF and show error
         if md_text_content.contains("\r\n") {
-            panic!("Error: {} has CRLF line endings instead of LF. The task auto_cargo_toml_to_md cannot work! Closing.", &md_filename);
+            panic!("Error: {} has CRLF line endings instead of LF. The task auto_cargo_toml_to_md cannot work! Exiting.", &md_filename);
         }
 
         if let Some(cap) = REGEX_MD_START.captures(&md_text_content) {
@@ -111,10 +109,5 @@ fn do_one_project() {
 /// utc now
 fn utc_now() -> String {
     let now = Utc::now();
-    format!(
-        "{:04}-{:02}-{:02}",
-        now.year(),
-        now.month() as i32,
-        now.day() as i32,
-    )
+    format!("{:04}-{:02}-{:02}", now.year(), now.month() as i32, now.day() as i32,)
 }

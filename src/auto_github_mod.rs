@@ -18,14 +18,7 @@ pub const RELEASES_MD: &str = "RELEASES.md";
 ///       upload_asset_to_github_release(&owner, &repo, &release_id, &path_to_file);  
 ///       println!("Asset uploaded.");    
 /// ```
-pub fn github_api_create_new_release(
-    owner: &str,
-    repo: &str,
-    tag_name_version: &str,
-    name: &str,
-    branch: &str,
-    body_md_text: &str,
-) -> String {
+pub fn github_api_create_new_release(owner: &str, repo: &str, tag_name_version: &str, name: &str, branch: &str, body_md_text: &str) -> String {
     /*
     https://docs.github.com/en/rest/releases/releases?apiVersion=2022-11-28#create-a-release
     Request like :
@@ -97,12 +90,7 @@ pub fn github_api_create_new_release(
 ///       upload_asset_to_github_release(&owner, &repo, &release_id, &path_to_file);  
 ///       println!("Asset uploaded.");  
 /// ```
-pub fn github_api_upload_asset_to_release(
-    owner: &str,
-    repo: &str,
-    release_id: &str,
-    path_to_file: &str,
-) {
+pub fn github_api_upload_asset_to_release(owner: &str, repo: &str, release_id: &str, path_to_file: &str) {
     check_or_get_github_token().unwrap();
     let token = std::env::var("GITHUB_TOKEN").expect("GITHUB_TOKEN env variable is required");
 
@@ -110,17 +98,12 @@ pub fn github_api_upload_asset_to_release(
     let file = std::path::Path::new(&path_to_file);
     let file_name = file.file_name().unwrap().to_str().unwrap();
 
-    let release_upload_url =
-        format!("https://uploads.github.com/repos/{owner}/{repo}/releases/{release_id}/assets");
-    let mut release_upload_url =
-        <url::Url as std::str::FromStr>::from_str(&release_upload_url).unwrap();
+    let release_upload_url = format!("https://uploads.github.com/repos/{owner}/{repo}/releases/{release_id}/assets");
+    let mut release_upload_url = <url::Url as std::str::FromStr>::from_str(&release_upload_url).unwrap();
     release_upload_url.set_query(Some(format!("{}={}", "name", file_name).as_str()));
     println!("upload_url: {}", release_upload_url);
     let file_size = std::fs::metadata(file).unwrap().len();
-    println!(
-        "file_size: {}. It can take some time to upload. Wait...",
-        file_size
-    );
+    println!("file_size: {}. It can take some time to upload. Wait...", file_size);
     // region: async code made sync locally
     use tokio::runtime::Runtime;
     let rt = Runtime::new().unwrap();
@@ -265,9 +248,7 @@ pub fn ssh_add_resolve(host_name: &str, default_host_name: &str) {
 pub fn new_remote_github_repository() -> Option<String> {
     // ask interactive
     println!("{YELLOW}This project does not have a remote GitHub repository.{RESET}");
-    let answer = inquire::Text::new("Do you want to create a new remote GitHub repository? (y/n)")
-        .prompt()
-        .unwrap();
+    let answer = inquire::Text::new("Do you want to create a new remote GitHub repository? (y/n)").prompt().unwrap();
     if answer.to_lowercase() != "y" {
         // early exit
         return None;
@@ -278,21 +259,15 @@ pub fn new_remote_github_repository() -> Option<String> {
     let name = cargo_toml.package_name();
     let owner = cargo_toml.github_owner().unwrap();
     let description = cargo_toml.package_description().unwrap();
-    let json: serde_json::Value =
-        crate::auto_github_mod::github_api_repository_new(&owner, &name, &description);
+    let json: serde_json::Value = crate::auto_github_mod::github_api_repository_new(&owner, &name, &description);
     // get just the name, description and html_url from json
     println!("name: {}", json.get("name").unwrap().as_str().unwrap());
-    println!(
-        "description: {}",
-        json.get("description").unwrap().as_str().unwrap()
-    );
+    println!("description: {}", json.get("description").unwrap().as_str().unwrap());
     let repo_html_url = json.get("html_url").unwrap().as_str().unwrap().to_string();
     println!("url: {}", &repo_html_url);
 
     // add this GitHub repository to origin remote over SSH (use sshadd for passcode)
-    crate::run_shell_command(&format!(
-        "git remote add origin git@github.com:{owner}/{name}.git"
-    ));
+    crate::run_shell_command(&format!("git remote add origin git@github.com:{owner}/{name}.git"));
     crate::run_shell_command("git push -u origin main");
     Some(repo_html_url)
 }
@@ -313,10 +288,7 @@ It needs the permission scope: Full control of private repositories.
 The token is a secret just like a password, use it with caution.
 "#
             );
-            let answer = inquire::Password::new("Enter the GitHub token:")
-                .without_confirmation()
-                .prompt()
-                .unwrap();
+            let answer = inquire::Password::new("Enter the GitHub token:").without_confirmation().prompt().unwrap();
             if answer.is_empty() {
                 // early exit
                 eprintln!("{RED}The GITHUB_TOKEN was not given. Exiting.{RESET}");
@@ -334,9 +306,7 @@ The token is a secret just like a password, use it with caution.
 pub fn new_local_repository(message: &str) -> Option<()> {
     // ask interactive
     println!("{YELLOW}This project is not yet a Git repository.{RESET}");
-    let answer = inquire::Text::new("Do you want to initialize a new local git repository? (y/n)")
-        .prompt()
-        .unwrap();
+    let answer = inquire::Text::new("Do you want to initialize a new local git repository? (y/n)").prompt().unwrap();
     // continue if answer is "y"
     if answer.to_lowercase() != "y" {
         // early exit
@@ -358,13 +328,8 @@ pub fn ssh_add_if_needed(github_ssh_for_push: String) -> Option<()> {
     println!("Get a list of fingerprints already in ssh-add.");
     let ssh_added = crate::run_shell_command_output("ssh-add -l").stdout;
 
-    println!(
-        "Calculate the fingerprint of the identity file to check if it is already in ssh-add."
-    );
-    let fingerprint =
-        crate::run_shell_command_output(&format!("ssh-keygen -lf {}", &github_ssh_for_push)).stdout
-            [0..55]
-            .to_string();
+    println!("Calculate the fingerprint of the identity file to check if it is already in ssh-add.");
+    let fingerprint = crate::run_shell_command_output(&format!("ssh-keygen -lf {}", &github_ssh_for_push)).stdout[0..55].to_string();
 
     // ssh-add if it is not contained in the ssh-agent
     if !ssh_added.contains(&fingerprint) {
@@ -411,10 +376,7 @@ pub fn get_identity_from_ssh_config(host_name: &str) -> String {
 
 /// Ask the user for the filename of the ssh key used to connect with SSH/git to a server.
 /// host_name is like: github.com or bestia.dev, default like github_com_ssh_1 and bestia_dev_ssh_1
-pub fn ask_for_identity_file_for_ssh(
-    host_name: &str,
-    default_host_name: &str,
-) -> Option<std::path::PathBuf> {
+pub fn ask_for_identity_file_for_ssh(host_name: &str, default_host_name: &str) -> Option<std::path::PathBuf> {
     println!(
         r#"{RED}Cannot find identity in ~/.ssh/config.{RESET}
 It should contain the filename of the ssh key used to push to {host_name}.
@@ -425,12 +387,10 @@ If you create the file ~/.ssh/config with content like this:
 You will not be asked to enter this filename manually every time.
 "#,
     );
-    let identity_file_for_ssh = inquire::Text::new(&format!(
-        "Which file in the .ssh folder has the ssh identity for {host_name}?"
-    ))
-    .with_initial_value(default_host_name)
-    .prompt()
-    .unwrap();
+    let identity_file_for_ssh = inquire::Text::new(&format!("Which file in the .ssh folder has the ssh identity for {host_name}?"))
+        .with_initial_value(default_host_name)
+        .prompt()
+        .unwrap();
     if identity_file_for_ssh.is_empty() {
         // early exit
         eprintln!("{RED}The filename for the ssh key was not given. Exiting.{RESET}");
@@ -440,10 +400,7 @@ You will not be asked to enter this filename manually every time.
     // check if the file exists
     let identity_file_for_ssh = crate::home_dir().join(".ssh").join(identity_file_for_ssh);
     if !identity_file_for_ssh.exists() {
-        eprintln!(
-            "{RED}File {} does not exist! Exiting.{RESET}",
-            identity_file_for_ssh.to_string_lossy()
-        );
+        eprintln!("{RED}File {} does not exist! Exiting.{RESET}", identity_file_for_ssh.to_string_lossy());
         // early exit
         return None;
     }
@@ -475,26 +432,17 @@ pub fn body_text_from_releases_md(release_name: &str) -> Option<String> {
     create_releases_md_if_file_not_exist();
     let release_md = std::fs::read_to_string(RELEASES_MD).unwrap();
     // find the start of ## Unreleased
-    let Some(pos_start_data) =
-        crate::find_pos_start_data_after_delimiter(&release_md, 0, "## Unreleased\n")
-    else {
+    let Some(pos_start_data) = crate::find_pos_start_data_after_delimiter(&release_md, 0, "## Unreleased\n") else {
         return None;
     };
     // find the beginning of the next ## Version
-    let Some(pos_end_data) =
-        crate::find_pos_end_data_before_delimiter(&release_md, pos_start_data, "## Version ")
-    else {
+    let Some(pos_end_data) = crate::find_pos_end_data_before_delimiter(&release_md, pos_start_data, "## Version ") else {
         return None;
     };
     let body_md_text = release_md[pos_start_data..pos_end_data - 1].to_string();
 
     // create a new Version title after ## Unreleased in RELEASES.md
-    let new_release_md = format!(
-        "{}\n## {}\n{}",
-        &release_md[..pos_start_data],
-        &release_name,
-        &release_md[pos_start_data..]
-    );
+    let new_release_md = format!("{}\n## {}\n{}", &release_md[..pos_start_data], &release_name, &release_md[pos_start_data..]);
     std::fs::write(RELEASES_MD, new_release_md).unwrap();
     // return
     Some(body_md_text)
@@ -538,18 +486,11 @@ pub fn add_message_to_unreleased(message: &str) {
     create_releases_md_if_file_not_exist();
     let release_md = std::fs::read_to_string(RELEASES_MD).unwrap();
     // find the beginning of the first ## Version
-    let Some(pos_end_data) =
-        crate::find_pos_end_data_before_delimiter(&release_md, 0, "## Version ")
-    else {
+    let Some(pos_end_data) = crate::find_pos_end_data_before_delimiter(&release_md, 0, "## Version ") else {
         return;
     };
     // add before the first ## Version
     // I expect only one empty line before ## Version
-    let added_message_md = format!(
-        "{}- {}\n{}",
-        &release_md[..pos_end_data - 1],
-        message,
-        &release_md[pos_end_data - 1..]
-    );
+    let added_message_md = format!("{}- {}\n{}", &release_md[..pos_end_data - 1], message, &release_md[pos_end_data - 1..]);
     std::fs::write(RELEASES_MD, added_message_md).unwrap();
 }

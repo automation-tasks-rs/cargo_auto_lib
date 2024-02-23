@@ -9,24 +9,13 @@ use base64ct::Encoding;
 /// first we create the complete text, then we check if the old text needs to be replaced
 /// let ext_for_binary_files=vec![".ico",".jpg",".png",".woff2"];
 /// let exclude_big_folders = vec!["/.git".to_string(),"/target".to_string(),"/docs".to_string()];
-pub fn copy_folder_files_into_module(
-    folder_path: &std::path::Path,
-    module_path: &std::path::Path,
-    ext_for_binary_files: &[&str],
-    exclude_big_folders: &[String],
-) {
-    println!(
-        "copy_folder_files_into_module {}, {}",
-        folder_path.to_string_lossy(),
-        module_path.to_string_lossy()
-    );
+pub fn copy_folder_files_into_module(folder_path: &std::path::Path, module_path: &std::path::Path, ext_for_binary_files: &[&str], exclude_big_folders: &[String]) {
+    println!("copy_folder_files_into_module {}, {}", folder_path.to_string_lossy(), module_path.to_string_lossy());
     // traverse and get all file_names
-    let files =
-        crate::traverse_dir_with_exclude_dir(&folder_path, "", exclude_big_folders).unwrap();
+    let files = crate::traverse_dir_with_exclude_dir(&folder_path, "", exclude_big_folders).unwrap();
     let mut new_code = String::new();
     for file_name in files.iter() {
-        let file_name_short =
-            file_name.trim_start_matches(&format!("{}/", folder_path.to_string_lossy()));
+        let file_name_short = file_name.trim_start_matches(&format!("{}/", folder_path.to_string_lossy()));
         // avoid Cargo.lock file
         if file_name_short == "Cargo.lock" {
             continue;
@@ -62,18 +51,8 @@ pub fn copy_folder_files_into_module(
 
     // read the content of the module, delimited by markers
     let module_content = std::fs::read_to_string(module_path).unwrap();
-    let start_pos = crate::find_pos_start_data_after_delimiter(
-        &module_content,
-        0,
-        "// region: files copied into strings by automation tasks\n",
-    )
-    .expect("didn't find // region: files copied..");
-    let end_pos = crate::find_pos_end_data_before_delimiter(
-        &module_content,
-        0,
-        "// endregion: files copied into strings by automation tasks",
-    )
-    .expect("didn't find // endregion: files copied..");
+    let start_pos = crate::find_pos_start_data_after_delimiter(&module_content, 0, "// region: files copied into strings by automation tasks\n").expect("didn't find // region: files copied..");
+    let end_pos = crate::find_pos_end_data_before_delimiter(&module_content, 0, "// endregion: files copied into strings by automation tasks").expect("didn't find // endregion: files copied..");
     let old_code = &module_content[start_pos..end_pos];
 
     // compare the text, if different replace

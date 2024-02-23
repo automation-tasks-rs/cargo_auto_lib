@@ -75,11 +75,7 @@ pub struct LinesOfCode {
 /// Use git diff to see the change.  
 pub fn auto_lines_of_code(link: &str) {
     println!("    Running auto_lines_of_code");
-    let link = if link.is_empty() {
-        process_git_remote()
-    } else {
-        link.to_string()
-    };
+    let link = if link.is_empty() { process_git_remote() } else { link.to_string() };
     // Cargo.toml contains the list of projects
     let cargo_toml = crate::auto_cargo_toml_mod::CargoToml::read();
     match cargo_toml.workspace_members() {
@@ -142,11 +138,7 @@ fn one_project_count_lines() -> LinesOfCode {
         Path::new("src"),
         "/*.rs",
         // avoid big folders and other folders with *.crev
-        &[
-            "/.git".to_string(),
-            "/target".to_string(),
-            "/docs".to_string(),
-        ],
+        &["/.git".to_string(), "/target".to_string(), "/docs".to_string()],
     )
     .unwrap();
     // println!("{:#?}", files);
@@ -181,11 +173,7 @@ fn one_project_count_lines() -> LinesOfCode {
         Path::new("tests"),
         "/*.rs",
         // avoid big folders and other folders with *.crev
-        &[
-            "/.git".to_string(),
-            "/target".to_string(),
-            "/docs".to_string(),
-        ],
+        &["/.git".to_string(), "/target".to_string(), "/docs".to_string()],
     )
     .unwrap();
     // println!("{:#?}", files);
@@ -205,11 +193,7 @@ fn one_project_count_lines() -> LinesOfCode {
         Path::new("examples"),
         "/*.rs",
         // avoid big folders and other folders with *.crev
-        &[
-            "/.git".to_string(),
-            "/target".to_string(),
-            "/docs".to_string(),
-        ],
+        &["/.git".to_string(), "/target".to_string(), "/docs".to_string()],
     )
     .unwrap();
     for rs_file_name in files.iter() {
@@ -227,10 +211,7 @@ fn one_project_count_lines() -> LinesOfCode {
     lines_of_code
 }
 fn git_remote_output() -> anyhow::Result<String> {
-    let output = std::process::Command::new("git")
-        .arg("remote")
-        .arg("-v")
-        .output()?;
+    let output = std::process::Command::new("git").arg("remote").arg("-v").output()?;
 
     let output = String::from_utf8(output.stdout)?;
     //dbg!( &output);
@@ -246,19 +227,12 @@ fn regex_capture(output: String) -> anyhow::Result<String> {
     // "origin  git@github.com:bestia-dev/auto_lines_of_code.git (fetch)"
     // origin    https://github.com/bestia-dev/auto_lines_of_code (fetch)
     // println!("{}", &output);
-    let reg = Regex::new(
-        r#"origin\s*(?:https://)?(?:git@)?([^:/]*?)[:/]([^/]*?)/([^. ]*?)(?:\.git)?\s*\(fetch\)"#,
-    )?;
-    let cap = reg
-        .captures(&output)
-        .ok_or(anyhow::anyhow!("Error: reg.captures is None"))?;
+    let reg = Regex::new(r#"origin\s*(?:https://)?(?:git@)?([^:/]*?)[:/]([^/]*?)/([^. ]*?)(?:\.git)?\s*\(fetch\)"#)?;
+    let cap = reg.captures(&output).ok_or(anyhow::anyhow!("Error: reg.captures is None"))?;
     // dbg!(&cap);
 
     // indexing can panic, but I would like it to Error
-    anyhow::ensure!(
-        cap.len() == 4,
-        "Error: cap len is not 4, because there are 4 capture groups in regex."
-    );
+    anyhow::ensure!(cap.len() == 4, "Error: cap len is not 4, because there are 4 capture groups in regex.");
     Ok(format!("https://{}/{}/{}/", &cap[1], &cap[2], &cap[3]))
 }
 /// Returns a string with the markdown code for 4 shield badges.
@@ -274,28 +248,16 @@ fn regex_capture(output: String) -> anyhow::Result<String> {
 fn to_string_as_shield_badges(v: &LinesOfCode, link: &str) -> String {
     //println!("to_string_as_shield_badges() start");
 
-    let src_code_lines = format!(
-        "[![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-{}-green.svg)]({})",
-        v.src_code_lines, link
+    let src_code_lines = format!("[![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-{}-green.svg)]({})", v.src_code_lines, link);
+    let src_doc_comment_lines = format!(
+        "[![Lines in Doc comments](https://img.shields.io/badge/Lines_in_Doc_comments-{}-blue.svg)]({})",
+        v.src_doc_comment_lines, link
     );
-    let src_doc_comment_lines = format!("[![Lines in Doc comments](https://img.shields.io/badge/Lines_in_Doc_comments-{}-blue.svg)]({})",v.src_doc_comment_lines,link);
-    let src_comment_lines = format!(
-        "[![Lines in Comments](https://img.shields.io/badge/Lines_in_comments-{}-purple.svg)]({})",
-        v.src_comment_lines, link
-    );
-    let example_lines = format!(
-        "[![Lines in examples](https://img.shields.io/badge/Lines_in_examples-{}-yellow.svg)]({})",
-        v.examples_lines, link
-    );
-    let tests_lines = format!(
-        "[![Lines in tests](https://img.shields.io/badge/Lines_in_tests-{}-orange.svg)]({})",
-        v.tests_lines, link
-    );
+    let src_comment_lines = format!("[![Lines in Comments](https://img.shields.io/badge/Lines_in_comments-{}-purple.svg)]({})", v.src_comment_lines, link);
+    let example_lines = format!("[![Lines in examples](https://img.shields.io/badge/Lines_in_examples-{}-yellow.svg)]({})", v.examples_lines, link);
+    let tests_lines = format!("[![Lines in tests](https://img.shields.io/badge/Lines_in_tests-{}-orange.svg)]({})", v.tests_lines, link);
     //return
-    format!(
-        "{}\n{}\n{}\n{}\n{}\n",
-        src_code_lines, src_doc_comment_lines, src_comment_lines, example_lines, tests_lines
-    )
+    format!("{}\n{}\n{}\n{}\n{}\n", src_code_lines, src_doc_comment_lines, src_comment_lines, example_lines, tests_lines)
 }
 
 /// Includes (writes, modifies) the shield badge code into README.md file.
@@ -308,7 +270,10 @@ fn include_into_readme_md(include_str: &str) {
     if let Ok(readme_content) = fs::read_to_string(file_name) {
         // check if file have CRLF instead of LF and show error
         if readme_content.contains("\r\n") {
-            panic!("{RED}Error: {} has CRLF line endings instead of LF. The task include_into_readme_md cannot work! Closing.{RESET}", file_name);
+            panic!(
+                "{RED}Error: {} has CRLF line endings instead of LF. The task include_into_readme_md cannot work! Exiting..{RESET}",
+                file_name
+            );
         }
 
         let mut new_readme_content = String::with_capacity(readme_content.len());

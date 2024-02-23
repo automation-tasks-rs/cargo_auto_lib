@@ -23,19 +23,10 @@ pub fn run_shell_command(shell_command: &str) {
     if !shell_command.starts_with("echo ") {
         println!("    $ {}", shell_command);
     }
-    let status = std::process::Command::new("sh")
-        .arg("-c")
-        .arg(shell_command)
-        .spawn()
-        .unwrap()
-        .wait()
-        .unwrap();
+    let status = std::process::Command::new("sh").arg("-c").arg(shell_command).spawn().unwrap().wait().unwrap();
     let exit_code = status.code();
     if exit_code.is_some() && exit_code != Some(0) {
-        eprintln!(
-            "{RED}!!! cargo_auto error {}. Stopping automation task execution !!!{RESET}",
-            exit_code.unwrap()
-        );
+        eprintln!("{RED}!!! cargo_auto error {}. Stopping automation task execution !!!{RESET}", exit_code.unwrap());
         exit(1);
     }
 }
@@ -53,11 +44,7 @@ pub fn run_shell_command_output(shell_command: &str) -> ShellOutput {
     if !shell_command.starts_with("echo ") {
         println!("    $ {}", shell_command);
     }
-    let output = std::process::Command::new("sh")
-        .arg("-c")
-        .arg(shell_command)
-        .output()
-        .unwrap();
+    let output = std::process::Command::new("sh").arg("-c").arg(shell_command).output().unwrap();
     // return
     ShellOutput {
         status: output.status.code().unwrap(),
@@ -70,10 +57,7 @@ pub fn run_shell_command_output(shell_command: &str) -> ShellOutput {
 /// there must be Cargo.toml and the directory automation_tasks_rs
 /// exit with error message if not
 pub fn exit_if_not_run_in_rust_project_root_directory() {
-    if !(std::path::Path::new("automation_tasks_rs").exists()
-        && (std::path::Path::new("Cargo.toml").exists()
-            || std::path::Path::new("Cargo-auto.toml").exists()))
-    {
+    if !(std::path::Path::new("automation_tasks_rs").exists() && (std::path::Path::new("Cargo.toml").exists() || std::path::Path::new("Cargo-auto.toml").exists())) {
         eprintln!("{RED}Error: automation_tasks_rs must be called in the root directory of the rust project beside the Cargo.toml (or Cargo-auto.toml) file and automation_tasks_rs directory.{RESET}");
         // early exit
         std::process::exit(0);
@@ -81,10 +65,7 @@ pub fn exit_if_not_run_in_rust_project_root_directory() {
 }
 
 /// println one, more or all sub_commands
-pub fn completion_return_one_or_more_sub_commands(
-    sub_commands: Vec<&str>,
-    word_being_completed: &str,
-) {
+pub fn completion_return_one_or_more_sub_commands(sub_commands: Vec<&str>, word_being_completed: &str) {
     let mut sub_found = false;
     for sub_command in sub_commands.iter() {
         if sub_command.starts_with(word_being_completed) {

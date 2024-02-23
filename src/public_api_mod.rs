@@ -77,20 +77,12 @@ pub fn find_from(text: &str, from_pos: usize, find: &str) -> Option<usize> {
 }
 
 /// return the position of end of the delimited data before the delimiter
-pub fn find_pos_end_data_before_delimiter(
-    md_text_content: &str,
-    pos: usize,
-    delimiter: &str,
-) -> Option<usize> {
+pub fn find_pos_end_data_before_delimiter(md_text_content: &str, pos: usize, delimiter: &str) -> Option<usize> {
     crate::utils_mod::find_pos_end_data_before_delimiter(md_text_content, pos, delimiter)
 }
 
 /// return the position of start of the delimited data after the delimiter
-pub fn find_pos_start_data_after_delimiter(
-    md_text_content: &str,
-    pos: usize,
-    delimiter: &str,
-) -> Option<usize> {
+pub fn find_pos_start_data_after_delimiter(md_text_content: &str, pos: usize, delimiter: &str) -> Option<usize> {
     crate::utils_mod::find_pos_start_data_after_delimiter(md_text_content, pos, delimiter)
 }
 
@@ -121,11 +113,7 @@ pub fn concatenate_vec_to_string(vec: &[String], delimiter: &str) -> String {
 ///     println!("{}", &rs_file_name);
 /// }
 /// ```
-pub fn traverse_dir_with_exclude_dir(
-    dir: &std::path::Path,
-    find_file: &str,
-    exclude_dirs: &[String],
-) -> std::io::Result<Vec<String>> {
+pub fn traverse_dir_with_exclude_dir(dir: &std::path::Path, find_file: &str, exclude_dirs: &[String]) -> std::io::Result<Vec<String>> {
     crate::utils_mod::traverse_dir_with_exclude_dir(dir, find_file, exclude_dirs)
 }
 
@@ -169,14 +157,8 @@ pub fn auto_delete_old_js_snippets() {
 }
 
 /// println one, more or all sub_commands
-pub fn completion_return_one_or_more_sub_commands(
-    sub_commands: Vec<&str>,
-    word_being_completed: &str,
-) {
-    crate::auto_helper_functions_mod::completion_return_one_or_more_sub_commands(
-        sub_commands,
-        word_being_completed,
-    )
+pub fn completion_return_one_or_more_sub_commands(sub_commands: Vec<&str>, word_being_completed: &str) {
+    crate::auto_helper_functions_mod::completion_return_one_or_more_sub_commands(sub_commands, word_being_completed)
 }
 
 /// check if run in rust project root directory error
@@ -425,22 +407,8 @@ pub fn ssh_add_resolve(host_name: &str, default_host_name: &str) {
 ///       upload_asset_to_github_release(&owner, &repo, &release_id, &path_to_file);  
 ///       println!("Asset uploaded.");    
 /// ```
-pub fn github_api_create_new_release(
-    owner: &str,
-    repo: &str,
-    tag_name_version: &str,
-    name: &str,
-    branch: &str,
-    body_md_text: &str,
-) -> String {
-    crate::auto_github_mod::github_api_create_new_release(
-        owner,
-        repo,
-        tag_name_version,
-        name,
-        branch,
-        body_md_text,
-    )
+pub fn github_api_create_new_release(owner: &str, repo: &str, tag_name_version: &str, name: &str, branch: &str, body_md_text: &str) -> String {
+    crate::auto_github_mod::github_api_create_new_release(owner, repo, tag_name_version, name, branch, body_md_text)
 }
 
 /// upload asset to github release  
@@ -454,18 +422,8 @@ pub fn github_api_create_new_release(
 ///       upload_asset_to_github_release(&owner, &repo, &release_id, &path_to_file);  
 ///       println!("Asset uploaded.");  
 /// ```
-pub fn github_api_upload_asset_to_release(
-    owner: &str,
-    repo: &str,
-    release_id: &str,
-    path_to_file: &str,
-) {
-    crate::auto_github_mod::github_api_upload_asset_to_release(
-        owner,
-        repo,
-        release_id,
-        path_to_file,
-    )
+pub fn github_api_upload_asset_to_release(owner: &str, repo: &str, release_id: &str, path_to_file: &str) {
+    crate::auto_github_mod::github_api_upload_asset_to_release(owner, repo, release_id, path_to_file)
 }
 
 /// sync, check, create, push git tag
@@ -491,24 +449,20 @@ pub fn now_utc_date_iso() -> String {
 /// first we create the complete text, then we check if the old text needs to be replaced
 /// ext_for_binary_files=vec![".ico",".jpg",".png",".woff2"];
 /// exclude_big_folders = vec!["/.git","/target","/docs"];
-pub fn copy_folder_files_into_module(
-    folder_path: &std::path::Path,
-    module_path: &std::path::Path,
-    ext_for_binary_files: &[&str],
-    exclude_big_folders: &[String],
-) {
-    crate::auto_copy_files_to_strings_mod::copy_folder_files_into_module(
-        folder_path,
-        module_path,
-        ext_for_binary_files,
-        exclude_big_folders,
-    )
+pub fn copy_folder_files_into_module(folder_path: &std::path::Path, module_path: &std::path::Path, ext_for_binary_files: &[&str], exclude_big_folders: &[String]) {
+    crate::auto_copy_files_to_strings_mod::copy_folder_files_into_module(folder_path, module_path, ext_for_binary_files, exclude_big_folders)
 }
 
 /// add commit message to Unreleased in RELEASES.md
 pub fn add_message_to_unreleased(message: &str) {
     crate::auto_github_mod::add_message_to_unreleased(message)
 }
+
+/// process code for playground for Rust code segments in all md files
+pub fn auto_playground_run_code() {
+    crate::auto_playground_mod::auto_playground_run_code()
+}
+
 // endregion: Public API functions
 
 // endregion: PUBLIC API defines externally accessible functions and struct
