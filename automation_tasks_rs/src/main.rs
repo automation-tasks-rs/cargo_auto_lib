@@ -171,7 +171,8 @@ fn task_doc() {
     let cargo_toml = cl::CargoToml::read();
     cl::auto_cargo_toml_to_md();
     cl::auto_lines_of_code("");
-    cl::auto_plantuml(&cargo_toml.package_repository().unwrap());
+    // we have sample data that we don't want to change, so I comment this line:
+    // cl::auto_plantuml(&cargo_toml.package_repository().unwrap());
     cl::auto_md_to_doc_comments();
 
     cl::run_shell_command("cargo doc --no-deps --document-private-items");
