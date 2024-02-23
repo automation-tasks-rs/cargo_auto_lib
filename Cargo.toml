@@ -42,7 +42,7 @@ reqwest = { version = "0.11.24", features = ["blocking", "stream"] }
 ring = "0.17.7"
 data-encoding = "2.5.0"
 thiserror="1.0.56"
-pretty_dbg = "1.0.53"
+pretty_dbg = "1.0.54"
 home = "0.5.9"
 inquire = "0.6.2"
 ssh2-config = "0.2.3"
