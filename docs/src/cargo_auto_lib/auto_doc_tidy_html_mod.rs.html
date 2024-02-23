@@ -79,8 +79,6 @@
 <a href="#28" id="28">28</a>
 <a href="#29" id="29">29</a>
 <a href="#30" id="30">30</a>
-<a href="#31" id="31">31</a>
-<a href="#32" id="32">32</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// auto_doc_tidy_html_mod
@@ -110,10 +108,8 @@
         <span class="comment">// Use tidy HTML to format the docs/*.html files to be human readable and usable for git diff.
         // Options: -m modify file, -q quiet suppress nonessential output, -w wrap at 160, -i indent 2 spaces
         // The warnings and errors are appended to the file docs/tidy_warnings.txt
-        </span><span class="kw">crate</span>::run_shell_command(
-            <span class=
-"string">r#"find ./docs -name '*.html' -type f -print -exec tidy -mq -w 160 -i 2 '{}' \; &gt;&gt; docs/tidy_warnings.txt 2&gt;&amp;1 "#</span>,
-        );
+        </span><span class="kw">crate</span>::run_shell_command(<span class=
+"string">r#"find ./docs -name '*.html' -type f -print -exec tidy -mq -w 160 -i 2 '{}' \; &gt;&gt; docs/tidy_warnings.txt 2&gt;&amp;1 "#</span>);
     }
     <span class="prelude-val">Ok</span>(())
 }

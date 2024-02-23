@@ -156,18 +156,6 @@
 <a href="#105" id="105">105</a>
 <a href="#106" id="106">106</a>
 <a href="#107" id="107">107</a>
-<a href="#108" id="108">108</a>
-<a href="#109" id="109">109</a>
-<a href="#110" id="110">110</a>
-<a href="#111" id="111">111</a>
-<a href="#112" id="112">112</a>
-<a href="#113" id="113">113</a>
-<a href="#114" id="114">114</a>
-<a href="#115" id="115">115</a>
-<a href="#116" id="116">116</a>
-<a href="#117" id="117">117</a>
-<a href="#118" id="118">118</a>
-<a href="#119" id="119">119</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// utils_mod.rs
@@ -179,11 +167,8 @@
 <span class="comment">// region: delimiters cannot be INACTIVE like markers
 
 </span><span class="doccomment">/// return the position of start of the delimited data after the delimiter
-</span><span class="kw">pub fn </span>find_pos_start_data_after_delimiter(
-    md_text_content: <span class="kw-2">&</span>str,
-    pos: usize,
-    delimiter: <span class="kw-2">&</span>str,
-) -&gt; <span class="prelude-ty">Option</span>&lt;usize&gt; {
+</span><span class="kw">pub fn </span>find_pos_start_data_after_delimiter(md_text_content: <span class="kw-2">&</span>str, pos: usize, delimiter: <span class=
+"kw-2">&</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;usize&gt; {
     <span class="kw">if let </span><span class="prelude-val">Some</span>(pos_start_data) = find_from(md_text_content, pos, delimiter) {
         <span class="kw">let </span>pos_start_data = pos_start_data + delimiter.len();
         <span class="kw">return </span><span class="prelude-val">Some</span>(pos_start_data);
@@ -193,11 +178,8 @@
 </span>}
 
 <span class="doccomment">/// return the position of end of the delimited data before the delimiter
-</span><span class="kw">pub fn </span>find_pos_end_data_before_delimiter(
-    md_text_content: <span class="kw-2">&</span>str,
-    pos: usize,
-    delimiter: <span class="kw-2">&</span>str,
-) -&gt; <span class="prelude-ty">Option</span>&lt;usize&gt; {
+</span><span class="kw">pub fn </span>find_pos_end_data_before_delimiter(md_text_content: <span class="kw-2">&</span>str, pos: usize, delimiter: <span class=
+"kw-2">&</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;usize&gt; {
     <span class="kw">if let </span><span class="prelude-val">Some</span>(pos_end_data) = find_from(md_text_content, pos, delimiter) {
         <span class="kw">return </span><span class="prelude-val">Some</span>(pos_end_data);
     }
@@ -243,11 +225,8 @@
 ///     println!("{}", &amp;rs_file_name);
 /// }
 /// ```
-</span><span class="kw">pub fn </span>traverse_dir_with_exclude_dir(
-    dir: <span class="kw-2">&</span>Path,
-    find_file: <span class="kw-2">&</span>str,
-    exclude_dirs: <span class="kw-2">&</span>[String],
-) -&gt; io::Result&lt;Vec&lt;String&gt;&gt; {
+</span><span class="kw">pub fn </span>traverse_dir_with_exclude_dir(dir: <span class="kw-2">&</span>Path, find_file: <span class=
+"kw-2">&</span>str, exclude_dirs: <span class="kw-2">&</span>[String]) -&gt; io::Result&lt;Vec&lt;String&gt;&gt; {
     <span class="comment">// if the parameter is /*.rs, I can eliminate /*
     </span><span class="kw">let </span>find_file = <span class="kw-2">&</span>find_file.replace(<span class="string">"/*"</span>, <span class=
 "string">""</span>);

@@ -165,13 +165,6 @@
 <a href="#114" id="114">114</a>
 <a href="#115" id="115">115</a>
 <a href="#116" id="116">116</a>
-<a href="#117" id="117">117</a>
-<a href="#118" id="118">118</a>
-<a href="#119" id="119">119</a>
-<a href="#120" id="120">120</a>
-<a href="#121" id="121">121</a>
-<a href="#122" id="122">122</a>
-<a href="#123" id="123">123</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// auto_cargo_toml_mod
@@ -206,8 +199,8 @@
             <span class="prelude-val">None </span>=&gt; cargo_toml_workspace_maybe.clone(),
             <span class="prelude-val">Some</span>(workspace) =&gt; {
                 <span class="kw">let </span>main_member = <span class="kw-2">&</span>workspace.members[<span class="number">0</span>];
-                <span class="kw">let </span>cargo_main =
-                    cargo_toml::Manifest::from_path(<span class="macro">format!</span>(<span class="string">"{}/Cargo.toml"</span>, main_member)).unwrap();
+                <span class="kw">let </span>cargo_main = cargo_toml::Manifest::from_path(<span class="macro">format!</span>(<span class=
+"string">"{}/Cargo.toml"</span>, main_member)).unwrap();
                 <span class="comment">//return
                 </span>cargo_main
             }
@@ -267,10 +260,7 @@
     <span class="doccomment">/// Cargo.toml workspace members
     </span><span class="kw">fn </span>workspace_members(<span class="kw-2">&</span><span class="self">self</span>) -&gt; <span class=
 "prelude-ty">Option</span>&lt;Vec&lt;String&gt;&gt; {
-        <span class="self">self</span>.cargo_toml_workspace_maybe
-            .workspace
-            .as_ref()
-            .map(|workspace| workspace.members.clone())
+        <span class="self">self</span>.cargo_toml_workspace_maybe.workspace.as_ref().map(|workspace| workspace.members.clone())
     }
 
     <span class="doccomment">/// github owner from package_repository
@@ -278,10 +268,8 @@
 "prelude-ty">Option</span>&lt;String&gt; {
         <span class="kw">match </span><span class="self">self</span>.package_repository() {
             <span class="prelude-val">Some</span>(repository) =&gt; {
-                <span class="kw">let </span>splitted: Vec&lt;<span class="kw-2">&</span>str&gt; = repository
-                    .trim_start_matches(<span class="string">"https://"</span>)
-                    .split(<span class="string">"/"</span>)
-                    .collect();
+                <span class="kw">let </span>splitted: Vec&lt;<span class="kw-2">&</span>str&gt; = repository.trim_start_matches(<span class=
+"string">"https://"</span>).split(<span class="string">"/"</span>).collect();
                 <span class="prelude-val">Some</span>(splitted[<span class="number">1</span>].to_string())
             }
             <span class="prelude-val">None </span>=&gt; <span class="prelude-val">None</span>,

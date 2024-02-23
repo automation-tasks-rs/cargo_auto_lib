@@ -88,15 +88,13 @@
 <a href="#37" id="37">37</a>
 <a href="#38" id="38">38</a>
 <a href="#39" id="39">39</a>
-<a href="#40" id="40">40</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// lib.rs
 
 // logo for docs.rs in png
-</span><span class="attr">#![doc(
-    html_logo_url = <span class="string">"https://github.com/bestia-dev/cargo-auto/raw/main/images/logo/logo_cargo_auto.svg"
-</span>)]
+</span><span class="attr">#![doc(html_logo_url = <span class=
+"string">"https://github.com/bestia-dev/cargo-auto/raw/main/images/logo/logo_cargo_auto.svg"</span>)]
 </span><span class="comment">// even favicon ico can be changed
 // #![doc(html_favicon_url = "/logo.ico")]
 // playground for examples. Warning: It didn't work well for me. And it works only in docs. Not in Github and not in crates.io.
@@ -121,6 +119,7 @@
 <span class="kw">mod </span>auto_lines_of_code_mod;
 <span class="kw">mod </span>auto_md_to_doc_comments_mod;
 <span class="kw">mod </span>auto_plantuml_mod;
+<span class="kw">mod </span>auto_playground_mod;
 <span class="kw">mod </span>auto_semver_mod;
 <span class="kw">mod </span>auto_semver_or_date_mod;
 <span class="kw">mod </span>auto_version_from_date_mod;

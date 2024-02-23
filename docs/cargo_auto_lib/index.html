@@ -35,7 +35,7 @@
     <div class="sidebar-crate">
       <a class="logo-container" href="../cargo_auto_lib/index.html"><img src=
       "https://github.com/bestia-dev/cargo-auto/raw/main/images/logo/logo_cargo_auto.svg" alt="logo"></a>
-      <h2><a href="../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">1.3.6</span></h2>
+      <h2><a href="../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">1.3.17</span></h2>
     </div>
     <div class="sidebar-elems">
       <ul class="block">
@@ -88,7 +88,7 @@
         <div class="main-heading">
           <h1>Crate <a class="mod" href="#">cargo_auto_lib</a><button id="copy-path" title="Copy item path to clipboard"><img src=
           "../static.files/clipboard-7571035ce49a181d.svg" width="19" height="18" alt="Copy item path"></button></h1><span class="out-of-band"><a class="src"
-          href="../src/cargo_auto_lib/lib.rs.html#4-40">source</a> · <button id="toggle-all-docs" title="collapse all docs">[<span>−</span>]</button></span>
+          href="../src/cargo_auto_lib/lib.rs.html#4-39">source</a> · <button id="toggle-all-docs" title="collapse all docs">[<span>−</span>]</button></span>
         </div>
         <details class="toggle top-doc" open="">
           <summary class="hideme">
@@ -98,7 +98,7 @@
             <h2 id="cargo_auto_lib"><a href="#cargo_auto_lib">cargo_auto_lib</a></h2>
             <p><strong>Library crate for common tasks when building rust projects. Intended for use with cargo-auto - automation tasks written in Rust
             language.</strong><br>
-            <em><strong>version: 1.3.6 date: 2024-02-23 author: <a href="https://bestia.dev">Bestia.dev</a> repository: <a href=
+            <em><strong>version: 1.3.17 date: 2024-02-23 author: <a href="https://bestia.dev">Bestia.dev</a> repository: <a href=
             "https://github.com/bestia-dev/cargo_auto_lib">GitHub</a></strong></em></p>
             <p><img src="https://raw.githubusercontent.com/bestia-dev/cargo-auto/main/images/logo/logo_cargo_auto.svg" alt="logo"> <img src=
             "https://img.shields.io/badge/maintained-green" alt="status"> <img src="https://img.shields.io/badge/ready_for_use-green" alt="status"></p>
@@ -111,13 +111,13 @@
             "License"></a> <a href="https://github.com/bestia-dev/cargo_auto_lib/"><img src=
             "https://github.com/bestia-dev/cargo_auto_lib/workflows/rust_fmt_auto_build_test/badge.svg" alt="Rust"></a> <img src=
             "https://bestia.dev/webpage_hit_counter/get_svg_image/276360626.svg" alt="cargo_auto_lib"></p>
-            <p><a href="https://github.com/bestia-dev/cargo_auto_lib/"><img src="https://img.shields.io/badge/Lines_in_Rust-2333-green.svg" alt=
+            <p><a href="https://github.com/bestia-dev/cargo_auto_lib/"><img src="https://img.shields.io/badge/Lines_in_Rust-2069-green.svg" alt=
             "Lines in Rust code"></a> <a href="https://github.com/bestia-dev/cargo_auto_lib/"><img src=
-            "https://img.shields.io/badge/Lines_in_Doc_comments-600-blue.svg" alt="Lines in Doc comments"></a> <a href=
-            "https://github.com/bestia-dev/cargo_auto_lib/"><img src="https://img.shields.io/badge/Lines_in_comments-327-purple.svg" alt=
+            "https://img.shields.io/badge/Lines_in_Doc_comments-621-blue.svg" alt="Lines in Doc comments"></a> <a href=
+            "https://github.com/bestia-dev/cargo_auto_lib/"><img src="https://img.shields.io/badge/Lines_in_comments-342-purple.svg" alt=
             "Lines in Comments"></a> <a href="https://github.com/bestia-dev/cargo_auto_lib/"><img src=
-            "https://img.shields.io/badge/Lines_in_examples-37-yellow.svg" alt="Lines in examples"></a> <a href=
-            "https://github.com/bestia-dev/cargo_auto_lib/"><img src="https://img.shields.io/badge/Lines_in_tests-105-orange.svg" alt="Lines in tests"></a></p>
+            "https://img.shields.io/badge/Lines_in_examples-29-yellow.svg" alt="Lines in examples"></a> <a href=
+            "https://github.com/bestia-dev/cargo_auto_lib/"><img src="https://img.shields.io/badge/Lines_in_tests-79-orange.svg" alt="Lines in tests"></a></p>
             <p>Hashtags: #rustlang #buildtool #developmenttool<br>
             My projects on GitHub are more like a tutorial than a finished product: <a href="https://github.com/bestia-dev/tutorials_rust_wasm">bestia-dev
             tutorials</a>.</p>
@@ -308,6 +308,16 @@ cargo auto doc{RESET}{YELLOW}
             <div class="desc docblock-short">
               Find md files. Search for marker (auto_plantuml start) and (auto_plantuml end). This markers around the plantuml code define that we want a svg
               file. If there are no markers, the plantuml will not be processed.
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="mod" href="auto_playground_mod/index.html" title="mod cargo_auto_lib::auto_playground_mod">auto_playground_mod</a><span title=
+              "Restricted Visibility">&nbsp;🔒</span>
+            </div>
+            <div class="desc docblock-short">
+              Find md files. Search for marker (auto_playground start) and (auto_playground end). This markers around the Rust code define that we want a link
+              to Rust playground. If there are no markers, the playground link will not be processed. Looks like this:
             </div>
           </li>
           <li>
@@ -512,6 +522,14 @@ cargo auto doc{RESET}{YELLOW}
             </div>
             <div class="desc docblock-short">
               process plantuml for all md files for test and examples I need to provide the path
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="fn" href="fn.auto_playground_run_code.html" title="fn cargo_auto_lib::auto_playground_run_code">auto_playground_run_code</a>
+            </div>
+            <div class="desc docblock-short">
+              process code for playground for Rust code segments in all md files
             </div>
           </li>
           <li>

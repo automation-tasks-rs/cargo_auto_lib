@@ -545,65 +545,6 @@
 <a href="#494" id="494">494</a>
 <a href="#495" id="495">495</a>
 <a href="#496" id="496">496</a>
-<a href="#497" id="497">497</a>
-<a href="#498" id="498">498</a>
-<a href="#499" id="499">499</a>
-<a href="#500" id="500">500</a>
-<a href="#501" id="501">501</a>
-<a href="#502" id="502">502</a>
-<a href="#503" id="503">503</a>
-<a href="#504" id="504">504</a>
-<a href="#505" id="505">505</a>
-<a href="#506" id="506">506</a>
-<a href="#507" id="507">507</a>
-<a href="#508" id="508">508</a>
-<a href="#509" id="509">509</a>
-<a href="#510" id="510">510</a>
-<a href="#511" id="511">511</a>
-<a href="#512" id="512">512</a>
-<a href="#513" id="513">513</a>
-<a href="#514" id="514">514</a>
-<a href="#515" id="515">515</a>
-<a href="#516" id="516">516</a>
-<a href="#517" id="517">517</a>
-<a href="#518" id="518">518</a>
-<a href="#519" id="519">519</a>
-<a href="#520" id="520">520</a>
-<a href="#521" id="521">521</a>
-<a href="#522" id="522">522</a>
-<a href="#523" id="523">523</a>
-<a href="#524" id="524">524</a>
-<a href="#525" id="525">525</a>
-<a href="#526" id="526">526</a>
-<a href="#527" id="527">527</a>
-<a href="#528" id="528">528</a>
-<a href="#529" id="529">529</a>
-<a href="#530" id="530">530</a>
-<a href="#531" id="531">531</a>
-<a href="#532" id="532">532</a>
-<a href="#533" id="533">533</a>
-<a href="#534" id="534">534</a>
-<a href="#535" id="535">535</a>
-<a href="#536" id="536">536</a>
-<a href="#537" id="537">537</a>
-<a href="#538" id="538">538</a>
-<a href="#539" id="539">539</a>
-<a href="#540" id="540">540</a>
-<a href="#541" id="541">541</a>
-<a href="#542" id="542">542</a>
-<a href="#543" id="543">543</a>
-<a href="#544" id="544">544</a>
-<a href="#545" id="545">545</a>
-<a href="#546" id="546">546</a>
-<a href="#547" id="547">547</a>
-<a href="#548" id="548">548</a>
-<a href="#549" id="549">549</a>
-<a href="#550" id="550">550</a>
-<a href="#551" id="551">551</a>
-<a href="#552" id="552">552</a>
-<a href="#553" id="553">553</a>
-<a href="#554" id="554">554</a>
-<a href="#555" id="555">555</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// auto_github_mod
@@ -626,14 +567,9 @@
 ///       upload_asset_to_github_release(&amp;owner, &amp;repo, &amp;release_id, &amp;path_to_file);  
 ///       println!("Asset uploaded.");    
 /// ```
-</span><span class="kw">pub fn </span>github_api_create_new_release(
-    owner: <span class="kw-2">&</span>str,
-    repo: <span class="kw-2">&</span>str,
-    tag_name_version: <span class="kw-2">&</span>str,
-    name: <span class="kw-2">&</span>str,
-    branch: <span class="kw-2">&</span>str,
-    body_md_text: <span class="kw-2">&</span>str,
-) -&gt; String {
+</span><span class="kw">pub fn </span>github_api_create_new_release(owner: <span class="kw-2">&</span>str, repo: <span class=
+"kw-2">&</span>str, tag_name_version: <span class="kw-2">&</span>str, name: <span class="kw-2">&</span>str, branch: <span class=
+"kw-2">&</span>str, body_md_text: <span class="kw-2">&</span>str) -&gt; String {
     <span class="comment">/*
     https://docs.github.com/en/rest/releases/releases?apiVersion=2022-11-28#create-a-release
     Request like :
@@ -707,12 +643,8 @@
 ///       upload_asset_to_github_release(&amp;owner, &amp;repo, &amp;release_id, &amp;path_to_file);  
 ///       println!("Asset uploaded.");  
 /// ```
-</span><span class="kw">pub fn </span>github_api_upload_asset_to_release(
-    owner: <span class="kw-2">&</span>str,
-    repo: <span class="kw-2">&</span>str,
-    release_id: <span class="kw-2">&</span>str,
-    path_to_file: <span class="kw-2">&</span>str,
-) {
+</span><span class="kw">pub fn </span>github_api_upload_asset_to_release(owner: <span class="kw-2">&</span>str, repo: <span class=
+"kw-2">&</span>str, release_id: <span class="kw-2">&</span>str, path_to_file: <span class="kw-2">&</span>str) {
     check_or_get_github_token().unwrap();
     <span class="kw">let </span>token = std::env::var(<span class="string">"GITHUB_TOKEN"</span>).expect(<span class=
 "string">"GITHUB_TOKEN env variable is required"</span>);
@@ -721,18 +653,15 @@
     <span class="kw">let </span>file = std::path::Path::new(<span class="kw-2">&</span>path_to_file);
     <span class="kw">let </span>file_name = file.file_name().unwrap().to_str().unwrap();
 
-    <span class="kw">let </span>release_upload_url =
-        <span class="macro">format!</span>(<span class="string">"https://uploads.github.com/repos/{owner}/{repo}/releases/{release_id}/assets"</span>);
-    <span class="kw">let </span><span class="kw-2">mut </span>release_upload_url =
-        &lt;url::Url <span class="kw">as </span>std::str::FromStr&gt;::from_str(<span class="kw-2">&</span>release_upload_url).unwrap();
+    <span class="kw">let </span>release_upload_url = <span class="macro">format!</span>(<span class=
+"string">"https://uploads.github.com/repos/{owner}/{repo}/releases/{release_id}/assets"</span>);
+    <span class="kw">let </span><span class="kw-2">mut </span>release_upload_url = &lt;url::Url <span class=
+"kw">as </span>std::str::FromStr&gt;::from_str(<span class="kw-2">&</span>release_upload_url).unwrap();
     release_upload_url.set_query(<span class="prelude-val">Some</span>(<span class="macro">format!</span>(<span class="string">"{}={}"</span>, <span class=
 "string">"name"</span>, file_name).as_str()));
     <span class="macro">println!</span>(<span class="string">"upload_url: {}"</span>, release_upload_url);
     <span class="kw">let </span>file_size = std::fs::metadata(file).unwrap().len();
-    <span class="macro">println!</span>(
-        <span class="string">"file_size: {}. It can take some time to upload. Wait..."</span>,
-        file_size
-    );
+    <span class="macro">println!</span>(<span class="string">"file_size: {}. It can take some time to upload. Wait..."</span>, file_size);
     <span class="comment">// region: async code made sync locally
     </span><span class="kw">use </span>tokio::runtime::Runtime;
     <span class="kw">let </span>rt = Runtime::new().unwrap();
@@ -879,9 +808,8 @@
 </span><span class="kw">pub fn </span>new_remote_github_repository() -&gt; <span class="prelude-ty">Option</span>&lt;String&gt; {
     <span class="comment">// ask interactive
     </span><span class="macro">println!</span>(<span class="string">"{YELLOW}This project does not have a remote GitHub repository.{RESET}"</span>);
-    <span class="kw">let </span>answer = inquire::Text::new(<span class="string">"Do you want to create a new remote GitHub repository? (y/n)"</span>)
-        .prompt()
-        .unwrap();
+    <span class="kw">let </span>answer = inquire::Text::new(<span class=
+"string">"Do you want to create a new remote GitHub repository? (y/n)"</span>).prompt().unwrap();
     <span class="kw">if </span>answer.to_lowercase() != <span class="string">"y" </span>{
         <span class="comment">// early exit
         </span><span class="kw">return </span><span class="prelude-val">None</span>;
@@ -892,23 +820,19 @@
     <span class="kw">let </span>name = cargo_toml.package_name();
     <span class="kw">let </span>owner = cargo_toml.github_owner().unwrap();
     <span class="kw">let </span>description = cargo_toml.package_description().unwrap();
-    <span class="kw">let </span>json: serde_json::Value =
-        <span class="kw">crate</span>::auto_github_mod::github_api_repository_new(<span class="kw-2">&</span>owner, <span class=
-"kw-2">&</span>name, <span class="kw-2">&</span>description);
+    <span class="kw">let </span>json: serde_json::Value = <span class="kw">crate</span>::auto_github_mod::github_api_repository_new(<span class=
+"kw-2">&</span>owner, <span class="kw-2">&</span>name, <span class="kw-2">&</span>description);
     <span class="comment">// get just the name, description and html_url from json
     </span><span class="macro">println!</span>(<span class="string">"name: {}"</span>, json.get(<span class=
 "string">"name"</span>).unwrap().as_str().unwrap());
-    <span class="macro">println!</span>(
-        <span class="string">"description: {}"</span>,
-        json.get(<span class="string">"description"</span>).unwrap().as_str().unwrap()
-    );
+    <span class="macro">println!</span>(<span class="string">"description: {}"</span>, json.get(<span class=
+"string">"description"</span>).unwrap().as_str().unwrap());
     <span class="kw">let </span>repo_html_url = json.get(<span class="string">"html_url"</span>).unwrap().as_str().unwrap().to_string();
     <span class="macro">println!</span>(<span class="string">"url: {}"</span>, <span class="kw-2">&</span>repo_html_url);
 
     <span class="comment">// add this GitHub repository to origin remote over SSH (use sshadd for passcode)
-    </span><span class="kw">crate</span>::run_shell_command(<span class="kw-2">&</span><span class="macro">format!</span>(
-        <span class="string">"git remote add origin git@github.com:{owner}/{name}.git"
-    </span>));
+    </span><span class="kw">crate</span>::run_shell_command(<span class="kw-2">&</span><span class="macro">format!</span>(<span class=
+"string">"git remote add origin git@github.com:{owner}/{name}.git"</span>));
     <span class="kw">crate</span>::run_shell_command(<span class="string">"git push -u origin main"</span>);
     <span class="prelude-val">Some</span>(repo_html_url)
 }
@@ -929,10 +853,8 @@ It needs the permission scope: Full control of private repositories.
 The token is a secret just like a password, use it with caution.
 "#
             </span>);
-            <span class="kw">let </span>answer = inquire::Password::new(<span class="string">"Enter the GitHub token:"</span>)
-                .without_confirmation()
-                .prompt()
-                .unwrap();
+            <span class="kw">let </span>answer = inquire::Password::new(<span class=
+"string">"Enter the GitHub token:"</span>).without_confirmation().prompt().unwrap();
             <span class="kw">if </span>answer.is_empty() {
                 <span class="comment">// early exit
                 </span><span class="macro">eprintln!</span>(<span class="string">"{RED}The GITHUB_TOKEN was not given. Exiting.{RESET}"</span>);
@@ -950,9 +872,8 @@ The token is a secret just like a password, use it with caution.
 </span><span class="kw">pub fn </span>new_local_repository(message: <span class="kw-2">&</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;()&gt; {
     <span class="comment">// ask interactive
     </span><span class="macro">println!</span>(<span class="string">"{YELLOW}This project is not yet a Git repository.{RESET}"</span>);
-    <span class="kw">let </span>answer = inquire::Text::new(<span class="string">"Do you want to initialize a new local git repository? (y/n)"</span>)
-        .prompt()
-        .unwrap();
+    <span class="kw">let </span>answer = inquire::Text::new(<span class=
+"string">"Do you want to initialize a new local git repository? (y/n)"</span>).prompt().unwrap();
     <span class="comment">// continue if answer is "y"
     </span><span class="kw">if </span>answer.to_lowercase() != <span class="string">"y" </span>{
         <span class="comment">// early exit
@@ -975,14 +896,10 @@ The token is a secret just like a password, use it with caution.
     <span class="macro">println!</span>(<span class="string">"Get a list of fingerprints already in ssh-add."</span>);
     <span class="kw">let </span>ssh_added = <span class="kw">crate</span>::run_shell_command_output(<span class="string">"ssh-add -l"</span>).stdout;
 
-    <span class="macro">println!</span>(
-        <span class="string">"Calculate the fingerprint of the identity file to check if it is already in ssh-add."
-    </span>);
-    <span class="kw">let </span>fingerprint =
-        <span class="kw">crate</span>::run_shell_command_output(<span class="kw-2">&</span><span class="macro">format!</span>(<span class=
-"string">"ssh-keygen -lf {}"</span>, <span class="kw-2">&</span>github_ssh_for_push)).stdout
-            [<span class="number">0</span>..<span class="number">55</span>]
-            .to_string();
+    <span class="macro">println!</span>(<span class="string">"Calculate the fingerprint of the identity file to check if it is already in ssh-add."</span>);
+    <span class="kw">let </span>fingerprint = <span class="kw">crate</span>::run_shell_command_output(<span class="kw-2">&</span><span class=
+"macro">format!</span>(<span class="string">"ssh-keygen -lf {}"</span>, <span class="kw-2">&</span>github_ssh_for_push)).stdout[<span class=
+"number">0</span>..<span class="number">55</span>].to_string();
 
     <span class="comment">// ssh-add if it is not contained in the ssh-agent
     </span><span class="kw">if </span>!ssh_added.contains(<span class="kw-2">&</span>fingerprint) {
@@ -1029,10 +946,8 @@ The token is a secret just like a password, use it with caution.
 
 <span class="doccomment">/// Ask the user for the filename of the ssh key used to connect with SSH/git to a server.
 /// host_name is like: github.com or bestia.dev, default like github_com_ssh_1 and bestia_dev_ssh_1
-</span><span class="kw">pub fn </span>ask_for_identity_file_for_ssh(
-    host_name: <span class="kw-2">&</span>str,
-    default_host_name: <span class="kw-2">&</span>str,
-) -&gt; <span class="prelude-ty">Option</span>&lt;std::path::PathBuf&gt; {
+</span><span class="kw">pub fn </span>ask_for_identity_file_for_ssh(host_name: <span class="kw-2">&</span>str, default_host_name: <span class=
+"kw-2">&</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;std::path::PathBuf&gt; {
     <span class="macro">println!</span>(
         <span class="string">r#"{RED}Cannot find identity in ~/.ssh/config.{RESET}
 It should contain the filename of the ssh key used to push to {host_name}.
@@ -1043,12 +958,11 @@ If you create the file ~/.ssh/config with content like this:
 You will not be asked to enter this filename manually every time.
 "#</span>,
     );
-    <span class="kw">let </span>identity_file_for_ssh = inquire::Text::new(<span class="kw-2">&</span><span class="macro">format!</span>(
-        <span class="string">"Which file in the .ssh folder has the ssh identity for {host_name}?"
-    </span>))
-    .with_initial_value(default_host_name)
-    .prompt()
-    .unwrap();
+    <span class="kw">let </span>identity_file_for_ssh = inquire::Text::new(<span class="kw-2">&</span><span class="macro">format!</span>(<span class=
+"string">"Which file in the .ssh folder has the ssh identity for {host_name}?"</span>))
+        .with_initial_value(default_host_name)
+        .prompt()
+        .unwrap();
     <span class="kw">if </span>identity_file_for_ssh.is_empty() {
         <span class="comment">// early exit
         </span><span class="macro">eprintln!</span>(<span class="string">"{RED}The filename for the ssh key was not given. Exiting.{RESET}"</span>);
@@ -1059,10 +973,8 @@ You will not be asked to enter this filename manually every time.
     </span><span class="kw">let </span>identity_file_for_ssh = <span class="kw">crate</span>::home_dir().join(<span class=
 "string">".ssh"</span>).join(identity_file_for_ssh);
     <span class="kw">if </span>!identity_file_for_ssh.exists() {
-        <span class="macro">eprintln!</span>(
-            <span class="string">"{RED}File {} does not exist! Exiting.{RESET}"</span>,
-            identity_file_for_ssh.to_string_lossy()
-        );
+        <span class="macro">eprintln!</span>(<span class=
+"string">"{RED}File {} does not exist! Exiting.{RESET}"</span>, identity_file_for_ssh.to_string_lossy());
         <span class="comment">// early exit
         </span><span class="kw">return </span><span class="prelude-val">None</span>;
     }
@@ -1097,28 +1009,22 @@ You will not be asked to enter this filename manually every time.
     create_releases_md_if_file_not_exist();
     <span class="kw">let </span>release_md = std::fs::read_to_string(RELEASES_MD).unwrap();
     <span class="comment">// find the start of ## Unreleased
-    </span><span class="kw">let </span><span class="prelude-val">Some</span>(pos_start_data) =
-        <span class="kw">crate</span>::find_pos_start_data_after_delimiter(<span class="kw-2">&</span>release_md, <span class="number">0</span>, <span class=
-"string">"## Unreleased\n"</span>)
-    <span class="kw">else </span>{
+    </span><span class="kw">let </span><span class="prelude-val">Some</span>(pos_start_data) = <span class=
+"kw">crate</span>::find_pos_start_data_after_delimiter(<span class="kw-2">&</span>release_md, <span class="number">0</span>, <span class=
+"string">"## Unreleased\n"</span>) <span class="kw">else </span>{
         <span class="kw">return </span><span class="prelude-val">None</span>;
     };
     <span class="comment">// find the beginning of the next ## Version
-    </span><span class="kw">let </span><span class="prelude-val">Some</span>(pos_end_data) =
-        <span class="kw">crate</span>::find_pos_end_data_before_delimiter(<span class="kw-2">&</span>release_md, pos_start_data, <span class=
-"string">"## Version "</span>)
-    <span class="kw">else </span>{
+    </span><span class="kw">let </span><span class="prelude-val">Some</span>(pos_end_data) = <span class=
+"kw">crate</span>::find_pos_end_data_before_delimiter(<span class="kw-2">&</span>release_md, pos_start_data, <span class=
+"string">"## Version "</span>) <span class="kw">else </span>{
         <span class="kw">return </span><span class="prelude-val">None</span>;
     };
     <span class="kw">let </span>body_md_text = release_md[pos_start_data..pos_end_data - <span class="number">1</span>].to_string();
 
     <span class="comment">// create a new Version title after ## Unreleased in RELEASES.md
-    </span><span class="kw">let </span>new_release_md = <span class="macro">format!</span>(
-        <span class="string">"{}\n## {}\n{}"</span>,
-        <span class="kw-2">&</span>release_md[..pos_start_data],
-        <span class="kw-2">&</span>release_name,
-        <span class="kw-2">&</span>release_md[pos_start_data..]
-    );
+    </span><span class="kw">let </span>new_release_md = <span class="macro">format!</span>(<span class="string">"{}\n## {}\n{}"</span>, <span class=
+"kw-2">&</span>release_md[..pos_start_data], <span class="kw-2">&</span>release_name, <span class="kw-2">&</span>release_md[pos_start_data..]);
     std::fs::write(RELEASES_MD, new_release_md).unwrap();
     <span class="comment">// return
     </span><span class="prelude-val">Some</span>(body_md_text)
@@ -1162,20 +1068,16 @@ The TODO section is part of the [README.md](https://github.com/{github_owner}/{p
     create_releases_md_if_file_not_exist();
     <span class="kw">let </span>release_md = std::fs::read_to_string(RELEASES_MD).unwrap();
     <span class="comment">// find the beginning of the first ## Version
-    </span><span class="kw">let </span><span class="prelude-val">Some</span>(pos_end_data) =
-        <span class="kw">crate</span>::find_pos_end_data_before_delimiter(<span class="kw-2">&</span>release_md, <span class="number">0</span>, <span class=
-"string">"## Version "</span>)
-    <span class="kw">else </span>{
+    </span><span class="kw">let </span><span class="prelude-val">Some</span>(pos_end_data) = <span class=
+"kw">crate</span>::find_pos_end_data_before_delimiter(<span class="kw-2">&</span>release_md, <span class="number">0</span>, <span class=
+"string">"## Version "</span>) <span class="kw">else </span>{
         <span class="kw">return</span>;
     };
     <span class="comment">// add before the first ## Version
     // I expect only one empty line before ## Version
-    </span><span class="kw">let </span>added_message_md = <span class="macro">format!</span>(
-        <span class="string">"{}- {}\n{}"</span>,
-        <span class="kw-2">&</span>release_md[..pos_end_data - <span class="number">1</span>],
-        message,
-        <span class="kw-2">&</span>release_md[pos_end_data - <span class="number">1</span>..]
-    );
+    </span><span class="kw">let </span>added_message_md = <span class="macro">format!</span>(<span class="string">"{}- {}\n{}"</span>, <span class=
+"kw-2">&</span>release_md[..pos_end_data - <span class="number">1</span>], message, <span class="kw-2">&</span>release_md[pos_end_data - <span class=
+"number">1</span>..]);
     std::fs::write(RELEASES_MD, added_message_md).unwrap();
 }
 </code></pre>

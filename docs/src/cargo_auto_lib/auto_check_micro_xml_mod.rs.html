@@ -132,8 +132,10 @@
 
         <span class="comment">// check if file have CRLF instead of LF and show error
         </span><span class="kw">if </span>str_xml.contains(<span class="string">"\r\n"</span>) {
-            <span class="macro">panic!</span>(<span class=
-"string">"Error: {} has CRLF line endings instead of LF. The task auto_check_micro_xml cannot work! Closing."</span>, filename_pathbuff.to_string_lossy());
+            <span class="macro">panic!</span>(
+                <span class="string">"Error: {} has CRLF line endings instead of LF. The task auto_check_micro_xml cannot work! Exiting.."</span>,
+                filename_pathbuff.to_string_lossy()
+            );
         }
 
         <span class="comment">// check microxml correctness. Panic on errors.
@@ -162,10 +164,8 @@
                 Token::EndElement(end_element_name) =&gt; {
                     <span class="kw">let </span>start_element_name = vec_elem.pop().unwrap();
                     <span class="kw">if </span>!end_element_name.is_empty() &amp;& end_element_name != start_element_name {
-                        <span class="macro">panic!</span>(
-                            <span class="string">"{RED}MicroXml {} start {} does not match end {}{RESET}"</span>,
-                            file_name, start_element_name, end_element_name,
-                        );
+                        <span class="macro">panic!</span>(<span class=
+"string">"{RED}MicroXml {} start {} does not match end {}{RESET}"</span>, file_name, start_element_name, end_element_name,);
                     }
                 }
             },

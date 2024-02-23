@@ -146,25 +146,6 @@
 <a href="#95" id="95">95</a>
 <a href="#96" id="96">96</a>
 <a href="#97" id="97">97</a>
-<a href="#98" id="98">98</a>
-<a href="#99" id="99">99</a>
-<a href="#100" id="100">100</a>
-<a href="#101" id="101">101</a>
-<a href="#102" id="102">102</a>
-<a href="#103" id="103">103</a>
-<a href="#104" id="104">104</a>
-<a href="#105" id="105">105</a>
-<a href="#106" id="106">106</a>
-<a href="#107" id="107">107</a>
-<a href="#108" id="108">108</a>
-<a href="#109" id="109">109</a>
-<a href="#110" id="110">110</a>
-<a href="#111" id="111">111</a>
-<a href="#112" id="112">112</a>
-<a href="#113" id="113">113</a>
-<a href="#114" id="114">114</a>
-<a href="#115" id="115">115</a>
-<a href="#116" id="116">116</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// auto_helper_functions_mod
@@ -192,19 +173,12 @@
     <span class="kw">if </span>!shell_command.starts_with(<span class="string">"echo "</span>) {
         <span class="macro">println!</span>(<span class="string">"    $ {}"</span>, shell_command);
     }
-    <span class="kw">let </span>status = std::process::Command::new(<span class="string">"sh"</span>)
-        .arg(<span class="string">"-c"</span>)
-        .arg(shell_command)
-        .spawn()
-        .unwrap()
-        .wait()
-        .unwrap();
+    <span class="kw">let </span>status = std::process::Command::new(<span class="string">"sh"</span>).arg(<span class=
+"string">"-c"</span>).arg(shell_command).spawn().unwrap().wait().unwrap();
     <span class="kw">let </span>exit_code = status.code();
     <span class="kw">if </span>exit_code.is_some() &amp;& exit_code != <span class="prelude-val">Some</span>(<span class="number">0</span>) {
-        <span class="macro">eprintln!</span>(
-            <span class="string">"{RED}!!! cargo_auto error {}. Stopping automation task execution !!!{RESET}"</span>,
-            exit_code.unwrap()
-        );
+        <span class="macro">eprintln!</span>(<span class=
+"string">"{RED}!!! cargo_auto error {}. Stopping automation task execution !!!{RESET}"</span>, exit_code.unwrap());
         exit(<span class="number">1</span>);
     }
 }
@@ -222,11 +196,8 @@
     <span class="kw">if </span>!shell_command.starts_with(<span class="string">"echo "</span>) {
         <span class="macro">println!</span>(<span class="string">"    $ {}"</span>, shell_command);
     }
-    <span class="kw">let </span>output = std::process::Command::new(<span class="string">"sh"</span>)
-        .arg(<span class="string">"-c"</span>)
-        .arg(shell_command)
-        .output()
-        .unwrap();
+    <span class="kw">let </span>output = std::process::Command::new(<span class="string">"sh"</span>).arg(<span class=
+"string">"-c"</span>).arg(shell_command).output().unwrap();
     <span class="comment">// return
     </span>ShellOutput {
         status: output.status.code().unwrap(),
@@ -239,10 +210,8 @@
 /// there must be Cargo.toml and the directory automation_tasks_rs
 /// exit with error message if not
 </span><span class="kw">pub fn </span>exit_if_not_run_in_rust_project_root_directory() {
-    <span class="kw">if </span>!(std::path::Path::new(<span class="string">"automation_tasks_rs"</span>).exists()
-        &amp;& (std::path::Path::new(<span class="string">"Cargo.toml"</span>).exists()
-            || std::path::Path::new(<span class="string">"Cargo-auto.toml"</span>).exists()))
-    {
+    <span class="kw">if </span>!(std::path::Path::new(<span class="string">"automation_tasks_rs"</span>).exists() &amp;& (std::path::Path::new(<span class=
+"string">"Cargo.toml"</span>).exists() || std::path::Path::new(<span class="string">"Cargo-auto.toml"</span>).exists())) {
         <span class="macro">eprintln!</span>(<span class=
 "string">"{RED}Error: automation_tasks_rs must be called in the root directory of the rust project beside the Cargo.toml (or Cargo-auto.toml) file and automation_tasks_rs directory.{RESET}"</span>);
         <span class="comment">// early exit
@@ -251,10 +220,8 @@
 }
 
 <span class="doccomment">/// println one, more or all sub_commands
-</span><span class="kw">pub fn </span>completion_return_one_or_more_sub_commands(
-    sub_commands: Vec&lt;<span class="kw-2">&</span>str&gt;,
-    word_being_completed: <span class="kw-2">&</span>str,
-) {
+</span><span class="kw">pub fn </span>completion_return_one_or_more_sub_commands(sub_commands: Vec&lt;<span class=
+"kw-2">&</span>str&gt;, word_being_completed: <span class="kw-2">&</span>str) {
     <span class="kw">let </span><span class="kw-2">mut </span>sub_found = <span class="bool-val">false</span>;
     <span class="kw">for </span>sub_command <span class="kw">in </span>sub_commands.iter() {
         <span class="kw">if </span>sub_command.starts_with(word_being_completed) {

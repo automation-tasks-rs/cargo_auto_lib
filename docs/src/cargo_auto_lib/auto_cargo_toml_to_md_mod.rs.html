@@ -162,13 +162,6 @@
 <a href="#111" id="111">111</a>
 <a href="#112" id="112">112</a>
 <a href="#113" id="113">113</a>
-<a href="#114" id="114">114</a>
-<a href="#115" id="115">115</a>
-<a href="#116" id="116">116</a>
-<a href="#117" id="117">117</a>
-<a href="#118" id="118">118</a>
-<a href="#119" id="119">119</a>
-<a href="#120" id="120">120</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// auto_cargo_toml_to_md_mod
@@ -193,10 +186,10 @@
 <span class="comment">// endregion: use statements
 
 </span><span class="macro">lazy_static! </span>{
-    <span class="kw">static </span><span class="kw-2">ref </span>REGEX_MD_START: Regex =
-        Regex::new(<span class="string">r#"(?m)^\[//\]: # \(auto_cargo_toml_to_md start\)$"#</span>).unwrap();
-    <span class="kw">static </span><span class="kw-2">ref </span>REGEX_MD_END: Regex =
-        Regex::new(<span class="string">r#"(?m)^\[//\]: # \(auto_cargo_toml_to_md end\)$"#</span>).unwrap();
+    <span class="kw">static </span><span class="kw-2">ref </span>REGEX_MD_START: Regex = Regex::new(<span class=
+"string">r#"(?m)^\[//\]: # \(auto_cargo_toml_to_md start\)$"#</span>).unwrap();
+    <span class="kw">static </span><span class="kw-2">ref </span>REGEX_MD_END: Regex = Regex::new(<span class=
+"string">r#"(?m)^\[//\]: # \(auto_cargo_toml_to_md end\)$"#</span>).unwrap();
 }
 
 <span class="doccomment">/// includes data from Cargo.toml to README.md files: version, authors,...
@@ -266,7 +259,7 @@
         <span class="comment">// check if file have CRLF and show error
         </span><span class="kw">if </span>md_text_content.contains(<span class="string">"\r\n"</span>) {
             <span class="macro">panic!</span>(<span class=
-"string">"Error: {} has CRLF line endings instead of LF. The task auto_cargo_toml_to_md cannot work! Closing."</span>, <span class="kw-2">&</span>md_filename);
+"string">"Error: {} has CRLF line endings instead of LF. The task auto_cargo_toml_to_md cannot work! Exiting."</span>, <span class="kw-2">&</span>md_filename);
         }
 
         <span class="kw">if let </span><span class="prelude-val">Some</span>(cap) = REGEX_MD_START.captures(<span class="kw-2">&</span>md_text_content) {
@@ -286,12 +279,8 @@
 <span class="doccomment">/// utc now
 </span><span class="kw">fn </span>utc_now() -&gt; String {
     <span class="kw">let </span>now = Utc::now();
-    <span class="macro">format!</span>(
-        <span class="string">"{:04}-{:02}-{:02}"</span>,
-        now.year(),
-        now.month() <span class="kw">as </span>i32,
-        now.day() <span class="kw">as </span>i32,
-    )
+    <span class="macro">format!</span>(<span class="string">"{:04}-{:02}-{:02}"</span>, now.year(), now.month() <span class=
+"kw">as </span>i32, now.day() <span class="kw">as </span>i32,)
 }
 </code></pre>
       </div>

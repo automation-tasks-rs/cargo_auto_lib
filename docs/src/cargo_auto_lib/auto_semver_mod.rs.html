@@ -166,27 +166,6 @@
 <a href="#115" id="115">115</a>
 <a href="#116" id="116">116</a>
 <a href="#117" id="117">117</a>
-<a href="#118" id="118">118</a>
-<a href="#119" id="119">119</a>
-<a href="#120" id="120">120</a>
-<a href="#121" id="121">121</a>
-<a href="#122" id="122">122</a>
-<a href="#123" id="123">123</a>
-<a href="#124" id="124">124</a>
-<a href="#125" id="125">125</a>
-<a href="#126" id="126">126</a>
-<a href="#127" id="127">127</a>
-<a href="#128" id="128">128</a>
-<a href="#129" id="129">129</a>
-<a href="#130" id="130">130</a>
-<a href="#131" id="131">131</a>
-<a href="#132" id="132">132</a>
-<a href="#133" id="133">133</a>
-<a href="#134" id="134">134</a>
-<a href="#135" id="135">135</a>
-<a href="#136" id="136">136</a>
-<a href="#137" id="137">137</a>
-<a href="#138" id="138">138</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// auto_semver_mod
@@ -235,13 +214,10 @@
     <span class="kw">let </span>is_files_equal = <span class="kw">if </span>force_version {
         <span class="bool-val">false
     </span>} <span class="kw">else </span>{
-        <span class="kw">let </span>js_struct = <span class="kw">crate</span>::auto_version_from_date_mod::read_json_file(
-            <span class="string">".automation_tasks_rs_file_hashes.json"</span>,
-        )<span class="question-mark">?</span>;
-        <span class="kw">crate</span>::auto_version_from_date_mod::are_files_equal(
-            <span class="kw-2">&</span>vec_of_metadata,
-            <span class="kw-2">&</span>js_struct.vec_file_metadata,
-        )
+        <span class="kw">let </span>js_struct = <span class="kw">crate</span>::auto_version_from_date_mod::read_json_file(<span class=
+"string">".automation_tasks_rs_file_hashes.json"</span>)<span class="question-mark">?</span>;
+        <span class="kw">crate</span>::auto_version_from_date_mod::are_files_equal(<span class="kw-2">&</span>vec_of_metadata, <span class=
+"kw-2">&</span>js_struct.vec_file_metadata)
     };
 
     <span class="kw">if </span>!is_files_equal {
@@ -251,19 +227,18 @@
 
         <span class="comment">// check if file have CRLF instead of LF and show error
         </span><span class="kw">if </span>cargo_toml_text.contains(<span class="string">"\r\n"</span>) {
-            <span class="macro">panic!</span>(<span class=
-"string">"Error: {} has CRLF line endings instead of LF. The task auto_semver_increment cannot work! Closing."</span>, cargo_toml_filename);
+            <span class="macro">panic!</span>(
+                <span class="string">"Error: {} has CRLF line endings instead of LF. The task auto_semver_increment cannot work! Exiting.."</span>,
+                cargo_toml_filename
+            );
         }
 
         <span class="comment">// find the line with "version = " including the start quote
-        </span><span class="kw">if let </span><span class="prelude-val">Some</span>(pos_start_data) =
-            find_pos_start_data_after_delimiter(<span class="kw-2">&</span>cargo_toml_text, <span class="number">0</span>, <span class=
-"string">r#"version = ""#</span>)
-        {
+        </span><span class="kw">if let </span><span class="prelude-val">Some</span>(pos_start_data) = find_pos_start_data_after_delimiter(<span class=
+"kw-2">&</span>cargo_toml_text, <span class="number">0</span>, <span class="string">r#"version = ""#</span>) {
             <span class="comment">// find the end quote
-            </span><span class="kw">if let </span><span class="prelude-val">Some</span>(pos_end_data) =
-                find_pos_end_data_before_delimiter(<span class="kw-2">&</span>cargo_toml_text, pos_start_data, <span class="string">r#"""#</span>)
-            {
+            </span><span class="kw">if let </span><span class="prelude-val">Some</span>(pos_end_data) = find_pos_end_data_before_delimiter(<span class=
+"kw-2">&</span>cargo_toml_text, pos_start_data, <span class="string">r#"""#</span>) {
                 <span class="kw">let </span>version = cargo_toml_text[pos_start_data..pos_end_data].to_string();
                 <span class="macro">println!</span>(<span class="string">r#"    old version: "{}""#</span>, <span class="kw-2">&</span>version);
                 <span class="comment">//increment the last number
@@ -293,22 +268,16 @@
                 </span><span class="kw">let </span>new_semver = <span class="macro">format!</span>(<span class=
 "string">"{}.{}.{}"</span>, major, minor, patch);
                 <span class="macro">println!</span>(<span class="string">"    {GREEN}new version: '{}'{RESET}"</span>, <span class="kw-2">&</span>new_semver);
-                <span class="kw">let </span>new_cargo_toml_text = <span class="macro">format!</span>(
-                    <span class="string">"{}{}{}"</span>,
-                    <span class="kw-2">&</span>cargo_toml_text[..pos_start_data],
-                    <span class="kw-2">&</span>new_semver,
-                    <span class="kw-2">&</span>cargo_toml_text[pos_at_the_end_of_semver..]
-                );
+                <span class="kw">let </span>new_cargo_toml_text = <span class="macro">format!</span>(<span class="string">"{}{}{}"</span>, <span class=
+"kw-2">&</span>cargo_toml_text[..pos_start_data], <span class="kw-2">&</span>new_semver, <span class=
+"kw-2">&</span>cargo_toml_text[pos_at_the_end_of_semver..]);
                 <span class="comment">//save the file
                 </span><span class="kw">let </span>_x = fs::write(cargo_toml_filename, new_cargo_toml_text);
 
                 <span class="comment">//the Cargo.toml is now different
-                </span><span class="kw">crate</span>::auto_version_from_date_mod::correct_file_metadata_for_cargo_tom_inside_vec(
-                    <span class="kw-2">&amp;mut </span>vec_of_metadata,
-                )<span class="question-mark">?</span>;
-                <span class="kw">crate</span>::auto_version_from_date_mod::save_json_file_for_file_meta_data(
-                    vec_of_metadata,
-                );
+                </span><span class="kw">crate</span>::auto_version_from_date_mod::correct_file_metadata_for_cargo_tom_inside_vec(<span class=
+"kw-2">&amp;mut </span>vec_of_metadata)<span class="question-mark">?</span>;
+                <span class="kw">crate</span>::auto_version_from_date_mod::save_json_file_for_file_meta_data(vec_of_metadata);
             } <span class="kw">else </span>{
                 <span class="macro">panic!</span>(<span class="string">"no end quote for version"</span>);
             }
@@ -322,17 +291,13 @@
 <span class="kw">fn </span>parse_next_number(cargo_toml_text: <span class="kw-2">&</span>str, pos: usize) -&gt; ResultWithLibError&lt;(usize, usize)&gt; {
     <span class="kw">let </span><span class="kw-2">mut </span>pos = pos;
     <span class="kw">let </span><span class="kw-2">mut </span>number = <span class="string">""</span>.to_string();
-    <span class="kw">let </span><span class="kw-2">mut </span>one_char = cargo_toml_text[pos..pos + <span class="number">1</span>]
-        .chars()
-        .next()
-        .ok_or(LibError::ErrorFromStr(<span class="string">"error chars().next()"</span>))<span class="question-mark">?</span>;
+    <span class="kw">let </span><span class="kw-2">mut </span>one_char = cargo_toml_text[pos..pos + <span class=
+"number">1</span>].chars().next().ok_or(LibError::ErrorFromStr(<span class="string">"error chars().next()"</span>))<span class="question-mark">?</span>;
     <span class="kw">while </span>one_char.is_numeric() {
         number.push(one_char);
         pos += <span class="number">1</span>;
-        one_char = cargo_toml_text[pos..pos + <span class="number">1</span>]
-            .chars()
-            .next()
-            .ok_or(LibError::ErrorFromStr(<span class="string">"error chars().next()"</span>))<span class="question-mark">?</span>;
+        one_char = cargo_toml_text[pos..pos + <span class="number">1</span>].chars().next().ok_or(LibError::ErrorFromStr(<span class=
+"string">"error chars().next()"</span>))<span class="question-mark">?</span>;
     }
     <span class="kw">let </span>number: usize = number.parse()<span class="question-mark">?</span>;
     <span class="comment">//return

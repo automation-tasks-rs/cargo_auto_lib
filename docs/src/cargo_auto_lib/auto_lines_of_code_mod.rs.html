@@ -347,41 +347,6 @@
 <a href="#296" id="296">296</a>
 <a href="#297" id="297">297</a>
 <a href="#298" id="298">298</a>
-<a href="#299" id="299">299</a>
-<a href="#300" id="300">300</a>
-<a href="#301" id="301">301</a>
-<a href="#302" id="302">302</a>
-<a href="#303" id="303">303</a>
-<a href="#304" id="304">304</a>
-<a href="#305" id="305">305</a>
-<a href="#306" id="306">306</a>
-<a href="#307" id="307">307</a>
-<a href="#308" id="308">308</a>
-<a href="#309" id="309">309</a>
-<a href="#310" id="310">310</a>
-<a href="#311" id="311">311</a>
-<a href="#312" id="312">312</a>
-<a href="#313" id="313">313</a>
-<a href="#314" id="314">314</a>
-<a href="#315" id="315">315</a>
-<a href="#316" id="316">316</a>
-<a href="#317" id="317">317</a>
-<a href="#318" id="318">318</a>
-<a href="#319" id="319">319</a>
-<a href="#320" id="320">320</a>
-<a href="#321" id="321">321</a>
-<a href="#322" id="322">322</a>
-<a href="#323" id="323">323</a>
-<a href="#324" id="324">324</a>
-<a href="#325" id="325">325</a>
-<a href="#326" id="326">326</a>
-<a href="#327" id="327">327</a>
-<a href="#328" id="328">328</a>
-<a href="#329" id="329">329</a>
-<a href="#330" id="330">330</a>
-<a href="#331" id="331">331</a>
-<a href="#332" id="332">332</a>
-<a href="#333" id="333">333</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// auto_lines_of_code_mod
@@ -461,11 +426,7 @@
 /// Use git diff to see the change.  
 </span><span class="kw">pub fn </span>auto_lines_of_code(link: <span class="kw-2">&</span>str) {
     <span class="macro">println!</span>(<span class="string">"    Running auto_lines_of_code"</span>);
-    <span class="kw">let </span>link = <span class="kw">if </span>link.is_empty() {
-        process_git_remote()
-    } <span class="kw">else </span>{
-        link.to_string()
-    };
+    <span class="kw">let </span>link = <span class="kw">if </span>link.is_empty() { process_git_remote() } <span class="kw">else </span>{ link.to_string() };
     <span class="comment">// Cargo.toml contains the list of projects
     </span><span class="kw">let </span>cargo_toml = <span class="kw">crate</span>::auto_cargo_toml_mod::CargoToml::read();
     <span class="kw">match </span>cargo_toml.workspace_members() {
@@ -529,11 +490,8 @@
         Path::new(<span class="string">"src"</span>),
         <span class="string">"/*.rs"</span>,
         <span class="comment">// avoid big folders and other folders with *.crev
-        </span><span class="kw-2">&</span>[
-            <span class="string">"/.git"</span>.to_string(),
-            <span class="string">"/target"</span>.to_string(),
-            <span class="string">"/docs"</span>.to_string(),
-        ],
+        </span><span class="kw-2">&</span>[<span class="string">"/.git"</span>.to_string(), <span class="string">"/target"</span>.to_string(), <span class=
+"string">"/docs"</span>.to_string()],
     )
     .unwrap();
     <span class="comment">// println!("{:#?}", files);
@@ -568,11 +526,8 @@
         Path::new(<span class="string">"tests"</span>),
         <span class="string">"/*.rs"</span>,
         <span class="comment">// avoid big folders and other folders with *.crev
-        </span><span class="kw-2">&</span>[
-            <span class="string">"/.git"</span>.to_string(),
-            <span class="string">"/target"</span>.to_string(),
-            <span class="string">"/docs"</span>.to_string(),
-        ],
+        </span><span class="kw-2">&</span>[<span class="string">"/.git"</span>.to_string(), <span class="string">"/target"</span>.to_string(), <span class=
+"string">"/docs"</span>.to_string()],
     )
     .unwrap();
     <span class="comment">// println!("{:#?}", files);
@@ -592,11 +547,8 @@
         Path::new(<span class="string">"examples"</span>),
         <span class="string">"/*.rs"</span>,
         <span class="comment">// avoid big folders and other folders with *.crev
-        </span><span class="kw-2">&</span>[
-            <span class="string">"/.git"</span>.to_string(),
-            <span class="string">"/target"</span>.to_string(),
-            <span class="string">"/docs"</span>.to_string(),
-        ],
+        </span><span class="kw-2">&</span>[<span class="string">"/.git"</span>.to_string(), <span class="string">"/target"</span>.to_string(), <span class=
+"string">"/docs"</span>.to_string()],
     )
     .unwrap();
     <span class="kw">for </span>rs_file_name <span class="kw">in </span>files.iter() {
@@ -614,10 +566,8 @@
     </span>lines_of_code
 }
 <span class="kw">fn </span>git_remote_output() -&gt; anyhow::Result&lt;String&gt; {
-    <span class="kw">let </span>output = std::process::Command::new(<span class="string">"git"</span>)
-        .arg(<span class="string">"remote"</span>)
-        .arg(<span class="string">"-v"</span>)
-        .output()<span class="question-mark">?</span>;
+    <span class="kw">let </span>output = std::process::Command::new(<span class="string">"git"</span>).arg(<span class=
+"string">"remote"</span>).arg(<span class="string">"-v"</span>).output()<span class="question-mark">?</span>;
 
     <span class="kw">let </span>output = String::from_utf8(output.stdout)<span class="question-mark">?</span>;
     <span class="comment">//dbg!( &amp;output);
@@ -633,19 +583,15 @@
     // "origin  git@github.com:bestia-dev/auto_lines_of_code.git (fetch)"
     // origin    https://github.com/bestia-dev/auto_lines_of_code (fetch)
     // println!("{}", &amp;output);
-    </span><span class="kw">let </span>reg = Regex::new(
-        <span class="string">r#"origin\s*(?:https://)?(?:git@)?([^:/]*?)[:/]([^/]*?)/([^. ]*?)(?:\.git)?\s*\(fetch\)"#</span>,
-    )<span class="question-mark">?</span>;
-    <span class="kw">let </span>cap = reg
-        .captures(<span class="kw-2">&</span>output)
-        .ok_or(<span class="macro">anyhow::anyhow!</span>(<span class="string">"Error: reg.captures is None"</span>))<span class="question-mark">?</span>;
+    </span><span class="kw">let </span>reg = Regex::new(<span class=
+"string">r#"origin\s*(?:https://)?(?:git@)?([^:/]*?)[:/]([^/]*?)/([^. ]*?)(?:\.git)?\s*\(fetch\)"#</span>)<span class="question-mark">?</span>;
+    <span class="kw">let </span>cap = reg.captures(<span class="kw-2">&</span>output).ok_or(<span class="macro">anyhow::anyhow!</span>(<span class=
+"string">"Error: reg.captures is None"</span>))<span class="question-mark">?</span>;
     <span class="comment">// dbg!(&amp;cap);
 
     // indexing can panic, but I would like it to Error
-    </span><span class="macro">anyhow::ensure!</span>(
-        cap.len() == <span class="number">4</span>,
-        <span class="string">"Error: cap len is not 4, because there are 4 capture groups in regex."
-    </span>);
+    </span><span class="macro">anyhow::ensure!</span>(cap.len() == <span class="number">4</span>, <span class=
+"string">"Error: cap len is not 4, because there are 4 capture groups in regex."</span>);
     <span class="prelude-val">Ok</span>(<span class="macro">format!</span>(<span class="string">"https://{}/{}/{}/"</span>, <span class=
 "kw-2">&</span>cap[<span class="number">1</span>], <span class="kw-2">&</span>cap[<span class="number">2</span>], <span class="kw-2">&</span>cap[<span class=
 "number">3</span>]))
@@ -663,29 +609,21 @@
 </span><span class="kw">fn </span>to_string_as_shield_badges(v: <span class="kw-2">&</span>LinesOfCode, link: <span class="kw-2">&</span>str) -&gt; String {
     <span class="comment">//println!("to_string_as_shield_badges() start");
 
-    </span><span class="kw">let </span>src_code_lines = <span class="macro">format!</span>(
-        <span class="string">"[![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-{}-green.svg)]({})"</span>,
-        v.src_code_lines, link
+    </span><span class="kw">let </span>src_code_lines = <span class="macro">format!</span>(<span class=
+"string">"[![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-{}-green.svg)]({})"</span>, v.src_code_lines, link);
+    <span class="kw">let </span>src_doc_comment_lines = <span class="macro">format!</span>(
+        <span class="string">"[![Lines in Doc comments](https://img.shields.io/badge/Lines_in_Doc_comments-{}-blue.svg)]({})"</span>,
+        v.src_doc_comment_lines, link
     );
-    <span class="kw">let </span>src_doc_comment_lines = <span class="macro">format!</span>(<span class=
-"string">"[![Lines in Doc comments](https://img.shields.io/badge/Lines_in_Doc_comments-{}-blue.svg)]({})"</span>,v.src_doc_comment_lines,link);
-    <span class="kw">let </span>src_comment_lines = <span class="macro">format!</span>(
-        <span class="string">"[![Lines in Comments](https://img.shields.io/badge/Lines_in_comments-{}-purple.svg)]({})"</span>,
-        v.src_comment_lines, link
-    );
-    <span class="kw">let </span>example_lines = <span class="macro">format!</span>(
-        <span class="string">"[![Lines in examples](https://img.shields.io/badge/Lines_in_examples-{}-yellow.svg)]({})"</span>,
-        v.examples_lines, link
-    );
-    <span class="kw">let </span>tests_lines = <span class="macro">format!</span>(
-        <span class="string">"[![Lines in tests](https://img.shields.io/badge/Lines_in_tests-{}-orange.svg)]({})"</span>,
-        v.tests_lines, link
-    );
+    <span class="kw">let </span>src_comment_lines = <span class="macro">format!</span>(<span class=
+"string">"[![Lines in Comments](https://img.shields.io/badge/Lines_in_comments-{}-purple.svg)]({})"</span>, v.src_comment_lines, link);
+    <span class="kw">let </span>example_lines = <span class="macro">format!</span>(<span class=
+"string">"[![Lines in examples](https://img.shields.io/badge/Lines_in_examples-{}-yellow.svg)]({})"</span>, v.examples_lines, link);
+    <span class="kw">let </span>tests_lines = <span class="macro">format!</span>(<span class=
+"string">"[![Lines in tests](https://img.shields.io/badge/Lines_in_tests-{}-orange.svg)]({})"</span>, v.tests_lines, link);
     <span class="comment">//return
-    </span><span class="macro">format!</span>(
-        <span class="string">"{}\n{}\n{}\n{}\n{}\n"</span>,
-        src_code_lines, src_doc_comment_lines, src_comment_lines, example_lines, tests_lines
-    )
+    </span><span class="macro">format!</span>(<span class=
+"string">"{}\n{}\n{}\n{}\n{}\n"</span>, src_code_lines, src_doc_comment_lines, src_comment_lines, example_lines, tests_lines)
 }
 
 <span class="doccomment">/// Includes (writes, modifies) the shield badge code into README.md file.
@@ -698,8 +636,11 @@
     <span class="kw">if let </span><span class="prelude-val">Ok</span>(readme_content) = fs::read_to_string(file_name) {
         <span class="comment">// check if file have CRLF instead of LF and show error
         </span><span class="kw">if </span>readme_content.contains(<span class="string">"\r\n"</span>) {
-            <span class="macro">panic!</span>(<span class=
-"string">"{RED}Error: {} has CRLF line endings instead of LF. The task include_into_readme_md cannot work! Closing.{RESET}"</span>, file_name);
+            <span class="macro">panic!</span>(
+                <span class=
+"string">"{RED}Error: {} has CRLF line endings instead of LF. The task include_into_readme_md cannot work! Exiting..{RESET}"</span>,
+                file_name
+            );
         }
 
         <span class="kw">let </span><span class="kw-2">mut </span>new_readme_content = String::with_capacity(readme_content.len());

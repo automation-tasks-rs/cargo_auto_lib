@@ -68,12 +68,6 @@
 <a href="#17" id="17">17</a>
 <a href="#18" id="18">18</a>
 <a href="#19" id="19">19</a>
-<a href="#20" id="20">20</a>
-<a href="#21" id="21">21</a>
-<a href="#22" id="22">22</a>
-<a href="#23" id="23">23</a>
-<a href="#24" id="24">24</a>
-<a href="#25" id="25">25</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// auto_git_mod
@@ -83,20 +77,16 @@
 /// has git remote
 </span><span class="kw">pub fn </span>git_has_remote() -&gt; bool {
     <span class="comment">// it returns only "origin" if exists or nothing if it does not exist
-    </span><span class="kw">let </span>output = std::process::Command::new(<span class="string">"git"</span>)
-        .arg(<span class="string">"remote"</span>)
-        .output()
-        .unwrap();
+    </span><span class="kw">let </span>output = std::process::Command::new(<span class="string">"git"</span>).arg(<span class=
+"string">"remote"</span>).output().unwrap();
     <span class="comment">// return
     </span>String::from_utf8(output.stdout).unwrap() != <span class="string">""
 </span>}
 
 <span class="doccomment">/// check if this folder is a local Git repository
 </span><span class="kw">pub fn </span>git_is_local_repository() -&gt; bool {
-    <span class="kw">let </span>output = std::process::Command::new(<span class="string">"git"</span>)
-        .arg(<span class="string">"status"</span>)
-        .output()
-        .unwrap();
+    <span class="kw">let </span>output = std::process::Command::new(<span class="string">"git"</span>).arg(<span class=
+"string">"status"</span>).output().unwrap();
     <span class="kw">let </span>output = String::from_utf8(output.stderr).unwrap();
     <span class="comment">// return bool
     </span>!output.contains(<span class="string">"not a git repository"</span>)
