@@ -1511,10 +1511,10 @@ Document: "2" is not a file!
 line 9 column 1848 - Warning: missing </summary> before <section>
 line 9 column 2326 - Warning: discarding unexpected </summary>
 line 9 column 2403 - Warning: missing </summary> before <section>
-line 9 column 3042 - Warning: discarding unexpected </summary>
-line 9 column 3295 - Warning: missing </summary> before <section>
-line 9 column 3783 - Warning: discarding unexpected </summary>
-line 9 column 3860 - Warning: missing </summary> before <section>
+line 9 column 3038 - Warning: discarding unexpected </summary>
+line 9 column 3291 - Warning: missing </summary> before <section>
+line 9 column 3779 - Warning: discarding unexpected </summary>
+line 9 column 3856 - Warning: missing </summary> before <section>
 line 9 column 4507 - Warning: discarding unexpected </summary>
 line 9 column 4762 - Warning: missing </summary> before <section>
 line 9 column 5244 - Warning: discarding unexpected </summary>
@@ -1622,8 +1622,8 @@ line 24 column 375 - Warning: discarding unexpected </summary>
 line 2 column 81 - Warning: trimming empty <span>
 line 9 column 1848 - Warning: trimming empty <summary>
 line 9 column 2403 - Warning: trimming empty <summary>
-line 9 column 3295 - Warning: trimming empty <summary>
-line 9 column 3860 - Warning: trimming empty <summary>
+line 9 column 3291 - Warning: trimming empty <summary>
+line 9 column 3856 - Warning: trimming empty <summary>
 line 9 column 4762 - Warning: trimming empty <summary>
 line 9 column 5321 - Warning: trimming empty <summary>
 line 9 column 6203 - Warning: trimming empty <summary>
@@ -1671,6 +1671,10 @@ Document: "2" is not a file!
 
 line 2 column 81 - Warning: trimming empty <span>
 ./docs/cargo_auto_lib/fn.auto_semver_increment_patch.html
+Document: "2" is not a file!
+
+line 2 column 81 - Warning: trimming empty <span>
+./docs/cargo_auto_lib/fn.add_message_to_unreleased.html
 Document: "2" is not a file!
 
 line 2 column 81 - Warning: trimming empty <span>
@@ -3110,6 +3114,10 @@ line 2 column 81 - Warning: trimming empty <span>
 Document: "2" is not a file!
 
 line 2 column 81 - Warning: trimming empty <span>
+./docs/cargo_auto_lib/auto_github_mod/fn.add_message_to_unreleased.html
+Document: "2" is not a file!
+
+line 2 column 81 - Warning: trimming empty <span>
 ./docs/cargo_auto_lib/auto_github_mod/index.html
 Document: "2" is not a file!
 
@@ -3143,6 +3151,10 @@ Document: "2" is not a file!
 
 line 2 column 81 - Warning: trimming empty <span>
 ./docs/cargo_auto_lib/auto_github_mod/fn.ask_for_identity_file_for_ssh.html
+Document: "2" is not a file!
+
+line 2 column 81 - Warning: trimming empty <span>
+./docs/cargo_auto_lib/auto_github_mod/fn.create_releases_md_if_file_not_exist.html
 Document: "2" is not a file!
 
 line 2 column 81 - Warning: trimming empty <span>
@@ -3465,6 +3477,10 @@ Document: "2" is not a file!
 
 line 2 column 81 - Warning: trimming empty <span>
 ./docs/cargo_auto_lib/public_api_mod/fn.auto_semver_increment_patch.html
+Document: "2" is not a file!
+
+line 2 column 81 - Warning: trimming empty <span>
+./docs/cargo_auto_lib/public_api_mod/fn.add_message_to_unreleased.html
 Document: "2" is not a file!
 
 line 2 column 81 - Warning: trimming empty <span>

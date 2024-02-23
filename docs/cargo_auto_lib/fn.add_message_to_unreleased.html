@@ -5,8 +5,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="generator" content="rustdoc">
-  <meta name="description" content="Traverse dir and its sub-dir, but avoid excluded dirs. The find_file and the exclude dir strings must start with /.">
-  <title>traverse_dir_with_exclude_dir in cargo_auto_lib - Rust</title>
+  <meta name="description" content="add commit message to Unreleased in RELEASES.md">
+  <title>add_message_to_unreleased in cargo_auto_lib - Rust</title>
   <link rel="preload" as="font" type="font/woff2" crossorigin="" href="../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2">
   <link rel="preload" as="font" type="font/woff2" crossorigin="" href="../static.files/FiraSans-Regular-018c141bf0843ffd.woff2">
   <link rel="preload" as="font" type="font/woff2" crossorigin="" href="../static.files/FiraSans-Medium-8f9a781e4970d388.woff2">
@@ -58,43 +58,19 @@
       </nav>
       <section id="main-content" class="content">
         <div class="main-heading">
-          <h1>Function <a href="index.html">cargo_auto_lib</a>::<wbr><a class="fn" href="#">traverse_dir_with_exclude_dir</a><button id="copy-path" title=
+          <h1>Function <a href="index.html">cargo_auto_lib</a>::<wbr><a class="fn" href="#">add_message_to_unreleased</a><button id="copy-path" title=
           "Copy item path to clipboard"><img src="../static.files/clipboard-7571035ce49a181d.svg" width="19" height="18" alt=
-          "Copy item path"></button></h1><span class="out-of-band"><a class="src" href="../src/cargo_auto_lib/public_api_mod.rs.html#124-130">source</a> ·
+          "Copy item path"></button></h1><span class="out-of-band"><a class="src" href="../src/cargo_auto_lib/public_api_mod.rs.html#509-511">source</a> ·
           <button id="toggle-all-docs" title="collapse all docs">[<span>−</span>]</button></span>
         </div>
-        <pre class="rust item-decl"><code>pub fn traverse_dir_with_exclude_dir(
-    dir: &<a class="struct" href="https://doc.rust-lang.org/1.76.0/std/path/struct.Path.html" title="struct std::path::Path">Path</a>,
-    find_file: &<a class="primitive" href="https://doc.rust-lang.org/1.76.0/std/primitive.str.html">str</a>,
-    exclude_dirs: &amp;[<a class="struct" href="https://doc.rust-lang.org/1.76.0/alloc/string/struct.String.html" title=
-"struct alloc::string::String">String</a>]
-) -&gt; <a class="type" href="https://doc.rust-lang.org/1.76.0/std/io/error/type.Result.html" title="type std::io::error::Result">Result</a>&lt;<a class=
-"struct" href="https://doc.rust-lang.org/1.76.0/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="struct" href=
-"https://doc.rust-lang.org/1.76.0/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>&gt;&gt;</code></pre>
+        <pre class="rust item-decl"><code>pub fn add_message_to_unreleased(message: &<a class="primitive" href=
+        "https://doc.rust-lang.org/1.76.0/std/primitive.str.html">str</a>)</code></pre>
         <details class="toggle top-doc" open="">
           <summary class="hideme">
             <span>Expand description</span>
           </summary>
           <div class="docblock">
-            <p>Traverse dir and its sub-dir, but avoid excluded dirs. The find_file and the exclude dir strings must start with /.</p>
-            <h3 id="example"><a href="#example">Example</a></h3>
-            <div class="example-wrap">
-              <pre class="rust rust-example-rendered"><code><span class="kw">use </span>std::path::Path;
-
-<span class="kw">let </span>files = cargo_auto_lib::traverse_dir_with_exclude_dir(
-    Path::new(<span class="string">"/home/project/src"</span>),
-    <span class="string">"/*.rs"</span>,
-    <span class="comment">// avoid big folders and other folders with *.crev
-    </span><span class="kw-2">&</span><span class="macro">vec!</span>[
-        <span class="string">"/.git"</span>.to_string(),
-        <span class="string">"/target"</span>.to_string(),
-        <span class="string">"/docs"</span>.to_string()
-    ]
-).unwrap();
-<span class="kw">for </span>rs_file_name <span class="kw">in </span>files.iter() {
-    <span class="macro">println!</span>(<span class="string">"{}"</span>, <span class="kw-2">&</span>rs_file_name);
-}</code></pre>
-            </div>
+            <p>add commit message to Unreleased in RELEASES.md</p>
           </div>
         </details>
       </section>
