@@ -5,7 +5,7 @@
         "titleBar.activeBackground": "#47875c",
         "titleBar.inactiveBackground": "#3f8d5acc"
       },
-      "spellright.language": [
+    "spellright.language": [
         "en"
     ],
     "spellright.documentTypes": [
