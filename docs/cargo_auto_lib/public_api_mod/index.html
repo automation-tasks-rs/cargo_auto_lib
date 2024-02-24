@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="generator" content="rustdoc">
-  <meta name="description" content="API documentation for the Rust `public_api_mod` mod in crate `cargo_auto_lib`.">
+  <meta name="description" content="public_api_mod">
   <title>cargo_auto_lib::public_api_mod - Rust</title>
   <link rel="preload" as="font" type="font/woff2" crossorigin="" href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2">
   <link rel="preload" as="font" type="font/woff2" crossorigin="" href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2">
@@ -35,7 +35,7 @@
     <div class="sidebar-crate">
       <a class="logo-container" href="../../cargo_auto_lib/index.html"><img src=
       "https://github.com/bestia-dev/cargo-auto/raw/main/images/logo/logo_cargo_auto.svg" alt="logo"></a>
-      <h2><a href="../../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">1.3.17</span></h2>
+      <h2><a href="../../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">1.3.21</span></h2>
     </div>
     <h2 class="location"><a href="#">Module public_api_mod</a></h2>
     <div class="sidebar-elems">
@@ -80,9 +80,35 @@
         <div class="main-heading">
           <h1>Module <a href="../index.html">cargo_auto_lib</a>::<wbr><a class="mod" href="#">public_api_mod</a><button id="copy-path" title=
           "Copy item path to clipboard"><img src="../../static.files/clipboard-7571035ce49a181d.svg" width="19" height="18" alt=
-          "Copy item path"></button></h1><span class="out-of-band"><a class="src" href="../../src/cargo_auto_lib/public_api_mod.rs.html#28-464">source</a> ·
+          "Copy item path"></button></h1><span class="out-of-band"><a class="src" href="../../src/cargo_auto_lib/public_api_mod.rs.html#3-306">source</a> ·
           <button id="toggle-all-docs" title="collapse all docs">[<span>−</span>]</button></span>
         </div>
+        <details class="toggle top-doc" open="">
+          <summary class="hideme">
+            <span>Expand description</span>
+          </summary>
+          <div class="docblock">
+            <h2 id="public_api_mod"><a href="#public_api_mod">public_api_mod</a></h2>
+            <p>The Public API of a library is a pain in the a…<br>
+            Every time I modify something I have to think how it will affect the users of the library.<br>
+            They could have tens or hundreds of places where they use the library. Breaking changes are terrible things.<br>
+            The developers are not willing to change their code every time a library changes slightly.<br>
+            Yes, there is the semver to show if the new library is API compatible. That helps a lot.<br>
+            It is dreaded if the first version of a function does not return a Result&lt;&gt;.<br>
+            Then later we will surely come to the point, that we need to return a Result&lt;&gt;. This is a terrible breaking change.<br>
+            It is wise to return a Result always. Even when that is not needed right now. It will surely be needed in the future.<br>
+            Another tactic is to make new functions with a different name and ornament the old functions as Obsolete.</p>
+            <p>This library is used by the automation_tasks_rs executable.<br>
+            I want to have here the complete and exact definition of the public API.<br>
+            Therefore I will not use reexports like <code>pub use</code> or <code>pub mod</code>.<br>
+            This way I can always know easily if my public API has changed.<br>
+            Just compare the lib.rs file in git.<br>
+            Adding functions, structs, methods and enums is ok, it does not break the Public API.<br>
+            But modifying existing functions, methods or enums will break the compatibility.<br>
+            AFTERTHOUGHT: This is a very time-consuming process to do manually.<br>
+            Should use a utility, but that app is complicated to create. It must understand the Rust code.</p>
+          </div>
+        </details>
         <h2 id="reexports" class="section-header"><a href="#reexports">Re-exports</a></h2>
         <ul class="item-table">
           <li>
@@ -152,13 +178,7 @@
               <a class="fn" href="fn.auto_cargo_toml_to_md.html" title="fn cargo_auto_lib::public_api_mod::auto_cargo_toml_to_md">auto_cargo_toml_to_md</a>
             </div>
             <div class="desc docblock-short">
-              includes data from Cargo.toml to README.md files: version, authors,… It works for workspaces and for single projects.<br>
-              To avoid out of sync data like version, authors and description in the README.md files, <code>auto_cargo_toml_to_md</code> includes this data
-              from Cargo.toml.<br>
-              Run it on every build with <a href="https://crates.io/crates/cargo-auto">cargo auto</a>.<br>
-              It works also with other md files in the project, not only README.md.<br>
-              In the md file write these markers in markdown comments (invisible),<br>
-              don’t copy the numbers 1 and 2:
+              auto_cargo_toml_to_md
             </div>
           </li>
           <li>
@@ -197,11 +217,7 @@
               <a class="fn" href="fn.auto_lines_of_code.html" title="fn cargo_auto_lib::public_api_mod::auto_lines_of_code">auto_lines_of_code</a>
             </div>
             <div class="desc docblock-short">
-              inserts shield badges with lines_of_code into README.rs the parameter Link will be used for shield badge. If empty_string, the git remote
-              repository will be used. Lines of code are not a “perfect” measurement of anything.<br>
-              Anybody can write a very big number of lines of useless code and comments.<br>
-              But for 95% of the cases they are good enough.<br>
-              Most of the developers use some “standard” coding practices and that is quantifiable and comparable.
+              auto_lines_of_code
             </div>
           </li>
           <li>
@@ -210,17 +226,7 @@
               "fn cargo_auto_lib::public_api_mod::auto_md_to_doc_comments">auto_md_to_doc_comments</a>
             </div>
             <div class="desc docblock-short">
-              finds rs files with markers and include segments from md files Includes segments of md files into rs files as doc comments.<br>
-              It works with workspaces and single projects. From this doc comments <code>cargo doc</code> will generated the documentation and
-              auto-completion.<br>
-              We don’t want to manually copy this segments. We want them to be automatically in sync.<br>
-              We will just run this function before every <code>cargo doc</code> with an automation task.<br>
-              The <code>auto_md_to_doc_comments</code> function must be executed in the project root folder where is the Cargo.toml file.<br>
-              First it searches all the rs files in src, tests and examples folders.<br>
-              If they contain the markers, than finds the md file and the named segment and include it as doc comments into the rs file.<br>
-              The markers are always in pairs: start and end. So exactly the content in between is changed. The markers are always comments, so they don’t
-              change the code.<br>
-              It works only for files with LF line delimiter. No CR and no CRLF.
+              auto_md_to_doc_comments
             </div>
           </li>
           <li>
@@ -292,12 +298,7 @@
               <a class="fn" href="fn.auto_version_from_date.html" title="fn cargo_auto_lib::public_api_mod::auto_version_from_date">auto_version_from_date</a>
             </div>
             <div class="desc docblock-short">
-              Works for single projects and workspaces.<br>
-              new version as date is written to Cargo.toml and service_worker.js In Cargo.toml writes the version as the date <code>yyyy.mmdd.HHMM</code> ex.
-              <code>2019.1221.2359</code>.<br>
-              For non-library projects, the semver specification is not really useful.<br>
-              Having the version as the date is just fine for executables and much more human readable.<br>
-              The function must be executed in the root project folder of a single project or workspace where is the Cargo.toml.
+              auto_version_from_date
             </div>
           </li>
           <li>
@@ -532,7 +533,7 @@
               "fn cargo_auto_lib::public_api_mod::traverse_dir_with_exclude_dir">traverse_dir_with_exclude_dir</a>
             </div>
             <div class="desc docblock-short">
-              Traverse dir and its sub-dir, but avoid excluded dirs. The find_file and the exclude dir strings must start with /.
+              traverse_dir_with_exclude_dir
             </div>
           </li>
         </ul>

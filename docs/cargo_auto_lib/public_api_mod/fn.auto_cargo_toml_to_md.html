@@ -5,8 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="generator" content="rustdoc">
-  <meta name="description" content=
-  "includes data from Cargo.toml to README.md files: version, authors,… It works for workspaces and for single projects. To avoid out of sync data like version, authors and description in the README.md files, `auto_cargo_toml_to_md` includes this data from Cargo.toml. Run it on every build with cargo auto. It works also with other md files in the project, not only README.md. In the md file write these markers in markdown comments (invisible), don’t copy the numbers 1 and 2:">
+  <meta name="description" content="auto_cargo_toml_to_md">
   <title>auto_cargo_toml_to_md in cargo_auto_lib::public_api_mod - Rust</title>
   <link rel="preload" as="font" type="font/woff2" crossorigin="" href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2">
   <link rel="preload" as="font" type="font/woff2" crossorigin="" href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2">
@@ -36,7 +35,7 @@
     <div class="sidebar-crate">
       <a class="logo-container" href="../../cargo_auto_lib/index.html"><img src=
       "https://github.com/bestia-dev/cargo-auto/raw/main/images/logo/logo_cargo_auto.svg" alt="logo"></a>
-      <h2><a href="../../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">1.3.17</span></h2>
+      <h2><a href="../../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">1.3.21</span></h2>
     </div>
     <div class="sidebar-elems">
       <h2><a href="index.html">In cargo_auto_lib::public_api_mod</a></h2>
@@ -65,7 +64,7 @@
           <h1>Function <a href="../index.html">cargo_auto_lib</a>::<wbr><a href="index.html">public_api_mod</a>::<wbr><a class="fn" href=
           "#">auto_cargo_toml_to_md</a><button id="copy-path" title="Copy item path to clipboard"><img src="../../static.files/clipboard-7571035ce49a181d.svg"
           width="19" height="18" alt="Copy item path"></button></h1><span class="out-of-band"><a class="src" href=
-          "../../src/cargo_auto_lib/public_api_mod.rs.html#141-143">source</a> · <button id="toggle-all-docs" title=
+          "../../src/cargo_auto_lib/public_api_mod.rs.html#80-82">source</a> · <button id="toggle-all-docs" title=
           "collapse all docs">[<span>−</span>]</button></span>
         </div>
         <pre class="rust item-decl"><code>pub fn auto_cargo_toml_to_md()</code></pre>
@@ -74,18 +73,17 @@
             <span>Expand description</span>
           </summary>
           <div class="docblock">
-            <p>includes data from Cargo.toml to README.md files: version, authors,… It works for workspaces and for single projects.<br>
-            To avoid out of sync data like version, authors and description in the README.md files, <code>auto_cargo_toml_to_md</code> includes this data from
-            Cargo.toml.<br>
-            Run it on every build with <a href="https://crates.io/crates/cargo-auto">cargo auto</a>.<br>
-            It works also with other md files in the project, not only README.md.<br>
-            In the md file write these markers in markdown comments (invisible),<br>
-            don’t copy the numbers 1 and 2:</p>
+            <h2 id="auto_cargo_toml_to_md"><a href="#auto_cargo_toml_to_md">auto_cargo_toml_to_md</a></h2>
+            <p>This function includes data from Cargo.toml to markdown files$1 $2This is nice for avoiding out of sync data.</p>
+            <p>Run it on every build with <code>automation_tasks_rs</code> and <a href="https://crates.io/crates/cargo-auto">cargo auto</a>.</p>
+            <p>In the md file write these markers in invisible markdown comments.</p>
             <div class="example-wrap">
-              <pre class="language-markdown"><code>1 [//]: # (auto_cargo_toml_to_md start)
-2 [//]: # (auto_cargo_toml_to_md end)
+              <pre class="language-markdown"><code>[comment]: # (auto_cargo_toml_to_md start)
+
+[comment]: # (auto_cargo_toml_to_md end)
 </code></pre>
             </div>
+            <p>In your markdown, change the word <code>[comment]</code> with double slash <code>[//]</code>.</p>
             <p><code>auto_cargo_toml_to_md</code> deletes the old lines between the markers and includes the Cargo.toml data:<br>
             description, repository, version, &amp;utc_now(), authors</p>
             <p>Run the example:</p>

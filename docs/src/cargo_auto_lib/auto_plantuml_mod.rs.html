@@ -263,60 +263,9 @@
 <a href="#212" id="212">212</a>
 <a href="#213" id="213">213</a>
 <a href="#214" id="214">214</a>
-<a href="#215" id="215">215</a>
-<a href="#216" id="216">216</a>
-<a href="#217" id="217">217</a>
-<a href="#218" id="218">218</a>
-<a href="#219" id="219">219</a>
-<a href="#220" id="220">220</a>
-<a href="#221" id="221">221</a>
-<a href="#222" id="222">222</a>
-<a href="#223" id="223">223</a>
-<a href="#224" id="224">224</a>
-<a href="#225" id="225">225</a>
-<a href="#226" id="226">226</a>
-<a href="#227" id="227">227</a>
-<a href="#228" id="228">228</a>
-<a href="#229" id="229">229</a>
-<a href="#230" id="230">230</a>
-<a href="#231" id="231">231</a>
-<a href="#232" id="232">232</a>
-<a href="#233" id="233">233</a>
-<a href="#234" id="234">234</a>
-<a href="#235" id="235">235</a>
-<a href="#236" id="236">236</a>
-<a href="#237" id="237">237</a>
-<a href="#238" id="238">238</a>
-<a href="#239" id="239">239</a>
-<a href="#240" id="240">240</a>
-<a href="#241" id="241">241</a>
-<a href="#242" id="242">242</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// auto_plantuml_mod.rs
-
-</span><span class="doccomment">//! Find md files.
-//! Search for marker (auto_plantuml start) and (auto_plantuml end).
-//! This markers around the plantuml code define that we want a svg file.
-//! If there are no markers, the plantuml will not be processed.
-//!
-//! 1. [//]: # (auto_plantuml start)
-//! ```plantuml
-//! @startuml
-//! [Bob] ..&gt; [Alice]
-//! @enduml
-//! ```
-//!
-//! ![svg_534231](images/svg_534231.svg)  
-//!
-//! 2. [//]: # (auto_plantuml end)
-//!
-//! Between the last triple backtick and the end marker is the processed svg file.
-//! Calculate a short hash from the plantuml code.
-//! If the name of the svg file contains this hash code it means, we already have the correct svg file.
-//! Else we have to delete the old svg file and get a new one from the modified plantuml code.
-//! Call the plantuml.com server with the plantuml code and saves the result svg file in folder images/.
-//! Add the hash code to the filename.
 
 </span><span class="kw">use </span><span class="kw">crate</span>::utils_mod::<span class="kw-2">*</span>;
 <span class="kw">use </span>lazy_static::lazy_static;
@@ -334,12 +283,7 @@
     </span>).unwrap();
 }
 
-<span class="doccomment">/// process plantuml in current directory
-/// finds markers (auto_plantuml start) and (auto_plantuml end) in md files
-/// if needed calls the web service and saves the svg file
-/// Between markers adds the link to the svg file
-/// repo_url like &lt;https://github.com/bestia-dev/sey_currency_converter_pwa&gt;
-/// so the image file link is from the repository and accessible everywhere
+<span class="attr">#[doc=<span class="macro">include_str!</span>(<span class="string">"../doc_comments_long/auto_plantuml.md"</span>)]
 </span><span class="kw">pub fn </span>auto_plantuml(repo_url: <span class="kw-2">&</span>str) {
     <span class="kw">let </span>path = std::env::current_dir().unwrap();
     auto_plantuml_for_path(<span class="kw-2">&</span>path, repo_url);

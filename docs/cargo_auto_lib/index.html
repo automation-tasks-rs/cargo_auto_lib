@@ -35,7 +35,7 @@
     <div class="sidebar-crate">
       <a class="logo-container" href="../cargo_auto_lib/index.html"><img src=
       "https://github.com/bestia-dev/cargo-auto/raw/main/images/logo/logo_cargo_auto.svg" alt="logo"></a>
-      <h2><a href="../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">1.3.17</span></h2>
+      <h2><a href="../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">1.3.21</span></h2>
     </div>
     <div class="sidebar-elems">
       <ul class="block">
@@ -98,7 +98,7 @@
             <h2 id="cargo_auto_lib"><a href="#cargo_auto_lib">cargo_auto_lib</a></h2>
             <p><strong>Library crate for common tasks when building rust projects. Intended for use with cargo-auto - automation tasks written in Rust
             language.</strong><br>
-            <em><strong>version: 1.3.17 date: 2024-02-23 author: <a href="https://bestia.dev">Bestia.dev</a> repository: <a href=
+            <em><strong>version: 1.3.21 date: 2024-02-24 author: <a href="https://bestia.dev">Bestia.dev</a> repository: <a href=
             "https://github.com/bestia-dev/cargo_auto_lib">GitHub</a></strong></em></p>
             <p><img src="https://raw.githubusercontent.com/bestia-dev/cargo-auto/main/images/logo/logo_cargo_auto.svg" alt="logo"> <img src=
             "https://img.shields.io/badge/maintained-green" alt="status"> <img src="https://img.shields.io/badge/ready_for_use-green" alt="status"></p>
@@ -111,10 +111,10 @@
             "License"></a> <a href="https://github.com/bestia-dev/cargo_auto_lib/"><img src=
             "https://github.com/bestia-dev/cargo_auto_lib/workflows/rust_fmt_auto_build_test/badge.svg" alt="Rust"></a> <img src=
             "https://bestia.dev/webpage_hit_counter/get_svg_image/276360626.svg" alt="cargo_auto_lib"></p>
-            <p><a href="https://github.com/bestia-dev/cargo_auto_lib/"><img src="https://img.shields.io/badge/Lines_in_Rust-2069-green.svg" alt=
+            <p><a href="https://github.com/bestia-dev/cargo_auto_lib/"><img src="https://img.shields.io/badge/Lines_in_Rust-2077-green.svg" alt=
             "Lines in Rust code"></a> <a href="https://github.com/bestia-dev/cargo_auto_lib/"><img src=
-            "https://img.shields.io/badge/Lines_in_Doc_comments-621-blue.svg" alt="Lines in Doc comments"></a> <a href=
-            "https://github.com/bestia-dev/cargo_auto_lib/"><img src="https://img.shields.io/badge/Lines_in_comments-342-purple.svg" alt=
+            "https://img.shields.io/badge/Lines_in_Doc_comments-289-blue.svg" alt="Lines in Doc comments"></a> <a href=
+            "https://github.com/bestia-dev/cargo_auto_lib/"><img src="https://img.shields.io/badge/Lines_in_comments-322-purple.svg" alt=
             "Lines in Comments"></a> <a href="https://github.com/bestia-dev/cargo_auto_lib/"><img src=
             "https://img.shields.io/badge/Lines_in_examples-29-yellow.svg" alt="Lines in examples"></a> <a href=
             "https://github.com/bestia-dev/cargo_auto_lib/"><img src="https://img.shields.io/badge/Lines_in_tests-79-orange.svg" alt="Lines in tests"></a></p>
@@ -184,8 +184,8 @@ cargo auto doc{RESET}{YELLOW}
             place, the automation task copies them wherever needed.</p>
             <h3 id="caveats"><a href="#caveats">Caveats</a></h3>
             <p>This crate will attempt to edit <code>Cargo.toml</code>. Unfortunately, there’s no great robust way right now to edit TOML file preserving
-            formatting and comments and such, so right now I use just regex to do this. If you find that the heuristics don’t work for you though please let me
-            know and I’ll try to check in a fix!</p>
+            formatting and comments and such, so right now I use just regex to do this.<br>
+            If you find that the heuristics don’t work for you though please let me know and I’ll try to check in a fix!</p>
             <h3 id="development-details"><a href="#development-details">Development details</a></h3>
             <p>Read the development details in a separate md file:<br>
             <a href="https://github.com/bestia-dev/cargo_auto_lib/blob/main/DEVELOPMENT.md">DEVELOPMENT.md</a></p>
@@ -305,19 +305,11 @@ cargo auto doc{RESET}{YELLOW}
               <a class="mod" href="auto_plantuml_mod/index.html" title="mod cargo_auto_lib::auto_plantuml_mod">auto_plantuml_mod</a><span title=
               "Restricted Visibility">&nbsp;🔒</span>
             </div>
-            <div class="desc docblock-short">
-              Find md files. Search for marker (auto_plantuml start) and (auto_plantuml end). This markers around the plantuml code define that we want a svg
-              file. If there are no markers, the plantuml will not be processed.
-            </div>
           </li>
           <li>
             <div class="item-name">
               <a class="mod" href="auto_playground_mod/index.html" title="mod cargo_auto_lib::auto_playground_mod">auto_playground_mod</a><span title=
               "Restricted Visibility">&nbsp;🔒</span>
-            </div>
-            <div class="desc docblock-short">
-              Find md files. Search for marker (auto_playground start) and (auto_playground end). This markers around the Rust code define that we want a link
-              to Rust playground. If there are no markers, the playground link will not be processed. Looks like this:
             </div>
           </li>
           <li>
@@ -362,6 +354,9 @@ cargo auto doc{RESET}{YELLOW}
             <div class="item-name">
               <a class="mod" href="public_api_mod/index.html" title="mod cargo_auto_lib::public_api_mod">public_api_mod</a><span title=
               "Restricted Visibility">&nbsp;🔒</span>
+            </div>
+            <div class="desc docblock-short">
+              public_api_mod
             </div>
           </li>
           <li>
@@ -436,13 +431,7 @@ cargo auto doc{RESET}{YELLOW}
               <a class="fn" href="fn.auto_cargo_toml_to_md.html" title="fn cargo_auto_lib::auto_cargo_toml_to_md">auto_cargo_toml_to_md</a>
             </div>
             <div class="desc docblock-short">
-              includes data from Cargo.toml to README.md files: version, authors,… It works for workspaces and for single projects.<br>
-              To avoid out of sync data like version, authors and description in the README.md files, <code>auto_cargo_toml_to_md</code> includes this data
-              from Cargo.toml.<br>
-              Run it on every build with <a href="https://crates.io/crates/cargo-auto">cargo auto</a>.<br>
-              It works also with other md files in the project, not only README.md.<br>
-              In the md file write these markers in markdown comments (invisible),<br>
-              don’t copy the numbers 1 and 2:
+              auto_cargo_toml_to_md
             </div>
           </li>
           <li>
@@ -480,11 +469,7 @@ cargo auto doc{RESET}{YELLOW}
               <a class="fn" href="fn.auto_lines_of_code.html" title="fn cargo_auto_lib::auto_lines_of_code">auto_lines_of_code</a>
             </div>
             <div class="desc docblock-short">
-              inserts shield badges with lines_of_code into README.rs the parameter Link will be used for shield badge. If empty_string, the git remote
-              repository will be used. Lines of code are not a “perfect” measurement of anything.<br>
-              Anybody can write a very big number of lines of useless code and comments.<br>
-              But for 95% of the cases they are good enough.<br>
-              Most of the developers use some “standard” coding practices and that is quantifiable and comparable.
+              auto_lines_of_code
             </div>
           </li>
           <li>
@@ -492,17 +477,7 @@ cargo auto doc{RESET}{YELLOW}
               <a class="fn" href="fn.auto_md_to_doc_comments.html" title="fn cargo_auto_lib::auto_md_to_doc_comments">auto_md_to_doc_comments</a>
             </div>
             <div class="desc docblock-short">
-              finds rs files with markers and include segments from md files Includes segments of md files into rs files as doc comments.<br>
-              It works with workspaces and single projects. From this doc comments <code>cargo doc</code> will generated the documentation and
-              auto-completion.<br>
-              We don’t want to manually copy this segments. We want them to be automatically in sync.<br>
-              We will just run this function before every <code>cargo doc</code> with an automation task.<br>
-              The <code>auto_md_to_doc_comments</code> function must be executed in the project root folder where is the Cargo.toml file.<br>
-              First it searches all the rs files in src, tests and examples folders.<br>
-              If they contain the markers, than finds the md file and the named segment and include it as doc comments into the rs file.<br>
-              The markers are always in pairs: start and end. So exactly the content in between is changed. The markers are always comments, so they don’t
-              change the code.<br>
-              It works only for files with LF line delimiter. No CR and no CRLF.
+              auto_md_to_doc_comments
             </div>
           </li>
           <li>
@@ -571,12 +546,7 @@ cargo auto doc{RESET}{YELLOW}
               <a class="fn" href="fn.auto_version_from_date.html" title="fn cargo_auto_lib::auto_version_from_date">auto_version_from_date</a>
             </div>
             <div class="desc docblock-short">
-              Works for single projects and workspaces.<br>
-              new version as date is written to Cargo.toml and service_worker.js In Cargo.toml writes the version as the date <code>yyyy.mmdd.HHMM</code> ex.
-              <code>2019.1221.2359</code>.<br>
-              For non-library projects, the semver specification is not really useful.<br>
-              Having the version as the date is just fine for executables and much more human readable.<br>
-              The function must be executed in the root project folder of a single project or workspace where is the Cargo.toml.
+              auto_version_from_date
             </div>
           </li>
           <li>
@@ -806,7 +776,7 @@ cargo auto doc{RESET}{YELLOW}
               "fn cargo_auto_lib::traverse_dir_with_exclude_dir">traverse_dir_with_exclude_dir</a>
             </div>
             <div class="desc docblock-short">
-              Traverse dir and its sub-dir, but avoid excluded dirs. The find_file and the exclude dir strings must start with /.
+              traverse_dir_with_exclude_dir
             </div>
           </li>
         </ul>

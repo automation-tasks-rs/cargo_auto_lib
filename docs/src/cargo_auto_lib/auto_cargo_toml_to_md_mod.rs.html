@@ -142,26 +142,6 @@
 <a href="#91" id="91">91</a>
 <a href="#92" id="92">92</a>
 <a href="#93" id="93">93</a>
-<a href="#94" id="94">94</a>
-<a href="#95" id="95">95</a>
-<a href="#96" id="96">96</a>
-<a href="#97" id="97">97</a>
-<a href="#98" id="98">98</a>
-<a href="#99" id="99">99</a>
-<a href="#100" id="100">100</a>
-<a href="#101" id="101">101</a>
-<a href="#102" id="102">102</a>
-<a href="#103" id="103">103</a>
-<a href="#104" id="104">104</a>
-<a href="#105" id="105">105</a>
-<a href="#106" id="106">106</a>
-<a href="#107" id="107">107</a>
-<a href="#108" id="108">108</a>
-<a href="#109" id="109">109</a>
-<a href="#110" id="110">110</a>
-<a href="#111" id="111">111</a>
-<a href="#112" id="112">112</a>
-<a href="#113" id="113">113</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// auto_cargo_toml_to_md_mod
@@ -192,27 +172,7 @@
 "string">r#"(?m)^\[//\]: # \(auto_cargo_toml_to_md end\)$"#</span>).unwrap();
 }
 
-<span class="doccomment">/// includes data from Cargo.toml to README.md files: version, authors,...
-/// It works for workspaces and for single projects.  
-/// To avoid out of sync data like version, authors and description in the README.md files, `auto_cargo_toml_to_md` includes this data from Cargo.toml.  
-/// Run it on every build with [cargo auto](https://crates.io/crates/cargo-auto).  
-/// It works also with other md files in the project, not only README.md.  
-/// In the md file write these markers in markdown comments (invisible),  
-/// don't copy the numbers 1 and 2:  
-///
-/// ```markdown
-/// 1 [//]: # (auto_cargo_toml_to_md start)
-/// 2 [//]: # (auto_cargo_toml_to_md end)
-/// ```
-///
-/// `auto_cargo_toml_to_md` deletes the old lines between the markers and includes the Cargo.toml data:  
-/// description, repository, version, &amp;utc_now(), authors  
-///
-/// Run the example:  
-///
-/// ```bash
-/// cargo run --example example_01_auto_cargo_toml_to_md
-/// ```  
+<span class="attr">#[doc=<span class="macro">include_str!</span>(<span class="string">"../doc_comments_long/auto_cargo_toml_to_md.md"</span>)]
 </span><span class="kw">pub fn </span>auto_cargo_toml_to_md() {
     <span class="macro">println!</span>(<span class="string">"    Running auto_cargo_toml_to_md"</span>);
     <span class="kw">let </span>cargo_toml = <span class="kw">crate</span>::auto_cargo_toml_mod::CargoToml::read();

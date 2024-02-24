@@ -35,7 +35,7 @@
     <div class="sidebar-crate">
       <a class="logo-container" href="../../cargo_auto_lib/index.html"><img src=
       "https://github.com/bestia-dev/cargo-auto/raw/main/images/logo/logo_cargo_auto.svg" alt="logo"></a>
-      <h2><a href="../../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">1.3.17</span></h2>
+      <h2><a href="../../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">1.3.21</span></h2>
     </div>
     <h2 class="location"><a href="#">Module auto_md_to_doc_comments_mod</a></h2>
     <div class="sidebar-elems">
@@ -75,7 +75,7 @@
           <h1>Module <a href="../index.html">cargo_auto_lib</a>::<wbr><a class="mod" href="#">auto_md_to_doc_comments_mod</a><button id="copy-path" title=
           "Copy item path to clipboard"><img src="../../static.files/clipboard-7571035ce49a181d.svg" width="19" height="18" alt=
           "Copy item path"></button></h1><span class="out-of-band"><a class="src" href=
-          "../../src/cargo_auto_lib/auto_md_to_doc_comments_mod.rs.html#3-216">source</a> · <button id="toggle-all-docs" title=
+          "../../src/cargo_auto_lib/auto_md_to_doc_comments_mod.rs.html#3-183">source</a> · <button id="toggle-all-docs" title=
           "collapse all docs">[<span>−</span>]</button></span>
         </div>
         <details class="toggle top-doc" open="">
@@ -133,17 +133,7 @@
               "fn cargo_auto_lib::auto_md_to_doc_comments_mod::auto_md_to_doc_comments">auto_md_to_doc_comments</a>
             </div>
             <div class="desc docblock-short">
-              finds rs files with markers and include segments from md files Includes segments of md files into rs files as doc comments.<br>
-              It works with workspaces and single projects. From this doc comments <code>cargo doc</code> will generated the documentation and
-              auto-completion.<br>
-              We don’t want to manually copy this segments. We want them to be automatically in sync.<br>
-              We will just run this function before every <code>cargo doc</code> with an automation task.<br>
-              The <code>auto_md_to_doc_comments</code> function must be executed in the project root folder where is the Cargo.toml file.<br>
-              First it searches all the rs files in src, tests and examples folders.<br>
-              If they contain the markers, than finds the md file and the named segment and include it as doc comments into the rs file.<br>
-              The markers are always in pairs: start and end. So exactly the content in between is changed. The markers are always comments, so they don’t
-              change the code.<br>
-              It works only for files with LF line delimiter. No CR and no CRLF.
+              auto_md_to_doc_comments
             </div>
           </li>
           <li>
