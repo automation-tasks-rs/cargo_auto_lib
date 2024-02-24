@@ -1,25 +1,5 @@
 // auto_playground_mod.rs
 
-//! Find md files.
-//! Search for marker (auto_playground start) and (auto_playground end).
-//! This markers around the Rust code define that we want a link to Rust playground.
-//! If there are no markers, the playground link will not be processed.
-//! Looks like this:
-//!
-//! 1. [//]: # (auto_playground start)
-//!
-//! Run this code in the [Rust playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&code=fn%20main%28%29%7B%0A%20%20%20%20println%21%28%22Hello%20World%21%22%29%3B%0A%7D):
-//!
-//!```Rust
-//! fn main(){
-//!     println!("Hello World!");
-//! }
-//! ```
-//! 2. [//]: # (auto_playground end)
-//!
-//! Between the start marker and the first triple backtick is the link in "()" parentheses.
-//! Encode the code with url_encoding.
-
 use crate::utils_mod::*;
 use lazy_static::lazy_static;
 
@@ -30,7 +10,7 @@ lazy_static! {
     ).unwrap();
 }
 
-/// process code for playground for Rust code segments in all md files
+#![doc=include_str!("../doc_comments_long/auto_playground_run_code.md")]
 pub fn auto_playground_run_code() {
     println!("    Running auto_playground");
     let path = std::env::current_dir().unwrap();

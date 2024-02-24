@@ -4,7 +4,7 @@
 
 I recommend using the CRDE - Containerized Rust Development Environment to write Rust projects. Follow the instructions here <https://github.com/bestia-dev/docker_rust_development>.  
 
-It is an isolated development environment that will not mess with you system.
+It is an isolated development environment that will not mess with you system.  
 It will work on Linux (tested on Debian) and inside WSL (Windows Subsystem for Linux).
 
 You just need to install the newer alternative to Docker: [podman](https://podman.io/). Then you download the prepared container image from DockerHub (3GB). And then a little juggling with ssh keys. All this is simplified by running a few bash scripts. Just follow the easy instructions.  

@@ -24,27 +24,7 @@ lazy_static! {
     static ref REGEX_MD_END: Regex = Regex::new(r#"(?m)^\[//\]: # \(auto_cargo_toml_to_md end\)$"#).unwrap();
 }
 
-/// includes data from Cargo.toml to README.md files: version, authors,...
-/// It works for workspaces and for single projects.  
-/// To avoid out of sync data like version, authors and description in the README.md files, `auto_cargo_toml_to_md` includes this data from Cargo.toml.  
-/// Run it on every build with [cargo auto](https://crates.io/crates/cargo-auto).  
-/// It works also with other md files in the project, not only README.md.  
-/// In the md file write these markers in markdown comments (invisible),  
-/// don't copy the numbers 1 and 2:  
-///
-/// ```markdown
-/// 1 [//]: # (auto_cargo_toml_to_md start)
-/// 2 [//]: # (auto_cargo_toml_to_md end)
-/// ```
-///
-/// `auto_cargo_toml_to_md` deletes the old lines between the markers and includes the Cargo.toml data:  
-/// description, repository, version, &utc_now(), authors  
-///
-/// Run the example:  
-///
-/// ```bash
-/// cargo run --example example_01_auto_cargo_toml_to_md
-/// ```  
+#![doc=include_str!("../doc_comments_long/auto_cargo_toml_to_md.md")]
 pub fn auto_cargo_toml_to_md() {
     println!("    Running auto_cargo_toml_to_md");
     let cargo_toml = crate::auto_cargo_toml_mod::CargoToml::read();

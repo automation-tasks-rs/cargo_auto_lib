@@ -78,4 +78,4 @@ How to refactor your code to resolve the issue:
 
 - Refactor many `unwrap()` to error handling with `thiserror`.  
 The problem is that it could introduce unwanted braking changes.  
-I need to research how to make my Public API more manageable.
+I need to research how to make my Public API more manageable.  
