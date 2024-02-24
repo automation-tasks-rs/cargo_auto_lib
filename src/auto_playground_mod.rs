@@ -10,7 +10,7 @@ lazy_static! {
     ).unwrap();
 }
 
-#![doc=include_str!("../doc_comments_long/auto_playground_run_code.md")]
+#[doc=include_str!("../doc_comments_long/auto_playground_run_code.md")]
 pub fn auto_playground_run_code() {
     println!("    Running auto_playground");
     let path = std::env::current_dir().unwrap();

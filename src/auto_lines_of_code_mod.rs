@@ -27,7 +27,7 @@ pub struct LinesOfCode {
     pub examples_lines: usize,
 }
 
-#![doc=include_str!("../doc_comments_long/auto_lines_of_code.md")]
+#[doc=include_str!("../doc_comments_long/auto_lines_of_code.md")]
 pub fn auto_lines_of_code(link: &str) {
     println!("    Running auto_lines_of_code");
     let link = if link.is_empty() { process_git_remote() } else { link.to_string() };

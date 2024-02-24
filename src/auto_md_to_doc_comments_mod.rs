@@ -28,7 +28,7 @@ struct MdSegment {
     pub text: String,
 }
 
-#![doc=include_str!("../doc_comments_long/auto_md_to_doc_comments.md")]
+#[doc=include_str!("../doc_comments_long/auto_md_to_doc_comments.md")]
 pub fn auto_md_to_doc_comments() {
     println!("    auto_md_to_doc_comments");
     // Cargo.toml contains the list of projects

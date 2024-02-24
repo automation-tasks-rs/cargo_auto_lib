@@ -24,7 +24,7 @@ lazy_static! {
     static ref REGEX_MD_END: Regex = Regex::new(r#"(?m)^\[//\]: # \(auto_cargo_toml_to_md end\)$"#).unwrap();
 }
 
-#![doc=include_str!("../doc_comments_long/auto_cargo_toml_to_md.md")]
+#[doc=include_str!("../doc_comments_long/auto_cargo_toml_to_md.md")]
 pub fn auto_cargo_toml_to_md() {
     println!("    Running auto_cargo_toml_to_md");
     let cargo_toml = crate::auto_cargo_toml_mod::CargoToml::read();

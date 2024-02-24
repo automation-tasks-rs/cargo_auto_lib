@@ -8,5 +8,10 @@ The name of the file could be the name of the file concatenated with the name of
 In the Rust code then we write just this macro:
 
 ```rust
+// for modules
 #![doc=include_str!("../doc_comments_long/file_function.md")]
+
+// for functions, structs and enums
+#[doc=include_str!("../doc_comments_long/file_function.md")]
+
 ```

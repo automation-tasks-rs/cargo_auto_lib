@@ -40,7 +40,7 @@ pub struct AutoVersionFromDate {
 
 // region: public functions
 
-#![doc=include_str!("../doc_comments_long/auto_version_from_date.md")]
+#[doc=include_str!("../doc_comments_long/auto_version_from_date.md")]
 pub fn auto_version_from_date() {
     auto_version_from_date_internal(false).unwrap_or_else(|err| panic!("{}", err.to_string()));
 }

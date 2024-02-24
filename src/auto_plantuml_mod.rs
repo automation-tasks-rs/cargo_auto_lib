@@ -16,7 +16,7 @@ lazy_static! {
     ).unwrap();
 }
 
-#![doc=include_str!("../doc_comments_long/auto_plantuml.md")]
+#[doc=include_str!("../doc_comments_long/auto_plantuml.md")]
 pub fn auto_plantuml(repo_url: &str) {
     let path = std::env::current_dir().unwrap();
     auto_plantuml_for_path(&path, repo_url);

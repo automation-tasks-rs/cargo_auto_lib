@@ -10,8 +10,6 @@ Then later we will surely come to the point, that we need to return a Result<>. 
 It is wise to return a Result always. Even when that is not needed right now. It will surely be needed in the future.  
 Another tactic is to make new functions with a different name and ornament the old functions as Obsolete.
 
-
-
 This library is used by the automation_tasks_rs executable.  
 I want to have here the complete and exact definition of the public API.  
 Therefore I will not use reexports like `pub use` or `pub mod`.  

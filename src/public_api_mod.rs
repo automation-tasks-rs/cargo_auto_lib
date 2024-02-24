@@ -71,12 +71,12 @@ pub fn concatenate_vec_to_string(vec: &[String], delimiter: &str) -> String {
     crate::utils_mod::concatenate_vec_to_string(vec, delimiter)
 }
 
-#![doc=include_str!("../doc_comments_long/traverse_dir_with_exclude_dir.md")]
+#[doc=include_str!("../doc_comments_long/traverse_dir_with_exclude_dir.md")]
 pub fn traverse_dir_with_exclude_dir(dir: &std::path::Path, find_file: &str, exclude_dirs: &[String]) -> std::io::Result<Vec<String>> {
     crate::utils_mod::traverse_dir_with_exclude_dir(dir, find_file, exclude_dirs)
 }
 
-#![doc=include_str!("../doc_comments_long/auto_cargo_toml_to_md.md")]
+#[doc=include_str!("../doc_comments_long/auto_cargo_toml_to_md.md")]
 pub fn auto_cargo_toml_to_md() {
     crate::auto_cargo_toml_to_md_mod::auto_cargo_toml_to_md()
 }
@@ -119,12 +119,12 @@ pub fn run_shell_commands(shell_commands: Vec<&str>) {
     crate::auto_helper_functions_mod::run_shell_commands(shell_commands)
 }
 
-#![doc=include_str!("../doc_comments_long/auto_lines_of_code.md")] 
+#[doc=include_str!("../doc_comments_long/auto_lines_of_code.md")]
 pub fn auto_lines_of_code(link: &str) {
     crate::auto_lines_of_code_mod::auto_lines_of_code(link)
 }
 
-#![doc=include_str!("../doc_comments_long/auto_md_to_doc_comments.md")]
+#[doc=include_str!("../doc_comments_long/auto_md_to_doc_comments.md")]
 pub fn auto_md_to_doc_comments() {
     crate::auto_md_to_doc_comments_mod::auto_md_to_doc_comments()
 }
@@ -184,7 +184,7 @@ pub fn auto_version_increment_semver_or_date_forced() {
     crate::auto_semver_or_date_mod::auto_version_increment_semver_or_date_forced()
 }
 
-#![doc=include_str!("../doc_comments_long/auto_version_from_date.md")]
+#[doc=include_str!("../doc_comments_long/auto_version_from_date.md")]
 pub fn auto_version_from_date() {
     crate::auto_version_from_date_mod::auto_version_from_date()
 }

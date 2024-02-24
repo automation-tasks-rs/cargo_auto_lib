@@ -40,7 +40,7 @@ pub fn find_from(text: &str, from_pos: usize, find: &str) -> Option<usize> {
     }
 }
 
-#![doc=include_str!("../doc_comments_long/traverse_dir_with_exclude_dir.md")]
+#[doc=include_str!("../doc_comments_long/traverse_dir_with_exclude_dir.md")]
 pub fn traverse_dir_with_exclude_dir(dir: &Path, find_file: &str, exclude_dirs: &[String]) -> io::Result<Vec<String>> {
     // if the parameter is /*.rs, I can eliminate /*
     let find_file = &find_file.replace("/*", "");
