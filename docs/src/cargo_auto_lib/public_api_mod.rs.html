@@ -357,6 +357,17 @@
 <a href="#306" id="306">306</a>
 <a href="#307" id="307">307</a>
 <a href="#308" id="308">308</a>
+<a href="#309" id="309">309</a>
+<a href="#310" id="310">310</a>
+<a href="#311" id="311">311</a>
+<a href="#312" id="312">312</a>
+<a href="#313" id="313">313</a>
+<a href="#314" id="314">314</a>
+<a href="#315" id="315">315</a>
+<a href="#316" id="316">316</a>
+<a href="#317" id="317">317</a>
+<a href="#318" id="318">318</a>
+<a href="#319" id="319">319</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// public_api_mod.rs
@@ -412,6 +423,8 @@
     <span class="doccomment">/// github owner from package.repository
     </span><span class="kw">fn </span>github_owner(<span class="kw-2">&</span><span class="self">self</span>) -&gt; <span class=
 "prelude-ty">Option</span>&lt;String&gt;;
+    <span class="doccomment">/// Cargo.toml package keywords
+    </span><span class="kw">fn </span>package_keywords(<span class="kw-2">&</span><span class="self">self</span>) -&gt; Vec&lt;String&gt;;
 }
 <span class="comment">// endregion: Public API structs and methods
 
@@ -683,6 +696,15 @@
     <span class="kw">crate</span>::auto_playground_mod::auto_playground_run_code()
 }
 
+<span class="doccomment">/// Check and modify the description and topics on Github
+/// The words topics, keywords and tags all mean the same concept.
+/// In cargo.toml we have keywords.
+/// In README.md I want to have badges for tags
+/// In GitHub they are topics.
+/// Topic must be only one word: lowercase letters, hyphens(-) or numbers, less then 35 characters.
+</span><span class="kw">pub fn </span>description_and_topics_to_github() {
+    <span class="kw">crate</span>::auto_github_mod::description_and_topics_to_github()
+}
 <span class="comment">// endregion: Public API functions
 </span></code></pre>
       </div>

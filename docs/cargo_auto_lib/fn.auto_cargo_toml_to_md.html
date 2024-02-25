@@ -35,7 +35,7 @@
     <div class="sidebar-crate">
       <a class="logo-container" href="../cargo_auto_lib/index.html"><img src=
       "https://github.com/bestia-dev/cargo-auto/raw/main/images/logo/logo_cargo_auto.svg" alt="logo"></a>
-      <h2><a href="../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">1.3.21</span></h2>
+      <h2><a href="../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">1.3.32</span></h2>
     </div>
     <div class="sidebar-elems"></div>
   </nav>
@@ -60,7 +60,7 @@
         <div class="main-heading">
           <h1>Function <a href="index.html">cargo_auto_lib</a>::<wbr><a class="fn" href="#">auto_cargo_toml_to_md</a><button id="copy-path" title=
           "Copy item path to clipboard"><img src="../static.files/clipboard-7571035ce49a181d.svg" width="19" height="18" alt=
-          "Copy item path"></button></h1><span class="out-of-band"><a class="src" href="../src/cargo_auto_lib/public_api_mod.rs.html#80-82">source</a> ·
+          "Copy item path"></button></h1><span class="out-of-band"><a class="src" href="../src/cargo_auto_lib/public_api_mod.rs.html#82-84">source</a> ·
           <button id="toggle-all-docs" title="collapse all docs">[<span>−</span>]</button></span>
         </div>
         <pre class="rust item-decl"><code>pub fn auto_cargo_toml_to_md()</code></pre>
@@ -70,18 +70,24 @@
           </summary>
           <div class="docblock">
             <h2 id="auto_cargo_toml_to_md"><a href="#auto_cargo_toml_to_md">auto_cargo_toml_to_md</a></h2>
-            <p>This function includes data from Cargo.toml to markdown files$1 $2This is nice for avoiding out of sync data.</p>
+            <p>This function includes data from Cargo.toml to markdown files.<br>
+            This is nice for avoiding out of sync data.</p>
             <p>Run it on every build with <code>automation_tasks_rs</code> and <a href="https://crates.io/crates/cargo-auto">cargo auto</a>.</p>
             <p>In the md file write these markers in invisible markdown comments.</p>
             <div class="example-wrap">
               <pre class="language-markdown"><code>[comment]: # (auto_cargo_toml_to_md start)
 
 [comment]: # (auto_cargo_toml_to_md end)
+
+# In your markdown, change the word `[comment]` with double slash `[//]`.
 </code></pre>
             </div>
-            <p>In your markdown, change the word <code>[comment]</code> with double slash <code>[//]</code>.</p>
             <p><code>auto_cargo_toml_to_md</code> deletes the old lines between the markers and includes the Cargo.toml data:<br>
-            description, repository, version, &amp;utc_now(), authors</p>
+            description, repository, version, &amp;utc_now(), authors and creates badges for keywords and categories.</p>
+            <p>The words topics, keywords and tags all mean the same concept. In cargo.toml we have keywords. In README.md I want to have badges, but I don’t
+            know the color yet. In GitHub they are topics.</p>
+            <p>Some keywords have defined colors, others are orange like Rust. This can be expanded in the future. Yellow: work-in-progress Green: maintained,
+            ready-for-use Red: obsolete, archived</p>
             <p>Run the example:</p>
             <div class="example-wrap">
               <pre class="language-bash"><code>cargo run --example example_01_auto_cargo_toml_to_md

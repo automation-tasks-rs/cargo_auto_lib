@@ -142,6 +142,19 @@
 <a href="#91" id="91">91</a>
 <a href="#92" id="92">92</a>
 <a href="#93" id="93">93</a>
+<a href="#94" id="94">94</a>
+<a href="#95" id="95">95</a>
+<a href="#96" id="96">96</a>
+<a href="#97" id="97">97</a>
+<a href="#98" id="98">98</a>
+<a href="#99" id="99">99</a>
+<a href="#100" id="100">100</a>
+<a href="#101" id="101">101</a>
+<a href="#102" id="102">102</a>
+<a href="#103" id="103">103</a>
+<a href="#104" id="104">104</a>
+<a href="#105" id="105">105</a>
+<a href="#106" id="106">106</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// auto_cargo_toml_to_md_mod
@@ -199,16 +212,32 @@
     <span class="kw">let </span>homepage = cargo_toml.package_homepage();
     <span class="kw">let </span>repository = cargo_toml.package_repository().unwrap_or(<span class="string">""</span>.to_owned());
     <span class="kw">let </span>description = cargo_toml.package_description().unwrap_or(<span class="string">""</span>.to_owned());
+    <span class="kw">let </span>keywords = cargo_toml.package_keywords().to_vec();
+    <span class="kw">let </span>utc_now = <span class="kw-2">&</span>utc_now();
 
-    <span class="kw">let </span>new_text = <span class="macro">format!</span>(
-        <span class="string">"\n**{}**  \n***version: {} date: {} author: [{}]({}) repository: [GitHub]({})***  \n\n"</span>,
-        <span class="kw-2">&</span>description,
-        <span class="kw-2">&</span>version,
-        <span class="kw-2">&</span>utc_now(),
-        <span class="kw-2">&</span>author_name,
-        <span class="kw-2">&</span>homepage,
-        <span class="kw-2">&</span>repository,
-    );
+    <span class="kw">let </span><span class="kw-2">mut </span>new_text = <span class="macro">format!</span>(<span class=
+"string">"\n**{description}**  \n"</span>);
+    new_text.push_str(<span class="kw-2">&</span><span class="macro">format!</span>(
+        <span class="string">"***version: {version} date: {utc_now} author: [{author_name}]({homepage}) repository: [GitHub]({repository})***  \n"
+    </span>));
+
+    <span class="kw">for </span>keyword <span class="kw">in </span>keywords.iter() {
+        <span class="kw">let </span>color = <span class="kw">if </span>keyword == <span class="string">"work-in-progress" </span>{
+            <span class="string">"yellow"
+        </span>} <span class="kw">else if </span>keyword == <span class="string">"maintained" </span>|| keyword == <span class=
+"string">"ready-for-use" </span>{
+            <span class="string">"green"
+        </span>} <span class="kw">else if </span>keyword == <span class="string">"obsolete" </span>|| keyword == <span class="string">"archived" </span>{
+            <span class="string">"red"
+        </span>} <span class="kw">else </span>{
+            <span class="string">"orange"
+        </span>};
+        <span class="comment">// inside the shield badge syntax, hyphens must be replaced by underscore
+        </span><span class="kw">let </span>keyword_underscore = keyword.replace(<span class="string">'-'</span>, <span class="string">"_"</span>);
+        new_text.push_str(<span class="kw-2">&</span><span class="macro">format!</span>(<span class=
+"string">" ![{keyword}](https://img.shields.io/badge/{keyword_underscore}-{color})\n"</span>));
+    }
+    new_text.push_str(<span class="string">"\n"</span>);
 
     <span class="kw">for </span>filename_result <span class="kw">in </span>glob(<span class="string">"*.md"</span>).unwrap() {
         <span class="kw">let </span>filename_pathbuff = filename_result.unwrap();

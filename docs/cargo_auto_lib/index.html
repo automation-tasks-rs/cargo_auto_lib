@@ -35,7 +35,7 @@
     <div class="sidebar-crate">
       <a class="logo-container" href="../cargo_auto_lib/index.html"><img src=
       "https://github.com/bestia-dev/cargo-auto/raw/main/images/logo/logo_cargo_auto.svg" alt="logo"></a>
-      <h2><a href="../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">1.3.21</span></h2>
+      <h2><a href="../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">1.3.32</span></h2>
     </div>
     <div class="sidebar-elems">
       <ul class="block">
@@ -98,10 +98,9 @@
             <h2 id="cargo_auto_lib"><a href="#cargo_auto_lib">cargo_auto_lib</a></h2>
             <p><strong>Library crate for common tasks when building rust projects. Intended for use with cargo-auto - automation tasks written in Rust
             language.</strong><br>
-            <em><strong>version: 1.3.21 date: 2024-02-24 author: <a href="https://bestia.dev">Bestia.dev</a> repository: <a href=
+            <em><strong>version: 1.3.32 date: 2024-02-25 author: <a href="https://bestia.dev">Bestia.dev</a> repository: <a href=
             "https://github.com/bestia-dev/cargo_auto_lib">GitHub</a></strong></em></p>
-            <p><img src="https://raw.githubusercontent.com/bestia-dev/cargo-auto/main/images/logo/logo_cargo_auto.svg" alt="logo"> <img src=
-            "https://img.shields.io/badge/maintained-green" alt="status"> <img src="https://img.shields.io/badge/ready_for_use-green" alt="status"></p>
+            <p><img src="https://raw.githubusercontent.com/bestia-dev/cargo-auto/main/images/logo/logo_cargo_auto.svg" alt="logo"></p>
             <p><a href="https://crates.io/crates/cargo_auto_lib"><img src="https://img.shields.io/crates/v/cargo_auto_lib.svg" alt="crates.io"></a> <a href=
             "https://docs.rs/cargo_auto_lib/"><img src="https://docs.rs/cargo_auto_lib/badge.svg" alt="Documentation"></a> <a href=
             "https://web.crev.dev/rust-reviews/crate/cargo_auto_lib/"><img src="https://web.crev.dev/rust-reviews/badge/crev_count/cargo_auto_lib.svg" alt=
@@ -111,12 +110,12 @@
             "License"></a> <a href="https://github.com/bestia-dev/cargo_auto_lib/"><img src=
             "https://github.com/bestia-dev/cargo_auto_lib/workflows/rust_fmt_auto_build_test/badge.svg" alt="Rust"></a> <img src=
             "https://bestia.dev/webpage_hit_counter/get_svg_image/276360626.svg" alt="cargo_auto_lib"></p>
-            <p><a href="https://github.com/bestia-dev/cargo_auto_lib/"><img src="https://img.shields.io/badge/Lines_in_Rust-2077-green.svg" alt=
+            <p><a href="https://github.com/bestia-dev/cargo_auto_lib/"><img src="https://img.shields.io/badge/Lines_in_Rust-2255-green.svg" alt=
             "Lines in Rust code"></a> <a href="https://github.com/bestia-dev/cargo_auto_lib/"><img src=
-            "https://img.shields.io/badge/Lines_in_Doc_comments-289-blue.svg" alt="Lines in Doc comments"></a> <a href=
-            "https://github.com/bestia-dev/cargo_auto_lib/"><img src="https://img.shields.io/badge/Lines_in_comments-322-purple.svg" alt=
+            "https://img.shields.io/badge/Lines_in_Doc_comments-305-blue.svg" alt="Lines in Doc comments"></a> <a href=
+            "https://github.com/bestia-dev/cargo_auto_lib/"><img src="https://img.shields.io/badge/Lines_in_comments-323-purple.svg" alt=
             "Lines in Comments"></a> <a href="https://github.com/bestia-dev/cargo_auto_lib/"><img src=
-            "https://img.shields.io/badge/Lines_in_examples-29-yellow.svg" alt="Lines in examples"></a> <a href=
+            "https://img.shields.io/badge/Lines_in_examples-28-yellow.svg" alt="Lines in examples"></a> <a href=
             "https://github.com/bestia-dev/cargo_auto_lib/"><img src="https://img.shields.io/badge/Lines_in_tests-79-orange.svg" alt="Lines in tests"></a></p>
             <p>Hashtags: #rustlang #buildtool #developmenttool<br>
             My projects on GitHub are more like a tutorial than a finished product: <a href="https://github.com/bestia-dev/tutorials_rust_wasm">bestia-dev
@@ -142,7 +141,7 @@
               <pre class="language-bash"><code>code hello_world/automation_tasks_rs
 </code></pre>
             </div>
-            <p>Now we can analyze the automation code. There is already the dependency inside <code>Cargo.toml</code> for our library:</p>
+            <p>Now we can analyze the automation code. There is already this dependency inside <code>Cargo.toml</code> for our library:</p>
             <div class="example-wrap">
               <pre class="language-toml"><code>cargo_auto_lib="1.1.2"
 </code></pre>
@@ -170,8 +169,8 @@ cargo auto doc{RESET}{YELLOW}
     print_examples_cmd();
 }</code></pre>
             </div>
-            <p>You can see this function will increment the version in Cargo.toml.<br>
-            Then it will copy some data from Cargo.toml to README.md (title, description, version, author,…).<br>
+            <p>You can see this function will increment the version in <code>Cargo.toml</code>.<br>
+            Then it will copy some data from <code>Cargo.toml</code> to README.md (title, description, version, author,…).<br>
             It will count the lines of code and create badges in README.md.<br>
             Then comes the traditional Rust part: cargo fmt and cargo build –release.<br>
             Finally, it will show on the screen the instructions on how to continue developing.</p>
@@ -616,6 +615,17 @@ cargo auto doc{RESET}{YELLOW}
               copy all files from the folder into a module as strings (static &amp;str) the module has the markers: region: files copied into strings by
               automation tasks and endregion: the string will be in a vector with the file name first we create the complete text, then we check if the old
               text needs to be replaced ext_for_binary_files=vec![“.ico”,“.jpg”,“.png”,“.woff2”]; exclude_big_folders = vec![“/.git”,“/target”,“/docs”];
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="fn" href="fn.description_and_topics_to_github.html" title=
+              "fn cargo_auto_lib::description_and_topics_to_github">description_and_topics_to_github</a>
+            </div>
+            <div class="desc docblock-short">
+              Check and modify the description and topics on Github The words topics, keywords and tags all mean the same concept. In cargo.toml we have
+              keywords. In README.md I want to have badges for tags In GitHub they are topics. Topic must be only one word: lowercase letters, hyphens(-) or
+              numbers, less then 35 characters.
             </div>
           </li>
           <li>

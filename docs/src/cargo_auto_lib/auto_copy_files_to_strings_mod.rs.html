@@ -114,7 +114,6 @@
 <a href="#63" id="63">63</a>
 <a href="#64" id="64">64</a>
 <a href="#65" id="65">65</a>
-<a href="#66" id="66">66</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// auto_copy_files_to_strings_mod.rs
@@ -159,7 +158,6 @@
             base64ct::Base64::encode_string(<span class="kw-2">&</span>b)
         } <span class="kw">else </span>{
             <span class="comment">// all others are text files
-            // dbg!(&amp;file_name_short);
             </span>std::fs::read_to_string(<span class="kw-2">&</span>file_name).unwrap()
         };
 

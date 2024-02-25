@@ -165,6 +165,10 @@
 <a href="#114" id="114">114</a>
 <a href="#115" id="115">115</a>
 <a href="#116" id="116">116</a>
+<a href="#117" id="117">117</a>
+<a href="#118" id="118">118</a>
+<a href="#119" id="119">119</a>
+<a href="#120" id="120">120</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// auto_cargo_toml_mod
@@ -274,6 +278,10 @@
             }
             <span class="prelude-val">None </span>=&gt; <span class="prelude-val">None</span>,
         }
+    }
+    <span class="doccomment">/// Cargo.toml package keywords
+    </span><span class="kw">fn </span>package_keywords(<span class="kw-2">&</span><span class="self">self</span>) -&gt; Vec&lt;String&gt; {
+        <span class="self">self</span>.package.keywords().to_owned()
     }
 }
 
