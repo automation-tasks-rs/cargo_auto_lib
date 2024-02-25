@@ -56,7 +56,7 @@ fn do_one_project() {
 
     let mut new_text = format!("\n**{description}**  \n");
     new_text.push_str(&format!(
-        "***version: {version} date: {utc_now} author: [{author_name}]({homepage}) repository: [GitHub]({repository})***  \n"
+        "***version: {version} date: {utc_now} author: [{author_name}]({homepage}) repository: [GitHub]({repository})***\n\n"
     ));
 
     for keyword in keywords.iter() {
