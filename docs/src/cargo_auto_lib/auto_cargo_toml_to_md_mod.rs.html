@@ -218,7 +218,7 @@
     <span class="kw">let </span><span class="kw-2">mut </span>new_text = <span class="macro">format!</span>(<span class=
 "string">"\n**{description}**  \n"</span>);
     new_text.push_str(<span class="kw-2">&</span><span class="macro">format!</span>(
-        <span class="string">"***version: {version} date: {utc_now} author: [{author_name}]({homepage}) repository: [GitHub]({repository})***  \n"
+        <span class="string">"***version: {version} date: {utc_now} author: [{author_name}]({homepage}) repository: [GitHub]({repository})***\n\n"
     </span>));
 
     <span class="kw">for </span>keyword <span class="kw">in </span>keywords.iter() {
