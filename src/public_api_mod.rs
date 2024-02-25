@@ -47,6 +47,8 @@ pub trait CargoTomlPublicApiMethods {
     fn workspace_members(&self) -> Option<Vec<String>>;
     /// github owner from package.repository
     fn github_owner(&self) -> Option<String>;
+    /// Cargo.toml package keywords
+    fn package_keywords(&self) -> Vec<String>;
 }
 // endregion: Public API structs and methods
 
@@ -305,4 +307,13 @@ pub fn auto_playground_run_code() {
     crate::auto_playground_mod::auto_playground_run_code()
 }
 
+/// Check and modify the description and topics on Github
+/// The words topics, keywords and tags all mean the same concept.
+/// In cargo.toml we have keywords.
+/// In README.md I want to have badges for tags
+/// In GitHub they are topics.
+/// Topic must be only one word: lowercase letters, hyphens(-) or numbers, less then 35 characters.
+pub fn description_and_topics_to_github() {
+    crate::auto_github_mod::description_and_topics_to_github()
+}
 // endregion: Public API functions

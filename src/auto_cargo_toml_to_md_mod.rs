@@ -51,16 +51,29 @@ fn do_one_project() {
     let homepage = cargo_toml.package_homepage();
     let repository = cargo_toml.package_repository().unwrap_or("".to_owned());
     let description = cargo_toml.package_description().unwrap_or("".to_owned());
+    let keywords = cargo_toml.package_keywords().to_vec();
+    let utc_now = &utc_now();
 
-    let new_text = format!(
-        "\n**{}**  \n***version: {} date: {} author: [{}]({}) repository: [GitHub]({})***  \n\n",
-        &description,
-        &version,
-        &utc_now(),
-        &author_name,
-        &homepage,
-        &repository,
-    );
+    let mut new_text = format!("\n**{description}**  \n");
+    new_text.push_str(&format!(
+        "***version: {version} date: {utc_now} author: [{author_name}]({homepage}) repository: [GitHub]({repository})***  \n"
+    ));
+
+    for keyword in keywords.iter() {
+        let color = if keyword == "work-in-progress" {
+            "yellow"
+        } else if keyword == "maintained" || keyword == "ready-for-use" {
+            "green"
+        } else if keyword == "obsolete" || keyword == "archived" {
+            "red"
+        } else {
+            "orange"
+        };
+        // inside the shield badge syntax, hyphens must be replaced by underscore
+        let keyword_underscore = keyword.replace('-', "_");
+        new_text.push_str(&format!(" ![{keyword}](https://img.shields.io/badge/{keyword_underscore}-{color})\n"));
+    }
+    new_text.push_str("\n");
 
     for filename_result in glob("*.md").unwrap() {
         let filename_pathbuff = filename_result.unwrap();

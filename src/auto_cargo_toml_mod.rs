@@ -98,6 +98,10 @@ impl crate::public_api_mod::CargoTomlPublicApiMethods for CargoToml {
             None => None,
         }
     }
+    /// Cargo.toml package keywords
+    fn package_keywords(&self) -> Vec<String> {
+        self.package.keywords().to_owned()
+    }
 }
 
 #[cfg(test)]

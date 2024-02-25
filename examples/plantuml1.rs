@@ -4,7 +4,6 @@
 
 fn main() {
     let text = "test";
-    dbg!(text);
     let hash = cargo_auto_lib::hash_for_filename(&text);
     dbg!(hash);
     println!("");

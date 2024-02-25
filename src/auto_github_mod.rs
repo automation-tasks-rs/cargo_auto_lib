@@ -58,7 +58,6 @@ pub fn github_api_create_new_release(owner: &str, repo: &str, tag_name_version: 
         "generate_release_notes":false,
     });
     let body = body.to_string();
-    //dbg!(&body);
 
     let response_text = reqwest::blocking::Client::new()
         .post(releases_url.as_str())
@@ -71,11 +70,9 @@ pub fn github_api_create_new_release(owner: &str, repo: &str, tag_name_version: 
         .unwrap()
         .text()
         .unwrap();
-    //dbg!(&response_text);
 
     let parsed: serde_json::Value = serde_json::from_str(&response_text).unwrap();
     let new_release_id = parsed.get("id").unwrap().as_i64().unwrap().to_string();
-    //dbg!(&new_release_id);
     new_release_id
 }
 
@@ -168,10 +165,6 @@ pub fn github_api_repository_new(owner: &str, name: &str, description: &str) -> 
         "has_discussions" :true
     });
     // Sadly there is no way in the API to set the settings: releases, packages and deployments
-    // APIs are very hard to change, so I expect it wil never change. Discussion (or lacking of):
-    // https://github.com/orgs/community/discussions/39800
-    // Add API ability to toggle releases/packages/environments from homepage of repo
-    // Maybe the solution is to use a template for creating the repository???
     let body = body.to_string();
 
     let response_text = reqwest::blocking::Client::new()
@@ -493,4 +486,179 @@ pub fn add_message_to_unreleased(message: &str) {
     // I expect only one empty line before ## Version
     let added_message_md = format!("{}- {}\n{}", &release_md[..pos_end_data - 1], message, &release_md[pos_end_data - 1..]);
     std::fs::write(RELEASES_MD, added_message_md).unwrap();
+}
+
+/// Check and modify the description and topics on Github
+/// The words topics, keywords and tags all mean the same concept.
+/// In cargo.toml we have keywords.
+/// In README.md I want to have badges for tags
+/// In GitHub they are topics.
+/// Topic must be only one word: lowercase letters, hyphens(-) or numbers, less then 35 characters.
+pub fn description_and_topics_to_github() {
+    let cargo_toml = crate::CargoToml::read();
+    let repo_name = cargo_toml.package_name();
+    let owner = cargo_toml.github_owner().unwrap();
+    let description = cargo_toml.package_description().unwrap();
+    let keywords = cargo_toml.package_keywords();
+
+    // get data from GitHub
+    let json: serde_json::Value = github_api_get_repository(&owner, &repo_name);
+    // get just the description and topis from json
+    let gh_description = json.get("description").unwrap().as_str().unwrap();
+    let gh_topics = json.get("topics").unwrap().as_array().unwrap();
+    let gh_topics: Vec<String> = gh_topics.into_iter().map(|value| value.as_str().unwrap().to_string()).collect();
+
+    // are description and topics both equal?
+    if gh_description != description {
+        github_api_update_description(&owner, &repo_name, &description);
+    }
+
+    // all elements must be equal, but not necessary in the same order
+    let topics_is_equal = if gh_topics.len() == keywords.len() {
+        let mut elems_is_equal = true;
+        'outer: for x in gh_topics.iter() {
+            let mut has_element = false;
+            'inner: for y in keywords.iter() {
+                if y == x {
+                    has_element = true;
+                    break 'inner;
+                }
+            }
+            if !has_element {
+                elems_is_equal = false;
+                break 'outer;
+            }
+        }
+        elems_is_equal
+    } else {
+        false
+    };
+
+    if !topics_is_equal {
+        github_api_replace_all_topics(&owner, &repo_name, &keywords);
+    }
+}
+
+/// github api get repository
+fn github_api_get_repository(owner: &str, repo_name: &str) -> serde_json::Value {
+    /*
+        https://docs.github.com/en/rest/repos/repos?apiVersion=2022-11-28#get-a-repository
+
+        curl -L \
+        -H "Accept: application/vnd.github+json" \
+        -H "Authorization: Bearer <YOUR-TOKEN>" \
+        -H "X-GitHub-Api-Version: 2022-11-28" \
+        https://api.github.com/repos/OWNER/REPO
+    */
+    check_or_get_github_token().unwrap();
+    let token = std::env::var("GITHUB_TOKEN").expect("GITHUB_TOKEN env variable is required");
+    let repos_url = format!("https://api.github.com/repos/{owner}/{repo_name}");
+    let response_text = reqwest::blocking::Client::new()
+        .get(repos_url.as_str())
+        .header("Accept", "application/vnd.github+json")
+        .header("Authorization", format!("Bearer {token}"))
+        .header("X-GitHub-Api-Version", "2022-11-28")
+        .header("User-Agent", "cargo_auto_lib")
+        .send()
+        .unwrap()
+        .text()
+        .unwrap();
+    //pretty_dbg!(&response_text);
+
+    let parsed: serde_json::Value = serde_json::from_str(&response_text).unwrap();
+    // return
+    parsed
+}
+
+/// github api update description and topics
+pub fn github_api_update_description(owner: &str, repo_name: &str, description: &str) {
+    /*
+    https://docs.github.com/en/rest/repos/repos?apiVersion=2022-11-28#update-a-repository
+
+    curl -L \
+    -X PATCH \
+    -H "Accept: application/vnd.github+json" \
+    -H "Authorization: Bearer <YOUR-TOKEN>" \
+    -H "X-GitHub-Api-Version: 2022-11-28" \
+    https://api.github.com/repos/OWNER/REPO \
+    -d '{
+        "name":"Hello-World",
+        "description":"This is your first repository",
+        "homepage":"https://github.com",
+        "private":true,
+        "has_issues":true,
+        "topics": [
+            "cat",
+            "atom",
+            "electron",
+            "api"
+            ],
+        "has_projects":true,
+        "has_wiki":true}'
+
+    Response (short)
+    {
+    "id": 1296269,
+    ...
+    }
+    */
+    println!("Update GitHub description");
+    check_or_get_github_token().unwrap();
+    let token = std::env::var("GITHUB_TOKEN").expect("GITHUB_TOKEN env variable is required");
+    let repos_url = format!("https://api.github.com/repos/{owner}/{repo_name}");
+    let body = serde_json::json!({
+        "description": description,
+    });
+    let body = body.to_string();
+
+    let response_text = reqwest::blocking::Client::new()
+        .patch(repos_url.as_str())
+        .header("Accept", "application/vnd.github+json")
+        .header("Authorization", format!("Bearer {token}"))
+        .header("X-GitHub-Api-Version", "2022-11-28")
+        .header("User-Agent", "cargo_auto_lib")
+        .body(body)
+        .send()
+        .unwrap()
+        .text()
+        .unwrap();
+    //pretty_dbg!(&response_text);
+
+    let _parsed: serde_json::Value = serde_json::from_str(&response_text).unwrap();
+}
+
+fn github_api_replace_all_topics(owner: &str, repo_name: &str, topics: &Vec<String>) {
+    /*
+    https://docs.github.com/en/rest/repos/repos?apiVersion=2022-11-28#replace-all-repository-topics
+    curl -L \
+      -X PUT \
+      -H "Accept: application/vnd.github+json" \
+      -H "Authorization: Bearer <YOUR-TOKEN>" \
+      -H "X-GitHub-Api-Version: 2022-11-28" \
+      https://api.github.com/repos/OWNER/REPO/topics \
+      -d '{"names":["cat","atom","electron","api"]}'
+     */
+    println!("Update GitHub topics.");
+    check_or_get_github_token().unwrap();
+    let token = std::env::var("GITHUB_TOKEN").expect("GITHUB_TOKEN env variable is required");
+    let repos_url = format!("https://api.github.com/repos/{owner}/{repo_name}/topics");
+    let body = serde_json::json!({
+        "names": topics,
+    });
+    let body = body.to_string();
+
+    let response_text = reqwest::blocking::Client::new()
+        .put(repos_url.as_str())
+        .header("Accept", "application/vnd.github+json")
+        .header("Authorization", format!("Bearer {token}"))
+        .header("X-GitHub-Api-Version", "2022-11-28")
+        .header("User-Agent", "cargo_auto_lib")
+        .body(body)
+        .send()
+        .unwrap()
+        .text()
+        .unwrap();
+    //pretty_dbg!(&response_text);
+
+    let _parsed: serde_json::Value = serde_json::from_str(&response_text).unwrap();
 }

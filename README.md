@@ -3,13 +3,12 @@
 [//]: # (auto_cargo_toml_to_md start)
 
 **Library crate for common tasks when building rust projects. Intended for use with cargo-auto - automation tasks written in Rust language.**  
-***version: 1.3.21 date: 2024-02-24 author: [Bestia.dev](https://bestia.dev) repository: [GitHub](https://github.com/bestia-dev/cargo_auto_lib)***  
+***version: 1.3.32 date: 2024-02-25 author: [Bestia.dev](https://bestia.dev) repository: [GitHub](https://github.com/bestia-dev/cargo_auto_lib)***  
 
 [//]: # (auto_cargo_toml_to_md end)
 
  ![logo](https://raw.githubusercontent.com/bestia-dev/cargo-auto/main/images/logo/logo_cargo_auto.svg)
- ![status](https://img.shields.io/badge/maintained-green)
- ![status](https://img.shields.io/badge/ready_for_use-green)
+
 
  [![crates.io](https://img.shields.io/crates/v/cargo_auto_lib.svg)](https://crates.io/crates/cargo_auto_lib)
  [![Documentation](https://docs.rs/cargo_auto_lib/badge.svg)](https://docs.rs/cargo_auto_lib/)
@@ -21,10 +20,10 @@
  ![cargo_auto_lib](https://bestia.dev/webpage_hit_counter/get_svg_image/276360626.svg)
 
 [//]: # (auto_lines_of_code start)
-[![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-2077-green.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
-[![Lines in Doc comments](https://img.shields.io/badge/Lines_in_Doc_comments-289-blue.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
-[![Lines in Comments](https://img.shields.io/badge/Lines_in_comments-322-purple.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
-[![Lines in examples](https://img.shields.io/badge/Lines_in_examples-29-yellow.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
+[![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-2255-green.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
+[![Lines in Doc comments](https://img.shields.io/badge/Lines_in_Doc_comments-305-blue.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
+[![Lines in Comments](https://img.shields.io/badge/Lines_in_comments-323-purple.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
+[![Lines in examples](https://img.shields.io/badge/Lines_in_examples-28-yellow.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
 [![Lines in tests](https://img.shields.io/badge/Lines_in_tests-79-orange.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
 
 [//]: # (auto_lines_of_code end)
@@ -58,7 +57,7 @@ Open the generated directory `automation_tasks_rs` as an independent rust projec
 code hello_world/automation_tasks_rs
 ```
 
-Now we can analyze the automation code. There is already the dependency inside `Cargo.toml` for our library:  
+Now we can analyze the automation code. There is already this dependency inside `Cargo.toml` for our library:  
 
 ```toml
 cargo_auto_lib="1.1.2"
@@ -88,8 +87,8 @@ cargo auto doc{RESET}{YELLOW}
 }
 ```
 
-You can see this function will increment the version in Cargo.toml.  
-Then it will copy some data from Cargo.toml to README.md (title, description, version, author,...).  
+You can see this function will increment the version in `Cargo.toml`.  
+Then it will copy some data from `Cargo.toml` to README.md (title, description, version, author,...).  
 It will count the lines of code and create badges in README.md.  
 Then comes the traditional Rust part: cargo fmt and cargo build --release.  
 Finally, it will show on the screen the instructions on how to continue developing.  

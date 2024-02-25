@@ -1,7 +1,8 @@
 # auto_lines_of_code
 
 This functino inserts shield badges with lines_of_code into README.rs.  
-The parameter Link will be used for shield badge. If empty_string, the git remote repository will be used$1  $2Lines of code are not a "perfect" measurement of anything.\
+The parameter Link will be used for shield badge. If empty_string, the git remote repository will be used.  
+Lines of code are not a "perfect" measurement of anything.\
 Anybody can write a very big number of lines of useless code and comments.\
 But for 95% of the cases they are good enough.\
 Most of the developers use some "standard" coding practices and that is quantifiable and comparable.  

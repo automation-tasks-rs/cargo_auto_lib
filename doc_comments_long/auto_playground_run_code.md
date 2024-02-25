@@ -18,6 +18,7 @@ fn main(){
 
 In your markdown, change the word `[comment]` with double slash `[//]`. And the single quotes with ticks.
 
-Between the start marker and the first triple backtick is the link in "()" parentheses$1  $2Encode the code with url_encoding.
+Between the start marker and the first triple backtick is the link in "()" parentheses.  
+Encode the code with url_encoding.
 
 Process code for playground for Rust code segments in all md files

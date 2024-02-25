@@ -35,7 +35,6 @@ pub fn copy_folder_files_into_module(folder_path: &std::path::Path, module_path:
             base64ct::Base64::encode_string(&b)
         } else {
             // all others are text files
-            // dbg!(&file_name_short);
             std::fs::read_to_string(&file_name).unwrap()
         };
 
