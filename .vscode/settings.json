@@ -21,6 +21,7 @@
         "bestiadev",
         "buildtool",
         "chrono",
+        "ciphertext",
         "commitish",
         "cpufeatures",
         "crev",
@@ -38,10 +39,12 @@
         "HEXLOWER",
         "hhmm",
         "keygen",
+        "Keypair",
         "markdownlint",
         "microxml",
         "mmdd",
         "Nazdravlje",
+        "newtype",
         "passcode",
         "pathbuff",
         "plantuml",
@@ -49,6 +52,8 @@
         "Prost",
         "repos",
         "reqwest",
+        "rpassword",
+        "rustdevuser",
         "Rustdoc",
         "rustfmt",
         "rustlang",
@@ -66,6 +71,7 @@
         "webserverssh",
         "xendregion",
         "xregion",
-        "zdravje"
+        "zdravje",
+        "Zeroize"
     ]
 }

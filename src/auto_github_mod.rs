@@ -1,5 +1,16 @@
 // auto_github_mod
 
+use std::default;
+use std::hash::Hash;
+
+use base64ct::Base64;
+use base64ct::Encoding;
+use rsa::pkcs1::DecodeRsaPublicKey;
+use rsa::pkcs8::DecodePublicKey;
+use rsa::pkcs8::EncodePublicKey;
+use ssh_key::public;
+use ssh_key::Fingerprint;
+
 use crate::CargoTomlPublicApiMethods;
 use crate::GREEN;
 use crate::RED;
@@ -190,7 +201,7 @@ pub fn init_repository_if_needed(message: &str) -> bool {
     // Find the filename of the identity_file for ssh connection to host_name, to find out if need ssh-add or not.
     // parse the ~/.ssh/config. 99% probably there should be a record for host_name and there is the identity_file.
     // else ask user for filename, then run ssh-add
-    ssh_add_resolve("github.com", "github_com_ssh_1");
+    let _fingerprint = ssh_add_resolve("github.com", "~/.ssh/github_com_ssh_1");
 
     // crate new local git repository
     if !crate::git_is_local_repository() {
@@ -216,24 +227,31 @@ pub fn init_repository_if_needed(message: &str) -> bool {
     is_init_repository
 }
 
-/// Find the filename of the identity_file for ssh connection to host_name, to find out if need ssh-add or not.
-/// parse the ~/.ssh/config. 99% probably there should be a record for host_name and there is the identity_file.
-/// else ask user for filename, then run ssh-add
-pub fn ssh_add_resolve(host_name: &str, default_host_name: &str) {
+/// Parse the ~/.ssh/config file and find the record for host_name and there is the identity_file_path.
+/// If not found, ask user for identity_file_path,
+/// Check if this identity is already in ssh-agent and if not then run ssh-add
+/// This ssh-add will stay even after the process ends, so the parent process will still have it.
+/// returns: fingerprint or None
+pub fn ssh_add_resolve(host_name: &str, default_identity_file_path: &str) -> Option<String> {
     // I must find the filename of the identity_file for ssh connection to host_name,
     // to find out if I need ssh-add or not.
-    // 1. parse the ~/.ssh/config. 99% probably there should be a record for github and there is the identity_file.
-    let mut identity_from_ssh_config = get_identity_from_ssh_config(host_name);
-
-    // 2. if not found in ssh/config then ask the user to provide the filename
-    if identity_from_ssh_config.is_empty() {
-        if let Some(filename) = ask_for_identity_file_for_ssh(host_name, default_host_name) {
-            identity_from_ssh_config = filename.to_string_lossy().to_string();
+    // 1. Parse the ~/.ssh/config file and find the record for host_name and there is the identity_file_path.
+    // returns: identity_file_path contains the path like: `~/.ssh/github_com_ssh_1`
+    let mut identity_file_path = get_identity_file_path_from_ssh_config(host_name);
+    if identity_file_path.is_none() {
+        // 2. if not found in ssh/config then ask the user to provide the filename
+        if let Some(filepath) = ask_for_identity_file_path_for_ssh(host_name, default_identity_file_path) {
+            identity_file_path = Some(filepath);
+        } else {
+            identity_file_path = None;
         }
     }
     // ssh-add only if needed
-    if !identity_from_ssh_config.is_empty() {
-        ssh_add_if_needed(identity_from_ssh_config).unwrap();
+    if let Some(identity_file_path) = identity_file_path {
+        let fingerprint = ssh_add_if_needed(identity_file_path).unwrap();
+        Some(fingerprint)
+    } else {
+        None
     }
 }
 
@@ -317,12 +335,20 @@ pub fn new_local_repository(message: &str) -> Option<()> {
 /// check if this file is in ssh-add. Only the first 56 ascii characters are the fingerprint.
 /// After is a description, not important and sometimes different.
 /// if is not, then ssh-add and the user will enter the passcode.
-pub fn ssh_add_if_needed(github_ssh_for_push: String) -> Option<()> {
+pub fn ssh_add_if_needed(github_ssh_for_push: String) -> Option<String> {
     println!("Get a list of fingerprints already in ssh-add.");
     let ssh_added = crate::run_shell_command_output("ssh-add -l").stdout;
 
     println!("Calculate the fingerprint of the identity file to check if it is already in ssh-add.");
-    let fingerprint = crate::run_shell_command_output(&format!("ssh-keygen -lf {}", &github_ssh_for_push)).stdout[0..55].to_string();
+    // crazy !!!! ssh-agent-client-rs works only with PEM format
+    // ssh-key does not work with the PEM format
+    // workaround: the same key will have 2 formats non-PEM and PEM.
+    // The second has the same name, just wit the suffix `.pem`
+
+    let github_ssh_for_push_path = std::path::Path::new(github_ssh_for_push.trim_end_matches(".pem"));
+    let public_key = ssh_key::PublicKey::read_openssh_file(github_ssh_for_push_path).unwrap();
+    let fingerprint = public_key.fingerprint(Default::default());
+    let fingerprint = fingerprint.to_string();
 
     // ssh-add if it is not contained in the ssh-agent
     if !ssh_added.contains(&fingerprint) {
@@ -339,12 +365,13 @@ pub fn ssh_add_if_needed(github_ssh_for_push: String) -> Option<()> {
     } else {
         println!("Key for GitHub push is already in ssh-add.");
     }
-    Some(())
+    Some(fingerprint)
 }
 
-/// parse the ~/.ssh/config. 99% probably there should be a record for github and there is the identity_file.
-pub fn get_identity_from_ssh_config(host_name: &str) -> String {
-    let mut identity_for_ssh = String::new();
+/// Parse the ~/.ssh/config file and find the record for host_name and there is the identity_file_path.
+/// returns: identity_file_path contains the path like: `~/.ssh/github_com_ssh_1`
+pub fn get_identity_file_path_from_ssh_config(host_name: &str) -> Option<String> {
+    let mut identity_file_path = String::new();
     if let Ok(config) = ssh2_config::SshConfig::parse_default_file(ssh2_config::ParseRule::STRICT) {
         // find the filename
         for x in config.get_hosts().iter() {
@@ -353,50 +380,55 @@ pub fn get_identity_from_ssh_config(host_name: &str) -> String {
                     if let Some(identity_files) = x.params.identity_file.as_ref() {
                         if !identity_files.is_empty() {
                             // there can be more identity_files, but I will use only the first
-                            identity_for_ssh = identity_files[0].to_string_lossy().to_string();
+                            identity_file_path = identity_files[0].to_string_lossy().to_string();
                         }
                     }
                     break;
                 }
             }
         }
-        if !identity_for_ssh.is_empty() {
-            println!("identity_for_ssh is {identity_for_ssh}");
+        if identity_file_path.is_empty() {
+            return None;
         }
     }
-    identity_for_ssh
+    println!("Identity_file_path for ssh is {identity_file_path}");
+
+    Some(identity_file_path)
 }
 
 /// Ask the user for the filename of the ssh key used to connect with SSH/git to a server.
-/// host_name is like: github.com or bestia.dev, default like github_com_ssh_1 and bestia_dev_ssh_1
-pub fn ask_for_identity_file_for_ssh(host_name: &str, default_host_name: &str) -> Option<std::path::PathBuf> {
+/// host_name is like: github.com or bestia.dev, default like ~/.ssh/github_com_ssh_1 and ~/.ssh/bestia_dev_ssh_1
+/// returns PathBuf to identity_file_path or None
+pub fn ask_for_identity_file_path_for_ssh(host_name: &str, default_identity_file_path: &str) -> Option<String> {
     println!(
-        r#"{RED}Cannot find identity in ~/.ssh/config.{RESET}
-It should contain the filename of the ssh key used to push to {host_name}.
-The filename itself is not a secret. Just the content of the file is a secret.
-Without this filename I cannot check if it is ssh-added to the ssh-agent.
+        r#"{RED}Cannot find identity file in ~/.ssh/config.{RESET}
+It should contain the filepath of the ssh key used for ssh connection or git to {host_name}.
+The filepath itself is not a secret. Just the content of the file is a secret.
+Without this filepath I cannot check if it is ssh-added to the ssh-agent.
 If you create the file ~/.ssh/config with content like this: 
 <https://github.com/bestia-dev/docker_rust_development/raw/main/docker_rust_development_install/ssh_config_template>
-You will not be asked to enter this filename manually every time.
+you will never be asked again to enter this filepath.
 "#,
     );
-    let identity_file_for_ssh = inquire::Text::new(&format!("Which file in the .ssh folder has the ssh identity for {host_name}?"))
-        .with_initial_value(default_host_name)
+    let identity_file_for_ssh = inquire::Text::new(&format!("Which filepath has the ssh identity for {host_name}?"))
+        .with_initial_value(default_identity_file_path)
         .prompt()
         .unwrap();
     if identity_file_for_ssh.is_empty() {
         // early exit
-        eprintln!("{RED}The filename for the ssh key was not given. Exiting.{RESET}");
+        eprintln!("{RED}The filepath for the ssh key was not given. Exiting.{RESET}");
         return None;
     }
 
     // check if the file exists
-    let identity_file_for_ssh = crate::home_dir().join(".ssh").join(identity_file_for_ssh);
+    let identity_file_for_ssh = identity_file_for_ssh.replace("~", crate::home_dir().to_string_lossy().as_ref());
+    let identity_file_for_ssh = std::path::Path::new(&identity_file_for_ssh).to_owned();
     if !identity_file_for_ssh.exists() {
         eprintln!("{RED}File {} does not exist! Exiting.{RESET}", identity_file_for_ssh.to_string_lossy());
         // early exit
         return None;
     }
+    let identity_file_for_ssh = identity_file_for_ssh.to_string_lossy().to_string();
     // return
     Some(identity_file_for_ssh)
 }

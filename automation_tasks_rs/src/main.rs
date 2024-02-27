@@ -12,6 +12,11 @@ use cargo_auto_lib::YELLOW;
 
 // region: library with basic automation tasks
 
+
+// When developing a new function in cargo_auto_lib I need to build it, then change automation_tasks_re/main.rs
+// and then run the task where I put the experimental code:
+// clear && cargo auto build && echo "// " >> automation_tasks_rs/src/main.rs && cargo auto test
+
 fn main() {
     cl::exit_if_not_run_in_rust_project_root_directory();
 
@@ -105,15 +110,7 @@ fn completion() {
     let last_word = args[3].as_str();
 
     if last_word == "cargo-auto" || last_word == "auto" {
-        let sub_commands = vec![
-            "build",
-            "release",
-            "doc",
-            "test",
-            "commit_and_push",
-            "publish_to_crates_io",
-            "github_new_release",
-        ];
+        let sub_commands = vec!["build", "release", "doc", "test", "commit_and_push", "publish_to_crates_io", "github_new_release"];
         cl::completion_return_one_or_more_sub_commands(sub_commands, word_being_completed);
     }
     /*
@@ -199,14 +196,22 @@ fn task_doc() {
 
 /// cargo test
 fn task_test() {
-    cl::run_shell_command("cargo test");
-    println!(
-r#"
-    {YELLOW}After `cargo auto test`. If ok then {RESET}
-{GREEN}cargo auto commit_and_push "message"{RESET}
-    {YELLOW}with mandatory commit message{RESET}
-"#
-    );
+    cl::encrypt_with_ssh_and_save_json("~/.ssh/github_com_ssh_1.pub.pem", cl::SecretString("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".to_string()), "output1.json");
+ 
+let output = cl::decrypt_with_ssh_from_json("output1.json").unwrap();
+dbg!(output);
+
+
+
+
+/*         cl::run_shell_command("cargo test");
+        println!(
+    r#"
+        {YELLOW}After `cargo auto test`. If ok then {RESET}
+    {GREEN}cargo auto commit_and_push "message"{RESET}
+        {YELLOW}with mandatory commit message{RESET}
+    "#
+        ); */
 }
 
 /// commit and push
@@ -225,10 +230,10 @@ fn task_commit_and_push(arg_2: Option<String>) {
         }
         cl::add_message_to_unreleased(&message);
         // the real commit of code
-        cl::run_shell_command(&format!( r#"git add -A && git diff --staged --quiet || git commit -m "{message}" "#));
+        cl::run_shell_command(&format!(r#"git add -A && git diff --staged --quiet || git commit -m "{message}" "#));
         cl::run_shell_command("git push");
         println!(
-r#"
+            r#"
     {YELLOW}After `cargo auto commit_and_push "message"`{RESET}
 {GREEN}cargo auto publish_to_crates_io{RESET}
 "#
@@ -278,14 +283,7 @@ fn task_github_new_release() {
     // and create a new Version title in RELEASES.md.
     let body_md_text = cl::body_text_from_releases_md(&release_name).unwrap();
 
-    let _release_id = cl::github_api_create_new_release(
-        &owner,
-        &repo_name,
-        &tag_name_version,
-        &release_name,
-        branch,
-        &body_md_text,
-    );
+    let _release_id = cl::github_api_create_new_release(&owner, &repo_name, &tag_name_version, &release_name, branch, &body_md_text);
 
     println!(
         "
@@ -319,3 +317,52 @@ fn task_github_new_release() {
     );
 }
 // endregion: tasks
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 

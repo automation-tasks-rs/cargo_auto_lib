@@ -20,6 +20,7 @@ mod auto_check_micro_xml_mod;
 mod auto_copy_files_to_strings_mod;
 mod auto_delete_old_js_snippets_mod;
 mod auto_doc_tidy_html_mod;
+mod auto_encrypt_decrypt_with_ssh_mod;
 mod auto_git_mod;
 mod auto_github_mod;
 mod auto_helper_functions_mod;

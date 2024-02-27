@@ -13,10 +13,11 @@ pub const RESET: &str = "\x1b[0m";
 
 // region: Public API structs and methods
 
-/// I use thiserror to return errors from the library.
 pub use crate::error_mod::ResultWithLibError;
 
 pub use crate::auto_helper_functions_mod::ShellOutput;
+
+pub use crate::auto_encrypt_decrypt_with_ssh_mod::SecretString;
 
 // reexporting a struct needs to export the trait to also reexports all the methods
 pub use crate::auto_cargo_toml_mod::CargoToml;
@@ -234,13 +235,6 @@ pub fn init_repository_if_needed(message: &str) -> bool {
     crate::auto_github_mod::init_repository_if_needed(message)
 }
 
-/// Find the filename of the identity_file for ssh connection to host_name, to find out if need ssh-add or not.
-/// parse the ~/.ssh/config. 99% probably there should be a record for host_name and there is the identity_file.
-/// else ask user for filename, then run ssh-add
-pub fn ssh_add_resolve(host_name: &str, default_host_name: &str) {
-    crate::auto_github_mod::ssh_add_resolve(host_name, default_host_name)
-}
-
 /// create new release on Github  
 /// return release_id  
 /// it needs env variable `export GITHUB_TOKEN=paste_github_personal_authorization_token_here`  
@@ -316,4 +310,14 @@ pub fn auto_playground_run_code() {
 pub fn description_and_topics_to_github() {
     crate::auto_github_mod::description_and_topics_to_github()
 }
+
+/// encrypt and save json file
+pub fn encrypt_with_ssh_and_save_json(identity_file_path: &str, token_is_a_secret: SecretString, output_file_path: &str) {
+    crate::auto_encrypt_decrypt_with_ssh_mod::encrypt_with_ssh_and_save_json(identity_file_path, token_is_a_secret, output_file_path)
+}
+/// decrypt from json file
+pub fn decrypt_with_ssh_from_json(json_file_path: &str) -> Option<String> {
+    crate::auto_encrypt_decrypt_with_ssh_mod::decrypt_with_ssh_from_json(json_file_path)
+}
+
 // endregion: Public API functions

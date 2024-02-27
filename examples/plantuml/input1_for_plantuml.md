@@ -11,8 +11,6 @@ this has not yet the image link
 @enduml
 ```
 
-![svg_H8u0SNaGZzGAaYPHeY4eDF9TfWqVXhKa7M8wiwXSe_s](images/svg_H8u0SNaGZzGAaYPHeY4eDF9TfWqVXhKa7M8wiwXSe_s.svg)
-
 [//]: # (auto_plantuml end)
 
 after first blah blah
@@ -28,7 +26,7 @@ this already has the image link, but it is obsolete and must be replaced
 @enduml
 ```
 
-![svg_lTG8S1eNgnLTJS1PruoYJEjQVW4dCn0x6Wl-pw6yPXM](images/svg_lTG8S1eNgnLTJS1PruoYJEjQVW4dCn0x6Wl-pw6yPXM.svg)
+![svg_534231](images/svg_534231.svg)  
 
 [//]: # (auto_plantuml end)
 
