@@ -10,6 +10,8 @@ The TODO section is part of the [README.md](https://github.com/bestia-dev/cargo_
 
 ## Unreleased
 
+## Version 1.3.36 (2024-02-28)
+
 - encrypt decrypt ~
 
 ## Version 1.3.35 (2024-02-28)
