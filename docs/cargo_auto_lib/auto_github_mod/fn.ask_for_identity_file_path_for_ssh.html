@@ -6,8 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="generator" content="rustdoc">
   <meta name="description" content=
-  "Find the filename of the identity_file for ssh connection to host_name, to find out if need ssh-add or not. parse the ~/.ssh/config. 99% probably there should be a record for host_name and there is the identity_file. else ask user for filename, then run ssh-add">
-  <title>ssh_add_resolve in cargo_auto_lib::public_api_mod - Rust</title>
+  "Ask the user for the filename of the ssh key used to connect with SSH/git to a server. host_name is like: github.com or bestia.dev, default like ~/.ssh/github_com_ssh_1 and ~/.ssh/bestia_dev_ssh_1 returns PathBuf to identity_file_path or None">
+  <title>ask_for_identity_file_path_for_ssh in cargo_auto_lib::auto_github_mod - Rust</title>
   <link rel="preload" as="font" type="font/woff2" crossorigin="" href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2">
   <link rel="preload" as="font" type="font/woff2" crossorigin="" href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2">
   <link rel="preload" as="font" type="font/woff2" crossorigin="" href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2">
@@ -36,10 +36,10 @@
     <div class="sidebar-crate">
       <a class="logo-container" href="../../cargo_auto_lib/index.html"><img src=
       "https://github.com/bestia-dev/cargo-auto/raw/main/images/logo/logo_cargo_auto.svg" alt="logo"></a>
-      <h2><a href="../../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">1.3.33</span></h2>
+      <h2><a href="../../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">1.3.35</span></h2>
     </div>
     <div class="sidebar-elems">
-      <h2><a href="index.html">In cargo_auto_lib::public_api_mod</a></h2>
+      <h2><a href="index.html">In cargo_auto_lib::auto_github_mod</a></h2>
     </div>
   </nav>
   <div class="sidebar-resizer"></div>
@@ -62,22 +62,24 @@
       </nav>
       <section id="main-content" class="content">
         <div class="main-heading">
-          <h1>Function <a href="../index.html">cargo_auto_lib</a>::<wbr><a href="index.html">public_api_mod</a>::<wbr><a class="fn" href=
-          "#">ssh_add_resolve</a><button id="copy-path" title="Copy item path to clipboard"><img src="../../static.files/clipboard-7571035ce49a181d.svg" width=
-          "19" height="18" alt="Copy item path"></button></h1><span class="out-of-band"><a class="src" href=
-          "../../src/cargo_auto_lib/public_api_mod.rs.html#240-242">source</a> · <button id="toggle-all-docs" title=
+          <h1>Function <a href="../index.html">cargo_auto_lib</a>::<wbr><a href="index.html">auto_github_mod</a>::<wbr><a class="fn" href=
+          "#">ask_for_identity_file_path_for_ssh</a><button id="copy-path" title="Copy item path to clipboard"><img src=
+          "../../static.files/clipboard-7571035ce49a181d.svg" width="19" height="18" alt="Copy item path"></button></h1><span class="out-of-band"><a class=
+          "src" href="../../src/cargo_auto_lib/auto_github_mod.rs.html#401-433">source</a> · <button id="toggle-all-docs" title=
           "collapse all docs">[<span>−</span>]</button></span>
         </div>
-        <pre class="rust item-decl"><code>pub fn ssh_add_resolve(host_name: &<a class="primitive" href=
-        "https://doc.rust-lang.org/1.76.0/std/primitive.str.html">str</a>, default_host_name: &<a class="primitive" href=
-        "https://doc.rust-lang.org/1.76.0/std/primitive.str.html">str</a>)</code></pre>
+        <pre class="rust item-decl"><code>pub fn ask_for_identity_file_path_for_ssh(
+    host_name: &<a class="primitive" href="https://doc.rust-lang.org/1.76.0/std/primitive.str.html">str</a>,
+    default_identity_file_path: &<a class="primitive" href="https://doc.rust-lang.org/1.76.0/std/primitive.str.html">str</a>
+) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.76.0/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct"
+href="https://doc.rust-lang.org/1.76.0/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>&gt;</code></pre>
         <details class="toggle top-doc" open="">
           <summary class="hideme">
             <span>Expand description</span>
           </summary>
           <div class="docblock">
-            <p>Find the filename of the identity_file for ssh connection to host_name, to find out if need ssh-add or not. parse the ~/.ssh/config. 99%
-            probably there should be a record for host_name and there is the identity_file. else ask user for filename, then run ssh-add</p>
+            <p>Ask the user for the filename of the ssh key used to connect with SSH/git to a server. host_name is like: github.com or bestia.dev, default like
+            ~/.ssh/github_com_ssh_1 and ~/.ssh/bestia_dev_ssh_1 returns PathBuf to identity_file_path or None</p>
           </div>
         </details>
       </section>

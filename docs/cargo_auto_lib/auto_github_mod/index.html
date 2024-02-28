@@ -35,7 +35,7 @@
     <div class="sidebar-crate">
       <a class="logo-container" href="../../cargo_auto_lib/index.html"><img src=
       "https://github.com/bestia-dev/cargo-auto/raw/main/images/logo/logo_cargo_auto.svg" alt="logo"></a>
-      <h2><a href="../../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">1.3.33</span></h2>
+      <h2><a href="../../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">1.3.35</span></h2>
     </div>
     <h2 class="location"><a href="#">Module auto_github_mod</a></h2>
     <div class="sidebar-elems">
@@ -46,6 +46,9 @@
           </li>
           <li>
             <a href="#functions">Functions</a>
+          </li>
+          <li>
+            <a href="#types">Type Aliases</a>
           </li>
         </ul>
       </section>
@@ -74,11 +77,16 @@
         <div class="main-heading">
           <h1>Module <a href="../index.html">cargo_auto_lib</a>::<wbr><a class="mod" href="#">auto_github_mod</a><button id="copy-path" title=
           "Copy item path to clipboard"><img src="../../static.files/clipboard-7571035ce49a181d.svg" width="19" height="18" alt=
-          "Copy item path"></button></h1><span class="out-of-band"><a class="src" href="../../src/cargo_auto_lib/auto_github_mod.rs.html#3-664">source</a> ·
+          "Copy item path"></button></h1><span class="out-of-band"><a class="src" href="../../src/cargo_auto_lib/auto_github_mod.rs.html#3-699">source</a> ·
           <button id="toggle-all-docs" title="collapse all docs">[<span>−</span>]</button></span>
         </div>
         <h2 id="constants" class="section-header"><a href="#constants">Constants</a></h2>
         <ul class="item-table">
+          <li>
+            <div class="item-name">
+              <a class="constant" href="constant.GITHUB_TOKEN_ENC.html" title="constant cargo_auto_lib::auto_github_mod::GITHUB_TOKEN_ENC">GITHUB_TOKEN_ENC</a>
+            </div>
+          </li>
           <li>
             <div class="item-name">
               <a class="constant" href="constant.RELEASES_MD.html" title="constant cargo_auto_lib::auto_github_mod::RELEASES_MD">RELEASES_MD</a>
@@ -98,12 +106,12 @@
           </li>
           <li>
             <div class="item-name">
-              <a class="fn" href="fn.ask_for_identity_file_for_ssh.html" title=
-              "fn cargo_auto_lib::auto_github_mod::ask_for_identity_file_for_ssh">ask_for_identity_file_for_ssh</a>
+              <a class="fn" href="fn.ask_for_identity_file_path_for_ssh.html" title=
+              "fn cargo_auto_lib::auto_github_mod::ask_for_identity_file_path_for_ssh">ask_for_identity_file_path_for_ssh</a>
             </div>
             <div class="desc docblock-short">
               Ask the user for the filename of the ssh key used to connect with SSH/git to a server. host_name is like: github.com or bestia.dev, default like
-              github_com_ssh_1 and bestia_dev_ssh_1
+              ~/.ssh/github_com_ssh_1 and ~/.ssh/bestia_dev_ssh_1 returns PathBuf to identity_file_path or None
             </div>
           </li>
           <li>
@@ -122,7 +130,7 @@
               "fn cargo_auto_lib::auto_github_mod::check_or_get_github_token">check_or_get_github_token</a><span title="Restricted Visibility">&nbsp;🔒</span>
             </div>
             <div class="desc docblock-short">
-              check if the env var GITHUB_TOKEN exist or ask user interactively to type it
+              decrypt the token from GITHUB_TOKEN_ENC file or ask user interactively to type it, then encrypt and save to file
             </div>
           </li>
           <li>
@@ -148,11 +156,12 @@
           </li>
           <li>
             <div class="item-name">
-              <a class="fn" href="fn.get_identity_from_ssh_config.html" title=
-              "fn cargo_auto_lib::auto_github_mod::get_identity_from_ssh_config">get_identity_from_ssh_config</a>
+              <a class="fn" href="fn.get_identity_file_path_from_ssh_config.html" title=
+              "fn cargo_auto_lib::auto_github_mod::get_identity_file_path_from_ssh_config">get_identity_file_path_from_ssh_config</a>
             </div>
             <div class="desc docblock-short">
-              parse the ~/.ssh/config. 99% probably there should be a record for github and there is the identity_file.
+              Parse the ~/.ssh/config file and find the record for host_name and there is the identity_file_path. returns: identity_file_path contains the path
+              like: <code>~/.ssh/github_com_ssh_1</code>
             </div>
           </li>
           <li>
@@ -172,7 +181,6 @@
             <div class="desc docblock-short">
               create new release on Github<br>
               return release_id<br>
-              it needs env variable <code>export GITHUB_TOKEN=paste_github_personal_authorization_token_here</code><br>
               <a href=
               "https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token">https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token</a>
             </div>
@@ -221,7 +229,6 @@
               release_upload_url example: <a href=
               "https://uploads.github.com/repos/owner/repo/releases/48127727/assets">https://uploads.github.com/repos/owner/repo/releases/48127727/assets</a><br>
 
-              it needs env variable <code>export GITHUB_TOKEN=paste_github_personal_authorization_token_here</code><br>
               <a href=
               "https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token">https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token</a><br>
 
@@ -267,17 +274,41 @@
               <a class="fn" href="fn.ssh_add_if_needed.html" title="fn cargo_auto_lib::auto_github_mod::ssh_add_if_needed">ssh_add_if_needed</a>
             </div>
             <div class="desc docblock-short">
-              check if this file is in ssh-add. Only the first 56 ascii characters are the fingerprint. After is a description, not important and sometimes
-              different. if is not, then ssh-add and the user will enter the passcode.
+              identity_file_path contains the path of the private key like: <code>~/.ssh/github_com_ssh_1</code> check if this file is in ssh-add. Only the
+              first 56 ascii characters are the fingerprint. After is a description, not important and sometimes different. if is not, then ssh-add and the
+              user will enter the passcode.
             </div>
           </li>
           <li>
             <div class="item-name">
-              <a class="fn" href="fn.ssh_add_resolve.html" title="fn cargo_auto_lib::auto_github_mod::ssh_add_resolve">ssh_add_resolve</a>
+              <a class="fn" href="fn.ssh_add_resolve.html" title="fn cargo_auto_lib::auto_github_mod::ssh_add_resolve">ssh_add_resolve</a><span title=
+              "Restricted Visibility">&nbsp;🔒</span>
             </div>
             <div class="desc docblock-short">
-              Find the filename of the identity_file for ssh connection to host_name, to find out if need ssh-add or not. parse the ~/.ssh/config. 99% probably
-              there should be a record for host_name and there is the identity_file. else ask user for filename, then run ssh-add
+              Parse the ~/.ssh/config file and find the record for host_name and there is the identity_file_path. If not found, ask user for
+              identity_file_path, Check if this identity is already in ssh-agent and if not then run ssh-add This ssh-add will stay even after the process
+              ends, so the parent process will still have it. returns: fingerprint or None and identity_file_name
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="fn" href="fn.to_path.html" title="fn cargo_auto_lib::auto_github_mod::to_path">to_path</a><span title=
+              "Restricted Visibility">&nbsp;🔒</span>
+            </div>
+          </li>
+        </ul>
+        <h2 id="types" class="section-header"><a href="#types">Type Aliases</a></h2>
+        <ul class="item-table">
+          <li>
+            <div class="item-name">
+              <a class="type" href="type.FingerprintString.html" title=
+              "type cargo_auto_lib::auto_github_mod::FingerprintString">FingerprintString</a><span title="Restricted Visibility">&nbsp;🔒</span>
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="type" href="type.IdentityFilePathString.html" title=
+              "type cargo_auto_lib::auto_github_mod::IdentityFilePathString">IdentityFilePathString</a><span title="Restricted Visibility">&nbsp;🔒</span>
             </div>
           </li>
         </ul>

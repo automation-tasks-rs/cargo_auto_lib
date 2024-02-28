@@ -366,8 +366,6 @@
 <a href="#315" id="315">315</a>
 <a href="#316" id="316">316</a>
 <a href="#317" id="317">317</a>
-<a href="#318" id="318">318</a>
-<a href="#319" id="319">319</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// public_api_mod.rs
@@ -385,10 +383,11 @@
 
 // region: Public API structs and methods
 
-</span><span class="doccomment">/// I use thiserror to return errors from the library.
 </span><span class="kw">pub use </span><span class="kw">crate</span>::error_mod::ResultWithLibError;
 
 <span class="kw">pub use </span><span class="kw">crate</span>::auto_helper_functions_mod::ShellOutput;
+
+<span class="kw">pub use </span><span class="kw">crate</span>::auto_encrypt_decrypt_with_ssh_mod::SecretString;
 
 <span class="comment">// reexporting a struct needs to export the trait to also reexports all the methods
 </span><span class="kw">pub use </span><span class="kw">crate</span>::auto_cargo_toml_mod::CargoToml;
@@ -605,6 +604,11 @@
     <span class="kw">crate</span>::auto_helper_functions_mod::run_shell_command_output(shell_command)
 }
 
+<span class="doccomment">/// run one shell command and return true if success
+</span><span class="kw">pub fn </span>run_shell_command_success(shell_command: <span class="kw-2">&</span>str) -&gt; bool {
+    <span class="kw">crate</span>::auto_helper_functions_mod::run_shell_command_success(shell_command)
+}
+
 <span class="doccomment">/// home_dir() using the home crate.
 /// panics if HOME not found
 </span><span class="kw">pub fn </span>home_dir() -&gt; std::path::PathBuf {
@@ -616,16 +620,8 @@
     <span class="kw">crate</span>::auto_github_mod::init_repository_if_needed(message)
 }
 
-<span class="doccomment">/// Find the filename of the identity_file for ssh connection to host_name, to find out if need ssh-add or not.
-/// parse the ~/.ssh/config. 99% probably there should be a record for host_name and there is the identity_file.
-/// else ask user for filename, then run ssh-add
-</span><span class="kw">pub fn </span>ssh_add_resolve(host_name: <span class="kw-2">&</span>str, default_host_name: <span class="kw-2">&</span>str) {
-    <span class="kw">crate</span>::auto_github_mod::ssh_add_resolve(host_name, default_host_name)
-}
-
 <span class="doccomment">/// create new release on Github  
 /// return release_id  
-/// it needs env variable `export GITHUB_TOKEN=paste_github_personal_authorization_token_here`  
 /// &lt;https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token&gt;  
 /// ```ignore
 ///       let release_id =  github_create_new_release(&amp;owner, &amp;repo, &amp;version, &amp;name, branch, body_md_text);  
@@ -641,7 +637,6 @@
 
 <span class="doccomment">/// upload asset to github release  
 /// release_upload_url example: &lt;https://uploads.github.com/repos/owner/repo/releases/48127727/assets&gt;  
-/// it needs env variable `export GITHUB_TOKEN=paste_github_personal_authorization_token_here`  
 /// &lt;https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token&gt;  
 /// async function can be called from sync code:  
 /// ```ignore
@@ -705,6 +700,7 @@
 </span><span class="kw">pub fn </span>description_and_topics_to_github() {
     <span class="kw">crate</span>::auto_github_mod::description_and_topics_to_github()
 }
+
 <span class="comment">// endregion: Public API functions
 </span></code></pre>
       </div>

@@ -713,21 +713,64 @@
 <a href="#662" id="662">662</a>
 <a href="#663" id="663">663</a>
 <a href="#664" id="664">664</a>
+<a href="#665" id="665">665</a>
+<a href="#666" id="666">666</a>
+<a href="#667" id="667">667</a>
+<a href="#668" id="668">668</a>
+<a href="#669" id="669">669</a>
+<a href="#670" id="670">670</a>
+<a href="#671" id="671">671</a>
+<a href="#672" id="672">672</a>
+<a href="#673" id="673">673</a>
+<a href="#674" id="674">674</a>
+<a href="#675" id="675">675</a>
+<a href="#676" id="676">676</a>
+<a href="#677" id="677">677</a>
+<a href="#678" id="678">678</a>
+<a href="#679" id="679">679</a>
+<a href="#680" id="680">680</a>
+<a href="#681" id="681">681</a>
+<a href="#682" id="682">682</a>
+<a href="#683" id="683">683</a>
+<a href="#684" id="684">684</a>
+<a href="#685" id="685">685</a>
+<a href="#686" id="686">686</a>
+<a href="#687" id="687">687</a>
+<a href="#688" id="688">688</a>
+<a href="#689" id="689">689</a>
+<a href="#690" id="690">690</a>
+<a href="#691" id="691">691</a>
+<a href="#692" id="692">692</a>
+<a href="#693" id="693">693</a>
+<a href="#694" id="694">694</a>
+<a href="#695" id="695">695</a>
+<a href="#696" id="696">696</a>
+<a href="#697" id="697">697</a>
+<a href="#698" id="698">698</a>
+<a href="#699" id="699">699</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// auto_github_mod
 
 </span><span class="kw">use </span><span class="kw">crate</span>::CargoTomlPublicApiMethods;
+<span class="kw">use </span><span class="kw">crate</span>::SecretString;
 <span class="kw">use </span><span class="kw">crate</span>::GREEN;
 <span class="kw">use </span><span class="kw">crate</span>::RED;
 <span class="kw">use </span><span class="kw">crate</span>::RESET;
 <span class="kw">use </span><span class="kw">crate</span>::YELLOW;
 
-<span class="kw">pub const </span>RELEASES_MD: <span class="kw-2">&</span>str = <span class="string">"RELEASES.md"</span>;
+<span class="comment">// region: bring traits in scope
+
+</span><span class="kw">use </span>zeroize::Zeroize;
+
+<span class="comment">// endregion: bring traits in scope
+
+</span><span class="kw">pub const </span>RELEASES_MD: <span class="kw-2">&</span>str = <span class="string">"RELEASES.md"</span>;
+<span class="comment">// file contains github token encrypted with github_com_ssh_1
+</span><span class="kw">pub const </span>GITHUB_TOKEN_ENC: <span class="kw-2">&</span>str = <span class="string">"~/.ssh/github_com_data_1.json"</span>;
 
 <span class="doccomment">/// create new release on Github  
 /// return release_id  
-/// it needs env variable `export GITHUB_TOKEN=paste_github_personal_authorization_token_here`  
 /// &lt;https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token&gt;  
 /// ```ignore
 ///       let release_id =  github_create_new_release(&amp;owner, &amp;repo, &amp;version, &amp;name, branch, body_md_text);  
@@ -764,9 +807,7 @@
     ...
     }
     */
-    </span>check_or_get_github_token().unwrap();
-    <span class="kw">let </span>token = std::env::var(<span class="string">"GITHUB_TOKEN"</span>).expect(<span class=
-"string">"GITHUB_TOKEN env variable is required"</span>);
+    </span><span class="kw">let </span><span class="kw-2">mut </span>token = check_or_get_github_token().unwrap();
     <span class="kw">let </span>releases_url = <span class="macro">format!</span>(<span class=
 "string">"https://api.github.com/repos/{owner}/{repo}/releases"</span>);
     <span class="kw">let </span>body = <span class="macro">serde_json::json!</span>({
@@ -783,7 +824,8 @@
     <span class="kw">let </span>response_text = reqwest::blocking::Client::new()
         .post(releases_url.as_str())
         .header(<span class="string">"Content-Type"</span>, <span class="string">"application/vnd.github+json"</span>)
-        .header(<span class="string">"Authorization"</span>, <span class="macro">format!</span>(<span class="string">"Bearer {token}"</span>))
+        .header(<span class="string">"Authorization"</span>, <span class="macro">format!</span>(<span class="string">"Bearer {}"</span>, token.<span class=
+"number">0</span>))
         .header(<span class="string">"X-GitHub-Api-Version"</span>, <span class="string">"2022-11-28"</span>)
         .header(<span class="string">"User-Agent"</span>, <span class="string">"cargo_auto_lib"</span>)
         .body(body)
@@ -792,6 +834,8 @@
         .text()
         .unwrap();
 
+    token.<span class="number">0</span>.zeroize();
+
     <span class="kw">let </span>parsed: serde_json::Value = serde_json::from_str(<span class="kw-2">&</span>response_text).unwrap();
     <span class="kw">let </span>new_release_id = parsed.get(<span class="string">"id"</span>).unwrap().as_i64().unwrap().to_string();
     new_release_id
@@ -799,7 +843,6 @@
 
 <span class="doccomment">/// upload asset to github release  
 /// release_upload_url example: &lt;https://uploads.github.com/repos/owner/repo/releases/48127727/assets&gt;  
-/// it needs env variable `export GITHUB_TOKEN=paste_github_personal_authorization_token_here`  
 /// &lt;https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token&gt;  
 /// async function can be called from sync code:  
 /// ```ignore
@@ -810,9 +853,7 @@
 /// ```
 </span><span class="kw">pub fn </span>github_api_upload_asset_to_release(owner: <span class="kw-2">&</span>str, repo: <span class=
 "kw-2">&</span>str, release_id: <span class="kw-2">&</span>str, path_to_file: <span class="kw-2">&</span>str) {
-    check_or_get_github_token().unwrap();
-    <span class="kw">let </span>token = std::env::var(<span class="string">"GITHUB_TOKEN"</span>).expect(<span class=
-"string">"GITHUB_TOKEN env variable is required"</span>);
+    <span class="kw">let </span><span class="kw-2">mut </span>token = check_or_get_github_token().unwrap();
 
     <span class="macro">println!</span>(<span class="string">"path_to_file: {}"</span>, path_to_file);
     <span class="kw">let </span>file = std::path::Path::new(<span class="kw-2">&</span>path_to_file);
@@ -839,11 +880,14 @@
             .post(release_upload_url.as_str())
             .header(<span class="string">"Content-Type"</span>, <span class="string">"application/octet-stream"</span>)
             .header(<span class="string">"Content-Length"</span>, file_size.to_string())
-            .header(<span class="string">"Authorization"</span>, <span class="macro">format!</span>(<span class="string">"Bearer {token}"</span>))
+            .header(<span class="string">"Authorization"</span>, <span class="macro">format!</span>(<span class="string">"Bearer {}"</span>, token.<span class=
+"number">0</span>))
             .body(body)
             .send()
             .<span class="kw">await
             </span>.unwrap();
+
+        token.<span class="number">0</span>.zeroize();
 
         <span class="comment">// dbg!(response);
     </span>});
@@ -877,9 +921,7 @@
     ...
     }
     */
-    </span>check_or_get_github_token().unwrap();
-    <span class="kw">let </span>token = std::env::var(<span class="string">"GITHUB_TOKEN"</span>).expect(<span class=
-"string">"GITHUB_TOKEN env variable is required"</span>);
+    </span><span class="kw">let </span><span class="kw-2">mut </span>token = check_or_get_github_token().unwrap();
     <span class="kw">let </span>repos_url = <span class="macro">format!</span>(<span class="string">"https://api.github.com/user/repos"</span>);
     <span class="kw">let </span>body = <span class="macro">serde_json::json!</span>({
         <span class="string">"name"</span>: name,
@@ -898,7 +940,8 @@
     <span class="kw">let </span>response_text = reqwest::blocking::Client::new()
         .post(repos_url.as_str())
         .header(<span class="string">"Accept"</span>, <span class="string">"application/vnd.github+json"</span>)
-        .header(<span class="string">"Authorization"</span>, <span class="macro">format!</span>(<span class="string">"Bearer {token}"</span>))
+        .header(<span class="string">"Authorization"</span>, <span class="macro">format!</span>(<span class="string">"Bearer {}"</span>, token.<span class=
+"number">0</span>))
         .header(<span class="string">"X-GitHub-Api-Version"</span>, <span class="string">"2022-11-28"</span>)
         .header(<span class="string">"User-Agent"</span>, <span class="string">"cargo_auto_lib"</span>)
         .body(body)
@@ -907,8 +950,9 @@
         .text()
         .unwrap();
     <span class="comment">//pretty_dbg!(&amp;response_text);
+    </span>token.<span class="number">0</span>.zeroize();
 
-    </span><span class="kw">let </span>parsed: serde_json::Value = serde_json::from_str(<span class="kw-2">&</span>response_text).unwrap();
+    <span class="kw">let </span>parsed: serde_json::Value = serde_json::from_str(<span class="kw-2">&</span>response_text).unwrap();
     <span class="comment">// return
     </span>parsed
 }
@@ -917,8 +961,8 @@
 </span><span class="kw">pub fn </span>init_repository_if_needed(message: <span class="kw-2">&</span>str) -&gt; bool {
     <span class="comment">// Find the filename of the identity_file for ssh connection to host_name, to find out if need ssh-add or not.
     // parse the ~/.ssh/config. 99% probably there should be a record for host_name and there is the identity_file.
-    // else ask user for filename, then run ssh-add
-    </span>ssh_add_resolve(<span class="string">"github.com"</span>, <span class="string">"github_com_ssh_1"</span>);
+    // else ask user for filename, then run ssh-add. The identity added with ssh-add will remain also in the parent process.
+    </span><span class="kw">let </span>_token = check_or_get_github_token().unwrap();
 
     <span class="comment">// crate new local git repository
     </span><span class="kw">if </span>!<span class="kw">crate</span>::git_is_local_repository() {
@@ -944,25 +988,37 @@
     </span>is_init_repository
 }
 
-<span class="doccomment">/// Find the filename of the identity_file for ssh connection to host_name, to find out if need ssh-add or not.
-/// parse the ~/.ssh/config. 99% probably there should be a record for host_name and there is the identity_file.
-/// else ask user for filename, then run ssh-add
-</span><span class="kw">pub fn </span>ssh_add_resolve(host_name: <span class="kw-2">&</span>str, default_host_name: <span class="kw-2">&</span>str) {
+<span class="kw">type </span>FingerprintString = String;
+<span class="kw">type </span>IdentityFilePathString = String;
+
+<span class="doccomment">/// Parse the ~/.ssh/config file and find the record for host_name and there is the identity_file_path.
+/// If not found, ask user for identity_file_path,
+/// Check if this identity is already in ssh-agent and if not then run ssh-add
+/// This ssh-add will stay even after the process ends, so the parent process will still have it.
+/// returns: fingerprint or None and identity_file_name
+</span><span class="kw">fn </span>ssh_add_resolve(host_name: <span class="kw-2">&</span>str, default_identity_file_path: <span class=
+"kw-2">&</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;(FingerprintString, IdentityFilePathString)&gt; {
     <span class="comment">// I must find the filename of the identity_file for ssh connection to host_name,
     // to find out if I need ssh-add or not.
-    // 1. parse the ~/.ssh/config. 99% probably there should be a record for github and there is the identity_file.
-    </span><span class="kw">let </span><span class="kw-2">mut </span>identity_from_ssh_config = get_identity_from_ssh_config(host_name);
-
-    <span class="comment">// 2. if not found in ssh/config then ask the user to provide the filename
-    </span><span class="kw">if </span>identity_from_ssh_config.is_empty() {
-        <span class="kw">if let </span><span class="prelude-val">Some</span>(filename) = ask_for_identity_file_for_ssh(host_name, default_host_name) {
-            identity_from_ssh_config = filename.to_string_lossy().to_string();
+    // 1. Parse the ~/.ssh/config file and find the record for host_name and there is the identity_file_path.
+    // returns: identity_file_path contains the path like: `~/.ssh/github_com_ssh_1`
+    </span><span class="kw">let </span><span class="kw-2">mut </span>identity_file_path = get_identity_file_path_from_ssh_config(host_name);
+    <span class="kw">if </span>identity_file_path.is_none() {
+        <span class="comment">// 2. if not found in ssh/config then ask the user to provide the filename
+        </span><span class="kw">if let </span><span class=
+"prelude-val">Some</span>(filepath) = ask_for_identity_file_path_for_ssh(host_name, default_identity_file_path) {
+            identity_file_path = <span class="prelude-val">Some</span>(filepath);
+        } <span class="kw">else </span>{
+            identity_file_path = <span class="prelude-val">None</span>;
         }
     }
     <span class="comment">// ssh-add only if needed
-    </span><span class="kw">if </span>!identity_from_ssh_config.is_empty() {
-        ssh_add_if_needed(identity_from_ssh_config).unwrap();
-    }
+    </span><span class="kw">if let </span><span class="prelude-val">Some</span>(identity_file_path) = identity_file_path {
+        <span class="kw">let </span>fingerprint = ssh_add_if_needed(<span class="kw-2">&</span>identity_file_path).unwrap();
+        <span class="prelude-val">Some</span>((fingerprint, identity_file_path))
+    } <span class="kw">else </span>{
+        <span class="prelude-val">None
+    </span>}
 }
 
 <span class="doccomment">/// interactive ask to create a new remote GitHub repository
@@ -998,35 +1054,34 @@
     <span class="prelude-val">Some</span>(repo_html_url)
 }
 
-<span class="doccomment">/// check if the env var GITHUB_TOKEN exist
-/// or ask user interactively to type it
-</span><span class="kw">fn </span>check_or_get_github_token() -&gt; <span class="prelude-ty">Option</span>&lt;()&gt; {
-    <span class="comment">// read ENV variable GITHUB_TOKEN
-    // if it does not exist, ask for it here.
-    </span><span class="kw">match </span>std::env::var(<span class="string">"GITHUB_TOKEN"</span>) {
-        <span class="prelude-val">Ok</span>(_g) =&gt; <span class="prelude-val">Some</span>(()),
-        <span class="prelude-val">Err</span>(_err) =&gt; {
-            <span class="macro">println!</span>(
-                <span class="string">r#"{RED}Cannot find the GITHUB_TOKEN env variable.{RESET}
-GITHUB_TOKEN env variable is required to work with GitHub API to create a new repository.
+<span class="doccomment">/// decrypt the token from GITHUB_TOKEN_ENC file
+/// or ask user interactively to type it, then encrypt and save to file
+</span><span class="kw">fn </span>check_or_get_github_token() -&gt; <span class="prelude-ty">Option</span>&lt;SecretString&gt; {
+    <span class="kw">let </span>(_fingerprint, identity_file_path) = ssh_add_resolve(<span class="string">"github.com"</span>, <span class=
+"string">"~/.ssh/github_com_ssh_1"</span>).unwrap();
+
+    <span class="kw">let </span><span class="kw-2">mut </span>token: <span class="prelude-ty">Option</span>&lt;SecretString&gt; = <span class=
+"prelude-val">None</span>;
+    <span class="kw">if </span>std::path::Path::new(GITHUB_TOKEN_ENC).exists() {
+        token = <span class="kw">crate</span>::auto_encrypt_decrypt_with_ssh_mod::decrypt_with_ssh_from_json(GITHUB_TOKEN_ENC);
+    }
+    <span class="kw">if </span>token.is_none() {
+        <span class="macro">println!</span>(
+            <span class="string">r#"{RED}Cannot find the file with encrypted github token.{RESET}
+The token is required to work with GitHub API to work with your repositories.
 You can generate the token at https://github.com/settings/tokens.
 It needs the permission scope: Full control of private repositories.
 The token is a secret just like a password, use it with caution.
 "#
-            </span>);
-            <span class="kw">let </span>answer = inquire::Password::new(<span class=
-"string">"Enter the GitHub token:"</span>).without_confirmation().prompt().unwrap();
-            <span class="kw">if </span>answer.is_empty() {
-                <span class="comment">// early exit
-                </span><span class="macro">eprintln!</span>(<span class="string">"{RED}The GITHUB_TOKEN was not given. Exiting.{RESET}"</span>);
-                <span class="kw">return </span><span class="prelude-val">None</span>;
-            }
-            <span class="comment">// set the env var for the token, but just for this process
-            // The parent process will still be without this env var.
-            </span>std::env::set_var(<span class="string">"GITHUB_TOKEN"</span>, answer);
-            <span class="prelude-val">Some</span>(())
-        }
+        </span>);
+        <span class="comment">// encrypt and save to file
+        </span><span class="kw">crate</span>::auto_encrypt_decrypt_with_ssh_mod::encrypt_with_ssh_interactive_save_json(<span class=
+"kw-2">&</span>identity_file_path, GITHUB_TOKEN_ENC);
+        <span class="comment">// now decrypt
+        </span>token = <span class="kw">crate</span>::auto_encrypt_decrypt_with_ssh_mod::decrypt_with_ssh_from_json(GITHUB_TOKEN_ENC);
     }
+    <span class="comment">// return
+    </span>token
 }
 
 <span class="doccomment">/// interactive ask to create a new local git repository
@@ -1050,22 +1105,29 @@ The token is a secret just like a password, use it with caution.
     <span class="prelude-val">Some</span>(())
 }
 
-<span class="doccomment">/// check if this file is in ssh-add. Only the first 56 ascii characters are the fingerprint.
+<span class="doccomment">/// identity_file_path contains the path of the private key like: `~/.ssh/github_com_ssh_1`
+/// check if this file is in ssh-add. Only the first 56 ascii characters are the fingerprint.
 /// After is a description, not important and sometimes different.
 /// if is not, then ssh-add and the user will enter the passcode.
-</span><span class="kw">pub fn </span>ssh_add_if_needed(github_ssh_for_push: String) -&gt; <span class="prelude-ty">Option</span>&lt;()&gt; {
+</span><span class="kw">pub fn </span>ssh_add_if_needed(identity_file_path: <span class="kw-2">&</span>str) -&gt; <span class=
+"prelude-ty">Option</span>&lt;String&gt; {
     <span class="macro">println!</span>(<span class="string">"Get a list of fingerprints already in ssh-add."</span>);
     <span class="kw">let </span>ssh_added = <span class="kw">crate</span>::run_shell_command_output(<span class="string">"ssh-add -l"</span>).stdout;
 
     <span class="macro">println!</span>(<span class="string">"Calculate the fingerprint of the identity file to check if it is already in ssh-add."</span>);
-    <span class="kw">let </span>fingerprint = <span class="kw">crate</span>::run_shell_command_output(<span class="kw-2">&</span><span class=
-"macro">format!</span>(<span class="string">"ssh-keygen -lf {}"</span>, <span class="kw-2">&</span>github_ssh_for_push)).stdout[<span class=
-"number">0</span>..<span class="number">55</span>].to_string();
+
+    <span class="comment">// I need the public key here
+    </span><span class="kw">let </span>identity_file_path_public = <span class="macro">format!</span>(<span class="string">"{identity_file_path}.pub"</span>);
+    <span class="macro">println!</span>(<span class="string">"Public key: {}"</span>, identity_file_path_public);
+
+    <span class="kw">let </span>public_key = ssh_key::PublicKey::read_openssh_file(to_path(<span class="kw-2">&</span>identity_file_path_public)).unwrap();
+    <span class="kw">let </span>fingerprint = public_key.fingerprint(Default::default());
+    <span class="kw">let </span>fingerprint = fingerprint.to_string();
 
     <span class="comment">// ssh-add if it is not contained in the ssh-agent
     </span><span class="kw">if </span>!ssh_added.contains(<span class="kw-2">&</span>fingerprint) {
         <span class="macro">println!</span>(<span class="string">"{YELLOW}Add ssh identity with ssh-add to use with GitHub push.{RESET}"</span>);
-        <span class="kw">let </span>cmd = <span class="macro">format!</span>(<span class="string">"ssh-add -h github.com {}"</span>, github_ssh_for_push);
+        <span class="kw">let </span>cmd = <span class="macro">format!</span>(<span class="string">"ssh-add -t 1h {}"</span>, identity_file_path);
         <span class="kw">let </span>shell_output = <span class="kw">crate</span>::run_shell_command_output(<span class="kw-2">&</span>cmd);
         <span class="kw">if </span>!shell_output.stderr.contains(<span class="string">"Identity added"</span>) {
             <span class="macro">eprintln!</span>(<span class="string">"{RED}ssh-add was not successful! Exiting.{RESET}"</span>,);
@@ -1073,16 +1135,19 @@ The token is a secret just like a password, use it with caution.
             </span><span class="kw">return </span><span class="prelude-val">None</span>;
         } <span class="kw">else </span>{
             <span class="macro">println!</span>(<span class="string">"{}"</span>, shell_output.stdout);
+            <span class="macro">eprintln!</span>(<span class="string">"{}"</span>, shell_output.stderr);
         }
     } <span class="kw">else </span>{
         <span class="macro">println!</span>(<span class="string">"Key for GitHub push is already in ssh-add."</span>);
     }
-    <span class="prelude-val">Some</span>(())
+    <span class="prelude-val">Some</span>(fingerprint)
 }
 
-<span class="doccomment">/// parse the ~/.ssh/config. 99% probably there should be a record for github and there is the identity_file.
-</span><span class="kw">pub fn </span>get_identity_from_ssh_config(host_name: <span class="kw-2">&</span>str) -&gt; String {
-    <span class="kw">let </span><span class="kw-2">mut </span>identity_for_ssh = String::new();
+<span class="doccomment">/// Parse the ~/.ssh/config file and find the record for host_name and there is the identity_file_path.
+/// returns: identity_file_path contains the path like: `~/.ssh/github_com_ssh_1`
+</span><span class="kw">pub fn </span>get_identity_file_path_from_ssh_config(host_name: <span class="kw-2">&</span>str) -&gt; <span class=
+"prelude-ty">Option</span>&lt;String&gt; {
+    <span class="kw">let </span><span class="kw-2">mut </span>identity_file_path = String::new();
     <span class="kw">if let </span><span class="prelude-val">Ok</span>(config) = ssh2_config::SshConfig::parse_default_file(ssh2_config::ParseRule::STRICT) {
         <span class="comment">// find the filename
         </span><span class="kw">for </span>x <span class="kw">in </span>config.get_hosts().iter() {
@@ -1091,54 +1156,59 @@ The token is a secret just like a password, use it with caution.
                     <span class="kw">if let </span><span class="prelude-val">Some</span>(identity_files) = x.params.identity_file.as_ref() {
                         <span class="kw">if </span>!identity_files.is_empty() {
                             <span class="comment">// there can be more identity_files, but I will use only the first
-                            </span>identity_for_ssh = identity_files[<span class="number">0</span>].to_string_lossy().to_string();
+                            </span>identity_file_path = identity_files[<span class="number">0</span>].to_string_lossy().to_string();
                         }
                     }
                     <span class="kw">break</span>;
                 }
             }
         }
-        <span class="kw">if </span>!identity_for_ssh.is_empty() {
-            <span class="macro">println!</span>(<span class="string">"identity_for_ssh is {identity_for_ssh}"</span>);
+        <span class="kw">if </span>identity_file_path.is_empty() {
+            <span class="kw">return </span><span class="prelude-val">None</span>;
         }
     }
-    identity_for_ssh
+    <span class="macro">println!</span>(<span class="string">"Identity_file_path for ssh is {identity_file_path}"</span>);
+
+    <span class="prelude-val">Some</span>(identity_file_path)
 }
 
 <span class="doccomment">/// Ask the user for the filename of the ssh key used to connect with SSH/git to a server.
-/// host_name is like: github.com or bestia.dev, default like github_com_ssh_1 and bestia_dev_ssh_1
-</span><span class="kw">pub fn </span>ask_for_identity_file_for_ssh(host_name: <span class="kw-2">&</span>str, default_host_name: <span class=
-"kw-2">&</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;std::path::PathBuf&gt; {
+/// host_name is like: github.com or bestia.dev, default like ~/.ssh/github_com_ssh_1 and ~/.ssh/bestia_dev_ssh_1
+/// returns PathBuf to identity_file_path or None
+</span><span class="kw">pub fn </span>ask_for_identity_file_path_for_ssh(host_name: <span class="kw-2">&</span>str, default_identity_file_path: <span class=
+"kw-2">&</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;String&gt; {
     <span class="macro">println!</span>(
-        <span class="string">r#"{RED}Cannot find identity in ~/.ssh/config.{RESET}
-It should contain the filename of the ssh key used to push to {host_name}.
-The filename itself is not a secret. Just the content of the file is a secret.
-Without this filename I cannot check if it is ssh-added to the ssh-agent.
+        <span class="string">r#"{RED}Cannot find identity file in ~/.ssh/config.{RESET}
+It should contain the filepath of the ssh key used for ssh connection or git to {host_name}.
+The filepath itself is not a secret. Just the content of the file is a secret.
+Without this filepath I cannot check if it is ssh-added to the ssh-agent.
 If you create the file ~/.ssh/config with content like this: 
 &lt;https://github.com/bestia-dev/docker_rust_development/raw/main/docker_rust_development_install/ssh_config_template&gt;
-You will not be asked to enter this filename manually every time.
+you will never be asked again to enter this filepath.
 "#</span>,
     );
     <span class="kw">let </span>identity_file_for_ssh = inquire::Text::new(<span class="kw-2">&</span><span class="macro">format!</span>(<span class=
-"string">"Which file in the .ssh folder has the ssh identity for {host_name}?"</span>))
-        .with_initial_value(default_host_name)
+"string">"Which filepath has the ssh identity for {host_name}?"</span>))
+        .with_initial_value(default_identity_file_path)
         .prompt()
         .unwrap();
     <span class="kw">if </span>identity_file_for_ssh.is_empty() {
         <span class="comment">// early exit
-        </span><span class="macro">eprintln!</span>(<span class="string">"{RED}The filename for the ssh key was not given. Exiting.{RESET}"</span>);
+        </span><span class="macro">eprintln!</span>(<span class="string">"{RED}The filepath for the ssh key was not given. Exiting.{RESET}"</span>);
         <span class="kw">return </span><span class="prelude-val">None</span>;
     }
 
     <span class="comment">// check if the file exists
-    </span><span class="kw">let </span>identity_file_for_ssh = <span class="kw">crate</span>::home_dir().join(<span class=
-"string">".ssh"</span>).join(identity_file_for_ssh);
+    </span><span class="kw">let </span>identity_file_for_ssh = identity_file_for_ssh.replace(<span class="string">"~"</span>, <span class=
+"kw">crate</span>::home_dir().to_string_lossy().as_ref());
+    <span class="kw">let </span>identity_file_for_ssh = std::path::Path::new(<span class="kw-2">&</span>identity_file_for_ssh).to_owned();
     <span class="kw">if </span>!identity_file_for_ssh.exists() {
         <span class="macro">eprintln!</span>(<span class=
 "string">"{RED}File {} does not exist! Exiting.{RESET}"</span>, identity_file_for_ssh.to_string_lossy());
         <span class="comment">// early exit
         </span><span class="kw">return </span><span class="prelude-val">None</span>;
     }
+    <span class="kw">let </span>identity_file_for_ssh = identity_file_for_ssh.to_string_lossy().to_string();
     <span class="comment">// return
     </span><span class="prelude-val">Some</span>(identity_file_for_ssh)
 }
@@ -1306,14 +1376,13 @@ The TODO section is part of the [README.md](https://github.com/{github_owner}/{p
         -H "X-GitHub-Api-Version: 2022-11-28" \
         https://api.github.com/repos/OWNER/REPO
     */
-    </span>check_or_get_github_token().unwrap();
-    <span class="kw">let </span>token = std::env::var(<span class="string">"GITHUB_TOKEN"</span>).expect(<span class=
-"string">"GITHUB_TOKEN env variable is required"</span>);
+    </span><span class="kw">let </span><span class="kw-2">mut </span>token = check_or_get_github_token().unwrap();
     <span class="kw">let </span>repos_url = <span class="macro">format!</span>(<span class="string">"https://api.github.com/repos/{owner}/{repo_name}"</span>);
     <span class="kw">let </span>response_text = reqwest::blocking::Client::new()
         .get(repos_url.as_str())
         .header(<span class="string">"Accept"</span>, <span class="string">"application/vnd.github+json"</span>)
-        .header(<span class="string">"Authorization"</span>, <span class="macro">format!</span>(<span class="string">"Bearer {token}"</span>))
+        .header(<span class="string">"Authorization"</span>, <span class="macro">format!</span>(<span class="string">"Bearer {}"</span>, token.<span class=
+"number">0</span>))
         .header(<span class="string">"X-GitHub-Api-Version"</span>, <span class="string">"2022-11-28"</span>)
         .header(<span class="string">"User-Agent"</span>, <span class="string">"cargo_auto_lib"</span>)
         .send()
@@ -1321,8 +1390,9 @@ The TODO section is part of the [README.md](https://github.com/{github_owner}/{p
         .text()
         .unwrap();
     <span class="comment">//pretty_dbg!(&amp;response_text);
+    </span>token.<span class="number">0</span>.zeroize();
 
-    </span><span class="kw">let </span>parsed: serde_json::Value = serde_json::from_str(<span class="kw-2">&</span>response_text).unwrap();
+    <span class="kw">let </span>parsed: serde_json::Value = serde_json::from_str(<span class="kw-2">&</span>response_text).unwrap();
     <span class="comment">// return
     </span>parsed
 }
@@ -1361,9 +1431,7 @@ The TODO section is part of the [README.md](https://github.com/{github_owner}/{p
     }
     */
     </span><span class="macro">println!</span>(<span class="string">"Update GitHub description"</span>);
-    check_or_get_github_token().unwrap();
-    <span class="kw">let </span>token = std::env::var(<span class="string">"GITHUB_TOKEN"</span>).expect(<span class=
-"string">"GITHUB_TOKEN env variable is required"</span>);
+    <span class="kw">let </span><span class="kw-2">mut </span>token = check_or_get_github_token().unwrap();
     <span class="kw">let </span>repos_url = <span class="macro">format!</span>(<span class="string">"https://api.github.com/repos/{owner}/{repo_name}"</span>);
     <span class="kw">let </span>body = <span class="macro">serde_json::json!</span>({
         <span class="string">"description"</span>: description,
@@ -1373,7 +1441,8 @@ The TODO section is part of the [README.md](https://github.com/{github_owner}/{p
     <span class="kw">let </span>response_text = reqwest::blocking::Client::new()
         .patch(repos_url.as_str())
         .header(<span class="string">"Accept"</span>, <span class="string">"application/vnd.github+json"</span>)
-        .header(<span class="string">"Authorization"</span>, <span class="macro">format!</span>(<span class="string">"Bearer {token}"</span>))
+        .header(<span class="string">"Authorization"</span>, <span class="macro">format!</span>(<span class="string">"Bearer {}"</span>, token.<span class=
+"number">0</span>))
         .header(<span class="string">"X-GitHub-Api-Version"</span>, <span class="string">"2022-11-28"</span>)
         .header(<span class="string">"User-Agent"</span>, <span class="string">"cargo_auto_lib"</span>)
         .body(body)
@@ -1382,8 +1451,9 @@ The TODO section is part of the [README.md](https://github.com/{github_owner}/{p
         .text()
         .unwrap();
     <span class="comment">//pretty_dbg!(&amp;response_text);
+    </span>token.<span class="number">0</span>.zeroize();
 
-    </span><span class="kw">let </span>_parsed: serde_json::Value = serde_json::from_str(<span class="kw-2">&</span>response_text).unwrap();
+    <span class="kw">let </span>_parsed: serde_json::Value = serde_json::from_str(<span class="kw-2">&</span>response_text).unwrap();
 }
 
 <span class="kw">fn </span>github_api_replace_all_topics(owner: <span class="kw-2">&</span>str, repo_name: <span class="kw-2">&</span>str, topics: <span class=
@@ -1399,9 +1469,7 @@ The TODO section is part of the [README.md](https://github.com/{github_owner}/{p
       -d '{"names":["cat","atom","electron","api"]}'
      */
     </span><span class="macro">println!</span>(<span class="string">"Update GitHub topics."</span>);
-    check_or_get_github_token().unwrap();
-    <span class="kw">let </span>token = std::env::var(<span class="string">"GITHUB_TOKEN"</span>).expect(<span class=
-"string">"GITHUB_TOKEN env variable is required"</span>);
+    <span class="kw">let </span><span class="kw-2">mut </span>token = check_or_get_github_token().unwrap();
     <span class="kw">let </span>repos_url = <span class="macro">format!</span>(<span class=
 "string">"https://api.github.com/repos/{owner}/{repo_name}/topics"</span>);
     <span class="kw">let </span>body = <span class="macro">serde_json::json!</span>({
@@ -1412,7 +1480,8 @@ The TODO section is part of the [README.md](https://github.com/{github_owner}/{p
     <span class="kw">let </span>response_text = reqwest::blocking::Client::new()
         .put(repos_url.as_str())
         .header(<span class="string">"Accept"</span>, <span class="string">"application/vnd.github+json"</span>)
-        .header(<span class="string">"Authorization"</span>, <span class="macro">format!</span>(<span class="string">"Bearer {token}"</span>))
+        .header(<span class="string">"Authorization"</span>, <span class="macro">format!</span>(<span class="string">"Bearer {}"</span>, token.<span class=
+"number">0</span>))
         .header(<span class="string">"X-GitHub-Api-Version"</span>, <span class="string">"2022-11-28"</span>)
         .header(<span class="string">"User-Agent"</span>, <span class="string">"cargo_auto_lib"</span>)
         .body(body)
@@ -1421,8 +1490,13 @@ The TODO section is part of the [README.md](https://github.com/{github_owner}/{p
         .text()
         .unwrap();
     <span class="comment">//pretty_dbg!(&amp;response_text);
+    </span>token.<span class="number">0</span>.zeroize();
 
-    </span><span class="kw">let </span>_parsed: serde_json::Value = serde_json::from_str(<span class="kw-2">&</span>response_text).unwrap();
+    <span class="kw">let </span>_parsed: serde_json::Value = serde_json::from_str(<span class="kw-2">&</span>response_text).unwrap();
+}
+
+<span class="kw">fn </span>to_path(path_str: <span class="kw-2">&</span>str) -&gt; <span class="kw-2">&</span>std::path::Path {
+    std::path::Path::new(path_str)
 }
 </code></pre>
       </div>
