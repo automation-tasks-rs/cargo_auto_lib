@@ -286,6 +286,8 @@
 <a href="#235" id="235">235</a>
 <a href="#236" id="236">236</a>
 <a href="#237" id="237">237</a>
+<a href="#238" id="238">238</a>
+<a href="#239" id="239">239</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// auto_encrypt_decrypt_with_ssh_mod.rs
@@ -359,23 +361,14 @@
 /// ```
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class=
 "kw">fn </span>encrypt_with_ssh_interactive_save_json(identity_file_path: <span class="kw-2">&</span>str, output_file_path: <span class="kw-2">&</span>str) {
-    <span class="comment">// Generate a random password
+    <span class="comment">// internal function Generate a random password
     </span><span class="kw">fn </span>random_byte_password() -&gt; [u8; <span class="number">32</span>] {
         <span class="kw">let </span><span class="kw-2">mut </span>password = [<span class="number">0_u8</span>; <span class="number">32</span>];
         aes_gcm::aead::OsRng.fill_bytes(<span class="kw-2">&amp;mut </span>password);
         password
     }
 
-    <span class="macro">println!</span>(<span class="string">"Encrypt and save json file"</span>);
-
-    <span class="kw">let </span>identity_file_path_expanded = file_path_home_expand(identity_file_path);
-    <span class="kw">if </span>!file_exists(<span class="kw-2">&</span>identity_file_path_expanded) {
-        <span class="macro">eprintln!</span>(<span class="string">"{RED}File {identity_file_path_expanded} does not exist! Exiting.{RESET}"</span>);
-        <span class="comment">// early exit
-        </span><span class="kw">return</span>;
-    }
-
-    <span class="comment">// Encrypts token with secret_password_bytes
+    <span class="comment">// internal function Encrypts token with secret_password_bytes
     </span><span class="kw">fn </span>encrypt_symmetric(token_is_a_secret: <span class="kw-2">&</span>SecretString, secret_password_bytes: <span class=
 "kw-2">&</span>SecretBytes) -&gt; <span class="prelude-ty">Option</span>&lt;EncryptedString&gt; {
         <span class="kw">let </span>data = token_is_a_secret.<span class="number">0</span>.as_bytes();
@@ -397,6 +390,15 @@
                 <span class="prelude-val">Some</span>(EncryptedString(encrypted_string))
             }
         }
+    }
+
+    <span class="macro">println!</span>(<span class="string">"Encrypt and save json file"</span>);
+
+    <span class="kw">let </span>identity_file_path_expanded = file_path_home_expand(identity_file_path);
+    <span class="kw">if </span>!file_exists(<span class="kw-2">&</span>identity_file_path_expanded) {
+        <span class="macro">eprintln!</span>(<span class="string">"{RED}File {identity_file_path_expanded} does not exist! Exiting.{RESET}"</span>);
+        <span class="comment">// early exit
+        </span><span class="kw">return</span>;
     }
 
     <span class="comment">// fingerprints are calculated from the public key and are not a secret
@@ -440,7 +442,8 @@
     });
     <span class="kw">let </span>file_text = serde_json::to_string_pretty(<span class="kw-2">&</span>json_value).unwrap();
 
-    <span class="kw">let </span>encrypted_file = std::path::Path::new(output_file_path);
+    <span class="kw">let </span>output_file_path = file_path_home_expand(output_file_path);
+    <span class="kw">let </span>encrypted_file = std::path::Path::new(<span class="kw-2">&</span>output_file_path);
     std::fs::write(encrypted_file, file_text).unwrap();
     <span class="macro">println!</span>(<span class="string">"Encrypted text saved in Json file."</span>)
 }
@@ -453,7 +456,7 @@
 /// ```
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>decrypt_with_ssh_from_json(json_file_path: <span class=
 "kw-2">&</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;SecretString&gt; {
-    <span class="comment">// Decrypts data with a key and a fingerprint
+    <span class="comment">// internal function Decrypts data with a key and a fingerprint
     </span><span class="kw">fn </span>decrypt_symmetric(encrypted_text: <span class=
 "kw-2">&</span>EncryptedString, secret_password_bytes: SecretBytes) -&gt; <span class="prelude-ty">Option</span>&lt;SecretString&gt; {
         <span class="kw">let </span>encrypted_bytes = base64ct::Base64::decode_vec(<span class="kw-2">&</span>encrypted_text.<span class=
@@ -480,6 +483,7 @@
 
     <span class="comment">// and now decrypt with private key
     </span><span class="macro">println!</span>(<span class="string">"decrypt file from json"</span>);
+    <span class="kw">let </span>json_file_path = file_path_home_expand(json_file_path);
     <span class="kw">let </span>file_text = std::fs::read_to_string(json_file_path).unwrap();
     <span class="kw">let </span>json_value: serde_json::Value = serde_json::from_str(<span class="kw-2">&</span>file_text).unwrap();
     <span class="kw">let </span>identity_file_path: <span class="kw-2">&</span>str = json_value.get(<span class=
