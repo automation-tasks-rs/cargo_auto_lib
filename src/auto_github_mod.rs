@@ -1,27 +1,24 @@
 // auto_github_mod
 
-use std::default;
-use std::hash::Hash;
-
-use base64ct::Base64;
-use base64ct::Encoding;
-use rsa::pkcs1::DecodeRsaPublicKey;
-use rsa::pkcs8::DecodePublicKey;
-use rsa::pkcs8::EncodePublicKey;
-use ssh_key::public;
-use ssh_key::Fingerprint;
-
 use crate::CargoTomlPublicApiMethods;
+use crate::SecretString;
 use crate::GREEN;
 use crate::RED;
 use crate::RESET;
 use crate::YELLOW;
 
+// region: bring traits in scope
+
+use zeroize::Zeroize;
+
+// endregion: bring traits in scope
+
 pub const RELEASES_MD: &str = "RELEASES.md";
+// file contains github token encrypted with github_com_ssh_1
+pub const GITHUB_TOKEN_ENC: &str = "~/.ssh/github_com_data_1.json";
 
 /// create new release on Github  
 /// return release_id  
-/// it needs env variable `export GITHUB_TOKEN=paste_github_personal_authorization_token_here`  
 /// <https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token>  
 /// ```ignore
 ///       let release_id =  github_create_new_release(&owner, &repo, &version, &name, branch, body_md_text);  
@@ -56,8 +53,7 @@ pub fn github_api_create_new_release(owner: &str, repo: &str, tag_name_version: 
     ...
     }
     */
-    check_or_get_github_token().unwrap();
-    let token = std::env::var("GITHUB_TOKEN").expect("GITHUB_TOKEN env variable is required");
+    let mut token = check_or_get_github_token().unwrap();
     let releases_url = format!("https://api.github.com/repos/{owner}/{repo}/releases");
     let body = serde_json::json!({
         "tag_name": tag_name_version,
@@ -73,7 +69,7 @@ pub fn github_api_create_new_release(owner: &str, repo: &str, tag_name_version: 
     let response_text = reqwest::blocking::Client::new()
         .post(releases_url.as_str())
         .header("Content-Type", "application/vnd.github+json")
-        .header("Authorization", format!("Bearer {token}"))
+        .header("Authorization", format!("Bearer {}", token.0))
         .header("X-GitHub-Api-Version", "2022-11-28")
         .header("User-Agent", "cargo_auto_lib")
         .body(body)
@@ -82,6 +78,8 @@ pub fn github_api_create_new_release(owner: &str, repo: &str, tag_name_version: 
         .text()
         .unwrap();
 
+    token.0.zeroize();
+
     let parsed: serde_json::Value = serde_json::from_str(&response_text).unwrap();
     let new_release_id = parsed.get("id").unwrap().as_i64().unwrap().to_string();
     new_release_id
@@ -89,7 +87,6 @@ pub fn github_api_create_new_release(owner: &str, repo: &str, tag_name_version: 
 
 /// upload asset to github release  
 /// release_upload_url example: <https://uploads.github.com/repos/owner/repo/releases/48127727/assets>  
-/// it needs env variable `export GITHUB_TOKEN=paste_github_personal_authorization_token_here`  
 /// <https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token>  
 /// async function can be called from sync code:  
 /// ```ignore
@@ -99,8 +96,7 @@ pub fn github_api_create_new_release(owner: &str, repo: &str, tag_name_version: 
 ///       println!("Asset uploaded.");  
 /// ```
 pub fn github_api_upload_asset_to_release(owner: &str, repo: &str, release_id: &str, path_to_file: &str) {
-    check_or_get_github_token().unwrap();
-    let token = std::env::var("GITHUB_TOKEN").expect("GITHUB_TOKEN env variable is required");
+    let mut token = check_or_get_github_token().unwrap();
 
     println!("path_to_file: {}", path_to_file);
     let file = std::path::Path::new(&path_to_file);
@@ -124,11 +120,13 @@ pub fn github_api_upload_asset_to_release(owner: &str, repo: &str, release_id: &
             .post(release_upload_url.as_str())
             .header("Content-Type", "application/octet-stream")
             .header("Content-Length", file_size.to_string())
-            .header("Authorization", format!("Bearer {token}"))
+            .header("Authorization", format!("Bearer {}", token.0))
             .body(body)
             .send()
             .await
             .unwrap();
+
+        token.0.zeroize();
 
         // dbg!(response);
     });
@@ -161,8 +159,7 @@ pub fn github_api_repository_new(owner: &str, name: &str, description: &str) -> 
     ...
     }
     */
-    check_or_get_github_token().unwrap();
-    let token = std::env::var("GITHUB_TOKEN").expect("GITHUB_TOKEN env variable is required");
+    let mut token = check_or_get_github_token().unwrap();
     let repos_url = format!("https://api.github.com/user/repos");
     let body = serde_json::json!({
         "name": name,
@@ -181,7 +178,7 @@ pub fn github_api_repository_new(owner: &str, name: &str, description: &str) -> 
     let response_text = reqwest::blocking::Client::new()
         .post(repos_url.as_str())
         .header("Accept", "application/vnd.github+json")
-        .header("Authorization", format!("Bearer {token}"))
+        .header("Authorization", format!("Bearer {}", token.0))
         .header("X-GitHub-Api-Version", "2022-11-28")
         .header("User-Agent", "cargo_auto_lib")
         .body(body)
@@ -190,6 +187,7 @@ pub fn github_api_repository_new(owner: &str, name: &str, description: &str) -> 
         .text()
         .unwrap();
     //pretty_dbg!(&response_text);
+    token.0.zeroize();
 
     let parsed: serde_json::Value = serde_json::from_str(&response_text).unwrap();
     // return
@@ -200,8 +198,8 @@ pub fn github_api_repository_new(owner: &str, name: &str, description: &str) -> 
 pub fn init_repository_if_needed(message: &str) -> bool {
     // Find the filename of the identity_file for ssh connection to host_name, to find out if need ssh-add or not.
     // parse the ~/.ssh/config. 99% probably there should be a record for host_name and there is the identity_file.
-    // else ask user for filename, then run ssh-add
-    let _fingerprint = ssh_add_resolve("github.com", "~/.ssh/github_com_ssh_1");
+    // else ask user for filename, then run ssh-add. The identity added with ssh-add will remain also in the parent process.
+    let _token = check_or_get_github_token().unwrap();
 
     // crate new local git repository
     if !crate::git_is_local_repository() {
@@ -227,12 +225,15 @@ pub fn init_repository_if_needed(message: &str) -> bool {
     is_init_repository
 }
 
+type FingerprintString = String;
+type IdentityFilePathString = String;
+
 /// Parse the ~/.ssh/config file and find the record for host_name and there is the identity_file_path.
 /// If not found, ask user for identity_file_path,
 /// Check if this identity is already in ssh-agent and if not then run ssh-add
 /// This ssh-add will stay even after the process ends, so the parent process will still have it.
-/// returns: fingerprint or None
-pub fn ssh_add_resolve(host_name: &str, default_identity_file_path: &str) -> Option<String> {
+/// returns: fingerprint or None and identity_file_name
+fn ssh_add_resolve(host_name: &str, default_identity_file_path: &str) -> Option<(FingerprintString, IdentityFilePathString)> {
     // I must find the filename of the identity_file for ssh connection to host_name,
     // to find out if I need ssh-add or not.
     // 1. Parse the ~/.ssh/config file and find the record for host_name and there is the identity_file_path.
@@ -248,8 +249,8 @@ pub fn ssh_add_resolve(host_name: &str, default_identity_file_path: &str) -> Opt
     }
     // ssh-add only if needed
     if let Some(identity_file_path) = identity_file_path {
-        let fingerprint = ssh_add_if_needed(identity_file_path).unwrap();
-        Some(fingerprint)
+        let fingerprint = ssh_add_if_needed(&identity_file_path).unwrap();
+        Some((fingerprint, identity_file_path))
     } else {
         None
     }
@@ -283,34 +284,31 @@ pub fn new_remote_github_repository() -> Option<String> {
     Some(repo_html_url)
 }
 
-/// check if the env var GITHUB_TOKEN exist
-/// or ask user interactively to type it
-fn check_or_get_github_token() -> Option<()> {
-    // read ENV variable GITHUB_TOKEN
-    // if it does not exist, ask for it here.
-    match std::env::var("GITHUB_TOKEN") {
-        Ok(_g) => Some(()),
-        Err(_err) => {
-            println!(
-                r#"{RED}Cannot find the GITHUB_TOKEN env variable.{RESET}
-GITHUB_TOKEN env variable is required to work with GitHub API to create a new repository.
+/// decrypt the token from GITHUB_TOKEN_ENC file
+/// or ask user interactively to type it, then encrypt and save to file
+fn check_or_get_github_token() -> Option<SecretString> {
+    let (_fingerprint, identity_file_path) = ssh_add_resolve("github.com", "~/.ssh/github_com_ssh_1").unwrap();
+
+    let mut token: Option<SecretString> = None;
+    if std::path::Path::new(GITHUB_TOKEN_ENC).exists() {
+        token = crate::auto_encrypt_decrypt_with_ssh_mod::decrypt_with_ssh_from_json(GITHUB_TOKEN_ENC);
+    }
+    if token.is_none() {
+        println!(
+            r#"{RED}Cannot find the file with encrypted github token.{RESET}
+The token is required to work with GitHub API to work with your repositories.
 You can generate the token at https://github.com/settings/tokens.
 It needs the permission scope: Full control of private repositories.
 The token is a secret just like a password, use it with caution.
 "#
-            );
-            let answer = inquire::Password::new("Enter the GitHub token:").without_confirmation().prompt().unwrap();
-            if answer.is_empty() {
-                // early exit
-                eprintln!("{RED}The GITHUB_TOKEN was not given. Exiting.{RESET}");
-                return None;
-            }
-            // set the env var for the token, but just for this process
-            // The parent process will still be without this env var.
-            std::env::set_var("GITHUB_TOKEN", answer);
-            Some(())
-        }
+        );
+        // encrypt and save to file
+        crate::auto_encrypt_decrypt_with_ssh_mod::encrypt_with_ssh_interactive_save_json(&identity_file_path, GITHUB_TOKEN_ENC);
+        // now decrypt
+        token = crate::auto_encrypt_decrypt_with_ssh_mod::decrypt_with_ssh_from_json(GITHUB_TOKEN_ENC);
     }
+    // return
+    token
 }
 
 /// interactive ask to create a new local git repository
@@ -332,28 +330,28 @@ pub fn new_local_repository(message: &str) -> Option<()> {
     Some(())
 }
 
+/// identity_file_path contains the path of the private key like: `~/.ssh/github_com_ssh_1`
 /// check if this file is in ssh-add. Only the first 56 ascii characters are the fingerprint.
 /// After is a description, not important and sometimes different.
 /// if is not, then ssh-add and the user will enter the passcode.
-pub fn ssh_add_if_needed(github_ssh_for_push: String) -> Option<String> {
+pub fn ssh_add_if_needed(identity_file_path: &str) -> Option<String> {
     println!("Get a list of fingerprints already in ssh-add.");
     let ssh_added = crate::run_shell_command_output("ssh-add -l").stdout;
 
     println!("Calculate the fingerprint of the identity file to check if it is already in ssh-add.");
-    // crazy !!!! ssh-agent-client-rs works only with PEM format
-    // ssh-key does not work with the PEM format
-    // workaround: the same key will have 2 formats non-PEM and PEM.
-    // The second has the same name, just wit the suffix `.pem`
 
-    let github_ssh_for_push_path = std::path::Path::new(github_ssh_for_push.trim_end_matches(".pem"));
-    let public_key = ssh_key::PublicKey::read_openssh_file(github_ssh_for_push_path).unwrap();
+    // I need the public key here
+    let identity_file_path_public = format!("{identity_file_path}.pub");
+    println!("Public key: {}", identity_file_path_public);
+
+    let public_key = ssh_key::PublicKey::read_openssh_file(to_path(&identity_file_path_public)).unwrap();
     let fingerprint = public_key.fingerprint(Default::default());
     let fingerprint = fingerprint.to_string();
 
     // ssh-add if it is not contained in the ssh-agent
     if !ssh_added.contains(&fingerprint) {
         println!("{YELLOW}Add ssh identity with ssh-add to use with GitHub push.{RESET}");
-        let cmd = format!("ssh-add -h github.com {}", github_ssh_for_push);
+        let cmd = format!("ssh-add -t 1h {}", identity_file_path);
         let shell_output = crate::run_shell_command_output(&cmd);
         if !shell_output.stderr.contains("Identity added") {
             eprintln!("{RED}ssh-add was not successful! Exiting.{RESET}",);
@@ -361,6 +359,7 @@ pub fn ssh_add_if_needed(github_ssh_for_push: String) -> Option<String> {
             return None;
         } else {
             println!("{}", shell_output.stdout);
+            eprintln!("{}", shell_output.stderr);
         }
     } else {
         println!("Key for GitHub push is already in ssh-add.");
@@ -582,13 +581,12 @@ fn github_api_get_repository(owner: &str, repo_name: &str) -> serde_json::Value 
         -H "X-GitHub-Api-Version: 2022-11-28" \
         https://api.github.com/repos/OWNER/REPO
     */
-    check_or_get_github_token().unwrap();
-    let token = std::env::var("GITHUB_TOKEN").expect("GITHUB_TOKEN env variable is required");
+    let mut token = check_or_get_github_token().unwrap();
     let repos_url = format!("https://api.github.com/repos/{owner}/{repo_name}");
     let response_text = reqwest::blocking::Client::new()
         .get(repos_url.as_str())
         .header("Accept", "application/vnd.github+json")
-        .header("Authorization", format!("Bearer {token}"))
+        .header("Authorization", format!("Bearer {}", token.0))
         .header("X-GitHub-Api-Version", "2022-11-28")
         .header("User-Agent", "cargo_auto_lib")
         .send()
@@ -596,6 +594,7 @@ fn github_api_get_repository(owner: &str, repo_name: &str) -> serde_json::Value 
         .text()
         .unwrap();
     //pretty_dbg!(&response_text);
+    token.0.zeroize();
 
     let parsed: serde_json::Value = serde_json::from_str(&response_text).unwrap();
     // return
@@ -635,8 +634,7 @@ pub fn github_api_update_description(owner: &str, repo_name: &str, description: 
     }
     */
     println!("Update GitHub description");
-    check_or_get_github_token().unwrap();
-    let token = std::env::var("GITHUB_TOKEN").expect("GITHUB_TOKEN env variable is required");
+    let mut token = check_or_get_github_token().unwrap();
     let repos_url = format!("https://api.github.com/repos/{owner}/{repo_name}");
     let body = serde_json::json!({
         "description": description,
@@ -646,7 +644,7 @@ pub fn github_api_update_description(owner: &str, repo_name: &str, description: 
     let response_text = reqwest::blocking::Client::new()
         .patch(repos_url.as_str())
         .header("Accept", "application/vnd.github+json")
-        .header("Authorization", format!("Bearer {token}"))
+        .header("Authorization", format!("Bearer {}", token.0))
         .header("X-GitHub-Api-Version", "2022-11-28")
         .header("User-Agent", "cargo_auto_lib")
         .body(body)
@@ -655,6 +653,7 @@ pub fn github_api_update_description(owner: &str, repo_name: &str, description: 
         .text()
         .unwrap();
     //pretty_dbg!(&response_text);
+    token.0.zeroize();
 
     let _parsed: serde_json::Value = serde_json::from_str(&response_text).unwrap();
 }
@@ -671,8 +670,7 @@ fn github_api_replace_all_topics(owner: &str, repo_name: &str, topics: &Vec<Stri
       -d '{"names":["cat","atom","electron","api"]}'
      */
     println!("Update GitHub topics.");
-    check_or_get_github_token().unwrap();
-    let token = std::env::var("GITHUB_TOKEN").expect("GITHUB_TOKEN env variable is required");
+    let mut token = check_or_get_github_token().unwrap();
     let repos_url = format!("https://api.github.com/repos/{owner}/{repo_name}/topics");
     let body = serde_json::json!({
         "names": topics,
@@ -682,7 +680,7 @@ fn github_api_replace_all_topics(owner: &str, repo_name: &str, topics: &Vec<Stri
     let response_text = reqwest::blocking::Client::new()
         .put(repos_url.as_str())
         .header("Accept", "application/vnd.github+json")
-        .header("Authorization", format!("Bearer {token}"))
+        .header("Authorization", format!("Bearer {}", token.0))
         .header("X-GitHub-Api-Version", "2022-11-28")
         .header("User-Agent", "cargo_auto_lib")
         .body(body)
@@ -691,6 +689,11 @@ fn github_api_replace_all_topics(owner: &str, repo_name: &str, topics: &Vec<Stri
         .text()
         .unwrap();
     //pretty_dbg!(&response_text);
+    token.0.zeroize();
 
     let _parsed: serde_json::Value = serde_json::from_str(&response_text).unwrap();
+}
+
+fn to_path(path_str: &str) -> &std::path::Path {
+    std::path::Path::new(path_str)
 }

@@ -224,6 +224,11 @@ pub fn run_shell_command_output(shell_command: &str) -> ShellOutput {
     crate::auto_helper_functions_mod::run_shell_command_output(shell_command)
 }
 
+/// run one shell command and return true if success
+pub fn run_shell_command_success(shell_command: &str) -> bool {
+    crate::auto_helper_functions_mod::run_shell_command_success(shell_command)
+}
+
 /// home_dir() using the home crate.
 /// panics if HOME not found
 pub fn home_dir() -> std::path::PathBuf {
@@ -237,7 +242,6 @@ pub fn init_repository_if_needed(message: &str) -> bool {
 
 /// create new release on Github  
 /// return release_id  
-/// it needs env variable `export GITHUB_TOKEN=paste_github_personal_authorization_token_here`  
 /// <https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token>  
 /// ```ignore
 ///       let release_id =  github_create_new_release(&owner, &repo, &version, &name, branch, body_md_text);  
@@ -251,7 +255,6 @@ pub fn github_api_create_new_release(owner: &str, repo: &str, tag_name_version: 
 
 /// upload asset to github release  
 /// release_upload_url example: <https://uploads.github.com/repos/owner/repo/releases/48127727/assets>  
-/// it needs env variable `export GITHUB_TOKEN=paste_github_personal_authorization_token_here`  
 /// <https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token>  
 /// async function can be called from sync code:  
 /// ```ignore
@@ -309,15 +312,6 @@ pub fn auto_playground_run_code() {
 /// Topic must be only one word: lowercase letters, hyphens(-) or numbers, less then 35 characters.
 pub fn description_and_topics_to_github() {
     crate::auto_github_mod::description_and_topics_to_github()
-}
-
-/// encrypt and save json file
-pub fn encrypt_with_ssh_and_save_json(identity_file_path: &str, token_is_a_secret: SecretString, output_file_path: &str) {
-    crate::auto_encrypt_decrypt_with_ssh_mod::encrypt_with_ssh_and_save_json(identity_file_path, token_is_a_secret, output_file_path)
-}
-/// decrypt from json file
-pub fn decrypt_with_ssh_from_json(json_file_path: &str) -> Option<String> {
-    crate::auto_encrypt_decrypt_with_ssh_mod::decrypt_with_ssh_from_json(json_file_path)
 }
 
 // endregion: Public API functions

@@ -196,22 +196,14 @@ fn task_doc() {
 
 /// cargo test
 fn task_test() {
-    cl::encrypt_with_ssh_and_save_json("~/.ssh/github_com_ssh_1.pub.pem", cl::SecretString("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".to_string()), "output1.json");
- 
-let output = cl::decrypt_with_ssh_from_json("output1.json").unwrap();
-dbg!(output);
-
-
-
-
-/*         cl::run_shell_command("cargo test");
+         cl::run_shell_command("cargo test");
         println!(
     r#"
         {YELLOW}After `cargo auto test`. If ok then {RESET}
     {GREEN}cargo auto commit_and_push "message"{RESET}
         {YELLOW}with mandatory commit message{RESET}
     "#
-        ); */
+        );
 }
 
 /// commit and push
@@ -317,40 +309,7 @@ fn task_github_new_release() {
     );
 }
 // endregion: tasks
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
+ // 
 // 
 // 
 // 

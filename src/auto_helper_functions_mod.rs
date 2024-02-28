@@ -53,6 +53,16 @@ pub fn run_shell_command_output(shell_command: &str) -> ShellOutput {
     }
 }
 
+/// run one shell command and return true if success
+pub fn run_shell_command_success(shell_command: &str) -> bool {
+    if !shell_command.starts_with("echo ") {
+        println!("    $ {}", shell_command);
+    }
+    let status = std::process::Command::new("sh").arg("-c").arg(shell_command).status().unwrap();
+    // return
+    status.success()
+}
+
 /// check if run in rust project root directory error
 /// there must be Cargo.toml and the directory automation_tasks_rs
 /// exit with error message if not
