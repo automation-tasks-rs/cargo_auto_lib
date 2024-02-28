@@ -9,11 +9,12 @@ The ongoing changes that are not released, are visible in the git commits and gi
 The TODO section is part of the [README.md](https://github.com/bestia-dev/cargo_auto_lib).  
 
 ## Unreleased
+
 - encrypt decrypt ~
 
 ## Version 1.3.35 (2024-02-28)
 
-- encrypt derypt
+- encrypt decrypt
 
 ## Version 1.3.33 (2024-02-25)
 
