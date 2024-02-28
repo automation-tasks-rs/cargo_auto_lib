@@ -67,23 +67,14 @@ pub struct SecretBytes<'a>(pub &'a mut [u8]);
 /// cl::encrypt_with_ssh_interactive_save_json("~/.ssh/github_com_ssh_1", "output1.json");
 /// ```
 pub(crate) fn encrypt_with_ssh_interactive_save_json(identity_file_path: &str, output_file_path: &str) {
-    // Generate a random password
+    // internal function Generate a random password
     fn random_byte_password() -> [u8; 32] {
         let mut password = [0_u8; 32];
         aes_gcm::aead::OsRng.fill_bytes(&mut password);
         password
     }
 
-    println!("Encrypt and save json file");
-
-    let identity_file_path_expanded = file_path_home_expand(identity_file_path);
-    if !file_exists(&identity_file_path_expanded) {
-        eprintln!("{RED}File {identity_file_path_expanded} does not exist! Exiting.{RESET}");
-        // early exit
-        return;
-    }
-
-    // Encrypts token with secret_password_bytes
+    // internal function Encrypts token with secret_password_bytes
     fn encrypt_symmetric(token_is_a_secret: &SecretString, secret_password_bytes: &SecretBytes) -> Option<EncryptedString> {
         let data = token_is_a_secret.0.as_bytes();
         //only first 32 bytes
@@ -102,6 +93,15 @@ pub(crate) fn encrypt_with_ssh_interactive_save_json(identity_file_path: &str, o
                 Some(EncryptedString(encrypted_string))
             }
         }
+    }
+
+    println!("Encrypt and save json file");
+
+    let identity_file_path_expanded = file_path_home_expand(identity_file_path);
+    if !file_exists(&identity_file_path_expanded) {
+        eprintln!("{RED}File {identity_file_path_expanded} does not exist! Exiting.{RESET}");
+        // early exit
+        return;
     }
 
     // fingerprints are calculated from the public key and are not a secret
@@ -137,7 +137,8 @@ pub(crate) fn encrypt_with_ssh_interactive_save_json(identity_file_path: &str, o
     });
     let file_text = serde_json::to_string_pretty(&json_value).unwrap();
 
-    let encrypted_file = std::path::Path::new(output_file_path);
+    let output_file_path = file_path_home_expand(output_file_path);
+    let encrypted_file = std::path::Path::new(&output_file_path);
     std::fs::write(encrypted_file, file_text).unwrap();
     println!("Encrypted text saved in Json file.")
 }
@@ -149,7 +150,7 @@ pub(crate) fn encrypt_with_ssh_interactive_save_json(identity_file_path: &str, o
 /// dbg!(output);
 /// ```
 pub(crate) fn decrypt_with_ssh_from_json(json_file_path: &str) -> Option<SecretString> {
-    // Decrypts data with a key and a fingerprint
+    // internal function Decrypts data with a key and a fingerprint
     fn decrypt_symmetric(encrypted_text: &EncryptedString, secret_password_bytes: SecretBytes) -> Option<SecretString> {
         let encrypted_bytes = base64ct::Base64::decode_vec(&encrypted_text.0).unwrap();
         //only first 32 bytes
@@ -171,6 +172,7 @@ pub(crate) fn decrypt_with_ssh_from_json(json_file_path: &str) -> Option<SecretS
 
     // and now decrypt with private key
     println!("decrypt file from json");
+    let json_file_path = file_path_home_expand(json_file_path);
     let file_text = std::fs::read_to_string(json_file_path).unwrap();
     let json_value: serde_json::Value = serde_json::from_str(&file_text).unwrap();
     let identity_file_path: &str = json_value.get("identity").unwrap().as_str().unwrap();
