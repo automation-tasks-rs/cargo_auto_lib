@@ -260,6 +260,8 @@
 <a href="#209" id="209">209</a>
 <a href="#210" id="210">210</a>
 <a href="#211" id="211">211</a>
+<a href="#212" id="212">212</a>
+<a href="#213" id="213">213</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// auto_encrypt_decrypt_with_ssh_mod.rs
@@ -313,26 +315,25 @@
 
 <span class="comment">// endregion: bring traits in scope
 
-// use crate::GREEN;
+</span><span class="kw">use </span><span class="kw">crate</span>::auto_ssh_mod::EncryptedString;
+<span class="kw">use </span><span class="kw">crate</span>::SecretString;
+<span class="comment">// use crate::GREEN;
 </span><span class="kw">use </span><span class="kw">crate</span>::RED;
 <span class="kw">use </span><span class="kw">crate</span>::RESET;
 <span class="kw">use </span><span class="kw">crate</span>::YELLOW;
 
 <span class="comment">// region: new structs or newtype
-</span><span class="kw">pub struct </span>SecretString(<span class="kw">pub </span>String);
-<span class="kw">pub struct </span>EncryptedString(<span class="kw">pub </span>String);
-<span class="kw">pub struct </span>SecretBytes&lt;<span class="lifetime">'a</span>&gt;(<span class="kw">pub </span><span class="kw-2">&</span><span class=
-"lifetime">'a </span><span class="kw-2">mut </span>[u8]);
-
+</span><span class="kw">pub struct </span>SecretBytes&lt;<span class="lifetime">'a</span>&gt;(<span class="kw">pub </span><span class=
+"kw-2">&</span><span class="lifetime">'a </span><span class="kw-2">mut </span>[u8]);
 <span class="comment">// endregion: new structs or newtype
 
-</span><span class="doccomment">/// encrypt a token with the chosen ssh_identity and save as json file
+</span><span class="doccomment">/// encrypt a token with the chosen ssh_identity and save as json encoded in Base64
 /// use ssh-add to put ssh identity into ssh-agent
 /// ```rust ignore
-/// cl::encrypt_with_ssh_interactive_save_json("~/.ssh/github_com_ssh_1", "output1.json");
+/// cl::encrypt_with_ssh_interactive_save_json("~/.ssh/github_com_ssh_1", "output1.ssh");
 /// ```
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class=
-"kw">fn </span>encrypt_with_ssh_interactive_save_json(identity_file_path: <span class="kw-2">&</span>str, output_file_path: <span class="kw-2">&</span>str) {
+"kw">fn </span>encrypt_with_ssh_interactive_save_file(identity_file_path: <span class="kw-2">&</span>str, output_file_path: <span class="kw-2">&</span>str) {
     <span class="comment">// internal function Generate a random password
     </span><span class="kw">fn </span>random_byte_password() -&gt; [u8; <span class="number">32</span>] {
         <span class="kw">let </span><span class="kw-2">mut </span>password = [<span class="number">0_u8</span>; <span class="number">32</span>];
@@ -412,6 +413,7 @@
         <span class="string">"encrypted"</span>:encrypted_text.<span class="number">0</span>,
     });
     <span class="kw">let </span>file_text = serde_json::to_string_pretty(<span class="kw-2">&</span>json_value).unwrap();
+    <span class="kw">let </span>file_text = base64ct::Base64::encode_string(file_text.as_bytes());
 
     <span class="kw">let </span>output_file_path = <span class="kw">crate</span>::utils_mod::file_path_home_expand(output_file_path);
     <span class="kw">let </span>encrypted_file = std::path::Path::new(<span class="kw-2">&</span>output_file_path);
@@ -425,7 +427,7 @@
 /// let output = cl::decrypt_with_ssh_from_json("output1.json").unwrap();
 /// dbg!(output);
 /// ```
-</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>decrypt_with_ssh_from_json(json_file_path: <span class=
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>decrypt_with_ssh_from_file(json_file_path: <span class=
 "kw-2">&</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;SecretString&gt; {
     <span class="comment">// internal function Decrypts data with a key and a fingerprint
     </span><span class="kw">fn </span>decrypt_symmetric(encrypted_text: <span class=
@@ -456,6 +458,8 @@
     </span><span class="macro">println!</span>(<span class="string">"    {YELLOW}Decrypting GitHub API token from encrypted file.{RESET}"</span>);
     <span class="kw">let </span>json_file_path = <span class="kw">crate</span>::utils_mod::file_path_home_expand(json_file_path);
     <span class="kw">let </span>file_text = std::fs::read_to_string(json_file_path).unwrap();
+    <span class="kw">let </span>file_text = base64ct::Base64::decode_vec(<span class="kw-2">&</span>file_text).unwrap();
+    <span class="kw">let </span>file_text = String::from_utf8(file_text).unwrap();
     <span class="kw">let </span>json_value: serde_json::Value = serde_json::from_str(<span class="kw-2">&</span>file_text).unwrap();
     <span class="kw">let </span>identity_file_path: <span class="kw-2">&</span>str = json_value.get(<span class=
 "string">"identity"</span>).unwrap().as_str().unwrap();

@@ -748,7 +748,7 @@
 
 </span><span class="kw">pub const </span>RELEASES_MD: <span class="kw-2">&</span>str = <span class="string">"RELEASES.md"</span>;
 <span class="comment">// file contains github token encrypted with github_com_ssh_1
-</span><span class="kw">pub const </span>GITHUB_TOKEN_JSON_PATH: <span class="kw-2">&</span>str = <span class="string">"~/.ssh/github_com_data_1.json"</span>;
+</span><span class="kw">pub const </span>GITHUB_TOKEN_PATH: <span class="kw-2">&</span>str = <span class="string">"~/.ssh/github_com_data_1.ssh"</span>;
 
 <span class="doccomment">/// create new release on Github  
 /// return release_id  
@@ -973,7 +973,7 @@
 /// Check if this identity is already in ssh-agent and if not then run ssh-add to add it.
 /// This ssh-add will stay even after the process ends, so the parent process will still have it.
 /// returns: fingerprint or None and identity_file_name
-</span><span class="kw">fn </span>ssh_add_resolve(host_name: <span class="kw-2">&</span>str, default_identity_file_path: <span class=
+</span><span class="kw">pub fn </span>ssh_add_resolve(host_name: <span class="kw-2">&</span>str, default_identity_file_path: <span class=
 "kw-2">&</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;(<span class="kw">crate</span>::auto_ssh_mod::FingerprintString, <span class=
 "kw">crate</span>::auto_ssh_mod::IdentityFilePathString)&gt; {
     <span class="comment">// I must find the filename of the identity_file for ssh connection to host_name,
@@ -1033,7 +1033,7 @@
     <span class="prelude-val">Some</span>(repo_html_url)
 }
 
-<span class="doccomment">/// decrypt the token from GITHUB_TOKEN_ENC file
+<span class="doccomment">/// decrypt the token from GITHUB_TOKEN_PATH file
 /// or ask user interactively to type it, then encrypt and save to file
 </span><span class="kw">fn </span>check_or_get_github_token() -&gt; <span class="prelude-ty">Option</span>&lt;SecretString&gt; {
     <span class="comment">// ssh_add_resolve(host_name: &amp;str, default_identity_file_path: &amp;str)
@@ -1042,9 +1042,9 @@
 
     <span class="kw">let </span><span class="kw-2">mut </span>token: <span class="prelude-ty">Option</span>&lt;SecretString&gt; = <span class=
 "prelude-val">None</span>;
-    <span class="kw">let </span>github_token_json_path_expanded = <span class="kw">crate</span>::utils_mod::file_path_home_expand(GITHUB_TOKEN_JSON_PATH);
+    <span class="kw">let </span>github_token_json_path_expanded = <span class="kw">crate</span>::utils_mod::file_path_home_expand(GITHUB_TOKEN_PATH);
     <span class="kw">if </span>std::path::Path::new(<span class="kw-2">&</span>github_token_json_path_expanded).exists() {
-        token = <span class="kw">crate</span>::auto_encrypt_decrypt_with_ssh_mod::decrypt_with_ssh_from_json(<span class=
+        token = <span class="kw">crate</span>::auto_encrypt_decrypt_with_ssh_mod::decrypt_with_ssh_from_file(<span class=
 "kw-2">&</span>github_token_json_path_expanded);
     }
     <span class="kw">if </span>token.is_none() {
@@ -1057,10 +1057,10 @@
 "#
         </span>);
         <span class="comment">// encrypt and save to file
-        </span><span class="kw">crate</span>::auto_encrypt_decrypt_with_ssh_mod::encrypt_with_ssh_interactive_save_json(<span class=
+        </span><span class="kw">crate</span>::auto_encrypt_decrypt_with_ssh_mod::encrypt_with_ssh_interactive_save_file(<span class=
 "kw-2">&</span>identity_file_path, <span class="kw-2">&</span>github_token_json_path_expanded);
         <span class="comment">// now decrypt
-        </span>token = <span class="kw">crate</span>::auto_encrypt_decrypt_with_ssh_mod::decrypt_with_ssh_from_json(<span class=
+        </span>token = <span class="kw">crate</span>::auto_encrypt_decrypt_with_ssh_mod::decrypt_with_ssh_from_file(<span class=
 "kw-2">&</span>github_token_json_path_expanded);
     }
     <span class="comment">// return

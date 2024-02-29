@@ -35,7 +35,7 @@
     <div class="sidebar-crate">
       <a class="logo-container" href="../cargo_auto_lib/index.html"><img src=
       "https://github.com/bestia-dev/cargo-auto/raw/main/images/logo/logo_cargo_auto.svg" alt="logo"></a>
-      <h2><a href="../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">1.3.59</span></h2>
+      <h2><a href="../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">1.3.62</span></h2>
     </div>
     <div class="sidebar-elems">
       <ul class="block">
@@ -88,7 +88,7 @@
         <div class="main-heading">
           <h1>Crate <a class="mod" href="#">cargo_auto_lib</a><button id="copy-path" title="Copy item path to clipboard"><img src=
           "../static.files/clipboard-7571035ce49a181d.svg" width="19" height="18" alt="Copy item path"></button></h1><span class="out-of-band"><a class="src"
-          href="../src/cargo_auto_lib/lib.rs.html#4-41">source</a> · <button id="toggle-all-docs" title="collapse all docs">[<span>−</span>]</button></span>
+          href="../src/cargo_auto_lib/lib.rs.html#4-42">source</a> · <button id="toggle-all-docs" title="collapse all docs">[<span>−</span>]</button></span>
         </div>
         <details class="toggle top-doc" open="">
           <summary class="hideme">
@@ -98,7 +98,7 @@
             <h2 id="cargo_auto_lib"><a href="#cargo_auto_lib">cargo_auto_lib</a></h2>
             <p><strong>Library crate for common tasks when building rust projects. Intended for use with cargo-auto - automation tasks written in Rust
             language.</strong><br>
-            <em><strong>version: 1.3.59 date: 2024-02-29 author: <a href="https://bestia.dev">Bestia.dev</a> repository: <a href=
+            <em><strong>version: 1.3.62 date: 2024-02-29 author: <a href="https://bestia.dev">Bestia.dev</a> repository: <a href=
             "https://github.com/bestia-dev/cargo_auto_lib">GitHub</a></strong></em></p>
             <p><img src="https://img.shields.io/badge/maintained-green" alt="maintained"> <img src="https://img.shields.io/badge/ready_for_use-green" alt=
             "ready-for-use"> <img src="https://img.shields.io/badge/rustlang-orange" alt="rustlang"> <img src="https://img.shields.io/badge/cargo_auto-orange"
@@ -113,10 +113,10 @@
             "License"></a> <a href="https://github.com/bestia-dev/cargo_auto_lib/"><img src=
             "https://github.com/bestia-dev/cargo_auto_lib/workflows/rust_fmt_auto_build_test/badge.svg" alt="Rust"></a> <img src=
             "https://bestia.dev/webpage_hit_counter/get_svg_image/276360626.svg" alt="cargo_auto_lib"></p>
-            <p><a href="https://github.com/bestia-dev/cargo_auto_lib/"><img src="https://img.shields.io/badge/Lines_in_Rust-2471-green.svg" alt=
+            <p><a href="https://github.com/bestia-dev/cargo_auto_lib/"><img src="https://img.shields.io/badge/Lines_in_Rust-2523-green.svg" alt=
             "Lines in Rust code"></a> <a href="https://github.com/bestia-dev/cargo_auto_lib/"><img src=
-            "https://img.shields.io/badge/Lines_in_Doc_comments-352-blue.svg" alt="Lines in Doc comments"></a> <a href=
-            "https://github.com/bestia-dev/cargo_auto_lib/"><img src="https://img.shields.io/badge/Lines_in_comments-361-purple.svg" alt=
+            "https://img.shields.io/badge/Lines_in_Doc_comments-360-blue.svg" alt="Lines in Doc comments"></a> <a href=
+            "https://github.com/bestia-dev/cargo_auto_lib/"><img src="https://img.shields.io/badge/Lines_in_comments-369-purple.svg" alt=
             "Lines in Comments"></a> <a href="https://github.com/bestia-dev/cargo_auto_lib/"><img src=
             "https://img.shields.io/badge/Lines_in_examples-28-yellow.svg" alt="Lines in examples"></a> <a href=
             "https://github.com/bestia-dev/cargo_auto_lib/"><img src="https://img.shields.io/badge/Lines_in_tests-79-orange.svg" alt="Lines in tests"></a></p>
@@ -243,6 +243,12 @@ cargo auto doc{RESET}{YELLOW}
             <div class="item-name">
               <a class="mod" href="auto_copy_files_to_strings_mod/index.html" title=
               "mod cargo_auto_lib::auto_copy_files_to_strings_mod">auto_copy_files_to_strings_mod</a><span title="Restricted Visibility">&nbsp;🔒</span>
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="mod" href="auto_crates_io_mod/index.html" title="mod cargo_auto_lib::auto_crates_io_mod">auto_crates_io_mod</a><span title=
+              "Restricted Visibility">&nbsp;🔒</span>
             </div>
           </li>
           <li>
@@ -774,6 +780,16 @@ cargo auto doc{RESET}{YELLOW}
             </div>
             <div class="desc docblock-short">
               the UTC date in iso standard 2024-12-31
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="fn" href="fn.publish_to_crates_io_with_secret_token.html" title=
+              "fn cargo_auto_lib::publish_to_crates_io_with_secret_token">publish_to_crates_io_with_secret_token</a>
+            </div>
+            <div class="desc docblock-short">
+              encrypt/decrypt the crates.io token with the GitHub ssh key then call the <code>cargo publish --token token</code> command but never show the
+              secret token anywhere
             </div>
           </li>
           <li>

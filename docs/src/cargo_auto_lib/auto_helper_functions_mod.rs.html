@@ -232,9 +232,9 @@
 /// exit with error message if not
 </span><span class="kw">pub fn </span>exit_if_not_run_in_rust_project_root_directory() {
     <span class="kw">if </span>!(std::path::Path::new(<span class="string">"automation_tasks_rs"</span>).exists() &amp;& (std::path::Path::new(<span class=
-"string">"Cargo.toml"</span>).exists() || std::path::Path::new(<span class="string">"Cargo-auto.toml"</span>).exists())) {
+"string">"Cargo.toml"</span>).exists())) {
         <span class="macro">eprintln!</span>(<span class=
-"string">"{RED}Error: automation_tasks_rs must be called in the root directory of the rust project beside the Cargo.toml (or Cargo-auto.toml) file and automation_tasks_rs directory.{RESET}"</span>);
+"string">"{RED}Error: automation_tasks_rs must be called in the root directory of the rust project beside the Cargo.toml file and automation_tasks_rs directory.{RESET}"</span>);
         <span class="comment">// early exit
         </span>std::process::exit(<span class="number">0</span>);
     }
