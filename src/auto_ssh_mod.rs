@@ -2,6 +2,8 @@
 
 pub type FingerprintString = String;
 pub type IdentityFilePathString = String;
+pub struct SecretString(pub String);
+pub struct EncryptedString(pub String);
 
 /// The work with ssh_agent_client_rs starts with a client
 pub fn crate_ssh_agent_client() -> ssh_agent_client_rs::Client {

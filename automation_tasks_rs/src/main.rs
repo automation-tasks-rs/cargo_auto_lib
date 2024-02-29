@@ -241,8 +241,9 @@ fn task_publish_to_crates_io() {
     // take care of tags
     let tag_name_version = cl::git_tag_sync_check_create_push(&version);
 
-    // cargo publish
-    cl::run_shell_command("cargo publish");
+    // cargo publish with encrypted secret token
+    cl::publish_to_crates_io_with_secret_token();
+
     println!(
         r#"
     {YELLOW}After `cargo auto publish_to_crates_io`, check in browser{RESET}
