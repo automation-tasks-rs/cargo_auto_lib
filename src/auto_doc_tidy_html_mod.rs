@@ -24,7 +24,7 @@ pub fn auto_doc_tidy_html() -> ResultWithLibError<()> {
         // Use tidy HTML to format the docs/*.html files to be human readable and usable for git diff.
         // Options: -m modify file, -q quiet suppress nonessential output, -w wrap at 160, -i indent 2 spaces
         // The warnings and errors are appended to the file docs/tidy_warnings.txt
-        crate::run_shell_command(r#"find ./docs -name '*.html' -type f -print -exec tidy -mq -w 160 -i 2 '{}' \; >> docs/tidy_warnings.txt 2>&1 "#);
+        crate::run_shell_command(r#"find ./docs -name '*.html' -type f -print -exec tidy -mq --tidy-mark no -w 160 -i 2 '{}' \; >> docs/tidy_warnings.txt 2>&1 "#);
     }
     Ok(())
 }
