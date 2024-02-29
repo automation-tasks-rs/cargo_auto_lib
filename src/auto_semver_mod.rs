@@ -2,7 +2,7 @@
 
 //! semver utilities
 
-use crate::public_api_mod::{GREEN, RESET};
+use crate::public_api_mod::{GREEN, RED, RESET, YELLOW};
 use crate::{
     error_mod::{LibError, ResultWithLibError},
     utils_mod::*,
@@ -16,22 +16,22 @@ enum VersionPart {
 
 /// Increments the patch version in Cargo.toml file only if files are changed
 pub fn auto_semver_increment_patch() {
-    increment_part(VersionPart::Patch, false).unwrap_or_else(|err| panic!("{}", err))
+    increment_part(VersionPart::Patch, false).unwrap_or_else(|err| panic!("{RED}{err}{RESET}"))
 }
 
 /// Increments the patch version in Cargo.toml file even if files are not changed
 pub fn auto_semver_increment_patch_forced() {
-    increment_part(VersionPart::Patch, true).unwrap_or_else(|err| panic!("{}", err))
+    increment_part(VersionPart::Patch, true).unwrap_or_else(|err| panic!("{RED}{err}{RESET}"))
 }
 
 /// Increments the minor version in Cargo.toml file only if files are changed
 pub fn auto_semver_increment_minor() {
-    increment_part(VersionPart::Minor, false).unwrap_or_else(|err| panic!("{}", err))
+    increment_part(VersionPart::Minor, false).unwrap_or_else(|err| panic!("{RED}{err}{RESET}"))
 }
 
 /// Increments the minor version in Cargo.toml file even if files are not changed
 pub fn auto_semver_increment_minor_forced() {
-    increment_part(VersionPart::Minor, true).unwrap_or_else(|err| panic!("{}", err))
+    increment_part(VersionPart::Minor, true).unwrap_or_else(|err| panic!("{RED}{err}{RESET}"))
 }
 
 fn increment_part(part: VersionPart, force_version: bool) -> ResultWithLibError<()> {
@@ -50,10 +50,7 @@ fn increment_part(part: VersionPart, force_version: bool) -> ResultWithLibError<
 
         // check if file have CRLF instead of LF and show error
         if cargo_toml_text.contains("\r\n") {
-            panic!(
-                "Error: {} has CRLF line endings instead of LF. The task auto_semver_increment cannot work! Exiting..",
-                cargo_toml_filename
-            );
+            panic!("{RED}Error: {cargo_toml_filename} has CRLF line endings instead of LF. The task auto_semver_increment cannot work! Exiting..{RESET}");
         }
 
         // find the line with "version = " including the start quote
@@ -61,7 +58,7 @@ fn increment_part(part: VersionPart, force_version: bool) -> ResultWithLibError<
             // find the end quote
             if let Some(pos_end_data) = find_pos_end_data_before_delimiter(&cargo_toml_text, pos_start_data, r#"""#) {
                 let version = cargo_toml_text[pos_start_data..pos_end_data].to_string();
-                println!(r#"    old version: "{}""#, &version);
+                println!(r#"    {YELLOW}old version: "{version}"{RESET}"#);
                 //increment the last number
                 let pos = pos_start_data;
                 let (major, pos) = parse_next_number(&cargo_toml_text, pos)?;
@@ -93,10 +90,10 @@ fn increment_part(part: VersionPart, force_version: bool) -> ResultWithLibError<
                 crate::auto_version_from_date_mod::correct_file_metadata_for_cargo_tom_inside_vec(&mut vec_of_metadata)?;
                 crate::auto_version_from_date_mod::save_json_file_for_file_meta_data(vec_of_metadata);
             } else {
-                panic!("no end quote for version");
+                panic!("{RED}no end quote for version{RESET}");
             }
         } else {
-            panic!("Cargo.toml has no version");
+            panic!("{RED}Cargo.toml has no version{RESET}");
         }
     }
     Ok(())

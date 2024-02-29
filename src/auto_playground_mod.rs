@@ -1,5 +1,6 @@
 // auto_playground_mod.rs
 
+use crate::public_api_mod::{RED, RESET, YELLOW};
 use crate::utils_mod::*;
 use lazy_static::lazy_static;
 
@@ -12,7 +13,7 @@ lazy_static! {
 
 #[doc=include_str!("../doc_comments_long/auto_playground_run_code.md")]
 pub fn auto_playground_run_code() {
-    println!("    Running auto_playground");
+    println!("    {YELLOW}Running auto_playground{RESET}");
     let path = std::env::current_dir().unwrap();
     //use traverse instead of glob
     let files = crate::utils_mod::traverse_dir_with_exclude_dir(
@@ -31,7 +32,7 @@ pub fn auto_playground_run_code() {
         // check if file have CRLF and show error
         if md_old.contains("\r\n") {
             panic!(
-                "Error: {} has CRLF line endings instead of LF. The task auto_playground cannot work! Exiting.",
+                "{RED}Error: {} has CRLF line endings instead of LF. The task auto_playground cannot work! Exiting.{RESET}",
                 md_filename.to_string_lossy()
             );
         }
@@ -63,7 +64,7 @@ pub fn auto_playground_run_code() {
             // parse this format [Rust playground](https:...)
             let cap_group = REGEX_MD_LINK
                 .captures(text_that_has_the_link)
-                .unwrap_or_else(|| panic!("Error: The old link '{}' is NOT in this format '[Rust playground](https:...)'", text_that_has_the_link));
+                .unwrap_or_else(|| panic!("{RED}Error: The old link '{text_that_has_the_link}' is NOT in this format '[Rust playground](https:...)'{RESET}"));
             let old_link = &cap_group[1];
             // replace the old link with the new one
             let text_that_has_the_link = text_that_has_the_link.replace(old_link, &playground_link);
@@ -76,7 +77,7 @@ pub fn auto_playground_run_code() {
 
         // if changed, then write to disk
         if is_changed {
-            println!("Code inside {} has changed. Playground link corrected.", md_filename.to_string_lossy());
+            println!("    {YELLOW}Code inside {} has changed. Playground link corrected.{RESET}", md_filename.to_string_lossy());
             // push the remaining text
             md_new.push_str(&md_old[iteration_start_pos..md_old.len()]);
             let bak_filename = md_filename.with_extension("bak");
@@ -84,5 +85,5 @@ pub fn auto_playground_run_code() {
             std::fs::write(&md_filename, md_new).unwrap();
         }
     }
-    println!("    Finished auto_playground");
+    println!("    {YELLOW}Finished auto_playground{RESET}");
 }

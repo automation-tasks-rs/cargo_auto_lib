@@ -1,13 +1,13 @@
 // auto_check_micro_xml_mod.rs
 
-use crate::public_api_mod::{RED, RESET};
+use crate::public_api_mod::{RED, RESET, YELLOW};
 use glob::glob;
 use reader_for_microxml::{ReaderForMicroXml, Token};
 
 /// I want html pages to be correct microXML when I use them for single page application.
 /// Before build or release this function will check for correctness.
 pub fn auto_check_micro_xml(path_to_html_pages: &str) {
-    println!("    Running auto_check_micro_xml {}", path_to_html_pages);
+    println!("    {YELLOW}Running auto_check_micro_xml {path_to_html_pages}{RESET}");
     let glob_str = format!("{}/*.html", path_to_html_pages.trim_end_matches('/'));
     // find html pages for single page application
     for filename_result in glob(&glob_str).unwrap() {
@@ -18,7 +18,7 @@ pub fn auto_check_micro_xml(path_to_html_pages: &str) {
         // check if file have CRLF instead of LF and show error
         if str_xml.contains("\r\n") {
             panic!(
-                "Error: {} has CRLF line endings instead of LF. The task auto_check_micro_xml cannot work! Exiting..",
+                "{RED}Error: {} has CRLF line endings instead of LF. The task auto_check_micro_xml cannot work! Exiting..{RESET}",
                 filename_pathbuff.to_string_lossy()
             );
         }
@@ -26,12 +26,12 @@ pub fn auto_check_micro_xml(path_to_html_pages: &str) {
         // check microxml correctness. Panic on errors.
         check_micro_xml(&str_xml, file_name);
     }
-    println!("    Finished auto_check_micro_xml");
+    println!("    {YELLOW}Finished auto_check_micro_xml{RESET}");
 }
 
 /// panics if the microXML string is not correct
 fn check_micro_xml(str_xml: &str, file_name: &str) {
-    println!("    Check MicroXml: {}", file_name);
+    println!("    {YELLOW}Check MicroXml: {file_name}{RESET}");
     // remove <!DOCTYPE html> because it is not microXML
     let str_xml = str_xml.replace("<!DOCTYPE html>", "");
     let reader_iterator = ReaderForMicroXml::new(&str_xml);

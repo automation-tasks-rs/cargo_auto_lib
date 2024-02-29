@@ -13,10 +13,11 @@ pub const RESET: &str = "\x1b[0m";
 
 // region: Public API structs and methods
 
-/// I use thiserror to return errors from the library.
 pub use crate::error_mod::ResultWithLibError;
 
 pub use crate::auto_helper_functions_mod::ShellOutput;
+
+pub use crate::auto_encrypt_decrypt_with_ssh_mod::SecretString;
 
 // reexporting a struct needs to export the trait to also reexports all the methods
 pub use crate::auto_cargo_toml_mod::CargoToml;
@@ -223,6 +224,11 @@ pub fn run_shell_command_output(shell_command: &str) -> ShellOutput {
     crate::auto_helper_functions_mod::run_shell_command_output(shell_command)
 }
 
+/// run one shell command and return true if success
+pub fn run_shell_command_success(shell_command: &str) -> bool {
+    crate::auto_helper_functions_mod::run_shell_command_success(shell_command)
+}
+
 /// home_dir() using the home crate.
 /// panics if HOME not found
 pub fn home_dir() -> std::path::PathBuf {
@@ -234,16 +240,8 @@ pub fn init_repository_if_needed(message: &str) -> bool {
     crate::auto_github_mod::init_repository_if_needed(message)
 }
 
-/// Find the filename of the identity_file for ssh connection to host_name, to find out if need ssh-add or not.
-/// parse the ~/.ssh/config. 99% probably there should be a record for host_name and there is the identity_file.
-/// else ask user for filename, then run ssh-add
-pub fn ssh_add_resolve(host_name: &str, default_host_name: &str) {
-    crate::auto_github_mod::ssh_add_resolve(host_name, default_host_name)
-}
-
 /// create new release on Github  
 /// return release_id  
-/// it needs env variable `export GITHUB_TOKEN=paste_github_personal_authorization_token_here`  
 /// <https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token>  
 /// ```ignore
 ///       let release_id =  github_create_new_release(&owner, &repo, &version, &name, branch, body_md_text);  
@@ -257,7 +255,6 @@ pub fn github_api_create_new_release(owner: &str, repo: &str, tag_name_version: 
 
 /// upload asset to github release  
 /// release_upload_url example: <https://uploads.github.com/repos/owner/repo/releases/48127727/assets>  
-/// it needs env variable `export GITHUB_TOKEN=paste_github_personal_authorization_token_here`  
 /// <https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token>  
 /// async function can be called from sync code:  
 /// ```ignore
@@ -316,4 +313,5 @@ pub fn auto_playground_run_code() {
 pub fn description_and_topics_to_github() {
     crate::auto_github_mod::description_and_topics_to_github()
 }
+
 // endregion: Public API functions

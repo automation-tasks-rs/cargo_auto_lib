@@ -263,11 +263,13 @@
 <a href="#212" id="212">212</a>
 <a href="#213" id="213">213</a>
 <a href="#214" id="214">214</a>
+<a href="#215" id="215">215</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// auto_plantuml_mod.rs
 
-</span><span class="kw">use </span><span class="kw">crate</span>::utils_mod::<span class="kw-2">*</span>;
+</span><span class="kw">use </span><span class="kw">crate</span>::public_api_mod::{RED, RESET, YELLOW};
+<span class="kw">use </span><span class="kw">crate</span>::utils_mod::<span class="kw-2">*</span>;
 <span class="kw">use </span>lazy_static::lazy_static;
 
 <span class="macro">lazy_static! </span>{
@@ -292,7 +294,7 @@
 <span class="doccomment">/// process plantuml for all md files
 /// for test and examples I need to provide the path
 </span><span class="kw">pub fn </span>auto_plantuml_for_path(path: <span class="kw-2">&</span>std::path::Path, repo_url: <span class="kw-2">&</span>str) {
-    <span class="macro">println!</span>(<span class="string">"    Running auto_plantuml"</span>);
+    <span class="macro">println!</span>(<span class="string">"    {YELLOW}Running auto_plantuml{RESET}"</span>);
     <span class="comment">//use traverse instead of glob
     </span><span class="kw">let </span>files = <span class="kw">crate</span>::utils_mod::traverse_dir_with_exclude_dir(
         path,
@@ -311,7 +313,7 @@
         <span class="comment">// check if file have CRLF and show error
         </span><span class="kw">if </span>md_text_content.contains(<span class="string">"\r\n"</span>) {
             <span class="macro">panic!</span>(
-                <span class="string">"Error: {} has CRLF line endings instead of LF. The task auto_plantuml cannot work! Exiting.."</span>,
+                <span class="string">"{RED}Error: {} has CRLF line endings instead of LF. The task auto_plantuml cannot work! Exiting..{RESET}"</span>,
                 md_filename.to_string_lossy()
             );
         }
@@ -342,7 +344,7 @@
                             </span><span class="kw">let </span>cap_group = REGEX_IMG_LINK
                                 .captures(img_link)
                                 .unwrap_or_else(|| <span class="macro">panic!</span>(<span class=
-"string">"Error: The old img link '{}' is NOT in this format '![svg_534231](images/svg_534231.svg)'"</span>, img_link));
+"string">"{RED}Error: The old img link '{img_link}' is NOT in this format '![svg_534231](images/svg_534231.svg)'{RESET}"</span>));
                             <span class="kw">let </span>old_hash = <span class="kw-2">&</span>cap_group[<span class="number">1</span>];
                             <span class="comment">//dbg!(old_hash);
                             </span><span class="kw">if </span>old_hash != plantuml_code_hash {
@@ -365,7 +367,7 @@
                         <span class="kw">if </span>get_new_svg {
                             <span class="kw">let </span>relative_md_filename = md_filename.strip_prefix(path).unwrap();
                             <span class="macro">println!</span>(<span class=
-"string">"    {} get new svg {}"</span>, relative_md_filename.to_string_lossy(), plantuml_code_hash);
+"string">"    {YELLOW}{} get new svg {plantuml_code_hash}{RESET}"</span>, relative_md_filename.to_string_lossy(),);
 
                             <span class="comment">// get the new svg image
                             </span><span class="kw">let </span>svg_code = get_svg(plantuml_code);
@@ -402,7 +404,7 @@
             std::fs::write(md_filename, md_text_content).unwrap();
         }
     }
-    <span class="macro">println!</span>(<span class="string">"    Finished auto_plantuml"</span>);
+    <span class="macro">println!</span>(<span class="string">"    {YELLOW}Finished auto_plantuml{RESET}"</span>);
 }
 
 <span class="kw">pub fn </span>hash_for_filename(text: <span class="kw-2">&</span>str) -&gt; String {

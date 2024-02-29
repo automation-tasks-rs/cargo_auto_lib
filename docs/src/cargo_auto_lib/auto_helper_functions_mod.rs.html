@@ -146,6 +146,16 @@
 <a href="#95" id="95">95</a>
 <a href="#96" id="96">96</a>
 <a href="#97" id="97">97</a>
+<a href="#98" id="98">98</a>
+<a href="#99" id="99">99</a>
+<a href="#100" id="100">100</a>
+<a href="#101" id="101">101</a>
+<a href="#102" id="102">102</a>
+<a href="#103" id="103">103</a>
+<a href="#104" id="104">104</a>
+<a href="#105" id="105">105</a>
+<a href="#106" id="106">106</a>
+<a href="#107" id="107">107</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// auto_helper_functions_mod
@@ -154,7 +164,7 @@
 
 </span><span class="kw">use </span>std::process::exit;
 
-<span class="kw">use </span><span class="kw">crate</span>::public_api_mod::{RED, RESET};
+<span class="kw">use </span><span class="kw">crate</span>::public_api_mod::{RED, RESET, YELLOW};
 
 <span class="doccomment">/// similar to std::process::Output, but with i32 and Strings for easier work
 </span><span class="attr">#[derive(Debug)]
@@ -171,7 +181,7 @@
 /// Stops task execution if the command has Exit Status != 0
 </span><span class="kw">pub fn </span>run_shell_command(shell_command: <span class="kw-2">&</span>str) {
     <span class="kw">if </span>!shell_command.starts_with(<span class="string">"echo "</span>) {
-        <span class="macro">println!</span>(<span class="string">"    $ {}"</span>, shell_command);
+        <span class="macro">println!</span>(<span class="string">"    {YELLOW}$ {shell_command}{RESET}"</span>);
     }
     <span class="kw">let </span>status = std::process::Command::new(<span class="string">"sh"</span>).arg(<span class=
 "string">"-c"</span>).arg(shell_command).spawn().unwrap().wait().unwrap();
@@ -194,7 +204,7 @@
 <span class="doccomment">/// run one shell command and return ShellOutput {exit_status,stdout,stderr}
 </span><span class="kw">pub fn </span>run_shell_command_output(shell_command: <span class="kw-2">&</span>str) -&gt; ShellOutput {
     <span class="kw">if </span>!shell_command.starts_with(<span class="string">"echo "</span>) {
-        <span class="macro">println!</span>(<span class="string">"    $ {}"</span>, shell_command);
+        <span class="macro">println!</span>(<span class="string">"   {YELLOW} $ {shell_command}{RESET}"</span>);
     }
     <span class="kw">let </span>output = std::process::Command::new(<span class="string">"sh"</span>).arg(<span class=
 "string">"-c"</span>).arg(shell_command).output().unwrap();
@@ -204,6 +214,17 @@
         stdout: String::from_utf8(output.stdout).unwrap(),
         stderr: String::from_utf8(output.stderr).unwrap(),
     }
+}
+
+<span class="doccomment">/// run one shell command and return true if success
+</span><span class="kw">pub fn </span>run_shell_command_success(shell_command: <span class="kw-2">&</span>str) -&gt; bool {
+    <span class="kw">if </span>!shell_command.starts_with(<span class="string">"echo "</span>) {
+        <span class="macro">println!</span>(<span class="string">"    {YELLOW}$ {shell_command}{RESET}"</span>,);
+    }
+    <span class="kw">let </span>status = std::process::Command::new(<span class="string">"sh"</span>).arg(<span class=
+"string">"-c"</span>).arg(shell_command).status().unwrap();
+    <span class="comment">// return
+    </span>status.success()
 }
 
 <span class="doccomment">/// check if run in rust project root directory error
@@ -225,14 +246,14 @@
     <span class="kw">let </span><span class="kw-2">mut </span>sub_found = <span class="bool-val">false</span>;
     <span class="kw">for </span>sub_command <span class="kw">in </span>sub_commands.iter() {
         <span class="kw">if </span>sub_command.starts_with(word_being_completed) {
-            <span class="macro">println!</span>(<span class="string">"{}"</span>, sub_command);
+            <span class="macro">println!</span>(<span class="string">"    {YELLOW}{sub_command}{RESET}"</span>);
             sub_found = <span class="bool-val">true</span>;
         }
     }
     <span class="kw">if </span>!sub_found {
         <span class="comment">// print all sub-commands
         </span><span class="kw">for </span>sub_command <span class="kw">in </span>sub_commands.iter() {
-            <span class="macro">println!</span>(<span class="string">"{}"</span>, sub_command);
+            <span class="macro">println!</span>(<span class="string">"    {YELLOW}{sub_command}{RESET}"</span>);
         }
     }
 }
@@ -245,10 +266,10 @@
             <span class="kw">if </span>!path_buff.as_os_str().is_empty() {
                 path_buff
             } <span class="kw">else </span>{
-                <span class="macro">panic!</span>(<span class="string">"Unable to get your home dir!"</span>);
+                <span class="macro">panic!</span>(<span class="string">"{RED}Unable to get your home dir!{RESET}"</span>);
             }
         }
-        <span class="prelude-val">None </span>=&gt; <span class="macro">panic!</span>(<span class="string">"Unable to get your home dir!"</span>),
+        <span class="prelude-val">None </span>=&gt; <span class="macro">panic!</span>(<span class="string">"{RED}Unable to get your home dir!{RESET}"</span>),
     }
 }
 </code></pre>

@@ -18,7 +18,11 @@
         "bestia",
         "chrono",
         "endregion",
+        "Keypair",
         "plantuml",
+        "rpassword",
+        "rustdevuser",
+        "rustprojects",
         "zcvf"
     ]
 }

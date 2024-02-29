@@ -114,14 +114,14 @@
         </div>
         <pre class="rust"><code><span class="comment">// auto_check_micro_xml_mod.rs
 
-</span><span class="kw">use </span><span class="kw">crate</span>::public_api_mod::{RED, RESET};
+</span><span class="kw">use </span><span class="kw">crate</span>::public_api_mod::{RED, RESET, YELLOW};
 <span class="kw">use </span>glob::glob;
 <span class="kw">use </span>reader_for_microxml::{ReaderForMicroXml, Token};
 
 <span class="doccomment">/// I want html pages to be correct microXML when I use them for single page application.
 /// Before build or release this function will check for correctness.
 </span><span class="kw">pub fn </span>auto_check_micro_xml(path_to_html_pages: <span class="kw-2">&</span>str) {
-    <span class="macro">println!</span>(<span class="string">"    Running auto_check_micro_xml {}"</span>, path_to_html_pages);
+    <span class="macro">println!</span>(<span class="string">"    {YELLOW}Running auto_check_micro_xml {path_to_html_pages}{RESET}"</span>);
     <span class="kw">let </span>glob_str = <span class="macro">format!</span>(<span class=
 "string">"{}/*.html"</span>, path_to_html_pages.trim_end_matches(<span class="string">'/'</span>));
     <span class="comment">// find html pages for single page application
@@ -133,7 +133,7 @@
         <span class="comment">// check if file have CRLF instead of LF and show error
         </span><span class="kw">if </span>str_xml.contains(<span class="string">"\r\n"</span>) {
             <span class="macro">panic!</span>(
-                <span class="string">"Error: {} has CRLF line endings instead of LF. The task auto_check_micro_xml cannot work! Exiting.."</span>,
+                <span class="string">"{RED}Error: {} has CRLF line endings instead of LF. The task auto_check_micro_xml cannot work! Exiting..{RESET}"</span>,
                 filename_pathbuff.to_string_lossy()
             );
         }
@@ -141,12 +141,12 @@
         <span class="comment">// check microxml correctness. Panic on errors.
         </span>check_micro_xml(<span class="kw-2">&</span>str_xml, file_name);
     }
-    <span class="macro">println!</span>(<span class="string">"    Finished auto_check_micro_xml"</span>);
+    <span class="macro">println!</span>(<span class="string">"    {YELLOW}Finished auto_check_micro_xml{RESET}"</span>);
 }
 
 <span class="doccomment">/// panics if the microXML string is not correct
 </span><span class="kw">fn </span>check_micro_xml(str_xml: <span class="kw-2">&</span>str, file_name: <span class="kw-2">&</span>str) {
-    <span class="macro">println!</span>(<span class="string">"    Check MicroXml: {}"</span>, file_name);
+    <span class="macro">println!</span>(<span class="string">"    {YELLOW}Check MicroXml: {file_name}{RESET}"</span>);
     <span class="comment">// remove &lt;!DOCTYPE html&gt; because it is not microXML
     </span><span class="kw">let </span>str_xml = str_xml.replace(<span class="string">"&lt;!DOCTYPE html&gt;"</span>, <span class="string">""</span>);
     <span class="kw">let </span>reader_iterator = ReaderForMicroXml::new(<span class="kw-2">&</span>str_xml);

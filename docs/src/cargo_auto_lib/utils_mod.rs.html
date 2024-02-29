@@ -135,6 +135,23 @@
 <a href="#84" id="84">84</a>
 <a href="#85" id="85">85</a>
 <a href="#86" id="86">86</a>
+<a href="#87" id="87">87</a>
+<a href="#88" id="88">88</a>
+<a href="#89" id="89">89</a>
+<a href="#90" id="90">90</a>
+<a href="#91" id="91">91</a>
+<a href="#92" id="92">92</a>
+<a href="#93" id="93">93</a>
+<a href="#94" id="94">94</a>
+<a href="#95" id="95">95</a>
+<a href="#96" id="96">96</a>
+<a href="#97" id="97">97</a>
+<a href="#98" id="98">98</a>
+<a href="#99" id="99">99</a>
+<a href="#100" id="100">100</a>
+<a href="#101" id="101">101</a>
+<a href="#102" id="102">102</a>
+<a href="#103" id="103">103</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// utils_mod.rs
@@ -230,7 +247,24 @@
     <span class="comment">// return
     </span>concatenated_string
 }
-</code></pre>
+
+<span class="doccomment">/// just a shorter way to get a Path from a String
+</span><span class="kw">pub fn </span>to_path(path_str: <span class="kw-2">&</span>str) -&gt; <span class="kw-2">&</span>std::path::Path {
+    std::path::Path::new(path_str)
+}
+
+<span class="doccomment">/// check if file exists
+</span><span class="kw">pub fn </span>file_exists(file_path: <span class="kw-2">&</span>str) -&gt; bool {
+    std::path::Path::new(file_path).exists()
+}
+
+<span class="doccomment">/// expands the ~ for home_dir and returns expanded path
+</span><span class="kw">pub fn </span>file_path_home_expand(file_path: <span class="kw-2">&</span>str) -&gt; String {
+    file_path.replace(<span class="string">"~"</span>, <span class="kw">crate</span>::home_dir().to_string_lossy().as_ref())
+}
+
+<span class="comment">// TODO: PathString object with often used functions: expand, exist, to_path,...
+</span></code></pre>
       </div>
     </section>
   </main>

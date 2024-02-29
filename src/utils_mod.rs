@@ -84,3 +84,20 @@ pub fn concatenate_vec_to_string(vec: &[String], delimiter: &str) -> String {
     // return
     concatenated_string
 }
+
+/// just a shorter way to get a Path from a String
+pub fn to_path(path_str: &str) -> &std::path::Path {
+    std::path::Path::new(path_str)
+}
+
+/// check if file exists
+pub fn file_exists(file_path: &str) -> bool {
+    std::path::Path::new(file_path).exists()
+}
+
+/// expands the ~ for home_dir and returns expanded path
+pub fn file_path_home_expand(file_path: &str) -> String {
+    file_path.replace("~", crate::home_dir().to_string_lossy().as_ref())
+}
+
+// TODO: PathString object with often used functions: expand, exist, to_path,...

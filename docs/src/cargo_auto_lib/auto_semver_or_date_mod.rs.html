@@ -125,6 +125,8 @@
 <a href="#74" id="74">74</a>
 <a href="#75" id="75">75</a>
 <a href="#76" id="76">76</a>
+<a href="#77" id="77">77</a>
+<a href="#78" id="78">78</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// auto_semver_or_date.rs
@@ -134,6 +136,8 @@
 //! It works for workspaces and for single projects.  
 
 </span><span class="kw">use </span><span class="kw">crate</span>::error_mod::ResultWithLibError;
+<span class="kw">use </span><span class="kw">crate</span>::public_api_mod::{RED, RESET, YELLOW};
+
 <span class="comment">// this trait must be in scope to use these methods of CargoToml
 </span><span class="kw">use </span><span class="kw">crate</span>::public_api_mod::CargoTomlPublicApiMethods;
 
@@ -141,22 +145,22 @@
 /// if the major version is greater than 2000, it is a date version
 /// else it is semver and increments the patch part
 </span><span class="kw">pub fn </span>auto_version_increment_semver_or_date() {
-    <span class="macro">println!</span>(<span class="string">"    Running auto_semver_or_date"</span>);
+    <span class="macro">println!</span>(<span class="string">"    {YELLOW}Running auto_semver_or_date{RESET}"</span>);
     <span class="comment">// Cargo.toml contains the list of projects
     </span><span class="kw">let </span>cargo_toml = <span class="kw">crate</span>::auto_cargo_toml_mod::CargoToml::read();
     <span class="kw">match </span>cargo_toml.workspace_members() {
         <span class="prelude-val">None </span>=&gt; one_project().unwrap_or_else(|err| <span class="macro">panic!</span>(<span class=
-"string">"{}"</span>, err.to_string())),
+"string">"{RED}{err}{RESET}"</span>)),
         <span class="prelude-val">Some</span>(members) =&gt; {
             <span class="kw">for </span>member <span class="kw">in </span>members.iter() {
-                <span class="macro">println!</span>(<span class="string">"    Member: {}"</span>, member);
+                <span class="macro">println!</span>(<span class="string">"    {YELLOW}Member: {member}{RESET}"</span>);
                 std::env::set_current_dir(member).unwrap();
-                one_project().unwrap_or_else(|err| <span class="macro">panic!</span>(<span class="string">"{}"</span>, err.to_string()));
+                one_project().unwrap_or_else(|err| <span class="macro">panic!</span>(<span class="string">"{RED}{err}{RESET}"</span>));
                 std::env::set_current_dir(<span class="string">".."</span>).unwrap();
             }
         }
     }
-    <span class="macro">println!</span>(<span class="string">"    Finished auto_semver_or_date"</span>);
+    <span class="macro">println!</span>(<span class="string">"    {YELLOW}Finished auto_semver_or_date{RESET}"</span>);
 }
 
 <span class="doccomment">/// increments the version in Cargo.toml.
@@ -164,22 +168,22 @@
 /// forced is used in workspaces to force all members to have the same date version
 /// else it is semver and increments the patch part
 </span><span class="kw">pub fn </span>auto_version_increment_semver_or_date_forced() {
-    <span class="macro">println!</span>(<span class="string">"    Running auto_semver_or_date"</span>);
+    <span class="macro">println!</span>(<span class="string">"    {YELLOW}Running auto_semver_or_date{RESET}"</span>);
     <span class="comment">// Cargo.toml contains the list of projects
     </span><span class="kw">let </span>cargo_toml = <span class="kw">crate</span>::auto_cargo_toml_mod::CargoToml::read();
     <span class="kw">match </span>cargo_toml.workspace_members() {
         <span class="prelude-val">None </span>=&gt; one_project().unwrap_or_else(|err| <span class="macro">panic!</span>(<span class=
-"string">"{}"</span>, err.to_string())),
+"string">"{RED}{err}{RESET}"</span>)),
         <span class="prelude-val">Some</span>(members) =&gt; {
             <span class="kw">for </span>member <span class="kw">in </span>members.iter() {
-                <span class="macro">println!</span>(<span class="string">"    {}"</span>, member);
+                <span class="macro">println!</span>(<span class="string">"    {YELLOW}{member}{RESET}"</span>);
                 std::env::set_current_dir(member).unwrap();
-                one_project_forced().unwrap_or_else(|err| <span class="macro">panic!</span>(<span class="string">"{}"</span>, err.to_string()));
+                one_project_forced().unwrap_or_else(|err| <span class="macro">panic!</span>(<span class="string">"{RED}{err}{RESET}"</span>));
                 std::env::set_current_dir(<span class="string">".."</span>).unwrap();
             }
         }
     }
-    <span class="macro">println!</span>(<span class="string">"    Finished auto_semver_or_date"</span>);
+    <span class="macro">println!</span>(<span class="string">"    {YELLOW}Finished auto_semver_or_date{RESET}"</span>);
 }
 
 <span class="kw">fn </span>one_project() -&gt; ResultWithLibError&lt;()&gt; {

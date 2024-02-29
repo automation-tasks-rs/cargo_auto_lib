@@ -3,11 +3,12 @@
 //! inserts shield badges with lines_of_code into README.rs
 //! It works for workspaces and for single projects.  
 
-use crate::public_api_mod::{RED, RESET};
+use crate::public_api_mod::{RED, RESET, YELLOW};
 use regex::Regex;
 use std::fs::File;
 use std::io::{BufRead, BufReader};
 use std::{fs, path::Path};
+
 // use crate::auto_helper_functions_mod::*;
 // this trait must be in scope to use these methods of CargoToml
 use crate::public_api_mod::CargoTomlPublicApiMethods;
@@ -29,7 +30,7 @@ pub struct LinesOfCode {
 
 #[doc=include_str!("../doc_comments_long/auto_lines_of_code.md")]
 pub fn auto_lines_of_code(link: &str) {
-    println!("    Running auto_lines_of_code");
+    println!("    {YELLOW}Running auto_lines_of_code{RESET}");
     let link = if link.is_empty() { process_git_remote() } else { link.to_string() };
     // Cargo.toml contains the list of projects
     let cargo_toml = crate::auto_cargo_toml_mod::CargoToml::read();
@@ -42,7 +43,7 @@ pub fn auto_lines_of_code(link: &str) {
         Some(members) => {
             let mut lines_of_code = LinesOfCode::default();
             for member in members.iter() {
-                println!("    Member: {}", &member);
+                println!("    {YELLOW}Member: {member}{RESET}");
                 std::env::set_current_dir(member).unwrap();
                 let v = one_project_count_lines();
                 let text_to_include = to_string_as_shield_badges(&v, &link);
@@ -60,7 +61,7 @@ pub fn auto_lines_of_code(link: &str) {
             include_into_readme_md(&text_to_include);
         }
     }
-    println!("    Finished auto_lines_of_code");
+    println!("    {YELLOW}Finished auto_lines_of_code{RESET}");
 }
 
 /// Return the string for link for badges like: <https://github.com/bestia-dev/auto_lines_of_code/>.  
@@ -71,7 +72,7 @@ fn process_git_remote() -> String {
     let output = match git_remote_output() {
         Ok(s) => s,
         Err(e) => {
-            eprintln!("{RED}{}{RESET}", e);
+            eprintln!("{RED}{e}{RESET}");
             return "".to_string();
         }
     };

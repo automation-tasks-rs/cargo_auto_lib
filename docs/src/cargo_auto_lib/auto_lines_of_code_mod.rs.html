@@ -302,6 +302,7 @@
 <a href="#251" id="251">251</a>
 <a href="#252" id="252">252</a>
 <a href="#253" id="253">253</a>
+<a href="#254" id="254">254</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// auto_lines_of_code_mod
@@ -309,11 +310,12 @@
 </span><span class="doccomment">//! inserts shield badges with lines_of_code into README.rs
 //! It works for workspaces and for single projects.  
 
-</span><span class="kw">use </span><span class="kw">crate</span>::public_api_mod::{RED, RESET};
+</span><span class="kw">use </span><span class="kw">crate</span>::public_api_mod::{RED, RESET, YELLOW};
 <span class="kw">use </span>regex::Regex;
 <span class="kw">use </span>std::fs::File;
 <span class="kw">use </span>std::io::{BufRead, BufReader};
 <span class="kw">use </span>std::{fs, path::Path};
+
 <span class="comment">// use crate::auto_helper_functions_mod::*;
 // this trait must be in scope to use these methods of CargoToml
 </span><span class="kw">use </span><span class="kw">crate</span>::public_api_mod::CargoTomlPublicApiMethods;
@@ -335,7 +337,7 @@
 
 <span class="attr">#[doc=<span class="macro">include_str!</span>(<span class="string">"../doc_comments_long/auto_lines_of_code.md"</span>)]
 </span><span class="kw">pub fn </span>auto_lines_of_code(link: <span class="kw-2">&</span>str) {
-    <span class="macro">println!</span>(<span class="string">"    Running auto_lines_of_code"</span>);
+    <span class="macro">println!</span>(<span class="string">"    {YELLOW}Running auto_lines_of_code{RESET}"</span>);
     <span class="kw">let </span>link = <span class="kw">if </span>link.is_empty() { process_git_remote() } <span class="kw">else </span>{ link.to_string() };
     <span class="comment">// Cargo.toml contains the list of projects
     </span><span class="kw">let </span>cargo_toml = <span class="kw">crate</span>::auto_cargo_toml_mod::CargoToml::read();
@@ -348,7 +350,7 @@
         <span class="prelude-val">Some</span>(members) =&gt; {
             <span class="kw">let </span><span class="kw-2">mut </span>lines_of_code = LinesOfCode::default();
             <span class="kw">for </span>member <span class="kw">in </span>members.iter() {
-                <span class="macro">println!</span>(<span class="string">"    Member: {}"</span>, <span class="kw-2">&</span>member);
+                <span class="macro">println!</span>(<span class="string">"    {YELLOW}Member: {member}{RESET}"</span>);
                 std::env::set_current_dir(member).unwrap();
                 <span class="kw">let </span>v = one_project_count_lines();
                 <span class="kw">let </span>text_to_include = to_string_as_shield_badges(<span class="kw-2">&</span>v, <span class="kw-2">&</span>link);
@@ -367,7 +369,7 @@
             include_into_readme_md(<span class="kw-2">&</span>text_to_include);
         }
     }
-    <span class="macro">println!</span>(<span class="string">"    Finished auto_lines_of_code"</span>);
+    <span class="macro">println!</span>(<span class="string">"    {YELLOW}Finished auto_lines_of_code{RESET}"</span>);
 }
 
 <span class="doccomment">/// Return the string for link for badges like: &lt;https://github.com/bestia-dev/auto_lines_of_code/&gt;.  
@@ -378,7 +380,7 @@
     <span class="kw">let </span>output = <span class="kw">match </span>git_remote_output() {
         <span class="prelude-val">Ok</span>(s) =&gt; s,
         <span class="prelude-val">Err</span>(e) =&gt; {
-            <span class="macro">eprintln!</span>(<span class="string">"{RED}{}{RESET}"</span>, e);
+            <span class="macro">eprintln!</span>(<span class="string">"{RED}{e}{RESET}"</span>);
             <span class="kw">return </span><span class="string">""</span>.to_string();
         }
     };

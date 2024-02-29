@@ -163,16 +163,13 @@
 <a href="#112" id="112">112</a>
 <a href="#113" id="113">113</a>
 <a href="#114" id="114">114</a>
-<a href="#115" id="115">115</a>
-<a href="#116" id="116">116</a>
-<a href="#117" id="117">117</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// auto_semver_mod
 
 </span><span class="doccomment">//! semver utilities
 
-</span><span class="kw">use </span><span class="kw">crate</span>::public_api_mod::{GREEN, RESET};
+</span><span class="kw">use </span><span class="kw">crate</span>::public_api_mod::{GREEN, RED, RESET, YELLOW};
 <span class="kw">use crate</span>::{
     error_mod::{LibError, ResultWithLibError},
     utils_mod::<span class="kw-2">*</span>,
@@ -187,25 +184,25 @@
 <span class="doccomment">/// Increments the patch version in Cargo.toml file only if files are changed
 </span><span class="kw">pub fn </span>auto_semver_increment_patch() {
     increment_part(VersionPart::Patch, <span class="bool-val">false</span>).unwrap_or_else(|err| <span class="macro">panic!</span>(<span class=
-"string">"{}"</span>, err))
+"string">"{RED}{err}{RESET}"</span>))
 }
 
 <span class="doccomment">/// Increments the patch version in Cargo.toml file even if files are not changed
 </span><span class="kw">pub fn </span>auto_semver_increment_patch_forced() {
     increment_part(VersionPart::Patch, <span class="bool-val">true</span>).unwrap_or_else(|err| <span class="macro">panic!</span>(<span class=
-"string">"{}"</span>, err))
+"string">"{RED}{err}{RESET}"</span>))
 }
 
 <span class="doccomment">/// Increments the minor version in Cargo.toml file only if files are changed
 </span><span class="kw">pub fn </span>auto_semver_increment_minor() {
     increment_part(VersionPart::Minor, <span class="bool-val">false</span>).unwrap_or_else(|err| <span class="macro">panic!</span>(<span class=
-"string">"{}"</span>, err))
+"string">"{RED}{err}{RESET}"</span>))
 }
 
 <span class="doccomment">/// Increments the minor version in Cargo.toml file even if files are not changed
 </span><span class="kw">pub fn </span>auto_semver_increment_minor_forced() {
     increment_part(VersionPart::Minor, <span class="bool-val">true</span>).unwrap_or_else(|err| <span class="macro">panic!</span>(<span class=
-"string">"{}"</span>, err))
+"string">"{RED}{err}{RESET}"</span>))
 }
 
 <span class="kw">fn </span>increment_part(part: VersionPart, force_version: bool) -&gt; ResultWithLibError&lt;()&gt; {
@@ -227,10 +224,8 @@
 
         <span class="comment">// check if file have CRLF instead of LF and show error
         </span><span class="kw">if </span>cargo_toml_text.contains(<span class="string">"\r\n"</span>) {
-            <span class="macro">panic!</span>(
-                <span class="string">"Error: {} has CRLF line endings instead of LF. The task auto_semver_increment cannot work! Exiting.."</span>,
-                cargo_toml_filename
-            );
+            <span class="macro">panic!</span>(<span class=
+"string">"{RED}Error: {cargo_toml_filename} has CRLF line endings instead of LF. The task auto_semver_increment cannot work! Exiting..{RESET}"</span>);
         }
 
         <span class="comment">// find the line with "version = " including the start quote
@@ -240,7 +235,7 @@
             </span><span class="kw">if let </span><span class="prelude-val">Some</span>(pos_end_data) = find_pos_end_data_before_delimiter(<span class=
 "kw-2">&</span>cargo_toml_text, pos_start_data, <span class="string">r#"""#</span>) {
                 <span class="kw">let </span>version = cargo_toml_text[pos_start_data..pos_end_data].to_string();
-                <span class="macro">println!</span>(<span class="string">r#"    old version: "{}""#</span>, <span class="kw-2">&</span>version);
+                <span class="macro">println!</span>(<span class="string">r#"    {YELLOW}old version: "{version}"{RESET}"#</span>);
                 <span class="comment">//increment the last number
                 </span><span class="kw">let </span>pos = pos_start_data;
                 <span class="kw">let </span>(major, pos) = parse_next_number(<span class="kw-2">&</span>cargo_toml_text, pos)<span class=
@@ -279,10 +274,10 @@
 "kw-2">&amp;mut </span>vec_of_metadata)<span class="question-mark">?</span>;
                 <span class="kw">crate</span>::auto_version_from_date_mod::save_json_file_for_file_meta_data(vec_of_metadata);
             } <span class="kw">else </span>{
-                <span class="macro">panic!</span>(<span class="string">"no end quote for version"</span>);
+                <span class="macro">panic!</span>(<span class="string">"{RED}no end quote for version{RESET}"</span>);
             }
         } <span class="kw">else </span>{
-            <span class="macro">panic!</span>(<span class="string">"Cargo.toml has no version"</span>);
+            <span class="macro">panic!</span>(<span class="string">"{RED}Cargo.toml has no version{RESET}"</span>);
         }
     }
     <span class="prelude-val">Ok</span>(())
