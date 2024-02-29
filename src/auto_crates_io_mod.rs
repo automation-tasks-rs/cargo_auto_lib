@@ -16,7 +16,7 @@ pub const CRATES_IO_TOKEN_PATH: &str = "~/.ssh/crates_io_data_1.ssh";
 pub fn publish_to_crates_io_with_secret_token() {
     let mut token = check_or_get_crates_io_token().unwrap();
     // don't show the token to the user
-    println!("cargo publish with token");
+    println!("    {YELLOW}cargo publish with token{RESET}");
     let shell_command = format!("cargo publish --token {}", token.0);
     let status = std::process::Command::new("sh").arg("-c").arg(shell_command).spawn().unwrap().wait().unwrap();
     token.0.zeroize();
