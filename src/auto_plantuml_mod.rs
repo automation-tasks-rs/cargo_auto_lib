@@ -1,5 +1,6 @@
 // auto_plantuml_mod.rs
 
+use crate::public_api_mod::{RED, RESET, YELLOW};
 use crate::utils_mod::*;
 use lazy_static::lazy_static;
 
@@ -25,7 +26,7 @@ pub fn auto_plantuml(repo_url: &str) {
 /// process plantuml for all md files
 /// for test and examples I need to provide the path
 pub fn auto_plantuml_for_path(path: &std::path::Path, repo_url: &str) {
-    println!("    Running auto_plantuml");
+    println!("    {YELLOW}Running auto_plantuml{RESET}");
     //use traverse instead of glob
     let files = crate::utils_mod::traverse_dir_with_exclude_dir(
         path,
@@ -43,7 +44,7 @@ pub fn auto_plantuml_for_path(path: &std::path::Path, repo_url: &str) {
         // check if file have CRLF and show error
         if md_text_content.contains("\r\n") {
             panic!(
-                "Error: {} has CRLF line endings instead of LF. The task auto_plantuml cannot work! Exiting..",
+                "{RED}Error: {} has CRLF line endings instead of LF. The task auto_plantuml cannot work! Exiting..{RESET}",
                 md_filename.to_string_lossy()
             );
         }
@@ -69,7 +70,7 @@ pub fn auto_plantuml_for_path(path: &std::path::Path, repo_url: &str) {
                             // parse this format ![svg_534231](images/svg_534231.svg)
                             let cap_group = REGEX_IMG_LINK
                                 .captures(img_link)
-                                .unwrap_or_else(|| panic!("Error: The old img link '{}' is NOT in this format '![svg_534231](images/svg_534231.svg)'", img_link));
+                                .unwrap_or_else(|| panic!("{RED}Error: The old img link '{img_link}' is NOT in this format '![svg_534231](images/svg_534231.svg)'{RESET}"));
                             let old_hash = &cap_group[1];
                             //dbg!(old_hash);
                             if old_hash != plantuml_code_hash {
@@ -89,7 +90,7 @@ pub fn auto_plantuml_for_path(path: &std::path::Path, repo_url: &str) {
                         }
                         if get_new_svg {
                             let relative_md_filename = md_filename.strip_prefix(path).unwrap();
-                            println!("    {} get new svg {}", relative_md_filename.to_string_lossy(), plantuml_code_hash);
+                            println!("    {YELLOW}{} get new svg {plantuml_code_hash}{RESET}", relative_md_filename.to_string_lossy(),);
 
                             // get the new svg image
                             let svg_code = get_svg(plantuml_code);
@@ -123,7 +124,7 @@ pub fn auto_plantuml_for_path(path: &std::path::Path, repo_url: &str) {
             std::fs::write(md_filename, md_text_content).unwrap();
         }
     }
-    println!("    Finished auto_plantuml");
+    println!("    {YELLOW}Finished auto_plantuml{RESET}");
 }
 
 pub fn hash_for_filename(text: &str) -> String {

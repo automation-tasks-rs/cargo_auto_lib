@@ -6,7 +6,7 @@
 // region: use statements
 
 use crate::error_mod::{LibError, ResultWithLibError};
-use crate::public_api_mod::{RED, RESET};
+use crate::public_api_mod::{RED, RESET, YELLOW};
 use chrono::DateTime;
 use chrono::Timelike;
 use chrono::{Datelike, Utc};
@@ -14,6 +14,7 @@ use serde_derive::{Deserialize, Serialize};
 use std::path::PathBuf;
 use std::str::FromStr;
 use std::{fs, path::Path};
+
 // this trait must be in scope to use these methods of CargoToml
 use crate::public_api_mod::CargoTomlPublicApiMethods;
 
@@ -42,7 +43,7 @@ pub struct AutoVersionFromDate {
 
 #[doc=include_str!("../doc_comments_long/auto_version_from_date.md")]
 pub fn auto_version_from_date() {
-    auto_version_from_date_internal(false).unwrap_or_else(|err| panic!("{}", err.to_string()));
+    auto_version_from_date_internal(false).unwrap_or_else(|err| panic!("{RED}{err}{RESET}"));
 }
 
 /// Works for single projects and workspaces.  
@@ -50,7 +51,7 @@ pub fn auto_version_from_date() {
 /// For workspaces `release` I want to have the same version in all members.  
 /// It is slower, but easier to understand when deployed.
 pub fn auto_version_from_date_forced() {
-    auto_version_from_date_internal(true).unwrap_or_else(|err| panic!("{}", err.to_string()));
+    auto_version_from_date_internal(true).unwrap_or_else(|err| panic!("{RED}{err}{RESET}"));
 }
 
 // endregion: public functions
@@ -100,7 +101,7 @@ fn modify_service_js(new_version: &str) {
 
         // check if file have CRLF instead of LF and show error
         if js_content.contains("\r\n") {
-            panic!("Error: {} has CRLF line endings instead of LF. The task modify_service_js cannot work! Exiting..", js_filename);
+            panic!("{RED}Error: {js_filename} has CRLF line endings instead of LF. The task modify_service_js cannot work! Exiting..{RESET}");
         }
 
         let delimiter = r#"const CACHE_NAME = '"#;
@@ -114,16 +115,16 @@ fn modify_service_js(new_version: &str) {
                 let old_version: String = js_content.drain(start_version..end_version).collect();
                 //println!(r#"old version: "{}""#, old_version.as_str());
                 if new_version != old_version {
-                    println!("    Modify version: {} -> {}", old_version, new_version);
+                    println!("    {YELLOW}Modify version: {old_version} -> {new_version}{RESET}");
                     js_content.insert_str(start_version, new_version);
                     //println!("{}write file: {}{}", *YELLOW, js_filename, *RESET);
                     let _x = fs::write(js_filename, js_content);
                 }
             } else {
-                panic!("no end quote for version");
+                panic!("{RED}no end quote for version{RESET}");
             }
         } else {
-            panic!("service_worker.js has no version");
+            panic!("{RED}service_worker.js has no version{RESET}");
         }
     }
 }
@@ -153,7 +154,7 @@ fn write_version_to_cargo_and_modify_metadata(new_version: &str, mut vec_of_meta
             let old_version: String = cargo_content.drain(start_version..end_version).collect();
             //println!(r#"old version: "{}""#, old_version.as_str());
             if new_version != old_version.as_str() {
-                println!("    Modify version: {} -> {}", old_version, new_version);
+                println!("    {YELLOW}Modify version: {old_version} -> {new_version}{RESET}");
                 cargo_content.insert_str(start_version, new_version);
                 // println!("{}write file: {}{}", *YELLOW, cargo_filename, *RESET);
                 let _x = fs::write(cargo_filename, cargo_content);
@@ -163,10 +164,10 @@ fn write_version_to_cargo_and_modify_metadata(new_version: &str, mut vec_of_meta
                 save_json_file_for_file_meta_data(vec_of_metadata);
             }
         } else {
-            panic!("no end quote for version");
+            panic!("{RED}no end quote for version{RESET}");
         }
     } else {
-        panic!("Cargo.toml has no version");
+        panic!("{RED}Cargo.toml has no version{RESET}");
     }
     Ok(())
 }

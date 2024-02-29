@@ -52,7 +52,7 @@ use zeroize::Zeroize;
 // use crate::GREEN;
 use crate::RED;
 use crate::RESET;
-// use crate::YELLOW;
+use crate::YELLOW;
 
 // region: new structs or newtype
 pub struct SecretString(pub String);
@@ -95,8 +95,6 @@ pub(crate) fn encrypt_with_ssh_interactive_save_json(identity_file_path: &str, o
         }
     }
 
-    println!("Encrypt and save json file");
-
     let identity_file_path_expanded = crate::utils_mod::file_path_home_expand(identity_file_path);
     if !crate::utils_mod::file_exists(&identity_file_path_expanded) {
         eprintln!("{RED}File {identity_file_path_expanded} does not exist! Exiting.{RESET}");
@@ -106,12 +104,12 @@ pub(crate) fn encrypt_with_ssh_interactive_save_json(identity_file_path: &str, o
 
     // fingerprints are calculated from the public key and are not a secret
     // offer to the user ssh-add if needed
-    let fingerprint_from_file = crate::auto_github_mod::ssh_add_if_needed(&identity_file_path_expanded).unwrap_or_else(|| panic!("Identity not found in ssh-agent!"));
+    let fingerprint_from_file = crate::auto_github_mod::ssh_add_if_needed(&identity_file_path_expanded).unwrap_or_else(|| panic!("{RED}Identity not found in ssh-agent!{RESET}"));
     // SHA256:af123456789y1234553hmGEnN3fPv/iw6123456789M
 
     let path = std::env::var("SSH_AUTH_SOCK").expect("SSH_AUTH_SOCK is not set");
     let mut client = ssh_agent_client_rs::Client::connect(std::path::Path::new(&path)).unwrap();
-    let public_key = crate::auto_ssh_mod::ssh_add_list_contains_fingerprint(&mut client, &fingerprint_from_file).unwrap_or_else(|| panic!("Identity not found in ssh-agent!"));
+    let public_key = crate::auto_ssh_mod::ssh_add_list_contains_fingerprint(&mut client, &fingerprint_from_file).unwrap_or_else(|| panic!("{RED}Identity not found in ssh-agent!{RESET}"));
     let seed_bytes_not_a_secret = random_byte_password();
     let seed_string_not_a_secret = base64ct::Base64::encode_string(&seed_bytes_not_a_secret);
 
@@ -140,7 +138,7 @@ pub(crate) fn encrypt_with_ssh_interactive_save_json(identity_file_path: &str, o
     let output_file_path = crate::utils_mod::file_path_home_expand(output_file_path);
     let encrypted_file = std::path::Path::new(&output_file_path);
     std::fs::write(encrypted_file, file_text).unwrap();
-    println!("Encrypted text saved in Json file.")
+    println!("    {YELLOW}Encrypted text saved in file for future use.{RESET}")
 }
 
 /// decrypt from json file with ssh_identity
@@ -171,7 +169,7 @@ pub(crate) fn decrypt_with_ssh_from_json(json_file_path: &str) -> Option<SecretS
     }
 
     // and now decrypt with private key
-    println!("decrypt file from json");
+    println!("    {YELLOW}Decrypting GitHub API token from encrypted file.{RESET}");
     let json_file_path = crate::utils_mod::file_path_home_expand(json_file_path);
     let file_text = std::fs::read_to_string(json_file_path).unwrap();
     let json_value: serde_json::Value = serde_json::from_str(&file_text).unwrap();
@@ -188,13 +186,13 @@ pub(crate) fn decrypt_with_ssh_from_json(json_file_path: &str) -> Option<SecretS
 
     // fingerprints are calculated from the public key and are not a secret
     // ssh-add only if needed
-    let fingerprint_from_file = crate::auto_github_mod::ssh_add_if_needed(&identity_file_path_expanded).unwrap_or_else(|| panic!("Identity not found in ssh-agent!"));
+    let fingerprint_from_file = crate::auto_github_mod::ssh_add_if_needed(&identity_file_path_expanded).unwrap_or_else(|| panic!("{RED}Identity not found in ssh-agent!{RESET}"));
     // SHA256:af123456789y1234553hmGEnN3fPv/iw6123456789M
 
     let path = std::env::var("SSH_AUTH_SOCK").expect("SSH_AUTH_SOCK is not set");
     let mut client = ssh_agent_client_rs::Client::connect(std::path::Path::new(&path)).unwrap();
 
-    let public_key = crate::auto_ssh_mod::ssh_add_list_contains_fingerprint(&mut client, &fingerprint_from_file).unwrap_or_else(|| panic!("Identity not found in ssh-agent!"));
+    let public_key = crate::auto_ssh_mod::ssh_add_list_contains_fingerprint(&mut client, &fingerprint_from_file).unwrap_or_else(|| panic!("{RED}Identity not found in ssh-agent!{RESET}"));
 
     let seed_bytes = base64ct::Base64::decode_vec(seed_for_password_not_a_secret).unwrap();
 

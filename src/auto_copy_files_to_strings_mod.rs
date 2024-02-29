@@ -3,6 +3,8 @@
 // trait must be in scope
 use base64ct::Encoding;
 
+use crate::public_api_mod::{RESET, YELLOW};
+
 /// copy all files from the folder into a module as strings (static &str)
 /// the module has the markers: region: files copied into strings by automation tasks and endregion:
 /// the string will be in a vector with the file name
@@ -10,7 +12,7 @@ use base64ct::Encoding;
 /// let ext_for_binary_files=vec![".ico",".jpg",".png",".woff2"];
 /// let exclude_big_folders = vec!["/.git".to_string(),"/target".to_string(),"/docs".to_string()];
 pub fn copy_folder_files_into_module(folder_path: &std::path::Path, module_path: &std::path::Path, ext_for_binary_files: &[&str], exclude_big_folders: &[String]) {
-    println!("copy_folder_files_into_module {}, {}", folder_path.to_string_lossy(), module_path.to_string_lossy());
+    println!("    {YELLOW}copy_folder_files_into_module {}, {}{RESET}", folder_path.to_string_lossy(), module_path.to_string_lossy());
     // traverse and get all file_names
     let files = crate::traverse_dir_with_exclude_dir(&folder_path, "", exclude_big_folders).unwrap();
     let mut new_code = String::new();

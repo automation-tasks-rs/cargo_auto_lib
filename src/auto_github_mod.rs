@@ -98,16 +98,15 @@ pub fn github_api_create_new_release(owner: &str, repo: &str, tag_name_version: 
 pub fn github_api_upload_asset_to_release(owner: &str, repo: &str, release_id: &str, path_to_file: &str) {
     let mut token = check_or_get_github_token().unwrap();
 
-    println!("path_to_file: {}", path_to_file);
+    println!("    {YELLOW}Uploading file to GitHub release: {path_to_file}{RESET}");
     let file = std::path::Path::new(&path_to_file);
     let file_name = file.file_name().unwrap().to_str().unwrap();
 
     let release_upload_url = format!("https://uploads.github.com/repos/{owner}/{repo}/releases/{release_id}/assets");
     let mut release_upload_url = <url::Url as std::str::FromStr>::from_str(&release_upload_url).unwrap();
     release_upload_url.set_query(Some(format!("{}={}", "name", file_name).as_str()));
-    println!("upload_url: {}", release_upload_url);
     let file_size = std::fs::metadata(file).unwrap().len();
-    println!("file_size: {}. It can take some time to upload. Wait...", file_size);
+    println!("    {YELLOW}It can take some time to upload. File size: {file_size}. Wait...{RESET}");
     // region: async code made sync locally
     use tokio::runtime::Runtime;
     let rt = Runtime::new().unwrap();
@@ -246,7 +245,7 @@ fn ssh_add_resolve(host_name: &str, default_identity_file_path: &str) -> Option<
     }
     // ssh-add only if needed
     if let Some(identity_file_path) = identity_file_path {
-        let fingerprint = ssh_add_if_needed(&identity_file_path).unwrap_or_else(|| panic!("Identity not found in ssh-agent!"));
+        let fingerprint = ssh_add_if_needed(&identity_file_path).unwrap_or_else(|| panic!("{RED}Identity not found in ssh-agent!{RESET}"));
         Some((fingerprint, identity_file_path))
     } else {
         None
@@ -256,7 +255,7 @@ fn ssh_add_resolve(host_name: &str, default_identity_file_path: &str) -> Option<
 /// interactive ask to create a new remote GitHub repository
 pub fn new_remote_github_repository() -> Option<String> {
     // ask interactive
-    println!("{YELLOW}This project does not have a remote GitHub repository.{RESET}");
+    println!("    {YELLOW}This project does not have a remote GitHub repository.{RESET}");
     let answer = inquire::Text::new("Do you want to create a new remote GitHub repository? (y/n)").prompt().unwrap();
     if answer.to_lowercase() != "y" {
         // early exit
@@ -295,10 +294,10 @@ fn check_or_get_github_token() -> Option<SecretString> {
     if token.is_none() {
         println!(
             r#"{RED}Cannot find the file with encrypted github token.{RESET}
-The token is required to work with GitHub API to work with your repositories.
-You can generate the token at https://github.com/settings/tokens.
-It needs the permission scope: Full control of private repositories.
-The token is a secret just like a password, use it with caution.
+    {YELLOW}The token is required to work with GitHub API to work with your repositories.
+    You can generate the token at https://github.com/settings/tokens.
+    It needs the permission scope: Full control of private repositories.
+    The token is a secret just like a password, use it with caution.{RESET}
 "#
         );
         // encrypt and save to file
@@ -313,7 +312,7 @@ The token is a secret just like a password, use it with caution.
 /// interactive ask to create a new local git repository
 pub fn new_local_repository(message: &str) -> Option<()> {
     // ask interactive
-    println!("{YELLOW}This project is not yet a Git repository.{RESET}");
+    println!("    {YELLOW}This project is not yet a Git repository.{RESET}");
     let answer = inquire::Text::new("Do you want to initialize a new local git repository? (y/n)").prompt().unwrap();
     // continue if answer is "y"
     if answer.to_lowercase() != "y" {
@@ -337,10 +336,11 @@ pub fn ssh_add_if_needed(identity_private_file_path: &str) -> Option<crate::auto
     let mut ssh_agent_client = crate::auto_ssh_mod::crate_ssh_agent_client();
     // returns the public_key inside ssh-add or None
     match crate::auto_ssh_mod::ssh_add_list_contains_fingerprint(&mut ssh_agent_client, &fingerprint_from_file) {
-        Some(_key) => println!("Key for GitHub push is already in ssh-add."),
+        Some(_key) => println!("    {YELLOW}Ssh key for GitHub push is already in ssh-add.{RESET}"),
         None => {
             // ssh-add if it is not contained in the ssh-agent
-            println!("{YELLOW}Add ssh identity with ssh-add to use with GitHub push.{RESET}");
+            eprintln!("{RED}Ssh key for GitHub push is not in the ssh-agent.{RESET}");
+            println!("    {YELLOW}Add ssh identity with ssh-add to use with GitHub push.{RESET}");
             let cmd = format!("ssh-add -t 1h {}", identity_private_file_path);
             if !crate::run_shell_command_success(&cmd) {
                 eprintln!("{RED}ssh-add was not successful! Exiting.{RESET}",);
@@ -375,7 +375,7 @@ pub fn get_identity_file_path_from_ssh_config(host_name: &str) -> Option<String>
             return None;
         }
     }
-    println!("Identity_file_path for ssh is {identity_file_path}");
+    println!("    {YELLOW}Identity_file_path for ssh is {identity_file_path}{RESET}");
 
     Some(identity_file_path)
 }
@@ -386,12 +386,12 @@ pub fn get_identity_file_path_from_ssh_config(host_name: &str) -> Option<String>
 pub fn ask_for_identity_file_path_for_ssh(host_name: &str, default_identity_file_path: &str) -> Option<String> {
     println!(
         r#"{RED}Cannot find identity file in ~/.ssh/config.{RESET}
-It should contain the filepath of the ssh key used for ssh connection or git to {host_name}.
-The filepath itself is not a secret. Just the content of the file is a secret.
-Without this filepath I cannot check if it is ssh-added to the ssh-agent.
-If you create the file ~/.ssh/config with content like this: 
-<https://github.com/bestia-dev/docker_rust_development/raw/main/docker_rust_development_install/ssh_config_template>
-you will never be asked again to enter this filepath.
+    {YELLOW}It should contain the filepath of the ssh key used for ssh connection or git to {host_name}.
+    The filepath itself is not a secret. Just the content of the file is a secret.
+    Without this filepath I cannot check if it is ssh-added to the ssh-agent.
+    If you create the file ~/.ssh/config with content like this: 
+    <https://github.com/bestia-dev/docker_rust_development/raw/main/docker_rust_development_install/ssh_config_template>
+    you will never be asked again to enter this filepath.{RESET}
 "#,
     );
     let identity_file_for_ssh = inquire::Text::new(&format!("Which filepath has the ssh identity for {host_name}?"))
@@ -618,7 +618,7 @@ pub fn github_api_update_description(owner: &str, repo_name: &str, description: 
     ...
     }
     */
-    println!("Update GitHub description");
+    println!("    {YELLOW}Updating GitHub description{RESET}");
     let mut token = check_or_get_github_token().unwrap();
     let repos_url = format!("https://api.github.com/repos/{owner}/{repo_name}");
     let body = serde_json::json!({
@@ -654,7 +654,7 @@ fn github_api_replace_all_topics(owner: &str, repo_name: &str, topics: &Vec<Stri
       https://api.github.com/repos/OWNER/REPO/topics \
       -d '{"names":["cat","atom","electron","api"]}'
      */
-    println!("Update GitHub topics.");
+    println!("    {YELLOW}Updating GitHub topics.{RESET}");
     let mut token = check_or_get_github_token().unwrap();
     let repos_url = format!("https://api.github.com/repos/{owner}/{repo_name}/topics");
     let body = serde_json::json!({

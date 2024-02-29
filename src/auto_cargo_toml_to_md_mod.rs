@@ -5,6 +5,7 @@
 
 // region: use statements
 
+use crate::public_api_mod::{GREEN, RED, RESET, YELLOW};
 use chrono::Datelike;
 use chrono::Utc;
 use glob::glob;
@@ -15,8 +16,6 @@ use std::fs;
 // this trait must be in scope to use these methods of CargoToml
 use crate::public_api_mod::CargoTomlPublicApiMethods;
 
-use crate::public_api_mod::{GREEN, RESET, YELLOW};
-
 // endregion: use statements
 
 lazy_static! {
@@ -26,7 +25,7 @@ lazy_static! {
 
 #[doc=include_str!("../doc_comments_long/auto_cargo_toml_to_md.md")]
 pub fn auto_cargo_toml_to_md() {
-    println!("    Running auto_cargo_toml_to_md");
+    println!("    {YELLOW}Running auto_cargo_toml_to_md{RESET}");
     let cargo_toml = crate::auto_cargo_toml_mod::CargoToml::read();
     let members = cargo_toml.workspace_members();
     match members {
@@ -41,7 +40,7 @@ pub fn auto_cargo_toml_to_md() {
             }
         }
     }
-    println!("    Finished auto_cargo_toml_to_md");
+    println!("    {YELLOW}Finished auto_cargo_toml_to_md{RESET}");
 }
 
 fn do_one_project() {
@@ -83,7 +82,10 @@ fn do_one_project() {
 
         // check if file have CRLF and show error
         if md_text_content.contains("\r\n") {
-            panic!("Error: {} has CRLF line endings instead of LF. The task auto_cargo_toml_to_md cannot work! Exiting.", &md_filename);
+            panic!(
+                "{RED}Error: {} has CRLF line endings instead of LF. The task auto_cargo_toml_to_md cannot work! Exiting.{RESET}",
+                &md_filename
+            );
         }
 
         if let Some(cap) = REGEX_MD_START.captures(&md_text_content) {
@@ -91,7 +93,7 @@ fn do_one_project() {
             if let Some(cap) = REGEX_MD_END.captures(&md_text_content) {
                 let pos_end = cap.get(0).unwrap().start();
                 md_text_content.replace_range(pos_start..pos_end, &new_text);
-                println!("{YELLOW}write to md file: {}{RESET}", md_filename);
+                println!("    {YELLOW}Write to md file: {}{RESET}", md_filename);
                 println!("{GREEN}{}{RESET}", &new_text.trim_end_matches("\n\n"));
                 fs::write(md_filename, md_text_content).unwrap();
             }

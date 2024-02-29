@@ -4,7 +4,7 @@
 
 use std::process::exit;
 
-use crate::public_api_mod::{RED, RESET};
+use crate::public_api_mod::{RED, RESET, YELLOW};
 
 /// similar to std::process::Output, but with i32 and Strings for easier work
 #[derive(Debug)]
@@ -21,7 +21,7 @@ pub struct ShellOutput {
 /// Stops task execution if the command has Exit Status != 0
 pub fn run_shell_command(shell_command: &str) {
     if !shell_command.starts_with("echo ") {
-        println!("    $ {}", shell_command);
+        println!("    {YELLOW}$ {shell_command}{RESET}");
     }
     let status = std::process::Command::new("sh").arg("-c").arg(shell_command).spawn().unwrap().wait().unwrap();
     let exit_code = status.code();
@@ -42,7 +42,7 @@ pub fn run_shell_commands(shell_commands: Vec<&str>) {
 /// run one shell command and return ShellOutput {exit_status,stdout,stderr}
 pub fn run_shell_command_output(shell_command: &str) -> ShellOutput {
     if !shell_command.starts_with("echo ") {
-        println!("    $ {}", shell_command);
+        println!("   {YELLOW} $ {shell_command}{RESET}");
     }
     let output = std::process::Command::new("sh").arg("-c").arg(shell_command).output().unwrap();
     // return
@@ -56,7 +56,7 @@ pub fn run_shell_command_output(shell_command: &str) -> ShellOutput {
 /// run one shell command and return true if success
 pub fn run_shell_command_success(shell_command: &str) -> bool {
     if !shell_command.starts_with("echo ") {
-        println!("    $ {}", shell_command);
+        println!("    {YELLOW}$ {shell_command}{RESET}",);
     }
     let status = std::process::Command::new("sh").arg("-c").arg(shell_command).status().unwrap();
     // return
@@ -79,14 +79,14 @@ pub fn completion_return_one_or_more_sub_commands(sub_commands: Vec<&str>, word_
     let mut sub_found = false;
     for sub_command in sub_commands.iter() {
         if sub_command.starts_with(word_being_completed) {
-            println!("{}", sub_command);
+            println!("    {YELLOW}{sub_command}{RESET}");
             sub_found = true;
         }
     }
     if !sub_found {
         // print all sub-commands
         for sub_command in sub_commands.iter() {
-            println!("{}", sub_command);
+            println!("    {YELLOW}{sub_command}{RESET}");
         }
     }
 }
@@ -99,9 +99,9 @@ pub fn home_dir() -> std::path::PathBuf {
             if !path_buff.as_os_str().is_empty() {
                 path_buff
             } else {
-                panic!("Unable to get your home dir!");
+                panic!("{RED}Unable to get your home dir!{RESET}");
             }
         }
-        None => panic!("Unable to get your home dir!"),
+        None => panic!("{RED}Unable to get your home dir!{RESET}"),
     }
 }

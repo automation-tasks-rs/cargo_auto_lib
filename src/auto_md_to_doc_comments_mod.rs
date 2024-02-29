@@ -9,6 +9,7 @@ use regex::Regex;
 use std::fs;
 // this trait must be in scope to use these methods of CargoToml
 use crate::public_api_mod::CargoTomlPublicApiMethods;
+use crate::public_api_mod::{RED, RESET, YELLOW};
 
 #[derive(Debug)]
 struct RsMarker {
@@ -30,14 +31,14 @@ struct MdSegment {
 
 #[doc=include_str!("../doc_comments_long/auto_md_to_doc_comments.md")]
 pub fn auto_md_to_doc_comments() {
-    println!("    auto_md_to_doc_comments");
+    println!("    {YELLOW}auto_md_to_doc_comments{RESET}");
     // Cargo.toml contains the list of projects
     let cargo_toml = crate::auto_cargo_toml_mod::CargoToml::read();
     match cargo_toml.workspace_members() {
         None => one_project(),
         Some(members) => {
             for member in members.iter() {
-                println!("    {}", member);
+                println!("    {YELLOW}{member}{RESET}");
                 std::env::set_current_dir(member).unwrap();
                 one_project();
                 std::env::set_current_dir("..").unwrap();
@@ -53,7 +54,7 @@ fn one_project() {
 
         // check if file have CRLF instead of LF and show error
         if rs_text_content.contains("\r\n") {
-            panic!("Error: {} has CRLF line endings instead of LF. The task auto_md_to_doc_comments cannot work! Exiting..", rs_filename);
+            panic!("{RED}Error: {rs_filename} has CRLF line endings instead of LF. The task auto_md_to_doc_comments cannot work! Exiting..{RESET}");
         }
 
         let markers = rs_file_markers(&rs_text_content);
@@ -62,7 +63,7 @@ fn one_project() {
                 let segment_text = get_md_segments_using_cache(&mut cache_md_segments, &marker.md_filename, &marker.marker_name, &marker.comment_symbol);
                 rs_text_content.replace_range(marker.pos_start..marker.pos_end, &segment_text);
             }
-            println!("    write file: {}", rs_filename);
+            println!("    {YELLOW}Write file: {rs_filename}{RESET}");
             fs::write(rs_filename, rs_text_content).unwrap();
         }
     }
@@ -136,12 +137,12 @@ fn get_md_segments_using_cache(cache: &mut Vec<MdSegment>, md_filename: &str, ma
         segment.text.to_string()
     } else {
         // process the file
-        println!("    read file: {}", md_filename);
+        println!("    {YELLOW}Read file: {md_filename}{RESET}");
         let md_text_content = fs::read_to_string(md_filename).unwrap();
 
         // check if file have CRLF instead of LF and show error
         if md_text_content.contains("\r\n") {
-            panic!("Error: {} has CRLF line endings instead of LF. The task auto_md_to_doc_comments cannot work! Exiting..", md_filename);
+            panic!("{RED}Error: {md_filename} has CRLF line endings instead of LF. The task auto_md_to_doc_comments cannot work! Exiting..{RESET}");
         }
 
         for cap in REGEX_MD_START.captures_iter(&md_text_content) {
