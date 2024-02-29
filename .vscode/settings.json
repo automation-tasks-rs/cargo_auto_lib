@@ -57,6 +57,7 @@
         "Rustdoc",
         "rustfmt",
         "rustlang",
+        "rustprojects",
         "serde",
         "sshadd",
         "startuml",
