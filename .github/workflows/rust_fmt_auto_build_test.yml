@@ -1,10 +1,10 @@
 name: rust_fmt_auto_build_test
 
 on:
-  # push to all branches
+  # push to any branch
   push:
 
-  # all pull requests
+  # any pull requests
   pull_request:
 
 env:
