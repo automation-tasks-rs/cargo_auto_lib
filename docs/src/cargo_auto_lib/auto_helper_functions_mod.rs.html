@@ -246,14 +246,14 @@
     <span class="kw">let </span><span class="kw-2">mut </span>sub_found = <span class="bool-val">false</span>;
     <span class="kw">for </span>sub_command <span class="kw">in </span>sub_commands.iter() {
         <span class="kw">if </span>sub_command.starts_with(word_being_completed) {
-            <span class="macro">println!</span>(<span class="string">"    {YELLOW}{sub_command}{RESET}"</span>);
+            <span class="macro">println!</span>(<span class="string">"{sub_command}"</span>);
             sub_found = <span class="bool-val">true</span>;
         }
     }
     <span class="kw">if </span>!sub_found {
         <span class="comment">// print all sub-commands
         </span><span class="kw">for </span>sub_command <span class="kw">in </span>sub_commands.iter() {
-            <span class="macro">println!</span>(<span class="string">"    {YELLOW}{sub_command}{RESET}"</span>);
+            <span class="macro">println!</span>(<span class="string">"{sub_command}"</span>);
         }
     }
 }
