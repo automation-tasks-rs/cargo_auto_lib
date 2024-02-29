@@ -30,6 +30,7 @@ mod auto_plantuml_mod;
 mod auto_playground_mod;
 mod auto_semver_mod;
 mod auto_semver_or_date_mod;
+mod auto_ssh_mod;
 mod auto_version_from_date_mod;
 mod error_mod;
 mod public_api_mod;

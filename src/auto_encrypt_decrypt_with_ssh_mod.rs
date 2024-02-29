@@ -97,8 +97,8 @@ pub(crate) fn encrypt_with_ssh_interactive_save_json(identity_file_path: &str, o
 
     println!("Encrypt and save json file");
 
-    let identity_file_path_expanded = file_path_home_expand(identity_file_path);
-    if !file_exists(&identity_file_path_expanded) {
+    let identity_file_path_expanded = crate::utils_mod::file_path_home_expand(identity_file_path);
+    if !crate::utils_mod::file_exists(&identity_file_path_expanded) {
         eprintln!("{RED}File {identity_file_path_expanded} does not exist! Exiting.{RESET}");
         // early exit
         return;
@@ -111,7 +111,7 @@ pub(crate) fn encrypt_with_ssh_interactive_save_json(identity_file_path: &str, o
 
     let path = std::env::var("SSH_AUTH_SOCK").expect("SSH_AUTH_SOCK is not set");
     let mut client = ssh_agent_client_rs::Client::connect(std::path::Path::new(&path)).unwrap();
-    let public_key = ssh_add_contains_public_key(&mut client, &fingerprint_from_file);
+    let public_key = crate::auto_ssh_mod::ssh_add_list_contains_fingerprint(&mut client, &fingerprint_from_file).unwrap_or_else(|| panic!("Identity not found in ssh-agent!"));
     let seed_bytes_not_a_secret = random_byte_password();
     let seed_string_not_a_secret = base64ct::Base64::encode_string(&seed_bytes_not_a_secret);
 
@@ -137,7 +137,7 @@ pub(crate) fn encrypt_with_ssh_interactive_save_json(identity_file_path: &str, o
     });
     let file_text = serde_json::to_string_pretty(&json_value).unwrap();
 
-    let output_file_path = file_path_home_expand(output_file_path);
+    let output_file_path = crate::utils_mod::file_path_home_expand(output_file_path);
     let encrypted_file = std::path::Path::new(&output_file_path);
     std::fs::write(encrypted_file, file_text).unwrap();
     println!("Encrypted text saved in Json file.")
@@ -172,15 +172,15 @@ pub(crate) fn decrypt_with_ssh_from_json(json_file_path: &str) -> Option<SecretS
 
     // and now decrypt with private key
     println!("decrypt file from json");
-    let json_file_path = file_path_home_expand(json_file_path);
+    let json_file_path = crate::utils_mod::file_path_home_expand(json_file_path);
     let file_text = std::fs::read_to_string(json_file_path).unwrap();
     let json_value: serde_json::Value = serde_json::from_str(&file_text).unwrap();
     let identity_file_path: &str = json_value.get("identity").unwrap().as_str().unwrap();
     let seed_for_password_not_a_secret: &str = json_value.get("seed").unwrap().as_str().unwrap();
     let encrypted_text: &str = json_value.get("encrypted").unwrap().as_str().unwrap();
 
-    let identity_file_path_expanded = file_path_home_expand(identity_file_path);
-    if !file_exists(&identity_file_path_expanded) {
+    let identity_file_path_expanded = crate::utils_mod::file_path_home_expand(identity_file_path);
+    if !crate::utils_mod::file_exists(&identity_file_path_expanded) {
         eprintln!("{RED}File {identity_file_path_expanded} does not exist! Exiting.{RESET}");
         // early exit
         return None;
@@ -188,13 +188,13 @@ pub(crate) fn decrypt_with_ssh_from_json(json_file_path: &str) -> Option<SecretS
 
     // fingerprints are calculated from the public key and are not a secret
     // ssh-add only if needed
-    let fingerprint_from_file = crate::auto_github_mod::ssh_add_if_needed(&identity_file_path_expanded).unwrap();
+    let fingerprint_from_file = crate::auto_github_mod::ssh_add_if_needed(&identity_file_path_expanded).unwrap_or_else(|| panic!("Identity not found in ssh-agent!"));
     // SHA256:af123456789y1234553hmGEnN3fPv/iw6123456789M
 
     let path = std::env::var("SSH_AUTH_SOCK").expect("SSH_AUTH_SOCK is not set");
     let mut client = ssh_agent_client_rs::Client::connect(std::path::Path::new(&path)).unwrap();
 
-    let public_key = ssh_add_contains_public_key(&mut client, &fingerprint_from_file);
+    let public_key = crate::auto_ssh_mod::ssh_add_list_contains_fingerprint(&mut client, &fingerprint_from_file).unwrap_or_else(|| panic!("Identity not found in ssh-agent!"));
 
     let seed_bytes = base64ct::Base64::decode_vec(seed_for_password_not_a_secret).unwrap();
 
@@ -210,30 +210,4 @@ pub(crate) fn decrypt_with_ssh_from_json(json_file_path: &str) -> Option<SecretS
     let token_is_a_secret = decrypt_symmetric(&encrypted_text, secret_password_bytes);
     // return
     token_is_a_secret
-}
-
-/// returns the public_key inside ssh-add
-/// or panics
-fn ssh_add_contains_public_key(client: &mut ssh_agent_client_rs::Client, fingerprint_from_file: &str) -> ssh_key::PublicKey {
-    let vec_public_key = client.list_identities().unwrap();
-
-    for public_key in vec_public_key.iter() {
-        let fingerprint_from_agent = public_key.key_data().fingerprint(Default::default()).to_string();
-
-        if fingerprint_from_agent == fingerprint_from_file {
-            return public_key.to_owned();
-        }
-    }
-    // the public key was not found
-    panic!("ssh-agent does not have this identity file.");
-}
-
-/// check if file exists
-fn file_exists(file_path: &str) -> bool {
-    std::path::Path::new(file_path).exists()
-}
-
-/// expands the ~ for home_dir and returns expanded path
-fn file_path_home_expand(file_path: &str) -> String {
-    file_path.replace("~", crate::home_dir().to_string_lossy().as_ref())
 }
