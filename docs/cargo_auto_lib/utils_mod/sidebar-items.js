@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"fn":["concatenate_vec_to_string","find_from","find_pos_end_data_before_delimiter","find_pos_start_data_after_delimiter","traverse_dir_with_exclude_dir"]};
+window.SIDEBAR_ITEMS = {"fn":["concatenate_vec_to_string","file_exists","file_path_home_expand","find_from","find_pos_end_data_before_delimiter","find_pos_start_data_after_delimiter","to_path","traverse_dir_with_exclude_dir"]};

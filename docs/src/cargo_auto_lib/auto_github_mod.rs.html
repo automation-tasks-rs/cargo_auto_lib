@@ -729,25 +729,6 @@
 <a href="#678" id="678">678</a>
 <a href="#679" id="679">679</a>
 <a href="#680" id="680">680</a>
-<a href="#681" id="681">681</a>
-<a href="#682" id="682">682</a>
-<a href="#683" id="683">683</a>
-<a href="#684" id="684">684</a>
-<a href="#685" id="685">685</a>
-<a href="#686" id="686">686</a>
-<a href="#687" id="687">687</a>
-<a href="#688" id="688">688</a>
-<a href="#689" id="689">689</a>
-<a href="#690" id="690">690</a>
-<a href="#691" id="691">691</a>
-<a href="#692" id="692">692</a>
-<a href="#693" id="693">693</a>
-<a href="#694" id="694">694</a>
-<a href="#695" id="695">695</a>
-<a href="#696" id="696">696</a>
-<a href="#697" id="697">697</a>
-<a href="#698" id="698">698</a>
-<a href="#699" id="699">699</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// auto_github_mod
@@ -767,7 +748,7 @@
 
 </span><span class="kw">pub const </span>RELEASES_MD: <span class="kw-2">&</span>str = <span class="string">"RELEASES.md"</span>;
 <span class="comment">// file contains github token encrypted with github_com_ssh_1
-</span><span class="kw">pub const </span>GITHUB_TOKEN_ENC: <span class="kw-2">&</span>str = <span class="string">"~/.ssh/github_com_data_1.json"</span>;
+</span><span class="kw">pub const </span>GITHUB_TOKEN_JSON_PATH: <span class="kw-2">&</span>str = <span class="string">"~/.ssh/github_com_data_1.json"</span>;
 
 <span class="doccomment">/// create new release on Github  
 /// return release_id  
@@ -988,16 +969,14 @@
     </span>is_init_repository
 }
 
-<span class="kw">type </span>FingerprintString = String;
-<span class="kw">type </span>IdentityFilePathString = String;
-
-<span class="doccomment">/// Parse the ~/.ssh/config file and find the record for host_name and there is the identity_file_path.
+<span class="doccomment">/// Parse the ~/.ssh/config file and finds the record for host_name and there is the identity_file_path.
 /// If not found, ask user for identity_file_path,
-/// Check if this identity is already in ssh-agent and if not then run ssh-add
+/// Check if this identity is already in ssh-agent and if not then run ssh-add to add it.
 /// This ssh-add will stay even after the process ends, so the parent process will still have it.
 /// returns: fingerprint or None and identity_file_name
 </span><span class="kw">fn </span>ssh_add_resolve(host_name: <span class="kw-2">&</span>str, default_identity_file_path: <span class=
-"kw-2">&</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;(FingerprintString, IdentityFilePathString)&gt; {
+"kw-2">&</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;(<span class="kw">crate</span>::auto_ssh_mod::FingerprintString, <span class=
+"kw">crate</span>::auto_ssh_mod::IdentityFilePathString)&gt; {
     <span class="comment">// I must find the filename of the identity_file for ssh connection to host_name,
     // to find out if I need ssh-add or not.
     // 1. Parse the ~/.ssh/config file and find the record for host_name and there is the identity_file_path.
@@ -1014,7 +993,8 @@
     }
     <span class="comment">// ssh-add only if needed
     </span><span class="kw">if let </span><span class="prelude-val">Some</span>(identity_file_path) = identity_file_path {
-        <span class="kw">let </span>fingerprint = ssh_add_if_needed(<span class="kw-2">&</span>identity_file_path).unwrap();
+        <span class="kw">let </span>fingerprint = ssh_add_if_needed(<span class="kw-2">&</span>identity_file_path).unwrap_or_else(|| <span class=
+"macro">panic!</span>(<span class="string">"Identity not found in ssh-agent!"</span>));
         <span class="prelude-val">Some</span>((fingerprint, identity_file_path))
     } <span class="kw">else </span>{
         <span class="prelude-val">None
@@ -1057,13 +1037,16 @@
 <span class="doccomment">/// decrypt the token from GITHUB_TOKEN_ENC file
 /// or ask user interactively to type it, then encrypt and save to file
 </span><span class="kw">fn </span>check_or_get_github_token() -&gt; <span class="prelude-ty">Option</span>&lt;SecretString&gt; {
-    <span class="kw">let </span>(_fingerprint, identity_file_path) = ssh_add_resolve(<span class="string">"github.com"</span>, <span class=
+    <span class="comment">// ssh_add_resolve(host_name: &amp;str, default_identity_file_path: &amp;str)
+    </span><span class="kw">let </span>(_fingerprint, identity_file_path) = ssh_add_resolve(<span class="string">"github.com"</span>, <span class=
 "string">"~/.ssh/github_com_ssh_1"</span>).unwrap();
 
     <span class="kw">let </span><span class="kw-2">mut </span>token: <span class="prelude-ty">Option</span>&lt;SecretString&gt; = <span class=
 "prelude-val">None</span>;
-    <span class="kw">if </span>std::path::Path::new(GITHUB_TOKEN_ENC).exists() {
-        token = <span class="kw">crate</span>::auto_encrypt_decrypt_with_ssh_mod::decrypt_with_ssh_from_json(GITHUB_TOKEN_ENC);
+    <span class="kw">let </span>github_token_json_path_expanded = <span class="kw">crate</span>::utils_mod::file_path_home_expand(GITHUB_TOKEN_JSON_PATH);
+    <span class="kw">if </span>std::path::Path::new(<span class="kw-2">&</span>github_token_json_path_expanded).exists() {
+        token = <span class="kw">crate</span>::auto_encrypt_decrypt_with_ssh_mod::decrypt_with_ssh_from_json(<span class=
+"kw-2">&</span>github_token_json_path_expanded);
     }
     <span class="kw">if </span>token.is_none() {
         <span class="macro">println!</span>(
@@ -1076,9 +1059,10 @@ The token is a secret just like a password, use it with caution.
         </span>);
         <span class="comment">// encrypt and save to file
         </span><span class="kw">crate</span>::auto_encrypt_decrypt_with_ssh_mod::encrypt_with_ssh_interactive_save_json(<span class=
-"kw-2">&</span>identity_file_path, GITHUB_TOKEN_ENC);
+"kw-2">&</span>identity_file_path, <span class="kw-2">&</span>github_token_json_path_expanded);
         <span class="comment">// now decrypt
-        </span>token = <span class="kw">crate</span>::auto_encrypt_decrypt_with_ssh_mod::decrypt_with_ssh_from_json(GITHUB_TOKEN_ENC);
+        </span>token = <span class="kw">crate</span>::auto_encrypt_decrypt_with_ssh_mod::decrypt_with_ssh_from_json(<span class=
+"kw-2">&</span>github_token_json_path_expanded);
     }
     <span class="comment">// return
     </span>token
@@ -1105,42 +1089,30 @@ The token is a secret just like a password, use it with caution.
     <span class="prelude-val">Some</span>(())
 }
 
-<span class="doccomment">/// identity_file_path contains the path of the private key like: `~/.ssh/github_com_ssh_1`
-/// check if this file is in ssh-add. Only the first 56 ascii characters are the fingerprint.
-/// After is a description, not important and sometimes different.
-/// if is not, then ssh-add and the user will enter the passcode.
-</span><span class="kw">pub fn </span>ssh_add_if_needed(identity_file_path: <span class="kw-2">&</span>str) -&gt; <span class=
-"prelude-ty">Option</span>&lt;String&gt; {
-    <span class="macro">println!</span>(<span class="string">"Get a list of fingerprints already in ssh-add."</span>);
-    <span class="kw">let </span>ssh_added = <span class="kw">crate</span>::run_shell_command_output(<span class="string">"ssh-add -l"</span>).stdout;
-
-    <span class="macro">println!</span>(<span class="string">"Calculate the fingerprint of the identity file to check if it is already in ssh-add."</span>);
-
-    <span class="comment">// I need the public key here
-    </span><span class="kw">let </span>identity_file_path_public = <span class="macro">format!</span>(<span class="string">"{identity_file_path}.pub"</span>);
-    <span class="macro">println!</span>(<span class="string">"Public key: {}"</span>, identity_file_path_public);
-
-    <span class="kw">let </span>public_key = ssh_key::PublicKey::read_openssh_file(to_path(<span class="kw-2">&</span>identity_file_path_public)).unwrap();
-    <span class="kw">let </span>fingerprint = public_key.fingerprint(Default::default());
-    <span class="kw">let </span>fingerprint = fingerprint.to_string();
-
-    <span class="comment">// ssh-add if it is not contained in the ssh-agent
-    </span><span class="kw">if </span>!ssh_added.contains(<span class="kw-2">&</span>fingerprint) {
-        <span class="macro">println!</span>(<span class="string">"{YELLOW}Add ssh identity with ssh-add to use with GitHub push.{RESET}"</span>);
-        <span class="kw">let </span>cmd = <span class="macro">format!</span>(<span class="string">"ssh-add -t 1h {}"</span>, identity_file_path);
-        <span class="kw">let </span>shell_output = <span class="kw">crate</span>::run_shell_command_output(<span class="kw-2">&</span>cmd);
-        <span class="kw">if </span>!shell_output.stderr.contains(<span class="string">"Identity added"</span>) {
-            <span class="macro">eprintln!</span>(<span class="string">"{RED}ssh-add was not successful! Exiting.{RESET}"</span>,);
-            <span class="comment">// early exit
-            </span><span class="kw">return </span><span class="prelude-val">None</span>;
-        } <span class="kw">else </span>{
-            <span class="macro">println!</span>(<span class="string">"{}"</span>, shell_output.stdout);
-            <span class="macro">eprintln!</span>(<span class="string">"{}"</span>, shell_output.stderr);
+<span class="doccomment">/// identity_private_file_path contains the path of the private key like: `~/.ssh/github_com_ssh_1`
+/// check if this file is in ssh-add.
+/// if is not, then ask user to ssh-add and enter passcode.
+</span><span class="kw">pub fn </span>ssh_add_if_needed(identity_private_file_path: <span class="kw-2">&</span>str) -&gt; <span class=
+"prelude-ty">Option</span>&lt;<span class="kw">crate</span>::auto_ssh_mod::FingerprintString&gt; {
+    <span class="kw">let </span>fingerprint_from_file = <span class="kw">crate</span>::auto_ssh_mod::get_fingerprint_from_file(identity_private_file_path);
+    <span class="kw">let </span><span class="kw-2">mut </span>ssh_agent_client = <span class="kw">crate</span>::auto_ssh_mod::crate_ssh_agent_client();
+    <span class="comment">// returns the public_key inside ssh-add or None
+    </span><span class="kw">match </span><span class="kw">crate</span>::auto_ssh_mod::ssh_add_list_contains_fingerprint(<span class=
+"kw-2">&amp;mut </span>ssh_agent_client, <span class="kw-2">&</span>fingerprint_from_file) {
+        <span class="prelude-val">Some</span>(_key) =&gt; <span class="macro">println!</span>(<span class=
+"string">"Key for GitHub push is already in ssh-add."</span>),
+        <span class="prelude-val">None </span>=&gt; {
+            <span class="comment">// ssh-add if it is not contained in the ssh-agent
+            </span><span class="macro">println!</span>(<span class="string">"{YELLOW}Add ssh identity with ssh-add to use with GitHub push.{RESET}"</span>);
+            <span class="kw">let </span>cmd = <span class="macro">format!</span>(<span class="string">"ssh-add -t 1h {}"</span>, identity_private_file_path);
+            <span class="kw">if </span>!<span class="kw">crate</span>::run_shell_command_success(<span class="kw-2">&</span>cmd) {
+                <span class="macro">eprintln!</span>(<span class="string">"{RED}ssh-add was not successful! Exiting.{RESET}"</span>,);
+                <span class="comment">// early exit
+                </span><span class="kw">return </span><span class="prelude-val">None</span>;
+            }
         }
-    } <span class="kw">else </span>{
-        <span class="macro">println!</span>(<span class="string">"Key for GitHub push is already in ssh-add."</span>);
     }
-    <span class="prelude-val">Some</span>(fingerprint)
+    <span class="prelude-val">Some</span>(fingerprint_from_file)
 }
 
 <span class="doccomment">/// Parse the ~/.ssh/config file and find the record for host_name and there is the identity_file_path.
@@ -1493,10 +1465,6 @@ The TODO section is part of the [README.md](https://github.com/{github_owner}/{p
     </span>token.<span class="number">0</span>.zeroize();
 
     <span class="kw">let </span>_parsed: serde_json::Value = serde_json::from_str(<span class="kw-2">&</span>response_text).unwrap();
-}
-
-<span class="kw">fn </span>to_path(path_str: <span class="kw-2">&</span>str) -&gt; <span class="kw-2">&</span>std::path::Path {
-    std::path::Path::new(path_str)
 }
 </code></pre>
       </div>

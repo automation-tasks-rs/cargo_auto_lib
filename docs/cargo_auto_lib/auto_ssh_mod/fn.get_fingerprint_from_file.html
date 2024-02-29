@@ -5,8 +5,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="generator" content="rustdoc">
-  <meta name="description" content="API documentation for the Rust `FingerprintString` type in crate `cargo_auto_lib`.">
-  <title>FingerprintString in cargo_auto_lib::auto_github_mod - Rust</title>
+  <meta name="description" content="the parameter is the filepath of the private key But the code then uses the public key to calculate the fingerprint">
+  <title>get_fingerprint_from_file in cargo_auto_lib::auto_ssh_mod - Rust</title>
   <link rel="preload" as="font" type="font/woff2" crossorigin="" href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2">
   <link rel="preload" as="font" type="font/woff2" crossorigin="" href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2">
   <link rel="preload" as="font" type="font/woff2" crossorigin="" href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2">
@@ -25,7 +25,7 @@
   <link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png">
   <link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg">
 </head>
-<body class="rustdoc type">
+<body class="rustdoc fn">
   <!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]-->
   <nav class="mobile-topbar">
     <button class="sidebar-menu-toggle">☰</button><a class="logo-container" href="../../cargo_auto_lib/index.html"><img src=
@@ -35,20 +35,10 @@
     <div class="sidebar-crate">
       <a class="logo-container" href="../../cargo_auto_lib/index.html"><img src=
       "https://github.com/bestia-dev/cargo-auto/raw/main/images/logo/logo_cargo_auto.svg" alt="logo"></a>
-      <h2><a href="../../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">1.3.36</span></h2>
+      <h2><a href="../../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">1.3.40</span></h2>
     </div>
-    <h2 class="location"><a href="#">FingerprintString</a></h2>
     <div class="sidebar-elems">
-      <section>
-        <h3><a href="#aliased-type">Aliased type</a></h3>
-        <h3><a href="#fields">Fields</a></h3>
-        <ul class="block field">
-          <li>
-            <a href="#structfield.vec">vec</a>
-          </li>
-        </ul>
-      </section>
-      <h2><a href="index.html">In cargo_auto_lib::auto_github_mod</a></h2>
+      <h2><a href="index.html">In cargo_auto_lib::auto_ssh_mod</a></h2>
     </div>
   </nav>
   <div class="sidebar-resizer"></div>
@@ -71,24 +61,23 @@
       </nav>
       <section id="main-content" class="content">
         <div class="main-heading">
-          <h1>Type Alias <a href="../index.html">cargo_auto_lib</a>::<wbr><a href="index.html">auto_github_mod</a>::<wbr><a class="type" href=
-          "#">FingerprintString</a><button id="copy-path" title="Copy item path to clipboard"><img src="../../static.files/clipboard-7571035ce49a181d.svg"
-          width="19" height="18" alt="Copy item path"></button></h1><span class="out-of-band"><a class="src" href=
-          "../../src/cargo_auto_lib/auto_github_mod.rs.html#228">source</a> · <button id="toggle-all-docs" title=
+          <h1>Function <a href="../index.html">cargo_auto_lib</a>::<wbr><a href="index.html">auto_ssh_mod</a>::<wbr><a class="fn" href=
+          "#">get_fingerprint_from_file</a><button id="copy-path" title="Copy item path to clipboard"><img src=
+          "../../static.files/clipboard-7571035ce49a181d.svg" width="19" height="18" alt="Copy item path"></button></h1><span class="out-of-band"><a class=
+          "src" href="../../src/cargo_auto_lib/auto_ssh_mod.rs.html#30-38">source</a> · <button id="toggle-all-docs" title=
           "collapse all docs">[<span>−</span>]</button></span>
         </div>
-        <pre class="rust item-decl"><code>type FingerprintString = <a class="struct" href="https://doc.rust-lang.org/1.76.0/alloc/string/struct.String.html"
-        title="struct alloc::string::String">String</a>;</code></pre>
-        <h2 id="aliased-type" class="section-header">Aliased Type<a href="#aliased-type" class="anchor">§</a></h2>
-        <pre class="rust item-decl"><code>struct FingerprintString {
-    vec: <a class="struct" href="https://doc.rust-lang.org/1.76.0/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="primitive"
-href="https://doc.rust-lang.org/1.76.0/std/primitive.u8.html">u8</a>&gt;,
-}</code></pre>
-        <h2 id="fields" class="fields section-header">Fields<a href="#fields" class="anchor">§</a></h2><span id="structfield.vec" class=
-        "structfield section-header"><a href="#structfield.vec" class="anchor field">§</a><code>vec: <a class="struct" href=
-        "https://doc.rust-lang.org/1.76.0/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="primitive" href=
-        "https://doc.rust-lang.org/1.76.0/std/primitive.u8.html">u8</a>&gt;</code></span>
-        <script src="../../type.impl/alloc/string/struct.String.js" data-self-path="cargo_auto_lib::auto_github_mod::FingerprintString" async></script>
+        <pre class="rust item-decl"><code>pub(crate) fn get_fingerprint_from_file(
+    identity_private_file_path: &<a class="primitive" href="https://doc.rust-lang.org/1.76.0/std/primitive.str.html">str</a>
+) -&gt; <a class="struct" href="https://doc.rust-lang.org/1.76.0/alloc/string/struct.String.html" title="struct alloc::string::String">String</a></code></pre>
+        <details class="toggle top-doc" open="">
+          <summary class="hideme">
+            <span>Expand description</span>
+          </summary>
+          <div class="docblock">
+            <p>the parameter is the filepath of the private key But the code then uses the public key to calculate the fingerprint</p>
+          </div>
+        </details>
       </section>
     </div>
   </main>
