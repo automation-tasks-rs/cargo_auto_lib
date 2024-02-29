@@ -8,7 +8,9 @@ description = "cargo auto - automation tasks written in Rust language"
 publish = false
 
 [dependencies]
-# cargo_auto_lib = "1.3.40"
-# Using the development library, so I test the changes immediately
-cargo_auto_lib = {path = "/home/rustdevuser/rustprojects/cargo_auto_lib"}
+# the dependency to crates.io must be set for the GitHub action to succeed.
+cargo_auto_lib = "1.3.59"
+# Using the development library locally, so I test the changes immediately.
+# cargo_auto_lib = {path = "/home/rustdevuser/rustprojects/cargo_auto_lib"}
+
 pretty_dbg = "1.0.54"
