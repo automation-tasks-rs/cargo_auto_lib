@@ -260,8 +260,6 @@
 <a href="#209" id="209">209</a>
 <a href="#210" id="210">210</a>
 <a href="#211" id="211">211</a>
-<a href="#212" id="212">212</a>
-<a href="#213" id="213">213</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// auto_encrypt_decrypt_with_ssh_mod.rs
@@ -318,9 +316,9 @@
 // use crate::GREEN;
 </span><span class="kw">use </span><span class="kw">crate</span>::RED;
 <span class="kw">use </span><span class="kw">crate</span>::RESET;
-<span class="comment">// use crate::YELLOW;
+<span class="kw">use </span><span class="kw">crate</span>::YELLOW;
 
-// region: new structs or newtype
+<span class="comment">// region: new structs or newtype
 </span><span class="kw">pub struct </span>SecretString(<span class="kw">pub </span>String);
 <span class="kw">pub struct </span>EncryptedString(<span class="kw">pub </span>String);
 <span class="kw">pub struct </span>SecretBytes&lt;<span class="lifetime">'a</span>&gt;(<span class="kw">pub </span><span class="kw-2">&</span><span class=
@@ -366,8 +364,6 @@
         }
     }
 
-    <span class="macro">println!</span>(<span class="string">"Encrypt and save json file"</span>);
-
     <span class="kw">let </span>identity_file_path_expanded = <span class="kw">crate</span>::utils_mod::file_path_home_expand(identity_file_path);
     <span class="kw">if </span>!<span class="kw">crate</span>::utils_mod::file_exists(<span class="kw-2">&</span>identity_file_path_expanded) {
         <span class="macro">eprintln!</span>(<span class="string">"{RED}File {identity_file_path_expanded} does not exist! Exiting.{RESET}"</span>);
@@ -379,7 +375,7 @@
     // offer to the user ssh-add if needed
     </span><span class="kw">let </span>fingerprint_from_file = <span class="kw">crate</span>::auto_github_mod::ssh_add_if_needed(<span class=
 "kw-2">&</span>identity_file_path_expanded).unwrap_or_else(|| <span class="macro">panic!</span>(<span class=
-"string">"Identity not found in ssh-agent!"</span>));
+"string">"{RED}Identity not found in ssh-agent!{RESET}"</span>));
     <span class="comment">// SHA256:af123456789y1234553hmGEnN3fPv/iw6123456789M
 
     </span><span class="kw">let </span>path = std::env::var(<span class="string">"SSH_AUTH_SOCK"</span>).expect(<span class=
@@ -388,7 +384,7 @@
 "kw-2">&</span>path)).unwrap();
     <span class="kw">let </span>public_key = <span class="kw">crate</span>::auto_ssh_mod::ssh_add_list_contains_fingerprint(<span class=
 "kw-2">&amp;mut </span>client, <span class="kw-2">&</span>fingerprint_from_file).unwrap_or_else(|| <span class="macro">panic!</span>(<span class=
-"string">"Identity not found in ssh-agent!"</span>));
+"string">"{RED}Identity not found in ssh-agent!{RESET}"</span>));
     <span class="kw">let </span>seed_bytes_not_a_secret = random_byte_password();
     <span class="kw">let </span>seed_string_not_a_secret = base64ct::Base64::encode_string(<span class="kw-2">&</span>seed_bytes_not_a_secret);
 
@@ -420,7 +416,7 @@
     <span class="kw">let </span>output_file_path = <span class="kw">crate</span>::utils_mod::file_path_home_expand(output_file_path);
     <span class="kw">let </span>encrypted_file = std::path::Path::new(<span class="kw-2">&</span>output_file_path);
     std::fs::write(encrypted_file, file_text).unwrap();
-    <span class="macro">println!</span>(<span class="string">"Encrypted text saved in Json file."</span>)
+    <span class="macro">println!</span>(<span class="string">"    {YELLOW}Encrypted text saved in file for future use.{RESET}"</span>)
 }
 
 <span class="doccomment">/// decrypt from json file with ssh_identity
@@ -457,7 +453,7 @@
     }
 
     <span class="comment">// and now decrypt with private key
-    </span><span class="macro">println!</span>(<span class="string">"decrypt file from json"</span>);
+    </span><span class="macro">println!</span>(<span class="string">"    {YELLOW}Decrypting GitHub API token from encrypted file.{RESET}"</span>);
     <span class="kw">let </span>json_file_path = <span class="kw">crate</span>::utils_mod::file_path_home_expand(json_file_path);
     <span class="kw">let </span>file_text = std::fs::read_to_string(json_file_path).unwrap();
     <span class="kw">let </span>json_value: serde_json::Value = serde_json::from_str(<span class="kw-2">&</span>file_text).unwrap();
@@ -479,7 +475,7 @@
     // ssh-add only if needed
     </span><span class="kw">let </span>fingerprint_from_file = <span class="kw">crate</span>::auto_github_mod::ssh_add_if_needed(<span class=
 "kw-2">&</span>identity_file_path_expanded).unwrap_or_else(|| <span class="macro">panic!</span>(<span class=
-"string">"Identity not found in ssh-agent!"</span>));
+"string">"{RED}Identity not found in ssh-agent!{RESET}"</span>));
     <span class="comment">// SHA256:af123456789y1234553hmGEnN3fPv/iw6123456789M
 
     </span><span class="kw">let </span>path = std::env::var(<span class="string">"SSH_AUTH_SOCK"</span>).expect(<span class=
@@ -489,7 +485,7 @@
 
     <span class="kw">let </span>public_key = <span class="kw">crate</span>::auto_ssh_mod::ssh_add_list_contains_fingerprint(<span class=
 "kw-2">&amp;mut </span>client, <span class="kw-2">&</span>fingerprint_from_file).unwrap_or_else(|| <span class="macro">panic!</span>(<span class=
-"string">"Identity not found in ssh-agent!"</span>));
+"string">"{RED}Identity not found in ssh-agent!{RESET}"</span>));
 
     <span class="kw">let </span>seed_bytes = base64ct::Base64::decode_vec(seed_for_password_not_a_secret).unwrap();
 

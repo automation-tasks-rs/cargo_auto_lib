@@ -836,7 +836,7 @@
 "kw-2">&</span>str, release_id: <span class="kw-2">&</span>str, path_to_file: <span class="kw-2">&</span>str) {
     <span class="kw">let </span><span class="kw-2">mut </span>token = check_or_get_github_token().unwrap();
 
-    <span class="macro">println!</span>(<span class="string">"path_to_file: {}"</span>, path_to_file);
+    <span class="macro">println!</span>(<span class="string">"    {YELLOW}Uploading file to GitHub release: {path_to_file}{RESET}"</span>);
     <span class="kw">let </span>file = std::path::Path::new(<span class="kw-2">&</span>path_to_file);
     <span class="kw">let </span>file_name = file.file_name().unwrap().to_str().unwrap();
 
@@ -846,9 +846,8 @@
 "kw">as </span>std::str::FromStr&gt;::from_str(<span class="kw-2">&</span>release_upload_url).unwrap();
     release_upload_url.set_query(<span class="prelude-val">Some</span>(<span class="macro">format!</span>(<span class="string">"{}={}"</span>, <span class=
 "string">"name"</span>, file_name).as_str()));
-    <span class="macro">println!</span>(<span class="string">"upload_url: {}"</span>, release_upload_url);
     <span class="kw">let </span>file_size = std::fs::metadata(file).unwrap().len();
-    <span class="macro">println!</span>(<span class="string">"file_size: {}. It can take some time to upload. Wait..."</span>, file_size);
+    <span class="macro">println!</span>(<span class="string">"    {YELLOW}It can take some time to upload. File size: {file_size}. Wait...{RESET}"</span>);
     <span class="comment">// region: async code made sync locally
     </span><span class="kw">use </span>tokio::runtime::Runtime;
     <span class="kw">let </span>rt = Runtime::new().unwrap();
@@ -994,7 +993,7 @@
     <span class="comment">// ssh-add only if needed
     </span><span class="kw">if let </span><span class="prelude-val">Some</span>(identity_file_path) = identity_file_path {
         <span class="kw">let </span>fingerprint = ssh_add_if_needed(<span class="kw-2">&</span>identity_file_path).unwrap_or_else(|| <span class=
-"macro">panic!</span>(<span class="string">"Identity not found in ssh-agent!"</span>));
+"macro">panic!</span>(<span class="string">"{RED}Identity not found in ssh-agent!{RESET}"</span>));
         <span class="prelude-val">Some</span>((fingerprint, identity_file_path))
     } <span class="kw">else </span>{
         <span class="prelude-val">None
@@ -1004,7 +1003,7 @@
 <span class="doccomment">/// interactive ask to create a new remote GitHub repository
 </span><span class="kw">pub fn </span>new_remote_github_repository() -&gt; <span class="prelude-ty">Option</span>&lt;String&gt; {
     <span class="comment">// ask interactive
-    </span><span class="macro">println!</span>(<span class="string">"{YELLOW}This project does not have a remote GitHub repository.{RESET}"</span>);
+    </span><span class="macro">println!</span>(<span class="string">"    {YELLOW}This project does not have a remote GitHub repository.{RESET}"</span>);
     <span class="kw">let </span>answer = inquire::Text::new(<span class=
 "string">"Do you want to create a new remote GitHub repository? (y/n)"</span>).prompt().unwrap();
     <span class="kw">if </span>answer.to_lowercase() != <span class="string">"y" </span>{
@@ -1051,10 +1050,10 @@
     <span class="kw">if </span>token.is_none() {
         <span class="macro">println!</span>(
             <span class="string">r#"{RED}Cannot find the file with encrypted github token.{RESET}
-The token is required to work with GitHub API to work with your repositories.
-You can generate the token at https://github.com/settings/tokens.
-It needs the permission scope: Full control of private repositories.
-The token is a secret just like a password, use it with caution.
+    {YELLOW}The token is required to work with GitHub API to work with your repositories.
+    You can generate the token at https://github.com/settings/tokens.
+    It needs the permission scope: Full control of private repositories.
+    The token is a secret just like a password, use it with caution.{RESET}
 "#
         </span>);
         <span class="comment">// encrypt and save to file
@@ -1071,7 +1070,7 @@ The token is a secret just like a password, use it with caution.
 <span class="doccomment">/// interactive ask to create a new local git repository
 </span><span class="kw">pub fn </span>new_local_repository(message: <span class="kw-2">&</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;()&gt; {
     <span class="comment">// ask interactive
-    </span><span class="macro">println!</span>(<span class="string">"{YELLOW}This project is not yet a Git repository.{RESET}"</span>);
+    </span><span class="macro">println!</span>(<span class="string">"    {YELLOW}This project is not yet a Git repository.{RESET}"</span>);
     <span class="kw">let </span>answer = inquire::Text::new(<span class=
 "string">"Do you want to initialize a new local git repository? (y/n)"</span>).prompt().unwrap();
     <span class="comment">// continue if answer is "y"
@@ -1100,10 +1099,11 @@ The token is a secret just like a password, use it with caution.
     </span><span class="kw">match </span><span class="kw">crate</span>::auto_ssh_mod::ssh_add_list_contains_fingerprint(<span class=
 "kw-2">&amp;mut </span>ssh_agent_client, <span class="kw-2">&</span>fingerprint_from_file) {
         <span class="prelude-val">Some</span>(_key) =&gt; <span class="macro">println!</span>(<span class=
-"string">"Key for GitHub push is already in ssh-add."</span>),
+"string">"    {YELLOW}Ssh key for GitHub push is already in ssh-add.{RESET}"</span>),
         <span class="prelude-val">None </span>=&gt; {
             <span class="comment">// ssh-add if it is not contained in the ssh-agent
-            </span><span class="macro">println!</span>(<span class="string">"{YELLOW}Add ssh identity with ssh-add to use with GitHub push.{RESET}"</span>);
+            </span><span class="macro">eprintln!</span>(<span class="string">"{RED}Ssh key for GitHub push is not in the ssh-agent.{RESET}"</span>);
+            <span class="macro">println!</span>(<span class="string">"    {YELLOW}Add ssh identity with ssh-add to use with GitHub push.{RESET}"</span>);
             <span class="kw">let </span>cmd = <span class="macro">format!</span>(<span class="string">"ssh-add -t 1h {}"</span>, identity_private_file_path);
             <span class="kw">if </span>!<span class="kw">crate</span>::run_shell_command_success(<span class="kw-2">&</span>cmd) {
                 <span class="macro">eprintln!</span>(<span class="string">"{RED}ssh-add was not successful! Exiting.{RESET}"</span>,);
@@ -1139,7 +1139,7 @@ The token is a secret just like a password, use it with caution.
             <span class="kw">return </span><span class="prelude-val">None</span>;
         }
     }
-    <span class="macro">println!</span>(<span class="string">"Identity_file_path for ssh is {identity_file_path}"</span>);
+    <span class="macro">println!</span>(<span class="string">"    {YELLOW}Identity_file_path for ssh is {identity_file_path}{RESET}"</span>);
 
     <span class="prelude-val">Some</span>(identity_file_path)
 }
@@ -1151,12 +1151,12 @@ The token is a secret just like a password, use it with caution.
 "kw-2">&</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;String&gt; {
     <span class="macro">println!</span>(
         <span class="string">r#"{RED}Cannot find identity file in ~/.ssh/config.{RESET}
-It should contain the filepath of the ssh key used for ssh connection or git to {host_name}.
-The filepath itself is not a secret. Just the content of the file is a secret.
-Without this filepath I cannot check if it is ssh-added to the ssh-agent.
-If you create the file ~/.ssh/config with content like this: 
-&lt;https://github.com/bestia-dev/docker_rust_development/raw/main/docker_rust_development_install/ssh_config_template&gt;
-you will never be asked again to enter this filepath.
+    {YELLOW}It should contain the filepath of the ssh key used for ssh connection or git to {host_name}.
+    The filepath itself is not a secret. Just the content of the file is a secret.
+    Without this filepath I cannot check if it is ssh-added to the ssh-agent.
+    If you create the file ~/.ssh/config with content like this: 
+    &lt;https://github.com/bestia-dev/docker_rust_development/raw/main/docker_rust_development_install/ssh_config_template&gt;
+    you will never be asked again to enter this filepath.{RESET}
 "#</span>,
     );
     <span class="kw">let </span>identity_file_for_ssh = inquire::Text::new(<span class="kw-2">&</span><span class="macro">format!</span>(<span class=
@@ -1402,7 +1402,7 @@ The TODO section is part of the [README.md](https://github.com/{github_owner}/{p
     ...
     }
     */
-    </span><span class="macro">println!</span>(<span class="string">"Update GitHub description"</span>);
+    </span><span class="macro">println!</span>(<span class="string">"    {YELLOW}Updating GitHub description{RESET}"</span>);
     <span class="kw">let </span><span class="kw-2">mut </span>token = check_or_get_github_token().unwrap();
     <span class="kw">let </span>repos_url = <span class="macro">format!</span>(<span class="string">"https://api.github.com/repos/{owner}/{repo_name}"</span>);
     <span class="kw">let </span>body = <span class="macro">serde_json::json!</span>({
@@ -1440,7 +1440,7 @@ The TODO section is part of the [README.md](https://github.com/{github_owner}/{p
       https://api.github.com/repos/OWNER/REPO/topics \
       -d '{"names":["cat","atom","electron","api"]}'
      */
-    </span><span class="macro">println!</span>(<span class="string">"Update GitHub topics."</span>);
+    </span><span class="macro">println!</span>(<span class="string">"    {YELLOW}Updating GitHub topics.{RESET}"</span>);
     <span class="kw">let </span><span class="kw-2">mut </span>token = check_or_get_github_token().unwrap();
     <span class="kw">let </span>repos_url = <span class="macro">format!</span>(<span class=
 "string">"https://api.github.com/repos/{owner}/{repo_name}/topics"</span>);

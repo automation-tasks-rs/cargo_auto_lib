@@ -155,6 +155,8 @@
 <a href="#104" id="104">104</a>
 <a href="#105" id="105">105</a>
 <a href="#106" id="106">106</a>
+<a href="#107" id="107">107</a>
+<a href="#108" id="108">108</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// auto_cargo_toml_to_md_mod
@@ -164,7 +166,8 @@
 
 </span><span class="comment">// region: use statements
 
-</span><span class="kw">use </span>chrono::Datelike;
+</span><span class="kw">use </span><span class="kw">crate</span>::public_api_mod::{GREEN, RED, RESET, YELLOW};
+<span class="kw">use </span>chrono::Datelike;
 <span class="kw">use </span>chrono::Utc;
 <span class="kw">use </span>glob::glob;
 <span class="kw">use </span>lazy_static::lazy_static;
@@ -173,8 +176,6 @@
 
 <span class="comment">// this trait must be in scope to use these methods of CargoToml
 </span><span class="kw">use </span><span class="kw">crate</span>::public_api_mod::CargoTomlPublicApiMethods;
-
-<span class="kw">use </span><span class="kw">crate</span>::public_api_mod::{GREEN, RESET, YELLOW};
 
 <span class="comment">// endregion: use statements
 
@@ -187,7 +188,7 @@
 
 <span class="attr">#[doc=<span class="macro">include_str!</span>(<span class="string">"../doc_comments_long/auto_cargo_toml_to_md.md"</span>)]
 </span><span class="kw">pub fn </span>auto_cargo_toml_to_md() {
-    <span class="macro">println!</span>(<span class="string">"    Running auto_cargo_toml_to_md"</span>);
+    <span class="macro">println!</span>(<span class="string">"    {YELLOW}Running auto_cargo_toml_to_md{RESET}"</span>);
     <span class="kw">let </span>cargo_toml = <span class="kw">crate</span>::auto_cargo_toml_mod::CargoToml::read();
     <span class="kw">let </span>members = cargo_toml.workspace_members();
     <span class="kw">match </span>members {
@@ -202,7 +203,7 @@
             }
         }
     }
-    <span class="macro">println!</span>(<span class="string">"    Finished auto_cargo_toml_to_md"</span>);
+    <span class="macro">println!</span>(<span class="string">"    {YELLOW}Finished auto_cargo_toml_to_md{RESET}"</span>);
 }
 
 <span class="kw">fn </span>do_one_project() {
@@ -247,8 +248,10 @@
 
         <span class="comment">// check if file have CRLF and show error
         </span><span class="kw">if </span>md_text_content.contains(<span class="string">"\r\n"</span>) {
-            <span class="macro">panic!</span>(<span class=
-"string">"Error: {} has CRLF line endings instead of LF. The task auto_cargo_toml_to_md cannot work! Exiting."</span>, <span class="kw-2">&</span>md_filename);
+            <span class="macro">panic!</span>(
+                <span class="string">"{RED}Error: {} has CRLF line endings instead of LF. The task auto_cargo_toml_to_md cannot work! Exiting.{RESET}"</span>,
+                <span class="kw-2">&</span>md_filename
+            );
         }
 
         <span class="kw">if let </span><span class="prelude-val">Some</span>(cap) = REGEX_MD_START.captures(<span class="kw-2">&</span>md_text_content) {
@@ -256,7 +259,7 @@
             <span class="kw">if let </span><span class="prelude-val">Some</span>(cap) = REGEX_MD_END.captures(<span class="kw-2">&</span>md_text_content) {
                 <span class="kw">let </span>pos_end = cap.get(<span class="number">0</span>).unwrap().start();
                 md_text_content.replace_range(pos_start..pos_end, <span class="kw-2">&</span>new_text);
-                <span class="macro">println!</span>(<span class="string">"{YELLOW}write to md file: {}{RESET}"</span>, md_filename);
+                <span class="macro">println!</span>(<span class="string">"    {YELLOW}Write to md file: {}{RESET}"</span>, md_filename);
                 <span class="macro">println!</span>(<span class="string">"{GREEN}{}{RESET}"</span>, <span class=
 "kw-2">&</span>new_text.trim_end_matches(<span class="string">"\n\n"</span>));
                 fs::write(md_filename, md_text_content).unwrap();

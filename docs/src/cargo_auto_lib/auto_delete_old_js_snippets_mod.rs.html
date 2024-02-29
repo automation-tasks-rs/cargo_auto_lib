@@ -113,6 +113,7 @@
 <a href="#62" id="62">62</a>
 <a href="#63" id="63">63</a>
 <a href="#64" id="64">64</a>
+<a href="#65" id="65">65</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// auto_delete_old_js_snippets_mod
@@ -120,11 +121,12 @@
 </span><span class="doccomment">//! deletes old js snippets when working with wasm-pack
 
 </span><span class="comment">//region: use statements
-</span><span class="kw">use </span><span class="kw">crate</span>::public_api_mod::{RED, RESET};
+</span><span class="kw">use </span><span class="kw">crate</span>::public_api_mod::{RED, RESET, YELLOW};
 <span class="kw">use </span>filetime::FileTime;
 <span class="kw">use </span>std::env;
 <span class="kw">use </span>std::fs;
 <span class="kw">use </span>std::path::PathBuf;
+
 <span class="comment">//endregion
 
 </span><span class="doccomment">/// deletes old js snippets when working with wasm-pack  
@@ -162,7 +164,7 @@
                     <span class="comment">// if second_mtime &gt; first_mtime {
                     </span>std::cmp::Ordering::Greater =&gt; {
                         <span class="kw">let </span>first_folder = opt_first_folder.unwrap();
-                        <span class="macro">println!</span>(<span class="string">"    delete first: {:?}"</span>, first_folder);
+                        <span class="macro">println!</span>(<span class="string">"    {YELLOW}delete first: {:?}{RESET}"</span>, first_folder);
                         std::fs::remove_dir_all(first_folder).unwrap();
 
                         opt_first_folder = <span class="prelude-val">Some</span>(second_folder.clone());
@@ -170,7 +172,7 @@
                     }
                     <span class="comment">//  } else if first_mtime &gt; second_mtime {
                     </span>std::cmp::Ordering::Less =&gt; {
-                        <span class="macro">println!</span>(<span class="string">"    delete second: {:?}"</span>, second_folder);
+                        <span class="macro">println!</span>(<span class="string">"    {YELLOW}delete second: {:?}{RESET}"</span>, second_folder);
                         std::fs::remove_dir_all(second_folder).unwrap();
                     }
                     <span class="comment">// else

@@ -137,11 +137,13 @@
 <a href="#86" id="86">86</a>
 <a href="#87" id="87">87</a>
 <a href="#88" id="88">88</a>
+<a href="#89" id="89">89</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// auto_playground_mod.rs
 
-</span><span class="kw">use </span><span class="kw">crate</span>::utils_mod::<span class="kw-2">*</span>;
+</span><span class="kw">use </span><span class="kw">crate</span>::public_api_mod::{RED, RESET, YELLOW};
+<span class="kw">use </span><span class="kw">crate</span>::utils_mod::<span class="kw-2">*</span>;
 <span class="kw">use </span>lazy_static::lazy_static;
 
 <span class="macro">lazy_static! </span>{
@@ -153,7 +155,7 @@
 
 <span class="attr">#[doc=<span class="macro">include_str!</span>(<span class="string">"../doc_comments_long/auto_playground_run_code.md"</span>)]
 </span><span class="kw">pub fn </span>auto_playground_run_code() {
-    <span class="macro">println!</span>(<span class="string">"    Running auto_playground"</span>);
+    <span class="macro">println!</span>(<span class="string">"    {YELLOW}Running auto_playground{RESET}"</span>);
     <span class="kw">let </span>path = std::env::current_dir().unwrap();
     <span class="comment">//use traverse instead of glob
     </span><span class="kw">let </span>files = <span class="kw">crate</span>::utils_mod::traverse_dir_with_exclude_dir(
@@ -173,7 +175,7 @@
         <span class="comment">// check if file have CRLF and show error
         </span><span class="kw">if </span>md_old.contains(<span class="string">"\r\n"</span>) {
             <span class="macro">panic!</span>(
-                <span class="string">"Error: {} has CRLF line endings instead of LF. The task auto_playground cannot work! Exiting."</span>,
+                <span class="string">"{RED}Error: {} has CRLF line endings instead of LF. The task auto_playground cannot work! Exiting.{RESET}"</span>,
                 md_filename.to_string_lossy()
             );
         }
@@ -213,7 +215,7 @@
             </span><span class="kw">let </span>cap_group = REGEX_MD_LINK
                 .captures(text_that_has_the_link)
                 .unwrap_or_else(|| <span class="macro">panic!</span>(<span class=
-"string">"Error: The old link '{}' is NOT in this format '[Rust playground](https:...)'"</span>, text_that_has_the_link));
+"string">"{RED}Error: The old link '{text_that_has_the_link}' is NOT in this format '[Rust playground](https:...)'{RESET}"</span>));
             <span class="kw">let </span>old_link = <span class="kw-2">&</span>cap_group[<span class="number">1</span>];
             <span class="comment">// replace the old link with the new one
             </span><span class="kw">let </span>text_that_has_the_link = text_that_has_the_link.replace(old_link, <span class="kw-2">&</span>playground_link);
@@ -229,7 +231,7 @@
         // if changed, then write to disk
         </span><span class="kw">if </span>is_changed {
             <span class="macro">println!</span>(<span class=
-"string">"Code inside {} has changed. Playground link corrected."</span>, md_filename.to_string_lossy());
+"string">"    {YELLOW}Code inside {} has changed. Playground link corrected.{RESET}"</span>, md_filename.to_string_lossy());
             <span class="comment">// push the remaining text
             </span>md_new.push_str(<span class="kw-2">&</span>md_old[iteration_start_pos..md_old.len()]);
             <span class="kw">let </span>bak_filename = md_filename.with_extension(<span class="string">"bak"</span>);
@@ -237,7 +239,7 @@
             std::fs::write(<span class="kw-2">&</span>md_filename, md_new).unwrap();
         }
     }
-    <span class="macro">println!</span>(<span class="string">"    Finished auto_playground"</span>);
+    <span class="macro">println!</span>(<span class="string">"    {YELLOW}Finished auto_playground{RESET}"</span>);
 }
 </code></pre>
       </div>
