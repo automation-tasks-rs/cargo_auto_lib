@@ -336,7 +336,7 @@ pub fn ssh_add_if_needed(identity_private_file_path: &str) -> Option<crate::auto
     let mut ssh_agent_client = crate::auto_ssh_mod::crate_ssh_agent_client();
     // returns the public_key inside ssh-add or None
     match crate::auto_ssh_mod::ssh_add_list_contains_fingerprint(&mut ssh_agent_client, &fingerprint_from_file) {
-        Some(_key) => println!("    {YELLOW}Ssh key for GitHub push is already in ssh-add.{RESET}"),
+        Some(_key) => (),
         None => {
             // ssh-add if it is not contained in the ssh-agent
             eprintln!("{RED}Ssh key for GitHub push is not in the ssh-agent.{RESET}");
