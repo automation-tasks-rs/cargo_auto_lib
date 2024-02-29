@@ -79,14 +79,14 @@ pub fn completion_return_one_or_more_sub_commands(sub_commands: Vec<&str>, word_
     let mut sub_found = false;
     for sub_command in sub_commands.iter() {
         if sub_command.starts_with(word_being_completed) {
-            println!("    {YELLOW}{sub_command}{RESET}");
+            println!("{sub_command}");
             sub_found = true;
         }
     }
     if !sub_found {
         // print all sub-commands
         for sub_command in sub_commands.iter() {
-            println!("    {YELLOW}{sub_command}{RESET}");
+            println!("{sub_command}");
         }
     }
 }

@@ -188,7 +188,11 @@ fn task_doc() {
     // message to help user with next move
     println!(
         r#"
-    {YELLOW}After `cargo auto doc`, check `docs/index.html`. If ok then test the documentation code examples{RESET}
+    {YELLOW}After `cargo auto doc`, ctrl-click on `docs/index.html`. 
+    It will show the index.html in VSCode Explorer, then right-click and choose "Show Preview".
+    This works inside the CRDE container, because of the extension "Live Preview" 
+    <https://marketplace.visualstudio.com/items?itemName=ms-vscode.live-server>
+    If ok then run the tests in code and the documentation code examples.{RESET}
 {GREEN}cargo auto test{RESET}
 "#
     );
@@ -199,9 +203,9 @@ fn task_test() {
          cl::run_shell_command("cargo test");
         println!(
     r#"
-        {YELLOW}After `cargo auto test`. If ok then {RESET}
-    {GREEN}cargo auto commit_and_push "message"{RESET}
-        {YELLOW}with mandatory commit message{RESET}
+    {YELLOW}After `cargo auto test`. If ok then {RESET}
+    {YELLOW}(with mandatory commit message){RESET}
+{GREEN}cargo auto commit_and_push "message"{RESET}
     "#
         );
 }
