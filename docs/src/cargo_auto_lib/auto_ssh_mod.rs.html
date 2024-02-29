@@ -87,12 +87,16 @@
 <a href="#36" id="36">36</a>
 <a href="#37" id="37">37</a>
 <a href="#38" id="38">38</a>
+<a href="#39" id="39">39</a>
+<a href="#40" id="40">40</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// auto_ssh_mod.rs
 
 </span><span class="kw">pub type </span>FingerprintString = String;
 <span class="kw">pub type </span>IdentityFilePathString = String;
+<span class="kw">pub struct </span>SecretString(<span class="kw">pub </span>String);
+<span class="kw">pub struct </span>EncryptedString(<span class="kw">pub </span>String);
 
 <span class="doccomment">/// The work with ssh_agent_client_rs starts with a client
 </span><span class="kw">pub fn </span>crate_ssh_agent_client() -&gt; ssh_agent_client_rs::Client {

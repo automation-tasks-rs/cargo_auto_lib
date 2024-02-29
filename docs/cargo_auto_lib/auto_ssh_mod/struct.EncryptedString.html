@@ -5,8 +5,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="generator" content="rustdoc">
-  <meta name="description" content="API documentation for the Rust `SecretString` struct in crate `cargo_auto_lib`.">
-  <title>SecretString in cargo_auto_lib::auto_encrypt_decrypt_with_ssh_mod - Rust</title>
+  <meta name="description" content="API documentation for the Rust `EncryptedString` struct in crate `cargo_auto_lib`.">
+  <title>EncryptedString in cargo_auto_lib::auto_ssh_mod - Rust</title>
   <link rel="preload" as="font" type="font/woff2" crossorigin="" href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2">
   <link rel="preload" as="font" type="font/woff2" crossorigin="" href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2">
   <link rel="preload" as="font" type="font/woff2" crossorigin="" href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2">
@@ -35,9 +35,9 @@
     <div class="sidebar-crate">
       <a class="logo-container" href="../../cargo_auto_lib/index.html"><img src=
       "https://github.com/bestia-dev/cargo-auto/raw/main/images/logo/logo_cargo_auto.svg" alt="logo"></a>
-      <h2><a href="../../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">1.3.59</span></h2>
+      <h2><a href="../../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">1.3.63</span></h2>
     </div>
-    <h2 class="location"><a href="#">SecretString</a></h2>
+    <h2 class="location"><a href="#">EncryptedString</a></h2>
     <div class="sidebar-elems">
       <section>
         <h3><a href="#fields">Tuple Fields</a></h3>
@@ -49,19 +49,19 @@
         <h3><a href="#synthetic-implementations">Auto Trait Implementations</a></h3>
         <ul class="block synthetic-implementation">
           <li>
-            <a href="#impl-RefUnwindSafe-for-SecretString">RefUnwindSafe</a>
+            <a href="#impl-RefUnwindSafe-for-EncryptedString">RefUnwindSafe</a>
           </li>
           <li>
-            <a href="#impl-Send-for-SecretString">Send</a>
+            <a href="#impl-Send-for-EncryptedString">Send</a>
           </li>
           <li>
-            <a href="#impl-Sync-for-SecretString">Sync</a>
+            <a href="#impl-Sync-for-EncryptedString">Sync</a>
           </li>
           <li>
-            <a href="#impl-Unpin-for-SecretString">Unpin</a>
+            <a href="#impl-Unpin-for-EncryptedString">Unpin</a>
           </li>
           <li>
-            <a href="#impl-UnwindSafe-for-SecretString">UnwindSafe</a>
+            <a href="#impl-UnwindSafe-for-EncryptedString">UnwindSafe</a>
           </li>
         </ul>
         <h3><a href="#blanket-implementations">Blanket Implementations</a></h3>
@@ -101,7 +101,7 @@
           </li>
         </ul>
       </section>
-      <h2><a href="index.html">In cargo_auto_lib::auto_encrypt_decrypt_with_ssh_mod</a></h2>
+      <h2><a href="index.html">In cargo_auto_lib::auto_ssh_mod</a></h2>
     </div>
   </nav>
   <div class="sidebar-resizer"></div>
@@ -124,48 +124,48 @@
       </nav>
       <section id="main-content" class="content">
         <div class="main-heading">
-          <h1>Struct <a href="../index.html">cargo_auto_lib</a>::<wbr><a href="index.html">auto_encrypt_decrypt_with_ssh_mod</a>::<wbr><a class="struct" href=
-          "#">SecretString</a><button id="copy-path" title="Copy item path to clipboard"><img src="../../static.files/clipboard-7571035ce49a181d.svg" width=
+          <h1>Struct <a href="../index.html">cargo_auto_lib</a>::<wbr><a href="index.html">auto_ssh_mod</a>::<wbr><a class="struct" href=
+          "#">EncryptedString</a><button id="copy-path" title="Copy item path to clipboard"><img src="../../static.files/clipboard-7571035ce49a181d.svg" width=
           "19" height="18" alt="Copy item path"></button></h1><span class="out-of-band"><a class="src" href=
-          "../../src/cargo_auto_lib/auto_encrypt_decrypt_with_ssh_mod.rs.html#58">source</a> · <button id="toggle-all-docs" title=
+          "../../src/cargo_auto_lib/auto_ssh_mod.rs.html#6">source</a> · <button id="toggle-all-docs" title=
           "collapse all docs">[<span>−</span>]</button></span>
         </div>
-        <pre class="rust item-decl"><code>pub struct SecretString(pub <a class="struct" href="https://doc.rust-lang.org/1.76.0/alloc/string/struct.String.html"
-        title="struct alloc::string::String">String</a>);</code></pre>
+        <pre class="rust item-decl"><code>pub struct EncryptedString(pub <a class="struct" href=
+        "https://doc.rust-lang.org/1.76.0/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>);</code></pre>
         <h2 id="fields" class="fields section-header">Tuple Fields<a href="#fields" class="anchor">§</a></h2><span id="structfield.0" class=
         "structfield section-header"><a href="#structfield.0" class="anchor field">§</a><code>0: <a class="struct" href=
         "https://doc.rust-lang.org/1.76.0/alloc/string/struct.String.html" title="struct alloc::string::String">String</a></code></span>
         <h2 id="synthetic-implementations" class="section-header">Auto Trait Implementations<a href="#synthetic-implementations" class="anchor">§</a></h2>
         <div id="synthetic-implementations-list">
-          <section id="impl-RefUnwindSafe-for-SecretString" class="impl">
-            <a href="#impl-RefUnwindSafe-for-SecretString" class="anchor">§</a>
+          <section id="impl-RefUnwindSafe-for-EncryptedString" class="impl">
+            <a href="#impl-RefUnwindSafe-for-EncryptedString" class="anchor">§</a>
             <h3 class="code-header">impl <a class="trait" href="https://doc.rust-lang.org/1.76.0/core/panic/unwind_safe/trait.RefUnwindSafe.html" title=
-            "trait core::panic::unwind_safe::RefUnwindSafe">RefUnwindSafe</a> for <a class="struct" href="struct.SecretString.html" title=
-            "struct cargo_auto_lib::auto_encrypt_decrypt_with_ssh_mod::SecretString">SecretString</a></h3>
+            "trait core::panic::unwind_safe::RefUnwindSafe">RefUnwindSafe</a> for <a class="struct" href="struct.EncryptedString.html" title=
+            "struct cargo_auto_lib::auto_ssh_mod::EncryptedString">EncryptedString</a></h3>
           </section>
-          <section id="impl-Send-for-SecretString" class="impl">
-            <a href="#impl-Send-for-SecretString" class="anchor">§</a>
+          <section id="impl-Send-for-EncryptedString" class="impl">
+            <a href="#impl-Send-for-EncryptedString" class="anchor">§</a>
             <h3 class="code-header">impl <a class="trait" href="https://doc.rust-lang.org/1.76.0/core/marker/trait.Send.html" title=
-            "trait core::marker::Send">Send</a> for <a class="struct" href="struct.SecretString.html" title=
-            "struct cargo_auto_lib::auto_encrypt_decrypt_with_ssh_mod::SecretString">SecretString</a></h3>
+            "trait core::marker::Send">Send</a> for <a class="struct" href="struct.EncryptedString.html" title=
+            "struct cargo_auto_lib::auto_ssh_mod::EncryptedString">EncryptedString</a></h3>
           </section>
-          <section id="impl-Sync-for-SecretString" class="impl">
-            <a href="#impl-Sync-for-SecretString" class="anchor">§</a>
+          <section id="impl-Sync-for-EncryptedString" class="impl">
+            <a href="#impl-Sync-for-EncryptedString" class="anchor">§</a>
             <h3 class="code-header">impl <a class="trait" href="https://doc.rust-lang.org/1.76.0/core/marker/trait.Sync.html" title=
-            "trait core::marker::Sync">Sync</a> for <a class="struct" href="struct.SecretString.html" title=
-            "struct cargo_auto_lib::auto_encrypt_decrypt_with_ssh_mod::SecretString">SecretString</a></h3>
+            "trait core::marker::Sync">Sync</a> for <a class="struct" href="struct.EncryptedString.html" title=
+            "struct cargo_auto_lib::auto_ssh_mod::EncryptedString">EncryptedString</a></h3>
           </section>
-          <section id="impl-Unpin-for-SecretString" class="impl">
-            <a href="#impl-Unpin-for-SecretString" class="anchor">§</a>
+          <section id="impl-Unpin-for-EncryptedString" class="impl">
+            <a href="#impl-Unpin-for-EncryptedString" class="anchor">§</a>
             <h3 class="code-header">impl <a class="trait" href="https://doc.rust-lang.org/1.76.0/core/marker/trait.Unpin.html" title=
-            "trait core::marker::Unpin">Unpin</a> for <a class="struct" href="struct.SecretString.html" title=
-            "struct cargo_auto_lib::auto_encrypt_decrypt_with_ssh_mod::SecretString">SecretString</a></h3>
+            "trait core::marker::Unpin">Unpin</a> for <a class="struct" href="struct.EncryptedString.html" title=
+            "struct cargo_auto_lib::auto_ssh_mod::EncryptedString">EncryptedString</a></h3>
           </section>
-          <section id="impl-UnwindSafe-for-SecretString" class="impl">
-            <a href="#impl-UnwindSafe-for-SecretString" class="anchor">§</a>
+          <section id="impl-UnwindSafe-for-EncryptedString" class="impl">
+            <a href="#impl-UnwindSafe-for-EncryptedString" class="anchor">§</a>
             <h3 class="code-header">impl <a class="trait" href="https://doc.rust-lang.org/1.76.0/core/panic/unwind_safe/trait.UnwindSafe.html" title=
-            "trait core::panic::unwind_safe::UnwindSafe">UnwindSafe</a> for <a class="struct" href="struct.SecretString.html" title=
-            "struct cargo_auto_lib::auto_encrypt_decrypt_with_ssh_mod::SecretString">SecretString</a></h3>
+            "trait core::panic::unwind_safe::UnwindSafe">UnwindSafe</a> for <a class="struct" href="struct.EncryptedString.html" title=
+            "struct cargo_auto_lib::auto_ssh_mod::EncryptedString">EncryptedString</a></h3>
           </section>
         </div>
         <h2 id="blanket-implementations" class="section-header">Blanket Implementations<a href="#blanket-implementations" class="anchor">§</a></h2>

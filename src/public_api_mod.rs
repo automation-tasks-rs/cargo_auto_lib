@@ -17,7 +17,7 @@ pub use crate::error_mod::ResultWithLibError;
 
 pub use crate::auto_helper_functions_mod::ShellOutput;
 
-pub use crate::auto_encrypt_decrypt_with_ssh_mod::SecretString;
+pub use crate::auto_ssh_mod::SecretString;
 
 // reexporting a struct needs to export the trait to also reexports all the methods
 pub use crate::auto_cargo_toml_mod::CargoToml;
@@ -312,6 +312,13 @@ pub fn auto_playground_run_code() {
 /// Topic must be only one word: lowercase letters, hyphens(-) or numbers, less then 35 characters.
 pub fn description_and_topics_to_github() {
     crate::auto_github_mod::description_and_topics_to_github()
+}
+
+/// encrypt/decrypt the crates.io token with the GitHub ssh key
+/// then call the `cargo publish --token token` command
+/// but never show the secret token anywhere
+pub fn publish_to_crates_io_with_secret_token() {
+    crate::auto_crates_io_mod::publish_to_crates_io_with_secret_token()
 }
 
 // endregion: Public API functions

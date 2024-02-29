@@ -15,7 +15,7 @@ use zeroize::Zeroize;
 
 pub const RELEASES_MD: &str = "RELEASES.md";
 // file contains github token encrypted with github_com_ssh_1
-pub const GITHUB_TOKEN_JSON_PATH: &str = "~/.ssh/github_com_data_1.json";
+pub const GITHUB_TOKEN_PATH: &str = "~/.ssh/github_com_data_1.ssh";
 
 /// create new release on Github  
 /// return release_id  
@@ -229,7 +229,7 @@ pub fn init_repository_if_needed(message: &str) -> bool {
 /// Check if this identity is already in ssh-agent and if not then run ssh-add to add it.
 /// This ssh-add will stay even after the process ends, so the parent process will still have it.
 /// returns: fingerprint or None and identity_file_name
-fn ssh_add_resolve(host_name: &str, default_identity_file_path: &str) -> Option<(crate::auto_ssh_mod::FingerprintString, crate::auto_ssh_mod::IdentityFilePathString)> {
+pub fn ssh_add_resolve(host_name: &str, default_identity_file_path: &str) -> Option<(crate::auto_ssh_mod::FingerprintString, crate::auto_ssh_mod::IdentityFilePathString)> {
     // I must find the filename of the identity_file for ssh connection to host_name,
     // to find out if I need ssh-add or not.
     // 1. Parse the ~/.ssh/config file and find the record for host_name and there is the identity_file_path.
@@ -280,16 +280,16 @@ pub fn new_remote_github_repository() -> Option<String> {
     Some(repo_html_url)
 }
 
-/// decrypt the token from GITHUB_TOKEN_ENC file
+/// decrypt the token from GITHUB_TOKEN_PATH file
 /// or ask user interactively to type it, then encrypt and save to file
 fn check_or_get_github_token() -> Option<SecretString> {
     // ssh_add_resolve(host_name: &str, default_identity_file_path: &str)
     let (_fingerprint, identity_file_path) = ssh_add_resolve("github.com", "~/.ssh/github_com_ssh_1").unwrap();
 
     let mut token: Option<SecretString> = None;
-    let github_token_json_path_expanded = crate::utils_mod::file_path_home_expand(GITHUB_TOKEN_JSON_PATH);
+    let github_token_json_path_expanded = crate::utils_mod::file_path_home_expand(GITHUB_TOKEN_PATH);
     if std::path::Path::new(&github_token_json_path_expanded).exists() {
-        token = crate::auto_encrypt_decrypt_with_ssh_mod::decrypt_with_ssh_from_json(&github_token_json_path_expanded);
+        token = crate::auto_encrypt_decrypt_with_ssh_mod::decrypt_with_ssh_from_file(&github_token_json_path_expanded);
     }
     if token.is_none() {
         println!(
@@ -301,9 +301,9 @@ fn check_or_get_github_token() -> Option<SecretString> {
 "#
         );
         // encrypt and save to file
-        crate::auto_encrypt_decrypt_with_ssh_mod::encrypt_with_ssh_interactive_save_json(&identity_file_path, &github_token_json_path_expanded);
+        crate::auto_encrypt_decrypt_with_ssh_mod::encrypt_with_ssh_interactive_save_file(&identity_file_path, &github_token_json_path_expanded);
         // now decrypt
-        token = crate::auto_encrypt_decrypt_with_ssh_mod::decrypt_with_ssh_from_json(&github_token_json_path_expanded);
+        token = crate::auto_encrypt_decrypt_with_ssh_mod::decrypt_with_ssh_from_file(&github_token_json_path_expanded);
     }
     // return
     token
@@ -336,7 +336,7 @@ pub fn ssh_add_if_needed(identity_private_file_path: &str) -> Option<crate::auto
     let mut ssh_agent_client = crate::auto_ssh_mod::crate_ssh_agent_client();
     // returns the public_key inside ssh-add or None
     match crate::auto_ssh_mod::ssh_add_list_contains_fingerprint(&mut ssh_agent_client, &fingerprint_from_file) {
-        Some(_key) => println!("    {YELLOW}Ssh key for GitHub push is already in ssh-add.{RESET}"),
+        Some(_key) => (),
         None => {
             // ssh-add if it is not contained in the ssh-agent
             eprintln!("{RED}Ssh key for GitHub push is not in the ssh-agent.{RESET}");

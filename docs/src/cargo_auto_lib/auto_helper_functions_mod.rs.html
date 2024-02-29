@@ -232,9 +232,9 @@
 /// exit with error message if not
 </span><span class="kw">pub fn </span>exit_if_not_run_in_rust_project_root_directory() {
     <span class="kw">if </span>!(std::path::Path::new(<span class="string">"automation_tasks_rs"</span>).exists() &amp;& (std::path::Path::new(<span class=
-"string">"Cargo.toml"</span>).exists() || std::path::Path::new(<span class="string">"Cargo-auto.toml"</span>).exists())) {
+"string">"Cargo.toml"</span>).exists())) {
         <span class="macro">eprintln!</span>(<span class=
-"string">"{RED}Error: automation_tasks_rs must be called in the root directory of the rust project beside the Cargo.toml (or Cargo-auto.toml) file and automation_tasks_rs directory.{RESET}"</span>);
+"string">"{RED}Error: automation_tasks_rs must be called in the root directory of the rust project beside the Cargo.toml file and automation_tasks_rs directory.{RESET}"</span>);
         <span class="comment">// early exit
         </span>std::process::exit(<span class="number">0</span>);
     }
@@ -246,14 +246,14 @@
     <span class="kw">let </span><span class="kw-2">mut </span>sub_found = <span class="bool-val">false</span>;
     <span class="kw">for </span>sub_command <span class="kw">in </span>sub_commands.iter() {
         <span class="kw">if </span>sub_command.starts_with(word_being_completed) {
-            <span class="macro">println!</span>(<span class="string">"    {YELLOW}{sub_command}{RESET}"</span>);
+            <span class="macro">println!</span>(<span class="string">"{sub_command}"</span>);
             sub_found = <span class="bool-val">true</span>;
         }
     }
     <span class="kw">if </span>!sub_found {
         <span class="comment">// print all sub-commands
         </span><span class="kw">for </span>sub_command <span class="kw">in </span>sub_commands.iter() {
-            <span class="macro">println!</span>(<span class="string">"    {YELLOW}{sub_command}{RESET}"</span>);
+            <span class="macro">println!</span>(<span class="string">"{sub_command}"</span>);
         }
     }
 }

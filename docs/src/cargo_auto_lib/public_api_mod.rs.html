@@ -366,6 +366,13 @@
 <a href="#315" id="315">315</a>
 <a href="#316" id="316">316</a>
 <a href="#317" id="317">317</a>
+<a href="#318" id="318">318</a>
+<a href="#319" id="319">319</a>
+<a href="#320" id="320">320</a>
+<a href="#321" id="321">321</a>
+<a href="#322" id="322">322</a>
+<a href="#323" id="323">323</a>
+<a href="#324" id="324">324</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// public_api_mod.rs
@@ -387,7 +394,7 @@
 
 <span class="kw">pub use </span><span class="kw">crate</span>::auto_helper_functions_mod::ShellOutput;
 
-<span class="kw">pub use </span><span class="kw">crate</span>::auto_encrypt_decrypt_with_ssh_mod::SecretString;
+<span class="kw">pub use </span><span class="kw">crate</span>::auto_ssh_mod::SecretString;
 
 <span class="comment">// reexporting a struct needs to export the trait to also reexports all the methods
 </span><span class="kw">pub use </span><span class="kw">crate</span>::auto_cargo_toml_mod::CargoToml;
@@ -699,6 +706,13 @@
 /// Topic must be only one word: lowercase letters, hyphens(-) or numbers, less then 35 characters.
 </span><span class="kw">pub fn </span>description_and_topics_to_github() {
     <span class="kw">crate</span>::auto_github_mod::description_and_topics_to_github()
+}
+
+<span class="doccomment">/// encrypt/decrypt the crates.io token with the GitHub ssh key
+/// then call the `cargo publish --token token` command
+/// but never show the secret token anywhere
+</span><span class="kw">pub fn </span>publish_to_crates_io_with_secret_token() {
+    <span class="kw">crate</span>::auto_crates_io_mod::publish_to_crates_io_with_secret_token()
 }
 
 <span class="comment">// endregion: Public API functions

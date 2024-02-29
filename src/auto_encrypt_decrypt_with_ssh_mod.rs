@@ -49,24 +49,23 @@ use zeroize::Zeroize;
 
 // endregion: bring traits in scope
 
+use crate::auto_ssh_mod::EncryptedString;
+use crate::SecretString;
 // use crate::GREEN;
 use crate::RED;
 use crate::RESET;
 use crate::YELLOW;
 
 // region: new structs or newtype
-pub struct SecretString(pub String);
-pub struct EncryptedString(pub String);
 pub struct SecretBytes<'a>(pub &'a mut [u8]);
-
 // endregion: new structs or newtype
 
-/// encrypt a token with the chosen ssh_identity and save as json file
+/// encrypt a token with the chosen ssh_identity and save as json encoded in Base64
 /// use ssh-add to put ssh identity into ssh-agent
 /// ```rust ignore
-/// cl::encrypt_with_ssh_interactive_save_json("~/.ssh/github_com_ssh_1", "output1.json");
+/// cl::encrypt_with_ssh_interactive_save_json("~/.ssh/github_com_ssh_1", "output1.ssh");
 /// ```
-pub(crate) fn encrypt_with_ssh_interactive_save_json(identity_file_path: &str, output_file_path: &str) {
+pub(crate) fn encrypt_with_ssh_interactive_save_file(identity_file_path: &str, output_file_path: &str) {
     // internal function Generate a random password
     fn random_byte_password() -> [u8; 32] {
         let mut password = [0_u8; 32];
@@ -134,6 +133,7 @@ pub(crate) fn encrypt_with_ssh_interactive_save_json(identity_file_path: &str, o
         "encrypted":encrypted_text.0,
     });
     let file_text = serde_json::to_string_pretty(&json_value).unwrap();
+    let file_text = base64ct::Base64::encode_string(file_text.as_bytes());
 
     let output_file_path = crate::utils_mod::file_path_home_expand(output_file_path);
     let encrypted_file = std::path::Path::new(&output_file_path);
@@ -147,7 +147,7 @@ pub(crate) fn encrypt_with_ssh_interactive_save_json(identity_file_path: &str, o
 /// let output = cl::decrypt_with_ssh_from_json("output1.json").unwrap();
 /// dbg!(output);
 /// ```
-pub(crate) fn decrypt_with_ssh_from_json(json_file_path: &str) -> Option<SecretString> {
+pub(crate) fn decrypt_with_ssh_from_file(json_file_path: &str) -> Option<SecretString> {
     // internal function Decrypts data with a key and a fingerprint
     fn decrypt_symmetric(encrypted_text: &EncryptedString, secret_password_bytes: SecretBytes) -> Option<SecretString> {
         let encrypted_bytes = base64ct::Base64::decode_vec(&encrypted_text.0).unwrap();
@@ -172,6 +172,8 @@ pub(crate) fn decrypt_with_ssh_from_json(json_file_path: &str) -> Option<SecretS
     println!("    {YELLOW}Decrypting GitHub API token from encrypted file.{RESET}");
     let json_file_path = crate::utils_mod::file_path_home_expand(json_file_path);
     let file_text = std::fs::read_to_string(json_file_path).unwrap();
+    let file_text = base64ct::Base64::decode_vec(&file_text).unwrap();
+    let file_text = String::from_utf8(file_text).unwrap();
     let json_value: serde_json::Value = serde_json::from_str(&file_text).unwrap();
     let identity_file_path: &str = json_value.get("identity").unwrap().as_str().unwrap();
     let seed_for_password_not_a_secret: &str = json_value.get("seed").unwrap().as_str().unwrap();

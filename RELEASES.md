@@ -10,6 +10,14 @@ The TODO section is part of the [README.md](https://github.com/bestia-dev/cargo_
 
 ## Unreleased
 
+## Version 1.3.63 (2024-02-29)
+
+- colors
+
+## Version 1.3.62 (2024-02-29)
+
+- crates io token
+
 ## Version 1.3.59 (2024-02-29)
 
 - YELLOW RED
