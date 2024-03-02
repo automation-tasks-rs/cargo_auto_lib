@@ -9,8 +9,10 @@ The ongoing changes that are not released, are visible in the git commits and gi
 The TODO section is part of the [README.md](https://github.com/bestia-dev/cargo_auto_lib).  
 
 ## Unreleased
+
+## Version 1.4.4 (2024-03-02)
+
 - back to auto_md_to_doc_comments
-- doc-comments
 - doc-comments
 - better docs and hover
 
