@@ -729,9 +729,15 @@
 <a href="#678" id="678">678</a>
 <a href="#679" id="679">679</a>
 <a href="#680" id="680">680</a>
+<a href="#681" id="681">681</a>
+<a href="#682" id="682">682</a>
+<a href="#683" id="683">683</a>
+<a href="#684" id="684">684</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// auto_github_mod
+
+</span><span class="doccomment">//! GitHub API calls
 
 </span><span class="kw">use </span><span class="kw">crate</span>::CargoTomlPublicApiMethods;
 <span class="kw">use </span><span class="kw">crate</span>::SecretString;
@@ -750,7 +756,8 @@
 <span class="comment">// file contains github token encrypted with github_com_ssh_1
 </span><span class="kw">pub const </span>GITHUB_TOKEN_PATH: <span class="kw-2">&</span>str = <span class="string">"~/.ssh/github_com_data_1.ssh"</span>;
 
-<span class="doccomment">/// create new release on Github  
+<span class="doccomment">/// create new release on Github
+/// 
 /// return release_id  
 /// &lt;https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token&gt;  
 /// ```ignore
@@ -823,6 +830,7 @@
 }
 
 <span class="doccomment">/// upload asset to github release  
+///
 /// release_upload_url example: &lt;https://uploads.github.com/repos/owner/repo/releases/48127727/assets&gt;  
 /// &lt;https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token&gt;  
 /// async function can be called from sync code:  
@@ -837,8 +845,8 @@
     <span class="kw">let </span><span class="kw-2">mut </span>token = check_or_get_github_token().unwrap();
 
     <span class="macro">println!</span>(<span class="string">"    {YELLOW}Uploading file to GitHub release: {path_to_file}{RESET}"</span>);
-    <span class="kw">let </span>file = std::path::Path::new(<span class="kw-2">&</span>path_to_file);
-    <span class="kw">let </span>file_name = file.file_name().unwrap().to_str().unwrap();
+    <span class="kw">let </span>file = camino::Utf8Path::new(<span class="kw-2">&</span>path_to_file);
+    <span class="kw">let </span>file_name = file.file_name().unwrap();
 
     <span class="kw">let </span>release_upload_url = <span class="macro">format!</span>(<span class=
 "string">"https://uploads.github.com/repos/{owner}/{repo}/releases/{release_id}/assets"</span>);
@@ -868,9 +876,7 @@
             </span>.unwrap();
 
         token.<span class="number">0</span>.zeroize();
-
-        <span class="comment">// dbg!(response);
-    </span>});
+    });
     <span class="comment">// endregion: async code made sync locally
 </span>}
 
@@ -929,8 +935,7 @@
         .unwrap()
         .text()
         .unwrap();
-    <span class="comment">//pretty_dbg!(&amp;response_text);
-    </span>token.<span class="number">0</span>.zeroize();
+    token.<span class="number">0</span>.zeroize();
 
     <span class="kw">let </span>parsed: serde_json::Value = serde_json::from_str(<span class="kw-2">&</span>response_text).unwrap();
     <span class="comment">// return
@@ -968,9 +973,10 @@
     </span>is_init_repository
 }
 
-<span class="doccomment">/// Parse the ~/.ssh/config file and finds the record for host_name and there is the identity_file_path.
+<span class="doccomment">/// Check if identity is already in ssh-agent and if not then run ssh-add to add it.
+/// 
+/// Parse the ~/.ssh/config file and finds the record for host_name and there is the identity_file_path.
 /// If not found, ask user for identity_file_path,
-/// Check if this identity is already in ssh-agent and if not then run ssh-add to add it.
 /// This ssh-add will stay even after the process ends, so the parent process will still have it.
 /// returns: fingerprint or None and identity_file_name
 </span><span class="kw">pub fn </span>ssh_add_resolve(host_name: <span class="kw-2">&</span>str, default_identity_file_path: <span class=
@@ -1043,7 +1049,7 @@
     <span class="kw">let </span><span class="kw-2">mut </span>token: <span class="prelude-ty">Option</span>&lt;SecretString&gt; = <span class=
 "prelude-val">None</span>;
     <span class="kw">let </span>github_token_json_path_expanded = <span class="kw">crate</span>::utils_mod::file_path_home_expand(GITHUB_TOKEN_PATH);
-    <span class="kw">if </span>std::path::Path::new(<span class="kw-2">&</span>github_token_json_path_expanded).exists() {
+    <span class="kw">if </span>camino::Utf8Path::new(<span class="kw-2">&</span>github_token_json_path_expanded).exists() {
         token = <span class="kw">crate</span>::auto_encrypt_decrypt_with_ssh_mod::decrypt_with_ssh_from_file(<span class=
 "kw-2">&</span>github_token_json_path_expanded);
     }
@@ -1098,15 +1104,14 @@
     <span class="comment">// returns the public_key inside ssh-add or None
     </span><span class="kw">match </span><span class="kw">crate</span>::auto_ssh_mod::ssh_add_list_contains_fingerprint(<span class=
 "kw-2">&amp;mut </span>ssh_agent_client, <span class="kw-2">&</span>fingerprint_from_file) {
-        <span class="prelude-val">Some</span>(_key) =&gt; <span class="macro">println!</span>(<span class=
-"string">"    {YELLOW}Ssh key for GitHub push is already in ssh-add.{RESET}"</span>),
+        <span class="prelude-val">Some</span>(_key) =&gt; (),
         <span class="prelude-val">None </span>=&gt; {
             <span class="comment">// ssh-add if it is not contained in the ssh-agent
             </span><span class="macro">eprintln!</span>(<span class="string">"{RED}Ssh key for GitHub push is not in the ssh-agent.{RESET}"</span>);
             <span class="macro">println!</span>(<span class="string">"    {YELLOW}Add ssh identity with ssh-add to use with GitHub push.{RESET}"</span>);
             <span class="kw">let </span>cmd = <span class="macro">format!</span>(<span class="string">"ssh-add -t 1h {}"</span>, identity_private_file_path);
             <span class="kw">if </span>!<span class="kw">crate</span>::run_shell_command_success(<span class="kw-2">&</span>cmd) {
-                <span class="macro">eprintln!</span>(<span class="string">"{RED}ssh-add was not successful! Exiting.{RESET}"</span>,);
+                <span class="macro">eprintln!</span>(<span class="string">"{RED}Error: ssh-add was not successful! Exiting...{RESET}"</span>,);
                 <span class="comment">// early exit
                 </span><span class="kw">return </span><span class="prelude-val">None</span>;
             }
@@ -1128,7 +1133,8 @@
                     <span class="kw">if let </span><span class="prelude-val">Some</span>(identity_files) = x.params.identity_file.as_ref() {
                         <span class="kw">if </span>!identity_files.is_empty() {
                             <span class="comment">// there can be more identity_files, but I will use only the first
-                            </span>identity_file_path = identity_files[<span class="number">0</span>].to_string_lossy().to_string();
+                            </span>identity_file_path = camino::Utf8Path::from_path(<span class="kw-2">&</span>identity_files[<span class=
+"number">0</span>]).unwrap().to_string();
                         }
                     }
                     <span class="kw">break</span>;
@@ -1145,6 +1151,7 @@
 }
 
 <span class="doccomment">/// Ask the user for the filename of the ssh key used to connect with SSH/git to a server.
+///
 /// host_name is like: github.com or bestia.dev, default like ~/.ssh/github_com_ssh_1 and ~/.ssh/bestia_dev_ssh_1
 /// returns PathBuf to identity_file_path or None
 </span><span class="kw">pub fn </span>ask_for_identity_file_path_for_ssh(host_name: <span class="kw-2">&</span>str, default_identity_file_path: <span class=
@@ -1166,21 +1173,20 @@
         .unwrap();
     <span class="kw">if </span>identity_file_for_ssh.is_empty() {
         <span class="comment">// early exit
-        </span><span class="macro">eprintln!</span>(<span class="string">"{RED}The filepath for the ssh key was not given. Exiting.{RESET}"</span>);
+        </span><span class="macro">eprintln!</span>(<span class="string">"{RED}Error: The filepath for the ssh key was not given. Exiting...{RESET}"</span>);
         <span class="kw">return </span><span class="prelude-val">None</span>;
     }
 
     <span class="comment">// check if the file exists
-    </span><span class="kw">let </span>identity_file_for_ssh = identity_file_for_ssh.replace(<span class="string">"~"</span>, <span class=
-"kw">crate</span>::home_dir().to_string_lossy().as_ref());
-    <span class="kw">let </span>identity_file_for_ssh = std::path::Path::new(<span class="kw-2">&</span>identity_file_for_ssh).to_owned();
+    </span><span class="kw">let </span>identity_file_for_ssh = identity_file_for_ssh.replace(<span class=
+"string">"~"</span>, camino::Utf8Path::from_path(<span class="kw-2">&</span><span class="kw">crate</span>::home_dir()).unwrap().as_str());
+    <span class="kw">let </span>identity_file_for_ssh = camino::Utf8Path::new(<span class="kw-2">&</span>identity_file_for_ssh).to_owned();
     <span class="kw">if </span>!identity_file_for_ssh.exists() {
-        <span class="macro">eprintln!</span>(<span class=
-"string">"{RED}File {} does not exist! Exiting.{RESET}"</span>, identity_file_for_ssh.to_string_lossy());
+        <span class="macro">eprintln!</span>(<span class="string">"{RED}Error: File {identity_file_for_ssh} does not exist! Exiting...{RESET}"</span>);
         <span class="comment">// early exit
         </span><span class="kw">return </span><span class="prelude-val">None</span>;
     }
-    <span class="kw">let </span>identity_file_for_ssh = identity_file_for_ssh.to_string_lossy().to_string();
+    <span class="kw">let </span>identity_file_for_ssh = identity_file_for_ssh.to_string();
     <span class="comment">// return
     </span><span class="prelude-val">Some</span>(identity_file_for_ssh)
 }
@@ -1204,7 +1210,9 @@
     </span>tag_name_version
 }
 
-<span class="doccomment">/// First, the user must write the content into file RELEASES.md in the section ## Unreleased.
+<span class="doccomment">/// Create GitHub release from RELEASES.md
+///
+/// First, the user must write the content into file RELEASES.md in the section ## Unreleased.
 /// Then the automation task will copy the content to GitHub release
 /// and create a new Version title in RELEASES.md.
 </span><span class="kw">pub fn </span>body_text_from_releases_md(release_name: <span class="kw-2">&</span>str) -&gt; <span class=
@@ -1235,7 +1243,7 @@
 
 <span class="doccomment">/// create RELEASES.md if file not exist
 </span><span class="kw">fn </span>create_releases_md_if_file_not_exist() {
-    <span class="kw">if </span>!std::path::Path::new(RELEASES_MD).exists() {
+    <span class="kw">if </span>!camino::Utf8Path::new(RELEASES_MD).exists() {
         <span class="comment">// create the template file
         </span><span class="kw">let </span>cargo_toml = <span class="kw">crate</span>::CargoToml::read();
         <span class="kw">let </span>project_name = cargo_toml.package_name();
@@ -1285,6 +1293,7 @@ The TODO section is part of the [README.md](https://github.com/{github_owner}/{p
 }
 
 <span class="doccomment">/// Check and modify the description and topics on Github
+///
 /// The words topics, keywords and tags all mean the same concept.
 /// In cargo.toml we have keywords.
 /// In README.md I want to have badges for tags
@@ -1361,8 +1370,7 @@ The TODO section is part of the [README.md](https://github.com/{github_owner}/{p
         .unwrap()
         .text()
         .unwrap();
-    <span class="comment">//pretty_dbg!(&amp;response_text);
-    </span>token.<span class="number">0</span>.zeroize();
+    token.<span class="number">0</span>.zeroize();
 
     <span class="kw">let </span>parsed: serde_json::Value = serde_json::from_str(<span class="kw-2">&</span>response_text).unwrap();
     <span class="comment">// return
@@ -1422,14 +1430,14 @@ The TODO section is part of the [README.md](https://github.com/{github_owner}/{p
         .unwrap()
         .text()
         .unwrap();
-    <span class="comment">//pretty_dbg!(&amp;response_text);
-    </span>token.<span class="number">0</span>.zeroize();
+    token.<span class="number">0</span>.zeroize();
 
     <span class="kw">let </span>_parsed: serde_json::Value = serde_json::from_str(<span class="kw-2">&</span>response_text).unwrap();
 }
 
-<span class="kw">fn </span>github_api_replace_all_topics(owner: <span class="kw-2">&</span>str, repo_name: <span class="kw-2">&</span>str, topics: <span class=
-"kw-2">&</span>Vec&lt;String&gt;) {
+<span class="doccomment">/// GitHub API replace all topics
+</span><span class="kw">fn </span>github_api_replace_all_topics(owner: <span class="kw-2">&</span>str, repo_name: <span class=
+"kw-2">&</span>str, topics: <span class="kw-2">&</span>Vec&lt;String&gt;) {
     <span class="comment">/*
     https://docs.github.com/en/rest/repos/repos?apiVersion=2022-11-28#replace-all-repository-topics
     curl -L \
@@ -1461,8 +1469,7 @@ The TODO section is part of the [README.md](https://github.com/{github_owner}/{p
         .unwrap()
         .text()
         .unwrap();
-    <span class="comment">//pretty_dbg!(&amp;response_text);
-    </span>token.<span class="number">0</span>.zeroize();
+    token.<span class="number">0</span>.zeroize();
 
     <span class="kw">let </span>_parsed: serde_json::Value = serde_json::from_str(<span class="kw-2">&</span>response_text).unwrap();
 }

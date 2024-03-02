@@ -1,5 +1,7 @@
 // auto_playground_mod.rs
 
+//! Includes the link to playground with the rust code in a parameter.
+
 use crate::public_api_mod::{RED, RESET, YELLOW};
 use crate::utils_mod::*;
 use lazy_static::lazy_static;
@@ -11,7 +13,35 @@ lazy_static! {
     ).unwrap();
 }
 
-#[doc=include_str!("../doc_comments_long/auto_playground_run_code.md")]
+// region: auto_md_to_doc_comments include doc_comments_long/auto_playground_run_code.md A ///
+/// <!-- markdownlint-disable -->
+///
+/// Includes the link to playground with the rust code in a parameter.
+///
+/// Search in markdown files for markersand include a link to Rust playground.
+///
+/// ```markdown
+/// [comment]: # (auto_playground start)
+///
+/// Run this code in the [Rust playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&code=fn%20m%0A%7D):
+///
+/// '''Rust
+/// fn main(){
+///     println!("Hello World!");
+/// }
+/// '''
+///
+/// [comment]: # (auto_playground end)
+/// ```
+///
+/// In your markdown, change the word `[comment]` with double slash `[//]`. And the single quotes with ticks.
+///
+/// Between the start marker and the first triple backtick is the link in "()" parentheses.  
+/// Encode the code with url_encoding.
+///
+/// Process code for playground for Rust code segments in all md files
+///
+// endregion: auto_md_to_doc_comments include doc_comments_long/auto_playground_run_code.md A ///
 pub fn auto_playground_run_code() {
     println!("    {YELLOW}Running auto_playground{RESET}");
     let path = std::env::current_dir().unwrap();
@@ -31,7 +61,7 @@ pub fn auto_playground_run_code() {
 
         // check if file have CRLF and show error
         if md_old.contains("\r\n") {
-            panic!("{RED}Error: {md_filename} has CRLF line endings instead of LF. The task auto_playground cannot work! Exiting.{RESET}");
+            panic!("{RED}Error: {md_filename} has CRLF line endings instead of LF. Correct the file! Exiting...{RESET}");
         }
         let mut iteration_start_pos = 0;
         let mut md_new = String::new();

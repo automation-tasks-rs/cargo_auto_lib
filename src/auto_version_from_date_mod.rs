@@ -1,7 +1,6 @@
 // auto_version_from_date_mod
 
 //! new version as date is written to Cargo.toml and service_worker.js
-//! It works for workspaces and for single projects.  
 
 // region: use statements
 
@@ -39,7 +38,29 @@ pub struct AutoVersionFromDate {
 
 // region: public functions
 
-#[doc=include_str!("../doc_comments_long/auto_version_from_date.md")]
+// region: auto_md_to_doc_comments include doc_comments_long/auto_version_from_date.md A ///
+/// <!-- markdownlint-disable -->
+///
+/// New version from date is written to Cargo.toml and service_worker.js
+///
+/// In Cargo.toml writes the version as the date `yyyy.mmdd.HHMM` ex. `2019.1221.2359`.  
+/// For non-library projects, the semver specification is not really useful.  
+/// Having the version as the date is just fine for executables and much more human readable.  
+/// The function must be executed in the root project folder of a single project or workspace where is the Cargo.toml.  
+///
+/// ### service_worker.js
+///
+/// Inside the PWA service worker javascript file is also needed to change the version.  
+/// The program searches for `service_worker.js` and modify the version.  
+///
+/// ### no need to change version if no files changed
+///
+/// If src/*.rs or Cargo.toml files are not changed from last compile, than no need to change version.  
+/// The dates of the files will be stored in the file .automation_tasks_rs_file_hashes.json near to Cargo.toml.
+/// Warning: I don't check if the service worker has changed because it rarely does.  
+/// To know if the projects has changed or not, this function saves the dates of all files into `.automation_tasks_rs_file_hashes.json` near Cargo.toml
+///
+// endregion: auto_md_to_doc_comments include doc_comments_long/auto_version_from_date.md A ///
 pub fn auto_version_from_date() {
     auto_version_from_date_internal(false).unwrap_or_else(|err| panic!("{RED}{err}{RESET}"));
 }
@@ -99,7 +120,7 @@ fn modify_service_js(new_version: &str) {
 
         // check if file have CRLF instead of LF and show error
         if js_content.contains("\r\n") {
-            panic!("{RED}Error: {js_filename} has CRLF line endings instead of LF. The task modify_service_js cannot work! Exiting..{RESET}");
+            panic!("{RED}Error: {js_filename} has CRLF line endings instead of LF. Correct the file! Exiting...{RESET}");
         }
 
         let delimiter = r#"const CACHE_NAME = '"#;
@@ -135,10 +156,7 @@ fn write_version_to_cargo_and_modify_metadata(new_version: &str, mut vec_of_meta
 
     // check if file have CRLF instead of LF and show error
     if cargo_content.contains("\r\n") {
-        panic!(
-            "{RED}Error: {} has CRLF line endings instead of LF. The task write_version_to_cargo cannot work! Exiting..{RESET}",
-            cargo_filename
-        );
+        panic!("{RED}Error: {} has CRLF line endings instead of LF. Correct the file! Exiting...{RESET}", cargo_filename);
     }
 
     let delimiter = r#"version = ""#;

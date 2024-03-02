@@ -105,9 +105,14 @@
 <a href="#54" id="54">54</a>
 <a href="#55" id="55">55</a>
 <a href="#56" id="56">56</a>
+<a href="#57" id="57">57</a>
+<a href="#58" id="58">58</a>
+<a href="#59" id="59">59</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// auto_crates_io_mod.rs
+
+</span><span class="doccomment">//! push versions to crates.io
 
 </span><span class="kw">use </span><span class="kw">crate</span>::auto_ssh_mod::SecretString;
 <span class="kw">use </span><span class="kw">crate</span>::RED;
@@ -119,22 +124,23 @@
 <span class="comment">// file contains crates.io token encrypted with github_com_ssh_1
 </span><span class="kw">pub const </span>CRATES_IO_TOKEN_PATH: <span class="kw-2">&</span>str = <span class="string">"~/.ssh/crates_io_data_1.ssh"</span>;
 
-<span class="doccomment">/// encrypt/decrypt the crates.io token with the GitHub ssh key
-/// then call the `cargo publish --token token` command
+<span class="doccomment">/// call the `cargo publish --token token` command
+///
+/// encrypt/decrypt the crates.io token with the GitHub ssh key
 /// but never show the secret token anywhere
 </span><span class="kw">pub fn </span>publish_to_crates_io_with_secret_token() {
     <span class="kw">let </span><span class="kw-2">mut </span>token = check_or_get_crates_io_token().unwrap();
     <span class="comment">// don't show the token to the user
-    </span><span class="macro">println!</span>(<span class="string">"cargo publish with token"</span>);
+    </span><span class="macro">println!</span>(<span class="string">"    {YELLOW}cargo publish with token{RESET}"</span>);
     <span class="kw">let </span>shell_command = <span class="macro">format!</span>(<span class="string">"cargo publish --token {}"</span>, token.<span class=
 "number">0</span>);
     <span class="kw">let </span>status = std::process::Command::new(<span class="string">"sh"</span>).arg(<span class=
 "string">"-c"</span>).arg(shell_command).spawn().unwrap().wait().unwrap();
     token.<span class="number">0</span>.zeroize();
-    <span class="kw">let </span>exit_code = status.code();
-    <span class="kw">if </span>exit_code.is_none() || exit_code != <span class="prelude-val">Some</span>(<span class="number">0</span>) {
-        <span class="macro">eprintln!</span>(<span class=
-"string">"{RED}!!! cargo_auto publish error {}. Stopping automation task execution !!!{RESET}"</span>, exit_code.unwrap());
+    <span class="kw">let </span>exit_code = status.code().expect(<span class="kw-2">&</span><span class="macro">format!</span>(<span class=
+"string">"{RED}Error: publish to crates.io error. Exiting...{RESET}"</span>));
+    <span class="kw">if </span>exit_code != <span class="number">0 </span>{
+        <span class="macro">eprintln!</span>(<span class="string">"{RED}Error: publish to crates.io error {exit_code}. Exiting...{RESET}"</span>);
         std::process::exit(<span class="number">1</span>);
     }
 }
@@ -149,7 +155,7 @@
     <span class="kw">let </span><span class="kw-2">mut </span>token: <span class="prelude-ty">Option</span>&lt;SecretString&gt; = <span class=
 "prelude-val">None</span>;
     <span class="kw">let </span>crates_io_token_path_expanded = <span class="kw">crate</span>::utils_mod::file_path_home_expand(CRATES_IO_TOKEN_PATH);
-    <span class="kw">if </span>std::path::Path::new(<span class="kw-2">&</span>crates_io_token_path_expanded).exists() {
+    <span class="kw">if </span>camino::Utf8Path::new(<span class="kw-2">&</span>crates_io_token_path_expanded).exists() {
         token = <span class="kw">crate</span>::auto_encrypt_decrypt_with_ssh_mod::decrypt_with_ssh_from_file(<span class=
 "kw-2">&</span>crates_io_token_path_expanded);
     }

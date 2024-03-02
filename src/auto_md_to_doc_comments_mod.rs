@@ -1,7 +1,6 @@
 // auto_md_to_doc_comments_mod
 
 //! finds rs files with markers and include segments from md files
-//! It works for workspaces and for single projects.  
 
 use glob::glob;
 use lazy_static::lazy_static;
@@ -29,7 +28,47 @@ struct MdSegment {
     pub text: String,
 }
 
-#[doc=include_str!("../doc_comments_long/auto_md_to_doc_comments.md")]
+// region: auto_md_to_doc_comments include doc_comments_long/auto_md_to_doc_comments.md A ///
+/// <!-- markdownlint-disable -->
+///
+/// This function finds rs files with markers and include segments from md files as doc comments.  
+///
+/// From this doc comments `cargo doc` will generated the documentation and auto-completion.  
+/// We don't want to manually copy this segments. We want them to be automatically in sync.  
+/// We will just run this function before every `cargo doc` with an automation task.  
+/// The `auto_md_to_doc_comments` function must be executed in the project root folder where is the Cargo.toml file.  
+/// First it searches all the rs files in src, tests and examples folders.  
+/// If they contain the markers, than finds the md file and the named segment and include it as doc comments into the rs file.  
+/// The markers are always in pairs: start and end. So exactly the content in between is changed.  
+/// The markers are always comments, so they don't change the code.  
+/// It works only for files with LF line delimiter. No CR and no CRLF.  
+///
+/// ## markers
+///
+/// In the rs file write these markers:  
+///
+/// ```code
+/// comment region: auto_md_to_doc_comments include README.md A ///
+/// comment endregion: auto_md_to_doc_comments include README.md A ///
+/// ```
+///
+/// In your rust code, change the word `comment` with double slash `//`.  
+/// In the md file put markers to mark the segment:  
+///
+/// ```markdown
+/// [comment]: # (auto_md_to_doc_comments segment start A)  
+/// [comment]: # (auto_md_to_doc_comments segment end A)  
+/// ```
+///
+/// In your markdown, change the word `[comment]` with double slash `[//]`.
+///
+/// The marker must be exclusively in one line. No other text in the same line.  
+/// auto_md_to_doc_comments will delete the old lines between the markers.  
+/// It will find the md file and read the content between the markers.  
+/// Before each line it will add the doc comment symbol as is defined in the marker.  
+/// Finally it will include the new lines as doc comments in the rs file.
+///
+// endregion: auto_md_to_doc_comments include doc_comments_long/auto_md_to_doc_comments.md A ///
 pub fn auto_md_to_doc_comments() {
     println!("    {YELLOW}auto_md_to_doc_comments{RESET}");
     // Cargo.toml contains the list of projects
@@ -54,7 +93,7 @@ fn one_project() {
 
         // check if file have CRLF instead of LF and show error
         if rs_text_content.contains("\r\n") {
-            panic!("{RED}Error: {rs_filename} has CRLF line endings instead of LF. The task auto_md_to_doc_comments cannot work! Exiting..{RESET}");
+            panic!("{RED}Error: {rs_filename} has CRLF line endings instead of LF. Correct the file! Exiting...{RESET}");
         }
 
         let markers = rs_file_markers(&rs_text_content);
@@ -103,13 +142,14 @@ lazy_static! {
 fn rs_file_markers(rs_text_content: &str) -> Vec<RsMarker> {
     let mut markers = vec![];
     for cap in REGEX_RS_START.captures_iter(rs_text_content) {
-        markers.push(RsMarker {
+        let rs_marker = RsMarker {
             md_filename: cap[1].to_string(),
             marker_name: cap[2].to_string(),
             comment_symbol: cap[3].to_string(),
             pos_start: cap.get(0).unwrap().end() + 1,
             pos_end: 0,
-        });
+        };
+        markers.push(rs_marker);
     }
     for cap in REGEX_RS_END.captures_iter(rs_text_content) {
         let marker = markers.iter_mut().find(|m| m.md_filename == cap[1] && m.marker_name == cap[2]).unwrap();
@@ -126,9 +166,8 @@ lazy_static! {
     static ref REGEX_MD_END: Regex = Regex::new(r#"(?m)^\[//\]: # \(auto_md_to_doc_comments segment end (.*?)\)$"#).unwrap();
 }
 
-/// The first time it is called
-/// reads the file and extracts all the segments
-/// into a cache vector.
+/// The first time it is called read the file and extracts all the segments into a cache vector.
+///
 /// Subsequent calls read from the cache.
 fn get_md_segments_using_cache(cache: &mut Vec<MdSegment>, md_filename: &str, marker_name: &str, comment_symbol: &str) -> String {
     // check the cache
@@ -142,7 +181,7 @@ fn get_md_segments_using_cache(cache: &mut Vec<MdSegment>, md_filename: &str, ma
 
         // check if file have CRLF instead of LF and show error
         if md_text_content.contains("\r\n") {
-            panic!("{RED}Error: {md_filename} has CRLF line endings instead of LF. The task auto_md_to_doc_comments cannot work! Exiting..{RESET}");
+            panic!("{RED}Error: {md_filename} has CRLF line endings instead of LF. Correct the file! Exiting...{RESET}");
         }
 
         for cap in REGEX_MD_START.captures_iter(&md_text_content) {
@@ -177,6 +216,7 @@ fn get_md_segments_using_cache(cache: &mut Vec<MdSegment>, md_filename: &str, ma
                 }
             }
         }
+
         let segment = cache.iter().find(|m| m.md_filename == md_filename && m.marker_name == marker_name).unwrap();
         //return
         segment.text.to_string()

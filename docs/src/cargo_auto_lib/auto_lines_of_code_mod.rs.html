@@ -303,18 +303,68 @@
 <a href="#252" id="252">252</a>
 <a href="#253" id="253">253</a>
 <a href="#254" id="254">254</a>
+<a href="#255" id="255">255</a>
+<a href="#256" id="256">256</a>
+<a href="#257" id="257">257</a>
+<a href="#258" id="258">258</a>
+<a href="#259" id="259">259</a>
+<a href="#260" id="260">260</a>
+<a href="#261" id="261">261</a>
+<a href="#262" id="262">262</a>
+<a href="#263" id="263">263</a>
+<a href="#264" id="264">264</a>
+<a href="#265" id="265">265</a>
+<a href="#266" id="266">266</a>
+<a href="#267" id="267">267</a>
+<a href="#268" id="268">268</a>
+<a href="#269" id="269">269</a>
+<a href="#270" id="270">270</a>
+<a href="#271" id="271">271</a>
+<a href="#272" id="272">272</a>
+<a href="#273" id="273">273</a>
+<a href="#274" id="274">274</a>
+<a href="#275" id="275">275</a>
+<a href="#276" id="276">276</a>
+<a href="#277" id="277">277</a>
+<a href="#278" id="278">278</a>
+<a href="#279" id="279">279</a>
+<a href="#280" id="280">280</a>
+<a href="#281" id="281">281</a>
+<a href="#282" id="282">282</a>
+<a href="#283" id="283">283</a>
+<a href="#284" id="284">284</a>
+<a href="#285" id="285">285</a>
+<a href="#286" id="286">286</a>
+<a href="#287" id="287">287</a>
+<a href="#288" id="288">288</a>
+<a href="#289" id="289">289</a>
+<a href="#290" id="290">290</a>
+<a href="#291" id="291">291</a>
+<a href="#292" id="292">292</a>
+<a href="#293" id="293">293</a>
+<a href="#294" id="294">294</a>
+<a href="#295" id="295">295</a>
+<a href="#296" id="296">296</a>
+<a href="#297" id="297">297</a>
+<a href="#298" id="298">298</a>
+<a href="#299" id="299">299</a>
+<a href="#300" id="300">300</a>
+<a href="#301" id="301">301</a>
+<a href="#302" id="302">302</a>
+<a href="#303" id="303">303</a>
+<a href="#304" id="304">304</a>
+<a href="#305" id="305">305</a>
+<a href="#306" id="306">306</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// auto_lines_of_code_mod
 
 </span><span class="doccomment">//! inserts shield badges with lines_of_code into README.rs
-//! It works for workspaces and for single projects.  
 
 </span><span class="kw">use </span><span class="kw">crate</span>::public_api_mod::{RED, RESET, YELLOW};
 <span class="kw">use </span>regex::Regex;
 <span class="kw">use </span>std::fs::File;
 <span class="kw">use </span>std::io::{BufRead, BufReader};
-<span class="kw">use </span>std::{fs, path::Path};
 
 <span class="comment">// use crate::auto_helper_functions_mod::*;
 // this trait must be in scope to use these methods of CargoToml
@@ -335,7 +385,64 @@
     </span><span class="kw">pub </span>examples_lines: usize,
 }
 
-<span class="attr">#[doc=<span class="macro">include_str!</span>(<span class="string">"../doc_comments_long/auto_lines_of_code.md"</span>)]
+<span class="comment">// region: auto_md_to_doc_comments include doc_comments_long/auto_lines_of_code.md A ///
+</span><span class="doccomment">/// &lt;!-- markdownlint-disable --&gt;
+///
+/// This function inserts shield badges with lines_of_code into README.rs.  
+///
+/// The parameter Link will be used for shield badge. If empty_string, the git remote repository will be used.  
+/// Lines of code are not a "perfect" measurement of anything.\
+/// Anybody can write a very big number of lines of useless code and comments.\
+/// But for 95% of the cases they are good enough.\
+/// Most of the developers use some "standard" coding practices and that is quantifiable and comparable.  
+///
+/// The `src_code_lines` is the most important count.\
+/// That is actual code written for that project without  doc comments, comments, unit tests, integration tests and examples.\
+/// Sometimes is great to see a big number here. It means there was a lot of work invested. But other times we want to see a small number. It
+/// means the developer understands the problem very well and don't try to solve anything outside that scope.  
+/// The `src_doc_comment_lines` counts doc comments. They will eventually become docs. The count of lines shows how many documentation is written.  
+/// The `src_comment_lines` counts code comments. Code comments are important to understand the code. The count of lines shows how understandable is the code.  
+/// The `tests_lines` counts lines in tests and shows how good is the code tested. Here are the unit tests and integration test combined.  
+/// The `examples_lines` counts lines in examples and shows how good is explained how to use the code.  
+///
+///
+/// ## Folder and file structure
+///
+/// The folder structure of a single Rust project is simple.\
+/// The project starts in the folder that contains `Cargo.toml`.\
+/// The `src/` folder contains all the rust `*.rs` files.\
+/// The `tests/` folder contains integration tests.\
+/// The `examples/` folder contains examples.\
+/// Some rs files can be excluded from the count adding this line near the start of the file: // exclude from auto_lines_of_code
+/// Inside a rs file the doc comment line start with `///` or `//!`.\
+/// The normal comments start with `//` or `/!`.\
+/// I will ignore the block comments. They are usually NOT used for comments, but to temporarily disable a piece of code. So I count this as code and not comments.  
+/// The `src/*.rs` file can contain unit tests that start with `#[cfg(test)]`. I assume that these are always at the end of the file.  
+/// There should not be any normal code after `#[cfg(test)]`, only tests.  
+/// All other files: `md`, `toml`, `html`, `js`, ... are not counted.  
+///
+/// ### Workspace
+///
+/// Workspaces have member projects, that are written in `Cargo.toml`.\
+/// The program counts lines of every project and sums them together.  
+///
+/// ## Include into README.md
+///
+/// If the README.md file contains these markers (don't copy the numbers 1 and 2):  
+///
+/// ```md
+/// [comment]: # (auto_lines_of_code start)
+///
+/// [comment]: # (auto_lines_of_code end)
+/// ```
+///
+/// In your markdown, change the word `[comment]` with double slash `[//]`.  
+///
+/// The function will include the shield badges code between them.  
+/// It will erase the previous content.  
+/// Use git diff to see the change.  
+///
+</span><span class="comment">// endregion: auto_md_to_doc_comments include doc_comments_long/auto_lines_of_code.md A ///
 </span><span class="kw">pub fn </span>auto_lines_of_code(link: <span class="kw-2">&</span>str) {
     <span class="macro">println!</span>(<span class="string">"    {YELLOW}Running auto_lines_of_code{RESET}"</span>);
     <span class="kw">let </span>link = <span class="kw">if </span>link.is_empty() { process_git_remote() } <span class="kw">else </span>{ link.to_string() };
@@ -373,6 +480,7 @@
 }
 
 <span class="doccomment">/// Return the string for link for badges like: &lt;https://github.com/bestia-dev/auto_lines_of_code/&gt;.  
+///
 /// Get the output string after $ git remote -v.  
 /// Then finds out the link to the repository with regex.  
 /// Returns empty string if something goes wrong: no git, no remote,...  
@@ -399,7 +507,7 @@
 
     <span class="comment">// src folder
     </span><span class="kw">let </span>files = <span class="kw">crate</span>::utils_mod::traverse_dir_with_exclude_dir(
-        Path::new(<span class="string">"src"</span>),
+        camino::Utf8Path::new(<span class="string">"src"</span>).as_std_path(),
         <span class="string">"/*.rs"</span>,
         <span class="comment">// avoid big folders and other folders with *.crev
         </span><span class="kw-2">&</span>[<span class="string">"/.git"</span>.to_string(), <span class="string">"/target"</span>.to_string(), <span class=
@@ -408,8 +516,7 @@
     .unwrap();
     <span class="comment">// println!("{:#?}", files);
     </span><span class="kw">for </span>rs_file_name <span class="kw">in </span>files.iter() {
-        <span class="comment">//dbg!(&amp;rs_file_name);
-        // Open the file in read-only mode (ignoring errors).
+        <span class="comment">// Open the file in read-only mode (ignoring errors).
         </span><span class="kw">let </span>file = File::open(rs_file_name).unwrap();
         <span class="kw">let </span>reader = BufReader::new(file);
         <span class="kw">let </span><span class="kw-2">mut </span>is_unit_test = <span class="bool-val">false</span>;
@@ -435,7 +542,7 @@
     }
     <span class="comment">// tests folder
     </span><span class="kw">let </span>files = <span class="kw">crate</span>::utils_mod::traverse_dir_with_exclude_dir(
-        Path::new(<span class="string">"tests"</span>),
+        camino::Utf8Path::new(<span class="string">"tests"</span>).as_std_path(),
         <span class="string">"/*.rs"</span>,
         <span class="comment">// avoid big folders and other folders with *.crev
         </span><span class="kw-2">&</span>[<span class="string">"/.git"</span>.to_string(), <span class="string">"/target"</span>.to_string(), <span class=
@@ -444,8 +551,7 @@
     .unwrap();
     <span class="comment">// println!("{:#?}", files);
     </span><span class="kw">for </span>rs_file_name <span class="kw">in </span>files.iter() {
-        <span class="comment">//dbg!(&amp;rs_file_name);
-        // Open the file in read-only mode (ignoring errors).
+        <span class="comment">// Open the file in read-only mode (ignoring errors).
         </span><span class="kw">let </span>file = File::open(rs_file_name).unwrap();
         <span class="kw">let </span>reader = BufReader::new(file);
         <span class="comment">// Read the file line by line using the lines() iterator from std::io::BufRead.
@@ -456,7 +562,7 @@
 
     <span class="comment">// examples folder
     </span><span class="kw">let </span>files = <span class="kw">crate</span>::utils_mod::traverse_dir_with_exclude_dir(
-        Path::new(<span class="string">"examples"</span>),
+        camino::Utf8Path::new(<span class="string">"examples"</span>).as_std_path(),
         <span class="string">"/*.rs"</span>,
         <span class="comment">// avoid big folders and other folders with *.crev
         </span><span class="kw-2">&</span>[<span class="string">"/.git"</span>.to_string(), <span class="string">"/target"</span>.to_string(), <span class=
@@ -464,8 +570,7 @@
     )
     .unwrap();
     <span class="kw">for </span>rs_file_name <span class="kw">in </span>files.iter() {
-        <span class="comment">//dbg!(&amp;rs_file_name);
-        // Open the file in read-only mode (ignoring errors).
+        <span class="comment">// Open the file in read-only mode (ignoring errors).
         </span><span class="kw">let </span>file = File::open(rs_file_name).unwrap();
         <span class="kw">let </span>reader = BufReader::new(file);
         <span class="comment">// Read the file line by line using the lines() iterator from std::io::BufRead.
@@ -477,15 +582,17 @@
     // return
     </span>lines_of_code
 }
+
+
 <span class="kw">fn </span>git_remote_output() -&gt; anyhow::Result&lt;String&gt; {
     <span class="kw">let </span>output = std::process::Command::new(<span class="string">"git"</span>).arg(<span class=
 "string">"remote"</span>).arg(<span class="string">"-v"</span>).output()<span class="question-mark">?</span>;
 
     <span class="kw">let </span>output = String::from_utf8(output.stdout)<span class="question-mark">?</span>;
-    <span class="comment">//dbg!( &amp;output);
-    // return
+    <span class="comment">// return
     </span><span class="prelude-val">Ok</span>(output)
 }
+
 <span class="doccomment">/// returns a Result.
 /// in the case of error the calling fn will return empty string.
 </span><span class="kw">fn </span>regex_capture(output: String) -&gt; anyhow::Result&lt;String&gt; {
@@ -499,15 +606,15 @@
 "string">r#"origin\s*(?:https://)?(?:git@)?([^:/]*?)[:/]([^/]*?)/([^. ]*?)(?:\.git)?\s*\(fetch\)"#</span>)<span class="question-mark">?</span>;
     <span class="kw">let </span>cap = reg.captures(<span class="kw-2">&</span>output).ok_or(<span class="macro">anyhow::anyhow!</span>(<span class=
 "string">"Error: reg.captures is None"</span>))<span class="question-mark">?</span>;
-    <span class="comment">// dbg!(&amp;cap);
 
-    // indexing can panic, but I would like it to Error
+    <span class="comment">// indexing can panic, but I would like it to Error
     </span><span class="macro">anyhow::ensure!</span>(cap.len() == <span class="number">4</span>, <span class=
 "string">"Error: cap len is not 4, because there are 4 capture groups in regex."</span>);
     <span class="prelude-val">Ok</span>(<span class="macro">format!</span>(<span class="string">"https://{}/{}/{}/"</span>, <span class=
 "kw-2">&</span>cap[<span class="number">1</span>], <span class="kw-2">&</span>cap[<span class="number">2</span>], <span class="kw-2">&</span>cap[<span class=
 "number">3</span>]))
 }
+
 <span class="doccomment">/// Returns a string with the markdown code for 4 shield badges.
 ///
 /// Every badge has the link to the url given as first parameter
@@ -545,14 +652,11 @@
     <span class="kw">let </span>end_delimiter = <span class="string">"[//]: # (auto_lines_of_code end)"</span>;
     <span class="kw">let </span>file_name = <span class="string">"README.md"</span>;
 
-    <span class="kw">if let </span><span class="prelude-val">Ok</span>(readme_content) = fs::read_to_string(file_name) {
+    <span class="kw">if let </span><span class="prelude-val">Ok</span>(readme_content) = std::fs::read_to_string(file_name) {
         <span class="comment">// check if file have CRLF instead of LF and show error
         </span><span class="kw">if </span>readme_content.contains(<span class="string">"\r\n"</span>) {
-            <span class="macro">panic!</span>(
-                <span class=
-"string">"{RED}Error: {} has CRLF line endings instead of LF. The task include_into_readme_md cannot work! Exiting..{RESET}"</span>,
-                file_name
-            );
+            <span class="macro">panic!</span>(<span class=
+"string">"{RED}Error: {} has CRLF line endings instead of LF. Correct the file! Exiting...{RESET}"</span>, file_name);
         }
 
         <span class="kw">let </span><span class="kw-2">mut </span>new_readme_content = String::with_capacity(readme_content.len());
@@ -570,7 +674,7 @@
                     *GREEN, file_name, *RESET
                 );
                  */
-                </span>fs::write(file_name, new_readme_content).unwrap();
+                </span>std::fs::write(file_name, new_readme_content).unwrap();
             }
         }
     }

@@ -5,8 +5,8 @@
 fn main() {
     let text = "test";
     let hash = cargo_auto_lib::hash_for_filename(&text);
-    dbg!(hash);
-    println!("");
+
+    println!("{hash}");
 
     // region: prepare folders and files for this example
     // remove the 'images' folder
@@ -17,5 +17,5 @@ fn main() {
     // endregion: prepare folders and files for this example
 
     let path = camino::Utf8Path::new("examples/plantuml");
-    cargo_auto_lib::auto_plantuml_for_path(path, "");
+    cargo_auto_lib::auto_plantuml_for_path(path.as_std_path(), "");
 }

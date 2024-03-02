@@ -83,11 +83,15 @@
 <a href="#32" id="32">32</a>
 <a href="#33" id="33">33</a>
 <a href="#34" id="34">34</a>
+<a href="#35" id="35">35</a>
+<a href="#36" id="36">36</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// error_mod.rs
 
-</span><span class="doccomment">//! I am using the crate thiserror to create an enum for all library errors.
+</span><span class="doccomment">//! Error library for this crate using thiserror
+//!
+//! I am using the crate thiserror to create an enum for all library errors.
 //! It mostly forwards the source "from" error.
 //! The library never writes to the screen, because it contains only the logic.
 //! Is the bin project that knows if it is CLI, TUI or GUI and it presents the errors to the user and developer.

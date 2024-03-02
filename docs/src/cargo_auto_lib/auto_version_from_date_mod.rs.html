@@ -380,12 +380,27 @@
 <a href="#329" id="329">329</a>
 <a href="#330" id="330">330</a>
 <a href="#331" id="331">331</a>
+<a href="#332" id="332">332</a>
+<a href="#333" id="333">333</a>
+<a href="#334" id="334">334</a>
+<a href="#335" id="335">335</a>
+<a href="#336" id="336">336</a>
+<a href="#337" id="337">337</a>
+<a href="#338" id="338">338</a>
+<a href="#339" id="339">339</a>
+<a href="#340" id="340">340</a>
+<a href="#341" id="341">341</a>
+<a href="#342" id="342">342</a>
+<a href="#343" id="343">343</a>
+<a href="#344" id="344">344</a>
+<a href="#345" id="345">345</a>
+<a href="#346" id="346">346</a>
+<a href="#347" id="347">347</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// auto_version_from_date_mod
 
 </span><span class="doccomment">//! new version as date is written to Cargo.toml and service_worker.js
-//! It works for workspaces and for single projects.  
 
 </span><span class="comment">// region: use statements
 
@@ -395,9 +410,7 @@
 <span class="kw">use </span>chrono::Timelike;
 <span class="kw">use </span>chrono::{Datelike, Utc};
 <span class="kw">use </span>serde_derive::{Deserialize, Serialize};
-<span class="kw">use </span>std::path::PathBuf;
 <span class="kw">use </span>std::str::FromStr;
-<span class="kw">use </span>std::{fs, path::Path};
 
 <span class="comment">// this trait must be in scope to use these methods of CargoToml
 </span><span class="kw">use </span><span class="kw">crate</span>::public_api_mod::CargoTomlPublicApiMethods;
@@ -425,7 +438,29 @@
 
 // region: public functions
 
-</span><span class="attr">#[doc=<span class="macro">include_str!</span>(<span class="string">"../doc_comments_long/auto_version_from_date.md"</span>)]
+// region: auto_md_to_doc_comments include doc_comments_long/auto_version_from_date.md A ///
+</span><span class="doccomment">/// &lt;!-- markdownlint-disable --&gt;
+///
+/// New version from date is written to Cargo.toml and service_worker.js
+///
+/// In Cargo.toml writes the version as the date `yyyy.mmdd.HHMM` ex. `2019.1221.2359`.  
+/// For non-library projects, the semver specification is not really useful.  
+/// Having the version as the date is just fine for executables and much more human readable.  
+/// The function must be executed in the root project folder of a single project or workspace where is the Cargo.toml.  
+///
+/// ### service_worker.js
+///
+/// Inside the PWA service worker javascript file is also needed to change the version.  
+/// The program searches for `service_worker.js` and modify the version.  
+///
+/// ### no need to change version if no files changed
+///
+/// If src/*.rs or Cargo.toml files are not changed from last compile, than no need to change version.  
+/// The dates of the files will be stored in the file .automation_tasks_rs_file_hashes.json near to Cargo.toml.
+/// Warning: I don't check if the service worker has changed because it rarely does.  
+/// To know if the projects has changed or not, this function saves the dates of all files into `.automation_tasks_rs_file_hashes.json` near Cargo.toml
+///
+</span><span class="comment">// endregion: auto_md_to_doc_comments include doc_comments_long/auto_version_from_date.md A ///
 </span><span class="kw">pub fn </span>auto_version_from_date() {
     auto_version_from_date_internal(<span class="bool-val">false</span>).unwrap_or_else(|err| <span class="macro">panic!</span>(<span class=
 "string">"{RED}{err}{RESET}"</span>));
@@ -481,17 +516,17 @@
 
 <span class="doccomment">/// search for file service_worker.js and modify version
 </span><span class="kw">fn </span>modify_service_js(new_version: <span class="kw-2">&</span>str) {
-    <span class="kw">let </span>start_dir = Path::new(<span class="string">"./"</span>);
+    <span class="kw">let </span>start_dir = camino::Utf8Path::new(<span class="string">"./"</span>);
     <span class="kw">for </span>js_filename <span class="kw">in </span><span class="kw-2">&</span><span class=
-"kw">crate</span>::utils_mod::traverse_dir_with_exclude_dir(start_dir, <span class="string">"/service_worker.js"</span>, <span class=
+"kw">crate</span>::utils_mod::traverse_dir_with_exclude_dir(start_dir.as_std_path(), <span class="string">"/service_worker.js"</span>, <span class=
 "kw-2">&</span>[<span class="string">"/.git"</span>.to_string(), <span class="string">"/target"</span>.to_string()]).unwrap() {
         <span class="comment">// println!("{}write version in {}{}", *GREEN, js_filename, *RESET);
-        </span><span class="kw">let </span><span class="kw-2">mut </span>js_content = fs::read_to_string(js_filename).unwrap();
+        </span><span class="kw">let </span><span class="kw-2">mut </span>js_content = std::fs::read_to_string(js_filename).unwrap();
 
         <span class="comment">// check if file have CRLF instead of LF and show error
         </span><span class="kw">if </span>js_content.contains(<span class="string">"\r\n"</span>) {
             <span class="macro">panic!</span>(<span class=
-"string">"{RED}Error: {js_filename} has CRLF line endings instead of LF. The task modify_service_js cannot work! Exiting..{RESET}"</span>);
+"string">"{RED}Error: {js_filename} has CRLF line endings instead of LF. Correct the file! Exiting...{RESET}"</span>);
         }
 
         <span class="kw">let </span>delimiter = <span class="string">r#"const CACHE_NAME = '"#</span>;
@@ -508,7 +543,7 @@
                     <span class="macro">println!</span>(<span class="string">"    {YELLOW}Modify version: {old_version} -&gt; {new_version}{RESET}"</span>);
                     js_content.insert_str(start_version, new_version);
                     <span class="comment">//println!("{}write file: {}{}", *YELLOW, js_filename, *RESET);
-                    </span><span class="kw">let </span>_x = fs::write(js_filename, js_content);
+                    </span><span class="kw">let </span>_x = std::fs::write(js_filename, js_content);
                 }
             } <span class="kw">else </span>{
                 <span class="macro">panic!</span>(<span class="string">"{RED}no end quote for version{RESET}"</span>);
@@ -524,14 +559,12 @@
 "kw-2">mut </span>vec_of_metadata: Vec&lt;FileMetaData&gt;) -&gt; ResultWithLibError&lt;()&gt; {
     <span class="comment">// println!("{}write version to Cargo.toml{}", *GREEN, *RESET);
     </span><span class="kw">let </span>cargo_filename = <span class="string">"Cargo.toml"</span>;
-    <span class="kw">let </span><span class="kw-2">mut </span>cargo_content = fs::read_to_string(cargo_filename).unwrap();
+    <span class="kw">let </span><span class="kw-2">mut </span>cargo_content = std::fs::read_to_string(cargo_filename).unwrap();
 
     <span class="comment">// check if file have CRLF instead of LF and show error
     </span><span class="kw">if </span>cargo_content.contains(<span class="string">"\r\n"</span>) {
-        <span class="macro">panic!</span>(
-            <span class="string">"{RED}Error: {} has CRLF line endings instead of LF. The task write_version_to_cargo cannot work! Exiting..{RESET}"</span>,
-            cargo_filename
-        );
+        <span class="macro">panic!</span>(<span class=
+"string">"{RED}Error: {} has CRLF line endings instead of LF. Correct the file! Exiting...{RESET}"</span>, cargo_filename);
     }
 
     <span class="kw">let </span>delimiter = <span class="string">r#"version = ""#</span>;
@@ -548,7 +581,7 @@
                 <span class="macro">println!</span>(<span class="string">"    {YELLOW}Modify version: {old_version} -&gt; {new_version}{RESET}"</span>);
                 cargo_content.insert_str(start_version, new_version);
                 <span class="comment">// println!("{}write file: {}{}", *YELLOW, cargo_filename, *RESET);
-                </span><span class="kw">let </span>_x = fs::write(cargo_filename, cargo_content);
+                </span><span class="kw">let </span>_x = std::fs::write(cargo_filename, cargo_content);
 
                 <span class="comment">//the Cargo.toml is now different
                 </span>correct_file_metadata_for_cargo_tom_inside_vec(<span class="kw-2">&amp;mut </span>vec_of_metadata)<span class="question-mark">?</span>;
@@ -569,7 +602,7 @@
     <span class="comment">//correct the vector only for Cargo.toml file
     </span><span class="kw">let </span>filename = <span class="string">"Cargo.toml"</span>.to_string();
     <span class="comment">// calculate hash of file
-    </span><span class="kw">let </span>filehash = sha256_digest(PathBuf::from_str(<span class="kw-2">&</span>filename)<span class=
+    </span><span class="kw">let </span>filehash = sha256_digest(std::path::PathBuf::from_str(<span class="kw-2">&</span>filename)<span class=
 "question-mark">?</span>.as_path())<span class="question-mark">?</span>;
     vec_of_metadata.get_mut(<span class="number">0</span>).ok_or(LibError::ErrorFromStr(<span class=
 "string">"error vec_of_metadata.get_mut(0)"</span>))<span class="question-mark">?</span>.filehash = filehash;
@@ -604,12 +637,12 @@
     <span class="kw">let </span><span class="kw-2">mut </span>vec_of_metadata: Vec&lt;FileMetaData&gt; = Vec::new();
     <span class="kw">let </span>filename = <span class="string">"Cargo.toml"</span>.to_string();
     <span class="comment">// calculate hash of file
-    </span><span class="kw">let </span>filehash = sha256_digest(PathBuf::from_str(<span class="kw-2">&</span>filename)<span class=
+    </span><span class="kw">let </span>filehash = sha256_digest(std::path::PathBuf::from_str(<span class="kw-2">&</span>filename)<span class=
 "question-mark">?</span>.as_path())<span class="question-mark">?</span>;
     vec_of_metadata.push(FileMetaData { filename, filehash });
 
     <span class="kw">let </span>files_paths = <span class="kw">crate</span>::utils_mod::traverse_dir_with_exclude_dir(
-        Path::new(<span class="string">"src"</span>),
+        camino::Utf8Path::new(<span class="string">"src"</span>).as_std_path(),
         <span class="string">"/*.rs"</span>,
         <span class="comment">// avoid big folders and other folders with *.crev
         </span><span class="kw-2">&</span>[],
@@ -618,7 +651,7 @@
 
     <span class="kw">for </span>filename <span class="kw">in </span>files_paths {
         <span class="comment">// calculate hash of file
-        </span><span class="kw">let </span>filehash = sha256_digest(PathBuf::from_str(<span class="kw-2">&</span>filename)<span class=
+        </span><span class="kw">let </span>filehash = sha256_digest(std::path::PathBuf::from_str(<span class="kw-2">&</span>filename)<span class=
 "question-mark">?</span>.as_path())<span class="question-mark">?</span>;
         vec_of_metadata.push(FileMetaData { filename, filehash });
     }
@@ -626,7 +659,7 @@
 }
 
 <span class="doccomment">/// calculate the hash for a file
-</span><span class="kw">fn </span>sha256_digest(path: <span class="kw-2">&</span>Path) -&gt; ResultWithLibError&lt;String&gt; {
+</span><span class="kw">fn </span>sha256_digest(path: <span class="kw-2">&</span>std::path::Path) -&gt; ResultWithLibError&lt;String&gt; {
     <span class="kw">let </span>file = std::fs::File::open(path)<span class="question-mark">?</span>;
     <span class="kw">let </span><span class="kw-2">mut </span>reader = std::io::BufReader::new(file);
     <span class="kw">let </span><span class="kw-2">mut </span>context = ring::digest::Context::new(<span class="kw-2">&</span>ring::digest::SHA256);
@@ -648,7 +681,7 @@
 <span class="doccomment">/// read .automation_tasks_rs_file_hashes.json
 </span><span class="kw">pub fn </span>read_json_file(json_filepath: <span class="kw-2">&</span>str) -&gt; ResultWithLibError&lt;AutoVersionFromDate&gt; {
     <span class="kw">let </span>js_struct: AutoVersionFromDate;
-    <span class="kw">let </span>f = fs::read_to_string(json_filepath);
+    <span class="kw">let </span>f = std::fs::read_to_string(json_filepath);
 
     <span class="kw">match </span>f {
         <span class="prelude-val">Ok</span>(x) =&gt; {
@@ -675,7 +708,7 @@
     <span class="kw">let </span>x = AutoVersionFromDate { vec_file_metadata: vec_of_metadata };
     <span class="kw">let </span>y = serde_json::to_string_pretty(<span class="kw-2">&</span>x).unwrap();
     <span class="kw">let </span>json_filepath = <span class="string">".automation_tasks_rs_file_hashes.json"</span>;
-    <span class="kw">let </span>_f = fs::write(json_filepath, y);
+    <span class="kw">let </span>_f = std::fs::write(json_filepath, y);
 }
 
 <span class="doccomment">/// converts a date to a version
@@ -723,7 +756,8 @@
 
     <span class="attr">#[test]
     </span><span class="kw">pub fn </span>test_sha256_digest() -&gt; ResultWithLibError&lt;()&gt; {
-        <span class="kw">let </span>digest = sha256_digest(Path::new(<span class="string">"LICENSE"</span>))<span class="question-mark">?</span>;
+        <span class="kw">let </span>digest = sha256_digest(camino::Utf8Path::new(<span class="string">"LICENSE"</span>).as_std_path())<span class=
+"question-mark">?</span>;
         <span class="kw">let </span>hash_string = data_encoding::HEXLOWER.encode(digest.as_ref());
         <span class="kw">let </span>expected_hex = <span class=
 "string">"65666234343064623966363462343963643663333839373166303131663632636334666364323733663461323635303161346336366139633935656337373139"</span>;

@@ -1,4 +1,8 @@
-# auto_playground_run_code
+[//]: # (auto_md_to_doc_comments segment start A)
+
+<!-- markdownlint-disable -->
+
+Includes the link to playground with the rust code in a parameter.
 
 Search in markdown files for markersand include a link to Rust playground.
 
@@ -22,3 +26,5 @@ Between the start marker and the first triple backtick is the link in "()" paren
 Encode the code with url_encoding.
 
 Process code for playground for Rust code segments in all md files
+
+[//]: # (auto_md_to_doc_comments segment end A)

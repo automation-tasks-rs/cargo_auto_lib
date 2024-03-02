@@ -1,5 +1,7 @@
 // auto_crates_io_mod.rs
 
+//! push versions to crates.io
+
 use crate::auto_ssh_mod::SecretString;
 use crate::RED;
 use crate::RESET;
@@ -10,8 +12,9 @@ use zeroize::Zeroize;
 // file contains crates.io token encrypted with github_com_ssh_1
 pub const CRATES_IO_TOKEN_PATH: &str = "~/.ssh/crates_io_data_1.ssh";
 
+/// call the `cargo publish --token token` command
+///
 /// encrypt/decrypt the crates.io token with the GitHub ssh key
-/// then call the `cargo publish --token token` command
 /// but never show the secret token anywhere
 pub fn publish_to_crates_io_with_secret_token() {
     let mut token = check_or_get_crates_io_token().unwrap();
@@ -20,9 +23,9 @@ pub fn publish_to_crates_io_with_secret_token() {
     let shell_command = format!("cargo publish --token {}", token.0);
     let status = std::process::Command::new("sh").arg("-c").arg(shell_command).spawn().unwrap().wait().unwrap();
     token.0.zeroize();
-    let exit_code = status.code();
-    if exit_code.is_none() || exit_code != Some(0) {
-        eprintln!("{RED}!!! cargo_auto publish error {}. Stopping automation task execution !!!{RESET}", exit_code.unwrap());
+    let exit_code = status.code().expect(&format!("{RED}Error: publish to crates.io error. Exiting...{RESET}"));
+    if exit_code != 0 {
+        eprintln!("{RED}Error: publish to crates.io error {exit_code}. Exiting...{RESET}");
         std::process::exit(1);
     }
 }

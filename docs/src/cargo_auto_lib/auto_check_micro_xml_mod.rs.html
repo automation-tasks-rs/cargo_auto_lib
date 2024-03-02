@@ -110,9 +110,12 @@
 <a href="#59" id="59">59</a>
 <a href="#60" id="60">60</a>
 <a href="#61" id="61">61</a>
+<a href="#62" id="62">62</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// auto_check_micro_xml_mod.rs
+
+</span><span class="doccomment">//! checks the correctness of micro XML files
 
 </span><span class="kw">use </span><span class="kw">crate</span>::public_api_mod::{RED, RESET, YELLOW};
 <span class="kw">use </span>glob::glob;
@@ -127,15 +130,15 @@
     <span class="comment">// find html pages for single page application
     </span><span class="kw">for </span>filename_result <span class="kw">in </span>glob(<span class="kw-2">&</span>glob_str).unwrap() {
         <span class="kw">let </span>filename_pathbuff = filename_result.unwrap();
-        <span class="kw">let </span>file_name = filename_pathbuff.file_name().unwrap().to_str().unwrap();
+        <span class="kw">let </span>filename_pathbuff = camino::Utf8Path::from_path(<span class="kw-2">&</span>filename_pathbuff).unwrap();
+
+        <span class="kw">let </span>file_name = filename_pathbuff.file_name().unwrap();
         <span class="kw">let </span>str_xml = std::fs::read_to_string(<span class="kw-2">&</span>filename_pathbuff).unwrap();
 
         <span class="comment">// check if file have CRLF instead of LF and show error
         </span><span class="kw">if </span>str_xml.contains(<span class="string">"\r\n"</span>) {
-            <span class="macro">panic!</span>(
-                <span class="string">"{RED}Error: {} has CRLF line endings instead of LF. The task auto_check_micro_xml cannot work! Exiting..{RESET}"</span>,
-                filename_pathbuff.to_string_lossy()
-            );
+            <span class="macro">panic!</span>(<span class=
+"string">"{RED}Error: {filename_pathbuff} has CRLF line endings instead of LF. Correct the file! Exiting...{RESET}"</span>);
         }
 
         <span class="comment">// check microxml correctness. Panic on errors.

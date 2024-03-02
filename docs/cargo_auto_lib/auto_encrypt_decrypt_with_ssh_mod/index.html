@@ -5,8 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="generator" content="rustdoc">
-  <meta name="description" content=
-  "How to save a GitHub TOKEN securely inside a file? GitHub TOKEN is used by GitHub API to gain access (authentication and authorization) to your GitHub. A TOKEN is a secret just like a password and it must be protected. If the TOKEN is leaked, a mal-intentioned can gain access to everything, using the API. Never store TOKENS in plain text anywhere! The TOKEN must be encrypted before storing it. We already use SSH keys to connect to GitHub. And we use ssh-agent for easy work with SSH identities. I want to use the ssh key inside ssh-agent to encrypt the TOKEN and save it in a file. The easy solution: encrypt with the Public key and then decrypt with the Private key. Problem: ssh-agent can only sign a message with the private key. Nothing more. It cannot decrypt with private key, because it would be a security risk. The security is based on the assumption that only the owner of the ssh private key can sign the message. The user already uses the ssh private key and it uses ssh-agent to connect over ssh to GitHub. So the user already knows how important are ssh private keys and to keep them secure. This could work also for other TOKENS, not just GitHub. Encryption">
+  <meta name="description" content="cargo_auto_lib">
   <title>cargo_auto_lib::auto_encrypt_decrypt_with_ssh_mod - Rust</title>
   <link rel="preload" as="font" type="font/woff2" crossorigin="" href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2">
   <link rel="preload" as="font" type="font/woff2" crossorigin="" href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2">
@@ -36,7 +35,7 @@
     <div class="sidebar-crate">
       <a class="logo-container" href="../../cargo_auto_lib/index.html"><img src=
       "https://github.com/bestia-dev/cargo-auto/raw/main/images/logo/logo_cargo_auto.svg" alt="logo"></a>
-      <h2><a href="../../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">1.3.63</span></h2>
+      <h2><a href="../../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">1.4.1</span></h2>
     </div>
     <h2 class="location"><a href="#">Module auto_encrypt_decrypt_with_ssh_mod</a></h2>
     <div class="sidebar-elems">
@@ -76,7 +75,7 @@
           <h1>Module <a href="../index.html">cargo_auto_lib</a>::<wbr><a class="mod" href="#">auto_encrypt_decrypt_with_ssh_mod</a><button id="copy-path"
           title="Copy item path to clipboard"><img src="../../static.files/clipboard-7571035ce49a181d.svg" width="19" height="18" alt=
           "Copy item path"></button></h1><span class="out-of-band"><a class="src" href=
-          "../../src/cargo_auto_lib/auto_encrypt_decrypt_with_ssh_mod.rs.html#3-213">source</a> · <button id="toggle-all-docs" title=
+          "../../src/cargo_auto_lib/auto_encrypt_decrypt_with_ssh_mod.rs.html#4-311">source</a> · <button id="toggle-all-docs" title=
           "collapse all docs">[<span>−</span>]</button></span>
         </div>
         <details class="toggle top-doc" open="">
@@ -84,31 +83,122 @@
             <span>Expand description</span>
           </summary>
           <div class="docblock">
-            <p>How to save a GitHub TOKEN securely inside a file? GitHub TOKEN is used by GitHub API to gain access (authentication and authorization) to your
-            GitHub. A TOKEN is a secret just like a password and it must be protected. If the TOKEN is leaked, a mal-intentioned can gain access to everything,
-            using the API. Never store TOKENS in plain text anywhere! The TOKEN must be encrypted before storing it. We already use SSH keys to connect to
-            GitHub. And we use ssh-agent for easy work with SSH identities. I want to use the ssh key inside ssh-agent to encrypt the TOKEN and save it in a
-            file. The easy solution: encrypt with the Public key and then decrypt with the Private key. Problem: ssh-agent can only sign a message with the
-            private key. Nothing more. It cannot decrypt with private key, because it would be a security risk. The security is based on the assumption that
-            only the owner of the ssh private key can sign the message. The user already uses the ssh private key and it uses ssh-agent to connect over ssh to
-            GitHub. So the user already knows how important are ssh private keys and to keep them secure. This could work also for other TOKENS, not just
-            GitHub. Encryption</p>
-            <ol>
-              <li>ssh-agent must contain the chosen ssh identity. Use ssh-add for this.</li>
-              <li>Create a random message that will be used only by this code. It is not a secret.</li>
-              <li>Sign this message. This will become the password for symmetric encryption. It is a secret.</li>
-              <li>Input the token interactively in hidden input. It is a secret.</li>
-              <li>Use the password to symmetric encrypt the token.</li>
-              <li>Zeroize the token and password.</li>
-              <li>Save the message and the encrypted token in a json file. Decryption</li>
-              <li>ssh-agent must contain the ssh identity. Use ssh-add for this.</li>
-              <li>Read the json file, get the ssh_identity_file_path, message and the encrypted token.</li>
-              <li>Find the right identity inside ssh-agent.</li>
-              <li>Sign the message. This will become the password for symmetric decryption. It is a secret.</li>
-              <li>Use this password to symmetric decrypt the token.</li>
-              <li>Get the token.</li>
-              <li>Zeroize the token and password.</li>
-            </ol>
+            <h2 id="cargo_auto_lib"><a href="#cargo_auto_lib">cargo_auto_lib</a></h2>
+            <p><strong>Library crate for common tasks when building rust projects. Intended for use with cargo-auto - automation tasks written in Rust
+            language.</strong><br>
+            <em><strong>version: 1.4.1 date: 2024-03-02 author: <a href="https://bestia.dev">Bestia.dev</a> repository: <a href=
+            "https://github.com/bestia-dev/cargo_auto_lib">GitHub</a></strong></em></p>
+            <p><img src="https://img.shields.io/badge/maintained-green" alt="maintained"> <img src="https://img.shields.io/badge/ready_for_use-green" alt=
+            "ready-for-use"> <img src="https://img.shields.io/badge/rustlang-orange" alt="rustlang"> <img src="https://img.shields.io/badge/cargo_auto-orange"
+            alt="cargo-auto"></p>
+            <p><img src="https://raw.githubusercontent.com/bestia-dev/cargo-auto/main/images/logo/logo_cargo_auto.svg" alt="logo"></p>
+            <p><a href="https://crates.io/crates/cargo_auto_lib"><img src="https://img.shields.io/crates/v/cargo_auto_lib.svg" alt="crates.io"></a> <a href=
+            "https://docs.rs/cargo_auto_lib/"><img src="https://docs.rs/cargo_auto_lib/badge.svg" alt="Documentation"></a> <a href=
+            "https://web.crev.dev/rust-reviews/crate/cargo_auto_lib/"><img src="https://web.crev.dev/rust-reviews/badge/crev_count/cargo_auto_lib.svg" alt=
+            "crev reviews"></a> <a href="https://lib.rs/crates/cargo_auto_lib/"><img src="https://img.shields.io/badge/Lib.rs-rust-orange.svg" alt=
+            "Lib.rs"></a></p>
+            <p><a href="https://github.com/bestia-dev/cargo_auto_lib/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt=
+            "License"></a> <a href="https://github.com/bestia-dev/cargo_auto_lib/"><img src=
+            "https://github.com/bestia-dev/cargo_auto_lib/workflows/rust_fmt_auto_build_test/badge.svg" alt="Rust"></a> <img src=
+            "https://bestia.dev/webpage_hit_counter/get_svg_image/276360626.svg" alt="cargo_auto_lib"></p>
+            <p><a href="https://github.com/bestia-dev/cargo_auto_lib/"><img src="https://img.shields.io/badge/Lines_in_Rust-2482-green.svg" alt=
+            "Lines in Rust code"></a> <a href="https://github.com/bestia-dev/cargo_auto_lib/"><img src=
+            "https://img.shields.io/badge/Lines_in_Doc_comments-979-blue.svg" alt="Lines in Doc comments"></a> <a href=
+            "https://github.com/bestia-dev/cargo_auto_lib/"><img src="https://img.shields.io/badge/Lines_in_comments-377-purple.svg" alt=
+            "Lines in Comments"></a> <a href="https://github.com/bestia-dev/cargo_auto_lib/"><img src=
+            "https://img.shields.io/badge/Lines_in_examples-28-yellow.svg" alt="Lines in examples"></a> <a href=
+            "https://github.com/bestia-dev/cargo_auto_lib/"><img src="https://img.shields.io/badge/Lines_in_tests-79-orange.svg" alt="Lines in tests"></a></p>
+            <p>Hashtags: #rustlang #buildtool #developmenttool<br>
+            My projects on GitHub are more like a tutorial than a finished product: <a href="https://github.com/bestia-dev/tutorials_rust_wasm">bestia-dev
+            tutorials</a>.</p>
+            <h3 id="try-it"><a href="#try-it">Try it</a></h3>
+            <p>First, install the tool for task automation in Rust projects:</p>
+            <div class="example-wrap">
+              <pre class="language-bash"><code>cargo install cargo-auto
+</code></pre>
+            </div>
+            <p>Generate a new Rust CLI project:</p>
+            <div class="example-wrap">
+              <pre class="language-bash"><code>cargo auto new_cli hello_world
+</code></pre>
+            </div>
+            <p>Open the <code>hello_world</code> project in VSCode:</p>
+            <div class="example-wrap">
+              <pre class="language-bash"><code>code hello_world
+</code></pre>
+            </div>
+            <p>Open the generated directory <code>automation_tasks_rs</code> as an independent rust project in VSCode.</p>
+            <div class="example-wrap">
+              <pre class="language-bash"><code>code hello_world/automation_tasks_rs
+</code></pre>
+            </div>
+            <p>Now we can analyze the automation code. There is already this dependency inside <code>Cargo.toml</code> for our library:</p>
+            <div class="example-wrap">
+              <pre class="language-toml"><code>cargo_auto_lib="1.1.2"
+</code></pre>
+            </div>
+            <p>Review the code in <code>automation_tasks_rs/main.rs</code>. The <code>cl::</code> namespace is the alias for <code>cargo_auto_lib</code>.<br>
+            Example:</p>
+            <div class="example-wrap ignore">
+              <a href="#" class="tooltip" title="This example is not tested">ⓘ</a>
+              <pre class="rust rust-example-rendered"><code><span class="doccomment">/// cargo build --release
+</span><span class="kw">fn </span>task_release() {
+<span class="comment">//    let cargo_toml = CargoToml::read();
+    </span>cl::auto_version_increment_semver_or_date();
+    cl::auto_cargo_toml_to_md();
+    cl::auto_lines_of_code(<span class="string">""</span>);
+
+    cl::run_shell_command(<span class="string">"cargo fmt"</span>);
+    cl::run_shell_command(<span class="string">"cargo build --release"</span>);
+    <span class="macro">println!</span>(
+        <span class="string">r#"{YELLOW}
+    After `cargo auto release`, run examples and tests
+    if ok, then,{RESET}{GREEN}
+cargo auto doc{RESET}{YELLOW}
+{RESET}"#
+    </span>);
+    print_examples_cmd();
+}</code></pre>
+            </div>
+            <p>You can see this function will increment the version in <code>Cargo.toml</code>.<br>
+            Then it will copy some data from <code>Cargo.toml</code> to README.md (title, description, version, author,…).<br>
+            It will count the lines of code and create badges in README.md.<br>
+            Then comes the traditional Rust part: cargo fmt and cargo build –release.<br>
+            Finally, it will show on the screen the instructions on how to continue developing.</p>
+            <p>Run (in your main rust project):</p>
+            <div class="example-wrap">
+              <pre class="language-bash"><code>cargo auto release
+</code></pre>
+            </div>
+            <p>Now open the README.md and you will see the data that this automation task copied from other places. Therefore you change this data only in one
+            place, the automation task copies them wherever needed.</p>
+            <h3 id="caveats"><a href="#caveats">Caveats</a></h3>
+            <p>This crate will attempt to edit <code>Cargo.toml</code>. Unfortunately, there’s no great robust way right now to edit TOML file preserving
+            formatting and comments and such, so right now I use just regex to do this.<br>
+            If you find that the heuristics don’t work for you though please let me know and I’ll try to check in a fix!</p>
+            <h3 id="development-details"><a href="#development-details">Development details</a></h3>
+            <p>Read the development details in a separate md file:<br>
+            <a href="https://github.com/bestia-dev/cargo_auto_lib/blob/main/DEVELOPMENT.md">DEVELOPMENT.md</a></p>
+            <h3 id="releases-changelog"><a href="#releases-changelog">Releases changelog</a></h3>
+            <p>Read the release changelog in a separate md file:<br>
+            <a href="https://github.com/bestia-dev/cargo_auto_lib/blob/main/RELEASES.md">RELEASES.md</a></p>
+            <h3 id="todo"><a href="#todo">TODO</a></h3>
+            <p>Nothing big for now.</p>
+            <h3 id="open-source-and-free-as-a-beer"><a href="#open-source-and-free-as-a-beer">Open-source and free as a beer</a></h3>
+            <p>My open-source projects are free as a beer (MIT license).<br>
+            I just love programming.<br>
+            But I need also to drink. If you find my projects and tutorials helpful, please buy me a beer by donating to my <a href=
+            "https://paypal.me/LucianoBestia">PayPal</a>.<br>
+            You know the price of a beer in your local bar ;-)<br>
+            So I can drink a free beer for your health :-)<br>
+            <a href="https://translate.google.com/?hl=en&amp;sl=sl&amp;tl=en&amp;text=Na%20zdravje&amp;op=translate">Na zdravje!</a> <a href=
+            "https://dictionary.cambridge.org/dictionary/italian-english/alla-salute">Alla salute!</a> <a href=
+            "https://dictionary.cambridge.org/dictionary/german-english/prost">Prost!</a> <a href=
+            "https://matadornetwork.com/nights/how-to-say-cheers-in-50-languages/">Nazdravlje!</a> 🍻</p>
+            <p><a href="https://bestia.dev">//bestia.dev</a><br>
+            <a href="https://github.com/bestia-dev">//github.com/bestia-dev</a><br>
+            <a href="https://bestiadev.substack.com">//bestiadev.substack.com</a><br>
+            <a href="https://youtube.com/@bestia-dev-tutorials">//youtube.com/@bestia-dev-tutorials</a></p>
           </div>
         </details>
         <h2 id="structs" class="section-header"><a href="#structs">Structs</a></h2>
@@ -128,7 +218,7 @@
               "Restricted Visibility">&nbsp;🔒</span>
             </div>
             <div class="desc docblock-short">
-              decrypt from json file with ssh_identity use ssh-add to put ssh identity into ssh-agent
+              decrypt from json file with ssh_identity
             </div>
           </li>
           <li>
@@ -137,7 +227,7 @@
               "fn cargo_auto_lib::auto_encrypt_decrypt_with_ssh_mod::encrypt_with_ssh_interactive_save_file">encrypt_with_ssh_interactive_save_file</a><span title="Restricted Visibility">&nbsp;🔒</span>
             </div>
             <div class="desc docblock-short">
-              encrypt a token with the chosen ssh_identity and save as json encoded in Base64 use ssh-add to put ssh identity into ssh-agent
+              encrypt a token with the chosen ssh_identity and save as json encoded in Base64
             </div>
           </li>
         </ul>

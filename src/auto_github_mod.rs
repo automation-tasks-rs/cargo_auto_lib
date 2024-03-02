@@ -1,5 +1,7 @@
 // auto_github_mod
 
+//! GitHub API calls
+
 use crate::CargoTomlPublicApiMethods;
 use crate::SecretString;
 use crate::GREEN;
@@ -17,7 +19,8 @@ pub const RELEASES_MD: &str = "RELEASES.md";
 // file contains github token encrypted with github_com_ssh_1
 pub const GITHUB_TOKEN_PATH: &str = "~/.ssh/github_com_data_1.ssh";
 
-/// create new release on Github  
+/// create new release on Github
+///
 /// return release_id  
 /// <https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token>  
 /// ```ignore
@@ -86,6 +89,7 @@ pub fn github_api_create_new_release(owner: &str, repo: &str, tag_name_version: 
 }
 
 /// upload asset to github release  
+///
 /// release_upload_url example: <https://uploads.github.com/repos/owner/repo/releases/48127727/assets>  
 /// <https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token>  
 /// async function can be called from sync code:  
@@ -126,8 +130,6 @@ pub fn github_api_upload_asset_to_release(owner: &str, repo: &str, release_id: &
             .unwrap();
 
         token.0.zeroize();
-
-        // dbg!(response);
     });
     // endregion: async code made sync locally
 }
@@ -185,7 +187,6 @@ pub fn github_api_repository_new(owner: &str, name: &str, description: &str) -> 
         .unwrap()
         .text()
         .unwrap();
-    //pretty_dbg!(&response_text);
     token.0.zeroize();
 
     let parsed: serde_json::Value = serde_json::from_str(&response_text).unwrap();
@@ -224,9 +225,10 @@ pub fn init_repository_if_needed(message: &str) -> bool {
     is_init_repository
 }
 
+/// Check if identity is already in ssh-agent and if not then run ssh-add to add it.
+///
 /// Parse the ~/.ssh/config file and finds the record for host_name and there is the identity_file_path.
 /// If not found, ask user for identity_file_path,
-/// Check if this identity is already in ssh-agent and if not then run ssh-add to add it.
 /// This ssh-add will stay even after the process ends, so the parent process will still have it.
 /// returns: fingerprint or None and identity_file_name
 pub fn ssh_add_resolve(host_name: &str, default_identity_file_path: &str) -> Option<(crate::auto_ssh_mod::FingerprintString, crate::auto_ssh_mod::IdentityFilePathString)> {
@@ -343,7 +345,7 @@ pub fn ssh_add_if_needed(identity_private_file_path: &str) -> Option<crate::auto
             println!("    {YELLOW}Add ssh identity with ssh-add to use with GitHub push.{RESET}");
             let cmd = format!("ssh-add -t 1h {}", identity_private_file_path);
             if !crate::run_shell_command_success(&cmd) {
-                eprintln!("{RED}ssh-add was not successful! Exiting.{RESET}",);
+                eprintln!("{RED}Error: ssh-add was not successful! Exiting...{RESET}",);
                 // early exit
                 return None;
             }
@@ -381,6 +383,7 @@ pub fn get_identity_file_path_from_ssh_config(host_name: &str) -> Option<String>
 }
 
 /// Ask the user for the filename of the ssh key used to connect with SSH/git to a server.
+///
 /// host_name is like: github.com or bestia.dev, default like ~/.ssh/github_com_ssh_1 and ~/.ssh/bestia_dev_ssh_1
 /// returns PathBuf to identity_file_path or None
 pub fn ask_for_identity_file_path_for_ssh(host_name: &str, default_identity_file_path: &str) -> Option<String> {
@@ -400,7 +403,7 @@ pub fn ask_for_identity_file_path_for_ssh(host_name: &str, default_identity_file
         .unwrap();
     if identity_file_for_ssh.is_empty() {
         // early exit
-        eprintln!("{RED}The filepath for the ssh key was not given. Exiting.{RESET}");
+        eprintln!("{RED}Error: The filepath for the ssh key was not given. Exiting...{RESET}");
         return None;
     }
 
@@ -408,7 +411,7 @@ pub fn ask_for_identity_file_path_for_ssh(host_name: &str, default_identity_file
     let identity_file_for_ssh = identity_file_for_ssh.replace("~", camino::Utf8Path::from_path(&crate::home_dir()).unwrap().as_str());
     let identity_file_for_ssh = camino::Utf8Path::new(&identity_file_for_ssh).to_owned();
     if !identity_file_for_ssh.exists() {
-        eprintln!("{RED}File {identity_file_for_ssh} does not exist! Exiting.{RESET}");
+        eprintln!("{RED}Error: File {identity_file_for_ssh} does not exist! Exiting...{RESET}");
         // early exit
         return None;
     }
@@ -434,6 +437,8 @@ pub fn git_tag_sync_check_create_push(version: &str) -> String {
     tag_name_version
 }
 
+/// Create GitHub release from RELEASES.md
+///
 /// First, the user must write the content into file RELEASES.md in the section ## Unreleased.
 /// Then the automation task will copy the content to GitHub release
 /// and create a new Version title in RELEASES.md.
@@ -505,6 +510,7 @@ pub fn add_message_to_unreleased(message: &str) {
 }
 
 /// Check and modify the description and topics on Github
+///
 /// The words topics, keywords and tags all mean the same concept.
 /// In cargo.toml we have keywords.
 /// In README.md I want to have badges for tags
@@ -578,7 +584,6 @@ fn github_api_get_repository(owner: &str, repo_name: &str) -> serde_json::Value 
         .unwrap()
         .text()
         .unwrap();
-    //pretty_dbg!(&response_text);
     token.0.zeroize();
 
     let parsed: serde_json::Value = serde_json::from_str(&response_text).unwrap();
@@ -637,12 +642,12 @@ pub fn github_api_update_description(owner: &str, repo_name: &str, description: 
         .unwrap()
         .text()
         .unwrap();
-    //pretty_dbg!(&response_text);
     token.0.zeroize();
 
     let _parsed: serde_json::Value = serde_json::from_str(&response_text).unwrap();
 }
 
+/// GitHub API replace all topics
 fn github_api_replace_all_topics(owner: &str, repo_name: &str, topics: &Vec<String>) {
     /*
     https://docs.github.com/en/rest/repos/repos?apiVersion=2022-11-28#replace-all-repository-topics
@@ -673,7 +678,6 @@ fn github_api_replace_all_topics(owner: &str, repo_name: &str, topics: &Vec<Stri
         .unwrap()
         .text()
         .unwrap();
-    //pretty_dbg!(&response_text);
     token.0.zeroize();
 
     let _parsed: serde_json::Value = serde_json::from_str(&response_text).unwrap();

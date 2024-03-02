@@ -1,3 +1,5 @@
+[//]: # (auto_md_to_doc_comments segment start A)
+
 # public_api_mod
 
 The Public API of a library is a pain in the a...  
@@ -19,3 +21,5 @@ Adding functions, structs, methods and enums is ok, it does not break the Public
 But modifying existing functions, methods or enums will break the compatibility.  
 AFTERTHOUGHT: This is a very time-consuming process to do manually.  
 Should use a utility, but that app is complicated to create. It must understand the Rust code.
+
+[//]: # (auto_md_to_doc_comments segment end A)

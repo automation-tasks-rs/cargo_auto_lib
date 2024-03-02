@@ -157,12 +157,44 @@
 <a href="#106" id="106">106</a>
 <a href="#107" id="107">107</a>
 <a href="#108" id="108">108</a>
+<a href="#109" id="109">109</a>
+<a href="#110" id="110">110</a>
+<a href="#111" id="111">111</a>
+<a href="#112" id="112">112</a>
+<a href="#113" id="113">113</a>
+<a href="#114" id="114">114</a>
+<a href="#115" id="115">115</a>
+<a href="#116" id="116">116</a>
+<a href="#117" id="117">117</a>
+<a href="#118" id="118">118</a>
+<a href="#119" id="119">119</a>
+<a href="#120" id="120">120</a>
+<a href="#121" id="121">121</a>
+<a href="#122" id="122">122</a>
+<a href="#123" id="123">123</a>
+<a href="#124" id="124">124</a>
+<a href="#125" id="125">125</a>
+<a href="#126" id="126">126</a>
+<a href="#127" id="127">127</a>
+<a href="#128" id="128">128</a>
+<a href="#129" id="129">129</a>
+<a href="#130" id="130">130</a>
+<a href="#131" id="131">131</a>
+<a href="#132" id="132">132</a>
+<a href="#133" id="133">133</a>
+<a href="#134" id="134">134</a>
+<a href="#135" id="135">135</a>
+<a href="#136" id="136">136</a>
+<a href="#137" id="137">137</a>
+<a href="#138" id="138">138</a>
+<a href="#139" id="139">139</a>
+<a href="#140" id="140">140</a>
+<a href="#141" id="141">141</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// auto_cargo_toml_to_md_mod
 
-</span><span class="doccomment">//! includes data from Cargo.toml to README.md files: version, authors,...
-//! It works for workspaces and for single projects.  
+</span><span class="doccomment">//! includes data from Cargo.toml to `md`` files: version, authors, description,...
 
 </span><span class="comment">// region: use statements
 
@@ -172,7 +204,6 @@
 <span class="kw">use </span>glob::glob;
 <span class="kw">use </span>lazy_static::lazy_static;
 <span class="kw">use </span>regex::<span class="kw-2">*</span>;
-<span class="kw">use </span>std::fs;
 
 <span class="comment">// this trait must be in scope to use these methods of CargoToml
 </span><span class="kw">use </span><span class="kw">crate</span>::public_api_mod::CargoTomlPublicApiMethods;
@@ -186,7 +217,45 @@
 "string">r#"(?m)^\[//\]: # \(auto_cargo_toml_to_md end\)$"#</span>).unwrap();
 }
 
-<span class="attr">#[doc=<span class="macro">include_str!</span>(<span class="string">"../doc_comments_long/auto_cargo_toml_to_md.md"</span>)]
+<span class="comment">// region: auto_md_to_doc_comments include doc_comments_long/auto_cargo_toml_to_md.md A ///
+</span><span class="doccomment">/// &lt;!-- markdownlint-disable --&gt;
+///
+/// This function includes data from Cargo.toml to markdown files.  
+///
+/// This is nice for avoiding out of sync data.  
+/// Run it on every build with `automation_tasks_rs` and [cargo auto](https://crates.io/crates/cargo-auto).  
+///   
+/// In the md file write these markers in invisible markdown comments.
+///
+/// ```markdown
+/// [comment]: # (auto_cargo_toml_to_md start)
+///
+/// [comment]: # (auto_cargo_toml_to_md end)
+///
+/// # In your markdown, change the word `[comment]` with double slash `[//]`.
+/// ```
+///
+/// `auto_cargo_toml_to_md` deletes the old lines between the markers and includes the Cargo.toml data:  
+/// description, repository, version, &amp;utc_now(), authors and creates badges for keywords and categories.
+///
+/// The words topics, keywords and tags all mean the same concept.
+/// In cargo.toml we have keywords.
+/// In README.md I want to have badges, but I don't know the color yet.
+/// In GitHub they are topics.
+///
+/// Some keywords have defined colors, others are orange like Rust.
+/// This can be expanded in the future.
+/// Yellow: work-in-progress
+/// Green: maintained, ready-for-use
+/// Red: obsolete, archived
+///
+/// Run the example:  
+///
+/// ```bash
+/// cargo run --example example_01_auto_cargo_toml_to_md
+/// ```
+///
+</span><span class="comment">// endregion: auto_md_to_doc_comments include doc_comments_long/auto_cargo_toml_to_md.md A ///
 </span><span class="kw">pub fn </span>auto_cargo_toml_to_md() {
     <span class="macro">println!</span>(<span class="string">"    {YELLOW}Running auto_cargo_toml_to_md{RESET}"</span>);
     <span class="kw">let </span>cargo_toml = <span class="kw">crate</span>::auto_cargo_toml_mod::CargoToml::read();
@@ -244,14 +313,12 @@
         <span class="kw">let </span>filename_pathbuff = filename_result.unwrap();
         <span class="kw">let </span>md_filename = filename_pathbuff.to_str().unwrap();
         <span class="comment">// println!("checking md_filename: {}", &amp;md_filename);
-        </span><span class="kw">let </span><span class="kw-2">mut </span>md_text_content = fs::read_to_string(md_filename).unwrap();
+        </span><span class="kw">let </span><span class="kw-2">mut </span>md_text_content = std::fs::read_to_string(md_filename).unwrap();
 
         <span class="comment">// check if file have CRLF and show error
         </span><span class="kw">if </span>md_text_content.contains(<span class="string">"\r\n"</span>) {
-            <span class="macro">panic!</span>(
-                <span class="string">"{RED}Error: {} has CRLF line endings instead of LF. The task auto_cargo_toml_to_md cannot work! Exiting.{RESET}"</span>,
-                <span class="kw-2">&</span>md_filename
-            );
+            <span class="macro">panic!</span>(<span class=
+"string">"{RED}Error: {md_filename} has CRLF line endings instead of LF. Correct the file! Exiting...{RESET}"</span>);
         }
 
         <span class="kw">if let </span><span class="prelude-val">Some</span>(cap) = REGEX_MD_START.captures(<span class="kw-2">&</span>md_text_content) {
@@ -262,7 +329,7 @@
                 <span class="macro">println!</span>(<span class="string">"    {YELLOW}Write to md file: {}{RESET}"</span>, md_filename);
                 <span class="macro">println!</span>(<span class="string">"{GREEN}{}{RESET}"</span>, <span class=
 "kw-2">&</span>new_text.trim_end_matches(<span class="string">"\n\n"</span>));
-                fs::write(md_filename, md_text_content).unwrap();
+                std::fs::write(md_filename, md_text_content).unwrap();
             }
         }
     }

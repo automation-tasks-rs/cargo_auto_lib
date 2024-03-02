@@ -1,5 +1,7 @@
 // auto_check_micro_xml_mod.rs
 
+//! checks the correctness of micro XML files
+
 use crate::public_api_mod::{RED, RESET, YELLOW};
 use glob::glob;
 use reader_for_microxml::{ReaderForMicroXml, Token};
@@ -19,7 +21,7 @@ pub fn auto_check_micro_xml(path_to_html_pages: &str) {
 
         // check if file have CRLF instead of LF and show error
         if str_xml.contains("\r\n") {
-            panic!("{RED}Error: {filename_pathbuff} has CRLF line endings instead of LF. The task auto_check_micro_xml cannot work! Exiting..{RESET}");
+            panic!("{RED}Error: {filename_pathbuff} has CRLF line endings instead of LF. Correct the file! Exiting...{RESET}");
         }
 
         // check microxml correctness. Panic on errors.

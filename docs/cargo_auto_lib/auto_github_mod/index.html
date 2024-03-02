@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="generator" content="rustdoc">
-  <meta name="description" content="API documentation for the Rust `auto_github_mod` mod in crate `cargo_auto_lib`.">
+  <meta name="description" content="GitHub API calls">
   <title>cargo_auto_lib::auto_github_mod - Rust</title>
   <link rel="preload" as="font" type="font/woff2" crossorigin="" href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2">
   <link rel="preload" as="font" type="font/woff2" crossorigin="" href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2">
@@ -35,7 +35,7 @@
     <div class="sidebar-crate">
       <a class="logo-container" href="../../cargo_auto_lib/index.html"><img src=
       "https://github.com/bestia-dev/cargo-auto/raw/main/images/logo/logo_cargo_auto.svg" alt="logo"></a>
-      <h2><a href="../../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">1.3.63</span></h2>
+      <h2><a href="../../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">1.4.1</span></h2>
     </div>
     <h2 class="location"><a href="#">Module auto_github_mod</a></h2>
     <div class="sidebar-elems">
@@ -74,9 +74,17 @@
         <div class="main-heading">
           <h1>Module <a href="../index.html">cargo_auto_lib</a>::<wbr><a class="mod" href="#">auto_github_mod</a><button id="copy-path" title=
           "Copy item path to clipboard"><img src="../../static.files/clipboard-7571035ce49a181d.svg" width="19" height="18" alt=
-          "Copy item path"></button></h1><span class="out-of-band"><a class="src" href="../../src/cargo_auto_lib/auto_github_mod.rs.html#3-680">source</a> ·
+          "Copy item path"></button></h1><span class="out-of-band"><a class="src" href="../../src/cargo_auto_lib/auto_github_mod.rs.html#3-684">source</a> ·
           <button id="toggle-all-docs" title="collapse all docs">[<span>−</span>]</button></span>
         </div>
+        <details class="toggle top-doc" open="">
+          <summary class="hideme">
+            <span>Expand description</span>
+          </summary>
+          <div class="docblock">
+            <p>GitHub API calls</p>
+          </div>
+        </details>
         <h2 id="constants" class="section-header"><a href="#constants">Constants</a></h2>
         <ul class="item-table">
           <li>
@@ -108,8 +116,7 @@
               "fn cargo_auto_lib::auto_github_mod::ask_for_identity_file_path_for_ssh">ask_for_identity_file_path_for_ssh</a>
             </div>
             <div class="desc docblock-short">
-              Ask the user for the filename of the ssh key used to connect with SSH/git to a server. host_name is like: github.com or bestia.dev, default like
-              ~/.ssh/github_com_ssh_1 and ~/.ssh/bestia_dev_ssh_1 returns PathBuf to identity_file_path or None
+              Ask the user for the filename of the ssh key used to connect with SSH/git to a server.
             </div>
           </li>
           <li>
@@ -118,8 +125,7 @@
               "fn cargo_auto_lib::auto_github_mod::body_text_from_releases_md">body_text_from_releases_md</a>
             </div>
             <div class="desc docblock-short">
-              First, the user must write the content into file RELEASES.md in the section ## Unreleased. Then the automation task will copy the content to
-              GitHub release and create a new Version title in RELEASES.md.
+              Create GitHub release from RELEASES.md
             </div>
           </li>
           <li>
@@ -147,9 +153,7 @@
               "fn cargo_auto_lib::auto_github_mod::description_and_topics_to_github">description_and_topics_to_github</a>
             </div>
             <div class="desc docblock-short">
-              Check and modify the description and topics on Github The words topics, keywords and tags all mean the same concept. In cargo.toml we have
-              keywords. In README.md I want to have badges for tags In GitHub they are topics. Topic must be only one word: lowercase letters, hyphens(-) or
-              numbers, less then 35 characters.
+              Check and modify the description and topics on Github
             </div>
           </li>
           <li>
@@ -177,10 +181,7 @@
               "fn cargo_auto_lib::auto_github_mod::github_api_create_new_release">github_api_create_new_release</a>
             </div>
             <div class="desc docblock-short">
-              create new release on Github<br>
-              return release_id<br>
-              <a href=
-              "https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token">https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token</a>
+              create new release on Github
             </div>
           </li>
           <li>
@@ -197,6 +198,9 @@
               <a class="fn" href="fn.github_api_replace_all_topics.html" title=
               "fn cargo_auto_lib::auto_github_mod::github_api_replace_all_topics">github_api_replace_all_topics</a><span title=
               "Restricted Visibility">&nbsp;🔒</span>
+            </div>
+            <div class="desc docblock-short">
+              GitHub API replace all topics
             </div>
           </li>
           <li>
@@ -223,14 +227,7 @@
               "fn cargo_auto_lib::auto_github_mod::github_api_upload_asset_to_release">github_api_upload_asset_to_release</a>
             </div>
             <div class="desc docblock-short">
-              upload asset to github release<br>
-              release_upload_url example: <a href=
-              "https://uploads.github.com/repos/owner/repo/releases/48127727/assets">https://uploads.github.com/repos/owner/repo/releases/48127727/assets</a><br>
-
-              <a href=
-              "https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token">https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token</a><br>
-
-              async function can be called from sync code:
+              upload asset to github release
             </div>
           </li>
           <li>
@@ -281,9 +278,7 @@
               <a class="fn" href="fn.ssh_add_resolve.html" title="fn cargo_auto_lib::auto_github_mod::ssh_add_resolve">ssh_add_resolve</a>
             </div>
             <div class="desc docblock-short">
-              Parse the ~/.ssh/config file and finds the record for host_name and there is the identity_file_path. If not found, ask user for
-              identity_file_path, Check if this identity is already in ssh-agent and if not then run ssh-add to add it. This ssh-add will stay even after the
-              process ends, so the parent process will still have it. returns: fingerprint or None and identity_file_name
+              Check if identity is already in ssh-agent and if not then run ssh-add to add it.
             </div>
           </li>
         </ul>

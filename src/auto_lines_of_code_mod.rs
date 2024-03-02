@@ -1,7 +1,6 @@
 // auto_lines_of_code_mod
 
 //! inserts shield badges with lines_of_code into README.rs
-//! It works for workspaces and for single projects.  
 
 use crate::public_api_mod::{RED, RESET, YELLOW};
 use regex::Regex;
@@ -27,7 +26,64 @@ pub struct LinesOfCode {
     pub examples_lines: usize,
 }
 
-#[doc=include_str!("../doc_comments_long/auto_lines_of_code.md")]
+// region: auto_md_to_doc_comments include doc_comments_long/auto_lines_of_code.md A ///
+/// <!-- markdownlint-disable -->
+///
+/// This function inserts shield badges with lines_of_code into README.rs.  
+///
+/// The parameter Link will be used for shield badge. If empty_string, the git remote repository will be used.  
+/// Lines of code are not a "perfect" measurement of anything.\
+/// Anybody can write a very big number of lines of useless code and comments.\
+/// But for 95% of the cases they are good enough.\
+/// Most of the developers use some "standard" coding practices and that is quantifiable and comparable.  
+///
+/// The `src_code_lines` is the most important count.\
+/// That is actual code written for that project without  doc comments, comments, unit tests, integration tests and examples.\
+/// Sometimes is great to see a big number here. It means there was a lot of work invested. But other times we want to see a small number. It
+/// means the developer understands the problem very well and don't try to solve anything outside that scope.  
+/// The `src_doc_comment_lines` counts doc comments. They will eventually become docs. The count of lines shows how many documentation is written.  
+/// The `src_comment_lines` counts code comments. Code comments are important to understand the code. The count of lines shows how understandable is the code.  
+/// The `tests_lines` counts lines in tests and shows how good is the code tested. Here are the unit tests and integration test combined.  
+/// The `examples_lines` counts lines in examples and shows how good is explained how to use the code.  
+///
+///
+/// ## Folder and file structure
+///
+/// The folder structure of a single Rust project is simple.\
+/// The project starts in the folder that contains `Cargo.toml`.\
+/// The `src/` folder contains all the rust `*.rs` files.\
+/// The `tests/` folder contains integration tests.\
+/// The `examples/` folder contains examples.\
+/// Some rs files can be excluded from the count adding this line near the start of the file: // exclude from auto_lines_of_code
+/// Inside a rs file the doc comment line start with `///` or `//!`.\
+/// The normal comments start with `//` or `/!`.\
+/// I will ignore the block comments. They are usually NOT used for comments, but to temporarily disable a piece of code. So I count this as code and not comments.  
+/// The `src/*.rs` file can contain unit tests that start with `#[cfg(test)]`. I assume that these are always at the end of the file.  
+/// There should not be any normal code after `#[cfg(test)]`, only tests.  
+/// All other files: `md`, `toml`, `html`, `js`, ... are not counted.  
+///
+/// ### Workspace
+///
+/// Workspaces have member projects, that are written in `Cargo.toml`.\
+/// The program counts lines of every project and sums them together.  
+///
+/// ## Include into README.md
+///
+/// If the README.md file contains these markers (don't copy the numbers 1 and 2):  
+///
+/// ```md
+/// [comment]: # (auto_lines_of_code start)
+///
+/// [comment]: # (auto_lines_of_code end)
+/// ```
+///
+/// In your markdown, change the word `[comment]` with double slash `[//]`.  
+///
+/// The function will include the shield badges code between them.  
+/// It will erase the previous content.  
+/// Use git diff to see the change.  
+///
+// endregion: auto_md_to_doc_comments include doc_comments_long/auto_lines_of_code.md A ///
 pub fn auto_lines_of_code(link: &str) {
     println!("    {YELLOW}Running auto_lines_of_code{RESET}");
     let link = if link.is_empty() { process_git_remote() } else { link.to_string() };
@@ -64,6 +120,7 @@ pub fn auto_lines_of_code(link: &str) {
 }
 
 /// Return the string for link for badges like: <https://github.com/bestia-dev/auto_lines_of_code/>.  
+///
 /// Get the output string after $ git remote -v.  
 /// Then finds out the link to the repository with regex.  
 /// Returns empty string if something goes wrong: no git, no remote,...  
@@ -98,7 +155,6 @@ fn one_project_count_lines() -> LinesOfCode {
     .unwrap();
     // println!("{:#?}", files);
     for rs_file_name in files.iter() {
-        //dbg!(&rs_file_name);
         // Open the file in read-only mode (ignoring errors).
         let file = File::open(rs_file_name).unwrap();
         let reader = BufReader::new(file);
@@ -133,7 +189,6 @@ fn one_project_count_lines() -> LinesOfCode {
     .unwrap();
     // println!("{:#?}", files);
     for rs_file_name in files.iter() {
-        //dbg!(&rs_file_name);
         // Open the file in read-only mode (ignoring errors).
         let file = File::open(rs_file_name).unwrap();
         let reader = BufReader::new(file);
@@ -152,7 +207,6 @@ fn one_project_count_lines() -> LinesOfCode {
     )
     .unwrap();
     for rs_file_name in files.iter() {
-        //dbg!(&rs_file_name);
         // Open the file in read-only mode (ignoring errors).
         let file = File::open(rs_file_name).unwrap();
         let reader = BufReader::new(file);
@@ -165,14 +219,15 @@ fn one_project_count_lines() -> LinesOfCode {
     // return
     lines_of_code
 }
+
 fn git_remote_output() -> anyhow::Result<String> {
     let output = std::process::Command::new("git").arg("remote").arg("-v").output()?;
 
     let output = String::from_utf8(output.stdout)?;
-    //dbg!( &output);
     // return
     Ok(output)
 }
+
 /// returns a Result.
 /// in the case of error the calling fn will return empty string.
 fn regex_capture(output: String) -> anyhow::Result<String> {
@@ -184,12 +239,12 @@ fn regex_capture(output: String) -> anyhow::Result<String> {
     // println!("{}", &output);
     let reg = Regex::new(r#"origin\s*(?:https://)?(?:git@)?([^:/]*?)[:/]([^/]*?)/([^. ]*?)(?:\.git)?\s*\(fetch\)"#)?;
     let cap = reg.captures(&output).ok_or(anyhow::anyhow!("Error: reg.captures is None"))?;
-    // dbg!(&cap);
 
     // indexing can panic, but I would like it to Error
     anyhow::ensure!(cap.len() == 4, "Error: cap len is not 4, because there are 4 capture groups in regex.");
     Ok(format!("https://{}/{}/{}/", &cap[1], &cap[2], &cap[3]))
 }
+
 /// Returns a string with the markdown code for 4 shield badges.
 ///
 /// Every badge has the link to the url given as first parameter
@@ -225,10 +280,7 @@ fn include_into_readme_md(include_str: &str) {
     if let Ok(readme_content) = std::fs::read_to_string(file_name) {
         // check if file have CRLF instead of LF and show error
         if readme_content.contains("\r\n") {
-            panic!(
-                "{RED}Error: {} has CRLF line endings instead of LF. The task include_into_readme_md cannot work! Exiting..{RESET}",
-                file_name
-            );
+            panic!("{RED}Error: {} has CRLF line endings instead of LF. Correct the file! Exiting...{RESET}", file_name);
         }
 
         let mut new_readme_content = String::with_capacity(readme_content.len());

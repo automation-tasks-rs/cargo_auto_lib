@@ -152,15 +152,36 @@
 <a href="#101" id="101">101</a>
 <a href="#102" id="102">102</a>
 <a href="#103" id="103">103</a>
+<a href="#104" id="104">104</a>
+<a href="#105" id="105">105</a>
+<a href="#106" id="106">106</a>
+<a href="#107" id="107">107</a>
+<a href="#108" id="108">108</a>
+<a href="#109" id="109">109</a>
+<a href="#110" id="110">110</a>
+<a href="#111" id="111">111</a>
+<a href="#112" id="112">112</a>
+<a href="#113" id="113">113</a>
+<a href="#114" id="114">114</a>
+<a href="#115" id="115">115</a>
+<a href="#116" id="116">116</a>
+<a href="#117" id="117">117</a>
+<a href="#118" id="118">118</a>
+<a href="#119" id="119">119</a>
+<a href="#120" id="120">120</a>
+<a href="#121" id="121">121</a>
+<a href="#122" id="122">122</a>
+<a href="#123" id="123">123</a>
+<a href="#124" id="124">124</a>
+<a href="#125" id="125">125</a>
+<a href="#126" id="126">126</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// utils_mod.rs
 
 </span><span class="doccomment">//! various utilities
 
-</span><span class="kw">use </span>std::{fs, io, path::Path};
-
-<span class="comment">// region: delimiters cannot be INACTIVE like markers
+</span><span class="comment">// region: delimiters cannot be INACTIVE like markers
 
 </span><span class="doccomment">/// return the position of start of the delimited data after the delimiter
 </span><span class="kw">pub fn </span>find_pos_start_data_after_delimiter(md_text_content: <span class="kw-2">&</span>str, pos: usize, delimiter: <span class=
@@ -199,16 +220,41 @@
     }
 }
 
-<span class="attr">#[doc=<span class="macro">include_str!</span>(<span class="string">"../doc_comments_long/traverse_dir_with_exclude_dir.md"</span>)]
-</span><span class="kw">pub fn </span>traverse_dir_with_exclude_dir(dir: <span class="kw-2">&</span>Path, find_file: <span class=
-"kw-2">&</span>str, exclude_dirs: <span class="kw-2">&</span>[String]) -&gt; io::Result&lt;Vec&lt;String&gt;&gt; {
+<span class="comment">// region: auto_md_to_doc_comments include doc_comments_long/traverse_dir_with_exclude_dir.md A ///
+</span><span class="doccomment">/// &lt;!-- markdownlint-disable --&gt;
+/// Traverse dir and its sub-dir, but avoid excluded dirs.
+///
+/// The find_file and the exclude dir strings must start with /.
+///
+/// ## Example
+///
+/// ```Rust
+///
+/// let files = cargo_auto_lib::traverse_dir_with_exclude_dir(
+///     Path::new("/home/project/src"),
+///     "/*.rs",
+///     // avoid big folders and other folders with *.crev
+///     &amp;vec![
+///         "/.git".to_string(),
+///         "/target".to_string(),
+///         "/docs".to_string()
+///     ]
+/// ).unwrap();
+/// for rs_file_name in files.iter() {
+///     println!("{}", &amp;rs_file_name);
+/// }
+/// ```
+///
+</span><span class="comment">// endregion: auto_md_to_doc_comments include doc_comments_long/traverse_dir_with_exclude_dir.md A ///
+</span><span class="kw">pub fn </span>traverse_dir_with_exclude_dir(dir: <span class="kw-2">&</span>std::path::Path, find_file: <span class=
+"kw-2">&</span>str, exclude_dirs: <span class="kw-2">&</span>[String]) -&gt; std::io::Result&lt;Vec&lt;String&gt;&gt; {
     <span class="comment">// if the parameter is /*.rs, I can eliminate /*
     </span><span class="kw">let </span>find_file = <span class="kw-2">&</span>find_file.replace(<span class="string">"/*"</span>, <span class=
 "string">""</span>);
 
     <span class="kw">let </span><span class="kw-2">mut </span>v = Vec::new();
     <span class="kw">if </span>dir.is_dir() {
-        <span class="kw">for </span>entry <span class="kw">in </span>fs::read_dir(dir)<span class="question-mark">? </span>{
+        <span class="kw">for </span>entry <span class="kw">in </span>std::fs::read_dir(dir)<span class="question-mark">? </span>{
             <span class="kw">let </span>entry = entry<span class="question-mark">?</span>;
             <span class="kw">let </span>path = entry.path();
             <span class="kw">let </span>str_path = path.to_str().unwrap();
@@ -250,17 +296,18 @@
 
 <span class="doccomment">/// just a shorter way to get a Path from a String
 </span><span class="kw">pub fn </span>to_path(path_str: <span class="kw-2">&</span>str) -&gt; <span class="kw-2">&</span>std::path::Path {
-    std::path::Path::new(path_str)
+    camino::Utf8Path::new(path_str).as_std_path()
 }
 
 <span class="doccomment">/// check if file exists
 </span><span class="kw">pub fn </span>file_exists(file_path: <span class="kw-2">&</span>str) -&gt; bool {
-    std::path::Path::new(file_path).exists()
+    camino::Utf8Path::new(file_path).exists()
 }
 
 <span class="doccomment">/// expands the ~ for home_dir and returns expanded path
 </span><span class="kw">pub fn </span>file_path_home_expand(file_path: <span class="kw-2">&</span>str) -&gt; String {
-    file_path.replace(<span class="string">"~"</span>, <span class="kw">crate</span>::home_dir().to_string_lossy().as_ref())
+    file_path.replace(<span class="string">"~"</span>, camino::Utf8Path::from_path(<span class="kw-2">&</span><span class=
+"kw">crate</span>::home_dir()).unwrap().as_str())
 }
 
 <span class="comment">// TODO: PathString object with often used functions: expand, exist, to_path,...

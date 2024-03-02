@@ -1,5 +1,7 @@
 // error_mod.rs
 
+//! Error library for this crate using thiserror
+//!
 //! I am using the crate thiserror to create an enum for all library errors.
 //! It mostly forwards the source "from" error.
 //! The library never writes to the screen, because it contains only the logic.

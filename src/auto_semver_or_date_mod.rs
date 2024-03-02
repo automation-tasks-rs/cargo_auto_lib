@@ -1,8 +1,6 @@
 // auto_semver_or_date.rs
 
-//! it reads the version in Cargo.toml and if the major number
-//! is greater than 2000, it is a date-version, else it is semver
-//! It works for workspaces and for single projects.  
+//! Reads the version in Cargo.toml and if the major number is greater than 2000, it is a date-version, else it is semver
 
 use crate::error_mod::ResultWithLibError;
 use crate::public_api_mod::{RED, RESET, YELLOW};
@@ -11,6 +9,7 @@ use crate::public_api_mod::{RED, RESET, YELLOW};
 use crate::public_api_mod::CargoTomlPublicApiMethods;
 
 /// increments the version in Cargo.toml.
+///
 /// if the major version is greater than 2000, it is a date version
 /// else it is semver and increments the patch part
 pub fn auto_version_increment_semver_or_date() {
@@ -32,6 +31,7 @@ pub fn auto_version_increment_semver_or_date() {
 }
 
 /// increments the version in Cargo.toml.
+///
 /// if the major version is greater than 2000, it is a date version
 /// forced is used in workspaces to force all members to have the same date version
 /// else it is semver and increments the patch part

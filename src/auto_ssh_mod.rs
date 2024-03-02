@@ -1,5 +1,7 @@
 // auto_ssh_mod.rs
 
+//! Work with ssh keys
+
 pub type FingerprintString = String;
 pub type IdentityFilePathString = String;
 pub struct SecretString(pub String);

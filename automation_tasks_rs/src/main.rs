@@ -19,7 +19,6 @@ use cargo_auto_lib::YELLOW;
 
 fn main() {
     cl::exit_if_not_run_in_rust_project_root_directory();
-
     // get CLI arguments
     let mut args = std::env::args();
     // the zero argument is the name of the program
@@ -213,7 +212,7 @@ fn task_test() {
 /// commit and push
 fn task_commit_and_push(arg_2: Option<String>) {
     let Some(message) = arg_2 else {
-        eprintln!("{RED}Error: Message for commit is mandatory. Exiting.{RESET}");
+        eprintln!("{RED}Error: Message for commit is mandatory. Exiting...{RESET}");
         // early exit
         return;
     };
@@ -314,4 +313,3 @@ fn task_github_new_release() {
     );
 }
 // endregion: tasks
-

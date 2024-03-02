@@ -1,11 +1,14 @@
 // auto_copy_files_to_strings_mod.rs
 
+//! copy all files from the folder into a module as strings (static &str)
+
 // trait must be in scope
 use base64ct::Encoding;
 
 use crate::public_api_mod::{RESET, YELLOW};
 
 /// copy all files from the folder into a module as strings (static &str)
+///
 /// the module has the markers: region: files copied into strings by automation tasks and endregion:
 /// the string will be in a vector with the file name
 /// first we create the complete text, then we check if the old text needs to be replaced

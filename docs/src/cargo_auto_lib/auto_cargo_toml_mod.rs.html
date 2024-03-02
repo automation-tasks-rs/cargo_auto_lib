@@ -174,7 +174,6 @@
         <pre class="rust"><code><span class="comment">// auto_cargo_toml_mod
 
 </span><span class="doccomment">//! functions to get data from Cargo.toml
-//! It works for workspaces and for single projects.  
 
 </span><span class="kw">use </span>lazy_static::lazy_static;
 <span class="kw">use </span>regex::<span class="kw-2">*</span>;
@@ -185,7 +184,8 @@
 "string">r#"( &lt;.+?&gt;)"#</span>).unwrap();
 }
 
-<span class="kw">pub struct </span>CargoToml {
+<span class="doccomment">/// this struct represent the data in Cargo.toml
+</span><span class="kw">pub struct </span>CargoToml {
     <span class="doccomment">/// the first Cargo.toml is maybe a workspace
     </span>cargo_toml_workspace_maybe: cargo_toml::Manifest,
     <span class="doccomment">/// the main Cargo.toml is different for single project or for workspace
