@@ -1,7 +1,5 @@
 [//]: # (auto_md_to_doc_comments segment start A)
 
-<!-- markdownlint-disable -->
-
 New version from date is written to Cargo.toml and service_worker.js
 
 In Cargo.toml writes the version as the date `yyyy.mmdd.HHMM` ex. `2019.1221.2359`.  

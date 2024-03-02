@@ -55,7 +55,6 @@ pub fn run_shell_command_success(shell_command: &str) -> bool {
 }
 
 // region: auto_md_to_doc_comments include doc_comments_long/exit_if_not_run_in_rust_project_root_directory.md A ///
-/// <!-- markdownlint-disable -->
 /// Check if the code was run inside the Rust project root directory.  
 ///
 /// There must be the `Cargo.toml` file and the directory `automation_tasks_rs`  

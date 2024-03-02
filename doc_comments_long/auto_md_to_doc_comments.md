@@ -1,7 +1,5 @@
 [//]: # (auto_md_to_doc_comments segment start A)
 
-<!-- markdownlint-disable -->
-
 This function finds rs files with markers and include segments from md files as doc comments.  
 
 From this doc comments `cargo doc` will generated the documentation and auto-completion.  

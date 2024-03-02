@@ -1,7 +1,5 @@
 [//]: # (auto_md_to_doc_comments segment start A)
 
-<!-- markdownlint-disable -->
-
 This function includes data from Cargo.toml to markdown files.  
 
 This is nice for avoiding out of sync data.  

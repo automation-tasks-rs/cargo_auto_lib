@@ -28,9 +28,13 @@
 // region: Public API constants
 // ANSI colors for Linux terminal
 // https://github.com/shiena/ansicolor/blob/master/README.md
+/// ANSI color
 pub const RED: &str = "\x1b[31m";
+/// ANSI color
 pub const YELLOW: &str = "\x1b[33m";
+/// ANSI color
 pub const GREEN: &str = "\x1b[32m";
+/// ANSI color
 pub const RESET: &str = "\x1b[0m";
 // endregion: Public API constants
 
@@ -39,7 +43,7 @@ pub const RESET: &str = "\x1b[0m";
 pub use crate::error_mod::ResultWithLibError;
 
 pub use crate::auto_helper_functions_mod::ShellOutput;
-
+/// A string that contains secret text
 pub use crate::auto_ssh_mod::SecretString;
 
 // reexporting a struct needs to export the trait to also reexports all the methods
@@ -50,6 +54,8 @@ pub use crate::auto_cargo_toml_mod::CargoToml;
 // AFTERTHOUGHT: This makes me think if most the functions are methods,
 // then it is consistent how to make the public API definition.
 // There is a downside: the caller must bring the trait into scope. A little annoying.
+
+/// this struct and methods represent the data in Cargo.toml
 pub trait CargoTomlPublicApiMethods {
     /// read Cargo.toml, for workspaces it is the Cargo.toml of the first member
     fn read() -> Self;
@@ -128,8 +134,6 @@ pub fn traverse_dir_with_exclude_dir(dir: &std::path::Path, find_file: &str, exc
 }
 
 // region: auto_md_to_doc_comments include doc_comments_long/auto_cargo_toml_to_md.md A ///
-/// <!-- markdownlint-disable -->
-///
 /// This function includes data from Cargo.toml to markdown files.  
 ///
 /// This is nice for avoiding out of sync data.  
@@ -192,7 +196,6 @@ pub fn completion_return_one_or_more_sub_commands(sub_commands: Vec<&str>, word_
 }
 
 // region: auto_md_to_doc_comments include doc_comments_long/exit_if_not_run_in_rust_project_root_directory.md A ///
-/// <!-- markdownlint-disable -->
 /// Check if the code was run inside the Rust project root directory.  
 ///
 /// There must be the `Cargo.toml` file and the directory `automation_tasks_rs`  
@@ -211,8 +214,6 @@ pub fn run_shell_command(shell_command: &str) {
 }
 
 // region: auto_md_to_doc_comments include doc_comments_long/auto_lines_of_code.md A ///
-/// <!-- markdownlint-disable -->
-///
 /// This function inserts shield badges with lines_of_code into README.rs.  
 ///
 /// The parameter Link will be used for shield badge. If empty_string, the git remote repository will be used.  
@@ -273,8 +274,6 @@ pub fn auto_lines_of_code(link: &str) {
 }
 
 // region: auto_md_to_doc_comments include doc_comments_long/auto_md_to_doc_comments.md A ///
-/// <!-- markdownlint-disable -->
-///
 /// This function finds rs files with markers and include segments from md files as doc comments.  
 ///
 /// From this doc comments `cargo doc` will generated the documentation and auto-completion.  
@@ -376,8 +375,6 @@ pub fn auto_version_increment_semver_or_date_forced() {
 }
 
 // region: auto_md_to_doc_comments include doc_comments_long/auto_version_from_date.md A ///
-/// <!-- markdownlint-disable -->
-///
 /// New version from date is written to Cargo.toml and service_worker.js
 ///
 /// In Cargo.toml writes the version as the date `yyyy.mmdd.HHMM` ex. `2019.1221.2359`.  

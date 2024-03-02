@@ -1,6 +1,6 @@
-// auto_semver_or_date.rs
+// auto_semver_or_date_mod.rs
 
-//! Reads the version in Cargo.toml and if the major number is greater than 2000, it is a date-version, else it is semver
+//! If the major number is greater than 2000, it is a date-version else it is semver
 
 use crate::error_mod::ResultWithLibError;
 use crate::public_api_mod::{RED, RESET, YELLOW};

@@ -1,7 +1,5 @@
 [//]: # (auto_md_to_doc_comments segment start A)
 
-<!-- markdownlint-disable -->
-
 Includes the plantuml svg generated from the plantuml code.
 
 Search for markers in md files and process plantuml code.  

@@ -27,8 +27,6 @@ pub struct LinesOfCode {
 }
 
 // region: auto_md_to_doc_comments include doc_comments_long/auto_lines_of_code.md A ///
-/// <!-- markdownlint-disable -->
-///
 /// This function inserts shield badges with lines_of_code into README.rs.  
 ///
 /// The parameter Link will be used for shield badge. If empty_string, the git remote repository will be used.  

@@ -14,8 +14,6 @@ lazy_static! {
 }
 
 // region: auto_md_to_doc_comments include doc_comments_long/auto_playground_run_code.md A ///
-/// <!-- markdownlint-disable -->
-///
 /// Includes the link to playground with the rust code in a parameter.
 ///
 /// Search in markdown files for markersand include a link to Rust playground.

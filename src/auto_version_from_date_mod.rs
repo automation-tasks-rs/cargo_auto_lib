@@ -39,8 +39,6 @@ pub struct AutoVersionFromDate {
 // region: public functions
 
 // region: auto_md_to_doc_comments include doc_comments_long/auto_version_from_date.md A ///
-/// <!-- markdownlint-disable -->
-///
 /// New version from date is written to Cargo.toml and service_worker.js
 ///
 /// In Cargo.toml writes the version as the date `yyyy.mmdd.HHMM` ex. `2019.1221.2359`.  

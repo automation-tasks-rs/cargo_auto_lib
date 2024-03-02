@@ -20,8 +20,6 @@ lazy_static! {
 }
 
 // region: auto_md_to_doc_comments include doc_comments_long/auto_plantuml.md A ///
-/// <!-- markdownlint-disable -->
-///
 /// Includes the plantuml svg generated from the plantuml code.
 ///
 /// Search for markers in md files and process plantuml code.  

@@ -1,6 +1,6 @@
 // auto_cargo_toml_to_md_mod
 
-//! includes data from Cargo.toml to `md`` files: version, authors, description,...
+//! includes data from Cargo.toml to `md` files: version, authors, description,...
 
 // region: use statements
 
@@ -22,8 +22,6 @@ lazy_static! {
 }
 
 // region: auto_md_to_doc_comments include doc_comments_long/auto_cargo_toml_to_md.md A ///
-/// <!-- markdownlint-disable -->
-///
 /// This function includes data from Cargo.toml to markdown files.  
 ///
 /// This is nice for avoiding out of sync data.  
