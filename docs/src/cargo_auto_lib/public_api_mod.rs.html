@@ -591,9 +591,6 @@
 <a href="#540" id="540">540</a>
 <a href="#541" id="541">541</a>
 <a href="#542" id="542">542</a>
-<a href="#543" id="543">543</a>
-<a href="#544" id="544">544</a>
-<a href="#545" id="545">545</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// public_api_mod.rs
@@ -626,10 +623,14 @@
 // region: Public API constants
 // ANSI colors for Linux terminal
 // https://github.com/shiena/ansicolor/blob/master/README.md
+</span><span class="doccomment">/// ANSI color
 </span><span class="kw">pub const </span>RED: <span class="kw-2">&</span>str = <span class="string">"\x1b[31m"</span>;
-<span class="kw">pub const </span>YELLOW: <span class="kw-2">&</span>str = <span class="string">"\x1b[33m"</span>;
-<span class="kw">pub const </span>GREEN: <span class="kw-2">&</span>str = <span class="string">"\x1b[32m"</span>;
-<span class="kw">pub const </span>RESET: <span class="kw-2">&</span>str = <span class="string">"\x1b[0m"</span>;
+<span class="doccomment">/// ANSI color
+</span><span class="kw">pub const </span>YELLOW: <span class="kw-2">&</span>str = <span class="string">"\x1b[33m"</span>;
+<span class="doccomment">/// ANSI color
+</span><span class="kw">pub const </span>GREEN: <span class="kw-2">&</span>str = <span class="string">"\x1b[32m"</span>;
+<span class="doccomment">/// ANSI color
+</span><span class="kw">pub const </span>RESET: <span class="kw-2">&</span>str = <span class="string">"\x1b[0m"</span>;
 <span class="comment">// endregion: Public API constants
 
 // region: Public API structs and methods
@@ -637,8 +638,8 @@
 </span><span class="kw">pub use </span><span class="kw">crate</span>::error_mod::ResultWithLibError;
 
 <span class="kw">pub use </span><span class="kw">crate</span>::auto_helper_functions_mod::ShellOutput;
-
-<span class="kw">pub use </span><span class="kw">crate</span>::auto_ssh_mod::SecretString;
+<span class="doccomment">/// A string that contains secret text
+</span><span class="kw">pub use </span><span class="kw">crate</span>::auto_ssh_mod::SecretString;
 
 <span class="comment">// reexporting a struct needs to export the trait to also reexports all the methods
 </span><span class="kw">pub use </span><span class="kw">crate</span>::auto_cargo_toml_mod::CargoToml;
@@ -648,6 +649,8 @@
 // AFTERTHOUGHT: This makes me think if most the functions are methods,
 // then it is consistent how to make the public API definition.
 // There is a downside: the caller must bring the trait into scope. A little annoying.
+
+</span><span class="doccomment">/// this struct and methods represent the data in Cargo.toml
 </span><span class="kw">pub trait </span>CargoTomlPublicApiMethods {
     <span class="doccomment">/// read Cargo.toml, for workspaces it is the Cargo.toml of the first member
     </span><span class="kw">fn </span>read() -&gt; <span class="self">Self</span>;
@@ -735,9 +738,7 @@
 }
 
 <span class="comment">// region: auto_md_to_doc_comments include doc_comments_long/auto_cargo_toml_to_md.md A ///
-</span><span class="doccomment">/// &lt;!-- markdownlint-disable --&gt;
-///
-/// This function includes data from Cargo.toml to markdown files.  
+</span><span class="doccomment">/// This function includes data from Cargo.toml to markdown files.  
 ///
 /// This is nice for avoiding out of sync data.  
 /// Run it on every build with `automation_tasks_rs` and [cargo auto](https://crates.io/crates/cargo-auto).  
@@ -800,8 +801,7 @@
 }
 
 <span class="comment">// region: auto_md_to_doc_comments include doc_comments_long/exit_if_not_run_in_rust_project_root_directory.md A ///
-</span><span class="doccomment">/// &lt;!-- markdownlint-disable --&gt;
-/// Check if the code was run inside the Rust project root directory.  
+</span><span class="doccomment">/// Check if the code was run inside the Rust project root directory.  
 ///
 /// There must be the `Cargo.toml` file and the directory `automation_tasks_rs`  
 /// If not, exit with error message.  
@@ -819,9 +819,7 @@
 }
 
 <span class="comment">// region: auto_md_to_doc_comments include doc_comments_long/auto_lines_of_code.md A ///
-</span><span class="doccomment">/// &lt;!-- markdownlint-disable --&gt;
-///
-/// This function inserts shield badges with lines_of_code into README.rs.  
+</span><span class="doccomment">/// This function inserts shield badges with lines_of_code into README.rs.  
 ///
 /// The parameter Link will be used for shield badge. If empty_string, the git remote repository will be used.  
 /// Lines of code are not a "perfect" measurement of anything.\
@@ -881,9 +879,7 @@
 }
 
 <span class="comment">// region: auto_md_to_doc_comments include doc_comments_long/auto_md_to_doc_comments.md A ///
-</span><span class="doccomment">/// &lt;!-- markdownlint-disable --&gt;
-///
-/// This function finds rs files with markers and include segments from md files as doc comments.  
+</span><span class="doccomment">/// This function finds rs files with markers and include segments from md files as doc comments.  
 ///
 /// From this doc comments `cargo doc` will generated the documentation and auto-completion.  
 /// We don't want to manually copy this segments. We want them to be automatically in sync.  
@@ -984,9 +980,7 @@
 }
 
 <span class="comment">// region: auto_md_to_doc_comments include doc_comments_long/auto_version_from_date.md A ///
-</span><span class="doccomment">/// &lt;!-- markdownlint-disable --&gt;
-///
-/// New version from date is written to Cargo.toml and service_worker.js
+</span><span class="doccomment">/// New version from date is written to Cargo.toml and service_worker.js
 ///
 /// In Cargo.toml writes the version as the date `yyyy.mmdd.HHMM` ex. `2019.1221.2359`.  
 /// For non-library projects, the semver specification is not really useful.  

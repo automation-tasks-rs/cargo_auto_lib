@@ -129,9 +129,9 @@
 <a href="#78" id="78">78</a>
 </pre>
         </div>
-        <pre class="rust"><code><span class="comment">// auto_semver_or_date.rs
+        <pre class="rust"><code><span class="comment">// auto_semver_or_date_mod.rs
 
-</span><span class="doccomment">//! Reads the version in Cargo.toml and if the major number is greater than 2000, it is a date-version, else it is semver
+</span><span class="doccomment">//! If the major number is greater than 2000, it is a date-version else it is semver
 
 </span><span class="kw">use </span><span class="kw">crate</span>::error_mod::ResultWithLibError;
 <span class="kw">use </span><span class="kw">crate</span>::public_api_mod::{RED, RESET, YELLOW};

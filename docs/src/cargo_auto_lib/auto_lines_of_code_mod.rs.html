@@ -352,9 +352,6 @@
 <a href="#301" id="301">301</a>
 <a href="#302" id="302">302</a>
 <a href="#303" id="303">303</a>
-<a href="#304" id="304">304</a>
-<a href="#305" id="305">305</a>
-<a href="#306" id="306">306</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// auto_lines_of_code_mod
@@ -386,9 +383,7 @@
 }
 
 <span class="comment">// region: auto_md_to_doc_comments include doc_comments_long/auto_lines_of_code.md A ///
-</span><span class="doccomment">/// &lt;!-- markdownlint-disable --&gt;
-///
-/// This function inserts shield badges with lines_of_code into README.rs.  
+</span><span class="doccomment">/// This function inserts shield badges with lines_of_code into README.rs.  
 ///
 /// The parameter Link will be used for shield badge. If empty_string, the git remote repository will be used.  
 /// Lines of code are not a "perfect" measurement of anything.\
@@ -582,7 +577,6 @@
     // return
     </span>lines_of_code
 }
-
 
 <span class="kw">fn </span>git_remote_output() -&gt; anyhow::Result&lt;String&gt; {
     <span class="kw">let </span>output = std::process::Command::new(<span class="string">"git"</span>).arg(<span class=

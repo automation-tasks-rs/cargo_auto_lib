@@ -757,7 +757,7 @@
 </span><span class="kw">pub const </span>GITHUB_TOKEN_PATH: <span class="kw-2">&</span>str = <span class="string">"~/.ssh/github_com_data_1.ssh"</span>;
 
 <span class="doccomment">/// create new release on Github
-/// 
+///
 /// return release_id  
 /// &lt;https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token&gt;  
 /// ```ignore
@@ -974,7 +974,7 @@
 }
 
 <span class="doccomment">/// Check if identity is already in ssh-agent and if not then run ssh-add to add it.
-/// 
+///
 /// Parse the ~/.ssh/config file and finds the record for host_name and there is the identity_file_path.
 /// If not found, ask user for identity_file_path,
 /// This ssh-add will stay even after the process ends, so the parent process will still have it.
