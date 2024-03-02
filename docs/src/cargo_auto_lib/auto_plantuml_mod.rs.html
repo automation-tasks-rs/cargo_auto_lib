@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.6.0">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="generator" content="rustdoc">
@@ -315,7 +314,7 @@
     </span>).unwrap();
 }
 
-<span class="comment">// region: auto_md_to_doc_comments include doc_comments_long/auto_plantuml.md A ///
+<span class="comment">// region: auto_md_to_doc_comments include doc_comments/auto_plantuml.md A ///
 </span><span class="doccomment">/// Includes the plantuml svg generated from the plantuml code.
 ///
 /// Search for markers in md files and process plantuml code.  
@@ -350,7 +349,7 @@
 /// repo_url like &lt;https://github.com/bestia-dev/sey_currency_converter_pwa&gt;
 /// so the image file link is from the repository and accessible everywhere
 ///
-</span><span class="comment">// endregion: auto_md_to_doc_comments include doc_comments_long/auto_plantuml.md A ///
+</span><span class="comment">// endregion: auto_md_to_doc_comments include doc_comments/auto_plantuml.md A ///
 </span><span class="kw">pub fn </span>auto_plantuml(repo_url: <span class="kw-2">&</span>str) {
     <span class="kw">let </span>path = std::env::current_dir().unwrap();
     auto_plantuml_for_path(<span class="kw-2">&</span>path, repo_url);

@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.6.0">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="generator" content="rustdoc">
@@ -214,13 +213,13 @@
     </span>status.success()
 }
 
-<span class="comment">// region: auto_md_to_doc_comments include doc_comments_long/exit_if_not_run_in_rust_project_root_directory.md A ///
+<span class="comment">// region: auto_md_to_doc_comments include doc_comments/exit_if_not_run_in_rust_project_root_directory.md A ///
 </span><span class="doccomment">/// Check if the code was run inside the Rust project root directory.  
 ///
 /// There must be the `Cargo.toml` file and the directory `automation_tasks_rs`  
 /// If not, exit with error message.  
 ///
-</span><span class="comment">// endregion: auto_md_to_doc_comments include doc_comments_long/exit_if_not_run_in_rust_project_root_directory.md A ///
+</span><span class="comment">// endregion: auto_md_to_doc_comments include doc_comments/exit_if_not_run_in_rust_project_root_directory.md A ///
 </span><span class="kw">pub fn </span>exit_if_not_run_in_rust_project_root_directory() {
     <span class="kw">if </span>!(camino::Utf8Path::new(<span class="string">"automation_tasks_rs"</span>).exists() &amp;& (camino::Utf8Path::new(<span class=
 "string">"Cargo.toml"</span>).exists())) {

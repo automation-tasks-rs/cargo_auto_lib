@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.6.0">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="generator" content="rustdoc">
@@ -219,7 +218,7 @@
     }
 }
 
-<span class="comment">// region: auto_md_to_doc_comments include doc_comments_long/traverse_dir_with_exclude_dir.md A ///
+<span class="comment">// region: auto_md_to_doc_comments include doc_comments/traverse_dir_with_exclude_dir.md A ///
 </span><span class="doccomment">/// Traverse dir and its sub-dir, but avoid excluded dirs.
 ///
 /// The find_file and the exclude dir strings must start with /.
@@ -243,7 +242,7 @@
 /// }
 /// ```
 ///
-</span><span class="comment">// endregion: auto_md_to_doc_comments include doc_comments_long/traverse_dir_with_exclude_dir.md A ///
+</span><span class="comment">// endregion: auto_md_to_doc_comments include doc_comments/traverse_dir_with_exclude_dir.md A ///
 </span><span class="kw">pub fn </span>traverse_dir_with_exclude_dir(dir: <span class="kw-2">&</span>std::path::Path, find_file: <span class=
 "kw-2">&</span>str, exclude_dirs: <span class="kw-2">&</span>[String]) -&gt; std::io::Result&lt;Vec&lt;String&gt;&gt; {
     <span class="comment">// if the parameter is /*.rs, I can eliminate /*

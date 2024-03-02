@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.6.0">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="generator" content="rustdoc">
@@ -382,7 +381,7 @@
     </span><span class="kw">pub </span>examples_lines: usize,
 }
 
-<span class="comment">// region: auto_md_to_doc_comments include doc_comments_long/auto_lines_of_code.md A ///
+<span class="comment">// region: auto_md_to_doc_comments include doc_comments/auto_lines_of_code.md A ///
 </span><span class="doccomment">/// This function inserts shield badges with lines_of_code into README.rs.  
 ///
 /// The parameter Link will be used for shield badge. If empty_string, the git remote repository will be used.  
@@ -437,7 +436,7 @@
 /// It will erase the previous content.  
 /// Use git diff to see the change.  
 ///
-</span><span class="comment">// endregion: auto_md_to_doc_comments include doc_comments_long/auto_lines_of_code.md A ///
+</span><span class="comment">// endregion: auto_md_to_doc_comments include doc_comments/auto_lines_of_code.md A ///
 </span><span class="kw">pub fn </span>auto_lines_of_code(link: <span class="kw-2">&</span>str) {
     <span class="macro">println!</span>(<span class="string">"    {YELLOW}Running auto_lines_of_code{RESET}"</span>);
     <span class="kw">let </span>link = <span class="kw">if </span>link.is_empty() { process_git_remote() } <span class="kw">else </span>{ link.to_string() };

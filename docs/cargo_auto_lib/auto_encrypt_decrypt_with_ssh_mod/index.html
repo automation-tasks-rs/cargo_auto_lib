@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.6.0">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="generator" content="rustdoc">
@@ -35,7 +34,7 @@
     <div class="sidebar-crate">
       <a class="logo-container" href="../../cargo_auto_lib/index.html"><img src=
       "https://github.com/bestia-dev/cargo-auto/raw/main/images/logo/logo_cargo_auto.svg" alt="logo"></a>
-      <h2><a href="../../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">1.4.4</span></h2>
+      <h2><a href="../../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">1.4.5</span></h2>
     </div>
     <h2 class="location"><a href="#">Module auto_encrypt_decrypt_with_ssh_mod</a></h2>
     <div class="sidebar-elems">
@@ -84,15 +83,19 @@
           </summary>
           <div class="docblock">
             <p>How to save a GitHub TOKEN securely inside a file?</p>
-            <p>GitHub TOKEN is used by GitHub API to gain access (authentication and authorization) to your GitHub. A TOKEN is a secret just like a password
-            and it must be protected. If the TOKEN is leaked, a mal-intentioned can gain access to everything, using the API. Never store TOKENS in plain text
-            anywhere!</p>
-            <p>The TOKEN must be encrypted before storing it. We already use SSH keys to connect to GitHub. And we use ssh-agent for easy work with SSH
-            identities. I want to use the ssh key inside ssh-agent to encrypt the TOKEN and save it in a file.</p>
-            <p>The easy solution: encrypt with the Public key and then decrypt with the Private key. Problem: ssh-agent can only sign a message with the
-            private key. Nothing more. It cannot decrypt with private key, because it would be a security risk.</p>
-            <p>The security is based on the assumption that only the owner of the ssh private key can sign the message. The user already uses the ssh private
-            key and it uses ssh-agent to connect over ssh to GitHub. So the user already knows how important are ssh private keys and to keep them secure.</p>
+            <p>GitHub TOKEN is used by GitHub API to gain access (authentication and authorization) to your GitHub.<br>
+            AA TOKEN is a secret just like a password and it must be protected.<br>
+            If the TOKEN is leaked, a mal-intentioned can gain access to everything, using the API.<br>
+            Never store TOKENS in plain text anywhere!</p>
+            <p>The TOKEN must be encrypted before storing it.<br>
+            We already use SSH keys to connect to GitHub. And we use ssh-agent for easy work with SSH identities.<br>
+            I want to use the ssh key inside ssh-agent to encrypt the TOKEN and save it in a file.</p>
+            <p>The easy solution: encrypt with the Public key and then decrypt with the Private key.<br>
+            Problem: ssh-agent can only sign a message with the private key. Nothing more.<br>
+            It cannot decrypt with private key, because it would be a security risk.</p>
+            <p>The security is based on the assumption that only the owner of the ssh private key can sign the message.<br>
+            The user already uses the ssh private key and it uses ssh-agent to connect over ssh to GitHub.<br>
+            So the user already knows how important are ssh private keys and to keep them secure.</p>
             <p>This could work also for other TOKENS, not just GitHub.</p>
             <p>Encryption</p>
             <ol>
