@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.6.0">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="generator" content="rustdoc">
@@ -350,12 +351,15 @@
 <a href="#300" id="300">300</a>
 <a href="#301" id="301">301</a>
 <a href="#302" id="302">302</a>
+<a href="#303" id="303">303</a>
+<a href="#304" id="304">304</a>
+<a href="#305" id="305">305</a>
+<a href="#306" id="306">306</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// auto_lines_of_code_mod
 
 </span><span class="doccomment">//! inserts shield badges with lines_of_code into README.rs
-//! It works for workspaces and for single projects.  
 
 </span><span class="kw">use </span><span class="kw">crate</span>::public_api_mod::{RED, RESET, YELLOW};
 <span class="kw">use </span>regex::Regex;
@@ -476,6 +480,7 @@
 }
 
 <span class="doccomment">/// Return the string for link for badges like: &lt;https://github.com/bestia-dev/auto_lines_of_code/&gt;.  
+///
 /// Get the output string after $ git remote -v.  
 /// Then finds out the link to the repository with regex.  
 /// Returns empty string if something goes wrong: no git, no remote,...  
@@ -577,6 +582,8 @@
     // return
     </span>lines_of_code
 }
+
+
 <span class="kw">fn </span>git_remote_output() -&gt; anyhow::Result&lt;String&gt; {
     <span class="kw">let </span>output = std::process::Command::new(<span class="string">"git"</span>).arg(<span class=
 "string">"remote"</span>).arg(<span class="string">"-v"</span>).output()<span class="question-mark">?</span>;
@@ -585,6 +592,7 @@
     <span class="comment">// return
     </span><span class="prelude-val">Ok</span>(output)
 }
+
 <span class="doccomment">/// returns a Result.
 /// in the case of error the calling fn will return empty string.
 </span><span class="kw">fn </span>regex_capture(output: String) -&gt; anyhow::Result&lt;String&gt; {
@@ -606,6 +614,7 @@
 "kw-2">&</span>cap[<span class="number">1</span>], <span class="kw-2">&</span>cap[<span class="number">2</span>], <span class="kw-2">&</span>cap[<span class=
 "number">3</span>]))
 }
+
 <span class="doccomment">/// Returns a string with the markdown code for 4 shield badges.
 ///
 /// Every badge has the link to the url given as first parameter

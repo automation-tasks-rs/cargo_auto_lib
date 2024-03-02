@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.6.0">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="generator" content="rustdoc">
@@ -104,9 +105,14 @@
 <a href="#54" id="54">54</a>
 <a href="#55" id="55">55</a>
 <a href="#56" id="56">56</a>
+<a href="#57" id="57">57</a>
+<a href="#58" id="58">58</a>
+<a href="#59" id="59">59</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// auto_crates_io_mod.rs
+
+</span><span class="doccomment">//! push versions to crates.io
 
 </span><span class="kw">use </span><span class="kw">crate</span>::auto_ssh_mod::SecretString;
 <span class="kw">use </span><span class="kw">crate</span>::RED;
@@ -118,8 +124,9 @@
 <span class="comment">// file contains crates.io token encrypted with github_com_ssh_1
 </span><span class="kw">pub const </span>CRATES_IO_TOKEN_PATH: <span class="kw-2">&</span>str = <span class="string">"~/.ssh/crates_io_data_1.ssh"</span>;
 
-<span class="doccomment">/// encrypt/decrypt the crates.io token with the GitHub ssh key
-/// then call the `cargo publish --token token` command
+<span class="doccomment">/// call the `cargo publish --token token` command
+///
+/// encrypt/decrypt the crates.io token with the GitHub ssh key
 /// but never show the secret token anywhere
 </span><span class="kw">pub fn </span>publish_to_crates_io_with_secret_token() {
     <span class="kw">let </span><span class="kw-2">mut </span>token = check_or_get_crates_io_token().unwrap();

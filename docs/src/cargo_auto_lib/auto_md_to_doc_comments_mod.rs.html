@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.6.0">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="generator" content="rustdoc">
@@ -272,14 +273,11 @@
 <a href="#222" id="222">222</a>
 <a href="#223" id="223">223</a>
 <a href="#224" id="224">224</a>
-<a href="#225" id="225">225</a>
-<a href="#226" id="226">226</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// auto_md_to_doc_comments_mod
 
 </span><span class="doccomment">//! finds rs files with markers and include segments from md files
-//! It works for workspaces and for single projects.  
 
 </span><span class="kw">use </span>glob::glob;
 <span class="kw">use </span>lazy_static::lazy_static;
@@ -452,9 +450,8 @@
 "string">r#"(?m)^\[//\]: # \(auto_md_to_doc_comments segment end (.*?)\)$"#</span>).unwrap();
 }
 
-<span class="doccomment">/// The first time it is called
-/// reads the file and extracts all the segments
-/// into a cache vector.
+<span class="doccomment">/// The first time it is called read the file and extracts all the segments into a cache vector.
+///
 /// Subsequent calls read from the cache.
 </span><span class="kw">fn </span>get_md_segments_using_cache(cache: <span class="kw-2">&amp;mut </span>Vec&lt;MdSegment&gt;, md_filename: <span class=
 "kw-2">&</span>str, marker_name: <span class="kw-2">&</span>str, comment_symbol: <span class="kw-2">&</span>str) -&gt; String {

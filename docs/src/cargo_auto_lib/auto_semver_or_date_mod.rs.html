@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.6.0">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="generator" content="rustdoc">
@@ -130,9 +131,7 @@
         </div>
         <pre class="rust"><code><span class="comment">// auto_semver_or_date.rs
 
-</span><span class="doccomment">//! it reads the version in Cargo.toml and if the major number
-//! is greater than 2000, it is a date-version, else it is semver
-//! It works for workspaces and for single projects.  
+</span><span class="doccomment">//! Reads the version in Cargo.toml and if the major number is greater than 2000, it is a date-version, else it is semver
 
 </span><span class="kw">use </span><span class="kw">crate</span>::error_mod::ResultWithLibError;
 <span class="kw">use </span><span class="kw">crate</span>::public_api_mod::{RED, RESET, YELLOW};
@@ -141,6 +140,7 @@
 </span><span class="kw">use </span><span class="kw">crate</span>::public_api_mod::CargoTomlPublicApiMethods;
 
 <span class="doccomment">/// increments the version in Cargo.toml.
+///
 /// if the major version is greater than 2000, it is a date version
 /// else it is semver and increments the patch part
 </span><span class="kw">pub fn </span>auto_version_increment_semver_or_date() {
@@ -163,6 +163,7 @@
 }
 
 <span class="doccomment">/// increments the version in Cargo.toml.
+///
 /// if the major version is greater than 2000, it is a date version
 /// forced is used in workspaces to force all members to have the same date version
 /// else it is semver and increments the patch part

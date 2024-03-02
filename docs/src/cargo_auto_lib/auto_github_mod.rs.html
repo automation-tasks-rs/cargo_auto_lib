@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.6.0">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="generator" content="rustdoc">
@@ -722,9 +723,21 @@
 <a href="#672" id="672">672</a>
 <a href="#673" id="673">673</a>
 <a href="#674" id="674">674</a>
+<a href="#675" id="675">675</a>
+<a href="#676" id="676">676</a>
+<a href="#677" id="677">677</a>
+<a href="#678" id="678">678</a>
+<a href="#679" id="679">679</a>
+<a href="#680" id="680">680</a>
+<a href="#681" id="681">681</a>
+<a href="#682" id="682">682</a>
+<a href="#683" id="683">683</a>
+<a href="#684" id="684">684</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// auto_github_mod
+
+</span><span class="doccomment">//! GitHub API calls
 
 </span><span class="kw">use </span><span class="kw">crate</span>::CargoTomlPublicApiMethods;
 <span class="kw">use </span><span class="kw">crate</span>::SecretString;
@@ -743,7 +756,8 @@
 <span class="comment">// file contains github token encrypted with github_com_ssh_1
 </span><span class="kw">pub const </span>GITHUB_TOKEN_PATH: <span class="kw-2">&</span>str = <span class="string">"~/.ssh/github_com_data_1.ssh"</span>;
 
-<span class="doccomment">/// create new release on Github  
+<span class="doccomment">/// create new release on Github
+/// 
 /// return release_id  
 /// &lt;https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token&gt;  
 /// ```ignore
@@ -816,6 +830,7 @@
 }
 
 <span class="doccomment">/// upload asset to github release  
+///
 /// release_upload_url example: &lt;https://uploads.github.com/repos/owner/repo/releases/48127727/assets&gt;  
 /// &lt;https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token&gt;  
 /// async function can be called from sync code:  
@@ -958,9 +973,10 @@
     </span>is_init_repository
 }
 
-<span class="doccomment">/// Parse the ~/.ssh/config file and finds the record for host_name and there is the identity_file_path.
+<span class="doccomment">/// Check if identity is already in ssh-agent and if not then run ssh-add to add it.
+/// 
+/// Parse the ~/.ssh/config file and finds the record for host_name and there is the identity_file_path.
 /// If not found, ask user for identity_file_path,
-/// Check if this identity is already in ssh-agent and if not then run ssh-add to add it.
 /// This ssh-add will stay even after the process ends, so the parent process will still have it.
 /// returns: fingerprint or None and identity_file_name
 </span><span class="kw">pub fn </span>ssh_add_resolve(host_name: <span class="kw-2">&</span>str, default_identity_file_path: <span class=
@@ -1135,6 +1151,7 @@
 }
 
 <span class="doccomment">/// Ask the user for the filename of the ssh key used to connect with SSH/git to a server.
+///
 /// host_name is like: github.com or bestia.dev, default like ~/.ssh/github_com_ssh_1 and ~/.ssh/bestia_dev_ssh_1
 /// returns PathBuf to identity_file_path or None
 </span><span class="kw">pub fn </span>ask_for_identity_file_path_for_ssh(host_name: <span class="kw-2">&</span>str, default_identity_file_path: <span class=
@@ -1193,7 +1210,9 @@
     </span>tag_name_version
 }
 
-<span class="doccomment">/// First, the user must write the content into file RELEASES.md in the section ## Unreleased.
+<span class="doccomment">/// Create GitHub release from RELEASES.md
+///
+/// First, the user must write the content into file RELEASES.md in the section ## Unreleased.
 /// Then the automation task will copy the content to GitHub release
 /// and create a new Version title in RELEASES.md.
 </span><span class="kw">pub fn </span>body_text_from_releases_md(release_name: <span class="kw-2">&</span>str) -&gt; <span class=
@@ -1274,6 +1293,7 @@ The TODO section is part of the [README.md](https://github.com/{github_owner}/{p
 }
 
 <span class="doccomment">/// Check and modify the description and topics on Github
+///
 /// The words topics, keywords and tags all mean the same concept.
 /// In cargo.toml we have keywords.
 /// In README.md I want to have badges for tags
@@ -1415,8 +1435,9 @@ The TODO section is part of the [README.md](https://github.com/{github_owner}/{p
     <span class="kw">let </span>_parsed: serde_json::Value = serde_json::from_str(<span class="kw-2">&</span>response_text).unwrap();
 }
 
-<span class="kw">fn </span>github_api_replace_all_topics(owner: <span class="kw-2">&</span>str, repo_name: <span class="kw-2">&</span>str, topics: <span class=
-"kw-2">&</span>Vec&lt;String&gt;) {
+<span class="doccomment">/// GitHub API replace all topics
+</span><span class="kw">fn </span>github_api_replace_all_topics(owner: <span class="kw-2">&</span>str, repo_name: <span class=
+"kw-2">&</span>str, topics: <span class="kw-2">&</span>Vec&lt;String&gt;) {
     <span class="comment">/*
     https://docs.github.com/en/rest/repos/repos?apiVersion=2022-11-28#replace-all-repository-topics
     curl -L \

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.6.0">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="generator" content="rustdoc">
@@ -118,16 +119,22 @@
 <a href="#68" id="68">68</a>
 <a href="#69" id="69">69</a>
 <a href="#70" id="70">70</a>
+<a href="#71" id="71">71</a>
+<a href="#72" id="72">72</a>
+<a href="#73" id="73">73</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// auto_copy_files_to_strings_mod.rs
 
-// trait must be in scope
+</span><span class="doccomment">//! copy all files from the folder into a module as strings (static &amp;str) 
+
+</span><span class="comment">// trait must be in scope
 </span><span class="kw">use </span>base64ct::Encoding;
 
 <span class="kw">use </span><span class="kw">crate</span>::public_api_mod::{RESET, YELLOW};
 
 <span class="doccomment">/// copy all files from the folder into a module as strings (static &amp;str)
+///
 /// the module has the markers: region: files copied into strings by automation tasks and endregion:
 /// the string will be in a vector with the file name
 /// first we create the complete text, then we check if the old text needs to be replaced
