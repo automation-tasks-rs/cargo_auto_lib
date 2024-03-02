@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="generator" content="rustdoc">
-  <meta name="description" content="upload asset to github release">
+  <meta name="description" content="Upload asset to github release">
   <title>github_api_upload_asset_to_release in cargo_auto_lib::public_api_mod - Rust</title>
   <link rel="preload" as="font" type="font/woff2" crossorigin="" href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2">
   <link rel="preload" as="font" type="font/woff2" crossorigin="" href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2">
@@ -35,7 +35,7 @@
     <div class="sidebar-crate">
       <a class="logo-container" href="../../cargo_auto_lib/index.html"><img src=
       "https://github.com/bestia-dev/cargo-auto/raw/main/images/logo/logo_cargo_auto.svg" alt="logo"></a>
-      <h2><a href="../../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">1.4.1</span></h2>
+      <h2><a href="../../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">1.4.4</span></h2>
     </div>
     <div class="sidebar-elems">
       <h2><a href="index.html">In cargo_auto_lib::public_api_mod</a></h2>
@@ -64,7 +64,7 @@
           <h1>Function <a href="../index.html">cargo_auto_lib</a>::<wbr><a href="index.html">public_api_mod</a>::<wbr><a class="fn" href=
           "#">github_api_upload_asset_to_release</a><button id="copy-path" title="Copy item path to clipboard"><img src=
           "../../static.files/clipboard-7571035ce49a181d.svg" width="19" height="18" alt="Copy item path"></button></h1><span class="out-of-band"><a class=
-          "src" href="../../src/cargo_auto_lib/public_api_mod.rs.html#478-480">source</a> · <button id="toggle-all-docs" title=
+          "src" href="../../src/cargo_auto_lib/public_api_mod.rs.html#459-461">source</a> · <button id="toggle-all-docs" title=
           "collapse all docs">[<span>−</span>]</button></span>
         </div>
         <pre class="rust item-decl"><code>pub fn github_api_upload_asset_to_release(
@@ -78,23 +78,7 @@
             <span>Expand description</span>
           </summary>
           <div class="docblock">
-            <p>upload asset to github release</p>
-            <p>release_upload_url example: <a href=
-            "https://uploads.github.com/repos/owner/repo/releases/48127727/assets">https://uploads.github.com/repos/owner/repo/releases/48127727/assets</a><br>
-            <a href=
-            "https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token">https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token</a><br>
-
-            async function can be called from sync code:</p>
-            <div class="example-wrap ignore">
-              <a href="#" class="tooltip" title="This example is not tested">ⓘ</a>
-              <pre class="rust rust-example-rendered"><code>      <span class="kw">let </span>release_id =  github_create_new_release(<span class=
-              "kw-2">&</span>owner, <span class="kw-2">&</span>repo, <span class="kw-2">&</span>version, <span class=
-              "kw-2">&</span>name, branch, body_md_text);  
-      <span class="macro">println!</span>(<span class="string">"release_id={release_id}"</span>);
-      upload_asset_to_github_release(<span class="kw-2">&</span>owner, <span class="kw-2">&</span>repo, <span class="kw-2">&</span>release_id, <span class=
-"kw-2">&</span>path_to_file);  
-      <span class="macro">println!</span>(<span class="string">"Asset uploaded."</span>);  </code></pre>
-            </div>
+            <p>Upload asset to github release</p>
           </div>
         </details>
       </section>

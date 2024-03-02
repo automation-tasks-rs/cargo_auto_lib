@@ -716,23 +716,6 @@
 <a href="#665" id="665">665</a>
 <a href="#666" id="666">666</a>
 <a href="#667" id="667">667</a>
-<a href="#668" id="668">668</a>
-<a href="#669" id="669">669</a>
-<a href="#670" id="670">670</a>
-<a href="#671" id="671">671</a>
-<a href="#672" id="672">672</a>
-<a href="#673" id="673">673</a>
-<a href="#674" id="674">674</a>
-<a href="#675" id="675">675</a>
-<a href="#676" id="676">676</a>
-<a href="#677" id="677">677</a>
-<a href="#678" id="678">678</a>
-<a href="#679" id="679">679</a>
-<a href="#680" id="680">680</a>
-<a href="#681" id="681">681</a>
-<a href="#682" id="682">682</a>
-<a href="#683" id="683">683</a>
-<a href="#684" id="684">684</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// auto_github_mod
@@ -756,16 +739,7 @@
 <span class="comment">// file contains github token encrypted with github_com_ssh_1
 </span><span class="kw">pub const </span>GITHUB_TOKEN_PATH: <span class="kw-2">&</span>str = <span class="string">"~/.ssh/github_com_data_1.ssh"</span>;
 
-<span class="doccomment">/// create new release on Github
-///
-/// return release_id  
-/// &lt;https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token&gt;  
-/// ```ignore
-///       let release_id =  github_create_new_release(&amp;owner, &amp;repo, &amp;version, &amp;name, branch, body_md_text);  
-///       println!("release_id={release_id}");
-///       upload_asset_to_github_release(&amp;owner, &amp;repo, &amp;release_id, &amp;path_to_file);  
-///       println!("Asset uploaded.");    
-/// ```
+<span class="doccomment">/// Create new release on Github
 </span><span class="kw">pub fn </span>github_api_create_new_release(owner: <span class="kw-2">&</span>str, repo: <span class=
 "kw-2">&</span>str, tag_name_version: <span class="kw-2">&</span>str, name: <span class="kw-2">&</span>str, branch: <span class=
 "kw-2">&</span>str, body_md_text: <span class="kw-2">&</span>str) -&gt; String {
@@ -829,17 +803,7 @@
     new_release_id
 }
 
-<span class="doccomment">/// upload asset to github release  
-///
-/// release_upload_url example: &lt;https://uploads.github.com/repos/owner/repo/releases/48127727/assets&gt;  
-/// &lt;https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token&gt;  
-/// async function can be called from sync code:  
-/// ```ignore
-///       let release_id =  github_create_new_release(&amp;owner, &amp;repo, &amp;version, &amp;name, branch, body_md_text);  
-///       println!("release_id={release_id}");
-///       upload_asset_to_github_release(&amp;owner, &amp;repo, &amp;release_id, &amp;path_to_file);  
-///       println!("Asset uploaded.");  
-/// ```
+<span class="doccomment">/// Upload asset to github release  
 </span><span class="kw">pub fn </span>github_api_upload_asset_to_release(owner: <span class="kw-2">&</span>str, repo: <span class=
 "kw-2">&</span>str, release_id: <span class="kw-2">&</span>str, path_to_file: <span class="kw-2">&</span>str) {
     <span class="kw">let </span><span class="kw-2">mut </span>token = check_or_get_github_token().unwrap();
@@ -942,7 +906,9 @@
     </span>parsed
 }
 
-<span class="doccomment">/// init repository if needed. A new local git repository and remote GitHub repository.
+<span class="doccomment">/// Init repository if needed
+///
+/// A new local git repository and remote GitHub repository will be crated.
 </span><span class="kw">pub fn </span>init_repository_if_needed(message: <span class="kw-2">&</span>str) -&gt; bool {
     <span class="comment">// Find the filename of the identity_file for ssh connection to host_name, to find out if need ssh-add or not.
     // parse the ~/.ssh/config. 99% probably there should be a record for host_name and there is the identity_file.
@@ -1210,11 +1176,11 @@
     </span>tag_name_version
 }
 
-<span class="doccomment">/// Create GitHub release from RELEASES.md
+<span class="doccomment">/// Get release text from RELEASES.md
 ///
-/// First, the user must write the content into file RELEASES.md in the section ## Unreleased.
-/// Then the automation task will copy the content to GitHub release
-/// and create a new Version title in RELEASES.md.
+/// First, the user must write the content into file RELEASES.md in the section ## Unreleased.  
+/// Then the automation task will copy the content to GitHub release  
+/// and create a new Version title in RELEASES.md.  
 </span><span class="kw">pub fn </span>body_text_from_releases_md(release_name: <span class="kw-2">&</span>str) -&gt; <span class=
 "prelude-ty">Option</span>&lt;String&gt; {
     create_releases_md_if_file_not_exist();
@@ -1269,12 +1235,12 @@ The TODO section is part of the [README.md](https://github.com/{github_owner}/{p
     }
 }
 
-<span class="doccomment">/// the UTC date in iso standard 2024-12-31
+<span class="doccomment">/// UTC  date in iso standard like 2024-12-31
 </span><span class="kw">pub fn </span>now_utc_date_iso() -&gt; String {
     chrono::Utc::now().format(<span class="string">"%Y-%m-%d"</span>).to_string()
 }
 
-<span class="doccomment">/// add commit message to Unreleased in RELEASES.md
+<span class="doccomment">/// Add commit message to Unreleased in RELEASES.md
 </span><span class="kw">pub fn </span>add_message_to_unreleased(message: <span class="kw-2">&</span>str) {
     create_releases_md_if_file_not_exist();
     <span class="kw">let </span>release_md = std::fs::read_to_string(RELEASES_MD).unwrap();

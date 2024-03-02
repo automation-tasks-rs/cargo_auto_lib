@@ -35,7 +35,7 @@
     <div class="sidebar-crate">
       <a class="logo-container" href="../cargo_auto_lib/index.html"><img src=
       "https://github.com/bestia-dev/cargo-auto/raw/main/images/logo/logo_cargo_auto.svg" alt="logo"></a>
-      <h2><a href="../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">1.4.1</span></h2>
+      <h2><a href="../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">1.4.4</span></h2>
     </div>
     <div class="sidebar-elems">
       <ul class="block">
@@ -98,7 +98,7 @@
             <h2 id="cargo_auto_lib"><a href="#cargo_auto_lib">cargo_auto_lib</a></h2>
             <p><strong>Library crate for common tasks when building rust projects. Intended for use with cargo-auto - automation tasks written in Rust
             language.</strong><br>
-            <em><strong>version: 1.4.1 date: 2024-03-02 author: <a href="https://bestia.dev">Bestia.dev</a> repository: <a href=
+            <em><strong>version: 1.4.4 date: 2024-03-02 author: <a href="https://bestia.dev">Bestia.dev</a> repository: <a href=
             "https://github.com/bestia-dev/cargo_auto_lib">GitHub</a></strong></em></p>
             <p><img src="https://img.shields.io/badge/maintained-green" alt="maintained"> <img src="https://img.shields.io/badge/ready_for_use-green" alt=
             "ready-for-use"> <img src="https://img.shields.io/badge/rustlang-orange" alt="rustlang"> <img src="https://img.shields.io/badge/cargo_auto-orange"
@@ -115,8 +115,8 @@
             "https://bestia.dev/webpage_hit_counter/get_svg_image/276360626.svg" alt="cargo_auto_lib"></p>
             <p><a href="https://github.com/bestia-dev/cargo_auto_lib/"><img src="https://img.shields.io/badge/Lines_in_Rust-2480-green.svg" alt=
             "Lines in Rust code"></a> <a href="https://github.com/bestia-dev/cargo_auto_lib/"><img src=
-            "https://img.shields.io/badge/Lines_in_Doc_comments-1078-blue.svg" alt="Lines in Doc comments"></a> <a href=
-            "https://github.com/bestia-dev/cargo_auto_lib/"><img src="https://img.shields.io/badge/Lines_in_comments-377-purple.svg" alt=
+            "https://img.shields.io/badge/Lines_in_Doc_comments-927-blue.svg" alt="Lines in Doc comments"></a> <a href=
+            "https://github.com/bestia-dev/cargo_auto_lib/"><img src="https://img.shields.io/badge/Lines_in_comments-376-purple.svg" alt=
             "Lines in Comments"></a> <a href="https://github.com/bestia-dev/cargo_auto_lib/"><img src=
             "https://img.shields.io/badge/Lines_in_examples-28-yellow.svg" alt="Lines in examples"></a> <a href=
             "https://github.com/bestia-dev/cargo_auto_lib/"><img src="https://img.shields.io/badge/Lines_in_tests-79-orange.svg" alt="Lines in tests"></a></p>
@@ -419,7 +419,7 @@ cargo auto doc{RESET}{YELLOW}
               <a class="struct" href="struct.CargoToml.html" title="struct cargo_auto_lib::CargoToml">CargoToml</a>
             </div>
             <div class="desc docblock-short">
-              this struct represent the data in Cargo.toml
+              Read data from Cargo.toml
             </div>
           </li>
           <li>
@@ -482,7 +482,7 @@ cargo auto doc{RESET}{YELLOW}
               "trait cargo_auto_lib::CargoTomlPublicApiMethods">CargoTomlPublicApiMethods</a>
             </div>
             <div class="desc docblock-short">
-              this struct and methods represent the data in Cargo.toml
+              trait with methods to read data from Cargo.toml
             </div>
           </li>
         </ul>
@@ -493,7 +493,7 @@ cargo auto doc{RESET}{YELLOW}
               <a class="fn" href="fn.add_message_to_unreleased.html" title="fn cargo_auto_lib::add_message_to_unreleased">add_message_to_unreleased</a>
             </div>
             <div class="desc docblock-short">
-              add commit message to Unreleased in RELEASES.md
+              Add commit message to Unreleased in RELEASES.md
             </div>
           </li>
           <li>
@@ -746,7 +746,7 @@ cargo auto doc{RESET}{YELLOW}
               "fn cargo_auto_lib::github_api_create_new_release">github_api_create_new_release</a>
             </div>
             <div class="desc docblock-short">
-              create new release on Github
+              Create new release on Github
             </div>
           </li>
           <li>
@@ -755,12 +755,15 @@ cargo auto doc{RESET}{YELLOW}
               "fn cargo_auto_lib::github_api_upload_asset_to_release">github_api_upload_asset_to_release</a>
             </div>
             <div class="desc docblock-short">
-              upload asset to github release
+              Upload asset to github release
             </div>
           </li>
           <li>
             <div class="item-name">
               <a class="fn" href="fn.hash_for_filename.html" title="fn cargo_auto_lib::hash_for_filename">hash_for_filename</a>
+            </div>
+            <div class="desc docblock-short">
+              hash for file
             </div>
           </li>
           <li>
@@ -776,7 +779,7 @@ cargo auto doc{RESET}{YELLOW}
               <a class="fn" href="fn.init_repository_if_needed.html" title="fn cargo_auto_lib::init_repository_if_needed">init_repository_if_needed</a>
             </div>
             <div class="desc docblock-short">
-              init repository if needed. A new local git repository and remote GitHub repository.
+              Init repository if needed
             </div>
           </li>
           <li>
@@ -784,7 +787,7 @@ cargo auto doc{RESET}{YELLOW}
               <a class="fn" href="fn.now_utc_date_iso.html" title="fn cargo_auto_lib::now_utc_date_iso">now_utc_date_iso</a>
             </div>
             <div class="desc docblock-short">
-              the UTC date in iso standard 2024-12-31
+              UTC date in iso standard like 2024-12-31
             </div>
           </li>
           <li>
@@ -793,7 +796,7 @@ cargo auto doc{RESET}{YELLOW}
               "fn cargo_auto_lib::publish_to_crates_io_with_secret_token">publish_to_crates_io_with_secret_token</a>
             </div>
             <div class="desc docblock-short">
-              publish to crates.io
+              Publish to crates.io
             </div>
           </li>
           <li>
@@ -801,7 +804,7 @@ cargo auto doc{RESET}{YELLOW}
               <a class="fn" href="fn.run_shell_command.html" title="fn cargo_auto_lib::run_shell_command">run_shell_command</a>
             </div>
             <div class="desc docblock-short">
-              run one shell command
+              Run one shell command
             </div>
           </li>
           <li>
@@ -826,7 +829,7 @@ cargo auto doc{RESET}{YELLOW}
               "fn cargo_auto_lib::traverse_dir_with_exclude_dir">traverse_dir_with_exclude_dir</a>
             </div>
             <div class="desc docblock-short">
-              <!-- markdownlint-disable -->
+              Traverse dir and its sub-dir, but avoid excluded dirs.
             </div>
           </li>
         </ul>
@@ -837,7 +840,7 @@ cargo auto doc{RESET}{YELLOW}
               <a class="type" href="type.ResultWithLibError.html" title="type cargo_auto_lib::ResultWithLibError">ResultWithLibError</a>
             </div>
             <div class="desc docblock-short">
-              for easier writing the returning type, that is mostly Result&lt;&gt; type for result with fixed LibError using thiserror
+              Result&lt;&gt; type with fixed LibError using thiserror
             </div>
           </li>
         </ul>

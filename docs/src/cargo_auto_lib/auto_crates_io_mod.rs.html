@@ -108,6 +108,7 @@
 <a href="#57" id="57">57</a>
 <a href="#58" id="58">58</a>
 <a href="#59" id="59">59</a>
+<a href="#60" id="60">60</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// auto_crates_io_mod.rs
@@ -124,10 +125,11 @@
 <span class="comment">// file contains crates.io token encrypted with github_com_ssh_1
 </span><span class="kw">pub const </span>CRATES_IO_TOKEN_PATH: <span class="kw-2">&</span>str = <span class="string">"~/.ssh/crates_io_data_1.ssh"</span>;
 
-<span class="doccomment">/// call the `cargo publish --token token` command
+<span class="doccomment">/// Publish to crates.io
 ///
-/// encrypt/decrypt the crates.io token with the GitHub ssh key
-/// but never show the secret token anywhere
+/// Encrypt/decrypt the crates.io token with the GitHub ssh key.
+/// Then call the `cargo publish --token token` command.
+/// Never show the secret token anywhere.
 </span><span class="kw">pub fn </span>publish_to_crates_io_with_secret_token() {
     <span class="kw">let </span><span class="kw-2">mut </span>token = check_or_get_crates_io_token().unwrap();
     <span class="comment">// don't show the token to the user

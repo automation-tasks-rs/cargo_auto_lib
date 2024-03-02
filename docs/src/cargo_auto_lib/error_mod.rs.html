@@ -84,7 +84,6 @@
 <a href="#33" id="33">33</a>
 <a href="#34" id="34">34</a>
 <a href="#35" id="35">35</a>
-<a href="#36" id="36">36</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// error_mod.rs
@@ -120,8 +119,7 @@
     //UnknownError,
 </span>}
 
-<span class="doccomment">/// for easier writing the returning type, that is mostly Result&lt;&gt;
-/// type for result with fixed LibError using thiserror
+<span class="doccomment">/// Result&lt;&gt; type with fixed LibError using thiserror
 </span><span class="kw">pub type </span>ResultWithLibError&lt;T, E = LibError&gt; = core::result::Result&lt;T, E&gt;;
 </code></pre>
       </div>
