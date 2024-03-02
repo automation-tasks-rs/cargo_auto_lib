@@ -15,7 +15,8 @@ pub struct ShellOutput {
     pub stderr: String,
 }
 
-/// run one shell command
+/// Run one shell command
+///
 /// Exits task execution if the command has Exit Status != 0
 pub fn run_shell_command(shell_command: &str) {
     if !shell_command.starts_with("echo ") {
@@ -29,7 +30,7 @@ pub fn run_shell_command(shell_command: &str) {
     }
 }
 
-/// run one shell command and return ShellOutput {exit_status, stdout, stderr}
+/// Run one shell command and return ShellOutput {exit_status, stdout, stderr}
 pub fn run_shell_command_output(shell_command: &str) -> ShellOutput {
     if !shell_command.starts_with("echo ") {
         println!("   {YELLOW} $ {shell_command}{RESET}");
@@ -43,7 +44,7 @@ pub fn run_shell_command_output(shell_command: &str) -> ShellOutput {
     }
 }
 
-/// run one shell command and return true if success
+/// Run one shell command and return true if success
 pub fn run_shell_command_success(shell_command: &str) -> bool {
     if !shell_command.starts_with("echo ") {
         println!("    {YELLOW}$ {shell_command}{RESET}",);

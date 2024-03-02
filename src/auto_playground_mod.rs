@@ -1,5 +1,7 @@
 // auto_playground_mod.rs
 
+//! Includes the link to playground with the rust code in a parameter.
+
 use crate::public_api_mod::{RED, RESET, YELLOW};
 use crate::utils_mod::*;
 use lazy_static::lazy_static;

@@ -1,7 +1,6 @@
 // auto_md_to_doc_comments_mod
 
 //! finds rs files with markers and include segments from md files
-//! It works for workspaces and for single projects.  
 
 use glob::glob;
 use lazy_static::lazy_static;
@@ -167,9 +166,8 @@ lazy_static! {
     static ref REGEX_MD_END: Regex = Regex::new(r#"(?m)^\[//\]: # \(auto_md_to_doc_comments segment end (.*?)\)$"#).unwrap();
 }
 
-/// The first time it is called
-/// reads the file and extracts all the segments
-/// into a cache vector.
+/// The first time it is called read the file and extracts all the segments into a cache vector.
+///
 /// Subsequent calls read from the cache.
 fn get_md_segments_using_cache(cache: &mut Vec<MdSegment>, md_filename: &str, marker_name: &str, comment_symbol: &str) -> String {
     // check the cache

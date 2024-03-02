@@ -1,5 +1,7 @@
 // auto_check_micro_xml_mod.rs
 
+//! checks the correctness of micro XML files
+
 use crate::public_api_mod::{RED, RESET, YELLOW};
 use glob::glob;
 use reader_for_microxml::{ReaderForMicroXml, Token};

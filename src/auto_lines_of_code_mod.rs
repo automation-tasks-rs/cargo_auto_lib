@@ -1,7 +1,6 @@
 // auto_lines_of_code_mod
 
 //! inserts shield badges with lines_of_code into README.rs
-//! It works for workspaces and for single projects.  
 
 use crate::public_api_mod::{RED, RESET, YELLOW};
 use regex::Regex;
@@ -121,6 +120,7 @@ pub fn auto_lines_of_code(link: &str) {
 }
 
 /// Return the string for link for badges like: <https://github.com/bestia-dev/auto_lines_of_code/>.  
+///
 /// Get the output string after $ git remote -v.  
 /// Then finds out the link to the repository with regex.  
 /// Returns empty string if something goes wrong: no git, no remote,...  
@@ -219,6 +219,7 @@ fn one_project_count_lines() -> LinesOfCode {
     // return
     lines_of_code
 }
+
 fn git_remote_output() -> anyhow::Result<String> {
     let output = std::process::Command::new("git").arg("remote").arg("-v").output()?;
 
@@ -226,6 +227,7 @@ fn git_remote_output() -> anyhow::Result<String> {
     // return
     Ok(output)
 }
+
 /// returns a Result.
 /// in the case of error the calling fn will return empty string.
 fn regex_capture(output: String) -> anyhow::Result<String> {
@@ -242,6 +244,7 @@ fn regex_capture(output: String) -> anyhow::Result<String> {
     anyhow::ensure!(cap.len() == 4, "Error: cap len is not 4, because there are 4 capture groups in regex.");
     Ok(format!("https://{}/{}/{}/", &cap[1], &cap[2], &cap[3]))
 }
+
 /// Returns a string with the markdown code for 4 shield badges.
 ///
 /// Every badge has the link to the url given as first parameter

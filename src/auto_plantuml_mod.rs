@@ -1,5 +1,7 @@
 // auto_plantuml_mod.rs
 
+//! Includes the plantuml svg generated from the plantuml code
+
 use crate::public_api_mod::{RED, RESET, YELLOW};
 use crate::utils_mod::*;
 use lazy_static::lazy_static;

@@ -1,7 +1,6 @@
 // auto_version_from_date_mod
 
 //! new version as date is written to Cargo.toml and service_worker.js
-//! It works for workspaces and for single projects.  
 
 // region: use statements
 

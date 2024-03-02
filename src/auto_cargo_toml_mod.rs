@@ -1,7 +1,6 @@
 // auto_cargo_toml_mod
 
 //! functions to get data from Cargo.toml
-//! It works for workspaces and for single projects.  
 
 use lazy_static::lazy_static;
 use regex::*;
@@ -11,6 +10,7 @@ lazy_static! {
     static ref REGEX_REMOVE_EMAIL: Regex = Regex::new(r#"( <.+?>)"#).unwrap();
 }
 
+/// this struct represent the data in Cargo.toml
 pub struct CargoToml {
     /// the first Cargo.toml is maybe a workspace
     cargo_toml_workspace_maybe: cargo_toml::Manifest,

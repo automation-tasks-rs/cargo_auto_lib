@@ -1,5 +1,7 @@
 // auto_crates_io_mod.rs
 
+//! push versions to crates.io
+
 use crate::auto_ssh_mod::SecretString;
 use crate::RED;
 use crate::RESET;
@@ -10,8 +12,9 @@ use zeroize::Zeroize;
 // file contains crates.io token encrypted with github_com_ssh_1
 pub const CRATES_IO_TOKEN_PATH: &str = "~/.ssh/crates_io_data_1.ssh";
 
+/// call the `cargo publish --token token` command
+///
 /// encrypt/decrypt the crates.io token with the GitHub ssh key
-/// then call the `cargo publish --token token` command
 /// but never show the secret token anywhere
 pub fn publish_to_crates_io_with_secret_token() {
     let mut token = check_or_get_crates_io_token().unwrap();
