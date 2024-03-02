@@ -34,7 +34,7 @@
     <div class="sidebar-crate">
       <a class="logo-container" href="../cargo_auto_lib/index.html"><img src=
       "https://github.com/bestia-dev/cargo-auto/raw/main/images/logo/logo_cargo_auto.svg" alt="logo"></a>
-      <h2><a href="../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">1.4.5</span></h2>
+      <h2><a href="../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">1.4.6</span></h2>
     </div>
     <div class="sidebar-elems">
       <ul class="block">
@@ -87,7 +87,7 @@
         <div class="main-heading">
           <h1>Crate <a class="mod" href="#">cargo_auto_lib</a><button id="copy-path" title="Copy item path to clipboard"><img src=
           "../static.files/clipboard-7571035ce49a181d.svg" width="19" height="18" alt="Copy item path"></button></h1><span class="out-of-band"><a class="src"
-          href="../src/cargo_auto_lib/lib.rs.html#4-167">source</a> · <button id="toggle-all-docs" title="collapse all docs">[<span>−</span>]</button></span>
+          href="../src/cargo_auto_lib/lib.rs.html#4-156">source</a> · <button id="toggle-all-docs" title="collapse all docs">[<span>−</span>]</button></span>
         </div>
         <details class="toggle top-doc" open="">
           <summary class="hideme">
@@ -95,9 +95,9 @@
           </summary>
           <div class="docblock">
             <h2 id="cargo_auto_lib"><a href="#cargo_auto_lib">cargo_auto_lib</a></h2>
-            <p><strong>Library crate for common tasks when building rust projects. Intended for use with cargo-auto - automation tasks written in Rust
+            <p><strong>Library crate for common tasks when building Rust projects. Intended for use with cargo-auto - automation tasks coded in Rust
             language.</strong><br>
-            <em><strong>version: 1.4.5 date: 2024-03-02 author: <a href="https://bestia.dev">Bestia.dev</a> repository: <a href=
+            <em><strong>version: 1.4.6 date: 2024-03-02 author: <a href="https://bestia.dev">Bestia.dev</a> repository: <a href=
             "https://github.com/bestia-dev/cargo_auto_lib">GitHub</a></strong></em></p>
             <p><img src="https://img.shields.io/badge/maintained-green" alt="maintained"> <img src="https://img.shields.io/badge/ready_for_use-green" alt=
             "ready-for-use"> <img src="https://img.shields.io/badge/rustlang-orange" alt="rustlang"> <img src="https://img.shields.io/badge/cargo_auto-orange"
@@ -114,7 +114,7 @@
             "https://bestia.dev/webpage_hit_counter/get_svg_image/276360626.svg" alt="cargo_auto_lib"></p>
             <p><a href="https://github.com/bestia-dev/cargo_auto_lib/"><img src="https://img.shields.io/badge/Lines_in_Rust-2480-green.svg" alt=
             "Lines in Rust code"></a> <a href="https://github.com/bestia-dev/cargo_auto_lib/"><img src=
-            "https://img.shields.io/badge/Lines_in_Doc_comments-931-blue.svg" alt="Lines in Doc comments"></a> <a href=
+            "https://img.shields.io/badge/Lines_in_Doc_comments-933-blue.svg" alt="Lines in Doc comments"></a> <a href=
             "https://github.com/bestia-dev/cargo_auto_lib/"><img src="https://img.shields.io/badge/Lines_in_comments-376-purple.svg" alt=
             "Lines in Comments"></a> <a href="https://github.com/bestia-dev/cargo_auto_lib/"><img src=
             "https://img.shields.io/badge/Lines_in_examples-28-yellow.svg" alt="Lines in examples"></a> <a href=
@@ -126,21 +126,12 @@
             <p>First, install the tool for task automation in Rust projects:</p>
             <div class="example-wrap">
               <pre class="language-bash"><code>cargo install cargo-auto
-</code></pre>
-            </div>
-            <p>Generate a new Rust CLI project:</p>
-            <div class="example-wrap">
-              <pre class="language-bash"><code>cargo auto new_cli hello_world
-</code></pre>
-            </div>
-            <p>Open the <code>hello_world</code> project in VSCode:</p>
-            <div class="example-wrap">
-              <pre class="language-bash"><code>code hello_world
-</code></pre>
-            </div>
-            <p>Open the generated directory <code>automation_tasks_rs</code> as an independent rust project in VSCode.</p>
-            <div class="example-wrap">
-              <pre class="language-bash"><code>code hello_world/automation_tasks_rs
+# Generate a new Rust CLI project:
+cargo auto new_cli hello_world
+# Open the `hello_world` project in VSCode:
+code hello_world
+# Open the generated directory `automation_tasks_rs` as an independent rust project in VSCode.
+code hello_world/automation_tasks_rs
 </code></pre>
             </div>
             <p>Now we can analyze the automation code. There is already this dependency inside <code>Cargo.toml</code> for our library:</p>
@@ -154,21 +145,22 @@
               <a href="#" class="tooltip" title="This example is not tested">ⓘ</a>
               <pre class="rust rust-example-rendered"><code><span class="doccomment">/// cargo build --release
 </span><span class="kw">fn </span>task_release() {
-<span class="comment">//    let cargo_toml = CargoToml::read();
-    </span>cl::auto_version_increment_semver_or_date();
+    <span class="kw">let </span>cargo_toml = CargoToml::read();
+    cl::auto_version_increment_semver_or_date();
     cl::auto_cargo_toml_to_md();
     cl::auto_lines_of_code(<span class="string">""</span>);
 
     cl::run_shell_command(<span class="string">"cargo fmt"</span>);
     cl::run_shell_command(<span class="string">"cargo build --release"</span>);
     <span class="macro">println!</span>(
-        <span class="string">r#"{YELLOW}
-    After `cargo auto release`, run examples and tests
-    if ok, then,{RESET}{GREEN}
-cargo auto doc{RESET}{YELLOW}
-{RESET}"#
-    </span>);
-    print_examples_cmd();
+        <span class="string">r#"
+    {YELLOW}After `cargo auto release`, run the compiled binary, examples and/or tests{RESET}
+{GREEN}./target/release/{package_name} arg_1{RESET}
+    {YELLOW}if ok then{RESET}
+{GREEN}cargo auto doc{RESET}
+"#</span>,
+package_name = cargo_toml.package_name(),
+    );
 }</code></pre>
             </div>
             <p>You can see this function will increment the version in <code>Cargo.toml</code>.<br>
