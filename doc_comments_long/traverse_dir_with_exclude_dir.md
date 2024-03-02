@@ -1,6 +1,5 @@
 [//]: # (auto_md_to_doc_comments segment start A)
 
-<!-- markdownlint-disable -->
 Traverse dir and its sub-dir, but avoid excluded dirs.
 
 The find_file and the exclude dir strings must start with /.

@@ -12,10 +12,11 @@ use zeroize::Zeroize;
 // file contains crates.io token encrypted with github_com_ssh_1
 pub const CRATES_IO_TOKEN_PATH: &str = "~/.ssh/crates_io_data_1.ssh";
 
-/// call the `cargo publish --token token` command
+/// Publish to crates.io
 ///
-/// encrypt/decrypt the crates.io token with the GitHub ssh key
-/// but never show the secret token anywhere
+/// Encrypt/decrypt the crates.io token with the GitHub ssh key.
+/// Then call the `cargo publish --token token` command.
+/// Never show the secret token anywhere.
 pub fn publish_to_crates_io_with_secret_token() {
     let mut token = check_or_get_crates_io_token().unwrap();
     // don't show the token to the user

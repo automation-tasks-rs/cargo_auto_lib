@@ -17,7 +17,7 @@ pub struct ShellOutput {
 
 /// Run one shell command
 ///
-/// Exits task execution if the command has Exit Status != 0
+/// Exit task execution if the command has Exit Status != 0.
 pub fn run_shell_command(shell_command: &str) {
     if !shell_command.starts_with("echo ") {
         println!("    {YELLOW}$ {shell_command}{RESET}");

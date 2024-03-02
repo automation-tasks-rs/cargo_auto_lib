@@ -6,11 +6,11 @@ use lazy_static::lazy_static;
 use regex::*;
 
 lazy_static! {
-    // from this string: authors = ["bestia.dev"]
+    /// remove email from author
     static ref REGEX_REMOVE_EMAIL: Regex = Regex::new(r#"( <.+?>)"#).unwrap();
 }
 
-/// this struct represent the data in Cargo.toml
+/// Read data from Cargo.toml
 pub struct CargoToml {
     /// the first Cargo.toml is maybe a workspace
     cargo_toml_workspace_maybe: cargo_toml::Manifest,

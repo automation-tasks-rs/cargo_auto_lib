@@ -19,16 +19,7 @@ pub const RELEASES_MD: &str = "RELEASES.md";
 // file contains github token encrypted with github_com_ssh_1
 pub const GITHUB_TOKEN_PATH: &str = "~/.ssh/github_com_data_1.ssh";
 
-/// create new release on Github
-///
-/// return release_id  
-/// <https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token>  
-/// ```ignore
-///       let release_id =  github_create_new_release(&owner, &repo, &version, &name, branch, body_md_text);  
-///       println!("release_id={release_id}");
-///       upload_asset_to_github_release(&owner, &repo, &release_id, &path_to_file);  
-///       println!("Asset uploaded.");    
-/// ```
+/// Create new release on Github
 pub fn github_api_create_new_release(owner: &str, repo: &str, tag_name_version: &str, name: &str, branch: &str, body_md_text: &str) -> String {
     /*
     https://docs.github.com/en/rest/releases/releases?apiVersion=2022-11-28#create-a-release
@@ -88,17 +79,7 @@ pub fn github_api_create_new_release(owner: &str, repo: &str, tag_name_version: 
     new_release_id
 }
 
-/// upload asset to github release  
-///
-/// release_upload_url example: <https://uploads.github.com/repos/owner/repo/releases/48127727/assets>  
-/// <https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token>  
-/// async function can be called from sync code:  
-/// ```ignore
-///       let release_id =  github_create_new_release(&owner, &repo, &version, &name, branch, body_md_text);  
-///       println!("release_id={release_id}");
-///       upload_asset_to_github_release(&owner, &repo, &release_id, &path_to_file);  
-///       println!("Asset uploaded.");  
-/// ```
+/// Upload asset to github release  
 pub fn github_api_upload_asset_to_release(owner: &str, repo: &str, release_id: &str, path_to_file: &str) {
     let mut token = check_or_get_github_token().unwrap();
 
@@ -194,7 +175,9 @@ pub fn github_api_repository_new(owner: &str, name: &str, description: &str) -> 
     parsed
 }
 
-/// init repository if needed. A new local git repository and remote GitHub repository.
+/// Init repository if needed
+///
+/// A new local git repository and remote GitHub repository will be crated.
 pub fn init_repository_if_needed(message: &str) -> bool {
     // Find the filename of the identity_file for ssh connection to host_name, to find out if need ssh-add or not.
     // parse the ~/.ssh/config. 99% probably there should be a record for host_name and there is the identity_file.
@@ -437,11 +420,11 @@ pub fn git_tag_sync_check_create_push(version: &str) -> String {
     tag_name_version
 }
 
-/// Create GitHub release from RELEASES.md
+/// Get release text from RELEASES.md
 ///
-/// First, the user must write the content into file RELEASES.md in the section ## Unreleased.
-/// Then the automation task will copy the content to GitHub release
-/// and create a new Version title in RELEASES.md.
+/// First, the user must write the content into file RELEASES.md in the section ## Unreleased.  
+/// Then the automation task will copy the content to GitHub release  
+/// and create a new Version title in RELEASES.md.  
 pub fn body_text_from_releases_md(release_name: &str) -> Option<String> {
     create_releases_md_if_file_not_exist();
     let release_md = std::fs::read_to_string(RELEASES_MD).unwrap();
@@ -490,12 +473,12 @@ The TODO section is part of the [README.md](https://github.com/{github_owner}/{p
     }
 }
 
-/// the UTC date in iso standard 2024-12-31
+/// UTC  date in iso standard like 2024-12-31
 pub fn now_utc_date_iso() -> String {
     chrono::Utc::now().format("%Y-%m-%d").to_string()
 }
 
-/// add commit message to Unreleased in RELEASES.md
+/// Add commit message to Unreleased in RELEASES.md
 pub fn add_message_to_unreleased(message: &str) {
     create_releases_md_if_file_not_exist();
     let release_md = std::fs::read_to_string(RELEASES_MD).unwrap();

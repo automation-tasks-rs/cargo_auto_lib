@@ -8,10 +8,10 @@ use crate::public_api_mod::{RED, RESET, YELLOW};
 // this trait must be in scope to use these methods of CargoToml
 use crate::public_api_mod::CargoTomlPublicApiMethods;
 
-/// increments the version in Cargo.toml.
+/// Increments the version in Cargo.toml
 ///
-/// if the major version is greater than 2000, it is a date version
-/// else it is semver and increments the patch part
+/// if the major version is greater than 2000, it is a date version  
+/// else it is semver and increments the patch part  
 pub fn auto_version_increment_semver_or_date() {
     println!("    {YELLOW}Running auto_semver_or_date{RESET}");
     // Cargo.toml contains the list of projects

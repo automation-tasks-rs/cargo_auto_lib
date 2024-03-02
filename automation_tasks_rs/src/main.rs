@@ -12,7 +12,6 @@ use cargo_auto_lib::YELLOW;
 
 // region: library with basic automation tasks
 
-
 // When developing a new function in cargo_auto_lib I need to build it, then change automation_tasks_re/main.rs
 // and then run the task where I put the experimental code:
 // clear && cargo auto build && echo "// " >> automation_tasks_rs/src/main.rs && cargo auto test

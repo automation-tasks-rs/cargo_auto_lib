@@ -154,6 +154,7 @@ pub fn auto_plantuml_for_path(path: &std::path::Path, repo_url: &str) {
     println!("    {YELLOW}Finished auto_plantuml{RESET}");
 }
 
+/// hash for file
 pub fn hash_for_filename(text: &str) -> String {
     let hash = <sha2::Sha256 as sha2::Digest>::digest(text.as_bytes());
     // base64ct = {version = "1.5.0", features = ["alloc"] }

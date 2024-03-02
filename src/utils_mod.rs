@@ -39,7 +39,6 @@ pub fn find_from(text: &str, from_pos: usize, find: &str) -> Option<usize> {
 }
 
 // region: auto_md_to_doc_comments include doc_comments_long/traverse_dir_with_exclude_dir.md A ///
-/// <!-- markdownlint-disable -->
 /// Traverse dir and its sub-dir, but avoid excluded dirs.
 ///
 /// The find_file and the exclude dir strings must start with /.
