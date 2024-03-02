@@ -2,8 +2,6 @@
 
 //! various utilities
 
-use std::{fs, io, path::Path};
-
 // region: delimiters cannot be INACTIVE like markers
 
 /// return the position of start of the delimited data after the delimiter
@@ -41,13 +39,13 @@ pub fn find_from(text: &str, from_pos: usize, find: &str) -> Option<usize> {
 }
 
 #[doc=include_str!("../doc_comments_long/traverse_dir_with_exclude_dir.md")]
-pub fn traverse_dir_with_exclude_dir(dir: &Path, find_file: &str, exclude_dirs: &[String]) -> io::Result<Vec<String>> {
+pub fn traverse_dir_with_exclude_dir(dir: &std::path::Path, find_file: &str, exclude_dirs: &[String]) -> std::io::Result<Vec<String>> {
     // if the parameter is /*.rs, I can eliminate /*
     let find_file = &find_file.replace("/*", "");
 
     let mut v = Vec::new();
     if dir.is_dir() {
-        for entry in fs::read_dir(dir)? {
+        for entry in std::fs::read_dir(dir)? {
             let entry = entry?;
             let path = entry.path();
             let str_path = path.to_str().unwrap();
@@ -87,17 +85,17 @@ pub fn concatenate_vec_to_string(vec: &[String], delimiter: &str) -> String {
 
 /// just a shorter way to get a Path from a String
 pub fn to_path(path_str: &str) -> &std::path::Path {
-    std::path::Path::new(path_str)
+    camino::Utf8Path::new(path_str).as_std_path()
 }
 
 /// check if file exists
 pub fn file_exists(file_path: &str) -> bool {
-    std::path::Path::new(file_path).exists()
+    camino::Utf8Path::new(file_path).exists()
 }
 
 /// expands the ~ for home_dir and returns expanded path
 pub fn file_path_home_expand(file_path: &str) -> String {
-    file_path.replace("~", crate::home_dir().to_string_lossy().as_ref())
+    file_path.replace("~", camino::Utf8Path::from_path(&crate::home_dir()).unwrap().as_str())
 }
 
 // TODO: PathString object with often used functions: expand, exist, to_path,...

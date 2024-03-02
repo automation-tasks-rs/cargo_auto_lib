@@ -12,15 +12,14 @@ pub fn auto_check_micro_xml(path_to_html_pages: &str) {
     // find html pages for single page application
     for filename_result in glob(&glob_str).unwrap() {
         let filename_pathbuff = filename_result.unwrap();
-        let file_name = filename_pathbuff.file_name().unwrap().to_str().unwrap();
+        let filename_pathbuff = camino::Utf8Path::from_path(&filename_pathbuff).unwrap();
+
+        let file_name = filename_pathbuff.file_name().unwrap();
         let str_xml = std::fs::read_to_string(&filename_pathbuff).unwrap();
 
         // check if file have CRLF instead of LF and show error
         if str_xml.contains("\r\n") {
-            panic!(
-                "{RED}Error: {} has CRLF line endings instead of LF. The task auto_check_micro_xml cannot work! Exiting..{RESET}",
-                filename_pathbuff.to_string_lossy()
-            );
+            panic!("{RED}Error: {filename_pathbuff} has CRLF line endings instead of LF. The task auto_check_micro_xml cannot work! Exiting..{RESET}");
         }
 
         // check microxml correctness. Panic on errors.

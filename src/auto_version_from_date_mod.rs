@@ -11,9 +11,7 @@ use chrono::DateTime;
 use chrono::Timelike;
 use chrono::{Datelike, Utc};
 use serde_derive::{Deserialize, Serialize};
-use std::path::PathBuf;
 use std::str::FromStr;
-use std::{fs, path::Path};
 
 // this trait must be in scope to use these methods of CargoToml
 use crate::public_api_mod::CargoTomlPublicApiMethods;
@@ -94,10 +92,10 @@ fn do_one_project(new_version: &str, force_version: bool) -> ResultWithLibError<
 
 /// search for file service_worker.js and modify version
 fn modify_service_js(new_version: &str) {
-    let start_dir = Path::new("./");
-    for js_filename in &crate::utils_mod::traverse_dir_with_exclude_dir(start_dir, "/service_worker.js", &["/.git".to_string(), "/target".to_string()]).unwrap() {
+    let start_dir = camino::Utf8Path::new("./");
+    for js_filename in &crate::utils_mod::traverse_dir_with_exclude_dir(start_dir.as_std_path(), "/service_worker.js", &["/.git".to_string(), "/target".to_string()]).unwrap() {
         // println!("{}write version in {}{}", *GREEN, js_filename, *RESET);
-        let mut js_content = fs::read_to_string(js_filename).unwrap();
+        let mut js_content = std::fs::read_to_string(js_filename).unwrap();
 
         // check if file have CRLF instead of LF and show error
         if js_content.contains("\r\n") {
@@ -118,7 +116,7 @@ fn modify_service_js(new_version: &str) {
                     println!("    {YELLOW}Modify version: {old_version} -> {new_version}{RESET}");
                     js_content.insert_str(start_version, new_version);
                     //println!("{}write file: {}{}", *YELLOW, js_filename, *RESET);
-                    let _x = fs::write(js_filename, js_content);
+                    let _x = std::fs::write(js_filename, js_content);
                 }
             } else {
                 panic!("{RED}no end quote for version{RESET}");
@@ -133,7 +131,7 @@ fn modify_service_js(new_version: &str) {
 fn write_version_to_cargo_and_modify_metadata(new_version: &str, mut vec_of_metadata: Vec<FileMetaData>) -> ResultWithLibError<()> {
     // println!("{}write version to Cargo.toml{}", *GREEN, *RESET);
     let cargo_filename = "Cargo.toml";
-    let mut cargo_content = fs::read_to_string(cargo_filename).unwrap();
+    let mut cargo_content = std::fs::read_to_string(cargo_filename).unwrap();
 
     // check if file have CRLF instead of LF and show error
     if cargo_content.contains("\r\n") {
@@ -157,7 +155,7 @@ fn write_version_to_cargo_and_modify_metadata(new_version: &str, mut vec_of_meta
                 println!("    {YELLOW}Modify version: {old_version} -> {new_version}{RESET}");
                 cargo_content.insert_str(start_version, new_version);
                 // println!("{}write file: {}{}", *YELLOW, cargo_filename, *RESET);
-                let _x = fs::write(cargo_filename, cargo_content);
+                let _x = std::fs::write(cargo_filename, cargo_content);
 
                 //the Cargo.toml is now different
                 correct_file_metadata_for_cargo_tom_inside_vec(&mut vec_of_metadata)?;
@@ -177,7 +175,7 @@ pub fn correct_file_metadata_for_cargo_tom_inside_vec(vec_of_metadata: &mut [Fil
     //correct the vector only for Cargo.toml file
     let filename = "Cargo.toml".to_string();
     // calculate hash of file
-    let filehash = sha256_digest(PathBuf::from_str(&filename)?.as_path())?;
+    let filehash = sha256_digest(std::path::PathBuf::from_str(&filename)?.as_path())?;
     vec_of_metadata.get_mut(0).ok_or(LibError::ErrorFromStr("error vec_of_metadata.get_mut(0)"))?.filehash = filehash;
     Ok(())
 }
@@ -209,11 +207,11 @@ pub fn read_file_metadata() -> ResultWithLibError<Vec<FileMetaData>> {
     let mut vec_of_metadata: Vec<FileMetaData> = Vec::new();
     let filename = "Cargo.toml".to_string();
     // calculate hash of file
-    let filehash = sha256_digest(PathBuf::from_str(&filename)?.as_path())?;
+    let filehash = sha256_digest(std::path::PathBuf::from_str(&filename)?.as_path())?;
     vec_of_metadata.push(FileMetaData { filename, filehash });
 
     let files_paths = crate::utils_mod::traverse_dir_with_exclude_dir(
-        Path::new("src"),
+        camino::Utf8Path::new("src").as_std_path(),
         "/*.rs",
         // avoid big folders and other folders with *.crev
         &[],
@@ -222,14 +220,14 @@ pub fn read_file_metadata() -> ResultWithLibError<Vec<FileMetaData>> {
 
     for filename in files_paths {
         // calculate hash of file
-        let filehash = sha256_digest(PathBuf::from_str(&filename)?.as_path())?;
+        let filehash = sha256_digest(std::path::PathBuf::from_str(&filename)?.as_path())?;
         vec_of_metadata.push(FileMetaData { filename, filehash });
     }
     Ok(vec_of_metadata)
 }
 
 /// calculate the hash for a file
-fn sha256_digest(path: &Path) -> ResultWithLibError<String> {
+fn sha256_digest(path: &std::path::Path) -> ResultWithLibError<String> {
     let file = std::fs::File::open(path)?;
     let mut reader = std::io::BufReader::new(file);
     let mut context = ring::digest::Context::new(&ring::digest::SHA256);
@@ -251,7 +249,7 @@ fn sha256_digest(path: &Path) -> ResultWithLibError<String> {
 /// read .automation_tasks_rs_file_hashes.json
 pub fn read_json_file(json_filepath: &str) -> ResultWithLibError<AutoVersionFromDate> {
     let js_struct: AutoVersionFromDate;
-    let f = fs::read_to_string(json_filepath);
+    let f = std::fs::read_to_string(json_filepath);
 
     match f {
         Ok(x) => {
@@ -278,7 +276,7 @@ pub fn save_json_file_for_file_meta_data(vec_of_metadata: Vec<FileMetaData>) {
     let x = AutoVersionFromDate { vec_file_metadata: vec_of_metadata };
     let y = serde_json::to_string_pretty(&x).unwrap();
     let json_filepath = ".automation_tasks_rs_file_hashes.json";
-    let _f = fs::write(json_filepath, y);
+    let _f = std::fs::write(json_filepath, y);
 }
 
 /// converts a date to a version
@@ -322,7 +320,7 @@ mod test {
 
     #[test]
     pub fn test_sha256_digest() -> ResultWithLibError<()> {
-        let digest = sha256_digest(Path::new("LICENSE"))?;
+        let digest = sha256_digest(camino::Utf8Path::new("LICENSE").as_std_path())?;
         let hash_string = data_encoding::HEXLOWER.encode(digest.as_ref());
         let expected_hex = "65666234343064623966363462343963643663333839373166303131663632636334666364323733663461323635303161346336366139633935656337373139";
         assert_eq!(&hash_string, expected_hex);

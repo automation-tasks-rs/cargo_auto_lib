@@ -16,6 +16,6 @@ fn main() {
     std::fs::copy("sample_data/input2_for_plantuml.md", "examples/plantuml/input2_for_plantuml.md").unwrap();
     // endregion: prepare folders and files for this example
 
-    let path = std::path::Path::new("examples/plantuml");
+    let path = camino::Utf8Path::new("examples/plantuml");
     cargo_auto_lib::auto_plantuml_for_path(path, "");
 }

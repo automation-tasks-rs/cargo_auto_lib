@@ -6,7 +6,6 @@ The find_file and the exclude dir strings must start with /.
 ## Example
 
 ```Rust
-use std::path::Path;
 
 let files = cargo_auto_lib::traverse_dir_with_exclude_dir(
     Path::new("/home/project/src"),

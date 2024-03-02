@@ -12,12 +12,15 @@ use crate::public_api_mod::{RESET, YELLOW};
 /// let ext_for_binary_files=vec![".ico",".jpg",".png",".woff2"];
 /// let exclude_big_folders = vec!["/.git".to_string(),"/target".to_string(),"/docs".to_string()];
 pub fn copy_folder_files_into_module(folder_path: &std::path::Path, module_path: &std::path::Path, ext_for_binary_files: &[&str], exclude_big_folders: &[String]) {
-    println!("    {YELLOW}copy_folder_files_into_module {}, {}{RESET}", folder_path.to_string_lossy(), module_path.to_string_lossy());
+    let folder_path = camino::Utf8Path::from_path(folder_path).unwrap();
+    let module_path = camino::Utf8Path::from_path(module_path).unwrap();
+
+    println!("    {YELLOW}copy_folder_files_into_module {folder_path}, {module_path}{RESET}");
     // traverse and get all file_names
-    let files = crate::traverse_dir_with_exclude_dir(&folder_path, "", exclude_big_folders).unwrap();
+    let files = crate::traverse_dir_with_exclude_dir(&folder_path.as_std_path(), "", exclude_big_folders).unwrap();
     let mut new_code = String::new();
     for file_name in files.iter() {
-        let file_name_short = file_name.trim_start_matches(&format!("{}/", folder_path.to_string_lossy()));
+        let file_name_short = file_name.trim_start_matches(&format!("{folder_path}/"));
         // avoid Cargo.lock file
         if file_name_short == "Cargo.lock" {
             continue;

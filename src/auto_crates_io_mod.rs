@@ -35,7 +35,7 @@ fn check_or_get_crates_io_token() -> Option<SecretString> {
 
     let mut token: Option<SecretString> = None;
     let crates_io_token_path_expanded = crate::utils_mod::file_path_home_expand(CRATES_IO_TOKEN_PATH);
-    if std::path::Path::new(&crates_io_token_path_expanded).exists() {
+    if camino::Utf8Path::new(&crates_io_token_path_expanded).exists() {
         token = crate::auto_encrypt_decrypt_with_ssh_mod::decrypt_with_ssh_from_file(&crates_io_token_path_expanded);
     }
     if token.is_none() {

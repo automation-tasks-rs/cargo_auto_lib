@@ -67,7 +67,7 @@ pub fn run_shell_command_success(shell_command: &str) -> bool {
 /// there must be Cargo.toml and the directory automation_tasks_rs
 /// exit with error message if not
 pub fn exit_if_not_run_in_rust_project_root_directory() {
-    if !(std::path::Path::new("automation_tasks_rs").exists() && (std::path::Path::new("Cargo.toml").exists())) {
+    if !(camino::Utf8Path::new("automation_tasks_rs").exists() && (camino::Utf8Path::new("Cargo.toml").exists())) {
         eprintln!("{RED}Error: automation_tasks_rs must be called in the root directory of the rust project beside the Cargo.toml file and automation_tasks_rs directory.{RESET}");
         // early exit
         std::process::exit(0);

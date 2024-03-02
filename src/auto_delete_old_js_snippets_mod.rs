@@ -5,9 +5,6 @@
 //region: use statements
 use crate::public_api_mod::{RED, RESET, YELLOW};
 use filetime::FileTime;
-use std::env;
-use std::fs;
-use std::path::PathBuf;
 
 //endregion
 
@@ -16,21 +13,21 @@ use std::path::PathBuf;
 /// This utils do that.  
 /// The function must be executed in the root project folder where is the Cargo.toml.  
 pub fn auto_delete_old_js_snippets() {
-    let current_dir = env::current_dir().unwrap();
+    let current_dir = std::env::current_dir().unwrap();
     let snippets_dir = current_dir.join("pkg").join("snippets");
     //the first folder can be None
-    let mut opt_first_folder: Option<PathBuf> = None;
+    let mut opt_first_folder: Option<std::path::PathBuf> = None;
     let mut opt_first_mtime: Option<FileTime> = None;
 
     //find the newer folder and remove the older folder
     //but not with dodrio_xxx name
-    for entry in fs::read_dir(snippets_dir).unwrap() {
+    for entry in std::fs::read_dir(snippets_dir).unwrap() {
         let entry = entry.unwrap();
         let second_folder = entry.path();
         let second_name = entry.file_name().into_string().unwrap().to_lowercase();
         if !second_name.starts_with("dodrio") {
             //println!("{:?}",second_folder);
-            let second_metadata = fs::metadata(&second_folder).unwrap();
+            let second_metadata = std::fs::metadata(&second_folder).unwrap();
             let second_mtime = FileTime::from_last_modification_time(&second_metadata);
             //println!("{:?}",second_mtime);
 

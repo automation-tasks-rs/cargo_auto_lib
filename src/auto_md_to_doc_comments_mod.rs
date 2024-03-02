@@ -6,7 +6,7 @@
 use glob::glob;
 use lazy_static::lazy_static;
 use regex::Regex;
-use std::fs;
+
 // this trait must be in scope to use these methods of CargoToml
 use crate::public_api_mod::CargoTomlPublicApiMethods;
 use crate::public_api_mod::{RED, RESET, YELLOW};
@@ -50,7 +50,7 @@ pub fn auto_md_to_doc_comments() {
 fn one_project() {
     let mut cache_md_segments = vec![];
     for rs_filename in rs_files().iter() {
-        let mut rs_text_content = fs::read_to_string(rs_filename).unwrap();
+        let mut rs_text_content = std::fs::read_to_string(rs_filename).unwrap();
 
         // check if file have CRLF instead of LF and show error
         if rs_text_content.contains("\r\n") {
@@ -64,7 +64,7 @@ fn one_project() {
                 rs_text_content.replace_range(marker.pos_start..marker.pos_end, &segment_text);
             }
             println!("    {YELLOW}Write file: {rs_filename}{RESET}");
-            fs::write(rs_filename, rs_text_content).unwrap();
+            std::fs::write(rs_filename, rs_text_content).unwrap();
         }
     }
 }
@@ -138,7 +138,7 @@ fn get_md_segments_using_cache(cache: &mut Vec<MdSegment>, md_filename: &str, ma
     } else {
         // process the file
         println!("    {YELLOW}Read file: {md_filename}{RESET}");
-        let md_text_content = fs::read_to_string(md_filename).unwrap();
+        let md_text_content = std::fs::read_to_string(md_filename).unwrap();
 
         // check if file have CRLF instead of LF and show error
         if md_text_content.contains("\r\n") {

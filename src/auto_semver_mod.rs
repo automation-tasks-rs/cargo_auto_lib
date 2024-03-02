@@ -7,7 +7,6 @@ use crate::{
     error_mod::{LibError, ResultWithLibError},
     utils_mod::*,
 };
-use std::fs;
 
 enum VersionPart {
     Patch,
@@ -46,7 +45,7 @@ fn increment_part(part: VersionPart, force_version: bool) -> ResultWithLibError<
     if !is_files_equal {
         // println!("pub fn increment_patch");
         let cargo_toml_filename = "Cargo.toml";
-        let cargo_toml_text = fs::read_to_string(cargo_toml_filename)?;
+        let cargo_toml_text = std::fs::read_to_string(cargo_toml_filename)?;
 
         // check if file have CRLF instead of LF and show error
         if cargo_toml_text.contains("\r\n") {
@@ -84,7 +83,7 @@ fn increment_part(part: VersionPart, force_version: bool) -> ResultWithLibError<
                 println!("    {GREEN}new version: '{}'{RESET}", &new_semver);
                 let new_cargo_toml_text = format!("{}{}{}", &cargo_toml_text[..pos_start_data], &new_semver, &cargo_toml_text[pos_at_the_end_of_semver..]);
                 //save the file
-                let _x = fs::write(cargo_toml_filename, new_cargo_toml_text);
+                let _x = std::fs::write(cargo_toml_filename, new_cargo_toml_text);
 
                 //the Cargo.toml is now different
                 crate::auto_version_from_date_mod::correct_file_metadata_for_cargo_tom_inside_vec(&mut vec_of_metadata)?;

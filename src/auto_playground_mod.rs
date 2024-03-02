@@ -24,17 +24,14 @@ pub fn auto_playground_run_code() {
     )
     .unwrap();
     for md_filename in files {
-        let md_filename = std::path::Path::new(&md_filename);
+        let md_filename = camino::Utf8Path::new(&md_filename);
 
         let mut is_changed = false;
         let md_old = std::fs::read_to_string(md_filename).unwrap();
 
         // check if file have CRLF and show error
         if md_old.contains("\r\n") {
-            panic!(
-                "{RED}Error: {} has CRLF line endings instead of LF. The task auto_playground cannot work! Exiting.{RESET}",
-                md_filename.to_string_lossy()
-            );
+            panic!("{RED}Error: {md_filename} has CRLF line endings instead of LF. The task auto_playground cannot work! Exiting.{RESET}");
         }
         let mut iteration_start_pos = 0;
         let mut md_new = String::new();
@@ -77,7 +74,7 @@ pub fn auto_playground_run_code() {
 
         // if changed, then write to disk
         if is_changed {
-            println!("    {YELLOW}Code inside {} has changed. Playground link corrected.{RESET}", md_filename.to_string_lossy());
+            println!("    {YELLOW}Code inside {md_filename} has changed. Playground link corrected.{RESET}",);
             // push the remaining text
             md_new.push_str(&md_old[iteration_start_pos..md_old.len()]);
             let bak_filename = md_filename.with_extension("bak");

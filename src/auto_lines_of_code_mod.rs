@@ -7,7 +7,6 @@ use crate::public_api_mod::{RED, RESET, YELLOW};
 use regex::Regex;
 use std::fs::File;
 use std::io::{BufRead, BufReader};
-use std::{fs, path::Path};
 
 // use crate::auto_helper_functions_mod::*;
 // this trait must be in scope to use these methods of CargoToml
@@ -91,7 +90,7 @@ fn one_project_count_lines() -> LinesOfCode {
 
     // src folder
     let files = crate::utils_mod::traverse_dir_with_exclude_dir(
-        Path::new("src"),
+        camino::Utf8Path::new("src").as_std_path(),
         "/*.rs",
         // avoid big folders and other folders with *.crev
         &["/.git".to_string(), "/target".to_string(), "/docs".to_string()],
@@ -126,7 +125,7 @@ fn one_project_count_lines() -> LinesOfCode {
     }
     // tests folder
     let files = crate::utils_mod::traverse_dir_with_exclude_dir(
-        Path::new("tests"),
+        camino::Utf8Path::new("tests").as_std_path(),
         "/*.rs",
         // avoid big folders and other folders with *.crev
         &["/.git".to_string(), "/target".to_string(), "/docs".to_string()],
@@ -146,7 +145,7 @@ fn one_project_count_lines() -> LinesOfCode {
 
     // examples folder
     let files = crate::utils_mod::traverse_dir_with_exclude_dir(
-        Path::new("examples"),
+        camino::Utf8Path::new("examples").as_std_path(),
         "/*.rs",
         // avoid big folders and other folders with *.crev
         &["/.git".to_string(), "/target".to_string(), "/docs".to_string()],
@@ -223,7 +222,7 @@ fn include_into_readme_md(include_str: &str) {
     let end_delimiter = "[//]: # (auto_lines_of_code end)";
     let file_name = "README.md";
 
-    if let Ok(readme_content) = fs::read_to_string(file_name) {
+    if let Ok(readme_content) = std::fs::read_to_string(file_name) {
         // check if file have CRLF instead of LF and show error
         if readme_content.contains("\r\n") {
             panic!(
@@ -247,7 +246,7 @@ fn include_into_readme_md(include_str: &str) {
                     *GREEN, file_name, *RESET
                 );
                  */
-                fs::write(file_name, new_readme_content).unwrap();
+                std::fs::write(file_name, new_readme_content).unwrap();
             }
         }
     }

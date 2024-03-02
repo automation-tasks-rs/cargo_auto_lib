@@ -26,27 +26,25 @@ pub fn auto_plantuml(repo_url: &str) {
 /// process plantuml for all md files
 /// for test and examples I need to provide the path
 pub fn auto_plantuml_for_path(path: &std::path::Path, repo_url: &str) {
+    let path = camino::Utf8Path::from_path(path).unwrap();
     println!("    {YELLOW}Running auto_plantuml{RESET}");
     //use traverse instead of glob
     let files = crate::utils_mod::traverse_dir_with_exclude_dir(
-        path,
+        path.as_std_path(),
         "/*.md",
         // avoid big folders and other folders with *.crev
         &["/.git".to_string(), "/target".to_string(), "/docs".to_string()],
     )
     .unwrap();
     for md_filename in files {
-        let md_filename = std::path::Path::new(&md_filename);
+        let md_filename = camino::Utf8Path::new(&md_filename);
 
         let mut is_changed = false;
         let mut md_text_content = std::fs::read_to_string(md_filename).unwrap();
 
         // check if file have CRLF and show error
         if md_text_content.contains("\r\n") {
-            panic!(
-                "{RED}Error: {} has CRLF line endings instead of LF. The task auto_plantuml cannot work! Exiting..{RESET}",
-                md_filename.to_string_lossy()
-            );
+            panic!("{RED}Error: {md_filename} has CRLF line endings instead of LF. The task auto_plantuml cannot work! Exiting..{RESET}");
         }
         let mut pos = 0;
         // find markers
@@ -90,7 +88,7 @@ pub fn auto_plantuml_for_path(path: &std::path::Path, repo_url: &str) {
                         }
                         if get_new_svg {
                             let relative_md_filename = md_filename.strip_prefix(path).unwrap();
-                            println!("    {YELLOW}{} get new svg {plantuml_code_hash}{RESET}", relative_md_filename.to_string_lossy(),);
+                            println!("    {YELLOW}{relative_md_filename} get new svg {plantuml_code_hash}{RESET}");
 
                             // get the new svg image
                             let svg_code = get_svg(plantuml_code);
@@ -110,7 +108,7 @@ pub fn auto_plantuml_for_path(path: &std::path::Path, repo_url: &str) {
                             let relative_svg_path = new_file_path.strip_prefix(path).unwrap();
                             // dbg!(relative_svg_path);
                             // create the new image lnk
-                            let img_link = format!("\n![svg_{}]({}{})\n", plantuml_code_hash, &repo_full_url, relative_svg_path.to_string_lossy());
+                            let img_link = format!("\n![svg_{plantuml_code_hash}]({repo_full_url}{relative_svg_path})\n");
                             // delete the old img_link and insert the new one
                             md_text_content.replace_range(code_end_after..marker_end, &img_link);
                             is_changed = true;
@@ -173,8 +171,8 @@ mod test {
         std::fs::copy("sample_data/input2_for_plantuml.md", "examples/plantuml/input2_for_plantuml.md").unwrap();
         // endregion: prepare folders and files for this example
 
-        let path = std::path::Path::new("examples/plantuml");
-        auto_plantuml_for_path(path, "");
+        let path = camino::Utf8Path::new("examples/plantuml");
+        auto_plantuml_for_path(path.as_std_path(), "");
 
         // check the result
         let changed1 = std::fs::read_to_string("examples/plantuml/input1_for_plantuml.md").unwrap();
@@ -186,11 +184,11 @@ mod test {
         assert_eq!(changed2, output2);
 
         /* cSpell:disable */
-        assert!(std::path::Path::new("examples/plantuml/images/svg_8eLHibrc2gjrY1qcezDiy--xk9mz1XwYyIcZwXvjlcE.svg").exists());
-        assert!(std::path::Path::new("examples/plantuml/images/svg_H8u0SNaGZzGAaYPHeY4eDF9TfWqVXhKa7M8wiwXSe_s.svg").exists());
-        assert!(std::path::Path::new("examples/plantuml/images/svg_KPAr4S3iGAVLbskqf6XXaqrWge8bXMlCkNk7EaimJs0.svg").exists());
-        assert!(std::path::Path::new("examples/plantuml/images/svg_lTG8S1eNgnLTJS1PruoYJEjQVW4dCn0x6Wl-pw6yPXM.svg").exists());
-        assert!(std::path::Path::new("examples/plantuml/images/svg_tosmzSqwSXyObaX7eRLFp9xsMzcM5UDT4NSaQSgnq-Q.svg").exists());
+        assert!(camino::Utf8Path::new("examples/plantuml/images/svg_8eLHibrc2gjrY1qcezDiy--xk9mz1XwYyIcZwXvjlcE.svg").exists());
+        assert!(camino::Utf8Path::new("examples/plantuml/images/svg_H8u0SNaGZzGAaYPHeY4eDF9TfWqVXhKa7M8wiwXSe_s.svg").exists());
+        assert!(camino::Utf8Path::new("examples/plantuml/images/svg_KPAr4S3iGAVLbskqf6XXaqrWge8bXMlCkNk7EaimJs0.svg").exists());
+        assert!(camino::Utf8Path::new("examples/plantuml/images/svg_lTG8S1eNgnLTJS1PruoYJEjQVW4dCn0x6Wl-pw6yPXM.svg").exists());
+        assert!(camino::Utf8Path::new("examples/plantuml/images/svg_tosmzSqwSXyObaX7eRLFp9xsMzcM5UDT4NSaQSgnq-Q.svg").exists());
         /* cSpell:enable */
     }
 

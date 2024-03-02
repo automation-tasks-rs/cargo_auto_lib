@@ -99,8 +99,8 @@ pub fn github_api_upload_asset_to_release(owner: &str, repo: &str, release_id: &
     let mut token = check_or_get_github_token().unwrap();
 
     println!("    {YELLOW}Uploading file to GitHub release: {path_to_file}{RESET}");
-    let file = std::path::Path::new(&path_to_file);
-    let file_name = file.file_name().unwrap().to_str().unwrap();
+    let file = camino::Utf8Path::new(&path_to_file);
+    let file_name = file.file_name().unwrap();
 
     let release_upload_url = format!("https://uploads.github.com/repos/{owner}/{repo}/releases/{release_id}/assets");
     let mut release_upload_url = <url::Url as std::str::FromStr>::from_str(&release_upload_url).unwrap();
@@ -288,7 +288,7 @@ fn check_or_get_github_token() -> Option<SecretString> {
 
     let mut token: Option<SecretString> = None;
     let github_token_json_path_expanded = crate::utils_mod::file_path_home_expand(GITHUB_TOKEN_PATH);
-    if std::path::Path::new(&github_token_json_path_expanded).exists() {
+    if camino::Utf8Path::new(&github_token_json_path_expanded).exists() {
         token = crate::auto_encrypt_decrypt_with_ssh_mod::decrypt_with_ssh_from_file(&github_token_json_path_expanded);
     }
     if token.is_none() {
@@ -364,7 +364,7 @@ pub fn get_identity_file_path_from_ssh_config(host_name: &str) -> Option<String>
                     if let Some(identity_files) = x.params.identity_file.as_ref() {
                         if !identity_files.is_empty() {
                             // there can be more identity_files, but I will use only the first
-                            identity_file_path = identity_files[0].to_string_lossy().to_string();
+                            identity_file_path = camino::Utf8Path::from_path(&identity_files[0]).unwrap().to_string();
                         }
                     }
                     break;
@@ -405,14 +405,14 @@ pub fn ask_for_identity_file_path_for_ssh(host_name: &str, default_identity_file
     }
 
     // check if the file exists
-    let identity_file_for_ssh = identity_file_for_ssh.replace("~", crate::home_dir().to_string_lossy().as_ref());
-    let identity_file_for_ssh = std::path::Path::new(&identity_file_for_ssh).to_owned();
+    let identity_file_for_ssh = identity_file_for_ssh.replace("~", camino::Utf8Path::from_path(&crate::home_dir()).unwrap().as_str());
+    let identity_file_for_ssh = camino::Utf8Path::new(&identity_file_for_ssh).to_owned();
     if !identity_file_for_ssh.exists() {
-        eprintln!("{RED}File {} does not exist! Exiting.{RESET}", identity_file_for_ssh.to_string_lossy());
+        eprintln!("{RED}File {identity_file_for_ssh} does not exist! Exiting.{RESET}");
         // early exit
         return None;
     }
-    let identity_file_for_ssh = identity_file_for_ssh.to_string_lossy().to_string();
+    let identity_file_for_ssh = identity_file_for_ssh.to_string();
     // return
     Some(identity_file_for_ssh)
 }
@@ -459,7 +459,7 @@ pub fn body_text_from_releases_md(release_name: &str) -> Option<String> {
 
 /// create RELEASES.md if file not exist
 fn create_releases_md_if_file_not_exist() {
-    if !std::path::Path::new(RELEASES_MD).exists() {
+    if !camino::Utf8Path::new(RELEASES_MD).exists() {
         // create the template file
         let cargo_toml = crate::CargoToml::read();
         let project_name = cargo_toml.package_name();

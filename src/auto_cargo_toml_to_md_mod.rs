@@ -11,7 +11,6 @@ use chrono::Utc;
 use glob::glob;
 use lazy_static::lazy_static;
 use regex::*;
-use std::fs;
 
 // this trait must be in scope to use these methods of CargoToml
 use crate::public_api_mod::CargoTomlPublicApiMethods;
@@ -78,7 +77,7 @@ fn do_one_project() {
         let filename_pathbuff = filename_result.unwrap();
         let md_filename = filename_pathbuff.to_str().unwrap();
         // println!("checking md_filename: {}", &md_filename);
-        let mut md_text_content = fs::read_to_string(md_filename).unwrap();
+        let mut md_text_content = std::fs::read_to_string(md_filename).unwrap();
 
         // check if file have CRLF and show error
         if md_text_content.contains("\r\n") {
@@ -95,7 +94,7 @@ fn do_one_project() {
                 md_text_content.replace_range(pos_start..pos_end, &new_text);
                 println!("    {YELLOW}Write to md file: {}{RESET}", md_filename);
                 println!("{GREEN}{}{RESET}", &new_text.trim_end_matches("\n\n"));
-                fs::write(md_filename, md_text_content).unwrap();
+                std::fs::write(md_filename, md_text_content).unwrap();
             }
         }
     }

@@ -107,7 +107,7 @@ pub(crate) fn encrypt_with_ssh_interactive_save_file(identity_file_path: &str, o
     // SHA256:af123456789y1234553hmGEnN3fPv/iw6123456789M
 
     let path = std::env::var("SSH_AUTH_SOCK").expect("SSH_AUTH_SOCK is not set");
-    let mut client = ssh_agent_client_rs::Client::connect(std::path::Path::new(&path)).unwrap();
+    let mut client = ssh_agent_client_rs::Client::connect(camino::Utf8Path::new(&path).as_std_path()).unwrap();
     let public_key = crate::auto_ssh_mod::ssh_add_list_contains_fingerprint(&mut client, &fingerprint_from_file).unwrap_or_else(|| panic!("{RED}Identity not found in ssh-agent!{RESET}"));
     let seed_bytes_not_a_secret = random_byte_password();
     let seed_string_not_a_secret = base64ct::Base64::encode_string(&seed_bytes_not_a_secret);
@@ -136,7 +136,7 @@ pub(crate) fn encrypt_with_ssh_interactive_save_file(identity_file_path: &str, o
     let file_text = base64ct::Base64::encode_string(file_text.as_bytes());
 
     let output_file_path = crate::utils_mod::file_path_home_expand(output_file_path);
-    let encrypted_file = std::path::Path::new(&output_file_path);
+    let encrypted_file = camino::Utf8Path::new(&output_file_path);
     std::fs::write(encrypted_file, file_text).unwrap();
     println!("    {YELLOW}Encrypted text saved in file for future use.{RESET}")
 }
@@ -192,7 +192,7 @@ pub(crate) fn decrypt_with_ssh_from_file(json_file_path: &str) -> Option<SecretS
     // SHA256:af123456789y1234553hmGEnN3fPv/iw6123456789M
 
     let path = std::env::var("SSH_AUTH_SOCK").expect("SSH_AUTH_SOCK is not set");
-    let mut client = ssh_agent_client_rs::Client::connect(std::path::Path::new(&path)).unwrap();
+    let mut client = ssh_agent_client_rs::Client::connect(camino::Utf8Path::new(&path).as_std_path()).unwrap();
 
     let public_key = crate::auto_ssh_mod::ssh_add_list_contains_fingerprint(&mut client, &fingerprint_from_file).unwrap_or_else(|| panic!("{RED}Identity not found in ssh-agent!{RESET}"));
 
