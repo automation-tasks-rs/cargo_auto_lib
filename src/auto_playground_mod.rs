@@ -31,7 +31,7 @@ pub fn auto_playground_run_code() {
 
         // check if file have CRLF and show error
         if md_old.contains("\r\n") {
-            panic!("{RED}Error: {md_filename} has CRLF line endings instead of LF. The task auto_playground cannot work! Exiting.{RESET}");
+            panic!("{RED}Error: {md_filename} has CRLF line endings instead of LF. Correct the file! Exiting...{RESET}");
         }
         let mut iteration_start_pos = 0;
         let mut md_new = String::new();

@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.6.0">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="generator" content="rustdoc">
@@ -302,7 +301,6 @@
 <a href="#251" id="251">251</a>
 <a href="#252" id="252">252</a>
 <a href="#253" id="253">253</a>
-<a href="#254" id="254">254</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// auto_lines_of_code_mod
@@ -314,7 +312,6 @@
 <span class="kw">use </span>regex::Regex;
 <span class="kw">use </span>std::fs::File;
 <span class="kw">use </span>std::io::{BufRead, BufReader};
-<span class="kw">use </span>std::{fs, path::Path};
 
 <span class="comment">// use crate::auto_helper_functions_mod::*;
 // this trait must be in scope to use these methods of CargoToml
@@ -399,7 +396,7 @@
 
     <span class="comment">// src folder
     </span><span class="kw">let </span>files = <span class="kw">crate</span>::utils_mod::traverse_dir_with_exclude_dir(
-        Path::new(<span class="string">"src"</span>),
+        camino::Utf8Path::new(<span class="string">"src"</span>).as_std_path(),
         <span class="string">"/*.rs"</span>,
         <span class="comment">// avoid big folders and other folders with *.crev
         </span><span class="kw-2">&</span>[<span class="string">"/.git"</span>.to_string(), <span class="string">"/target"</span>.to_string(), <span class=
@@ -435,7 +432,7 @@
     }
     <span class="comment">// tests folder
     </span><span class="kw">let </span>files = <span class="kw">crate</span>::utils_mod::traverse_dir_with_exclude_dir(
-        Path::new(<span class="string">"tests"</span>),
+        camino::Utf8Path::new(<span class="string">"tests"</span>).as_std_path(),
         <span class="string">"/*.rs"</span>,
         <span class="comment">// avoid big folders and other folders with *.crev
         </span><span class="kw-2">&</span>[<span class="string">"/.git"</span>.to_string(), <span class="string">"/target"</span>.to_string(), <span class=
@@ -456,7 +453,7 @@
 
     <span class="comment">// examples folder
     </span><span class="kw">let </span>files = <span class="kw">crate</span>::utils_mod::traverse_dir_with_exclude_dir(
-        Path::new(<span class="string">"examples"</span>),
+        camino::Utf8Path::new(<span class="string">"examples"</span>).as_std_path(),
         <span class="string">"/*.rs"</span>,
         <span class="comment">// avoid big folders and other folders with *.crev
         </span><span class="kw-2">&</span>[<span class="string">"/.git"</span>.to_string(), <span class="string">"/target"</span>.to_string(), <span class=
@@ -545,12 +542,11 @@
     <span class="kw">let </span>end_delimiter = <span class="string">"[//]: # (auto_lines_of_code end)"</span>;
     <span class="kw">let </span>file_name = <span class="string">"README.md"</span>;
 
-    <span class="kw">if let </span><span class="prelude-val">Ok</span>(readme_content) = fs::read_to_string(file_name) {
+    <span class="kw">if let </span><span class="prelude-val">Ok</span>(readme_content) = std::fs::read_to_string(file_name) {
         <span class="comment">// check if file have CRLF instead of LF and show error
         </span><span class="kw">if </span>readme_content.contains(<span class="string">"\r\n"</span>) {
             <span class="macro">panic!</span>(
-                <span class=
-"string">"{RED}Error: {} has CRLF line endings instead of LF. The task include_into_readme_md cannot work! Exiting..{RESET}"</span>,
+                <span class="string">"{RED}Error: {} has CRLF line endings instead of LF. Correct the file! Exiting...{RESET}"</span>,
                 file_name
             );
         }
@@ -570,7 +566,7 @@
                     *GREEN, file_name, *RESET
                 );
                  */
-                </span>fs::write(file_name, new_readme_content).unwrap();
+                </span>std::fs::write(file_name, new_readme_content).unwrap();
             }
         }
     }

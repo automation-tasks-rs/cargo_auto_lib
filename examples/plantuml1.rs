@@ -17,5 +17,5 @@ fn main() {
     // endregion: prepare folders and files for this example
 
     let path = camino::Utf8Path::new("examples/plantuml");
-    cargo_auto_lib::auto_plantuml_for_path(path, "");
+    cargo_auto_lib::auto_plantuml_for_path(path.as_std_path(), "");
 }

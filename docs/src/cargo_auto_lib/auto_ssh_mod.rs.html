@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.6.0">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="generator" content="rustdoc">
@@ -102,7 +101,7 @@
 </span><span class="kw">pub fn </span>crate_ssh_agent_client() -&gt; ssh_agent_client_rs::Client {
     <span class="kw">let </span>path = std::env::var(<span class="string">"SSH_AUTH_SOCK"</span>).expect(<span class=
 "string">"SSH_AUTH_SOCK is not set"</span>);
-    <span class="kw">let </span>client = ssh_agent_client_rs::Client::connect(std::path::Path::new(<span class="kw-2">&</span>path)).unwrap();
+    <span class="kw">let </span>client = ssh_agent_client_rs::Client::connect(camino::Utf8Path::new(<span class="kw-2">&</span>path).as_std_path()).unwrap();
     <span class="comment">// return
     </span>client
 }

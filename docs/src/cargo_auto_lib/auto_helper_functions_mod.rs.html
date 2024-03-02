@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.6.0">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="generator" content="rustdoc">
@@ -145,26 +144,13 @@
 <a href="#94" id="94">94</a>
 <a href="#95" id="95">95</a>
 <a href="#96" id="96">96</a>
-<a href="#97" id="97">97</a>
-<a href="#98" id="98">98</a>
-<a href="#99" id="99">99</a>
-<a href="#100" id="100">100</a>
-<a href="#101" id="101">101</a>
-<a href="#102" id="102">102</a>
-<a href="#103" id="103">103</a>
-<a href="#104" id="104">104</a>
-<a href="#105" id="105">105</a>
-<a href="#106" id="106">106</a>
-<a href="#107" id="107">107</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// auto_helper_functions_mod
 
 </span><span class="doccomment">//! various helper functions
 
-</span><span class="kw">use </span>std::process::exit;
-
-<span class="kw">use </span><span class="kw">crate</span>::public_api_mod::{RED, RESET, YELLOW};
+</span><span class="kw">use </span><span class="kw">crate</span>::public_api_mod::{RED, RESET, YELLOW};
 
 <span class="doccomment">/// similar to std::process::Output, but with i32 and Strings for easier work
 </span><span class="attr">#[derive(Debug)]
@@ -178,30 +164,22 @@
 }
 
 <span class="doccomment">/// run one shell command
-/// Stops task execution if the command has Exit Status != 0
+/// Exits task execution if the command has Exit Status != 0
 </span><span class="kw">pub fn </span>run_shell_command(shell_command: <span class="kw-2">&</span>str) {
     <span class="kw">if </span>!shell_command.starts_with(<span class="string">"echo "</span>) {
         <span class="macro">println!</span>(<span class="string">"    {YELLOW}$ {shell_command}{RESET}"</span>);
     }
     <span class="kw">let </span>status = std::process::Command::new(<span class="string">"sh"</span>).arg(<span class=
 "string">"-c"</span>).arg(shell_command).spawn().unwrap().wait().unwrap();
-    <span class="kw">let </span>exit_code = status.code();
-    <span class="kw">if </span>exit_code.is_some() &amp;& exit_code != <span class="prelude-val">Some</span>(<span class="number">0</span>) {
-        <span class="macro">eprintln!</span>(<span class=
-"string">"{RED}!!! cargo_auto error {}. Stopping automation task execution !!!{RESET}"</span>, exit_code.unwrap());
-        exit(<span class="number">1</span>);
+    <span class="kw">let </span>exit_code = status.code().expect(<span class="kw-2">&</span><span class="macro">format!</span>(<span class=
+"string">"{RED}Error. Exiting...{RESET}"</span>));
+    <span class="kw">if </span>exit_code != <span class="number">0 </span>{
+        <span class="macro">eprintln!</span>(<span class="string">"{RED}Error: {}. Exiting...{RESET}"</span>, exit_code);
+        std::process::exit(<span class="number">1</span>);
     }
 }
 
-<span class="doccomment">/// run shell commands from a vector of strings.
-/// Stops task execution if oe of the commands has Exit Status != 0
-</span><span class="kw">pub fn </span>run_shell_commands(shell_commands: Vec&lt;<span class="kw-2">&</span>str&gt;) {
-    <span class="kw">for </span>shell_command <span class="kw">in </span>shell_commands {
-        run_shell_command(shell_command);
-    }
-}
-
-<span class="doccomment">/// run one shell command and return ShellOutput {exit_status,stdout,stderr}
+<span class="doccomment">/// run one shell command and return ShellOutput {exit_status, stdout, stderr}
 </span><span class="kw">pub fn </span>run_shell_command_output(shell_command: <span class="kw-2">&</span>str) -&gt; ShellOutput {
     <span class="kw">if </span>!shell_command.starts_with(<span class="string">"echo "</span>) {
         <span class="macro">println!</span>(<span class="string">"   {YELLOW} $ {shell_command}{RESET}"</span>);
@@ -227,16 +205,16 @@
     </span>status.success()
 }
 
-<span class="doccomment">/// check if run in rust project root directory error
-/// there must be Cargo.toml and the directory automation_tasks_rs
-/// exit with error message if not
+<span class="attr">#[doc=<span class="macro">include_str!</span>(<span class=
+"string">"../doc_comments_long/exit_if_not_run_in_rust_project_root_directory.md"</span>)]
 </span><span class="kw">pub fn </span>exit_if_not_run_in_rust_project_root_directory() {
-    <span class="kw">if </span>!(std::path::Path::new(<span class="string">"automation_tasks_rs"</span>).exists() &amp;& (std::path::Path::new(<span class=
+    <span class="kw">if </span>!(camino::Utf8Path::new(<span class="string">"automation_tasks_rs"</span>).exists() &amp;& (camino::Utf8Path::new(<span class=
 "string">"Cargo.toml"</span>).exists())) {
         <span class="macro">eprintln!</span>(<span class=
-"string">"{RED}Error: automation_tasks_rs must be called in the root directory of the rust project beside the Cargo.toml file and automation_tasks_rs directory.{RESET}"</span>);
+"string">"{RED}Error: `automation_tasks_rs` must be run inside the Rust project in the dir that contains"</span>);
+        <span class="macro">eprintln!</span>(<span class="string">"`Cargo.toml` file and `automation_tasks_rs` directory. Exiting...{RESET}"</span>);
         <span class="comment">// early exit
-        </span>std::process::exit(<span class="number">0</span>);
+        </span>std::process::exit(<span class="number">1</span>);
     }
 }
 

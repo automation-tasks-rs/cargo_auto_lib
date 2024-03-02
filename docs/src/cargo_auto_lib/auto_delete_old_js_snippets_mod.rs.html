@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.6.0">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="generator" content="rustdoc">
@@ -111,9 +110,6 @@
 <a href="#60" id="60">60</a>
 <a href="#61" id="61">61</a>
 <a href="#62" id="62">62</a>
-<a href="#63" id="63">63</a>
-<a href="#64" id="64">64</a>
-<a href="#65" id="65">65</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// auto_delete_old_js_snippets_mod
@@ -123,9 +119,6 @@
 </span><span class="comment">//region: use statements
 </span><span class="kw">use </span><span class="kw">crate</span>::public_api_mod::{RED, RESET, YELLOW};
 <span class="kw">use </span>filetime::FileTime;
-<span class="kw">use </span>std::env;
-<span class="kw">use </span>std::fs;
-<span class="kw">use </span>std::path::PathBuf;
 
 <span class="comment">//endregion
 
@@ -134,23 +127,23 @@
 /// This utils do that.  
 /// The function must be executed in the root project folder where is the Cargo.toml.  
 </span><span class="kw">pub fn </span>auto_delete_old_js_snippets() {
-    <span class="kw">let </span>current_dir = env::current_dir().unwrap();
+    <span class="kw">let </span>current_dir = std::env::current_dir().unwrap();
     <span class="kw">let </span>snippets_dir = current_dir.join(<span class="string">"pkg"</span>).join(<span class="string">"snippets"</span>);
     <span class="comment">//the first folder can be None
-    </span><span class="kw">let </span><span class="kw-2">mut </span>opt_first_folder: <span class="prelude-ty">Option</span>&lt;PathBuf&gt; = <span class=
-"prelude-val">None</span>;
+    </span><span class="kw">let </span><span class="kw-2">mut </span>opt_first_folder: <span class=
+"prelude-ty">Option</span>&lt;std::path::PathBuf&gt; = <span class="prelude-val">None</span>;
     <span class="kw">let </span><span class="kw-2">mut </span>opt_first_mtime: <span class="prelude-ty">Option</span>&lt;FileTime&gt; = <span class=
 "prelude-val">None</span>;
 
     <span class="comment">//find the newer folder and remove the older folder
     //but not with dodrio_xxx name
-    </span><span class="kw">for </span>entry <span class="kw">in </span>fs::read_dir(snippets_dir).unwrap() {
+    </span><span class="kw">for </span>entry <span class="kw">in </span>std::fs::read_dir(snippets_dir).unwrap() {
         <span class="kw">let </span>entry = entry.unwrap();
         <span class="kw">let </span>second_folder = entry.path();
         <span class="kw">let </span>second_name = entry.file_name().into_string().unwrap().to_lowercase();
         <span class="kw">if </span>!second_name.starts_with(<span class="string">"dodrio"</span>) {
             <span class="comment">//println!("{:?}",second_folder);
-            </span><span class="kw">let </span>second_metadata = fs::metadata(<span class="kw-2">&</span>second_folder).unwrap();
+            </span><span class="kw">let </span>second_metadata = std::fs::metadata(<span class="kw-2">&</span>second_folder).unwrap();
             <span class="kw">let </span>second_mtime = FileTime::from_last_modification_time(<span class="kw-2">&</span>second_metadata);
             <span class="comment">//println!("{:?}",second_mtime);
 

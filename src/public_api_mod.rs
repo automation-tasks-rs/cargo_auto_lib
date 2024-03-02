@@ -103,23 +103,15 @@ pub fn completion_return_one_or_more_sub_commands(sub_commands: Vec<&str>, word_
     crate::auto_helper_functions_mod::completion_return_one_or_more_sub_commands(sub_commands, word_being_completed)
 }
 
-/// check if run in rust project root directory error
-/// there must be Cargo.toml and the directory automation_tasks_rs
-/// exit with error message if not
+#[doc=include_str!("../doc_comments_long/exit_if_not_run_in_rust_project_root_directory.md")]
 pub fn exit_if_not_run_in_rust_project_root_directory() {
     crate::auto_helper_functions_mod::exit_if_not_run_in_rust_project_root_directory()
 }
 
 /// run one shell command
-/// Stops task execution if the command has Exit Status != 0
+/// Exits task execution if the command has Exit Status != 0
 pub fn run_shell_command(shell_command: &str) {
     crate::auto_helper_functions_mod::run_shell_command(shell_command)
-}
-
-/// run shell commands from a vector of strings.
-/// Stops task execution if oe of the commands has Exit Status != 0
-pub fn run_shell_commands(shell_commands: Vec<&str>) {
-    crate::auto_helper_functions_mod::run_shell_commands(shell_commands)
 }
 
 #[doc=include_str!("../doc_comments_long/auto_lines_of_code.md")]
@@ -219,7 +211,7 @@ pub fn git_is_local_repository() -> bool {
     crate::auto_git_mod::git_is_local_repository()
 }
 
-/// run one shell command and return ShellOutput {exit_status,stdout,stderr}
+/// run one shell command and return ShellOutput {exit_status, stdout, stderr}
 pub fn run_shell_command_output(shell_command: &str) -> ShellOutput {
     crate::auto_helper_functions_mod::run_shell_command_output(shell_command)
 }

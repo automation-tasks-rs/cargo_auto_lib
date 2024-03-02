@@ -343,7 +343,7 @@ pub fn ssh_add_if_needed(identity_private_file_path: &str) -> Option<crate::auto
             println!("    {YELLOW}Add ssh identity with ssh-add to use with GitHub push.{RESET}");
             let cmd = format!("ssh-add -t 1h {}", identity_private_file_path);
             if !crate::run_shell_command_success(&cmd) {
-                eprintln!("{RED}ssh-add was not successful! Exiting.{RESET}",);
+                eprintln!("{RED}Error: ssh-add was not successful! Exiting...{RESET}",);
                 // early exit
                 return None;
             }
@@ -400,7 +400,7 @@ pub fn ask_for_identity_file_path_for_ssh(host_name: &str, default_identity_file
         .unwrap();
     if identity_file_for_ssh.is_empty() {
         // early exit
-        eprintln!("{RED}The filepath for the ssh key was not given. Exiting.{RESET}");
+        eprintln!("{RED}Error: The filepath for the ssh key was not given. Exiting...{RESET}");
         return None;
     }
 
@@ -408,7 +408,7 @@ pub fn ask_for_identity_file_path_for_ssh(host_name: &str, default_identity_file
     let identity_file_for_ssh = identity_file_for_ssh.replace("~", camino::Utf8Path::from_path(&crate::home_dir()).unwrap().as_str());
     let identity_file_for_ssh = camino::Utf8Path::new(&identity_file_for_ssh).to_owned();
     if !identity_file_for_ssh.exists() {
-        eprintln!("{RED}File {identity_file_for_ssh} does not exist! Exiting.{RESET}");
+        eprintln!("{RED}Error: File {identity_file_for_ssh} does not exist! Exiting...{RESET}");
         // early exit
         return None;
     }

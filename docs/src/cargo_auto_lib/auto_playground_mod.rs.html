@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.6.0">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="generator" content="rustdoc">
@@ -135,9 +134,6 @@
 <a href="#84" id="84">84</a>
 <a href="#85" id="85">85</a>
 <a href="#86" id="86">86</a>
-<a href="#87" id="87">87</a>
-<a href="#88" id="88">88</a>
-<a href="#89" id="89">89</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// auto_playground_mod.rs
@@ -167,17 +163,15 @@
     )
     .unwrap();
     <span class="kw">for </span>md_filename <span class="kw">in </span>files {
-        <span class="kw">let </span>md_filename = std::path::Path::new(<span class="kw-2">&</span>md_filename);
+        <span class="kw">let </span>md_filename = camino::Utf8Path::new(<span class="kw-2">&</span>md_filename);
 
         <span class="kw">let </span><span class="kw-2">mut </span>is_changed = <span class="bool-val">false</span>;
         <span class="kw">let </span>md_old = std::fs::read_to_string(md_filename).unwrap();
 
         <span class="comment">// check if file have CRLF and show error
         </span><span class="kw">if </span>md_old.contains(<span class="string">"\r\n"</span>) {
-            <span class="macro">panic!</span>(
-                <span class="string">"{RED}Error: {} has CRLF line endings instead of LF. The task auto_playground cannot work! Exiting.{RESET}"</span>,
-                md_filename.to_string_lossy()
-            );
+            <span class="macro">panic!</span>(<span class=
+"string">"{RED}Error: {md_filename} has CRLF line endings instead of LF. Correct the file! Exiting...{RESET}"</span>);
         }
         <span class="kw">let </span><span class="kw-2">mut </span>iteration_start_pos = <span class="number">0</span>;
         <span class="kw">let </span><span class="kw-2">mut </span>md_new = String::new();
@@ -231,7 +225,7 @@
         // if changed, then write to disk
         </span><span class="kw">if </span>is_changed {
             <span class="macro">println!</span>(<span class=
-"string">"    {YELLOW}Code inside {} has changed. Playground link corrected.{RESET}"</span>, md_filename.to_string_lossy());
+"string">"    {YELLOW}Code inside {md_filename} has changed. Playground link corrected.{RESET}"</span>,);
             <span class="comment">// push the remaining text
             </span>md_new.push_str(<span class="kw-2">&</span>md_old[iteration_start_pos..md_old.len()]);
             <span class="kw">let </span>bak_filename = md_filename.with_extension(<span class="string">"bak"</span>);

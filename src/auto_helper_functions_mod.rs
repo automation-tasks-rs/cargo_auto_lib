@@ -2,8 +2,6 @@
 
 //! various helper functions
 
-use std::process::exit;
-
 use crate::public_api_mod::{RED, RESET, YELLOW};
 
 /// similar to std::process::Output, but with i32 and Strings for easier work
@@ -18,28 +16,20 @@ pub struct ShellOutput {
 }
 
 /// run one shell command
-/// Stops task execution if the command has Exit Status != 0
+/// Exits task execution if the command has Exit Status != 0
 pub fn run_shell_command(shell_command: &str) {
     if !shell_command.starts_with("echo ") {
         println!("    {YELLOW}$ {shell_command}{RESET}");
     }
     let status = std::process::Command::new("sh").arg("-c").arg(shell_command).spawn().unwrap().wait().unwrap();
-    let exit_code = status.code();
-    if exit_code.is_some() && exit_code != Some(0) {
-        eprintln!("{RED}!!! cargo_auto error {}. Stopping automation task execution !!!{RESET}", exit_code.unwrap());
-        exit(1);
+    let exit_code = status.code().expect(&format!("{RED}Error. Exiting...{RESET}"));
+    if exit_code != 0 {
+        eprintln!("{RED}Error: {}. Exiting...{RESET}", exit_code);
+        std::process::exit(1);
     }
 }
 
-/// run shell commands from a vector of strings.
-/// Stops task execution if oe of the commands has Exit Status != 0
-pub fn run_shell_commands(shell_commands: Vec<&str>) {
-    for shell_command in shell_commands {
-        run_shell_command(shell_command);
-    }
-}
-
-/// run one shell command and return ShellOutput {exit_status,stdout,stderr}
+/// run one shell command and return ShellOutput {exit_status, stdout, stderr}
 pub fn run_shell_command_output(shell_command: &str) -> ShellOutput {
     if !shell_command.starts_with("echo ") {
         println!("   {YELLOW} $ {shell_command}{RESET}");
@@ -63,14 +53,15 @@ pub fn run_shell_command_success(shell_command: &str) -> bool {
     status.success()
 }
 
-/// check if run in rust project root directory error
-/// there must be Cargo.toml and the directory automation_tasks_rs
-/// exit with error message if not
+// region: auto_md_to_doc_comments include doc_comments_long/exit_if_not_run_in_rust_project_root_directory.md /// A
+
+// endregion: auto_md_to_doc_comments include doc_comments_long/exit_if_not_run_in_rust_project_root_directory.md /// A
 pub fn exit_if_not_run_in_rust_project_root_directory() {
     if !(camino::Utf8Path::new("automation_tasks_rs").exists() && (camino::Utf8Path::new("Cargo.toml").exists())) {
-        eprintln!("{RED}Error: automation_tasks_rs must be called in the root directory of the rust project beside the Cargo.toml file and automation_tasks_rs directory.{RESET}");
+        eprintln!("{RED}Error: `automation_tasks_rs` must be run inside the Rust project in the dir that contains");
+        eprintln!("`Cargo.toml` file and `automation_tasks_rs` directory. Exiting...{RESET}");
         // early exit
-        std::process::exit(0);
+        std::process::exit(1);
     }
 }
 

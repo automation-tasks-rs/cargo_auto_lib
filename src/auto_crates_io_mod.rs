@@ -20,9 +20,9 @@ pub fn publish_to_crates_io_with_secret_token() {
     let shell_command = format!("cargo publish --token {}", token.0);
     let status = std::process::Command::new("sh").arg("-c").arg(shell_command).spawn().unwrap().wait().unwrap();
     token.0.zeroize();
-    let exit_code = status.code();
-    if exit_code.is_none() || exit_code != Some(0) {
-        eprintln!("{RED}!!! cargo_auto publish error {}. Stopping automation task execution !!!{RESET}", exit_code.unwrap());
+    let exit_code = status.code().expect(&format!("{RED}Error: publish to crates.io error. Exiting...{RESET}"));
+    if exit_code != 0 {
+        eprintln!("{RED}Error: publish to crates.io error {exit_code}. Exiting...{RESET}");
         std::process::exit(1);
     }
 }

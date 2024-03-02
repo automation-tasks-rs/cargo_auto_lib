@@ -81,10 +81,7 @@ fn do_one_project() {
 
         // check if file have CRLF and show error
         if md_text_content.contains("\r\n") {
-            panic!(
-                "{RED}Error: {} has CRLF line endings instead of LF. The task auto_cargo_toml_to_md cannot work! Exiting.{RESET}",
-                &md_filename
-            );
+            panic!("{RED}Error: {md_filename} has CRLF line endings instead of LF. Correct the file! Exiting...{RESET}");
         }
 
         if let Some(cap) = REGEX_MD_START.captures(&md_text_content) {

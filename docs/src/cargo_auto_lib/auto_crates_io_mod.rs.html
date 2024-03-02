@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.6.0">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="generator" content="rustdoc">
@@ -125,16 +124,16 @@
 </span><span class="kw">pub fn </span>publish_to_crates_io_with_secret_token() {
     <span class="kw">let </span><span class="kw-2">mut </span>token = check_or_get_crates_io_token().unwrap();
     <span class="comment">// don't show the token to the user
-    </span><span class="macro">println!</span>(<span class="string">"cargo publish with token"</span>);
+    </span><span class="macro">println!</span>(<span class="string">"    {YELLOW}cargo publish with token{RESET}"</span>);
     <span class="kw">let </span>shell_command = <span class="macro">format!</span>(<span class="string">"cargo publish --token {}"</span>, token.<span class=
 "number">0</span>);
     <span class="kw">let </span>status = std::process::Command::new(<span class="string">"sh"</span>).arg(<span class=
 "string">"-c"</span>).arg(shell_command).spawn().unwrap().wait().unwrap();
     token.<span class="number">0</span>.zeroize();
-    <span class="kw">let </span>exit_code = status.code();
-    <span class="kw">if </span>exit_code.is_none() || exit_code != <span class="prelude-val">Some</span>(<span class="number">0</span>) {
-        <span class="macro">eprintln!</span>(<span class=
-"string">"{RED}!!! cargo_auto publish error {}. Stopping automation task execution !!!{RESET}"</span>, exit_code.unwrap());
+    <span class="kw">let </span>exit_code = status.code().expect(<span class="kw-2">&</span><span class="macro">format!</span>(<span class=
+"string">"{RED}Error: publish to crates.io error. Exiting...{RESET}"</span>));
+    <span class="kw">if  </span>exit_code != <span class="number">0 </span>{
+        <span class="macro">eprintln!</span>(<span class="string">"{RED}Error: publish to crates.io error {exit_code}. Exiting...{RESET}"</span>);
         std::process::exit(<span class="number">1</span>);
     }
 }
@@ -149,7 +148,7 @@
     <span class="kw">let </span><span class="kw-2">mut </span>token: <span class="prelude-ty">Option</span>&lt;SecretString&gt; = <span class=
 "prelude-val">None</span>;
     <span class="kw">let </span>crates_io_token_path_expanded = <span class="kw">crate</span>::utils_mod::file_path_home_expand(CRATES_IO_TOKEN_PATH);
-    <span class="kw">if </span>std::path::Path::new(<span class="kw-2">&</span>crates_io_token_path_expanded).exists() {
+    <span class="kw">if </span>camino::Utf8Path::new(<span class="kw-2">&</span>crates_io_token_path_expanded).exists() {
         token = <span class="kw">crate</span>::auto_encrypt_decrypt_with_ssh_mod::decrypt_with_ssh_from_file(<span class=
 "kw-2">&</span>crates_io_token_path_expanded);
     }

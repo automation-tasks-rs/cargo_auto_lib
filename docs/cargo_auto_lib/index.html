@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.6.0">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="generator" content="rustdoc">
@@ -35,7 +34,7 @@
     <div class="sidebar-crate">
       <a class="logo-container" href="../cargo_auto_lib/index.html"><img src=
       "https://github.com/bestia-dev/cargo-auto/raw/main/images/logo/logo_cargo_auto.svg" alt="logo"></a>
-      <h2><a href="../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">1.3.63</span></h2>
+      <h2><a href="../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">1.4.0</span></h2>
     </div>
     <div class="sidebar-elems">
       <ul class="block">
@@ -98,7 +97,7 @@
             <h2 id="cargo_auto_lib"><a href="#cargo_auto_lib">cargo_auto_lib</a></h2>
             <p><strong>Library crate for common tasks when building rust projects. Intended for use with cargo-auto - automation tasks written in Rust
             language.</strong><br>
-            <em><strong>version: 1.3.63 date: 2024-02-29 author: <a href="https://bestia.dev">Bestia.dev</a> repository: <a href=
+            <em><strong>version: 1.4.0 date: 2024-03-02 author: <a href="https://bestia.dev">Bestia.dev</a> repository: <a href=
             "https://github.com/bestia-dev/cargo_auto_lib">GitHub</a></strong></em></p>
             <p><img src="https://img.shields.io/badge/maintained-green" alt="maintained"> <img src="https://img.shields.io/badge/ready_for_use-green" alt=
             "ready-for-use"> <img src="https://img.shields.io/badge/rustlang-orange" alt="rustlang"> <img src="https://img.shields.io/badge/cargo_auto-orange"
@@ -113,9 +112,9 @@
             "License"></a> <a href="https://github.com/bestia-dev/cargo_auto_lib/"><img src=
             "https://github.com/bestia-dev/cargo_auto_lib/workflows/rust_fmt_auto_build_test/badge.svg" alt="Rust"></a> <img src=
             "https://bestia.dev/webpage_hit_counter/get_svg_image/276360626.svg" alt="cargo_auto_lib"></p>
-            <p><a href="https://github.com/bestia-dev/cargo_auto_lib/"><img src="https://img.shields.io/badge/Lines_in_Rust-2523-green.svg" alt=
+            <p><a href="https://github.com/bestia-dev/cargo_auto_lib/"><img src="https://img.shields.io/badge/Lines_in_Rust-2498-green.svg" alt=
             "Lines in Rust code"></a> <a href="https://github.com/bestia-dev/cargo_auto_lib/"><img src=
-            "https://img.shields.io/badge/Lines_in_Doc_comments-360-blue.svg" alt="Lines in Doc comments"></a> <a href=
+            "https://img.shields.io/badge/Lines_in_Doc_comments-350-blue.svg" alt="Lines in Doc comments"></a> <a href=
             "https://github.com/bestia-dev/cargo_auto_lib/"><img src="https://img.shields.io/badge/Lines_in_comments-369-purple.svg" alt=
             "Lines in Comments"></a> <a href="https://github.com/bestia-dev/cargo_auto_lib/"><img src=
             "https://img.shields.io/badge/Lines_in_examples-28-yellow.svg" alt="Lines in examples"></a> <a href=
@@ -671,7 +670,7 @@ cargo auto doc{RESET}{YELLOW}
               "fn cargo_auto_lib::exit_if_not_run_in_rust_project_root_directory">exit_if_not_run_in_rust_project_root_directory</a>
             </div>
             <div class="desc docblock-short">
-              check if run in rust project root directory error there must be Cargo.toml and the directory automation_tasks_rs exit with error message if not
+              exit_if_not_run_in_rust_project_root_directory
             </div>
           </li>
           <li>
@@ -797,7 +796,7 @@ cargo auto doc{RESET}{YELLOW}
               <a class="fn" href="fn.run_shell_command.html" title="fn cargo_auto_lib::run_shell_command">run_shell_command</a>
             </div>
             <div class="desc docblock-short">
-              run one shell command Stops task execution if the command has Exit Status != 0
+              run one shell command Exits task execution if the command has Exit Status != 0
             </div>
           </li>
           <li>
@@ -805,7 +804,7 @@ cargo auto doc{RESET}{YELLOW}
               <a class="fn" href="fn.run_shell_command_output.html" title="fn cargo_auto_lib::run_shell_command_output">run_shell_command_output</a>
             </div>
             <div class="desc docblock-short">
-              run one shell command and return ShellOutput {exit_status,stdout,stderr}
+              run one shell command and return ShellOutput {exit_status, stdout, stderr}
             </div>
           </li>
           <li>
@@ -814,14 +813,6 @@ cargo auto doc{RESET}{YELLOW}
             </div>
             <div class="desc docblock-short">
               run one shell command and return true if success
-            </div>
-          </li>
-          <li>
-            <div class="item-name">
-              <a class="fn" href="fn.run_shell_commands.html" title="fn cargo_auto_lib::run_shell_commands">run_shell_commands</a>
-            </div>
-            <div class="desc docblock-short">
-              run shell commands from a vector of strings. Stops task execution if oe of the commands has Exit Status != 0
             </div>
           </li>
           <li>

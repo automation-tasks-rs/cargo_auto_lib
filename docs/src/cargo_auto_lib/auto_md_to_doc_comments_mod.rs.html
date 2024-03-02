@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.6.0">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="generator" content="rustdoc">
@@ -243,7 +242,7 @@
 </span><span class="kw">use </span>glob::glob;
 <span class="kw">use </span>lazy_static::lazy_static;
 <span class="kw">use </span>regex::Regex;
-<span class="kw">use </span>std::fs;
+
 <span class="comment">// this trait must be in scope to use these methods of CargoToml
 </span><span class="kw">use </span><span class="kw">crate</span>::public_api_mod::CargoTomlPublicApiMethods;
 <span class="kw">use </span><span class="kw">crate</span>::public_api_mod::{RED, RESET, YELLOW};
@@ -287,12 +286,12 @@
 <span class="kw">fn </span>one_project() {
     <span class="kw">let </span><span class="kw-2">mut </span>cache_md_segments = <span class="macro">vec!</span>[];
     <span class="kw">for </span>rs_filename <span class="kw">in </span>rs_files().iter() {
-        <span class="kw">let </span><span class="kw-2">mut </span>rs_text_content = fs::read_to_string(rs_filename).unwrap();
+        <span class="kw">let </span><span class="kw-2">mut </span>rs_text_content = std::fs::read_to_string(rs_filename).unwrap();
 
         <span class="comment">// check if file have CRLF instead of LF and show error
         </span><span class="kw">if </span>rs_text_content.contains(<span class="string">"\r\n"</span>) {
             <span class="macro">panic!</span>(<span class=
-"string">"{RED}Error: {rs_filename} has CRLF line endings instead of LF. The task auto_md_to_doc_comments cannot work! Exiting..{RESET}"</span>);
+"string">"{RED}Error: {rs_filename} has CRLF line endings instead of LF. Correct the file! Exiting...{RESET}"</span>);
         }
 
         <span class="kw">let </span>markers = rs_file_markers(<span class="kw-2">&</span>rs_text_content);
@@ -303,7 +302,7 @@
                 rs_text_content.replace_range(marker.pos_start..marker.pos_end, <span class="kw-2">&</span>segment_text);
             }
             <span class="macro">println!</span>(<span class="string">"    {YELLOW}Write file: {rs_filename}{RESET}"</span>);
-            fs::write(rs_filename, rs_text_content).unwrap();
+            std::fs::write(rs_filename, rs_text_content).unwrap();
         }
     }
 }
@@ -383,12 +382,12 @@
     } <span class="kw">else </span>{
         <span class="comment">// process the file
         </span><span class="macro">println!</span>(<span class="string">"    {YELLOW}Read file: {md_filename}{RESET}"</span>);
-        <span class="kw">let </span>md_text_content = fs::read_to_string(md_filename).unwrap();
+        <span class="kw">let </span>md_text_content = std::fs::read_to_string(md_filename).unwrap();
 
         <span class="comment">// check if file have CRLF instead of LF and show error
         </span><span class="kw">if </span>md_text_content.contains(<span class="string">"\r\n"</span>) {
             <span class="macro">panic!</span>(<span class=
-"string">"{RED}Error: {md_filename} has CRLF line endings instead of LF. The task auto_md_to_doc_comments cannot work! Exiting..{RESET}"</span>);
+"string">"{RED}Error: {md_filename} has CRLF line endings instead of LF. Correct the file! Exiting...{RESET}"</span>);
         }
 
         <span class="kw">for </span>cap <span class="kw">in </span>REGEX_MD_START.captures_iter(<span class="kw-2">&</span>md_text_content) {

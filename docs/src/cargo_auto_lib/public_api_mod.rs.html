@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.6.0">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="generator" content="rustdoc">
@@ -365,14 +364,6 @@
 <a href="#314" id="314">314</a>
 <a href="#315" id="315">315</a>
 <a href="#316" id="316">316</a>
-<a href="#317" id="317">317</a>
-<a href="#318" id="318">318</a>
-<a href="#319" id="319">319</a>
-<a href="#320" id="320">320</a>
-<a href="#321" id="321">321</a>
-<a href="#322" id="322">322</a>
-<a href="#323" id="323">323</a>
-<a href="#324" id="324">324</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// public_api_mod.rs
@@ -490,23 +481,16 @@
     <span class="kw">crate</span>::auto_helper_functions_mod::completion_return_one_or_more_sub_commands(sub_commands, word_being_completed)
 }
 
-<span class="doccomment">/// check if run in rust project root directory error
-/// there must be Cargo.toml and the directory automation_tasks_rs
-/// exit with error message if not
+<span class="attr">#[doc=<span class="macro">include_str!</span>(<span class=
+"string">"../doc_comments_long/exit_if_not_run_in_rust_project_root_directory.md"</span>)]
 </span><span class="kw">pub fn </span>exit_if_not_run_in_rust_project_root_directory() {
     <span class="kw">crate</span>::auto_helper_functions_mod::exit_if_not_run_in_rust_project_root_directory()
 }
 
 <span class="doccomment">/// run one shell command
-/// Stops task execution if the command has Exit Status != 0
+/// Exits task execution if the command has Exit Status != 0
 </span><span class="kw">pub fn </span>run_shell_command(shell_command: <span class="kw-2">&</span>str) {
     <span class="kw">crate</span>::auto_helper_functions_mod::run_shell_command(shell_command)
-}
-
-<span class="doccomment">/// run shell commands from a vector of strings.
-/// Stops task execution if oe of the commands has Exit Status != 0
-</span><span class="kw">pub fn </span>run_shell_commands(shell_commands: Vec&lt;<span class="kw-2">&</span>str&gt;) {
-    <span class="kw">crate</span>::auto_helper_functions_mod::run_shell_commands(shell_commands)
 }
 
 <span class="attr">#[doc=<span class="macro">include_str!</span>(<span class="string">"../doc_comments_long/auto_lines_of_code.md"</span>)]
@@ -606,7 +590,7 @@
     <span class="kw">crate</span>::auto_git_mod::git_is_local_repository()
 }
 
-<span class="doccomment">/// run one shell command and return ShellOutput {exit_status,stdout,stderr}
+<span class="doccomment">/// run one shell command and return ShellOutput {exit_status, stdout, stderr}
 </span><span class="kw">pub fn </span>run_shell_command_output(shell_command: <span class="kw-2">&</span>str) -&gt; ShellOutput {
     <span class="kw">crate</span>::auto_helper_functions_mod::run_shell_command_output(shell_command)
 }

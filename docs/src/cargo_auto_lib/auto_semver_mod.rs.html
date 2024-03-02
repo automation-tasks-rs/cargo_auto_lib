@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.6.0">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="generator" content="rustdoc">
@@ -162,7 +161,6 @@
 <a href="#111" id="111">111</a>
 <a href="#112" id="112">112</a>
 <a href="#113" id="113">113</a>
-<a href="#114" id="114">114</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// auto_semver_mod
@@ -174,7 +172,6 @@
     error_mod::{LibError, ResultWithLibError},
     utils_mod::<span class="kw-2">*</span>,
 };
-<span class="kw">use </span>std::fs;
 
 <span class="kw">enum </span>VersionPart {
     Patch,
@@ -220,12 +217,12 @@
     <span class="kw">if </span>!is_files_equal {
         <span class="comment">// println!("pub fn increment_patch");
         </span><span class="kw">let </span>cargo_toml_filename = <span class="string">"Cargo.toml"</span>;
-        <span class="kw">let </span>cargo_toml_text = fs::read_to_string(cargo_toml_filename)<span class="question-mark">?</span>;
+        <span class="kw">let </span>cargo_toml_text = std::fs::read_to_string(cargo_toml_filename)<span class="question-mark">?</span>;
 
         <span class="comment">// check if file have CRLF instead of LF and show error
         </span><span class="kw">if </span>cargo_toml_text.contains(<span class="string">"\r\n"</span>) {
             <span class="macro">panic!</span>(<span class=
-"string">"{RED}Error: {cargo_toml_filename} has CRLF line endings instead of LF. The task auto_semver_increment cannot work! Exiting..{RESET}"</span>);
+"string">"{RED}Error: {cargo_toml_filename} has CRLF line endings instead of LF. Correct the file! Exiting...{RESET}"</span>);
         }
 
         <span class="comment">// find the line with "version = " including the start quote
@@ -267,7 +264,7 @@
 "kw-2">&</span>cargo_toml_text[..pos_start_data], <span class="kw-2">&</span>new_semver, <span class=
 "kw-2">&</span>cargo_toml_text[pos_at_the_end_of_semver..]);
                 <span class="comment">//save the file
-                </span><span class="kw">let </span>_x = fs::write(cargo_toml_filename, new_cargo_toml_text);
+                </span><span class="kw">let </span>_x = std::fs::write(cargo_toml_filename, new_cargo_toml_text);
 
                 <span class="comment">//the Cargo.toml is now different
                 </span><span class="kw">crate</span>::auto_version_from_date_mod::correct_file_metadata_for_cargo_tom_inside_vec(<span class=

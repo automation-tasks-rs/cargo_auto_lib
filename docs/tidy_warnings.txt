@@ -802,11 +802,11 @@ line 2 column 81 - Warning: trimming empty <span>
 Document: "2" is not a file!
 
 line 10 column 226 - Warning: missing </summary> before <section>
-line 10 column 780 - Warning: discarding unexpected </summary>
-line 10 column 857 - Warning: missing </summary> before <section>
-line 10 column 1505 - Warning: discarding unexpected </summary>
-line 10 column 4481 - Warning: missing </summary> before <section>
-line 10 column 4839 - Warning: <div> isn't allowed in <h3> elements
+line 10 column 779 - Warning: discarding unexpected </summary>
+line 10 column 856 - Warning: missing </summary> before <section>
+line 10 column 1503 - Warning: discarding unexpected </summary>
+line 10 column 4479 - Warning: missing </summary> before <section>
+line 10 column 4837 - Warning: <div> isn't allowed in <h3> elements
 line 11 column 149 - Warning: discarding unexpected </div>
 line 11 column 170 - Warning: discarding unexpected </summary>
 line 11 column 247 - Warning: missing </summary> before <section>
@@ -873,8 +873,8 @@ line 25 column 113 - Warning: missing </summary> before <section>
 line 25 column 375 - Warning: discarding unexpected </summary>
 line 2 column 81 - Warning: trimming empty <span>
 line 10 column 226 - Warning: trimming empty <summary>
-line 10 column 857 - Warning: trimming empty <summary>
-line 10 column 4481 - Warning: trimming empty <summary>
+line 10 column 856 - Warning: trimming empty <summary>
+line 10 column 4479 - Warning: trimming empty <summary>
 line 11 column 247 - Warning: trimming empty <summary>
 line 11 column 1008 - Warning: trimming empty <summary>
 line 12 column 237 - Warning: trimming empty <summary>
@@ -927,11 +927,11 @@ line 2 column 81 - Warning: trimming empty <span>
 Document: "2" is not a file!
 
 line 10 column 226 - Warning: missing </summary> before <section>
-line 10 column 757 - Warning: discarding unexpected </summary>
-line 10 column 834 - Warning: missing </summary> before <section>
-line 10 column 1485 - Warning: discarding unexpected </summary>
-line 10 column 4331 - Warning: missing </summary> before <section>
-line 10 column 4689 - Warning: <div> isn't allowed in <h3> elements
+line 10 column 756 - Warning: discarding unexpected </summary>
+line 10 column 833 - Warning: missing </summary> before <section>
+line 10 column 1483 - Warning: discarding unexpected </summary>
+line 10 column 4329 - Warning: missing </summary> before <section>
+line 10 column 4687 - Warning: <div> isn't allowed in <h3> elements
 line 11 column 149 - Warning: discarding unexpected </div>
 line 11 column 170 - Warning: discarding unexpected </summary>
 line 11 column 247 - Warning: missing </summary> before <section>
@@ -998,8 +998,8 @@ line 25 column 113 - Warning: missing </summary> before <section>
 line 25 column 375 - Warning: discarding unexpected </summary>
 line 2 column 81 - Warning: trimming empty <span>
 line 10 column 226 - Warning: trimming empty <summary>
-line 10 column 834 - Warning: trimming empty <summary>
-line 10 column 4331 - Warning: trimming empty <summary>
+line 10 column 833 - Warning: trimming empty <summary>
+line 10 column 4329 - Warning: trimming empty <summary>
 line 11 column 247 - Warning: trimming empty <summary>
 line 11 column 1008 - Warning: trimming empty <summary>
 line 12 column 237 - Warning: trimming empty <summary>
@@ -1049,10 +1049,6 @@ Document: "2" is not a file!
 
 line 2 column 81 - Warning: trimming empty <span>
 ./docs/cargo_auto_lib/auto_helper_functions_mod/fn.run_shell_command_success.html
-Document: "2" is not a file!
-
-line 2 column 81 - Warning: trimming empty <span>
-./docs/cargo_auto_lib/auto_helper_functions_mod/fn.run_shell_commands.html
 Document: "2" is not a file!
 
 line 2 column 81 - Warning: trimming empty <span>
@@ -2120,14 +2116,14 @@ line 9 column 8888 - Warning: discarding unexpected </span>
 line 9 column 9163 - Warning: missing </summary> before <section>
 line 9 column 9818 - Warning: discarding unexpected </summary>
 line 9 column 9895 - Warning: missing </summary> before <section>
-line 9 column 10399 - Warning: discarding unexpected </summary>
-line 9 column 10554 - Warning: missing </summary> before <section>
-line 9 column 11204 - Warning: discarding unexpected </summary>
-line 9 column 11281 - Warning: missing </summary> before <section>
-line 9 column 11780 - Warning: discarding unexpected </summary>
-line 9 column 11935 - Warning: missing </summary> before <section>
-line 9 column 12599 - Warning: discarding unexpected </summary>
-line 9 column 12676 - Warning: missing </summary> before <section>
+line 9 column 10403 - Warning: discarding unexpected </summary>
+line 9 column 10558 - Warning: missing </summary> before <section>
+line 9 column 11208 - Warning: discarding unexpected </summary>
+line 9 column 11285 - Warning: missing </summary> before <section>
+line 9 column 11784 - Warning: discarding unexpected </summary>
+line 9 column 11939 - Warning: missing </summary> before <section>
+line 9 column 12603 - Warning: discarding unexpected </summary>
+line 9 column 12680 - Warning: missing </summary> before <section>
 line 9 column 13183 - Warning: discarding unexpected </summary>
 line 9 column 13338 - Warning: missing </summary> before <section>
 line 9 column 14028 - Warning: discarding unexpected </summary>
@@ -2220,10 +2216,10 @@ line 9 column 8145 - Warning: trimming empty <summary>
 line 9 column 8707 - Warning: trimming empty <span>
 line 9 column 9163 - Warning: trimming empty <summary>
 line 9 column 9895 - Warning: trimming empty <summary>
-line 9 column 10554 - Warning: trimming empty <summary>
-line 9 column 11281 - Warning: trimming empty <summary>
-line 9 column 11935 - Warning: trimming empty <summary>
-line 9 column 12676 - Warning: trimming empty <summary>
+line 9 column 10558 - Warning: trimming empty <summary>
+line 9 column 11285 - Warning: trimming empty <summary>
+line 9 column 11939 - Warning: trimming empty <summary>
+line 9 column 12680 - Warning: trimming empty <summary>
 line 9 column 13338 - Warning: trimming empty <summary>
 line 9 column 14105 - Warning: trimming empty <summary>
 line 9 column 17197 - Warning: trimming empty <summary>
@@ -4331,10 +4327,6 @@ line 2 column 81 - Warning: trimming empty <span>
 Document: "2" is not a file!
 
 line 2 column 81 - Warning: trimming empty <span>
-./docs/cargo_auto_lib/public_api_mod/fn.run_shell_commands.html
-Document: "2" is not a file!
-
-line 2 column 81 - Warning: trimming empty <span>
 ./docs/cargo_auto_lib/fn.body_text_from_releases_md.html
 Document: "2" is not a file!
 
@@ -4634,10 +4626,6 @@ Document: "2" is not a file!
 
 line 2 column 81 - Warning: trimming empty <span>
 ./docs/cargo_auto_lib/fn.copy_folder_files_into_module.html
-Document: "2" is not a file!
-
-line 2 column 81 - Warning: trimming empty <span>
-./docs/cargo_auto_lib/fn.run_shell_commands.html
 Document: "2" is not a file!
 
 line 2 column 81 - Warning: trimming empty <span>

@@ -4,13 +4,13 @@ version = "1.0.0"
 authors = ["bestia.dev"]
 homepage = "https://bestia.dev"
 edition = "2021"
-description = "cargo auto - automation tasks written in Rust language"
+description = "cargo auto - automation tasks coded in Rust language"
 publish = false
 
 [dependencies]
 # the dependency to crates.io must be set for the GitHub action to succeed.
-cargo_auto_lib = "1.3.63"
+# cargo_auto_lib = "1.3.63"
 # Using the development library locally, so I test the changes immediately.
-# cargo_auto_lib = {path = "/home/rustdevuser/rustprojects/cargo_auto_lib"}
+cargo_auto_lib = {path = "/home/rustdevuser/rustprojects/cargo_auto_lib"}
 
 pretty_dbg = "1.0.54"

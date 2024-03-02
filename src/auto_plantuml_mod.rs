@@ -44,7 +44,7 @@ pub fn auto_plantuml_for_path(path: &std::path::Path, repo_url: &str) {
 
         // check if file have CRLF and show error
         if md_text_content.contains("\r\n") {
-            panic!("{RED}Error: {md_filename} has CRLF line endings instead of LF. The task auto_plantuml cannot work! Exiting..{RESET}");
+            panic!("{RED}Error: {md_filename} has CRLF line endings instead of LF. Correct the file! Exiting...{RESET}");
         }
         let mut pos = 0;
         // find markers

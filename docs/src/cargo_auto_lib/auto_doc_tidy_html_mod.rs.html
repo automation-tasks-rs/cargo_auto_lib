@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.6.0">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="generator" content="rustdoc">
@@ -109,7 +108,7 @@
         // Options: -m modify file, -q quiet suppress nonessential output, -w wrap at 160, -i indent 2 spaces
         // The warnings and errors are appended to the file docs/tidy_warnings.txt
         </span><span class="kw">crate</span>::run_shell_command(<span class=
-"string">r#"find ./docs -name '*.html' -type f -print -exec tidy -mq -w 160 -i 2 '{}' \; &gt;&gt; docs/tidy_warnings.txt 2&gt;&amp;1 "#</span>);
+"string">r#"find ./docs -name '*.html' -type f -print -exec tidy -mq --tidy-mark no -w 160 -i 2 '{}' \; &gt;&gt; docs/tidy_warnings.txt 2&gt;&amp;1 "#</span>);
     }
     <span class="prelude-val">Ok</span>(())
 }

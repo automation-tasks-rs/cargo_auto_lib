@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.6.0">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="generator" content="rustdoc">
@@ -837,8 +836,8 @@
     <span class="kw">let </span><span class="kw-2">mut </span>token = check_or_get_github_token().unwrap();
 
     <span class="macro">println!</span>(<span class="string">"    {YELLOW}Uploading file to GitHub release: {path_to_file}{RESET}"</span>);
-    <span class="kw">let </span>file = std::path::Path::new(<span class="kw-2">&</span>path_to_file);
-    <span class="kw">let </span>file_name = file.file_name().unwrap().to_str().unwrap();
+    <span class="kw">let </span>file = camino::Utf8Path::new(<span class="kw-2">&</span>path_to_file);
+    <span class="kw">let </span>file_name = file.file_name().unwrap();
 
     <span class="kw">let </span>release_upload_url = <span class="macro">format!</span>(<span class=
 "string">"https://uploads.github.com/repos/{owner}/{repo}/releases/{release_id}/assets"</span>);
@@ -1043,7 +1042,7 @@
     <span class="kw">let </span><span class="kw-2">mut </span>token: <span class="prelude-ty">Option</span>&lt;SecretString&gt; = <span class=
 "prelude-val">None</span>;
     <span class="kw">let </span>github_token_json_path_expanded = <span class="kw">crate</span>::utils_mod::file_path_home_expand(GITHUB_TOKEN_PATH);
-    <span class="kw">if </span>std::path::Path::new(<span class="kw-2">&</span>github_token_json_path_expanded).exists() {
+    <span class="kw">if </span>camino::Utf8Path::new(<span class="kw-2">&</span>github_token_json_path_expanded).exists() {
         token = <span class="kw">crate</span>::auto_encrypt_decrypt_with_ssh_mod::decrypt_with_ssh_from_file(<span class=
 "kw-2">&</span>github_token_json_path_expanded);
     }
@@ -1098,15 +1097,14 @@
     <span class="comment">// returns the public_key inside ssh-add or None
     </span><span class="kw">match </span><span class="kw">crate</span>::auto_ssh_mod::ssh_add_list_contains_fingerprint(<span class=
 "kw-2">&amp;mut </span>ssh_agent_client, <span class="kw-2">&</span>fingerprint_from_file) {
-        <span class="prelude-val">Some</span>(_key) =&gt; <span class="macro">println!</span>(<span class=
-"string">"    {YELLOW}Ssh key for GitHub push is already in ssh-add.{RESET}"</span>),
+        <span class="prelude-val">Some</span>(_key) =&gt; (),
         <span class="prelude-val">None </span>=&gt; {
             <span class="comment">// ssh-add if it is not contained in the ssh-agent
             </span><span class="macro">eprintln!</span>(<span class="string">"{RED}Ssh key for GitHub push is not in the ssh-agent.{RESET}"</span>);
             <span class="macro">println!</span>(<span class="string">"    {YELLOW}Add ssh identity with ssh-add to use with GitHub push.{RESET}"</span>);
             <span class="kw">let </span>cmd = <span class="macro">format!</span>(<span class="string">"ssh-add -t 1h {}"</span>, identity_private_file_path);
             <span class="kw">if </span>!<span class="kw">crate</span>::run_shell_command_success(<span class="kw-2">&</span>cmd) {
-                <span class="macro">eprintln!</span>(<span class="string">"{RED}ssh-add was not successful! Exiting.{RESET}"</span>,);
+                <span class="macro">eprintln!</span>(<span class="string">"{RED}Error: ssh-add was not successful! Exiting...{RESET}"</span>,);
                 <span class="comment">// early exit
                 </span><span class="kw">return </span><span class="prelude-val">None</span>;
             }
@@ -1128,7 +1126,8 @@
                     <span class="kw">if let </span><span class="prelude-val">Some</span>(identity_files) = x.params.identity_file.as_ref() {
                         <span class="kw">if </span>!identity_files.is_empty() {
                             <span class="comment">// there can be more identity_files, but I will use only the first
-                            </span>identity_file_path = identity_files[<span class="number">0</span>].to_string_lossy().to_string();
+                            </span>identity_file_path = camino::Utf8Path::from_path(<span class="kw-2">&</span>identity_files[<span class=
+"number">0</span>]).unwrap().to_string();
                         }
                     }
                     <span class="kw">break</span>;
@@ -1166,21 +1165,20 @@
         .unwrap();
     <span class="kw">if </span>identity_file_for_ssh.is_empty() {
         <span class="comment">// early exit
-        </span><span class="macro">eprintln!</span>(<span class="string">"{RED}The filepath for the ssh key was not given. Exiting.{RESET}"</span>);
+        </span><span class="macro">eprintln!</span>(<span class="string">"{RED}Error: The filepath for the ssh key was not given. Exiting...{RESET}"</span>);
         <span class="kw">return </span><span class="prelude-val">None</span>;
     }
 
     <span class="comment">// check if the file exists
-    </span><span class="kw">let </span>identity_file_for_ssh = identity_file_for_ssh.replace(<span class="string">"~"</span>, <span class=
-"kw">crate</span>::home_dir().to_string_lossy().as_ref());
-    <span class="kw">let </span>identity_file_for_ssh = std::path::Path::new(<span class="kw-2">&</span>identity_file_for_ssh).to_owned();
+    </span><span class="kw">let </span>identity_file_for_ssh = identity_file_for_ssh.replace(<span class=
+"string">"~"</span>, camino::Utf8Path::from_path(<span class="kw-2">&</span><span class="kw">crate</span>::home_dir()).unwrap().as_str());
+    <span class="kw">let </span>identity_file_for_ssh = camino::Utf8Path::new(<span class="kw-2">&</span>identity_file_for_ssh).to_owned();
     <span class="kw">if </span>!identity_file_for_ssh.exists() {
-        <span class="macro">eprintln!</span>(<span class=
-"string">"{RED}File {} does not exist! Exiting.{RESET}"</span>, identity_file_for_ssh.to_string_lossy());
+        <span class="macro">eprintln!</span>(<span class="string">"{RED}Error: File {identity_file_for_ssh} does not exist! Exiting...{RESET}"</span>);
         <span class="comment">// early exit
         </span><span class="kw">return </span><span class="prelude-val">None</span>;
     }
-    <span class="kw">let </span>identity_file_for_ssh = identity_file_for_ssh.to_string_lossy().to_string();
+    <span class="kw">let </span>identity_file_for_ssh = identity_file_for_ssh.to_string();
     <span class="comment">// return
     </span><span class="prelude-val">Some</span>(identity_file_for_ssh)
 }
@@ -1235,7 +1233,7 @@
 
 <span class="doccomment">/// create RELEASES.md if file not exist
 </span><span class="kw">fn </span>create_releases_md_if_file_not_exist() {
-    <span class="kw">if </span>!std::path::Path::new(RELEASES_MD).exists() {
+    <span class="kw">if </span>!camino::Utf8Path::new(RELEASES_MD).exists() {
         <span class="comment">// create the template file
         </span><span class="kw">let </span>cargo_toml = <span class="kw">crate</span>::CargoToml::read();
         <span class="kw">let </span>project_name = cargo_toml.package_name();

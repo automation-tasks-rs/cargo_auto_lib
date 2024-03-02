@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.6.0">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="generator" content="rustdoc">
@@ -116,6 +115,9 @@
 <a href="#65" id="65">65</a>
 <a href="#66" id="66">66</a>
 <a href="#67" id="67">67</a>
+<a href="#68" id="68">68</a>
+<a href="#69" id="69">69</a>
+<a href="#70" id="70">70</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// auto_copy_files_to_strings_mod.rs
@@ -134,15 +136,17 @@
 </span><span class="kw">pub fn </span>copy_folder_files_into_module(folder_path: <span class="kw-2">&</span>std::path::Path, module_path: <span class=
 "kw-2">&</span>std::path::Path, ext_for_binary_files: <span class="kw-2">&</span>[<span class="kw-2">&</span>str], exclude_big_folders: <span class=
 "kw-2">&</span>[String]) {
-    <span class="macro">println!</span>(<span class=
-"string">"    {YELLOW}copy_folder_files_into_module {}, {}{RESET}"</span>, folder_path.to_string_lossy(), module_path.to_string_lossy());
+    <span class="kw">let </span>folder_path = camino::Utf8Path::from_path(folder_path).unwrap();
+    <span class="kw">let </span>module_path = camino::Utf8Path::from_path(module_path).unwrap();
+
+    <span class="macro">println!</span>(<span class="string">"    {YELLOW}copy_folder_files_into_module {folder_path}, {module_path}{RESET}"</span>);
     <span class="comment">// traverse and get all file_names
     </span><span class="kw">let </span>files = <span class="kw">crate</span>::traverse_dir_with_exclude_dir(<span class=
-"kw-2">&</span>folder_path, <span class="string">""</span>, exclude_big_folders).unwrap();
+"kw-2">&</span>folder_path.as_std_path(), <span class="string">""</span>, exclude_big_folders).unwrap();
     <span class="kw">let </span><span class="kw-2">mut </span>new_code = String::new();
     <span class="kw">for </span>file_name <span class="kw">in </span>files.iter() {
         <span class="kw">let </span>file_name_short = file_name.trim_start_matches(<span class="kw-2">&</span><span class="macro">format!</span>(<span class=
-"string">"{}/"</span>, folder_path.to_string_lossy()));
+"string">"{folder_path}/"</span>));
         <span class="comment">// avoid Cargo.lock file
         </span><span class="kw">if </span>file_name_short == <span class="string">"Cargo.lock" </span>{
             <span class="kw">continue</span>;

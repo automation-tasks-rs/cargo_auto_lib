@@ -13,7 +13,7 @@ It works only for files with LF line delimiter. No CR and no CRLF.
 
 ## markers
 
-In the rs file write these markers (don't copy the numbers 1 and 2):  
+In the rs file write these markers:  
 
 ```code
 comment region: auto_md_to_doc_comments include README.md //! A  

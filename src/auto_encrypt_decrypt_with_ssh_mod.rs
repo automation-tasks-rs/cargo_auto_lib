@@ -96,7 +96,7 @@ pub(crate) fn encrypt_with_ssh_interactive_save_file(identity_file_path: &str, o
 
     let identity_file_path_expanded = crate::utils_mod::file_path_home_expand(identity_file_path);
     if !crate::utils_mod::file_exists(&identity_file_path_expanded) {
-        eprintln!("{RED}File {identity_file_path_expanded} does not exist! Exiting.{RESET}");
+        eprintln!("{RED}Error: File {identity_file_path_expanded} does not exist! Exiting...{RESET}");
         // early exit
         return;
     }
@@ -181,7 +181,7 @@ pub(crate) fn decrypt_with_ssh_from_file(json_file_path: &str) -> Option<SecretS
 
     let identity_file_path_expanded = crate::utils_mod::file_path_home_expand(identity_file_path);
     if !crate::utils_mod::file_exists(&identity_file_path_expanded) {
-        eprintln!("{RED}File {identity_file_path_expanded} does not exist! Exiting.{RESET}");
+        eprintln!("{RED}Error: File {identity_file_path_expanded} does not exist! Exiting...{RESET}");
         // early exit
         return None;
     }

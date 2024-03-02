@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.6.0">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="generator" content="rustdoc">
@@ -367,7 +366,7 @@
 
     <span class="kw">let </span>identity_file_path_expanded = <span class="kw">crate</span>::utils_mod::file_path_home_expand(identity_file_path);
     <span class="kw">if </span>!<span class="kw">crate</span>::utils_mod::file_exists(<span class="kw-2">&</span>identity_file_path_expanded) {
-        <span class="macro">eprintln!</span>(<span class="string">"{RED}File {identity_file_path_expanded} does not exist! Exiting.{RESET}"</span>);
+        <span class="macro">eprintln!</span>(<span class="string">"{RED}Error: File {identity_file_path_expanded} does not exist! Exiting...{RESET}"</span>);
         <span class="comment">// early exit
         </span><span class="kw">return</span>;
     }
@@ -381,8 +380,8 @@
 
     </span><span class="kw">let </span>path = std::env::var(<span class="string">"SSH_AUTH_SOCK"</span>).expect(<span class=
 "string">"SSH_AUTH_SOCK is not set"</span>);
-    <span class="kw">let </span><span class="kw-2">mut </span>client = ssh_agent_client_rs::Client::connect(std::path::Path::new(<span class=
-"kw-2">&</span>path)).unwrap();
+    <span class="kw">let </span><span class="kw-2">mut </span>client = ssh_agent_client_rs::Client::connect(camino::Utf8Path::new(<span class=
+"kw-2">&</span>path).as_std_path()).unwrap();
     <span class="kw">let </span>public_key = <span class="kw">crate</span>::auto_ssh_mod::ssh_add_list_contains_fingerprint(<span class=
 "kw-2">&amp;mut </span>client, <span class="kw-2">&</span>fingerprint_from_file).unwrap_or_else(|| <span class="macro">panic!</span>(<span class=
 "string">"{RED}Identity not found in ssh-agent!{RESET}"</span>));
@@ -416,7 +415,7 @@
     <span class="kw">let </span>file_text = base64ct::Base64::encode_string(file_text.as_bytes());
 
     <span class="kw">let </span>output_file_path = <span class="kw">crate</span>::utils_mod::file_path_home_expand(output_file_path);
-    <span class="kw">let </span>encrypted_file = std::path::Path::new(<span class="kw-2">&</span>output_file_path);
+    <span class="kw">let </span>encrypted_file = camino::Utf8Path::new(<span class="kw-2">&</span>output_file_path);
     std::fs::write(encrypted_file, file_text).unwrap();
     <span class="macro">println!</span>(<span class="string">"    {YELLOW}Encrypted text saved in file for future use.{RESET}"</span>)
 }
@@ -470,7 +469,7 @@
 
     <span class="kw">let </span>identity_file_path_expanded = <span class="kw">crate</span>::utils_mod::file_path_home_expand(identity_file_path);
     <span class="kw">if </span>!<span class="kw">crate</span>::utils_mod::file_exists(<span class="kw-2">&</span>identity_file_path_expanded) {
-        <span class="macro">eprintln!</span>(<span class="string">"{RED}File {identity_file_path_expanded} does not exist! Exiting.{RESET}"</span>);
+        <span class="macro">eprintln!</span>(<span class="string">"{RED}Error: File {identity_file_path_expanded} does not exist! Exiting...{RESET}"</span>);
         <span class="comment">// early exit
         </span><span class="kw">return </span><span class="prelude-val">None</span>;
     }
@@ -484,8 +483,8 @@
 
     </span><span class="kw">let </span>path = std::env::var(<span class="string">"SSH_AUTH_SOCK"</span>).expect(<span class=
 "string">"SSH_AUTH_SOCK is not set"</span>);
-    <span class="kw">let </span><span class="kw-2">mut </span>client = ssh_agent_client_rs::Client::connect(std::path::Path::new(<span class=
-"kw-2">&</span>path)).unwrap();
+    <span class="kw">let </span><span class="kw-2">mut </span>client = ssh_agent_client_rs::Client::connect(camino::Utf8Path::new(<span class=
+"kw-2">&</span>path).as_std_path()).unwrap();
 
     <span class="kw">let </span>public_key = <span class="kw">crate</span>::auto_ssh_mod::ssh_add_list_contains_fingerprint(<span class=
 "kw-2">&amp;mut </span>client, <span class="kw-2">&</span>fingerprint_from_file).unwrap_or_else(|| <span class="macro">panic!</span>(<span class=

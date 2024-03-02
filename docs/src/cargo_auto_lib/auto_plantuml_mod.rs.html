@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.6.0">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="generator" content="rustdoc">
@@ -262,8 +261,6 @@
 <a href="#211" id="211">211</a>
 <a href="#212" id="212">212</a>
 <a href="#213" id="213">213</a>
-<a href="#214" id="214">214</a>
-<a href="#215" id="215">215</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// auto_plantuml_mod.rs
@@ -294,10 +291,11 @@
 <span class="doccomment">/// process plantuml for all md files
 /// for test and examples I need to provide the path
 </span><span class="kw">pub fn </span>auto_plantuml_for_path(path: <span class="kw-2">&</span>std::path::Path, repo_url: <span class="kw-2">&</span>str) {
+    <span class="kw">let </span>path = camino::Utf8Path::from_path(path).unwrap();
     <span class="macro">println!</span>(<span class="string">"    {YELLOW}Running auto_plantuml{RESET}"</span>);
     <span class="comment">//use traverse instead of glob
     </span><span class="kw">let </span>files = <span class="kw">crate</span>::utils_mod::traverse_dir_with_exclude_dir(
-        path,
+        path.as_std_path(),
         <span class="string">"/*.md"</span>,
         <span class="comment">// avoid big folders and other folders with *.crev
         </span><span class="kw-2">&</span>[<span class="string">"/.git"</span>.to_string(), <span class="string">"/target"</span>.to_string(), <span class=
@@ -305,17 +303,15 @@
     )
     .unwrap();
     <span class="kw">for </span>md_filename <span class="kw">in </span>files {
-        <span class="kw">let </span>md_filename = std::path::Path::new(<span class="kw-2">&</span>md_filename);
+        <span class="kw">let </span>md_filename = camino::Utf8Path::new(<span class="kw-2">&</span>md_filename);
 
         <span class="kw">let </span><span class="kw-2">mut </span>is_changed = <span class="bool-val">false</span>;
         <span class="kw">let </span><span class="kw-2">mut </span>md_text_content = std::fs::read_to_string(md_filename).unwrap();
 
         <span class="comment">// check if file have CRLF and show error
         </span><span class="kw">if </span>md_text_content.contains(<span class="string">"\r\n"</span>) {
-            <span class="macro">panic!</span>(
-                <span class="string">"{RED}Error: {} has CRLF line endings instead of LF. The task auto_plantuml cannot work! Exiting..{RESET}"</span>,
-                md_filename.to_string_lossy()
-            );
+            <span class="macro">panic!</span>(<span class=
+"string">"{RED}Error: {md_filename} has CRLF line endings instead of LF. Correct the file! Exiting...{RESET}"</span>);
         }
         <span class="kw">let </span><span class="kw-2">mut </span>pos = <span class="number">0</span>;
         <span class="comment">// find markers
@@ -367,7 +363,7 @@
                         <span class="kw">if </span>get_new_svg {
                             <span class="kw">let </span>relative_md_filename = md_filename.strip_prefix(path).unwrap();
                             <span class="macro">println!</span>(<span class=
-"string">"    {YELLOW}{} get new svg {plantuml_code_hash}{RESET}"</span>, relative_md_filename.to_string_lossy(),);
+"string">"    {YELLOW}{relative_md_filename} get new svg {plantuml_code_hash}{RESET}"</span>);
 
                             <span class="comment">// get the new svg image
                             </span><span class="kw">let </span>svg_code = get_svg(plantuml_code);
@@ -390,7 +386,7 @@
                             <span class="comment">// dbg!(relative_svg_path);
                             // create the new image lnk
                             </span><span class="kw">let </span>img_link = <span class="macro">format!</span>(<span class=
-"string">"\n![svg_{}]({}{})\n"</span>, plantuml_code_hash, <span class="kw-2">&</span>repo_full_url, relative_svg_path.to_string_lossy());
+"string">"\n![svg_{plantuml_code_hash}]({repo_full_url}{relative_svg_path})\n"</span>);
                             <span class="comment">// delete the old img_link and insert the new one
                             </span>md_text_content.replace_range(code_end_after..marker_end, <span class="kw-2">&</span>img_link);
                             is_changed = <span class="bool-val">true</span>;
@@ -456,8 +452,8 @@
 "string">"examples/plantuml/input2_for_plantuml.md"</span>).unwrap();
         <span class="comment">// endregion: prepare folders and files for this example
 
-        </span><span class="kw">let </span>path = std::path::Path::new(<span class="string">"examples/plantuml"</span>);
-        auto_plantuml_for_path(path, <span class="string">""</span>);
+        </span><span class="kw">let </span>path = camino::Utf8Path::new(<span class="string">"examples/plantuml"</span>);
+        auto_plantuml_for_path(path.as_std_path(), <span class="string">""</span>);
 
         <span class="comment">// check the result
         </span><span class="kw">let </span>changed1 = std::fs::read_to_string(<span class="string">"examples/plantuml/input1_for_plantuml.md"</span>).unwrap();
@@ -469,15 +465,15 @@
         <span class="macro">assert_eq!</span>(changed2, output2);
 
         <span class="comment">/* cSpell:disable */
-        </span><span class="macro">assert!</span>(std::path::Path::new(<span class=
+        </span><span class="macro">assert!</span>(camino::Utf8Path::new(<span class=
 "string">"examples/plantuml/images/svg_8eLHibrc2gjrY1qcezDiy--xk9mz1XwYyIcZwXvjlcE.svg"</span>).exists());
-        <span class="macro">assert!</span>(std::path::Path::new(<span class=
+        <span class="macro">assert!</span>(camino::Utf8Path::new(<span class=
 "string">"examples/plantuml/images/svg_H8u0SNaGZzGAaYPHeY4eDF9TfWqVXhKa7M8wiwXSe_s.svg"</span>).exists());
-        <span class="macro">assert!</span>(std::path::Path::new(<span class=
+        <span class="macro">assert!</span>(camino::Utf8Path::new(<span class=
 "string">"examples/plantuml/images/svg_KPAr4S3iGAVLbskqf6XXaqrWge8bXMlCkNk7EaimJs0.svg"</span>).exists());
-        <span class="macro">assert!</span>(std::path::Path::new(<span class=
+        <span class="macro">assert!</span>(camino::Utf8Path::new(<span class=
 "string">"examples/plantuml/images/svg_lTG8S1eNgnLTJS1PruoYJEjQVW4dCn0x6Wl-pw6yPXM.svg"</span>).exists());
-        <span class="macro">assert!</span>(std::path::Path::new(<span class=
+        <span class="macro">assert!</span>(camino::Utf8Path::new(<span class=
 "string">"examples/plantuml/images/svg_tosmzSqwSXyObaX7eRLFp9xsMzcM5UDT4NSaQSgnq-Q.svg"</span>).exists());
         <span class="comment">/* cSpell:enable */
     </span>}
