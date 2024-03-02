@@ -18,6 +18,7 @@ use cargo_auto_lib::YELLOW;
 
 fn main() {
     cl::exit_if_not_run_in_rust_project_root_directory();
+
     // get CLI arguments
     let mut args = std::env::args();
     // the zero argument is the name of the program
@@ -198,14 +199,14 @@ fn task_doc() {
 
 /// cargo test
 fn task_test() {
-         cl::run_shell_command("cargo test");
-        println!(
-    r#"
+    cl::run_shell_command("cargo test");
+    println!(
+r#"
     {YELLOW}After `cargo auto test`. If ok then {RESET}
-    {YELLOW}(with mandatory commit message){RESET}
+    {YELLOW}(commit message is mandatory){RESET}
 {GREEN}cargo auto commit_and_push "message"{RESET}
-    "#
-        );
+"#
+    );
 }
 
 /// commit and push
