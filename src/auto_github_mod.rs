@@ -360,8 +360,6 @@ pub fn get_identity_file_path_from_ssh_config(host_name: &str) -> Option<String>
             return None;
         }
     }
-    println!("    {YELLOW}Identity_file_path for ssh is {identity_file_path}{RESET}");
-
     Some(identity_file_path)
 }
 

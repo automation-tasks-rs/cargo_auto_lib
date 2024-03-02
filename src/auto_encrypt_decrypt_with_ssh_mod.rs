@@ -175,7 +175,6 @@ pub(crate) fn decrypt_with_ssh_from_file(json_file_path: &str) -> Option<SecretS
     }
 
     // and now decrypt with private key
-    println!("    {YELLOW}Decrypting GitHub API token from encrypted file.{RESET}");
     let json_file_path = crate::utils_mod::file_path_home_expand(json_file_path);
     let file_text = std::fs::read_to_string(json_file_path).unwrap();
     let file_text = base64ct::Base64::decode_vec(&file_text).unwrap();
