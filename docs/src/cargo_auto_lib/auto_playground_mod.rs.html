@@ -134,6 +134,34 @@
 <a href="#84" id="84">84</a>
 <a href="#85" id="85">85</a>
 <a href="#86" id="86">86</a>
+<a href="#87" id="87">87</a>
+<a href="#88" id="88">88</a>
+<a href="#89" id="89">89</a>
+<a href="#90" id="90">90</a>
+<a href="#91" id="91">91</a>
+<a href="#92" id="92">92</a>
+<a href="#93" id="93">93</a>
+<a href="#94" id="94">94</a>
+<a href="#95" id="95">95</a>
+<a href="#96" id="96">96</a>
+<a href="#97" id="97">97</a>
+<a href="#98" id="98">98</a>
+<a href="#99" id="99">99</a>
+<a href="#100" id="100">100</a>
+<a href="#101" id="101">101</a>
+<a href="#102" id="102">102</a>
+<a href="#103" id="103">103</a>
+<a href="#104" id="104">104</a>
+<a href="#105" id="105">105</a>
+<a href="#106" id="106">106</a>
+<a href="#107" id="107">107</a>
+<a href="#108" id="108">108</a>
+<a href="#109" id="109">109</a>
+<a href="#110" id="110">110</a>
+<a href="#111" id="111">111</a>
+<a href="#112" id="112">112</a>
+<a href="#113" id="113">113</a>
+<a href="#114" id="114">114</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// auto_playground_mod.rs
@@ -149,7 +177,35 @@
     </span>).unwrap();
 }
 
-<span class="attr">#[doc=<span class="macro">include_str!</span>(<span class="string">"../doc_comments_long/auto_playground_run_code.md"</span>)]
+<span class="comment">// region: auto_md_to_doc_comments include doc_comments_long/auto_playground_run_code.md A ///
+</span><span class="doccomment">/// &lt;!-- markdownlint-disable --&gt;
+///
+/// Includes the link to playground with the rust code in a parameter.
+///
+/// Search in markdown files for markersand include a link to Rust playground.
+///
+/// ```markdown
+/// [comment]: # (auto_playground start)
+///
+/// Run this code in the [Rust playground](https://play.rust-lang.org/?version=stable&amp;mode=debug&amp;edition=2021&amp;code=fn%20m%0A%7D):
+///
+/// '''Rust
+/// fn main(){
+///     println!("Hello World!");
+/// }
+/// '''
+///
+/// [comment]: # (auto_playground end)
+/// ```
+///
+/// In your markdown, change the word `[comment]` with double slash `[//]`. And the single quotes with ticks.
+///
+/// Between the start marker and the first triple backtick is the link in "()" parentheses.  
+/// Encode the code with url_encoding.
+///
+/// Process code for playground for Rust code segments in all md files
+///
+</span><span class="comment">// endregion: auto_md_to_doc_comments include doc_comments_long/auto_playground_run_code.md A ///
 </span><span class="kw">pub fn </span>auto_playground_run_code() {
     <span class="macro">println!</span>(<span class="string">"    {YELLOW}Running auto_playground{RESET}"</span>);
     <span class="kw">let </span>path = std::env::current_dir().unwrap();

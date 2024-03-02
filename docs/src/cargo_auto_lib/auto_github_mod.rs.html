@@ -722,12 +722,6 @@
 <a href="#672" id="672">672</a>
 <a href="#673" id="673">673</a>
 <a href="#674" id="674">674</a>
-<a href="#675" id="675">675</a>
-<a href="#676" id="676">676</a>
-<a href="#677" id="677">677</a>
-<a href="#678" id="678">678</a>
-<a href="#679" id="679">679</a>
-<a href="#680" id="680">680</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// auto_github_mod
@@ -867,9 +861,7 @@
             </span>.unwrap();
 
         token.<span class="number">0</span>.zeroize();
-
-        <span class="comment">// dbg!(response);
-    </span>});
+    });
     <span class="comment">// endregion: async code made sync locally
 </span>}
 
@@ -928,8 +920,7 @@
         .unwrap()
         .text()
         .unwrap();
-    <span class="comment">//pretty_dbg!(&amp;response_text);
-    </span>token.<span class="number">0</span>.zeroize();
+    token.<span class="number">0</span>.zeroize();
 
     <span class="kw">let </span>parsed: serde_json::Value = serde_json::from_str(<span class="kw-2">&</span>response_text).unwrap();
     <span class="comment">// return
@@ -1359,8 +1350,7 @@ The TODO section is part of the [README.md](https://github.com/{github_owner}/{p
         .unwrap()
         .text()
         .unwrap();
-    <span class="comment">//pretty_dbg!(&amp;response_text);
-    </span>token.<span class="number">0</span>.zeroize();
+    token.<span class="number">0</span>.zeroize();
 
     <span class="kw">let </span>parsed: serde_json::Value = serde_json::from_str(<span class="kw-2">&</span>response_text).unwrap();
     <span class="comment">// return
@@ -1420,8 +1410,7 @@ The TODO section is part of the [README.md](https://github.com/{github_owner}/{p
         .unwrap()
         .text()
         .unwrap();
-    <span class="comment">//pretty_dbg!(&amp;response_text);
-    </span>token.<span class="number">0</span>.zeroize();
+    token.<span class="number">0</span>.zeroize();
 
     <span class="kw">let </span>_parsed: serde_json::Value = serde_json::from_str(<span class="kw-2">&</span>response_text).unwrap();
 }
@@ -1459,8 +1448,7 @@ The TODO section is part of the [README.md](https://github.com/{github_owner}/{p
         .unwrap()
         .text()
         .unwrap();
-    <span class="comment">//pretty_dbg!(&amp;response_text);
-    </span>token.<span class="number">0</span>.zeroize();
+    token.<span class="number">0</span>.zeroize();
 
     <span class="kw">let </span>_parsed: serde_json::Value = serde_json::from_str(<span class="kw-2">&</span>response_text).unwrap();
 }

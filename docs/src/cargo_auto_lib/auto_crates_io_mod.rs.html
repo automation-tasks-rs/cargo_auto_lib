@@ -132,7 +132,7 @@
     token.<span class="number">0</span>.zeroize();
     <span class="kw">let </span>exit_code = status.code().expect(<span class="kw-2">&</span><span class="macro">format!</span>(<span class=
 "string">"{RED}Error: publish to crates.io error. Exiting...{RESET}"</span>));
-    <span class="kw">if  </span>exit_code != <span class="number">0 </span>{
+    <span class="kw">if </span>exit_code != <span class="number">0 </span>{
         <span class="macro">eprintln!</span>(<span class="string">"{RED}Error: publish to crates.io error {exit_code}. Exiting...{RESET}"</span>);
         std::process::exit(<span class="number">1</span>);
     }

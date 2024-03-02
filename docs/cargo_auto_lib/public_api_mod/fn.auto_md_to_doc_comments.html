@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="generator" content="rustdoc">
-  <meta name="description" content="auto_md_to_doc_comments">
+  <meta name="description" content="This function finds rs files with markers and include segments from md files as doc comments.">
   <title>auto_md_to_doc_comments in cargo_auto_lib::public_api_mod - Rust</title>
   <link rel="preload" as="font" type="font/woff2" crossorigin="" href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2">
   <link rel="preload" as="font" type="font/woff2" crossorigin="" href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2">
@@ -34,7 +34,7 @@
     <div class="sidebar-crate">
       <a class="logo-container" href="../../cargo_auto_lib/index.html"><img src=
       "https://github.com/bestia-dev/cargo-auto/raw/main/images/logo/logo_cargo_auto.svg" alt="logo"></a>
-      <h2><a href="../../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">1.4.0</span></h2>
+      <h2><a href="../../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">1.4.1</span></h2>
     </div>
     <div class="sidebar-elems">
       <h2><a href="index.html">In cargo_auto_lib::public_api_mod</a></h2>
@@ -63,7 +63,7 @@
           <h1>Function <a href="../index.html">cargo_auto_lib</a>::<wbr><a href="index.html">public_api_mod</a>::<wbr><a class="fn" href=
           "#">auto_md_to_doc_comments</a><button id="copy-path" title="Copy item path to clipboard"><img src=
           "../../static.files/clipboard-7571035ce49a181d.svg" width="19" height="18" alt="Copy item path"></button></h1><span class="out-of-band"><a class=
-          "src" href="../../src/cargo_auto_lib/public_api_mod.rs.html#123-125">source</a> · <button id="toggle-all-docs" title=
+          "src" href="../../src/cargo_auto_lib/public_api_mod.rs.html#313-315">source</a> · <button id="toggle-all-docs" title=
           "collapse all docs">[<span>−</span>]</button></span>
         </div>
         <pre class="rust item-decl"><code>pub fn auto_md_to_doc_comments()</code></pre>
@@ -72,9 +72,9 @@
             <span>Expand description</span>
           </summary>
           <div class="docblock">
-            <h2 id="auto_md_to_doc_comments"><a href="#auto_md_to_doc_comments">auto_md_to_doc_comments</a></h2>
-            <p>This function finds rs files with markers and include segments from md files as doc comments.<br>
-            From this doc comments <code>cargo doc</code> will generated the documentation and auto-completion.<br>
+            <!-- markdownlint-disable -->
+            <p>This function finds rs files with markers and include segments from md files as doc comments.</p>
+            <p>From this doc comments <code>cargo doc</code> will generated the documentation and auto-completion.<br>
             We don’t want to manually copy this segments. We want them to be automatically in sync.<br>
             We will just run this function before every <code>cargo doc</code> with an automation task.<br>
             The <code>auto_md_to_doc_comments</code> function must be executed in the project root folder where is the Cargo.toml file.<br>
@@ -84,10 +84,10 @@
             The markers are always comments, so they don’t change the code.<br>
             It works only for files with LF line delimiter. No CR and no CRLF.</p>
             <h3 id="markers"><a href="#markers">markers</a></h3>
-            <p>In the rs file write these markers (don’t copy the numbers 1 and 2):</p>
+            <p>In the rs file write these markers:</p>
             <div class="example-wrap">
-              <pre class="language-code"><code>comment region: auto_md_to_doc_comments include README.md //! A  
-comment endregion: auto_md_to_doc_comments include README.md //! A  
+              <pre class="language-code"><code>comment region: auto_md_to_doc_comments include README.md A ///
+comment endregion: auto_md_to_doc_comments include README.md A ///
 </code></pre>
             </div>
             <p>In your rust code, change the word <code>comment</code> with double slash <code>//</code>.<br>
