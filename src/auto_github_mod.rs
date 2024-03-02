@@ -126,8 +126,6 @@ pub fn github_api_upload_asset_to_release(owner: &str, repo: &str, release_id: &
             .unwrap();
 
         token.0.zeroize();
-
-        // dbg!(response);
     });
     // endregion: async code made sync locally
 }
@@ -185,7 +183,6 @@ pub fn github_api_repository_new(owner: &str, name: &str, description: &str) -> 
         .unwrap()
         .text()
         .unwrap();
-    //pretty_dbg!(&response_text);
     token.0.zeroize();
 
     let parsed: serde_json::Value = serde_json::from_str(&response_text).unwrap();
@@ -578,7 +575,6 @@ fn github_api_get_repository(owner: &str, repo_name: &str) -> serde_json::Value 
         .unwrap()
         .text()
         .unwrap();
-    //pretty_dbg!(&response_text);
     token.0.zeroize();
 
     let parsed: serde_json::Value = serde_json::from_str(&response_text).unwrap();
@@ -637,7 +633,6 @@ pub fn github_api_update_description(owner: &str, repo_name: &str, description: 
         .unwrap()
         .text()
         .unwrap();
-    //pretty_dbg!(&response_text);
     token.0.zeroize();
 
     let _parsed: serde_json::Value = serde_json::from_str(&response_text).unwrap();
@@ -673,7 +668,6 @@ fn github_api_replace_all_topics(owner: &str, repo_name: &str, topics: &Vec<Stri
         .unwrap()
         .text()
         .unwrap();
-    //pretty_dbg!(&response_text);
     token.0.zeroize();
 
     let _parsed: serde_json::Value = serde_json::from_str(&response_text).unwrap();

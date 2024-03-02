@@ -145,7 +145,6 @@ pub(crate) fn encrypt_with_ssh_interactive_save_file(identity_file_path: &str, o
 /// use ssh-add to put ssh identity into ssh-agent
 /// ```rust ignore
 /// let output = cl::decrypt_with_ssh_from_json("output1.json").unwrap();
-/// dbg!(output);
 /// ```
 pub(crate) fn decrypt_with_ssh_from_file(json_file_path: &str) -> Option<SecretString> {
     // internal function Decrypts data with a key and a fingerprint

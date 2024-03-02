@@ -1,8 +1,10 @@
-# auto_cargo_toml_to_md
+[//]: # (auto_md_to_doc_comments segment start A)
+
+<!-- markdownlint-disable -->
 
 This function includes data from Cargo.toml to markdown files.  
-This is nice for avoiding out of sync data.
 
+This is nice for avoiding out of sync data.  
 Run it on every build with `automation_tasks_rs` and [cargo auto](https://crates.io/crates/cargo-auto).  
   
 In the md file write these markers in invisible markdown comments.
@@ -34,3 +36,5 @@ Run the example:
 ```bash
 cargo run --example example_01_auto_cargo_toml_to_md
 ```
+
+[//]: # (auto_md_to_doc_comments segment end A)

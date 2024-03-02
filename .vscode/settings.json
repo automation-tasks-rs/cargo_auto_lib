@@ -62,6 +62,7 @@
         "serde",
         "sshadd",
         "startuml",
+        "structs",
         "substack",
         "termion",
         "thiserror",

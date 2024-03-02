@@ -5,8 +5,8 @@
 fn main() {
     let text = "test";
     let hash = cargo_auto_lib::hash_for_filename(&text);
-    dbg!(hash);
-    println!("");
+
+    println!("{hash}");
 
     // region: prepare folders and files for this example
     // remove the 'images' folder

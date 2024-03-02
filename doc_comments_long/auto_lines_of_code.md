@@ -1,6 +1,9 @@
-# auto_lines_of_code
+[//]: # (auto_md_to_doc_comments segment start A)
 
-This functino inserts shield badges with lines_of_code into README.rs.  
+<!-- markdownlint-disable -->
+
+This function inserts shield badges with lines_of_code into README.rs.  
+
 The parameter Link will be used for shield badge. If empty_string, the git remote repository will be used.  
 Lines of code are not a "perfect" measurement of anything.\
 Anybody can write a very big number of lines of useless code and comments.\
@@ -52,3 +55,5 @@ In your markdown, change the word `[comment]` with double slash `[//]`.
 The function will include the shield badges code between them.  
 It will erase the previous content.  
 Use git diff to see the change.  
+
+[//]: # (auto_md_to_doc_comments segment end A)

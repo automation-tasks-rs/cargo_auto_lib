@@ -1,9 +1,11 @@
+[//]: # (auto_md_to_doc_comments segment start A)
+
 # cargo_auto_lib
 
 [//]: # (auto_cargo_toml_to_md start)
 
 **Library crate for common tasks when building rust projects. Intended for use with cargo-auto - automation tasks written in Rust language.**  
-***version: 1.4.0 date: 2024-03-02 author: [Bestia.dev](https://bestia.dev) repository: [GitHub](https://github.com/bestia-dev/cargo_auto_lib)***
+***version: 1.4.1 date: 2024-03-02 author: [Bestia.dev](https://bestia.dev) repository: [GitHub](https://github.com/bestia-dev/cargo_auto_lib)***
 
  ![maintained](https://img.shields.io/badge/maintained-green)
  ![ready-for-use](https://img.shields.io/badge/ready_for_use-green)
@@ -24,10 +26,10 @@
  ![cargo_auto_lib](https://bestia.dev/webpage_hit_counter/get_svg_image/276360626.svg)
 
 [//]: # (auto_lines_of_code start)
-[![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-2492-green.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
-[![Lines in Doc comments](https://img.shields.io/badge/Lines_in_Doc_comments-350-blue.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
-[![Lines in Comments](https://img.shields.io/badge/Lines_in_comments-371-purple.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
-[![Lines in examples](https://img.shields.io/badge/Lines_in_examples-28-yellow.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
+[![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-2476-green.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
+[![Lines in Doc comments](https://img.shields.io/badge/Lines_in_Doc_comments-933-blue.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
+[![Lines in Comments](https://img.shields.io/badge/Lines_in_comments-375-purple.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
+[![Lines in examples](https://img.shields.io/badge/Lines_in_examples-27-yellow.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
 [![Lines in tests](https://img.shields.io/badge/Lines_in_tests-79-orange.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
 
 [//]: # (auto_lines_of_code end)
@@ -137,3 +139,5 @@ So I can drink a free beer for your health :-)
 [//github.com/bestia-dev](https://github.com/bestia-dev)  
 [//bestiadev.substack.com](https://bestiadev.substack.com)  
 [//youtube.com/@bestia-dev-tutorials](https://youtube.com/@bestia-dev-tutorials)  
+
+[//]: # (auto_md_to_doc_comments segment end A)

@@ -19,7 +19,6 @@ use cargo_auto_lib::YELLOW;
 
 fn main() {
     cl::exit_if_not_run_in_rust_project_root_directory();
-
     // get CLI arguments
     let mut args = std::env::args();
     // the zero argument is the name of the program
@@ -314,4 +313,3 @@ fn task_github_new_release() {
     );
 }
 // endregion: tasks
-

@@ -1,6 +1,29 @@
 // public_api_mod.rs
 
-#![doc=include_str!("../doc_comments_long/public_api_mod.md")]
+// region: auto_md_to_doc_comments include doc_comments_long/public_api_mod.md A //!
+//! # public_api_mod
+//!
+//! The Public API of a library is a pain in the a...  
+//! Every time I modify something I have to think how it will affect the users of the library.  
+//! They could have tens or hundreds of places where they use the library. Breaking changes are terrible things.  
+//! The developers are not willing to change their code every time a library changes slightly.  
+//! Yes, there is the semver to show if the new library is API compatible. That helps a lot.  
+//! It is dreaded if the first version of a function does not return a Result<>.  
+//! Then later we will surely come to the point, that we need to return a Result<>. This is a terrible breaking change.  
+//! It is wise to return a Result always. Even when that is not needed right now. It will surely be needed in the future.  
+//! Another tactic is to make new functions with a different name and ornament the old functions as Obsolete.
+//!
+//! This library is used by the automation_tasks_rs executable.  
+//! I want to have here the complete and exact definition of the public API.  
+//! Therefore I will not use reexports like `pub use` or `pub mod`.  
+//! This way I can always know easily if my public API has changed.  
+//! Just compare the lib.rs file in git.  
+//! Adding functions, structs, methods and enums is ok, it does not break the Public API.  
+//! But modifying existing functions, methods or enums will break the compatibility.  
+//! AFTERTHOUGHT: This is a very time-consuming process to do manually.  
+//! Should use a utility, but that app is complicated to create. It must understand the Rust code.
+//!
+// endregion: auto_md_to_doc_comments include doc_comments_long/public_api_mod.md A //!
 
 // region: Public API constants
 // ANSI colors for Linux terminal
@@ -74,12 +97,75 @@ pub fn concatenate_vec_to_string(vec: &[String], delimiter: &str) -> String {
     crate::utils_mod::concatenate_vec_to_string(vec, delimiter)
 }
 
-#[doc=include_str!("../doc_comments_long/traverse_dir_with_exclude_dir.md")]
+// region: auto_md_to_doc_comments include doc_comments_long/traverse_dir_with_exclude_dir.md A ///
+/// <!-- markdownlint-disable -->
+/// Traverse dir and its sub-dir, but avoid excluded dirs.
+///
+/// The find_file and the exclude dir strings must start with /.
+///
+/// ## Example
+///
+/// ```Rust
+///
+/// let files = cargo_auto_lib::traverse_dir_with_exclude_dir(
+///     Path::new("/home/project/src"),
+///     "/*.rs",
+///     // avoid big folders and other folders with *.crev
+///     &vec![
+///         "/.git".to_string(),
+///         "/target".to_string(),
+///         "/docs".to_string()
+///     ]
+/// ).unwrap();
+/// for rs_file_name in files.iter() {
+///     println!("{}", &rs_file_name);
+/// }
+/// ```
+///
+// endregion: auto_md_to_doc_comments include doc_comments_long/traverse_dir_with_exclude_dir.md A ///
 pub fn traverse_dir_with_exclude_dir(dir: &std::path::Path, find_file: &str, exclude_dirs: &[String]) -> std::io::Result<Vec<String>> {
     crate::utils_mod::traverse_dir_with_exclude_dir(dir, find_file, exclude_dirs)
 }
 
-#[doc=include_str!("../doc_comments_long/auto_cargo_toml_to_md.md")]
+// region: auto_md_to_doc_comments include doc_comments_long/auto_cargo_toml_to_md.md A ///
+/// <!-- markdownlint-disable -->
+///
+/// This function includes data from Cargo.toml to markdown files.  
+///
+/// This is nice for avoiding out of sync data.  
+/// Run it on every build with `automation_tasks_rs` and [cargo auto](https://crates.io/crates/cargo-auto).  
+///   
+/// In the md file write these markers in invisible markdown comments.
+///
+/// ```markdown
+/// [comment]: # (auto_cargo_toml_to_md start)
+///
+/// [comment]: # (auto_cargo_toml_to_md end)
+///
+/// # In your markdown, change the word `[comment]` with double slash `[//]`.
+/// ```
+///
+/// `auto_cargo_toml_to_md` deletes the old lines between the markers and includes the Cargo.toml data:  
+/// description, repository, version, &utc_now(), authors and creates badges for keywords and categories.
+///
+/// The words topics, keywords and tags all mean the same concept.
+/// In cargo.toml we have keywords.
+/// In README.md I want to have badges, but I don't know the color yet.
+/// In GitHub they are topics.
+///
+/// Some keywords have defined colors, others are orange like Rust.
+/// This can be expanded in the future.
+/// Yellow: work-in-progress
+/// Green: maintained, ready-for-use
+/// Red: obsolete, archived
+///
+/// Run the example:  
+///
+/// ```bash
+/// cargo run --example example_01_auto_cargo_toml_to_md
+/// ```
+///
+// endregion: auto_md_to_doc_comments include doc_comments_long/auto_cargo_toml_to_md.md A ///
 pub fn auto_cargo_toml_to_md() {
     crate::auto_cargo_toml_to_md_mod::auto_cargo_toml_to_md()
 }
@@ -103,7 +189,14 @@ pub fn completion_return_one_or_more_sub_commands(sub_commands: Vec<&str>, word_
     crate::auto_helper_functions_mod::completion_return_one_or_more_sub_commands(sub_commands, word_being_completed)
 }
 
-#[doc=include_str!("../doc_comments_long/exit_if_not_run_in_rust_project_root_directory.md")]
+// region: auto_md_to_doc_comments include doc_comments_long/exit_if_not_run_in_rust_project_root_directory.md A ///
+/// <!-- markdownlint-disable -->
+/// Check if the code was run inside the Rust project root directory.  
+///
+/// There must be the `Cargo.toml` file and the directory `automation_tasks_rs`  
+/// If not, exit with error message.  
+///
+// endregion: auto_md_to_doc_comments include doc_comments_long/exit_if_not_run_in_rust_project_root_directory.md A ///
 pub fn exit_if_not_run_in_rust_project_root_directory() {
     crate::auto_helper_functions_mod::exit_if_not_run_in_rust_project_root_directory()
 }
@@ -114,12 +207,109 @@ pub fn run_shell_command(shell_command: &str) {
     crate::auto_helper_functions_mod::run_shell_command(shell_command)
 }
 
-#[doc=include_str!("../doc_comments_long/auto_lines_of_code.md")]
+// region: auto_md_to_doc_comments include doc_comments_long/auto_lines_of_code.md A ///
+/// <!-- markdownlint-disable -->
+///
+/// This function inserts shield badges with lines_of_code into README.rs.  
+///
+/// The parameter Link will be used for shield badge. If empty_string, the git remote repository will be used.  
+/// Lines of code are not a "perfect" measurement of anything.\
+/// Anybody can write a very big number of lines of useless code and comments.\
+/// But for 95% of the cases they are good enough.\
+/// Most of the developers use some "standard" coding practices and that is quantifiable and comparable.  
+///
+/// The `src_code_lines` is the most important count.\
+/// That is actual code written for that project without  doc comments, comments, unit tests, integration tests and examples.\
+/// Sometimes is great to see a big number here. It means there was a lot of work invested. But other times we want to see a small number. It
+/// means the developer understands the problem very well and don't try to solve anything outside that scope.  
+/// The `src_doc_comment_lines` counts doc comments. They will eventually become docs. The count of lines shows how many documentation is written.  
+/// The `src_comment_lines` counts code comments. Code comments are important to understand the code. The count of lines shows how understandable is the code.  
+/// The `tests_lines` counts lines in tests and shows how good is the code tested. Here are the unit tests and integration test combined.  
+/// The `examples_lines` counts lines in examples and shows how good is explained how to use the code.  
+///
+///
+/// ## Folder and file structure
+///
+/// The folder structure of a single Rust project is simple.\
+/// The project starts in the folder that contains `Cargo.toml`.\
+/// The `src/` folder contains all the rust `*.rs` files.\
+/// The `tests/` folder contains integration tests.\
+/// The `examples/` folder contains examples.\
+/// Some rs files can be excluded from the count adding this line near the start of the file: // exclude from auto_lines_of_code
+/// Inside a rs file the doc comment line start with `///` or `//!`.\
+/// The normal comments start with `//` or `/!`.\
+/// I will ignore the block comments. They are usually NOT used for comments, but to temporarily disable a piece of code. So I count this as code and not comments.  
+/// The `src/*.rs` file can contain unit tests that start with `#[cfg(test)]`. I assume that these are always at the end of the file.  
+/// There should not be any normal code after `#[cfg(test)]`, only tests.  
+/// All other files: `md`, `toml`, `html`, `js`, ... are not counted.  
+///
+/// ### Workspace
+///
+/// Workspaces have member projects, that are written in `Cargo.toml`.\
+/// The program counts lines of every project and sums them together.  
+///
+/// ## Include into README.md
+///
+/// If the README.md file contains these markers (don't copy the numbers 1 and 2):  
+///
+/// ```md
+/// [comment]: # (auto_lines_of_code start)
+///
+/// [comment]: # (auto_lines_of_code end)
+/// ```
+///
+/// In your markdown, change the word `[comment]` with double slash `[//]`.  
+///
+/// The function will include the shield badges code between them.  
+/// It will erase the previous content.  
+/// Use git diff to see the change.  
+///
+// endregion: auto_md_to_doc_comments include doc_comments_long/auto_lines_of_code.md A ///
 pub fn auto_lines_of_code(link: &str) {
     crate::auto_lines_of_code_mod::auto_lines_of_code(link)
 }
 
-#[doc=include_str!("../doc_comments_long/auto_md_to_doc_comments.md")]
+// region: auto_md_to_doc_comments include doc_comments_long/auto_md_to_doc_comments.md A ///
+/// <!-- markdownlint-disable -->
+///
+/// This function finds rs files with markers and include segments from md files as doc comments.  
+///
+/// From this doc comments `cargo doc` will generated the documentation and auto-completion.  
+/// We don't want to manually copy this segments. We want them to be automatically in sync.  
+/// We will just run this function before every `cargo doc` with an automation task.  
+/// The `auto_md_to_doc_comments` function must be executed in the project root folder where is the Cargo.toml file.  
+/// First it searches all the rs files in src, tests and examples folders.  
+/// If they contain the markers, than finds the md file and the named segment and include it as doc comments into the rs file.  
+/// The markers are always in pairs: start and end. So exactly the content in between is changed.  
+/// The markers are always comments, so they don't change the code.  
+/// It works only for files with LF line delimiter. No CR and no CRLF.  
+///
+/// ## markers
+///
+/// In the rs file write these markers:  
+///
+/// ```code
+/// comment region: auto_md_to_doc_comments include README.md A ///
+/// comment endregion: auto_md_to_doc_comments include README.md A ///
+/// ```
+///
+/// In your rust code, change the word `comment` with double slash `//`.  
+/// In the md file put markers to mark the segment:  
+///
+/// ```markdown
+/// [comment]: # (auto_md_to_doc_comments segment start A)  
+/// [comment]: # (auto_md_to_doc_comments segment end A)  
+/// ```
+///
+/// In your markdown, change the word `[comment]` with double slash `[//]`.
+///
+/// The marker must be exclusively in one line. No other text in the same line.  
+/// auto_md_to_doc_comments will delete the old lines between the markers.  
+/// It will find the md file and read the content between the markers.  
+/// Before each line it will add the doc comment symbol as is defined in the marker.  
+/// Finally it will include the new lines as doc comments in the rs file.
+///
+// endregion: auto_md_to_doc_comments include doc_comments_long/auto_md_to_doc_comments.md A ///
 pub fn auto_md_to_doc_comments() {
     crate::auto_md_to_doc_comments_mod::auto_md_to_doc_comments()
 }
@@ -179,7 +369,29 @@ pub fn auto_version_increment_semver_or_date_forced() {
     crate::auto_semver_or_date_mod::auto_version_increment_semver_or_date_forced()
 }
 
-#[doc=include_str!("../doc_comments_long/auto_version_from_date.md")]
+// region: auto_md_to_doc_comments include doc_comments_long/auto_version_from_date.md A ///
+/// <!-- markdownlint-disable -->
+///
+/// New version from date is written to Cargo.toml and service_worker.js
+///
+/// In Cargo.toml writes the version as the date `yyyy.mmdd.HHMM` ex. `2019.1221.2359`.  
+/// For non-library projects, the semver specification is not really useful.  
+/// Having the version as the date is just fine for executables and much more human readable.  
+/// The function must be executed in the root project folder of a single project or workspace where is the Cargo.toml.  
+///
+/// ### service_worker.js
+///
+/// Inside the PWA service worker javascript file is also needed to change the version.  
+/// The program searches for `service_worker.js` and modify the version.  
+///
+/// ### no need to change version if no files changed
+///
+/// If src/*.rs or Cargo.toml files are not changed from last compile, than no need to change version.  
+/// The dates of the files will be stored in the file .automation_tasks_rs_file_hashes.json near to Cargo.toml.
+/// Warning: I don't check if the service worker has changed because it rarely does.  
+/// To know if the projects has changed or not, this function saves the dates of all files into `.automation_tasks_rs_file_hashes.json` near Cargo.toml
+///
+// endregion: auto_md_to_doc_comments include doc_comments_long/auto_version_from_date.md A ///
 pub fn auto_version_from_date() {
     crate::auto_version_from_date_mod::auto_version_from_date()
 }

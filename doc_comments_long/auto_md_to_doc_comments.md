@@ -1,6 +1,9 @@
-# auto_md_to_doc_comments
+[//]: # (auto_md_to_doc_comments segment start A)
+
+<!-- markdownlint-disable -->
 
 This function finds rs files with markers and include segments from md files as doc comments.  
+
 From this doc comments `cargo doc` will generated the documentation and auto-completion.  
 We don't want to manually copy this segments. We want them to be automatically in sync.  
 We will just run this function before every `cargo doc` with an automation task.  
@@ -16,8 +19,8 @@ It works only for files with LF line delimiter. No CR and no CRLF.
 In the rs file write these markers:  
 
 ```code
-comment region: auto_md_to_doc_comments include README.md //! A  
-comment endregion: auto_md_to_doc_comments include README.md //! A  
+comment region: auto_md_to_doc_comments include README.md A ///
+comment endregion: auto_md_to_doc_comments include README.md A ///
 ```
 
 In your rust code, change the word `comment` with double slash `//`.  
@@ -34,4 +37,6 @@ The marker must be exclusively in one line. No other text in the same line.
 auto_md_to_doc_comments will delete the old lines between the markers.  
 It will find the md file and read the content between the markers.  
 Before each line it will add the doc comment symbol as is defined in the marker.  
-Finally it will include the new lines as doc comments in the rs file.  
+Finally it will include the new lines as doc comments in the rs file.
+
+[//]: # (auto_md_to_doc_comments segment end A)

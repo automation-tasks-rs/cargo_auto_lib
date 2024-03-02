@@ -1,4 +1,8 @@
-# auto_plantuml
+[//]: # (auto_md_to_doc_comments segment start A)
+
+<!-- markdownlint-disable -->
+
+Includes the plantuml svg generated from the plantuml code.
 
 Search for markers in md files and process plantuml code.  
 
@@ -31,3 +35,5 @@ if needed calls the web service and saves the svg file
 Between markers adds the link to the svg file
 repo_url like <https://github.com/bestia-dev/sey_currency_converter_pwa>
 so the image file link is from the repository and accessible everywhere
+
+[//]: # (auto_md_to_doc_comments segment end A)
