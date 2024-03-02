@@ -38,7 +38,7 @@ pub fn find_from(text: &str, from_pos: usize, find: &str) -> Option<usize> {
     }
 }
 
-// region: auto_md_to_doc_comments include doc_comments_long/traverse_dir_with_exclude_dir.md A ///
+// region: auto_md_to_doc_comments include doc_comments/traverse_dir_with_exclude_dir.md A ///
 /// Traverse dir and its sub-dir, but avoid excluded dirs.
 ///
 /// The find_file and the exclude dir strings must start with /.
@@ -62,7 +62,7 @@ pub fn find_from(text: &str, from_pos: usize, find: &str) -> Option<usize> {
 /// }
 /// ```
 ///
-// endregion: auto_md_to_doc_comments include doc_comments_long/traverse_dir_with_exclude_dir.md A ///
+// endregion: auto_md_to_doc_comments include doc_comments/traverse_dir_with_exclude_dir.md A ///
 pub fn traverse_dir_with_exclude_dir(dir: &std::path::Path, find_file: &str, exclude_dirs: &[String]) -> std::io::Result<Vec<String>> {
     // if the parameter is /*.rs, I can eliminate /*
     let find_file = &find_file.replace("/*", "");

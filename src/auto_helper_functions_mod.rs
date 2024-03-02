@@ -54,13 +54,13 @@ pub fn run_shell_command_success(shell_command: &str) -> bool {
     status.success()
 }
 
-// region: auto_md_to_doc_comments include doc_comments_long/exit_if_not_run_in_rust_project_root_directory.md A ///
+// region: auto_md_to_doc_comments include doc_comments/exit_if_not_run_in_rust_project_root_directory.md A ///
 /// Check if the code was run inside the Rust project root directory.  
 ///
 /// There must be the `Cargo.toml` file and the directory `automation_tasks_rs`  
 /// If not, exit with error message.  
 ///
-// endregion: auto_md_to_doc_comments include doc_comments_long/exit_if_not_run_in_rust_project_root_directory.md A ///
+// endregion: auto_md_to_doc_comments include doc_comments/exit_if_not_run_in_rust_project_root_directory.md A ///
 pub fn exit_if_not_run_in_rust_project_root_directory() {
     if !(camino::Utf8Path::new("automation_tasks_rs").exists() && (camino::Utf8Path::new("Cargo.toml").exists())) {
         eprintln!("{RED}Error: `automation_tasks_rs` must be run inside the Rust project in the dir that contains");

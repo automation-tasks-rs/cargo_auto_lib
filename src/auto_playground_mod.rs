@@ -13,7 +13,7 @@ lazy_static! {
     ).unwrap();
 }
 
-// region: auto_md_to_doc_comments include doc_comments_long/auto_playground_run_code.md A ///
+// region: auto_md_to_doc_comments include doc_comments/auto_playground_run_code.md A ///
 /// Includes the link to playground with the rust code in a parameter.
 ///
 /// Search in markdown files for markersand include a link to Rust playground.
@@ -39,7 +39,7 @@ lazy_static! {
 ///
 /// Process code for playground for Rust code segments in all md files
 ///
-// endregion: auto_md_to_doc_comments include doc_comments_long/auto_playground_run_code.md A ///
+// endregion: auto_md_to_doc_comments include doc_comments/auto_playground_run_code.md A ///
 pub fn auto_playground_run_code() {
     println!("    {YELLOW}Running auto_playground{RESET}");
     let path = std::env::current_dir().unwrap();

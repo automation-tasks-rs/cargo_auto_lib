@@ -38,7 +38,7 @@ pub struct AutoVersionFromDate {
 
 // region: public functions
 
-// region: auto_md_to_doc_comments include doc_comments_long/auto_version_from_date.md A ///
+// region: auto_md_to_doc_comments include doc_comments/auto_version_from_date.md A ///
 /// New version from date is written to Cargo.toml and service_worker.js
 ///
 /// In Cargo.toml writes the version as the date `yyyy.mmdd.HHMM` ex. `2019.1221.2359`.  
@@ -54,11 +54,11 @@ pub struct AutoVersionFromDate {
 /// ### no need to change version if no files changed
 ///
 /// If src/*.rs or Cargo.toml files are not changed from last compile, than no need to change version.  
-/// The dates of the files will be stored in the file .automation_tasks_rs_file_hashes.json near to Cargo.toml.
+/// The dates of the files will be stored in the file .automation_tasks_rs_file_hashes.json near to Cargo.toml.  
 /// Warning: I don't check if the service worker has changed because it rarely does.  
 /// To know if the projects has changed or not, this function saves the dates of all files into `.automation_tasks_rs_file_hashes.json` near Cargo.toml
 ///
-// endregion: auto_md_to_doc_comments include doc_comments_long/auto_version_from_date.md A ///
+// endregion: auto_md_to_doc_comments include doc_comments/auto_version_from_date.md A ///
 pub fn auto_version_from_date() {
     auto_version_from_date_internal(false).unwrap_or_else(|err| panic!("{RED}{err}{RESET}"));
 }

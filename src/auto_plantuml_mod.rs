@@ -19,7 +19,7 @@ lazy_static! {
     ).unwrap();
 }
 
-// region: auto_md_to_doc_comments include doc_comments_long/auto_plantuml.md A ///
+// region: auto_md_to_doc_comments include doc_comments/auto_plantuml.md A ///
 /// Includes the plantuml svg generated from the plantuml code.
 ///
 /// Search for markers in md files and process plantuml code.  
@@ -54,7 +54,7 @@ lazy_static! {
 /// repo_url like <https://github.com/bestia-dev/sey_currency_converter_pwa>
 /// so the image file link is from the repository and accessible everywhere
 ///
-// endregion: auto_md_to_doc_comments include doc_comments_long/auto_plantuml.md A ///
+// endregion: auto_md_to_doc_comments include doc_comments/auto_plantuml.md A ///
 pub fn auto_plantuml(repo_url: &str) {
     let path = std::env::current_dir().unwrap();
     auto_plantuml_for_path(&path, repo_url);

@@ -26,7 +26,7 @@ pub struct LinesOfCode {
     pub examples_lines: usize,
 }
 
-// region: auto_md_to_doc_comments include doc_comments_long/auto_lines_of_code.md A ///
+// region: auto_md_to_doc_comments include doc_comments/auto_lines_of_code.md A ///
 /// This function inserts shield badges with lines_of_code into README.rs.  
 ///
 /// The parameter Link will be used for shield badge. If empty_string, the git remote repository will be used.  
@@ -81,7 +81,7 @@ pub struct LinesOfCode {
 /// It will erase the previous content.  
 /// Use git diff to see the change.  
 ///
-// endregion: auto_md_to_doc_comments include doc_comments_long/auto_lines_of_code.md A ///
+// endregion: auto_md_to_doc_comments include doc_comments/auto_lines_of_code.md A ///
 pub fn auto_lines_of_code(link: &str) {
     println!("    {YELLOW}Running auto_lines_of_code{RESET}");
     let link = if link.is_empty() { process_git_remote() } else { link.to_string() };

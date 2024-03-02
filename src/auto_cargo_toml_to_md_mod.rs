@@ -17,11 +17,13 @@ use crate::public_api_mod::CargoTomlPublicApiMethods;
 // endregion: use statements
 
 lazy_static! {
+    /// regex for start marker
     static ref REGEX_MD_START: Regex = Regex::new(r#"(?m)^\[//\]: # \(auto_cargo_toml_to_md start\)$"#).unwrap();
+    /// regex for end marker
     static ref REGEX_MD_END: Regex = Regex::new(r#"(?m)^\[//\]: # \(auto_cargo_toml_to_md end\)$"#).unwrap();
 }
 
-// region: auto_md_to_doc_comments include doc_comments_long/auto_cargo_toml_to_md.md A ///
+// region: auto_md_to_doc_comments include doc_comments/auto_cargo_toml_to_md.md A ///
 /// This function includes data from Cargo.toml to markdown files.  
 ///
 /// This is nice for avoiding out of sync data.  
@@ -41,16 +43,17 @@ lazy_static! {
 /// `auto_cargo_toml_to_md` deletes the old lines between the markers and includes the Cargo.toml data:  
 /// description, repository, version, &utc_now(), authors and creates badges for keywords and categories.
 ///
-/// The words topics, keywords and tags all mean the same concept.
-/// In cargo.toml we have keywords.
-/// In README.md I want to have badges, but I don't know the color yet.
+/// The words topics, keywords and tags all mean the same concept.  
+/// In cargo.toml we have keywords.  
+/// In README.md I want to have badges, but I don't know the color yet.  
 /// In GitHub they are topics.
 ///
-/// Some keywords have defined colors, others are orange like Rust.
-/// This can be expanded in the future.
-/// Yellow: work-in-progress
-/// Green: maintained, ready-for-use
-/// Red: obsolete, archived
+/// Some keywords have defined colors, others are orange like Rust.  
+/// This can be expanded in the future.  
+///
+/// - Yellow: work-in-progress
+/// - Green: maintained, ready-for-use
+/// - Red: obsolete, archived
 ///
 /// Run the example:  
 ///
@@ -58,7 +61,7 @@ lazy_static! {
 /// cargo run --example example_01_auto_cargo_toml_to_md
 /// ```
 ///
-// endregion: auto_md_to_doc_comments include doc_comments_long/auto_cargo_toml_to_md.md A ///
+// endregion: auto_md_to_doc_comments include doc_comments/auto_cargo_toml_to_md.md A ///
 pub fn auto_cargo_toml_to_md() {
     println!("    {YELLOW}Running auto_cargo_toml_to_md{RESET}");
     let cargo_toml = crate::auto_cargo_toml_mod::CargoToml::read();

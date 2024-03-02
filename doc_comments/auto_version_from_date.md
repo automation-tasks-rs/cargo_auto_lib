@@ -15,7 +15,7 @@ The program searches for `service_worker.js` and modify the version.
 ### no need to change version if no files changed
 
 If src/*.rs or Cargo.toml files are not changed from last compile, than no need to change version.  
-The dates of the files will be stored in the file .automation_tasks_rs_file_hashes.json near to Cargo.toml.
+The dates of the files will be stored in the file .automation_tasks_rs_file_hashes.json near to Cargo.toml.  
 Warning: I don't check if the service worker has changed because it rarely does.  
 To know if the projects has changed or not, this function saves the dates of all files into `.automation_tasks_rs_file_hashes.json` near Cargo.toml
 

@@ -1,6 +1,6 @@
 // public_api_mod.rs
 
-// region: auto_md_to_doc_comments include doc_comments_long/public_api_mod.md A //!
+// region: auto_md_to_doc_comments include doc_comments/public_api_mod.md A //!
 //! # public_api_mod
 //!
 //! The Public API of a library is a pain in the a...  
@@ -23,7 +23,7 @@
 //! AFTERTHOUGHT: This is a very time-consuming process to do manually.  
 //! Should use a utility, but that app is complicated to create. It must understand the Rust code.
 //!
-// endregion: auto_md_to_doc_comments include doc_comments_long/public_api_mod.md A //!
+// endregion: auto_md_to_doc_comments include doc_comments/public_api_mod.md A //!
 
 // region: Public API constants
 // ANSI colors for Linux terminal
@@ -103,7 +103,7 @@ pub fn concatenate_vec_to_string(vec: &[String], delimiter: &str) -> String {
     crate::utils_mod::concatenate_vec_to_string(vec, delimiter)
 }
 
-// region: auto_md_to_doc_comments include doc_comments_long/traverse_dir_with_exclude_dir.md A ///
+// region: auto_md_to_doc_comments include doc_comments/traverse_dir_with_exclude_dir.md A ///
 /// Traverse dir and its sub-dir, but avoid excluded dirs.
 ///
 /// The find_file and the exclude dir strings must start with /.
@@ -127,12 +127,12 @@ pub fn concatenate_vec_to_string(vec: &[String], delimiter: &str) -> String {
 /// }
 /// ```
 ///
-// endregion: auto_md_to_doc_comments include doc_comments_long/traverse_dir_with_exclude_dir.md A ///
+// endregion: auto_md_to_doc_comments include doc_comments/traverse_dir_with_exclude_dir.md A ///
 pub fn traverse_dir_with_exclude_dir(dir: &std::path::Path, find_file: &str, exclude_dirs: &[String]) -> std::io::Result<Vec<String>> {
     crate::utils_mod::traverse_dir_with_exclude_dir(dir, find_file, exclude_dirs)
 }
 
-// region: auto_md_to_doc_comments include doc_comments_long/auto_cargo_toml_to_md.md A ///
+// region: auto_md_to_doc_comments include doc_comments/auto_cargo_toml_to_md.md A ///
 /// This function includes data from Cargo.toml to markdown files.  
 ///
 /// This is nice for avoiding out of sync data.  
@@ -152,16 +152,17 @@ pub fn traverse_dir_with_exclude_dir(dir: &std::path::Path, find_file: &str, exc
 /// `auto_cargo_toml_to_md` deletes the old lines between the markers and includes the Cargo.toml data:  
 /// description, repository, version, &utc_now(), authors and creates badges for keywords and categories.
 ///
-/// The words topics, keywords and tags all mean the same concept.
-/// In cargo.toml we have keywords.
-/// In README.md I want to have badges, but I don't know the color yet.
+/// The words topics, keywords and tags all mean the same concept.  
+/// In cargo.toml we have keywords.  
+/// In README.md I want to have badges, but I don't know the color yet.  
 /// In GitHub they are topics.
 ///
-/// Some keywords have defined colors, others are orange like Rust.
-/// This can be expanded in the future.
-/// Yellow: work-in-progress
-/// Green: maintained, ready-for-use
-/// Red: obsolete, archived
+/// Some keywords have defined colors, others are orange like Rust.  
+/// This can be expanded in the future.  
+///
+/// - Yellow: work-in-progress
+/// - Green: maintained, ready-for-use
+/// - Red: obsolete, archived
 ///
 /// Run the example:  
 ///
@@ -169,7 +170,7 @@ pub fn traverse_dir_with_exclude_dir(dir: &std::path::Path, find_file: &str, exc
 /// cargo run --example example_01_auto_cargo_toml_to_md
 /// ```
 ///
-// endregion: auto_md_to_doc_comments include doc_comments_long/auto_cargo_toml_to_md.md A ///
+// endregion: auto_md_to_doc_comments include doc_comments/auto_cargo_toml_to_md.md A ///
 pub fn auto_cargo_toml_to_md() {
     crate::auto_cargo_toml_to_md_mod::auto_cargo_toml_to_md()
 }
@@ -195,13 +196,13 @@ pub fn completion_return_one_or_more_sub_commands(sub_commands: Vec<&str>, word_
     crate::auto_helper_functions_mod::completion_return_one_or_more_sub_commands(sub_commands, word_being_completed)
 }
 
-// region: auto_md_to_doc_comments include doc_comments_long/exit_if_not_run_in_rust_project_root_directory.md A ///
+// region: auto_md_to_doc_comments include doc_comments/exit_if_not_run_in_rust_project_root_directory.md A ///
 /// Check if the code was run inside the Rust project root directory.  
 ///
 /// There must be the `Cargo.toml` file and the directory `automation_tasks_rs`  
 /// If not, exit with error message.  
 ///
-// endregion: auto_md_to_doc_comments include doc_comments_long/exit_if_not_run_in_rust_project_root_directory.md A ///
+// endregion: auto_md_to_doc_comments include doc_comments/exit_if_not_run_in_rust_project_root_directory.md A ///
 pub fn exit_if_not_run_in_rust_project_root_directory() {
     crate::auto_helper_functions_mod::exit_if_not_run_in_rust_project_root_directory()
 }
@@ -213,7 +214,7 @@ pub fn run_shell_command(shell_command: &str) {
     crate::auto_helper_functions_mod::run_shell_command(shell_command)
 }
 
-// region: auto_md_to_doc_comments include doc_comments_long/auto_lines_of_code.md A ///
+// region: auto_md_to_doc_comments include doc_comments/auto_lines_of_code.md A ///
 /// This function inserts shield badges with lines_of_code into README.rs.  
 ///
 /// The parameter Link will be used for shield badge. If empty_string, the git remote repository will be used.  
@@ -268,12 +269,12 @@ pub fn run_shell_command(shell_command: &str) {
 /// It will erase the previous content.  
 /// Use git diff to see the change.  
 ///
-// endregion: auto_md_to_doc_comments include doc_comments_long/auto_lines_of_code.md A ///
+// endregion: auto_md_to_doc_comments include doc_comments/auto_lines_of_code.md A ///
 pub fn auto_lines_of_code(link: &str) {
     crate::auto_lines_of_code_mod::auto_lines_of_code(link)
 }
 
-// region: auto_md_to_doc_comments include doc_comments_long/auto_md_to_doc_comments.md A ///
+// region: auto_md_to_doc_comments include doc_comments/auto_md_to_doc_comments.md A ///
 /// This function finds rs files with markers and include segments from md files as doc comments.  
 ///
 /// From this doc comments `cargo doc` will generated the documentation and auto-completion.  
@@ -311,7 +312,7 @@ pub fn auto_lines_of_code(link: &str) {
 /// Before each line it will add the doc comment symbol as is defined in the marker.  
 /// Finally it will include the new lines as doc comments in the rs file.
 ///
-// endregion: auto_md_to_doc_comments include doc_comments_long/auto_md_to_doc_comments.md A ///
+// endregion: auto_md_to_doc_comments include doc_comments/auto_md_to_doc_comments.md A ///
 pub fn auto_md_to_doc_comments() {
     crate::auto_md_to_doc_comments_mod::auto_md_to_doc_comments()
 }
@@ -375,7 +376,7 @@ pub fn auto_version_increment_semver_or_date_forced() {
     crate::auto_semver_or_date_mod::auto_version_increment_semver_or_date_forced()
 }
 
-// region: auto_md_to_doc_comments include doc_comments_long/auto_version_from_date.md A ///
+// region: auto_md_to_doc_comments include doc_comments/auto_version_from_date.md A ///
 /// New version from date is written to Cargo.toml and service_worker.js
 ///
 /// In Cargo.toml writes the version as the date `yyyy.mmdd.HHMM` ex. `2019.1221.2359`.  
@@ -391,11 +392,11 @@ pub fn auto_version_increment_semver_or_date_forced() {
 /// ### no need to change version if no files changed
 ///
 /// If src/*.rs or Cargo.toml files are not changed from last compile, than no need to change version.  
-/// The dates of the files will be stored in the file .automation_tasks_rs_file_hashes.json near to Cargo.toml.
+/// The dates of the files will be stored in the file .automation_tasks_rs_file_hashes.json near to Cargo.toml.  
 /// Warning: I don't check if the service worker has changed because it rarely does.  
 /// To know if the projects has changed or not, this function saves the dates of all files into `.automation_tasks_rs_file_hashes.json` near Cargo.toml
 ///
-// endregion: auto_md_to_doc_comments include doc_comments_long/auto_version_from_date.md A ///
+// endregion: auto_md_to_doc_comments include doc_comments/auto_version_from_date.md A ///
 pub fn auto_version_from_date() {
     crate::auto_version_from_date_mod::auto_version_from_date()
 }

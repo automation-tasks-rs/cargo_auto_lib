@@ -28,7 +28,7 @@ struct MdSegment {
     pub text: String,
 }
 
-// region: auto_md_to_doc_comments include doc_comments_long/auto_md_to_doc_comments.md A ///
+// region: auto_md_to_doc_comments include doc_comments/auto_md_to_doc_comments.md A ///
 /// This function finds rs files with markers and include segments from md files as doc comments.  
 ///
 /// From this doc comments `cargo doc` will generated the documentation and auto-completion.  
@@ -66,7 +66,7 @@ struct MdSegment {
 /// Before each line it will add the doc comment symbol as is defined in the marker.  
 /// Finally it will include the new lines as doc comments in the rs file.
 ///
-// endregion: auto_md_to_doc_comments include doc_comments_long/auto_md_to_doc_comments.md A ///
+// endregion: auto_md_to_doc_comments include doc_comments/auto_md_to_doc_comments.md A ///
 pub fn auto_md_to_doc_comments() {
     println!("    {YELLOW}auto_md_to_doc_comments{RESET}");
     // Cargo.toml contains the list of projects
