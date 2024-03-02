@@ -1,10 +1,10 @@
 [package]
 name = "cargo_auto_lib"
-version = "1.4.5"
+version = "1.4.6"
 authors = ["Bestia.dev"]
 homepage = "https://bestia.dev"
 edition = "2021"
-description = "Library crate for common tasks when building rust projects. Intended for use with cargo-auto - automation tasks written in Rust language."
+description = "Library crate for common tasks when building Rust projects. Intended for use with cargo-auto - automation tasks coded in Rust language."
 repository = "https://github.com/bestia-dev/cargo_auto_lib"
 readme = "README.md"
 license = "MIT"

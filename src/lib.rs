@@ -5,8 +5,8 @@
 // region: auto_md_to_doc_comments include README.md A //!
 //! # cargo_auto_lib
 //!
-//! **Library crate for common tasks when building rust projects. Intended for use with cargo-auto - automation tasks written in Rust language.**  
-//! ***version: 1.4.5 date: 2024-03-02 author: [Bestia.dev](https://bestia.dev) repository: [GitHub](https://github.com/bestia-dev/cargo_auto_lib)***
+//! **Library crate for common tasks when building Rust projects. Intended for use with cargo-auto - automation tasks coded in Rust language.**  
+//! ***version: 1.4.6 date: 2024-03-02 author: [Bestia.dev](https://bestia.dev) repository: [GitHub](https://github.com/bestia-dev/cargo_auto_lib)***
 //!
 //!  ![maintained](https://img.shields.io/badge/maintained-green)
 //!  ![ready-for-use](https://img.shields.io/badge/ready_for_use-green)
@@ -25,7 +25,7 @@
 //!  ![cargo_auto_lib](https://bestia.dev/webpage_hit_counter/get_svg_image/276360626.svg)
 //!
 //! [![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-2480-green.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
-//! [![Lines in Doc comments](https://img.shields.io/badge/Lines_in_Doc_comments-931-blue.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
+//! [![Lines in Doc comments](https://img.shields.io/badge/Lines_in_Doc_comments-933-blue.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
 //! [![Lines in Comments](https://img.shields.io/badge/Lines_in_comments-376-purple.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
 //! [![Lines in examples](https://img.shields.io/badge/Lines_in_examples-28-yellow.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
 //! [![Lines in tests](https://img.shields.io/badge/Lines_in_tests-79-orange.svg)](https://github.com/bestia-dev/cargo_auto_lib/)
@@ -39,23 +39,11 @@
 //!
 //! ```bash
 //! cargo install cargo-auto
-//! ```
-//!
-//! Generate a new Rust CLI project:
-//!
-//! ```bash
+//! # Generate a new Rust CLI project:
 //! cargo auto new_cli hello_world
-//! ```
-//!
-//! Open the `hello_world` project in VSCode:
-//!
-//! ```bash
+//! # Open the `hello_world` project in VSCode:
 //! code hello_world
-//! ```
-//!
-//! Open the generated directory `automation_tasks_rs` as an independent rust project in VSCode.
-//!
-//! ```bash
+//! # Open the generated directory `automation_tasks_rs` as an independent rust project in VSCode.
 //! code hello_world/automation_tasks_rs
 //! ```
 //!
@@ -71,7 +59,7 @@
 //! ```rust ignore
 //! /// cargo build --release
 //! fn task_release() {
-//! //    let cargo_toml = CargoToml::read();
+//!     let cargo_toml = CargoToml::read();
 //!     cl::auto_version_increment_semver_or_date();
 //!     cl::auto_cargo_toml_to_md();
 //!     cl::auto_lines_of_code("");
@@ -79,13 +67,14 @@
 //!     cl::run_shell_command("cargo fmt");
 //!     cl::run_shell_command("cargo build --release");
 //!     println!(
-//!         r#"{YELLOW}
-//!     After `cargo auto release`, run examples and tests
-//!     if ok, then,{RESET}{GREEN}
-//! cargo auto doc{RESET}{YELLOW}
-//! {RESET}"#
+//!         r#"
+//!     {YELLOW}After `cargo auto release`, run the compiled binary, examples and/or tests{RESET}
+//! {GREEN}./target/release/{package_name} arg_1{RESET}
+//!     {YELLOW}if ok then{RESET}
+//! {GREEN}cargo auto doc{RESET}
+//! "#,
+//! package_name = cargo_toml.package_name(),
 //!     );
-//!     print_examples_cmd();
 //! }
 //! ```
 //!
