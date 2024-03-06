@@ -4,7 +4,7 @@
 
 [//]: # (auto_cargo_toml_to_md start)
 
-**Library crate for common tasks when building Rust projects. Intended for use with cargo-auto - automation tasks coded in Rust language.**  
+**Automation tasks coded in Rust language for the workflow of Rust projects**  
 ***version: 1.4.7 date: 2024-03-02 author: [Bestia.dev](https://bestia.dev) repository: [GitHub](https://github.com/bestia-dev/cargo_auto_lib)***
 
  ![maintained](https://img.shields.io/badge/maintained-green)
