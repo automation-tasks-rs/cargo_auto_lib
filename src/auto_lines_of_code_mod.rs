@@ -117,7 +117,7 @@ pub fn auto_lines_of_code(link: &str) {
     println!("    {YELLOW}Finished auto_lines_of_code{RESET}");
 }
 
-/// Return the string for link for badges like: <https://github.com/bestia-dev/auto_lines_of_code/>.  
+/// Return the string for link for badges like: <https://github.com/automation-tasks-rs/auto_lines_of_code/>.  
 ///
 /// Get the output string after $ git remote -v.  
 /// Then finds out the link to the repository with regex.  
@@ -232,8 +232,8 @@ fn regex_capture(output: String) -> anyhow::Result<String> {
     // on GitHub actions they don't use ssh, but https, I need to check that also
     // I test my regex on https://regex101.com/
     // regex capture 3 groups: website, user_name and repo_name
-    // "origin  git@github.com:bestia-dev/auto_lines_of_code.git (fetch)"
-    // origin    https://github.com/bestia-dev/auto_lines_of_code (fetch)
+    // "origin  git@github.com:automation-tasks-rs/auto_lines_of_code.git (fetch)"
+    // origin    https://github.com/automation-tasks-rs/auto_lines_of_code (fetch)
     // println!("{}", &output);
     let reg = Regex::new(r#"origin\s*(?:https://)?(?:git@)?([^:/]*?)[:/]([^/]*?)/([^. ]*?)(?:\.git)?\s*\(fetch\)"#)?;
     let cap = reg.captures(&output).ok_or(anyhow::anyhow!("Error: reg.captures is None"))?;

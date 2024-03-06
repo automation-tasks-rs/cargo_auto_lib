@@ -6,9 +6,10 @@ The library releases will be published on crates.io.
 The cargo-auto automation task will use the content of the section `## Unreleased` to create
 the GitHub release consistently with this file.  
 The ongoing changes that are not released, are visible in the git commits and github pull requests.  
-The TODO section is part of the [README.md](https://github.com/bestia-dev/cargo_auto_lib).  
+The TODO section is part of the [README.md](https://github.com/automation-tasks-rs/cargo_auto_lib).  
 
 ## Unreleased
+
 - doc comments
 - coded
 - cl::description_and_topics_to_github()

@@ -374,7 +374,7 @@ pub fn ask_for_identity_file_path_for_ssh(host_name: &str, default_identity_file
     The filepath itself is not a secret. Just the content of the file is a secret.
     Without this filepath I cannot check if it is ssh-added to the ssh-agent.
     If you create the file ~/.ssh/config with content like this: 
-    <https://github.com/bestia-dev/docker_rust_development/raw/main/docker_rust_development_install/ssh_config_template>
+    <https://github.com/automation-tasks-rs/docker_rust_development/raw/main/docker_rust_development_install/ssh_config_template>
     you will never be asked again to enter this filepath.{RESET}
 "#,
     );

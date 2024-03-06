@@ -31,7 +31,7 @@ process plantuml in current directory
 finds markers (auto_plantuml start) and (auto_plantuml end) in md files
 if needed calls the web service and saves the svg file
 Between markers adds the link to the svg file
-repo_url like <https://github.com/bestia-dev/sey_currency_converter_pwa>
+repo_url like <https://github.com/automation-tasks-rs/sey_currency_converter_pwa>
 so the image file link is from the repository and accessible everywhere
 
 [//]: # (auto_md_to_doc_comments segment end A)

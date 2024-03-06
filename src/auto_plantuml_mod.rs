@@ -51,7 +51,7 @@ lazy_static! {
 /// finds markers (auto_plantuml start) and (auto_plantuml end) in md files
 /// if needed calls the web service and saves the svg file
 /// Between markers adds the link to the svg file
-/// repo_url like <https://github.com/bestia-dev/sey_currency_converter_pwa>
+/// repo_url like <https://github.com/automation-tasks-rs/sey_currency_converter_pwa>
 /// so the image file link is from the repository and accessible everywhere
 ///
 // endregion: auto_md_to_doc_comments include doc_comments/auto_plantuml.md A ///
@@ -128,7 +128,7 @@ pub fn auto_plantuml_for_path(path: &std::path::Path, repo_url: &str) {
                             std::fs::create_dir_all(new_file_path.parent().unwrap()).unwrap();
                             std::fs::write(&new_file_path, svg_code).unwrap();
                             // if repo_url is not empty then prepare github url
-                            // https://github.com/bestia-dev/sey_currency_converter_pwa/raw/main/
+                            // https://github.com/automation-tasks-rs/sey_currency_converter_pwa/raw/main/
                             let repo_full_url = if repo_url.is_empty() {
                                 "".to_string()
                             } else {
