@@ -34,7 +34,7 @@
     <div class="sidebar-crate">
       <a class="logo-container" href="../../cargo_auto_lib/index.html"><img src=
       "https://github.com/automation-tasks-rs/cargo-auto/raw/main/images/logo/logo_cargo_auto.svg" alt="logo"></a>
-      <h2><a href="../../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">1.4.8</span></h2>
+      <h2><a href="../../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">2.0.2</span></h2>
     </div>
     <div class="sidebar-elems">
       <h2><a href="index.html">In cargo_auto_lib::auto_lines_of_code_mod</a></h2>
@@ -63,7 +63,7 @@
           <h1>Function <a href="../index.html">cargo_auto_lib</a>::<wbr><a href="index.html">auto_lines_of_code_mod</a>::<wbr><a class="fn" href=
           "#">auto_lines_of_code</a><button id="copy-path" title="Copy item path to clipboard"><img src="../../static.files/clipboard-7571035ce49a181d.svg"
           width="19" height="18" alt="Copy item path"></button></h1><span class="out-of-band"><a class="src" href=
-          "../../src/cargo_auto_lib/auto_lines_of_code_mod.rs.html#85-118">source</a> · <button id="toggle-all-docs" title=
+          "../../src/cargo_auto_lib/auto_lines_of_code_mod.rs.html#80-88">source</a> · <button id="toggle-all-docs" title=
           "collapse all docs">[<span>−</span>]</button></span>
         </div>
         <pre class="rust item-decl"><code>pub fn auto_lines_of_code(link: &<a class="primitive" href=
@@ -74,6 +74,8 @@
           </summary>
           <div class="docblock">
             <p>This function inserts shield badges with lines_of_code into README.rs.</p>
+            <p><img src="https://github.com/automation-tasks-rs/cargo_auto_lib/blob/main/images/auto_lines_of_code.png?raw=true" alt=
+            "auto_lines_of_code.png"></p>
             <p>The parameter Link will be used for shield badge. If empty_string, the git remote repository will be used.<br>
             Lines of code are not a “perfect” measurement of anything.<br>
             Anybody can write a very big number of lines of useless code and comments.<br>
@@ -105,9 +107,6 @@
             file.<br>
             There should not be any normal code after <code>#[cfg(test)]</code>, only tests.<br>
             All other files: <code>md</code>, <code>toml</code>, <code>html</code>, <code>js</code>, … are not counted.</p>
-            <h4 id="workspace"><a href="#workspace">Workspace</a></h4>
-            <p>Workspaces have member projects, that are written in <code>Cargo.toml</code>.<br>
-            The program counts lines of every project and sums them together.</p>
             <h3 id="include-into-readmemd"><a href="#include-into-readmemd">Include into README.md</a></h3>
             <p>If the README.md file contains these markers (don’t copy the numbers 1 and 2):</p>
             <div class="example-wrap">

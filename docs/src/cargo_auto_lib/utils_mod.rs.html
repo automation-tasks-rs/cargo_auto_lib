@@ -173,6 +173,9 @@
 <a href="#123" id="123">123</a>
 <a href="#124" id="124">124</a>
 <a href="#125" id="125">125</a>
+<a href="#126" id="126">126</a>
+<a href="#127" id="127">127</a>
+<a href="#128" id="128">128</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// utils_mod.rs
@@ -225,12 +228,12 @@
 ///
 /// ## Example
 ///
-/// ```Rust
+/// ```Rust ignore
 ///
 /// let files = cargo_auto_lib::traverse_dir_with_exclude_dir(
 ///     Path::new("/home/project/src"),
 ///     "/*.rs",
-///     // avoid big folders and other folders with *.crev
+///     // avoid big folders
 ///     &amp;vec![
 ///         "/.git".to_string(),
 ///         "/target".to_string(),
@@ -307,8 +310,11 @@
 "kw">crate</span>::home_dir()).unwrap().as_str())
 }
 
-<span class="comment">// TODO: PathString object with often used functions: expand, exist, to_path,...
-</span></code></pre>
+<span class="doccomment">/// UTC  date in iso standard like 2024-12-31
+</span><span class="kw">pub fn </span>now_utc_date_iso() -&gt; String {
+    chrono::Utc::now().format(<span class="string">"%Y-%m-%d"</span>).to_string()
+}
+</code></pre>
       </div>
     </section>
   </main>

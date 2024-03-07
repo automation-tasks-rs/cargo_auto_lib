@@ -708,11 +708,6 @@
 <a href="#658" id="658">658</a>
 <a href="#659" id="659">659</a>
 <a href="#660" id="660">660</a>
-<a href="#661" id="661">661</a>
-<a href="#662" id="662">662</a>
-<a href="#663" id="663">663</a>
-<a href="#664" id="664">664</a>
-<a href="#665" id="665">665</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// auto_github_mod
@@ -1230,11 +1225,6 @@ The TODO section is part of the [README.md](https://github.com/{github_owner}/{p
     }
 }
 
-<span class="doccomment">/// UTC  date in iso standard like 2024-12-31
-</span><span class="kw">pub fn </span>now_utc_date_iso() -&gt; String {
-    chrono::Utc::now().format(<span class="string">"%Y-%m-%d"</span>).to_string()
-}
-
 <span class="doccomment">/// Add commit message to Unreleased in RELEASES.md
 </span><span class="kw">pub fn </span>add_message_to_unreleased(message: <span class="kw-2">&</span>str) {
     create_releases_md_if_file_not_exist();
@@ -1248,8 +1238,7 @@ The TODO section is part of the [README.md](https://github.com/{github_owner}/{p
     <span class="comment">// add before the first ## Version
     // I expect only one empty line before ## Version
     </span><span class="kw">let </span>added_message_md = <span class="macro">format!</span>(<span class="string">"{}- {}\n{}"</span>, <span class=
-"kw-2">&</span>release_md[..pos_end_data - <span class="number">1</span>], message, <span class="kw-2">&</span>release_md[pos_end_data - <span class=
-"number">1</span>..]);
+"kw-2">&</span>release_md[..pos_end_data], message, <span class="kw-2">&</span>release_md[pos_end_data..]);
     std::fs::write(RELEASES_MD, added_message_md).unwrap();
 }
 

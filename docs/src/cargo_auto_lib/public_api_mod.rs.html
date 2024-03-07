@@ -572,6 +572,38 @@
 <a href="#522" id="522">522</a>
 <a href="#523" id="523">523</a>
 <a href="#524" id="524">524</a>
+<a href="#525" id="525">525</a>
+<a href="#526" id="526">526</a>
+<a href="#527" id="527">527</a>
+<a href="#528" id="528">528</a>
+<a href="#529" id="529">529</a>
+<a href="#530" id="530">530</a>
+<a href="#531" id="531">531</a>
+<a href="#532" id="532">532</a>
+<a href="#533" id="533">533</a>
+<a href="#534" id="534">534</a>
+<a href="#535" id="535">535</a>
+<a href="#536" id="536">536</a>
+<a href="#537" id="537">537</a>
+<a href="#538" id="538">538</a>
+<a href="#539" id="539">539</a>
+<a href="#540" id="540">540</a>
+<a href="#541" id="541">541</a>
+<a href="#542" id="542">542</a>
+<a href="#543" id="543">543</a>
+<a href="#544" id="544">544</a>
+<a href="#545" id="545">545</a>
+<a href="#546" id="546">546</a>
+<a href="#547" id="547">547</a>
+<a href="#548" id="548">548</a>
+<a href="#549" id="549">549</a>
+<a href="#550" id="550">550</a>
+<a href="#551" id="551">551</a>
+<a href="#552" id="552">552</a>
+<a href="#553" id="553">553</a>
+<a href="#554" id="554">554</a>
+<a href="#555" id="555">555</a>
+<a href="#556" id="556">556</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// public_api_mod.rs
@@ -694,12 +726,12 @@
 ///
 /// ## Example
 ///
-/// ```Rust
+/// ```Rust ignore
 ///
 /// let files = cargo_auto_lib::traverse_dir_with_exclude_dir(
 ///     Path::new("/home/project/src"),
 ///     "/*.rs",
-///     // avoid big folders and other folders with *.crev
+///     // avoid big folders
 ///     &amp;vec![
 ///         "/.git".to_string(),
 ///         "/target".to_string(),
@@ -720,6 +752,8 @@
 <span class="comment">// region: auto_md_to_doc_comments include doc_comments/auto_cargo_toml_to_md.md A ///
 </span><span class="doccomment">/// This function includes data from Cargo.toml to markdown files.  
 ///
+/// ![auto_cargo_toml_to_md.png](https://github.com/automation-tasks-rs/cargo_auto_lib/blob/main/images/auto_cargo_toml_to_md.png?raw=true)
+///
 /// This is nice for avoiding out of sync data.  
 /// Run it on every build with `automation_tasks_rs` and [cargo auto](https://crates.io/crates/cargo-auto).  
 ///   
@@ -735,11 +769,11 @@
 /// In your markdown, change the word `[comment]` with double slash `[//]`.
 ///
 /// `auto_cargo_toml_to_md` deletes the old lines between the markers and includes the Cargo.toml data:  
-/// description, repository, version, &amp;utc_now(), authors and creates badges for keywords and categories.
+/// description, repository, version, utc_now, authors and creates badges for keywords and categories.
 ///
-/// The words topics, keywords and tags all mean the same concept.  
+/// The words topics, keywords, hashtags and tags all mean the same concept.  
 /// In cargo.toml we have keywords.  
-/// In README.md I want to have badges, but I don't know the color yet.  
+/// In README.md I want to have badges with different color. And hashtags for SEO.  
 /// In GitHub they are topics.
 ///
 /// Some keywords have defined colors, others are orange like Rust.  
@@ -803,6 +837,8 @@
 <span class="comment">// region: auto_md_to_doc_comments include doc_comments/auto_lines_of_code.md A ///
 </span><span class="doccomment">/// This function inserts shield badges with lines_of_code into README.rs.  
 ///
+/// ![auto_lines_of_code.png](https://github.com/automation-tasks-rs/cargo_auto_lib/blob/main/images/auto_lines_of_code.png?raw=true)
+///
 /// The parameter Link will be used for shield badge. If empty_string, the git remote repository will be used.  
 /// Lines of code are not a "perfect" measurement of anything.  
 /// Anybody can write a very big number of lines of useless code and comments.  
@@ -834,11 +870,6 @@
 /// There should not be any normal code after `#[cfg(test)]`, only tests.  
 /// All other files: `md`, `toml`, `html`, `js`, ... are not counted.  
 ///
-/// ### Workspace
-///
-/// Workspaces have member projects, that are written in `Cargo.toml`.  
-/// The program counts lines of every project and sums them together.  
-///
 /// ## Include into README.md
 ///
 /// If the README.md file contains these markers (don't copy the numbers 1 and 2):  
@@ -862,6 +893,8 @@
 
 <span class="comment">// region: auto_md_to_doc_comments include doc_comments/auto_md_to_doc_comments.md A ///
 </span><span class="doccomment">/// This function finds rs files with markers and include segments from md files as doc comments.  
+///
+/// ![auto_md_to_doc_comments.png](https://github.com/automation-tasks-rs/cargo_auto_lib/blob/main/images/auto_md_to_doc_comments.png?raw=true)
 ///
 /// From this doc comments `cargo doc` will generated the documentation and auto-completion.  
 /// We don't want to manually copy this segments. We want them to be automatically in sync.  
@@ -968,7 +1001,6 @@
 /// In Cargo.toml writes the version as the date `yyyy.mmdd.HHMM` ex. `2019.1221.2359`.  
 /// For non-library projects, the semver specification is not really useful.  
 /// Having the version as the date is just fine for executables and much more human readable.  
-/// The function must be executed in the root project folder of a single project or workspace where is the Cargo.toml.  
 ///
 /// ### service_worker.js
 ///
@@ -1067,7 +1099,7 @@
 
 <span class="doccomment">/// UTC  date in iso standard like 2024-12-31
 </span><span class="kw">pub fn </span>now_utc_date_iso() -&gt; String {
-    <span class="kw">crate</span>::auto_github_mod::now_utc_date_iso()
+    <span class="kw">crate</span>::utils_mod::now_utc_date_iso()
 }
 
 <span class="doccomment">/// copy all files from the folder into a module as strings (static &amp;str)
@@ -1089,7 +1121,39 @@
     <span class="kw">crate</span>::auto_github_mod::add_message_to_unreleased(message)
 }
 
-<span class="doccomment">/// process code for playground for Rust code segments in all md files
+<span class="comment">// region: auto_md_to_doc_comments include doc_comments/auto_playground_run_code.md A ///
+</span><span class="doccomment">/// Include the link to run code in Rust playground
+///
+/// The function searches in all markdown files for markers like this:
+///
+/// ```markdown
+/// [comment]: # (auto_playground start)
+///
+/// Run this code in the [Rust playground](https://play.rust-lang.org/?version=stable&amp;mode=debug&amp;edition=2021&amp;code=fn%20m%0A%7D):
+///
+/// '''Rust ignore
+/// fn main(){
+///     println!("Hello World!");
+/// }
+/// '''
+///
+/// [comment]: # (auto_playground end)
+/// ```
+///
+/// In this example I changed `[//]` to `[comment]` and  ticks to single quotes to avoid this function to process these markers.
+///
+/// Between the start marker and the first triple backtick there is the link in "()" parentheses. The link to Rust playground encodes the code with url_encoding (percents) and sends it as an Url parameter.
+///
+/// Info: docs.rs has already a functionality that shows the `Run` button on your code and can run code the playground if you put this line at the top of lib.rs:
+///
+/// ``` Rust ignore
+/// #![doc(html_playground_url = "https://play.rust-lang.org")]
+/// ```
+///
+/// But it works only on docs.rs.  
+/// I want to run my code examples from evrywhere: from GitHub README.md, GitHub pages and crates.io.  
+///
+</span><span class="comment">// endregion: auto_md_to_doc_comments include doc_comments/auto_playground_run_code.md A ///
 </span><span class="kw">pub fn </span>auto_playground_run_code() {
     <span class="kw">crate</span>::auto_playground_mod::auto_playground_run_code()
 }

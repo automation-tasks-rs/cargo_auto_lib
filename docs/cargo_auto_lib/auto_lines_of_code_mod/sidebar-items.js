@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"fn":["auto_lines_of_code","git_remote_output","include_into_readme_md","one_project_count_lines","process_git_remote","regex_capture","to_string_as_shield_badges"],"struct":["LinesOfCode"]};
+window.SIDEBAR_ITEMS = {"fn":["auto_lines_of_code","count_lines_of_code","git_remote_output","include_into_readme_md","process_git_remote","regex_capture","to_string_as_shield_badges"],"struct":["LinesOfCode"]};

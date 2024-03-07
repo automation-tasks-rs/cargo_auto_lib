@@ -364,7 +364,7 @@
     </span><span class="kw">let </span>files = <span class="kw">crate</span>::utils_mod::traverse_dir_with_exclude_dir(
         path.as_std_path(),
         <span class="string">"/*.md"</span>,
-        <span class="comment">// avoid big folders and other folders with *.crev
+        <span class="comment">// avoid big folders
         </span><span class="kw-2">&</span>[<span class="string">"/.git"</span>.to_string(), <span class="string">"/target"</span>.to_string(), <span class=
 "string">"/docs"</span>.to_string()],
     )

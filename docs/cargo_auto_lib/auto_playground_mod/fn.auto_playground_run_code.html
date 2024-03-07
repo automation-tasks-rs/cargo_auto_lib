@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="generator" content="rustdoc">
-  <meta name="description" content="Includes the link to playground with the rust code in a parameter.">
+  <meta name="description" content="Include the link to run code in Rust playground">
   <title>auto_playground_run_code in cargo_auto_lib::auto_playground_mod - Rust</title>
   <link rel="preload" as="font" type="font/woff2" crossorigin="" href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2">
   <link rel="preload" as="font" type="font/woff2" crossorigin="" href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2">
@@ -34,7 +34,7 @@
     <div class="sidebar-crate">
       <a class="logo-container" href="../../cargo_auto_lib/index.html"><img src=
       "https://github.com/automation-tasks-rs/cargo-auto/raw/main/images/logo/logo_cargo_auto.svg" alt="logo"></a>
-      <h2><a href="../../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">1.4.8</span></h2>
+      <h2><a href="../../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">2.0.2</span></h2>
     </div>
     <div class="sidebar-elems">
       <h2><a href="index.html">In cargo_auto_lib::auto_playground_mod</a></h2>
@@ -63,7 +63,7 @@
           <h1>Function <a href="../index.html">cargo_auto_lib</a>::<wbr><a href="index.html">auto_playground_mod</a>::<wbr><a class="fn" href=
           "#">auto_playground_run_code</a><button id="copy-path" title="Copy item path to clipboard"><img src=
           "../../static.files/clipboard-7571035ce49a181d.svg" width="19" height="18" alt="Copy item path"></button></h1><span class="out-of-band"><a class=
-          "src" href="../../src/cargo_auto_lib/auto_playground_mod.rs.html#43-114">source</a> · <button id="toggle-all-docs" title=
+          "src" href="../../src/cargo_auto_lib/auto_playground_mod.rs.html#49-120">source</a> · <button id="toggle-all-docs" title=
           "collapse all docs">[<span>−</span>]</button></span>
         </div>
         <pre class="rust item-decl"><code>pub fn auto_playground_run_code()</code></pre>
@@ -72,14 +72,14 @@
             <span>Expand description</span>
           </summary>
           <div class="docblock">
-            <p>Includes the link to playground with the rust code in a parameter.</p>
-            <p>Search in markdown files for markersand include a link to Rust playground.</p>
+            <p>Include the link to run code in Rust playground</p>
+            <p>The function searches in all markdown files for markers like this:</p>
             <div class="example-wrap">
               <pre class="language-markdown"><code>[comment]: # (auto_playground start)
 
 Run this code in the [Rust playground](https://play.rust-lang.org/?version=stable&amp;mode=debug&amp;edition=2021&amp;code=fn%20m%0A%7D):
 
-'''Rust
+'''Rust ignore
 fn main(){
     println!("Hello World!");
 }
@@ -88,10 +88,18 @@ fn main(){
 [comment]: # (auto_playground end)
 </code></pre>
             </div>
-            <p>In your markdown, change the word <code>[comment]</code> with double slash <code>[//]</code>. And the single quotes with ticks.</p>
-            <p>Between the start marker and the first triple backtick is the link in “()” parentheses.<br>
-            Encode the code with url_encoding.</p>
-            <p>Process code for playground for Rust code segments in all md files</p>
+            <p>In this example I changed <code>[//]</code> to <code>[comment]</code> and ticks to single quotes to avoid this function to process these
+            markers.</p>
+            <p>Between the start marker and the first triple backtick there is the link in “()” parentheses. The link to Rust playground encodes the code with
+            url_encoding (percents) and sends it as an Url parameter.</p>
+            <p>Info: docs.rs has already a functionality that shows the <code>Run</code> button on your code and can run code the playground if you put this
+            line at the top of lib.rs:</p>
+            <div class="example-wrap">
+              <pre class="language-Rust"><code>#![doc(html_playground_url = "https://play.rust-lang.org")]
+</code></pre>
+            </div>
+            <p>But it works only on docs.rs.<br>
+            I want to run my code examples from evrywhere: from GitHub README.md, GitHub pages and crates.io.</p>
           </div>
         </details>
       </section>

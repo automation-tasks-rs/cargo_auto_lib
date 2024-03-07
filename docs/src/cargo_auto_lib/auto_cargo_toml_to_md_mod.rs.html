@@ -166,31 +166,6 @@
 <a href="#116" id="116">116</a>
 <a href="#117" id="117">117</a>
 <a href="#118" id="118">118</a>
-<a href="#119" id="119">119</a>
-<a href="#120" id="120">120</a>
-<a href="#121" id="121">121</a>
-<a href="#122" id="122">122</a>
-<a href="#123" id="123">123</a>
-<a href="#124" id="124">124</a>
-<a href="#125" id="125">125</a>
-<a href="#126" id="126">126</a>
-<a href="#127" id="127">127</a>
-<a href="#128" id="128">128</a>
-<a href="#129" id="129">129</a>
-<a href="#130" id="130">130</a>
-<a href="#131" id="131">131</a>
-<a href="#132" id="132">132</a>
-<a href="#133" id="133">133</a>
-<a href="#134" id="134">134</a>
-<a href="#135" id="135">135</a>
-<a href="#136" id="136">136</a>
-<a href="#137" id="137">137</a>
-<a href="#138" id="138">138</a>
-<a href="#139" id="139">139</a>
-<a href="#140" id="140">140</a>
-<a href="#141" id="141">141</a>
-<a href="#142" id="142">142</a>
-<a href="#143" id="143">143</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// auto_cargo_toml_to_md_mod
@@ -200,8 +175,6 @@
 </span><span class="comment">// region: use statements
 
 </span><span class="kw">use </span><span class="kw">crate</span>::public_api_mod::{GREEN, RED, RESET, YELLOW};
-<span class="kw">use </span>chrono::Datelike;
-<span class="kw">use </span>chrono::Utc;
 <span class="kw">use </span>glob::glob;
 <span class="kw">use </span>lazy_static::lazy_static;
 <span class="kw">use </span>regex::<span class="kw-2">*</span>;
@@ -223,6 +196,8 @@
 <span class="comment">// region: auto_md_to_doc_comments include doc_comments/auto_cargo_toml_to_md.md A ///
 </span><span class="doccomment">/// This function includes data from Cargo.toml to markdown files.  
 ///
+/// ![auto_cargo_toml_to_md.png](https://github.com/automation-tasks-rs/cargo_auto_lib/blob/main/images/auto_cargo_toml_to_md.png?raw=true)
+///
 /// This is nice for avoiding out of sync data.  
 /// Run it on every build with `automation_tasks_rs` and [cargo auto](https://crates.io/crates/cargo-auto).  
 ///   
@@ -238,11 +213,11 @@
 /// In your markdown, change the word `[comment]` with double slash `[//]`.
 ///
 /// `auto_cargo_toml_to_md` deletes the old lines between the markers and includes the Cargo.toml data:  
-/// description, repository, version, &amp;utc_now(), authors and creates badges for keywords and categories.
+/// description, repository, version, utc_now, authors and creates badges for keywords and categories.
 ///
-/// The words topics, keywords and tags all mean the same concept.  
+/// The words topics, keywords, hashtags and tags all mean the same concept.  
 /// In cargo.toml we have keywords.  
-/// In README.md I want to have badges, but I don't know the color yet.  
+/// In README.md I want to have badges with different color. And hashtags for SEO.  
 /// In GitHub they are topics.
 ///
 /// Some keywords have defined colors, others are orange like Rust.  
@@ -260,25 +235,6 @@
 ///
 </span><span class="comment">// endregion: auto_md_to_doc_comments include doc_comments/auto_cargo_toml_to_md.md A ///
 </span><span class="kw">pub fn </span>auto_cargo_toml_to_md() {
-    <span class="macro">println!</span>(<span class="string">"    {YELLOW}Running auto_cargo_toml_to_md{RESET}"</span>);
-    <span class="kw">let </span>cargo_toml = <span class="kw">crate</span>::auto_cargo_toml_mod::CargoToml::read();
-    <span class="kw">let </span>members = cargo_toml.workspace_members();
-    <span class="kw">match </span>members {
-        <span class="prelude-val">None </span>=&gt; do_one_project(),
-        <span class="prelude-val">Some</span>(members) =&gt; {
-            <span class="comment">// this will read cargo.toml from the first `main` member and inject into workspace README.md
-            </span>do_one_project();
-            <span class="kw">for </span>member <span class="kw">in </span>members.iter() {
-                std::env::set_current_dir(member).unwrap();
-                do_one_project();
-                std::env::set_current_dir(<span class="string">".."</span>).unwrap();
-            }
-        }
-    }
-    <span class="macro">println!</span>(<span class="string">"    {YELLOW}Finished auto_cargo_toml_to_md{RESET}"</span>);
-}
-
-<span class="kw">fn </span>do_one_project() {
     <span class="kw">let </span>cargo_toml = <span class="kw">crate</span>::auto_cargo_toml_mod::CargoToml::read();
     <span class="kw">let </span>version = cargo_toml.package_version();
     <span class="kw">let </span>author_name = cargo_toml.package_author_name();
@@ -286,12 +242,12 @@
     <span class="kw">let </span>repository = cargo_toml.package_repository().unwrap_or(<span class="string">""</span>.to_owned());
     <span class="kw">let </span>description = cargo_toml.package_description().unwrap_or(<span class="string">""</span>.to_owned());
     <span class="kw">let </span>keywords = cargo_toml.package_keywords().to_vec();
-    <span class="kw">let </span>utc_now = <span class="kw-2">&</span>utc_now();
+    <span class="kw">let </span>now_utc_date_iso = <span class="kw-2">&</span><span class="kw">crate</span>::utils_mod::now_utc_date_iso();
 
     <span class="kw">let </span><span class="kw-2">mut </span>new_text = <span class="macro">format!</span>(<span class=
 "string">"\n**{description}**  \n"</span>);
     new_text.push_str(<span class="kw-2">&</span><span class="macro">format!</span>(
-        <span class="string">"***version: {version} date: {utc_now} author: [{author_name}]({homepage}) repository: [GitHub]({repository})***\n\n"
+        <span class="string">"***version: {version} date: {now_utc_date_iso} author: [{author_name}]({homepage}) repository: [GitHub]({repository})***\n\n"
     </span>));
 
     <span class="kw">for </span>keyword <span class="kw">in </span>keywords.iter() {
@@ -336,13 +292,6 @@
             }
         }
     }
-}
-
-<span class="doccomment">/// utc now
-</span><span class="kw">fn </span>utc_now() -&gt; String {
-    <span class="kw">let </span>now = Utc::now();
-    <span class="macro">format!</span>(<span class="string">"{:04}-{:02}-{:02}"</span>, now.year(), now.month() <span class=
-"kw">as </span>i32, now.day() <span class="kw">as </span>i32,)
 }
 </code></pre>
       </div>

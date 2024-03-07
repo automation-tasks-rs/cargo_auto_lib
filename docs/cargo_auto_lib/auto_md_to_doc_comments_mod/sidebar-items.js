@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"fn":["auto_md_to_doc_comments","get_md_segments_using_cache","one_project","rs_file_markers","rs_files"],"struct":["MdSegment","REGEX_MD_END","REGEX_MD_START","REGEX_RS_END","REGEX_RS_START","RsMarker"]};
+window.SIDEBAR_ITEMS = {"fn":["auto_md_to_doc_comments","get_md_segments_using_cache","rs_file_markers","rs_files"],"struct":["MdSegment","REGEX_MD_END","REGEX_MD_START","REGEX_RS_END","REGEX_RS_START","RsMarker"]};

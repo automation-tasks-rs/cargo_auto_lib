@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"fn":["auto_version_increment_semver_or_date","auto_version_increment_semver_or_date_forced","one_project","one_project_forced"]};
+window.SIDEBAR_ITEMS = {"fn":["auto_version_increment_semver_or_date","auto_version_increment_semver_or_date_forced"]};

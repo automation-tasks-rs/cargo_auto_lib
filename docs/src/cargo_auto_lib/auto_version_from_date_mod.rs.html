@@ -371,28 +371,6 @@
 <a href="#321" id="321">321</a>
 <a href="#322" id="322">322</a>
 <a href="#323" id="323">323</a>
-<a href="#324" id="324">324</a>
-<a href="#325" id="325">325</a>
-<a href="#326" id="326">326</a>
-<a href="#327" id="327">327</a>
-<a href="#328" id="328">328</a>
-<a href="#329" id="329">329</a>
-<a href="#330" id="330">330</a>
-<a href="#331" id="331">331</a>
-<a href="#332" id="332">332</a>
-<a href="#333" id="333">333</a>
-<a href="#334" id="334">334</a>
-<a href="#335" id="335">335</a>
-<a href="#336" id="336">336</a>
-<a href="#337" id="337">337</a>
-<a href="#338" id="338">338</a>
-<a href="#339" id="339">339</a>
-<a href="#340" id="340">340</a>
-<a href="#341" id="341">341</a>
-<a href="#342" id="342">342</a>
-<a href="#343" id="343">343</a>
-<a href="#344" id="344">344</a>
-<a href="#345" id="345">345</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// auto_version_from_date_mod
@@ -408,9 +386,6 @@
 <span class="kw">use </span>chrono::{Datelike, Utc};
 <span class="kw">use </span>serde_derive::{Deserialize, Serialize};
 <span class="kw">use </span>std::str::FromStr;
-
-<span class="comment">// this trait must be in scope to use these methods of CargoToml
-</span><span class="kw">use </span><span class="kw">crate</span>::public_api_mod::CargoTomlPublicApiMethods;
 
 <span class="comment">// endregion: use statements
 
@@ -441,7 +416,6 @@
 /// In Cargo.toml writes the version as the date `yyyy.mmdd.HHMM` ex. `2019.1221.2359`.  
 /// For non-library projects, the semver specification is not really useful.  
 /// Having the version as the date is just fine for executables and much more human readable.  
-/// The function must be executed in the root project folder of a single project or workspace where is the Cargo.toml.  
 ///
 /// ### service_worker.js
 ///
@@ -461,9 +435,7 @@
 "string">"{RED}{err}{RESET}"</span>));
 }
 
-<span class="doccomment">/// Works for single projects and workspaces.  
-/// Just like auto_version_from_date(), but force the new version even if no files are changed.
-/// For workspaces `release` I want to have the same version in all members.  
+<span class="doccomment">/// Just like auto_version_from_date(), but force the new version even if no files are changed.
 /// It is slower, but easier to understand when deployed.
 </span><span class="kw">pub fn </span>auto_version_from_date_forced() {
     auto_version_from_date_internal(<span class="bool-val">true</span>).unwrap_or_else(|err| <span class="macro">panic!</span>(<span class=
@@ -477,23 +449,6 @@
 </span><span class="kw">fn </span>auto_version_from_date_internal(force_version: bool) -&gt; ResultWithLibError&lt;()&gt; {
     <span class="kw">let </span>date = Utc::now();
     <span class="kw">let </span>new_version = version_from_date(date);
-    <span class="kw">let </span>cargo_toml = <span class="kw">crate</span>::auto_cargo_toml_mod::CargoToml::read();
-    <span class="kw">let </span>members = cargo_toml.workspace_members();
-    <span class="kw">match </span>members {
-        <span class="prelude-val">None </span>=&gt; do_one_project(<span class="kw-2">&</span>new_version, force_version)<span class="question-mark">?</span>,
-        <span class="prelude-val">Some</span>(members) =&gt; {
-            <span class="kw">for </span>member <span class="kw">in </span>members.iter() {
-                std::env::set_current_dir(member).unwrap();
-                do_one_project(<span class="kw-2">&</span>new_version, force_version)<span class="question-mark">?</span>;
-                std::env::set_current_dir(<span class="string">".."</span>).unwrap();
-            }
-        }
-    }
-    modify_service_js(<span class="kw-2">&</span>new_version);
-    <span class="prelude-val">Ok</span>(())
-}
-
-<span class="kw">fn </span>do_one_project(new_version: <span class="kw-2">&</span>str, force_version: bool) -&gt; ResultWithLibError&lt;()&gt; {
     <span class="kw">let </span>vec_of_metadata = read_file_metadata()<span class="question-mark">?</span>;
     <span class="kw">let </span>is_files_equal = <span class="kw">if </span>force_version {
         <span class="bool-val">false
@@ -504,8 +459,9 @@
     };
 
     <span class="kw">if </span>!is_files_equal {
-        write_version_to_cargo_and_modify_metadata(new_version, vec_of_metadata)<span class="question-mark">?</span>;
+        write_version_to_cargo_and_modify_metadata(<span class="kw-2">&</span>new_version, vec_of_metadata)<span class="question-mark">?</span>;
     }
+    modify_service_js(<span class="kw-2">&</span>new_version);
     <span class="prelude-val">Ok</span>(())
 }
 
@@ -639,7 +595,7 @@
     <span class="kw">let </span>files_paths = <span class="kw">crate</span>::utils_mod::traverse_dir_with_exclude_dir(
         camino::Utf8Path::new(<span class="string">"src"</span>).as_std_path(),
         <span class="string">"/*.rs"</span>,
-        <span class="comment">// avoid big folders and other folders with *.crev
+        <span class="comment">// avoid big folders
         </span><span class="kw-2">&</span>[],
     )
     .unwrap();
