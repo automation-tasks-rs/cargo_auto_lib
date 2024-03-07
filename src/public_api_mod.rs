@@ -135,6 +135,8 @@ pub fn traverse_dir_with_exclude_dir(dir: &std::path::Path, find_file: &str, exc
 // region: auto_md_to_doc_comments include doc_comments/auto_cargo_toml_to_md.md A ///
 /// This function includes data from Cargo.toml to markdown files.  
 ///
+/// ![auto_cargo_toml_to_md.png](https://github.com/automation-tasks-rs/cargo_auto_lib/blob/main/images/auto_cargo_toml_to_md.png?raw=true)
+///
 /// This is nice for avoiding out of sync data.  
 /// Run it on every build with `automation_tasks_rs` and [cargo auto](https://crates.io/crates/cargo-auto).  
 ///   
@@ -152,9 +154,9 @@ pub fn traverse_dir_with_exclude_dir(dir: &std::path::Path, find_file: &str, exc
 /// `auto_cargo_toml_to_md` deletes the old lines between the markers and includes the Cargo.toml data:  
 /// description, repository, version, utc_now, authors and creates badges for keywords and categories.
 ///
-/// The words topics, keywords and tags all mean the same concept.  
+/// The words topics, keywords, hashtags and tags all mean the same concept.  
 /// In cargo.toml we have keywords.  
-/// In README.md I want to have badges, but I don't know the color yet.  
+/// In README.md I want to have badges with different color. And hashtags for SEO.  
 /// In GitHub they are topics.
 ///
 /// Some keywords have defined colors, others are orange like Rust.  
@@ -217,6 +219,8 @@ pub fn run_shell_command(shell_command: &str) {
 // region: auto_md_to_doc_comments include doc_comments/auto_lines_of_code.md A ///
 /// This function inserts shield badges with lines_of_code into README.rs.  
 ///
+/// ![auto_lines_of_code.png](https://github.com/automation-tasks-rs/cargo_auto_lib/blob/main/images/auto_lines_of_code.png?raw=true)
+///
 /// The parameter Link will be used for shield badge. If empty_string, the git remote repository will be used.  
 /// Lines of code are not a "perfect" measurement of anything.  
 /// Anybody can write a very big number of lines of useless code and comments.  
@@ -248,11 +252,6 @@ pub fn run_shell_command(shell_command: &str) {
 /// There should not be any normal code after `#[cfg(test)]`, only tests.  
 /// All other files: `md`, `toml`, `html`, `js`, ... are not counted.  
 ///
-/// ### Workspace
-///
-/// Workspaces have member projects, that are written in `Cargo.toml`.  
-/// The program counts lines of every project and sums them together.  
-///
 /// ## Include into README.md
 ///
 /// If the README.md file contains these markers (don't copy the numbers 1 and 2):  
@@ -276,6 +275,8 @@ pub fn auto_lines_of_code(link: &str) {
 
 // region: auto_md_to_doc_comments include doc_comments/auto_md_to_doc_comments.md A ///
 /// This function finds rs files with markers and include segments from md files as doc comments.  
+///
+/// ![auto_md_to_doc_comments.png](https://github.com/automation-tasks-rs/cargo_auto_lib/blob/main/images/auto_md_to_doc_comments.png?raw=true)
 ///
 /// From this doc comments `cargo doc` will generated the documentation and auto-completion.  
 /// We don't want to manually copy this segments. We want them to be automatically in sync.  
@@ -382,7 +383,6 @@ pub fn auto_version_increment_semver_or_date_forced() {
 /// In Cargo.toml writes the version as the date `yyyy.mmdd.HHMM` ex. `2019.1221.2359`.  
 /// For non-library projects, the semver specification is not really useful.  
 /// Having the version as the date is just fine for executables and much more human readable.  
-/// The function must be executed in the root project folder of a single project or workspace where is the Cargo.toml.  
 ///
 /// ### service_worker.js
 ///
@@ -497,7 +497,37 @@ pub fn add_message_to_unreleased(message: &str) {
 }
 
 // region: auto_md_to_doc_comments include doc_comments/auto_playground_run_code.md A ///
-
+/// Include the link to run code in Rust playground
+///
+/// The function searches in all markdown files for markers like this:
+///
+/// ```markdown
+/// [comment]: # (auto_playground start)
+///
+/// Run this code in the [Rust playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&code=fn%20m%0A%7D):
+///
+/// '''Rust ignore
+/// fn main(){
+///     println!("Hello World!");
+/// }
+/// '''
+///
+/// [comment]: # (auto_playground end)
+/// ```
+///
+/// In this example I changed `[//]` to `[comment]` and  ticks to single quotes to avoid this function to process these markers.
+///
+/// Between the start marker and the first triple backtick there is the link in "()" parentheses. The link to Rust playground encodes the code with url_encoding (percents) and sends it as an Url parameter.
+///
+/// Info: docs.rs has already a functionality that shows the `Run` button on your code and can run code the playground if you put this line at the top of lib.rs:
+///
+/// ``` Rust ignore
+/// #![doc(html_playground_url = "https://play.rust-lang.org")]
+/// ```
+///
+/// But it works only on docs.rs.  
+/// I want to run my code examples from evrywhere: from GitHub README.md, GitHub pages and crates.io.  
+///
 // endregion: auto_md_to_doc_comments include doc_comments/auto_playground_run_code.md A ///
 pub fn auto_playground_run_code() {
     crate::auto_playground_mod::auto_playground_run_code()

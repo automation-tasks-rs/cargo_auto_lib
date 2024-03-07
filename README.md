@@ -5,7 +5,7 @@
 [//]: # (auto_cargo_toml_to_md start)
 
 **Automation tasks coded in Rust language for the workflow of Rust projects**  
-***version: 1.4.10 date: 2024-03-07 author: [Bestia.dev](https://bestia.dev) repository: [GitHub](https://github.com/automation-tasks-rs/cargo_auto_lib)***
+***version: 2.0.2 date: 2024-03-07 author: [Bestia.dev](https://bestia.dev) repository: [GitHub](https://github.com/automation-tasks-rs/cargo_auto_lib)***
 
  ![maintained](https://img.shields.io/badge/maintained-green)
  ![ready-for-use](https://img.shields.io/badge/ready_for_use-green)
@@ -28,9 +28,9 @@
  ![cargo_auto_lib](https://bestia.dev/webpage_hit_counter/get_svg_image/276360626.svg)
 
 [//]: # (auto_lines_of_code start)
-[![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-2383-green.svg)](https://github.com/automation-tasks-rs/cargo_auto_lib/)
-[![Lines in Doc comments](https://img.shields.io/badge/Lines_in_Doc_comments-922-blue.svg)](https://github.com/automation-tasks-rs/cargo_auto_lib/)
-[![Lines in Comments](https://img.shields.io/badge/Lines_in_comments-373-purple.svg)](https://github.com/automation-tasks-rs/cargo_auto_lib/)
+[![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-2358-green.svg)](https://github.com/automation-tasks-rs/cargo_auto_lib/)
+[![Lines in Doc comments](https://img.shields.io/badge/Lines_in_Doc_comments-917-blue.svg)](https://github.com/automation-tasks-rs/cargo_auto_lib/)
+[![Lines in Comments](https://img.shields.io/badge/Lines_in_comments-371-purple.svg)](https://github.com/automation-tasks-rs/cargo_auto_lib/)
 [![Lines in examples](https://img.shields.io/badge/Lines_in_examples-28-yellow.svg)](https://github.com/automation-tasks-rs/cargo_auto_lib/)
 [![Lines in tests](https://img.shields.io/badge/Lines_in_tests-79-orange.svg)](https://github.com/automation-tasks-rs/cargo_auto_lib/)
 
@@ -57,7 +57,7 @@ code hello_world/automation_tasks_rs
 Now we can analyze the automation code. There is already this dependency inside `Cargo.toml` for our library:  
 
 ```toml
-cargo_auto_lib="1.1.2"
+cargo_auto_lib="2.0.1"
 ```
 
 Review the code in `automation_tasks_rs/main.rs`. The `cl::` namespace is the alias for `cargo_auto_lib`.  
@@ -111,11 +111,11 @@ Read the release changelog in a separate md file:
 
 ## TODO
 
-- remove the existing support for workspaces. Workspaces are a mess.
-- change it so that every member must have its own automation.
-- the workspace automation then calls the member's automation.
+- remove the existing support for workspaces. Workspaces are a mess
+- change it so that every member must have its own automation
+- the workspace automation then calls the member's automation
 - It is better to have a non-workspace group of projects that are
-- developed together thatnks to single workflow automation.
+- developed together using single workflow automation
 
 ## Open-source and free as a beer
 

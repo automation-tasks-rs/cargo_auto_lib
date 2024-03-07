@@ -29,6 +29,8 @@ struct MdSegment {
 // region: auto_md_to_doc_comments include doc_comments/auto_md_to_doc_comments.md A ///
 /// This function finds rs files with markers and include segments from md files as doc comments.  
 ///
+/// ![auto_md_to_doc_comments.png](https://github.com/automation-tasks-rs/cargo_auto_lib/blob/main/images/auto_md_to_doc_comments.png?raw=true)
+///
 /// From this doc comments `cargo doc` will generated the documentation and auto-completion.  
 /// We don't want to manually copy this segments. We want them to be automatically in sync.  
 /// We will just run this function before every `cargo doc` with an automation task.  

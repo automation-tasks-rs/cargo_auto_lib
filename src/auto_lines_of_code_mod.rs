@@ -8,8 +8,6 @@ use std::fs::File;
 use std::io::{BufRead, BufReader};
 
 // use crate::auto_helper_functions_mod::*;
-// this trait must be in scope to use these methods of CargoToml
-use crate::public_api_mod::CargoTomlPublicApiMethods;
 
 #[derive(Default, Debug)]
 /// Struct that contains 4 types of lines count: code, doc comments, comments, test and examples.
@@ -28,6 +26,8 @@ pub struct LinesOfCode {
 
 // region: auto_md_to_doc_comments include doc_comments/auto_lines_of_code.md A ///
 /// This function inserts shield badges with lines_of_code into README.rs.  
+///
+/// ![auto_lines_of_code.png](https://github.com/automation-tasks-rs/cargo_auto_lib/blob/main/images/auto_lines_of_code.png?raw=true)
 ///
 /// The parameter Link will be used for shield badge. If empty_string, the git remote repository will be used.  
 /// Lines of code are not a "perfect" measurement of anything.  
@@ -60,11 +60,6 @@ pub struct LinesOfCode {
 /// There should not be any normal code after `#[cfg(test)]`, only tests.  
 /// All other files: `md`, `toml`, `html`, `js`, ... are not counted.  
 ///
-/// ### Workspace
-///
-/// Workspaces have member projects, that are written in `Cargo.toml`.  
-/// The program counts lines of every project and sums them together.  
-///
 /// ## Include into README.md
 ///
 /// If the README.md file contains these markers (don't copy the numbers 1 and 2):  
@@ -86,34 +81,9 @@ pub fn auto_lines_of_code(link: &str) {
     println!("    {YELLOW}Running auto_lines_of_code{RESET}");
     let link = if link.is_empty() { process_git_remote() } else { link.to_string() };
     // Cargo.toml contains the list of projects
-    let cargo_toml = crate::auto_cargo_toml_mod::CargoToml::read();
-    match cargo_toml.workspace_members() {
-        None => {
-            let v = one_project_count_lines();
-            let text_to_include = to_string_as_shield_badges(&v, &link);
-            include_into_readme_md(&text_to_include);
-        }
-        Some(members) => {
-            let mut lines_of_code = LinesOfCode::default();
-            for member in members.iter() {
-                println!("    {YELLOW}Member: {member}{RESET}");
-                std::env::set_current_dir(member).unwrap();
-                let v = one_project_count_lines();
-                let text_to_include = to_string_as_shield_badges(&v, &link);
-                include_into_readme_md(&text_to_include);
-                std::env::set_current_dir("..").unwrap();
-
-                lines_of_code.src_code_lines += v.src_code_lines;
-                lines_of_code.src_doc_comment_lines += v.src_doc_comment_lines;
-                lines_of_code.src_comment_lines += v.src_comment_lines;
-                lines_of_code.tests_lines += v.tests_lines;
-                lines_of_code.examples_lines += v.examples_lines;
-            }
-            // the workspace README.md
-            let text_to_include = to_string_as_shield_badges(&lines_of_code, &link);
-            include_into_readme_md(&text_to_include);
-        }
-    }
+    let lines_of_code = count_lines_of_code();
+    let text_to_include = to_string_as_shield_badges(&lines_of_code, &link);
+    include_into_readme_md(&text_to_include);
     println!("    {YELLOW}Finished auto_lines_of_code{RESET}");
 }
 
@@ -139,8 +109,8 @@ fn process_git_remote() -> String {
     }
 }
 
-/// private function. Use public workspace_or_project_count_lines().
-fn one_project_count_lines() -> LinesOfCode {
+/// private function. Use public count_code_lines().
+pub fn count_lines_of_code() -> LinesOfCode {
     let mut lines_of_code = LinesOfCode::default();
 
     // src folder
@@ -248,7 +218,7 @@ fn regex_capture(output: String) -> anyhow::Result<String> {
 /// Every badge has the link to the url given as first parameter
 /// or automatically finds out the github git remote repository url.
 ///
-/// let v = cargo_auto_lib::auto_lines_of_code_mod::workspace_or_project_count_lines();
+/// let v = cargo_auto_lib::auto_lines_of_code_mod::count_lines_of_code();
 /// let badges = cargo_auto_lib::auto_lines_of_code_mod::to_string_as_shield_badges(&v,"");
 ///
 /// println!("{}", badges);

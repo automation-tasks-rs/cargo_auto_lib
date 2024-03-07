@@ -12,7 +12,7 @@ lazy_static! {
 
 /// Read data from Cargo.toml
 pub struct CargoToml {
-    /// the first Cargo.toml is maybe a workspace
+    /// the first Cargo.toml is maybe a workspace. It has a different structure.
     cargo_toml_workspace_maybe: cargo_toml::Manifest,
     /// the main Cargo.toml is different for single project or for workspace
     /// for workspace is the first `main` member

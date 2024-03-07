@@ -10,6 +10,12 @@ The TODO section is part of the [README.md](https://github.com/automation-tasks-
 
 ## Unreleased
 
+### Breaking changes in 2.0.0
+
+- Remove the old code for workspace
+- It will be replaced by separate automation tasks for every member
+
+- no workspace
 ## Version 1.4.8 (2024-03-07)
 
 - doc comments
