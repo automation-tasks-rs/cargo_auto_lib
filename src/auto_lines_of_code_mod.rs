@@ -147,7 +147,7 @@ fn one_project_count_lines() -> LinesOfCode {
     let files = crate::utils_mod::traverse_dir_with_exclude_dir(
         camino::Utf8Path::new("src").as_std_path(),
         "/*.rs",
-        // avoid big folders and other folders with *.crev
+        // avoid big folders
         &["/.git".to_string(), "/target".to_string(), "/docs".to_string()],
     )
     .unwrap();
@@ -181,7 +181,7 @@ fn one_project_count_lines() -> LinesOfCode {
     let files = crate::utils_mod::traverse_dir_with_exclude_dir(
         camino::Utf8Path::new("tests").as_std_path(),
         "/*.rs",
-        // avoid big folders and other folders with *.crev
+        // avoid big folders
         &["/.git".to_string(), "/target".to_string(), "/docs".to_string()],
     )
     .unwrap();
@@ -200,7 +200,7 @@ fn one_project_count_lines() -> LinesOfCode {
     let files = crate::utils_mod::traverse_dir_with_exclude_dir(
         camino::Utf8Path::new("examples").as_std_path(),
         "/*.rs",
-        // avoid big folders and other folders with *.crev
+        // avoid big folders
         &["/.git".to_string(), "/target".to_string(), "/docs".to_string()],
     )
     .unwrap();

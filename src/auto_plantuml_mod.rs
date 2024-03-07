@@ -69,7 +69,7 @@ pub fn auto_plantuml_for_path(path: &std::path::Path, repo_url: &str) {
     let files = crate::utils_mod::traverse_dir_with_exclude_dir(
         path.as_std_path(),
         "/*.md",
-        // avoid big folders and other folders with *.crev
+        // avoid big folders
         &["/.git".to_string(), "/target".to_string(), "/docs".to_string()],
     )
     .unwrap();

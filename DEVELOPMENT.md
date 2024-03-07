@@ -45,3 +45,8 @@ code automation_tasks_rs
 All the functions of `cargo_auto_lib` have extensive help/docs to describe how they work.  
 This is nice when you use a code editor with IntelliSense like VSCode.  
 Inside the `automation_tasks_rs` you can write your own code. No limits there. It is just Rust.  
+
+## Caveats writing Cargo.toml
+
+This crate will attempt to edit `Cargo.toml`. Unfortunately, there's no great robust way right now to edit TOML file preserving formatting and comments and such, so right now I use just regex to do this.  
+If you find that the heuristics don't work for you though please let me know and I'll try to check in a fix!

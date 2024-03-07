@@ -45,12 +45,12 @@ pub fn find_from(text: &str, from_pos: usize, find: &str) -> Option<usize> {
 ///
 /// ## Example
 ///
-/// ```Rust
+/// ```Rust ignore
 ///
 /// let files = cargo_auto_lib::traverse_dir_with_exclude_dir(
 ///     Path::new("/home/project/src"),
 ///     "/*.rs",
-///     // avoid big folders and other folders with *.crev
+///     // avoid big folders
 ///     &vec![
 ///         "/.git".to_string(),
 ///         "/target".to_string(),

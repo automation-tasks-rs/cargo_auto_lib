@@ -7,7 +7,7 @@ use crate::utils_mod::*;
 use lazy_static::lazy_static;
 
 lazy_static! {
-    // capture group
+    /// capture the link in markdown style [name](link)
     static ref REGEX_MD_LINK: regex::Regex = regex::Regex::new(
     r#".+\[.+\]\((.+)\).+"#
     ).unwrap();
@@ -16,7 +16,7 @@ lazy_static! {
 // region: auto_md_to_doc_comments include doc_comments/auto_playground_run_code.md A ///
 /// Includes the link to playground with the rust code in a parameter.
 ///
-/// Search in markdown files for markersand include a link to Rust playground.
+/// Search in markdown files for markers and include a link to Rust playground.
 ///
 /// ```markdown
 /// [comment]: # (auto_playground start)

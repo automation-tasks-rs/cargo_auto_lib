@@ -229,7 +229,7 @@ pub fn read_file_metadata() -> ResultWithLibError<Vec<FileMetaData>> {
     let files_paths = crate::utils_mod::traverse_dir_with_exclude_dir(
         camino::Utf8Path::new("src").as_std_path(),
         "/*.rs",
-        // avoid big folders and other folders with *.crev
+        // avoid big folders
         &[],
     )
     .unwrap();

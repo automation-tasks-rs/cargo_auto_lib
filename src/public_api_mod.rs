@@ -110,12 +110,12 @@ pub fn concatenate_vec_to_string(vec: &[String], delimiter: &str) -> String {
 ///
 /// ## Example
 ///
-/// ```Rust
+/// ```Rust ignore
 ///
 /// let files = cargo_auto_lib::traverse_dir_with_exclude_dir(
 ///     Path::new("/home/project/src"),
 ///     "/*.rs",
-///     // avoid big folders and other folders with *.crev
+///     // avoid big folders
 ///     &vec![
 ///         "/.git".to_string(),
 ///         "/target".to_string(),
@@ -496,7 +496,9 @@ pub fn add_message_to_unreleased(message: &str) {
     crate::auto_github_mod::add_message_to_unreleased(message)
 }
 
-/// process code for playground for Rust code segments in all md files
+// region: auto_md_to_doc_comments include doc_comments/auto_playground_run_code.md A ///
+
+// endregion: auto_md_to_doc_comments include doc_comments/auto_playground_run_code.md A ///
 pub fn auto_playground_run_code() {
     crate::auto_playground_mod::auto_playground_run_code()
 }

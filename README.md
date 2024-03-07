@@ -100,11 +100,6 @@ cargo auto release
 
 Now open the README.md and you will see the data that this automation task copied from other places. Therefore you change this data only in one place, the automation task copies them wherever needed.
 
-## Caveats
-
-This crate will attempt to edit `Cargo.toml`. Unfortunately, there's no great robust way right now to edit TOML file preserving formatting and comments and such, so right now I use just regex to do this.  
-If you find that the heuristics don't work for you though please let me know and I'll try to check in a fix!
-
 ## Development details
 
 Read the development details in a separate md file:  
@@ -117,7 +112,11 @@ Read the release changelog in a separate md file:
 
 ## TODO
 
-Nothing big for now.
+- remove the existing support for workspaces. Workspaces are a mess.
+- change it so that every member must have its own automation.
+- the workspace automation then calls the member's automation.
+- It is better to have a non-workspace group of projects that are
+- developed together thatnks to single workflow automation.
 
 ## Open-source and free as a beer
 
