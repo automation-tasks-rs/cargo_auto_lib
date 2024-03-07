@@ -35,11 +35,6 @@ The `src/*.rs` file can contain unit tests that start with `#[cfg(test)]`. I ass
 There should not be any normal code after `#[cfg(test)]`, only tests.  
 All other files: `md`, `toml`, `html`, `js`, ... are not counted.  
 
-### Workspace
-
-Workspaces have member projects, that are written in `Cargo.toml`.  
-The program counts lines of every project and sums them together.  
-
 ## Include into README.md
 
 If the README.md file contains these markers (don't copy the numbers 1 and 2):  
