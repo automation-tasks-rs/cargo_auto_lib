@@ -108,6 +108,7 @@
 <a href="#58" id="58">58</a>
 <a href="#59" id="59">59</a>
 <a href="#60" id="60">60</a>
+<a href="#61" id="61">61</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// auto_crates_io_mod.rs
@@ -146,8 +147,9 @@
     }
 }
 
-<span class="doccomment">/// decrypt the token from CRATES_IO_TOKEN_PATH file
-/// or ask user interactively to type it, then encrypt and save to file
+<span class="doccomment">/// Decrypt the token from CRATES_IO_TOKEN_PATH file
+///
+/// Or ask user interactively to type it, then encrypt and save to file.
 </span><span class="kw">fn </span>check_or_get_crates_io_token() -&gt; <span class="prelude-ty">Option</span>&lt;SecretString&gt; {
     <span class="comment">// ssh_add_resolve(host_name: &amp;str, default_identity_file_path: &amp;str)
     </span><span class="kw">let </span>(_fingerprint, identity_file_path) = <span class="kw">crate</span>::auto_github_mod::ssh_add_resolve(<span class=

@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"fn":["auto_plantuml","auto_plantuml_for_path","compress_plant_uml_code","get_svg","hash_for_filename"],"struct":["REGEX_IMG_LINK","REGEX_PLANTUML_END","REGEX_PLANTUML_START"]};
+window.SIDEBAR_ITEMS = {"fn":["auto_plantuml","auto_plantuml_for_path","compress_plant_uml_code","hash_text","request_svg"],"struct":["REGEX_IMG_LINK","REGEX_PLANTUML_END","REGEX_PLANTUML_START"]};

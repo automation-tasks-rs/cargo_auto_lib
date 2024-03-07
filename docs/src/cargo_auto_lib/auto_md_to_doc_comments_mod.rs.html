@@ -255,11 +255,12 @@
 <a href="#205" id="205">205</a>
 <a href="#206" id="206">206</a>
 <a href="#207" id="207">207</a>
+<a href="#208" id="208">208</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// auto_md_to_doc_comments_mod
 
-</span><span class="doccomment">//! finds rs files with markers and include segments from md files
+</span><span class="doccomment">//! Finds rs files with markers and include segments from md files as doc comments
 
 </span><span class="kw">use </span>glob::glob;
 <span class="kw">use </span>lazy_static::lazy_static;
@@ -267,7 +268,8 @@
 
 <span class="kw">use </span><span class="kw">crate</span>::public_api_mod::{RED, RESET, YELLOW};
 
-<span class="attr">#[derive(Debug)]
+<span class="doccomment">/// Markers found in rs files
+</span><span class="attr">#[derive(Debug)]
 </span><span class="kw">struct </span>RsMarker {
     <span class="kw">pub </span>md_filename: String,
     <span class="kw">pub </span>marker_name: String,
@@ -276,7 +278,8 @@
     <span class="kw">pub </span>pos_end: usize,
 }
 
-<span class="attr">#[derive(Debug)]
+<span class="doccomment">/// Markers found in md files
+</span><span class="attr">#[derive(Debug)]
 </span><span class="kw">struct </span>MdSegment {
     <span class="kw">pub </span>md_filename: String,
     <span class="kw">pub </span>marker_name: String,
@@ -286,7 +289,7 @@
 }
 
 <span class="comment">// region: auto_md_to_doc_comments include doc_comments/auto_md_to_doc_comments.md A ///
-</span><span class="doccomment">/// This function finds rs files with markers and include segments from md files as doc comments.  
+</span><span class="doccomment">/// Finds rs files with markers and include segments from md files as doc comments  
 ///
 /// ![auto_md_to_doc_comments.png](https://github.com/automation-tasks-rs/cargo_auto_lib/blob/main/images/auto_md_to_doc_comments.png?raw=true)
 ///
@@ -305,19 +308,19 @@
 /// In the rs file write these markers:  
 ///
 /// ```code
-/// comment region: auto_md_to_doc_comments include README.md A ///
-/// comment endregion: auto_md_to_doc_comments include README.md A ///
+/// //comment region: auto_md_to_doc_comments include README.md A ///
+/// //comment endregion: auto_md_to_doc_comments include README.md A ///
 /// ```
 ///
 /// In your rust code, change the word `comment` with double slash `//`.  
 /// In the md file put markers to mark the segment:  
 ///
 /// ```markdown
-/// [comment]: # (auto_md_to_doc_comments segment start A)  
-/// [comment]: # (auto_md_to_doc_comments segment end A)  
+/// [//comment]: # (auto_md_to_doc_comments segment start A)  
+/// [//comment]: # (auto_md_to_doc_comments segment end A)  
 /// ```
 ///
-/// In your markdown, change the word `[comment]` with double slash `[//]`.
+/// In this instructions I changed `[//]` to `[//comment]` to not process these markers.
 ///
 /// The marker must be exclusively in one line. No other text in the same line.  
 /// auto_md_to_doc_comments will delete the old lines between the markers.  
@@ -351,7 +354,6 @@
 }
 
 <span class="doccomment">/// All rs files in src, tests and examples folders.
-/// The current dir must be the project root where the Cargo.toml is.
 </span><span class="kw">fn </span>rs_files() -&gt; Vec&lt;String&gt; {
     <span class="kw">let </span><span class="kw-2">mut </span>rs_files = <span class="macro">vec!</span>[];
     <span class="comment">// in Unix shell ** means recursive match through all the subdirectories
@@ -375,11 +377,11 @@
 }
 
 <span class="macro">lazy_static! </span>{
-    <span class="kw">static </span><span class="kw-2">ref </span>REGEX_RS_START: Regex = Regex::new(<span class=
+    <span class="doccomment">/// Regex for start marker
+    </span><span class="kw">static </span><span class="kw-2">ref </span>REGEX_RS_START: Regex = Regex::new(<span class=
 "string">r#"(?m)^ *?// region: auto_md_to_doc_comments include (.*?) (.*?) (.*?)$"#</span>).unwrap();
-}
-<span class="macro">lazy_static! </span>{
-    <span class="kw">static </span><span class="kw-2">ref </span>REGEX_RS_END: Regex = Regex::new(<span class=
+    <span class="doccomment">/// Regex for end marker
+    </span><span class="kw">static </span><span class="kw-2">ref </span>REGEX_RS_END: Regex = Regex::new(<span class=
 "string">r#"(?m)^ *?// endregion: auto_md_to_doc_comments include (.*?) (.*?) (.*?)$"#</span>).unwrap();
 }
 <span class="doccomment">/// markers in rs files
@@ -406,11 +408,11 @@
 }
 
 <span class="macro">lazy_static! </span>{
-    <span class="kw">static </span><span class="kw-2">ref </span>REGEX_MD_START: Regex = Regex::new(<span class=
+    <span class="doccomment">/// Regex for start marker
+    </span><span class="kw">static </span><span class="kw-2">ref </span>REGEX_MD_START: Regex = Regex::new(<span class=
 "string">r#"(?m)^\[//\]: # \(auto_md_to_doc_comments segment start (.*?)\)$"#</span>).unwrap();
-}
-<span class="macro">lazy_static! </span>{
-    <span class="kw">static </span><span class="kw-2">ref </span>REGEX_MD_END: Regex = Regex::new(<span class=
+    <span class="doccomment">/// Regex for end marker
+    </span><span class="kw">static </span><span class="kw-2">ref </span>REGEX_MD_END: Regex = Regex::new(<span class=
 "string">r#"(?m)^\[//\]: # \(auto_md_to_doc_comments segment end (.*?)\)$"#</span>).unwrap();
 }
 

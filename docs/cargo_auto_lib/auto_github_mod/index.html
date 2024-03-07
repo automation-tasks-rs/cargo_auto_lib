@@ -34,7 +34,7 @@
     <div class="sidebar-crate">
       <a class="logo-container" href="../../cargo_auto_lib/index.html"><img src=
       "https://github.com/automation-tasks-rs/cargo-auto/raw/main/images/logo/logo_cargo_auto.svg" alt="logo"></a>
-      <h2><a href="../../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">2.0.2</span></h2>
+      <h2><a href="../../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">2.0.4</span></h2>
     </div>
     <h2 class="location"><a href="#">Module auto_github_mod</a></h2>
     <div class="sidebar-elems">
@@ -73,7 +73,7 @@
         <div class="main-heading">
           <h1>Module <a href="../index.html">cargo_auto_lib</a>::<wbr><a class="mod" href="#">auto_github_mod</a><button id="copy-path" title=
           "Copy item path to clipboard"><img src="../../static.files/clipboard-7571035ce49a181d.svg" width="19" height="18" alt=
-          "Copy item path"></button></h1><span class="out-of-band"><a class="src" href="../../src/cargo_auto_lib/auto_github_mod.rs.html#3-660">source</a> ·
+          "Copy item path"></button></h1><span class="out-of-band"><a class="src" href="../../src/cargo_auto_lib/auto_github_mod.rs.html#3-664">source</a> ·
           <button id="toggle-all-docs" title="collapse all docs">[<span>−</span>]</button></span>
         </div>
         <details class="toggle top-doc" open="">
@@ -91,10 +91,16 @@
               <a class="constant" href="constant.GITHUB_TOKEN_PATH.html" title=
               "constant cargo_auto_lib::auto_github_mod::GITHUB_TOKEN_PATH">GITHUB_TOKEN_PATH</a>
             </div>
+            <div class="desc docblock-short">
+              File contains GitHub token encrypted with github_com_ssh_1
+            </div>
           </li>
           <li>
             <div class="item-name">
               <a class="constant" href="constant.RELEASES_MD.html" title="constant cargo_auto_lib::auto_github_mod::RELEASES_MD">RELEASES_MD</a>
+            </div>
+            <div class="desc docblock-short">
+              File contains releases changelog
             </div>
           </li>
         </ul>
@@ -133,7 +139,7 @@
               "fn cargo_auto_lib::auto_github_mod::check_or_get_github_token">check_or_get_github_token</a><span title="Restricted Visibility">&nbsp;🔒</span>
             </div>
             <div class="desc docblock-short">
-              decrypt the token from GITHUB_TOKEN_PATH file or ask user interactively to type it, then encrypt and save to file
+              Decrypt the token from GITHUB_TOKEN_PATH file
             </div>
           </li>
           <li>
@@ -143,7 +149,7 @@
               "Restricted Visibility">&nbsp;🔒</span>
             </div>
             <div class="desc docblock-short">
-              create RELEASES.md if file not exist
+              Create RELEASES.md if file not exist
             </div>
           </li>
           <li>
@@ -189,7 +195,7 @@
               "fn cargo_auto_lib::auto_github_mod::github_api_get_repository">github_api_get_repository</a><span title="Restricted Visibility">&nbsp;🔒</span>
             </div>
             <div class="desc docblock-short">
-              github api get repository
+              GitHub api get repository
             </div>
           </li>
           <li>
@@ -208,7 +214,7 @@
               "fn cargo_auto_lib::auto_github_mod::github_api_repository_new">github_api_repository_new</a>
             </div>
             <div class="desc docblock-short">
-              creates a new github repository
+              Create a new github repository
             </div>
           </li>
           <li>
@@ -217,7 +223,7 @@
               "fn cargo_auto_lib::auto_github_mod::github_api_update_description">github_api_update_description</a>
             </div>
             <div class="desc docblock-short">
-              github api update description and topics
+              GitHub api update description
             </div>
           </li>
           <li>
@@ -243,7 +249,7 @@
               <a class="fn" href="fn.new_local_repository.html" title="fn cargo_auto_lib::auto_github_mod::new_local_repository">new_local_repository</a>
             </div>
             <div class="desc docblock-short">
-              interactive ask to create a new local git repository
+              Interactive ask to create a new local git repository
             </div>
           </li>
           <li>
@@ -252,7 +258,7 @@
               "fn cargo_auto_lib::auto_github_mod::new_remote_github_repository">new_remote_github_repository</a>
             </div>
             <div class="desc docblock-short">
-              interactive ask to create a new remote GitHub repository
+              Interactive ask to create a new remote GitHub repository
             </div>
           </li>
           <li>
@@ -260,8 +266,7 @@
               <a class="fn" href="fn.ssh_add_if_needed.html" title="fn cargo_auto_lib::auto_github_mod::ssh_add_if_needed">ssh_add_if_needed</a>
             </div>
             <div class="desc docblock-short">
-              identity_private_file_path contains the path of the private key like: <code>~/.ssh/github_com_ssh_1</code> check if this file is in ssh-add. if
-              is not, then ask user to ssh-add and enter passcode.
+              Check if identity is already in ssh-agent and ask user if not
             </div>
           </li>
           <li>

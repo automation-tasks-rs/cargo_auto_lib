@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="generator" content="rustdoc">
-  <meta name="description" content="inserts shield badges with lines_of_code into README.rs">
+  <meta name="description" content="Insert shield badges with lines_of_code into README.rs">
   <title>cargo_auto_lib::auto_lines_of_code_mod - Rust</title>
   <link rel="preload" as="font" type="font/woff2" crossorigin="" href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2">
   <link rel="preload" as="font" type="font/woff2" crossorigin="" href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2">
@@ -34,7 +34,7 @@
     <div class="sidebar-crate">
       <a class="logo-container" href="../../cargo_auto_lib/index.html"><img src=
       "https://github.com/automation-tasks-rs/cargo-auto/raw/main/images/logo/logo_cargo_auto.svg" alt="logo"></a>
-      <h2><a href="../../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">2.0.2</span></h2>
+      <h2><a href="../../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">2.0.4</span></h2>
     </div>
     <h2 class="location"><a href="#">Module auto_lines_of_code_mod</a></h2>
     <div class="sidebar-elems">
@@ -74,7 +74,7 @@
           <h1>Module <a href="../index.html">cargo_auto_lib</a>::<wbr><a class="mod" href="#">auto_lines_of_code_mod</a><button id="copy-path" title=
           "Copy item path to clipboard"><img src="../../static.files/clipboard-7571035ce49a181d.svg" width="19" height="18" alt=
           "Copy item path"></button></h1><span class="out-of-band"><a class="src" href=
-          "../../src/cargo_auto_lib/auto_lines_of_code_mod.rs.html#3-273">source</a> · <button id="toggle-all-docs" title=
+          "../../src/cargo_auto_lib/auto_lines_of_code_mod.rs.html#3-226">source</a> · <button id="toggle-all-docs" title=
           "collapse all docs">[<span>−</span>]</button></span>
         </div>
         <details class="toggle top-doc" open="">
@@ -82,7 +82,7 @@
             <span>Expand description</span>
           </summary>
           <div class="docblock">
-            <p>inserts shield badges with lines_of_code into README.rs</p>
+            <p>Insert shield badges with lines_of_code into README.rs</p>
           </div>
         </details>
         <h2 id="structs" class="section-header"><a href="#structs">Structs</a></h2>
@@ -111,13 +111,7 @@
               <a class="fn" href="fn.count_lines_of_code.html" title="fn cargo_auto_lib::auto_lines_of_code_mod::count_lines_of_code">count_lines_of_code</a>
             </div>
             <div class="desc docblock-short">
-              private function. Use public count_code_lines().
-            </div>
-          </li>
-          <li>
-            <div class="item-name">
-              <a class="fn" href="fn.git_remote_output.html" title=
-              "fn cargo_auto_lib::auto_lines_of_code_mod::git_remote_output">git_remote_output</a><span title="Restricted Visibility">&nbsp;🔒</span>
+              Returns the counted lines of code
             </div>
           </li>
           <li>
@@ -126,26 +120,7 @@
               "fn cargo_auto_lib::auto_lines_of_code_mod::include_into_readme_md">include_into_readme_md</a><span title="Restricted Visibility">&nbsp;🔒</span>
             </div>
             <div class="desc docblock-short">
-              Includes (writes, modifies) the shield badge code into README.md file. include_into_readme_md(“test test test”);
-            </div>
-          </li>
-          <li>
-            <div class="item-name">
-              <a class="fn" href="fn.process_git_remote.html" title=
-              "fn cargo_auto_lib::auto_lines_of_code_mod::process_git_remote">process_git_remote</a><span title="Restricted Visibility">&nbsp;🔒</span>
-            </div>
-            <div class="desc docblock-short">
-              Return the string for link for badges like: <a href=
-              "https://github.com/automation-tasks-rs/auto_lines_of_code/">https://github.com/automation-tasks-rs/auto_lines_of_code/</a>.
-            </div>
-          </li>
-          <li>
-            <div class="item-name">
-              <a class="fn" href="fn.regex_capture.html" title="fn cargo_auto_lib::auto_lines_of_code_mod::regex_capture">regex_capture</a><span title=
-              "Restricted Visibility">&nbsp;🔒</span>
-            </div>
-            <div class="desc docblock-short">
-              returns a Result. in the case of error the calling fn will return empty string.
+              Includes (writes, modifies) the shield badge code into README.md file
             </div>
           </li>
           <li>

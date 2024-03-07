@@ -161,11 +161,14 @@
 <a href="#111" id="111">111</a>
 <a href="#112" id="112">112</a>
 <a href="#113" id="113">113</a>
+<a href="#114" id="114">114</a>
+<a href="#115" id="115">115</a>
+<a href="#116" id="116">116</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// auto_semver_mod
 
-</span><span class="doccomment">//! semver utilities
+</span><span class="doccomment">//! Semver utilities
 
 </span><span class="kw">use </span><span class="kw">crate</span>::public_api_mod::{GREEN, RED, RESET, YELLOW};
 <span class="kw">use crate</span>::{
@@ -173,36 +176,38 @@
     utils_mod::<span class="kw-2">*</span>,
 };
 
-<span class="kw">enum </span>VersionPart {
+<span class="doccomment">/// Enum for version parts: Minor or Patch
+</span><span class="kw">enum </span>VersionPart {
     Patch,
     Minor,
 }
 
-<span class="doccomment">/// Increments the patch version in Cargo.toml file only if files are changed
+<span class="doccomment">/// Increment the patch version in Cargo.toml file only if files are changed
 </span><span class="kw">pub fn </span>auto_semver_increment_patch() {
     increment_part(VersionPart::Patch, <span class="bool-val">false</span>).unwrap_or_else(|err| <span class="macro">panic!</span>(<span class=
 "string">"{RED}{err}{RESET}"</span>))
 }
 
-<span class="doccomment">/// Increments the patch version in Cargo.toml file even if files are not changed
+<span class="doccomment">/// Increment the patch version in Cargo.toml file even if files are not changed
 </span><span class="kw">pub fn </span>auto_semver_increment_patch_forced() {
     increment_part(VersionPart::Patch, <span class="bool-val">true</span>).unwrap_or_else(|err| <span class="macro">panic!</span>(<span class=
 "string">"{RED}{err}{RESET}"</span>))
 }
 
-<span class="doccomment">/// Increments the minor version in Cargo.toml file only if files are changed
+<span class="doccomment">/// Increment the minor version in Cargo.toml file only if files are changed
 </span><span class="kw">pub fn </span>auto_semver_increment_minor() {
     increment_part(VersionPart::Minor, <span class="bool-val">false</span>).unwrap_or_else(|err| <span class="macro">panic!</span>(<span class=
 "string">"{RED}{err}{RESET}"</span>))
 }
 
-<span class="doccomment">/// Increments the minor version in Cargo.toml file even if files are not changed
+<span class="doccomment">/// Increment the minor version in Cargo.toml file even if files are not changed
 </span><span class="kw">pub fn </span>auto_semver_increment_minor_forced() {
     increment_part(VersionPart::Minor, <span class="bool-val">true</span>).unwrap_or_else(|err| <span class="macro">panic!</span>(<span class=
 "string">"{RED}{err}{RESET}"</span>))
 }
 
-<span class="kw">fn </span>increment_part(part: VersionPart, force_version: bool) -&gt; ResultWithLibError&lt;()&gt; {
+<span class="doccomment">/// Increment a part of version in Cargo.toml file even if files are not changed or forced
+</span><span class="kw">fn </span>increment_part(part: VersionPart, force_version: bool) -&gt; ResultWithLibError&lt;()&gt; {
     <span class="kw">let </span><span class="kw-2">mut </span>vec_of_metadata = <span class=
 "kw">crate</span>::auto_version_from_date_mod::read_file_metadata()<span class="question-mark">?</span>;
     <span class="kw">let </span>is_files_equal = <span class="kw">if </span>force_version {
@@ -280,7 +285,9 @@
     <span class="prelude-val">Ok</span>(())
 }
 
-<span class="kw">fn </span>parse_next_number(cargo_toml_text: <span class="kw-2">&</span>str, pos: usize) -&gt; ResultWithLibError&lt;(usize, usize)&gt; {
+<span class="doccomment">/// Parse next number in version
+</span><span class="kw">fn </span>parse_next_number(cargo_toml_text: <span class=
+"kw-2">&</span>str, pos: usize) -&gt; ResultWithLibError&lt;(usize, usize)&gt; {
     <span class="kw">let </span><span class="kw-2">mut </span>pos = pos;
     <span class="kw">let </span><span class="kw-2">mut </span>number = <span class="string">""</span>.to_string();
     <span class="kw">let </span><span class="kw-2">mut </span>one_char = cargo_toml_text[pos..pos + <span class=

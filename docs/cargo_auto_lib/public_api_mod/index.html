@@ -34,7 +34,7 @@
     <div class="sidebar-crate">
       <a class="logo-container" href="../../cargo_auto_lib/index.html"><img src=
       "https://github.com/automation-tasks-rs/cargo-auto/raw/main/images/logo/logo_cargo_auto.svg" alt="logo"></a>
-      <h2><a href="../../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">2.0.2</span></h2>
+      <h2><a href="../../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">2.0.4</span></h2>
     </div>
     <h2 class="location"><a href="#">Module public_api_mod</a></h2>
     <div class="sidebar-elems">
@@ -79,7 +79,7 @@
         <div class="main-heading">
           <h1>Module <a href="../index.html">cargo_auto_lib</a>::<wbr><a class="mod" href="#">public_api_mod</a><button id="copy-path" title=
           "Copy item path to clipboard"><img src="../../static.files/clipboard-7571035ce49a181d.svg" width="19" height="18" alt=
-          "Copy item path"></button></h1><span class="out-of-band"><a class="src" href="../../src/cargo_auto_lib/public_api_mod.rs.html#4-570">source</a> ·
+          "Copy item path"></button></h1><span class="out-of-band"><a class="src" href="../../src/cargo_auto_lib/public_api_mod.rs.html#4-576">source</a> ·
           <button id="toggle-all-docs" title="collapse all docs">[<span>−</span>]</button></span>
         </div>
         <details class="toggle top-doc" open="">
@@ -96,16 +96,14 @@
             It is dreaded if the first version of a function does not return a Result&lt;&gt;.<br>
             Then later we will surely come to the point, that we need to return a Result&lt;&gt;. This is a terrible breaking change.<br>
             It is wise to return a Result always. Even when that is not needed right now. It will surely be needed in the future.<br>
-            Another tactic is to make new functions with a different name and ornament the old functions as Obsolete.</p>
+            Another tactic is to make new functions with a different name and mark the old functions as Obsolete.</p>
             <p>This library is used by the automation_tasks_rs executable.<br>
             I want to have here the complete and exact definition of the public API.<br>
             Therefore I will not use reexports like <code>pub use</code> or <code>pub mod</code>.<br>
             This way I can always know easily if my public API has changed.<br>
-            Just compare the lib.rs file in git.<br>
+            Just compare the <code>public_api_mod.rs</code> file in git diff.<br>
             Adding functions, structs, methods and enums is ok, it does not break the Public API.<br>
-            But modifying existing functions, methods or enums will break the compatibility.<br>
-            AFTERTHOUGHT: This is a very time-consuming process to do manually.<br>
-            Should use a utility, but that app is complicated to create. It must understand the Rust code.</p>
+            But modifying existing functions, methods or enums will break the compatibility.</p>
           </div>
         </details>
         <h2 id="reexports" class="section-header"><a href="#reexports">Re-exports</a></h2>
@@ -178,7 +176,7 @@
               "trait cargo_auto_lib::public_api_mod::CargoTomlPublicApiMethods">CargoTomlPublicApiMethods</a>
             </div>
             <div class="desc docblock-short">
-              trait with methods to read data from Cargo.toml
+              Trait with methods to read data from Cargo.toml
             </div>
           </li>
         </ul>
@@ -240,7 +238,7 @@
               "fn cargo_auto_lib::public_api_mod::auto_md_to_doc_comments">auto_md_to_doc_comments</a>
             </div>
             <div class="desc docblock-short">
-              This function finds rs files with markers and include segments from md files as doc comments.
+              Finds rs files with markers and include segments from md files as doc comments
             </div>
           </li>
           <li>
@@ -256,7 +254,7 @@
               <a class="fn" href="fn.auto_plantuml_for_path.html" title="fn cargo_auto_lib::public_api_mod::auto_plantuml_for_path">auto_plantuml_for_path</a>
             </div>
             <div class="desc docblock-short">
-              process plantuml for all md files for test and examples I need to provide the path
+              Process plantuml for all md files
             </div>
           </li>
           <li>
@@ -274,7 +272,7 @@
               "fn cargo_auto_lib::public_api_mod::auto_semver_increment_minor">auto_semver_increment_minor</a>
             </div>
             <div class="desc docblock-short">
-              Increments the minor version in Cargo.toml file only if files are changed
+              Increment the minor version in Cargo.toml file only if files are changed
             </div>
           </li>
           <li>
@@ -283,7 +281,7 @@
               "fn cargo_auto_lib::public_api_mod::auto_semver_increment_minor_forced">auto_semver_increment_minor_forced</a>
             </div>
             <div class="desc docblock-short">
-              Increments the minor version in Cargo.toml file even if files are not changed
+              Increment the minor version in Cargo.toml file even if files are not changed
             </div>
           </li>
           <li>
@@ -292,7 +290,7 @@
               "fn cargo_auto_lib::public_api_mod::auto_semver_increment_patch">auto_semver_increment_patch</a>
             </div>
             <div class="desc docblock-short">
-              Increments the patch version in Cargo.toml file only if files are changed
+              Increment the patch version in Cargo.toml file only if files are changed
             </div>
           </li>
           <li>
@@ -301,7 +299,7 @@
               "fn cargo_auto_lib::public_api_mod::auto_semver_increment_patch_forced">auto_semver_increment_patch_forced</a>
             </div>
             <div class="desc docblock-short">
-              Increments the patch version in Cargo.toml file even if files are not changed
+              Increment the patch version in Cargo.toml file even if files are not changed
             </div>
           </li>
           <li>
@@ -327,7 +325,7 @@
               "fn cargo_auto_lib::public_api_mod::auto_version_increment_semver_or_date">auto_version_increment_semver_or_date</a>
             </div>
             <div class="desc docblock-short">
-              Increments the version in Cargo.toml
+              Increment the version in Cargo.toml
             </div>
           </li>
           <li>
@@ -336,7 +334,7 @@
               "fn cargo_auto_lib::public_api_mod::auto_version_increment_semver_or_date_forced">auto_version_increment_semver_or_date_forced</a>
             </div>
             <div class="desc docblock-short">
-              Increments the version in Cargo.toml
+              Increment the version in Cargo.toml
             </div>
           </li>
           <li>
@@ -363,7 +361,7 @@
               "fn cargo_auto_lib::public_api_mod::concatenate_vec_to_string">concatenate_vec_to_string</a>
             </div>
             <div class="desc docblock-short">
-              the original <code>concat()</code> function does not have a delimiter
+              The original <code>concat()</code> function does not have a delimiter
             </div>
           </li>
           <li>
@@ -424,7 +422,7 @@
               <a class="fn" href="fn.git_has_remote.html" title="fn cargo_auto_lib::public_api_mod::git_has_remote">git_has_remote</a>
             </div>
             <div class="desc docblock-short">
-              has git remote
+              Has git remote
             </div>
           </li>
           <li>
@@ -433,7 +431,7 @@
               "fn cargo_auto_lib::public_api_mod::git_is_local_repository">git_is_local_repository</a>
             </div>
             <div class="desc docblock-short">
-              check if this folder is a local Git repository
+              Check if this folder is a local Git repository
             </div>
           </li>
           <li>
@@ -465,10 +463,10 @@
           </li>
           <li>
             <div class="item-name">
-              <a class="fn" href="fn.hash_for_filename.html" title="fn cargo_auto_lib::public_api_mod::hash_for_filename">hash_for_filename</a>
+              <a class="fn" href="fn.hash_text.html" title="fn cargo_auto_lib::public_api_mod::hash_text">hash_text</a>
             </div>
             <div class="desc docblock-short">
-              hash for file
+              Hash text
             </div>
           </li>
           <li>

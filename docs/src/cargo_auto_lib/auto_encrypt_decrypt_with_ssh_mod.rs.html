@@ -265,7 +265,6 @@
 <a href="#215" id="215">215</a>
 <a href="#216" id="216">216</a>
 <a href="#217" id="217">217</a>
-<a href="#218" id="218">218</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// auto_encrypt_decrypt_with_ssh_mod.rs
@@ -274,11 +273,14 @@
 </span><span class="doccomment">//! How to save a GitHub TOKEN securely inside a file?
 //!
 //! GitHub TOKEN is used by GitHub API to gain access (authentication and authorization) to your GitHub.  
-//! AA TOKEN is a secret just like a password and it must be protected.  
+//! A TOKEN is a secret just like a password and it must be protected.  
 //! If the TOKEN is leaked, a mal-intentioned can gain access to everything, using the API.  
 //! Never store TOKENS in plain text anywhere!
 //!
 //! The TOKEN must be encrypted before storing it.  
+//!
+//! ## SSH keys
+//!
 //! We already use SSH keys to connect to GitHub. And we use ssh-agent for easy work with SSH identities.  
 //! I want to use the ssh key inside ssh-agent to encrypt the TOKEN and save it in a file.
 //!
@@ -332,26 +334,25 @@
 <span class="kw">use </span><span class="kw">crate</span>::YELLOW;
 
 <span class="comment">// region: new structs or newtype
+
+</span><span class="doccomment">/// A simple wrapper new-type around [u8] just to show intent that it is a secret
 </span><span class="kw">pub struct </span>SecretBytes&lt;<span class="lifetime">'a</span>&gt;(<span class="kw">pub </span><span class=
 "kw-2">&</span><span class="lifetime">'a </span><span class="kw-2">mut </span>[u8]);
 <span class="comment">// endregion: new structs or newtype
 
-</span><span class="doccomment">/// encrypt a token with the chosen ssh_identity and save as json encoded in Base64
+</span><span class="doccomment">/// Encrypt a token with the chosen ssh_identity and save as json encoded in Base64
 ///
-/// use ssh-add to put ssh identity into ssh-agent
-/// ```rust ignore
-/// cl::encrypt_with_ssh_interactive_save_json("~/.ssh/github_com_ssh_1", "output1.ssh");
-/// ```
+/// Use ssh-add to put ssh identity into ssh-agent.
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class=
 "kw">fn </span>encrypt_with_ssh_interactive_save_file(identity_file_path: <span class="kw-2">&</span>str, output_file_path: <span class="kw-2">&</span>str) {
-    <span class="comment">// internal function Generate a random password
+    <span class="doccomment">/// Internal function Generate a random password
     </span><span class="kw">fn </span>random_byte_password() -&gt; [u8; <span class="number">32</span>] {
         <span class="kw">let </span><span class="kw-2">mut </span>password = [<span class="number">0_u8</span>; <span class="number">32</span>];
         aes_gcm::aead::OsRng.fill_bytes(<span class="kw-2">&amp;mut </span>password);
         password
     }
 
-    <span class="comment">// internal function Encrypts token with secret_password_bytes
+    <span class="doccomment">/// Internal function Encrypts token with secret_password_bytes
     </span><span class="kw">fn </span>encrypt_symmetric(token_is_a_secret: <span class="kw-2">&</span>SecretString, secret_password_bytes: <span class=
 "kw-2">&</span>SecretBytes) -&gt; <span class="prelude-ty">Option</span>&lt;EncryptedString&gt; {
         <span class="kw">let </span>data = token_is_a_secret.<span class="number">0</span>.as_bytes();
@@ -376,7 +377,7 @@
     }
 
     <span class="kw">let </span>identity_file_path_expanded = <span class="kw">crate</span>::utils_mod::file_path_home_expand(identity_file_path);
-    <span class="kw">if </span>!<span class="kw">crate</span>::utils_mod::file_exists(<span class="kw-2">&</span>identity_file_path_expanded) {
+    <span class="kw">if </span>!camino::Utf8Path::new(<span class="kw-2">&</span>identity_file_path_expanded).exists() {
         <span class="macro">eprintln!</span>(<span class="string">"{RED}Error: File {identity_file_path_expanded} does not exist! Exiting...{RESET}"</span>);
         <span class="comment">// early exit
         </span><span class="kw">return</span>;
@@ -431,15 +432,12 @@
     <span class="macro">println!</span>(<span class="string">"    {YELLOW}Encrypted text saved in file for future use.{RESET}"</span>)
 }
 
-<span class="doccomment">/// decrypt from json file with ssh_identity
+<span class="doccomment">/// Decrypt from json file with ssh_identity
 ///
-/// use ssh-add to put ssh identity into ssh-agent
-/// ```rust ignore
-/// let output = cl::decrypt_with_ssh_from_json("output1.json").unwrap();
-/// ```
+/// Use ssh-add to put ssh identity into ssh-agent.
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>decrypt_with_ssh_from_file(json_file_path: <span class=
 "kw-2">&</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;SecretString&gt; {
-    <span class="comment">// internal function Decrypts data with a key and a fingerprint
+    <span class="doccomment">/// Internal function Decrypts data with a key and a fingerprint
     </span><span class="kw">fn </span>decrypt_symmetric(encrypted_text: <span class=
 "kw-2">&</span>EncryptedString, secret_password_bytes: SecretBytes) -&gt; <span class="prelude-ty">Option</span>&lt;SecretString&gt; {
         <span class="kw">let </span>encrypted_bytes = base64ct::Base64::decode_vec(<span class="kw-2">&</span>encrypted_text.<span class=
@@ -478,7 +476,7 @@
 "string">"encrypted"</span>).unwrap().as_str().unwrap();
 
     <span class="kw">let </span>identity_file_path_expanded = <span class="kw">crate</span>::utils_mod::file_path_home_expand(identity_file_path);
-    <span class="kw">if </span>!<span class="kw">crate</span>::utils_mod::file_exists(<span class="kw-2">&</span>identity_file_path_expanded) {
+    <span class="kw">if </span>!camino::Utf8Path::new(<span class="kw-2">&</span>identity_file_path_expanded).exists() {
         <span class="macro">eprintln!</span>(<span class="string">"{RED}Error: File {identity_file_path_expanded} does not exist! Exiting...{RESET}"</span>);
         <span class="comment">// early exit
         </span><span class="kw">return </span><span class="prelude-val">None</span>;

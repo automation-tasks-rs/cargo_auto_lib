@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="generator" content="rustdoc">
-  <meta name="description" content="list of possible errors from this library">
+  <meta name="description" content="Enum of possible errors from this library">
   <title>LibError in cargo_auto_lib::error_mod - Rust</title>
   <link rel="preload" as="font" type="font/woff2" crossorigin="" href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2">
   <link rel="preload" as="font" type="font/woff2" crossorigin="" href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2">
@@ -34,7 +34,7 @@
     <div class="sidebar-crate">
       <a class="logo-container" href="../../cargo_auto_lib/index.html"><img src=
       "https://github.com/automation-tasks-rs/cargo-auto/raw/main/images/logo/logo_cargo_auto.svg" alt="logo"></a>
-      <h2><a href="../../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">2.0.2</span></h2>
+      <h2><a href="../../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">2.0.4</span></h2>
     </div>
     <h2 class="location"><a href="#">LibError</a></h2>
     <div class="sidebar-elems">
@@ -182,7 +182,7 @@
             <span>Expand description</span>
           </summary>
           <div class="docblock">
-            <p>list of possible errors from this library</p>
+            <p>Enum of possible errors from this library</p>
           </div>
         </details>
         <h2 id="variants" class="variants section-header">Variants<a href="#variants" class="anchor">§</a></h2>
@@ -223,8 +223,8 @@
             </section>
             <div class="impl-items">
               <details class="toggle method-toggle" open="">
-                <section id="method.fmt-1" class="method trait-impl">
-                  <a class="src rightside" href="../../src/cargo_auto_lib/error_mod.rs.html#12">source</a><a href="#method.fmt-1" class="anchor">§</a>
+                <section id="method.fmt" class="method trait-impl">
+                  <a class="src rightside" href="../../src/cargo_auto_lib/error_mod.rs.html#12">source</a><a href="#method.fmt" class="anchor">§</a>
                   <h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.76.0/core/fmt/trait.Debug.html#tymethod.fmt" class="fn">fmt</a>(&amp;self, f:
                   &amp;mut <a class="struct" href="https://doc.rust-lang.org/1.76.0/core/fmt/struct.Formatter.html" title=
                   "struct core::fmt::Formatter">Formatter</a>&lt;'_&gt;) -&gt; <a class="type" href=
@@ -245,8 +245,8 @@
             </section>
             <div class="impl-items">
               <details class="toggle method-toggle" open="">
-                <section id="method.fmt" class="method trait-impl">
-                  <a class="src rightside" href="../../src/cargo_auto_lib/error_mod.rs.html#12">source</a><a href="#method.fmt" class="anchor">§</a>
+                <section id="method.fmt-1" class="method trait-impl">
+                  <a class="src rightside" href="../../src/cargo_auto_lib/error_mod.rs.html#12">source</a><a href="#method.fmt-1" class="anchor">§</a>
                   <h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.76.0/core/fmt/trait.Display.html#tymethod.fmt" class="fn">fmt</a>(&amp;self,
                   __formatter: &amp;mut <a class="struct" href="https://doc.rust-lang.org/1.76.0/core/fmt/struct.Formatter.html" title=
                   "struct core::fmt::Formatter">Formatter</a>&lt;'_&gt;) -&gt; <a class="type" href=
@@ -332,17 +332,17 @@
               <a class="src rightside" href="../../src/cargo_auto_lib/error_mod.rs.html#12">source</a><a href="#impl-From%3CError%3E-for-LibError" class=
               "anchor">§</a>
               <h3 class="code-header">impl <a class="trait" href="https://doc.rust-lang.org/1.76.0/core/convert/trait.From.html" title=
-              "trait core::convert::From">From</a>&lt;<a class="struct" href="https://docs.rs/serde_json/1.0.114/serde_json/error/struct.Error.html" title=
-              "struct serde_json::error::Error">Error</a>&gt; for <a class="enum" href="enum.LibError.html" title=
+              "trait core::convert::From">From</a>&lt;<a class="struct" href="https://doc.rust-lang.org/1.76.0/std/io/error/struct.Error.html" title=
+              "struct std::io::error::Error">Error</a>&gt; for <a class="enum" href="enum.LibError.html" title=
               "enum cargo_auto_lib::error_mod::LibError">LibError</a></h3>
             </section>
             <div class="impl-items">
               <details class="toggle method-toggle" open="">
-                <section id="method.from-1" class="method trait-impl">
-                  <a class="src rightside" href="../../src/cargo_auto_lib/error_mod.rs.html#12">source</a><a href="#method.from-1" class="anchor">§</a>
+                <section id="method.from-2" class="method trait-impl">
+                  <a class="src rightside" href="../../src/cargo_auto_lib/error_mod.rs.html#12">source</a><a href="#method.from-2" class="anchor">§</a>
                   <h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.76.0/core/convert/trait.From.html#tymethod.from" class="fn">from</a>(source:
-                  <a class="struct" href="https://docs.rs/serde_json/1.0.114/serde_json/error/struct.Error.html" title=
-                  "struct serde_json::error::Error">Error</a>) -&gt; Self</h4>
+                  <a class="struct" href="https://doc.rust-lang.org/1.76.0/std/io/error/struct.Error.html" title="struct std::io::error::Error">Error</a>)
+                  -&gt; Self</h4>
                 </section>
                 <div class='docblock'>
                   Converts to this type from the input type.
@@ -355,8 +355,8 @@
               <a class="src rightside" href="../../src/cargo_auto_lib/error_mod.rs.html#12">source</a><a href="#impl-From%3CError%3E-for-LibError-1" class=
               "anchor">§</a>
               <h3 class="code-header">impl <a class="trait" href="https://doc.rust-lang.org/1.76.0/core/convert/trait.From.html" title=
-              "trait core::convert::From">From</a>&lt;<a class="struct" href="https://doc.rust-lang.org/1.76.0/std/io/error/struct.Error.html" title=
-              "struct std::io::error::Error">Error</a>&gt; for <a class="enum" href="enum.LibError.html" title=
+              "trait core::convert::From">From</a>&lt;<a class="struct" href="https://docs.rs/serde_json/1.0.114/serde_json/error/struct.Error.html" title=
+              "struct serde_json::error::Error">Error</a>&gt; for <a class="enum" href="enum.LibError.html" title=
               "enum cargo_auto_lib::error_mod::LibError">LibError</a></h3>
             </section>
             <div class="impl-items">
@@ -364,8 +364,8 @@
                 <section id="method.from-3" class="method trait-impl">
                   <a class="src rightside" href="../../src/cargo_auto_lib/error_mod.rs.html#12">source</a><a href="#method.from-3" class="anchor">§</a>
                   <h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.76.0/core/convert/trait.From.html#tymethod.from" class="fn">from</a>(source:
-                  <a class="struct" href="https://doc.rust-lang.org/1.76.0/std/io/error/struct.Error.html" title="struct std::io::error::Error">Error</a>)
-                  -&gt; Self</h4>
+                  <a class="struct" href="https://docs.rs/serde_json/1.0.114/serde_json/error/struct.Error.html" title=
+                  "struct serde_json::error::Error">Error</a>) -&gt; Self</h4>
                 </section>
                 <div class='docblock'>
                   Converts to this type from the input type.
@@ -384,8 +384,8 @@
             </section>
             <div class="impl-items">
               <details class="toggle method-toggle" open="">
-                <section id="method.from" class="method trait-impl">
-                  <a class="src rightside" href="../../src/cargo_auto_lib/error_mod.rs.html#12">source</a><a href="#method.from" class="anchor">§</a>
+                <section id="method.from-1" class="method trait-impl">
+                  <a class="src rightside" href="../../src/cargo_auto_lib/error_mod.rs.html#12">source</a><a href="#method.from-1" class="anchor">§</a>
                   <h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.76.0/core/convert/trait.From.html#tymethod.from" class="fn">from</a>(source:
                   <a class="enum" href="https://doc.rust-lang.org/1.76.0/core/convert/enum.Infallible.html" title=
                   "enum core::convert::Infallible">Infallible</a>) -&gt; Self</h4>
@@ -407,8 +407,8 @@
             </section>
             <div class="impl-items">
               <details class="toggle method-toggle" open="">
-                <section id="method.from-2" class="method trait-impl">
-                  <a class="src rightside" href="../../src/cargo_auto_lib/error_mod.rs.html#12">source</a><a href="#method.from-2" class="anchor">§</a>
+                <section id="method.from" class="method trait-impl">
+                  <a class="src rightside" href="../../src/cargo_auto_lib/error_mod.rs.html#12">source</a><a href="#method.from" class="anchor">§</a>
                   <h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.76.0/core/convert/trait.From.html#tymethod.from" class="fn">from</a>(source:
                   <a class="struct" href="https://doc.rust-lang.org/1.76.0/core/num/error/struct.ParseIntError.html" title=
                   "struct core::num::error::ParseIntError">ParseIntError</a>) -&gt; Self</h4>

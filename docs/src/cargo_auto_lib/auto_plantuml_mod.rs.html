@@ -291,6 +291,10 @@
 <a href="#241" id="241">241</a>
 <a href="#242" id="242">242</a>
 <a href="#243" id="243">243</a>
+<a href="#244" id="244">244</a>
+<a href="#245" id="245">245</a>
+<a href="#246" id="246">246</a>
+<a href="#247" id="247">247</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// auto_plantuml_mod.rs
@@ -302,13 +306,15 @@
 <span class="kw">use </span>lazy_static::lazy_static;
 
 <span class="macro">lazy_static! </span>{
-    <span class="kw">static </span><span class="kw-2">ref </span>REGEX_PLANTUML_START: regex::Regex = regex::Regex::new(
+    <span class="doccomment">/// Regex for start marker
+    </span><span class="kw">static </span><span class="kw-2">ref </span>REGEX_PLANTUML_START: regex::Regex = regex::Regex::new(
         <span class="string">r#"(?m)^\[//\]: # \(auto_plantuml start\)$"#
     </span>).unwrap();
-    <span class="kw">static </span><span class="kw-2">ref </span>REGEX_PLANTUML_END: regex::Regex = regex::Regex::new(
+        <span class="doccomment">/// Regex for end marker
+    </span><span class="kw">static </span><span class="kw-2">ref </span>REGEX_PLANTUML_END: regex::Regex = regex::Regex::new(
         <span class="string">r#"(?m)^\[//\]: # \(auto_plantuml end\)$"#
     </span>).unwrap();
-    <span class="comment">// capture group
+    <span class="doccomment">/// Capture group for image link
     </span><span class="kw">static </span><span class="kw-2">ref </span>REGEX_IMG_LINK: regex::Regex = regex::Regex::new(
     <span class="string">r#"!\[.+\]\(.+/svg_(.+)\.svg\)"#
     </span>).unwrap();
@@ -320,7 +326,7 @@
 /// Search for markers in md files and process plantuml code.  
 ///
 /// ```markdown
-/// [comment]: # (auto_plantuml start)
+/// [//comment]: # (auto_plantuml start)
 ///
 /// '''plantuml
 ///     @startuml
@@ -330,10 +336,10 @@
 ///
 /// ![svg_534231](images/svg_534231.svg)  
 ///
-/// [comment]: # (auto_plantuml end)
+/// [//comment]: # (auto_plantuml end)
 /// ```
 ///
-/// In your markdown, change the word `[comment]` with double slash `[//]`. And single quotes with ticks.
+/// In this instructions I changed `[//]` to `[//comment]` and  ticks to single quotes to not process these markers.
 ///
 /// Between the last triple backtick and the end marker is the processed svg file.  
 /// Calculate a short hash from the plantuml code.  
@@ -355,8 +361,9 @@
     auto_plantuml_for_path(<span class="kw-2">&</span>path, repo_url);
 }
 
-<span class="doccomment">/// process plantuml for all md files
-/// for test and examples I need to provide the path
+<span class="doccomment">/// Process plantuml for all md files
+///
+/// For test and examples I need to provide the path.
 </span><span class="kw">pub fn </span>auto_plantuml_for_path(path: <span class="kw-2">&</span>std::path::Path, repo_url: <span class="kw-2">&</span>str) {
     <span class="kw">let </span>path = camino::Utf8Path::from_path(path).unwrap();
     <span class="macro">println!</span>(<span class="string">"    {YELLOW}Running auto_plantuml{RESET}"</span>);
@@ -391,7 +398,7 @@
 "kw-2">&</span>md_text_content, code_start, <span class="string">"\n```\n"</span>) {
                     <span class="kw">let </span>code_end_after = code_end + <span class="number">5</span>;
                     <span class="kw">let </span>plantuml_code = <span class="kw-2">&</span>md_text_content[code_start..code_end];
-                    <span class="kw">let </span>plantuml_code_hash = hash_for_filename(plantuml_code);
+                    <span class="kw">let </span>plantuml_code_hash = hash_text(plantuml_code);
                     <span class="kw">if let </span><span class="prelude-val">Some</span>(marker_end) = find_pos_end_data_before_delimiter(<span class=
 "kw-2">&</span>md_text_content, marker_start, <span class="string">"\n[//]: # (auto_plantuml end)\n"</span>) {
                         <span class="kw">let </span>img_link = md_text_content[code_end_after..marker_end].trim();
@@ -428,7 +435,7 @@
 "string">"    {YELLOW}{relative_md_filename} get new svg {plantuml_code_hash}{RESET}"</span>);
 
                             <span class="comment">// get the new svg image
-                            </span><span class="kw">let </span>svg_code = get_svg(plantuml_code);
+                            </span><span class="kw">let </span>svg_code = request_svg(plantuml_code);
                             <span class="kw">let </span>new_file_path = md_filename.parent().unwrap().join(<span class=
 "string">"images"</span>).join(<span class="macro">format!</span>(<span class="string">"svg_{}.svg"</span>, plantuml_code_hash));
                             std::fs::create_dir_all(new_file_path.parent().unwrap()).unwrap();
@@ -462,15 +469,16 @@
     <span class="macro">println!</span>(<span class="string">"    {YELLOW}Finished auto_plantuml{RESET}"</span>);
 }
 
-<span class="doccomment">/// hash for file
-</span><span class="kw">pub fn </span>hash_for_filename(text: <span class="kw-2">&</span>str) -&gt; String {
+<span class="doccomment">/// Hash text
+</span><span class="kw">pub fn </span>hash_text(text: <span class="kw-2">&</span>str) -&gt; String {
     <span class="kw">let </span>hash = &lt;sha2::Sha256 <span class="kw">as </span>sha2::Digest&gt;::digest(text.as_bytes());
     <span class="comment">// base64ct = {version = "1.5.0", features = ["alloc"] }
     // return base64_hash
     </span>&lt;base64ct::Base64UrlUnpadded <span class="kw">as </span>base64ct::Encoding&gt;::encode_string(<span class="kw-2">&</span>hash)
 }
 
-<span class="kw">pub fn </span>get_svg(plant_uml_code: <span class="kw-2">&</span>str) -&gt; String {
+<span class="doccomment">/// Request svg from plantuml server
+</span><span class="kw">pub fn </span>request_svg(plant_uml_code: <span class="kw-2">&</span>str) -&gt; String {
     <span class="kw">let </span>base_url = <span class="string">"https://plantuml.com/plantuml"</span>;
     <span class="kw">let </span>url_parameter = compress_plant_uml_code(plant_uml_code);
     <span class="kw">let </span>url = <span class="macro">format!</span>(<span class="string">"{}/svg/{}"</span>, base_url, url_parameter);
@@ -479,7 +487,7 @@
     </span>reqwest::blocking::get(url).unwrap().text_with_charset(<span class="string">"utf-8"</span>).unwrap()
 }
 
-<span class="doccomment">/// deflate and strange base64, that is Url_safe
+<span class="doccomment">/// Deflate and strange base64, that is Url_safe
 </span><span class="kw">pub fn </span>compress_plant_uml_code(plant_uml_code: <span class="kw-2">&</span>str) -&gt; String {
     <span class="comment">// first deflate
     </span><span class="kw">let </span>data = plant_uml_code.as_bytes();
@@ -540,7 +548,7 @@
 
     <span class="attr">#[test]
     </span><span class="kw">pub fn </span>test_hash() {
-        <span class="macro">assert_eq!</span>(<span class="string">"n4bQgYhMfWWaL-qgxVrQFaO_TxsrC4Is0V1sFbDwCgg"</span>, hash_for_filename(<span class=
+        <span class="macro">assert_eq!</span>(<span class="string">"n4bQgYhMfWWaL-qgxVrQFaO_TxsrC4Is0V1sFbDwCgg"</span>, hash_text(<span class=
 "string">"test"</span>));
     }
 

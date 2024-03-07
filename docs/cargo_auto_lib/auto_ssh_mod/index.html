@@ -34,7 +34,7 @@
     <div class="sidebar-crate">
       <a class="logo-container" href="../../cargo_auto_lib/index.html"><img src=
       "https://github.com/automation-tasks-rs/cargo-auto/raw/main/images/logo/logo_cargo_auto.svg" alt="logo"></a>
-      <h2><a href="../../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">2.0.2</span></h2>
+      <h2><a href="../../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">2.0.4</span></h2>
     </div>
     <h2 class="location"><a href="#">Module auto_ssh_mod</a></h2>
     <div class="sidebar-elems">
@@ -76,7 +76,7 @@
         <div class="main-heading">
           <h1>Module <a href="../index.html">cargo_auto_lib</a>::<wbr><a class="mod" href="#">auto_ssh_mod</a><button id="copy-path" title=
           "Copy item path to clipboard"><img src="../../static.files/clipboard-7571035ce49a181d.svg" width="19" height="18" alt=
-          "Copy item path"></button></h1><span class="out-of-band"><a class="src" href="../../src/cargo_auto_lib/auto_ssh_mod.rs.html#3-42">source</a> ·
+          "Copy item path"></button></h1><span class="out-of-band"><a class="src" href="../../src/cargo_auto_lib/auto_ssh_mod.rs.html#3-49">source</a> ·
           <button id="toggle-all-docs" title="collapse all docs">[<span>−</span>]</button></span>
         </div>
         <details class="toggle top-doc" open="">
@@ -93,10 +93,16 @@
             <div class="item-name">
               <a class="struct" href="struct.EncryptedString.html" title="struct cargo_auto_lib::auto_ssh_mod::EncryptedString">EncryptedString</a>
             </div>
+            <div class="desc docblock-short">
+              A simple wrapper new-type around String just to show intent that it is already encrypted
+            </div>
           </li>
           <li>
             <div class="item-name">
               <a class="struct" href="struct.SecretString.html" title="struct cargo_auto_lib::auto_ssh_mod::SecretString">SecretString</a>
+            </div>
+            <div class="desc docblock-short">
+              A simple wrapper new-type around String just to show intent that it is a secret
             </div>
           </li>
         </ul>
@@ -116,7 +122,7 @@
               "fn cargo_auto_lib::auto_ssh_mod::get_fingerprint_from_file">get_fingerprint_from_file</a><span title="Restricted Visibility">&nbsp;🔒</span>
             </div>
             <div class="desc docblock-short">
-              the parameter is the filepath of the private key But the code then uses the public key to calculate the fingerprint
+              Get the fingerprint of a public key
             </div>
           </li>
           <li>
@@ -126,7 +132,7 @@
               "Restricted Visibility">&nbsp;🔒</span>
             </div>
             <div class="desc docblock-short">
-              returns the public_key inside ssh-add or None
+              Returns the public_key inside ssh-add or None
             </div>
           </li>
         </ul>
@@ -136,11 +142,17 @@
             <div class="item-name">
               <a class="type" href="type.FingerprintString.html" title="type cargo_auto_lib::auto_ssh_mod::FingerprintString">FingerprintString</a>
             </div>
+            <div class="desc docblock-short">
+              A simple type-alias for String just to show intent that it is a fingerprint
+            </div>
           </li>
           <li>
             <div class="item-name">
               <a class="type" href="type.IdentityFilePathString.html" title=
               "type cargo_auto_lib::auto_ssh_mod::IdentityFilePathString">IdentityFilePathString</a>
+            </div>
+            <div class="desc docblock-short">
+              A simple type-alias for String just to show intent that it is a IdentityFilePath
             </div>
           </li>
         </ul>

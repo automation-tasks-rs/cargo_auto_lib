@@ -34,7 +34,7 @@
     <div class="sidebar-crate">
       <a class="logo-container" href="../../cargo_auto_lib/index.html"><img src=
       "https://github.com/automation-tasks-rs/cargo-auto/raw/main/images/logo/logo_cargo_auto.svg" alt="logo"></a>
-      <h2><a href="../../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">2.0.2</span></h2>
+      <h2><a href="../../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">2.0.4</span></h2>
     </div>
     <div class="sidebar-elems">
       <h2><a href="index.html">In cargo_auto_lib::auto_plantuml_mod</a></h2>
@@ -63,7 +63,7 @@
           <h1>Function <a href="../index.html">cargo_auto_lib</a>::<wbr><a href="index.html">auto_plantuml_mod</a>::<wbr><a class="fn" href=
           "#">auto_plantuml</a><button id="copy-path" title="Copy item path to clipboard"><img src="../../static.files/clipboard-7571035ce49a181d.svg" width=
           "19" height="18" alt="Copy item path"></button></h1><span class="out-of-band"><a class="src" href=
-          "../../src/cargo_auto_lib/auto_plantuml_mod.rs.html#58-61">source</a> · <button id="toggle-all-docs" title=
+          "../../src/cargo_auto_lib/auto_plantuml_mod.rs.html#60-63">source</a> · <button id="toggle-all-docs" title=
           "collapse all docs">[<span>−</span>]</button></span>
         </div>
         <pre class="rust item-decl"><code>pub fn auto_plantuml(repo_url: &<a class="primitive" href=
@@ -76,7 +76,7 @@
             <p>Includes the plantuml svg generated from the plantuml code.</p>
             <p>Search for markers in md files and process plantuml code.</p>
             <div class="example-wrap">
-              <pre class="language-markdown"><code>[comment]: # (auto_plantuml start)
+              <pre class="language-markdown"><code>[//comment]: # (auto_plantuml start)
 
 '''plantuml
     @startuml
@@ -86,10 +86,10 @@
 
 ![svg_534231](images/svg_534231.svg)  
 
-[comment]: # (auto_plantuml end)
+[//comment]: # (auto_plantuml end)
 </code></pre>
             </div>
-            <p>In your markdown, change the word <code>[comment]</code> with double slash <code>[//]</code>. And single quotes with ticks.</p>
+            <p>In this instructions I changed <code>[//]</code> to <code>[//comment]</code> and ticks to single quotes to not process these markers.</p>
             <p>Between the last triple backtick and the end marker is the processed svg file.<br>
             Calculate a short hash from the plantuml code.<br>
             If the name of the svg file contains this hash code it means, we already have the correct svg file.<br>

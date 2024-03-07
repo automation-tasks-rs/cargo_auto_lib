@@ -708,6 +708,10 @@
 <a href="#658" id="658">658</a>
 <a href="#659" id="659">659</a>
 <a href="#660" id="660">660</a>
+<a href="#661" id="661">661</a>
+<a href="#662" id="662">662</a>
+<a href="#663" id="663">663</a>
+<a href="#664" id="664">664</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// auto_github_mod
@@ -727,8 +731,9 @@
 
 <span class="comment">// endregion: bring traits in scope
 
+</span><span class="doccomment">/// File contains releases changelog
 </span><span class="kw">pub const </span>RELEASES_MD: <span class="kw-2">&</span>str = <span class="string">"RELEASES.md"</span>;
-<span class="comment">// file contains github token encrypted with github_com_ssh_1
+<span class="doccomment">/// File contains GitHub token encrypted with github_com_ssh_1
 </span><span class="kw">pub const </span>GITHUB_TOKEN_PATH: <span class="kw-2">&</span>str = <span class="string">"~/.ssh/github_com_data_1.ssh"</span>;
 
 <span class="doccomment">/// Create new release on Github
@@ -836,7 +841,7 @@
     <span class="comment">// endregion: async code made sync locally
 </span>}
 
-<span class="doccomment">/// creates a new github repository
+<span class="doccomment">/// Create a new github repository
 </span><span class="kw">pub fn </span>github_api_repository_new(owner: <span class="kw-2">&</span>str, name: <span class=
 "kw-2">&</span>str, description: <span class="kw-2">&</span>str) -&gt; serde_json::Value {
     <span class="comment">/*
@@ -964,7 +969,7 @@
     </span>}
 }
 
-<span class="doccomment">/// interactive ask to create a new remote GitHub repository
+<span class="doccomment">/// Interactive ask to create a new remote GitHub repository
 </span><span class="kw">pub fn </span>new_remote_github_repository() -&gt; <span class="prelude-ty">Option</span>&lt;String&gt; {
     <span class="comment">// ask interactive
     </span><span class="macro">println!</span>(<span class="string">"    {YELLOW}This project does not have a remote GitHub repository.{RESET}"</span>);
@@ -997,8 +1002,9 @@
     <span class="prelude-val">Some</span>(repo_html_url)
 }
 
-<span class="doccomment">/// decrypt the token from GITHUB_TOKEN_PATH file
-/// or ask user interactively to type it, then encrypt and save to file
+<span class="doccomment">/// Decrypt the token from GITHUB_TOKEN_PATH file
+///
+/// Or ask user interactively to type it, then encrypt and save to file.
 </span><span class="kw">fn </span>check_or_get_github_token() -&gt; <span class="prelude-ty">Option</span>&lt;SecretString&gt; {
     <span class="comment">// ssh_add_resolve(host_name: &amp;str, default_identity_file_path: &amp;str)
     </span><span class="kw">let </span>(_fingerprint, identity_file_path) = ssh_add_resolve(<span class="string">"github.com"</span>, <span class=
@@ -1031,7 +1037,7 @@
     </span>token
 }
 
-<span class="doccomment">/// interactive ask to create a new local git repository
+<span class="doccomment">/// Interactive ask to create a new local git repository
 </span><span class="kw">pub fn </span>new_local_repository(message: <span class="kw-2">&</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;()&gt; {
     <span class="comment">// ask interactive
     </span><span class="macro">println!</span>(<span class="string">"    {YELLOW}This project is not yet a Git repository.{RESET}"</span>);
@@ -1052,9 +1058,11 @@
     <span class="prelude-val">Some</span>(())
 }
 
-<span class="doccomment">/// identity_private_file_path contains the path of the private key like: `~/.ssh/github_com_ssh_1`
-/// check if this file is in ssh-add.
-/// if is not, then ask user to ssh-add and enter passcode.
+<span class="doccomment">/// Check if identity is already in ssh-agent and ask user if not
+///
+/// Identity_private_file_path contains the path of the private key like: `~/.ssh/github_com_ssh_1`.
+/// Check if this file is in ssh-add.
+/// If it is not, then ask user to ssh-add and enter passcode.
 </span><span class="kw">pub fn </span>ssh_add_if_needed(identity_private_file_path: <span class="kw-2">&</span>str) -&gt; <span class=
 "prelude-ty">Option</span>&lt;<span class="kw">crate</span>::auto_ssh_mod::FingerprintString&gt; {
     <span class="kw">let </span>fingerprint_from_file = <span class="kw">crate</span>::auto_ssh_mod::get_fingerprint_from_file(identity_private_file_path);
@@ -1197,7 +1205,7 @@
     </span><span class="prelude-val">Some</span>(body_md_text)
 }
 
-<span class="doccomment">/// create RELEASES.md if file not exist
+<span class="doccomment">/// Create RELEASES.md if file not exist
 </span><span class="kw">fn </span>create_releases_md_if_file_not_exist() {
     <span class="kw">if </span>!camino::Utf8Path::new(RELEASES_MD).exists() {
         <span class="comment">// create the template file
@@ -1295,7 +1303,7 @@ The TODO section is part of the [README.md](https://github.com/{github_owner}/{p
     }
 }
 
-<span class="doccomment">/// github api get repository
+<span class="doccomment">/// GitHub api get repository
 </span><span class="kw">fn </span>github_api_get_repository(owner: <span class="kw-2">&</span>str, repo_name: <span class=
 "kw-2">&</span>str) -&gt; serde_json::Value {
     <span class="comment">/*
@@ -1327,7 +1335,7 @@ The TODO section is part of the [README.md](https://github.com/{github_owner}/{p
     </span>parsed
 }
 
-<span class="doccomment">/// github api update description and topics
+<span class="doccomment">/// GitHub api update description
 </span><span class="kw">pub fn </span>github_api_update_description(owner: <span class="kw-2">&</span>str, repo_name: <span class=
 "kw-2">&</span>str, description: <span class="kw-2">&</span>str) {
     <span class="comment">/*

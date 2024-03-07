@@ -179,7 +179,7 @@
 <span class="kw">use </span>lazy_static::lazy_static;
 
 <span class="macro">lazy_static! </span>{
-    <span class="doccomment">/// capture the link in markdown style [name](link)
+    <span class="doccomment">/// Capture the link in markdown style [name](link)
     </span><span class="kw">static </span><span class="kw-2">ref </span>REGEX_MD_LINK: regex::Regex = regex::Regex::new(
     <span class="string">r#".+\[.+\]\((.+)\).+"#
     </span>).unwrap();

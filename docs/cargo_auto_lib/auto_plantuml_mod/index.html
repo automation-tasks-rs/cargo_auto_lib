@@ -34,7 +34,7 @@
     <div class="sidebar-crate">
       <a class="logo-container" href="../../cargo_auto_lib/index.html"><img src=
       "https://github.com/automation-tasks-rs/cargo-auto/raw/main/images/logo/logo_cargo_auto.svg" alt="logo"></a>
-      <h2><a href="../../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">2.0.2</span></h2>
+      <h2><a href="../../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">2.0.4</span></h2>
     </div>
     <h2 class="location"><a href="#">Module auto_plantuml_mod</a></h2>
     <div class="sidebar-elems">
@@ -73,7 +73,7 @@
         <div class="main-heading">
           <h1>Module <a href="../index.html">cargo_auto_lib</a>::<wbr><a class="mod" href="#">auto_plantuml_mod</a><button id="copy-path" title=
           "Copy item path to clipboard"><img src="../../static.files/clipboard-7571035ce49a181d.svg" width="19" height="18" alt=
-          "Copy item path"></button></h1><span class="out-of-band"><a class="src" href="../../src/cargo_auto_lib/auto_plantuml_mod.rs.html#3-243">source</a> ·
+          "Copy item path"></button></h1><span class="out-of-band"><a class="src" href="../../src/cargo_auto_lib/auto_plantuml_mod.rs.html#3-247">source</a> ·
           <button id="toggle-all-docs" title="collapse all docs">[<span>−</span>]</button></span>
         </div>
         <details class="toggle top-doc" open="">
@@ -91,17 +91,26 @@
               <a class="struct" href="struct.REGEX_IMG_LINK.html" title=
               "struct cargo_auto_lib::auto_plantuml_mod::REGEX_IMG_LINK">REGEX_IMG_LINK</a><span title="Restricted Visibility">&nbsp;🔒</span>
             </div>
+            <div class="desc docblock-short">
+              Capture group for image link
+            </div>
           </li>
           <li>
             <div class="item-name">
               <a class="struct" href="struct.REGEX_PLANTUML_END.html" title=
               "struct cargo_auto_lib::auto_plantuml_mod::REGEX_PLANTUML_END">REGEX_PLANTUML_END</a><span title="Restricted Visibility">&nbsp;🔒</span>
             </div>
+            <div class="desc docblock-short">
+              Regex for end marker
+            </div>
           </li>
           <li>
             <div class="item-name">
               <a class="struct" href="struct.REGEX_PLANTUML_START.html" title=
               "struct cargo_auto_lib::auto_plantuml_mod::REGEX_PLANTUML_START">REGEX_PLANTUML_START</a><span title="Restricted Visibility">&nbsp;🔒</span>
+            </div>
+            <div class="desc docblock-short">
+              Regex for start marker
             </div>
           </li>
         </ul>
@@ -121,7 +130,7 @@
               "fn cargo_auto_lib::auto_plantuml_mod::auto_plantuml_for_path">auto_plantuml_for_path</a>
             </div>
             <div class="desc docblock-short">
-              process plantuml for all md files for test and examples I need to provide the path
+              Process plantuml for all md files
             </div>
           </li>
           <li>
@@ -130,20 +139,23 @@
               "fn cargo_auto_lib::auto_plantuml_mod::compress_plant_uml_code">compress_plant_uml_code</a>
             </div>
             <div class="desc docblock-short">
-              deflate and strange base64, that is Url_safe
+              Deflate and strange base64, that is Url_safe
             </div>
           </li>
           <li>
             <div class="item-name">
-              <a class="fn" href="fn.get_svg.html" title="fn cargo_auto_lib::auto_plantuml_mod::get_svg">get_svg</a>
-            </div>
-          </li>
-          <li>
-            <div class="item-name">
-              <a class="fn" href="fn.hash_for_filename.html" title="fn cargo_auto_lib::auto_plantuml_mod::hash_for_filename">hash_for_filename</a>
+              <a class="fn" href="fn.hash_text.html" title="fn cargo_auto_lib::auto_plantuml_mod::hash_text">hash_text</a>
             </div>
             <div class="desc docblock-short">
-              hash for file
+              Hash text
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="fn" href="fn.request_svg.html" title="fn cargo_auto_lib::auto_plantuml_mod::request_svg">request_svg</a>
+            </div>
+            <div class="desc docblock-short">
+              Request svg from plantuml server
             </div>
           </li>
         </ul>

@@ -371,11 +371,14 @@
 <a href="#321" id="321">321</a>
 <a href="#322" id="322">322</a>
 <a href="#323" id="323">323</a>
+<a href="#324" id="324">324</a>
+<a href="#325" id="325">325</a>
+<a href="#326" id="326">326</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// auto_version_from_date_mod
 
-</span><span class="doccomment">//! new version as date is written to Cargo.toml and service_worker.js
+</span><span class="doccomment">//! The new version as date is written to Cargo.toml and service_worker.js
 
 </span><span class="comment">// region: use statements
 
@@ -390,19 +393,19 @@
 <span class="comment">// endregion: use statements
 
 // region: structs
-</span><span class="doccomment">/// file metadata
+</span><span class="doccomment">/// File metadata
 </span><span class="attr">#[derive(Serialize, Deserialize)]
 </span><span class="kw">pub struct </span>FileMetaData {
-    <span class="doccomment">/// filename with path from Cargo.toml folder
+    <span class="doccomment">/// Filename with path from Cargo.toml folder
     </span>filename: String,
-    <span class="doccomment">/// hash of file
+    <span class="doccomment">/// Hash of file content
     </span>filehash: String,
 }
 
-<span class="doccomment">/// the struct that represents the file .automation_tasks_rs_file_hashes.json
+<span class="doccomment">/// The struct that represents the file .automation_tasks_rs_file_hashes.json
 </span><span class="attr">#[derive(Serialize, Deserialize)]
 </span><span class="kw">pub struct </span>AutoVersionFromDate {
-    <span class="doccomment">/// vector of file metadata
+    <span class="doccomment">/// Vector of file metadata
     </span><span class="kw">pub </span>vec_file_metadata: Vec&lt;FileMetaData&gt;,
 }
 
@@ -436,6 +439,7 @@
 }
 
 <span class="doccomment">/// Just like auto_version_from_date(), but force the new version even if no files are changed.
+///
 /// It is slower, but easier to understand when deployed.
 </span><span class="kw">pub fn </span>auto_version_from_date_forced() {
     auto_version_from_date_internal(<span class="bool-val">true</span>).unwrap_or_else(|err| <span class="macro">panic!</span>(<span class=
@@ -446,6 +450,7 @@
 
 // region: private functions
 
+</span><span class="doccomment">/// Internal function to get version from date
 </span><span class="kw">fn </span>auto_version_from_date_internal(force_version: bool) -&gt; ResultWithLibError&lt;()&gt; {
     <span class="kw">let </span>date = Utc::now();
     <span class="kw">let </span>new_version = version_from_date(date);
@@ -465,7 +470,7 @@
     <span class="prelude-val">Ok</span>(())
 }
 
-<span class="doccomment">/// search for file service_worker.js and modify version
+<span class="doccomment">/// Search for file service_worker.js and modify version
 </span><span class="kw">fn </span>modify_service_js(new_version: <span class="kw-2">&</span>str) {
     <span class="kw">let </span>start_dir = camino::Utf8Path::new(<span class="string">"./"</span>);
     <span class="kw">for </span>js_filename <span class="kw">in </span><span class="kw-2">&</span><span class=
@@ -505,7 +510,7 @@
     }
 }
 
-<span class="doccomment">/// move vec_of_metadata
+<span class="doccomment">/// Write version to Cargo.toml
 </span><span class="kw">fn </span>write_version_to_cargo_and_modify_metadata(new_version: <span class="kw-2">&</span>str, <span class=
 "kw-2">mut </span>vec_of_metadata: Vec&lt;FileMetaData&gt;) -&gt; ResultWithLibError&lt;()&gt; {
     <span class="comment">// println!("{}write version to Cargo.toml{}", *GREEN, *RESET);
@@ -547,7 +552,7 @@
     <span class="prelude-val">Ok</span>(())
 }
 
-<span class="doccomment">/// the Cargo.toml is now different and needs to be changed in the vec of file metadata
+<span class="doccomment">/// Cargo.toml is now different and needs to be changed in the vec of file metadata
 </span><span class="kw">pub fn </span>correct_file_metadata_for_cargo_tom_inside_vec(vec_of_metadata: <span class=
 "kw-2">&amp;mut </span>[FileMetaData]) -&gt; ResultWithLibError&lt;()&gt; {
     <span class="comment">//correct the vector only for Cargo.toml file
@@ -560,8 +565,9 @@
     <span class="prelude-val">Ok</span>(())
 }
 
-<span class="doccomment">/// if files are added or deleted, other files must be also changed
-/// I need to check if the files on the filesystem are the same as in the json
+<span class="doccomment">/// If files are added or deleted, other files must be also changed
+///
+/// Check if the files on the filesystem are the same as in the json.
 </span><span class="kw">pub fn </span>are_files_equal(vec_of_metadata: <span class="kw-2">&</span>[FileMetaData], js_vec_of_metadata: <span class=
 "kw-2">&</span>[FileMetaData]) -&gt; bool {
     <span class="kw">let </span><span class="kw-2">mut </span>is_files_equal = <span class="bool-val">true</span>;
@@ -583,7 +589,7 @@
     is_files_equal
 }
 
-<span class="doccomment">/// make a vector of file metadata
+<span class="doccomment">/// Make a vector of file metadata
 </span><span class="kw">pub fn </span>read_file_metadata() -&gt; ResultWithLibError&lt;Vec&lt;FileMetaData&gt;&gt; {
     <span class="kw">let </span><span class="kw-2">mut </span>vec_of_metadata: Vec&lt;FileMetaData&gt; = Vec::new();
     <span class="kw">let </span>filename = <span class="string">"Cargo.toml"</span>.to_string();
@@ -609,7 +615,7 @@
     <span class="prelude-val">Ok</span>(vec_of_metadata)
 }
 
-<span class="doccomment">/// calculate the hash for a file
+<span class="doccomment">/// Calculate the hash for the content of a file
 </span><span class="kw">fn </span>sha256_digest(path: <span class="kw-2">&</span>std::path::Path) -&gt; ResultWithLibError&lt;String&gt; {
     <span class="kw">let </span>file = std::fs::File::open(path)<span class="question-mark">?</span>;
     <span class="kw">let </span><span class="kw-2">mut </span>reader = std::io::BufReader::new(file);
@@ -629,7 +635,7 @@
     </span><span class="prelude-val">Ok</span>(hash_string)
 }
 
-<span class="doccomment">/// read .automation_tasks_rs_file_hashes.json
+<span class="doccomment">/// Read .automation_tasks_rs_file_hashes.json
 </span><span class="kw">pub fn </span>read_json_file(json_filepath: <span class="kw-2">&</span>str) -&gt; ResultWithLibError&lt;AutoVersionFromDate&gt; {
     <span class="kw">let </span>js_struct: AutoVersionFromDate;
     <span class="kw">let </span>f = std::fs::read_to_string(json_filepath);
@@ -654,7 +660,7 @@
     <span class="prelude-val">Ok</span>(js_struct)
 }
 
-<span class="doccomment">/// save the new file metadata
+<span class="doccomment">/// Save the new file metadata
 </span><span class="kw">pub fn </span>save_json_file_for_file_meta_data(vec_of_metadata: Vec&lt;FileMetaData&gt;) {
     <span class="kw">let </span>x = AutoVersionFromDate { vec_file_metadata: vec_of_metadata };
     <span class="kw">let </span>y = serde_json::to_string_pretty(<span class="kw-2">&</span>x).unwrap();
@@ -662,7 +668,7 @@
     <span class="kw">let </span>_f = std::fs::write(json_filepath, y);
 }
 
-<span class="doccomment">/// converts a date to a version
+<span class="doccomment">/// Convert a date to a version
 </span><span class="kw">fn </span>version_from_date(date: DateTime&lt;Utc&gt;) -&gt; String {
     <span class="comment">// in Rust the version must not begin with zero.
     // There is an exceptional situation where is midnight 00.
@@ -675,7 +681,7 @@
     }
 }
 
-<span class="doccomment">/// in string find from position
+<span class="doccomment">/// Find from position in string
 </span><span class="kw">fn </span>find_from(rs_content: <span class="kw-2">&</span>str, from: usize, find: <span class="kw-2">&</span>str) -&gt; <span class=
 "prelude-ty">Option</span>&lt;usize&gt; {
     <span class="kw">let </span>slice01 = rs_content.get(from..).unwrap();

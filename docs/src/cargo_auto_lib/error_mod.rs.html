@@ -83,19 +83,21 @@
 <a href="#33" id="33">33</a>
 <a href="#34" id="34">34</a>
 <a href="#35" id="35">35</a>
+<a href="#36" id="36">36</a>
+<a href="#37" id="37">37</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// error_mod.rs
 
 </span><span class="doccomment">//! Error library for this crate using thiserror
 //!
-//! I am using the crate thiserror to create an enum for all library errors.
-//! It mostly forwards the source "from" error.
-//! The library never writes to the screen, because it contains only the logic.
-//! Is the bin project that knows if it is CLI, TUI or GUI and it presents the errors to the user and developer.
-//! Then in the bin project I use the crate anyhow.
+//! I am using the crate thiserror to create an enum for all library errors.  
+//! It mostly forwards the source "from" error.  
+//! The library never writes to the screen, because it contains only the logic.  
+//! Is the bin project that knows if it is CLI, TUI or GUI and it presents the errors to the user and developer.  
+//! Then in the bin project I use the crate anyhow.  
 
-/// list of possible errors from this library
+/// Enum of possible errors from this library
 </span><span class="attr">#[derive(thiserror::Error, Debug)]
 </span><span class="kw">pub enum </span>LibError {
     <span class="attr">#[error(<span class="string">"SerdeJsonError: {0}"</span>)]
@@ -118,7 +120,9 @@
     //UnknownError,
 </span>}
 
-<span class="doccomment">/// Result&lt;&gt; type with fixed LibError using thiserror
+<span class="doccomment">/// Result type with fixed LibError using thiserror
+///
+/// It makes simpler to write returns from functions.
 </span><span class="kw">pub type </span>ResultWithLibError&lt;T, E = LibError&gt; = core::result::Result&lt;T, E&gt;;
 </code></pre>
       </div>

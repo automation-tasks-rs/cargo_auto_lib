@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="generator" content="rustdoc">
-  <meta name="description" content="new version as date is written to Cargo.toml and service_worker.js">
+  <meta name="description" content="The new version as date is written to Cargo.toml and service_worker.js">
   <title>cargo_auto_lib::auto_version_from_date_mod - Rust</title>
   <link rel="preload" as="font" type="font/woff2" crossorigin="" href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2">
   <link rel="preload" as="font" type="font/woff2" crossorigin="" href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2">
@@ -34,7 +34,7 @@
     <div class="sidebar-crate">
       <a class="logo-container" href="../../cargo_auto_lib/index.html"><img src=
       "https://github.com/automation-tasks-rs/cargo-auto/raw/main/images/logo/logo_cargo_auto.svg" alt="logo"></a>
-      <h2><a href="../../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">2.0.2</span></h2>
+      <h2><a href="../../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">2.0.4</span></h2>
     </div>
     <h2 class="location"><a href="#">Module auto_version_from_date_mod</a></h2>
     <div class="sidebar-elems">
@@ -74,7 +74,7 @@
           <h1>Module <a href="../index.html">cargo_auto_lib</a>::<wbr><a class="mod" href="#">auto_version_from_date_mod</a><button id="copy-path" title=
           "Copy item path to clipboard"><img src="../../static.files/clipboard-7571035ce49a181d.svg" width="19" height="18" alt=
           "Copy item path"></button></h1><span class="out-of-band"><a class="src" href=
-          "../../src/cargo_auto_lib/auto_version_from_date_mod.rs.html#3-323">source</a> · <button id="toggle-all-docs" title=
+          "../../src/cargo_auto_lib/auto_version_from_date_mod.rs.html#3-326">source</a> · <button id="toggle-all-docs" title=
           "collapse all docs">[<span>−</span>]</button></span>
         </div>
         <details class="toggle top-doc" open="">
@@ -82,7 +82,7 @@
             <span>Expand description</span>
           </summary>
           <div class="docblock">
-            <p>new version as date is written to Cargo.toml and service_worker.js</p>
+            <p>The new version as date is written to Cargo.toml and service_worker.js</p>
           </div>
         </details>
         <h2 id="structs" class="section-header"><a href="#structs">Structs</a></h2>
@@ -93,7 +93,7 @@
               "struct cargo_auto_lib::auto_version_from_date_mod::AutoVersionFromDate">AutoVersionFromDate</a>
             </div>
             <div class="desc docblock-short">
-              the struct that represents the file .automation_tasks_rs_file_hashes.json
+              The struct that represents the file .automation_tasks_rs_file_hashes.json
             </div>
           </li>
           <li>
@@ -101,7 +101,7 @@
               <a class="struct" href="struct.FileMetaData.html" title="struct cargo_auto_lib::auto_version_from_date_mod::FileMetaData">FileMetaData</a>
             </div>
             <div class="desc docblock-short">
-              file metadata
+              File metadata
             </div>
           </li>
         </ul>
@@ -112,7 +112,7 @@
               <a class="fn" href="fn.are_files_equal.html" title="fn cargo_auto_lib::auto_version_from_date_mod::are_files_equal">are_files_equal</a>
             </div>
             <div class="desc docblock-short">
-              if files are added or deleted, other files must be also changed I need to check if the files on the filesystem are the same as in the json
+              If files are added or deleted, other files must be also changed
             </div>
           </li>
           <li>
@@ -130,7 +130,7 @@
               "fn cargo_auto_lib::auto_version_from_date_mod::auto_version_from_date_forced">auto_version_from_date_forced</a>
             </div>
             <div class="desc docblock-short">
-              Just like auto_version_from_date(), but force the new version even if no files are changed. It is slower, but easier to understand when deployed.
+              Just like auto_version_from_date(), but force the new version even if no files are changed.
             </div>
           </li>
           <li>
@@ -139,6 +139,9 @@
               "fn cargo_auto_lib::auto_version_from_date_mod::auto_version_from_date_internal">auto_version_from_date_internal</a><span title=
               "Restricted Visibility">&nbsp;🔒</span>
             </div>
+            <div class="desc docblock-short">
+              Internal function to get version from date
+            </div>
           </li>
           <li>
             <div class="item-name">
@@ -146,7 +149,7 @@
               "fn cargo_auto_lib::auto_version_from_date_mod::correct_file_metadata_for_cargo_tom_inside_vec">correct_file_metadata_for_cargo_tom_inside_vec</a>
             </div>
             <div class="desc docblock-short">
-              the Cargo.toml is now different and needs to be changed in the vec of file metadata
+              Cargo.toml is now different and needs to be changed in the vec of file metadata
             </div>
           </li>
           <li>
@@ -155,7 +158,7 @@
               "Restricted Visibility">&nbsp;🔒</span>
             </div>
             <div class="desc docblock-short">
-              in string find from position
+              Find from position in string
             </div>
           </li>
           <li>
@@ -164,7 +167,7 @@
               "fn cargo_auto_lib::auto_version_from_date_mod::modify_service_js">modify_service_js</a><span title="Restricted Visibility">&nbsp;🔒</span>
             </div>
             <div class="desc docblock-short">
-              search for file service_worker.js and modify version
+              Search for file service_worker.js and modify version
             </div>
           </li>
           <li>
@@ -172,7 +175,7 @@
               <a class="fn" href="fn.read_file_metadata.html" title="fn cargo_auto_lib::auto_version_from_date_mod::read_file_metadata">read_file_metadata</a>
             </div>
             <div class="desc docblock-short">
-              make a vector of file metadata
+              Make a vector of file metadata
             </div>
           </li>
           <li>
@@ -180,7 +183,7 @@
               <a class="fn" href="fn.read_json_file.html" title="fn cargo_auto_lib::auto_version_from_date_mod::read_json_file">read_json_file</a>
             </div>
             <div class="desc docblock-short">
-              read .automation_tasks_rs_file_hashes.json
+              Read .automation_tasks_rs_file_hashes.json
             </div>
           </li>
           <li>
@@ -189,7 +192,7 @@
               "fn cargo_auto_lib::auto_version_from_date_mod::save_json_file_for_file_meta_data">save_json_file_for_file_meta_data</a>
             </div>
             <div class="desc docblock-short">
-              save the new file metadata
+              Save the new file metadata
             </div>
           </li>
           <li>
@@ -198,7 +201,7 @@
               "Restricted Visibility">&nbsp;🔒</span>
             </div>
             <div class="desc docblock-short">
-              calculate the hash for a file
+              Calculate the hash for the content of a file
             </div>
           </li>
           <li>
@@ -207,7 +210,7 @@
               "fn cargo_auto_lib::auto_version_from_date_mod::version_from_date">version_from_date</a><span title="Restricted Visibility">&nbsp;🔒</span>
             </div>
             <div class="desc docblock-short">
-              converts a date to a version
+              Convert a date to a version
             </div>
           </li>
           <li>
@@ -216,7 +219,7 @@
               "fn cargo_auto_lib::auto_version_from_date_mod::write_version_to_cargo_and_modify_metadata">write_version_to_cargo_and_modify_metadata</a><span title="Restricted Visibility">&nbsp;🔒</span>
             </div>
             <div class="desc docblock-short">
-              move vec_of_metadata
+              Write version to Cargo.toml
             </div>
           </li>
         </ul>
