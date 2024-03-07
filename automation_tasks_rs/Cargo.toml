@@ -9,7 +9,7 @@ publish = false
 
 [dependencies]
 # the dependency to crates.io must be set for the GitHub action to succeed.
-cargo_auto_lib = "2.0.2"
+cargo_auto_lib = "2.0.4"
 # Using the development library locally, so I test the changes immediately.
 # cargo_auto_lib = {path = "/home/rustdevuser/rustprojects/cargo_auto_lib"}
 
