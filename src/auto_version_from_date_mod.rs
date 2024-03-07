@@ -12,9 +12,6 @@ use chrono::{Datelike, Utc};
 use serde_derive::{Deserialize, Serialize};
 use std::str::FromStr;
 
-// this trait must be in scope to use these methods of CargoToml
-use crate::public_api_mod::CargoTomlPublicApiMethods;
-
 // endregion: use statements
 
 // region: structs
@@ -44,7 +41,6 @@ pub struct AutoVersionFromDate {
 /// In Cargo.toml writes the version as the date `yyyy.mmdd.HHMM` ex. `2019.1221.2359`.  
 /// For non-library projects, the semver specification is not really useful.  
 /// Having the version as the date is just fine for executables and much more human readable.  
-/// The function must be executed in the root project folder of a single project or workspace where is the Cargo.toml.  
 ///
 /// ### service_worker.js
 ///
@@ -63,9 +59,7 @@ pub fn auto_version_from_date() {
     auto_version_from_date_internal(false).unwrap_or_else(|err| panic!("{RED}{err}{RESET}"));
 }
 
-/// Works for single projects and workspaces.  
 /// Just like auto_version_from_date(), but force the new version even if no files are changed.
-/// For workspaces `release` I want to have the same version in all members.  
 /// It is slower, but easier to understand when deployed.
 pub fn auto_version_from_date_forced() {
     auto_version_from_date_internal(true).unwrap_or_else(|err| panic!("{RED}{err}{RESET}"));
@@ -78,23 +72,6 @@ pub fn auto_version_from_date_forced() {
 fn auto_version_from_date_internal(force_version: bool) -> ResultWithLibError<()> {
     let date = Utc::now();
     let new_version = version_from_date(date);
-    let cargo_toml = crate::auto_cargo_toml_mod::CargoToml::read();
-    let members = cargo_toml.workspace_members();
-    match members {
-        None => do_one_project(&new_version, force_version)?,
-        Some(members) => {
-            for member in members.iter() {
-                std::env::set_current_dir(member).unwrap();
-                do_one_project(&new_version, force_version)?;
-                std::env::set_current_dir("..").unwrap();
-            }
-        }
-    }
-    modify_service_js(&new_version);
-    Ok(())
-}
-
-fn do_one_project(new_version: &str, force_version: bool) -> ResultWithLibError<()> {
     let vec_of_metadata = read_file_metadata()?;
     let is_files_equal = if force_version {
         false
@@ -104,8 +81,9 @@ fn do_one_project(new_version: &str, force_version: bool) -> ResultWithLibError<
     };
 
     if !is_files_equal {
-        write_version_to_cargo_and_modify_metadata(new_version, vec_of_metadata)?;
+        write_version_to_cargo_and_modify_metadata(&new_version, vec_of_metadata)?;
     }
+    modify_service_js(&new_version);
     Ok(())
 }
 

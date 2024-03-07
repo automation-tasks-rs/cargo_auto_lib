@@ -17,11 +17,11 @@ In the md file write these markers in invisible markdown comments.
 In your markdown, change the word `[comment]` with double slash `[//]`.
 
 `auto_cargo_toml_to_md` deletes the old lines between the markers and includes the Cargo.toml data:  
-description, repository, version, &utc_now(), authors and creates badges for keywords and categories.
+description, repository, version, utc_now, authors and creates badges for keywords and categories.
 
-The words topics, keywords and tags all mean the same concept.  
+The words topics, keywords, hashtags and tags all mean the same concept.  
 In cargo.toml we have keywords.  
-In README.md I want to have badges, but I don't know the color yet.  
+In README.md I want to have badges with different color. And hashtags for SEO.  
 In GitHub they are topics.
 
 Some keywords have defined colors, others are orange like Rust.  

@@ -471,11 +471,6 @@ The TODO section is part of the [README.md](https://github.com/{github_owner}/{p
     }
 }
 
-/// UTC  date in iso standard like 2024-12-31
-pub fn now_utc_date_iso() -> String {
-    chrono::Utc::now().format("%Y-%m-%d").to_string()
-}
-
 /// Add commit message to Unreleased in RELEASES.md
 pub fn add_message_to_unreleased(message: &str) {
     create_releases_md_if_file_not_exist();
@@ -486,7 +481,7 @@ pub fn add_message_to_unreleased(message: &str) {
     };
     // add before the first ## Version
     // I expect only one empty line before ## Version
-    let added_message_md = format!("{}- {}\n{}", &release_md[..pos_end_data - 1], message, &release_md[pos_end_data - 1..]);
+    let added_message_md = format!("{}- {}\n{}", &release_md[..pos_end_data], message, &release_md[pos_end_data..]);
     std::fs::write(RELEASES_MD, added_message_md).unwrap();
 }
 

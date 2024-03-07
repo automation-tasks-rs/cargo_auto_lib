@@ -5,8 +5,6 @@
 // region: use statements
 
 use crate::public_api_mod::{GREEN, RED, RESET, YELLOW};
-use chrono::Datelike;
-use chrono::Utc;
 use glob::glob;
 use lazy_static::lazy_static;
 use regex::*;
@@ -41,7 +39,7 @@ lazy_static! {
 /// In your markdown, change the word `[comment]` with double slash `[//]`.
 ///
 /// `auto_cargo_toml_to_md` deletes the old lines between the markers and includes the Cargo.toml data:  
-/// description, repository, version, &utc_now(), authors and creates badges for keywords and categories.
+/// description, repository, version, utc_now, authors and creates badges for keywords and categories.
 ///
 /// The words topics, keywords and tags all mean the same concept.  
 /// In cargo.toml we have keywords.  
@@ -63,25 +61,6 @@ lazy_static! {
 ///
 // endregion: auto_md_to_doc_comments include doc_comments/auto_cargo_toml_to_md.md A ///
 pub fn auto_cargo_toml_to_md() {
-    println!("    {YELLOW}Running auto_cargo_toml_to_md{RESET}");
-    let cargo_toml = crate::auto_cargo_toml_mod::CargoToml::read();
-    let members = cargo_toml.workspace_members();
-    match members {
-        None => do_one_project(),
-        Some(members) => {
-            // this will read cargo.toml from the first `main` member and inject into workspace README.md
-            do_one_project();
-            for member in members.iter() {
-                std::env::set_current_dir(member).unwrap();
-                do_one_project();
-                std::env::set_current_dir("..").unwrap();
-            }
-        }
-    }
-    println!("    {YELLOW}Finished auto_cargo_toml_to_md{RESET}");
-}
-
-fn do_one_project() {
     let cargo_toml = crate::auto_cargo_toml_mod::CargoToml::read();
     let version = cargo_toml.package_version();
     let author_name = cargo_toml.package_author_name();
@@ -89,11 +68,11 @@ fn do_one_project() {
     let repository = cargo_toml.package_repository().unwrap_or("".to_owned());
     let description = cargo_toml.package_description().unwrap_or("".to_owned());
     let keywords = cargo_toml.package_keywords().to_vec();
-    let utc_now = &utc_now();
+    let now_utc_date_iso = &crate::utils_mod::now_utc_date_iso();
 
     let mut new_text = format!("\n**{description}**  \n");
     new_text.push_str(&format!(
-        "***version: {version} date: {utc_now} author: [{author_name}]({homepage}) repository: [GitHub]({repository})***\n\n"
+        "***version: {version} date: {now_utc_date_iso} author: [{author_name}]({homepage}) repository: [GitHub]({repository})***\n\n"
     ));
 
     for keyword in keywords.iter() {
@@ -134,10 +113,4 @@ fn do_one_project() {
             }
         }
     }
-}
-
-/// utc now
-fn utc_now() -> String {
-    let now = Utc::now();
-    format!("{:04}-{:02}-{:02}", now.year(), now.month() as i32, now.day() as i32,)
 }

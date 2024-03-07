@@ -122,4 +122,7 @@ pub fn file_path_home_expand(file_path: &str) -> String {
     file_path.replace("~", camino::Utf8Path::from_path(&crate::home_dir()).unwrap().as_str())
 }
 
-// TODO: PathString object with often used functions: expand, exist, to_path,...
+/// UTC  date in iso standard like 2024-12-31
+pub fn now_utc_date_iso() -> String {
+    chrono::Utc::now().format("%Y-%m-%d").to_string()
+}

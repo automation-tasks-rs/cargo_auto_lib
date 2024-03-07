@@ -5,7 +5,6 @@ New version from date is written to Cargo.toml and service_worker.js
 In Cargo.toml writes the version as the date `yyyy.mmdd.HHMM` ex. `2019.1221.2359`.  
 For non-library projects, the semver specification is not really useful.  
 Having the version as the date is just fine for executables and much more human readable.  
-The function must be executed in the root project folder of a single project or workspace where is the Cargo.toml.  
 
 ### service_worker.js
 

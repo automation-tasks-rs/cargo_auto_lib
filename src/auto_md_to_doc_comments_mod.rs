@@ -6,8 +6,6 @@ use glob::glob;
 use lazy_static::lazy_static;
 use regex::Regex;
 
-// this trait must be in scope to use these methods of CargoToml
-use crate::public_api_mod::CargoTomlPublicApiMethods;
 use crate::public_api_mod::{RED, RESET, YELLOW};
 
 #[derive(Debug)]
@@ -68,23 +66,6 @@ struct MdSegment {
 ///
 // endregion: auto_md_to_doc_comments include doc_comments/auto_md_to_doc_comments.md A ///
 pub fn auto_md_to_doc_comments() {
-    println!("    {YELLOW}auto_md_to_doc_comments{RESET}");
-    // Cargo.toml contains the list of projects
-    let cargo_toml = crate::auto_cargo_toml_mod::CargoToml::read();
-    match cargo_toml.workspace_members() {
-        None => one_project(),
-        Some(members) => {
-            for member in members.iter() {
-                println!("    {YELLOW}{member}{RESET}");
-                std::env::set_current_dir(member).unwrap();
-                one_project();
-                std::env::set_current_dir("..").unwrap();
-            }
-        }
-    }
-}
-
-fn one_project() {
     let mut cache_md_segments = vec![];
     for rs_filename in rs_files().iter() {
         let mut rs_text_content = std::fs::read_to_string(rs_filename).unwrap();

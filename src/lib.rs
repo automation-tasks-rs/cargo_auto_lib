@@ -25,7 +25,7 @@
 //!
 //!  [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/automation-tasks-rs/cargo_auto_lib/blob/master/LICENSE)
 //!  [![Rust](https://github.com/automation-tasks-rs/cargo_auto_lib/workflows/rust_fmt_auto_build_test/badge.svg)](https://github.com/automation-tasks-rs/cargo_auto_lib/)
-//!  [![Newest docs](https://img.shields.io/badge/newest_docs-brown.svg)](https://automation-tasks-rs.github.io/cargo_auto_lib/cargo_auto_lib/index.html)
+//!  [![Newest docs](https://img.shields.io/badge/newest_docs-purple.svg)](https://automation-tasks-rs.github.io/cargo_auto_lib/cargo_auto_lib/index.html)
 //!  ![cargo_auto_lib](https://bestia.dev/webpage_hit_counter/get_svg_image/276360626.svg)
 //!
 //! [![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-2476-green.svg)](https://github.com/automation-tasks-rs/cargo_auto_lib/)
@@ -35,7 +35,7 @@
 //! [![Lines in tests](https://img.shields.io/badge/Lines_in_tests-79-orange.svg)](https://github.com/automation-tasks-rs/cargo_auto_lib/)
 //!
 //! Hashtags: #rustlang #buildtool #developmenttool  
-//! My projects on GitHub are more like a tutorial than a finished product: [bestia-dev tutorials](https://github.com/automation-tasks-rs/tutorials_rust_wasm).
+//! My projects on GitHub are more like a tutorial than a finished product: [bestia-dev tutorials](https://github.com/bestia-dev/tutorials_rust_wasm).
 //!
 //! ## Try it
 //!

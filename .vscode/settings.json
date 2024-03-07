@@ -25,6 +25,7 @@
         "ciphertext",
         "commitish",
         "cpufeatures",
+        "CRDE",
         "crev",
         "Datelike",
         "deps",

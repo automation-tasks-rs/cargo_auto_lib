@@ -150,7 +150,7 @@ pub fn traverse_dir_with_exclude_dir(dir: &std::path::Path, find_file: &str, exc
 /// In your markdown, change the word `[comment]` with double slash `[//]`.
 ///
 /// `auto_cargo_toml_to_md` deletes the old lines between the markers and includes the Cargo.toml data:  
-/// description, repository, version, &utc_now(), authors and creates badges for keywords and categories.
+/// description, repository, version, utc_now, authors and creates badges for keywords and categories.
 ///
 /// The words topics, keywords and tags all mean the same concept.  
 /// In cargo.toml we have keywords.  
@@ -477,7 +477,7 @@ pub fn body_text_from_releases_md(release_name: &str) -> Option<String> {
 
 /// UTC  date in iso standard like 2024-12-31
 pub fn now_utc_date_iso() -> String {
-    crate::auto_github_mod::now_utc_date_iso()
+    crate::utils_mod::now_utc_date_iso()
 }
 
 /// copy all files from the folder into a module as strings (static &str)
