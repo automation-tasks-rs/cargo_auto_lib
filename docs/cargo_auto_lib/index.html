@@ -87,7 +87,7 @@
         <div class="main-heading">
           <h1>Crate <a class="mod" href="#">cargo_auto_lib</a><button id="copy-path" title="Copy item path to clipboard"><img src=
           "../static.files/clipboard-7571035ce49a181d.svg" width="19" height="18" alt="Copy item path"></button></h1><span class="out-of-band"><a class="src"
-          href="../src/cargo_auto_lib/lib.rs.html#4-158">source</a> · <button id="toggle-all-docs" title="collapse all docs">[<span>−</span>]</button></span>
+          href="../src/cargo_auto_lib/lib.rs.html#4-163">source</a> · <button id="toggle-all-docs" title="collapse all docs">[<span>−</span>]</button></span>
         </div>
         <details class="toggle top-doc" open="">
           <summary class="hideme">
@@ -113,10 +113,10 @@
             "https://github.com/automation-tasks-rs/cargo_auto_lib/workflows/rust_fmt_auto_build_test/badge.svg" alt="Rust"></a> <a href=
             "https://automation-tasks-rs.github.io/cargo_auto_lib/cargo_auto_lib/index.html"><img src="https://img.shields.io/badge/newest_docs-purple.svg"
             alt="Newest docs"></a> <img src="https://bestia.dev/webpage_hit_counter/get_svg_image/276360626.svg" alt="cargo_auto_lib"></p>
-            <p><a href="https://github.com/automation-tasks-rs/cargo_auto_lib/"><img src="https://img.shields.io/badge/Lines_in_Rust-2358-green.svg" alt=
+            <p><a href="https://github.com/automation-tasks-rs/cargo_auto_lib/"><img src="https://img.shields.io/badge/Lines_in_Rust-2359-green.svg" alt=
             "Lines in Rust code"></a> <a href="https://github.com/automation-tasks-rs/cargo_auto_lib/"><img src=
-            "https://img.shields.io/badge/Lines_in_Doc_comments-917-blue.svg" alt="Lines in Doc comments"></a> <a href=
-            "https://github.com/automation-tasks-rs/cargo_auto_lib/"><img src="https://img.shields.io/badge/Lines_in_comments-371-purple.svg" alt=
+            "https://img.shields.io/badge/Lines_in_Doc_comments-932-blue.svg" alt="Lines in Doc comments"></a> <a href=
+            "https://github.com/automation-tasks-rs/cargo_auto_lib/"><img src="https://img.shields.io/badge/Lines_in_comments-375-purple.svg" alt=
             "Lines in Comments"></a> <a href="https://github.com/automation-tasks-rs/cargo_auto_lib/"><img src=
             "https://img.shields.io/badge/Lines_in_examples-28-yellow.svg" alt="Lines in examples"></a> <a href=
             "https://github.com/automation-tasks-rs/cargo_auto_lib/"><img src="https://img.shields.io/badge/Lines_in_tests-79-orange.svg" alt=
@@ -140,7 +140,7 @@ code hello_world/automation_tasks_rs
             </div>
             <p>Now we can analyze the automation code. There is already this dependency inside <code>Cargo.toml</code> for our library:</p>
             <div class="example-wrap">
-              <pre class="language-toml"><code>cargo_auto_lib="2.0.1"
+              <pre class="language-toml"><code>cargo_auto_lib="2.0.2"
 </code></pre>
             </div>
             <p>Review the code in <code>automation_tasks_rs/main.rs</code>. The <code>cl::</code> namespace is the alias for <code>cargo_auto_lib</code>.<br>
@@ -179,6 +179,9 @@ package_name = cargo_toml.package_name(),
             </div>
             <p>Now open the README.md and you will see the data that this automation task copied from other places. Therefore you change this data only in one
             place, the automation task copies them wherever needed.</p>
+            <h3 id="panic-and-unwrap"><a href="#panic-and-unwrap">Panic!() and unwrap()</a></h3>
+            <p>I want the tasks to exit immediately on any error. So I use unwrap() and panic!() a lot.<br>
+            On purpose. And because I wrote this before I learned Rust error handling.</p>
             <h3 id="development-details"><a href="#development-details">Development details</a></h3>
             <p>Read the development details in a separate md file:<br>
             <a href="https://github.com/automation-tasks-rs/cargo_auto_lib/blob/main/DEVELOPMENT.md">DEVELOPMENT.md</a></p>
@@ -665,7 +668,7 @@ package_name = cargo_toml.package_name(),
               "fn cargo_auto_lib::copy_folder_files_into_module">copy_folder_files_into_module</a>
             </div>
             <div class="desc docblock-short">
-              copy all files from the folder into a module as strings (static &amp;str)
+              Copy all files from the folder into a module as strings (static &amp;str)
             </div>
           </li>
           <li>

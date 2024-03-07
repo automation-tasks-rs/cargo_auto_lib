@@ -604,6 +604,22 @@
 <a href="#554" id="554">554</a>
 <a href="#555" id="555">555</a>
 <a href="#556" id="556">556</a>
+<a href="#557" id="557">557</a>
+<a href="#558" id="558">558</a>
+<a href="#559" id="559">559</a>
+<a href="#560" id="560">560</a>
+<a href="#561" id="561">561</a>
+<a href="#562" id="562">562</a>
+<a href="#563" id="563">563</a>
+<a href="#564" id="564">564</a>
+<a href="#565" id="565">565</a>
+<a href="#566" id="566">566</a>
+<a href="#567" id="567">567</a>
+<a href="#568" id="568">568</a>
+<a href="#569" id="569">569</a>
+<a href="#570" id="570">570</a>
+<a href="#571" id="571">571</a>
+<a href="#572" id="572">572</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// public_api_mod.rs
@@ -782,12 +798,6 @@
 /// - Yellow: work-in-progress
 /// - Green: maintained, ready-for-use
 /// - Red: obsolete, archived
-///
-/// Run the example:  
-///
-/// ```bash
-/// cargo run --example example_01_auto_cargo_toml_to_md
-/// ```
 ///
 </span><span class="comment">// endregion: auto_md_to_doc_comments include doc_comments/auto_cargo_toml_to_md.md A ///
 </span><span class="kw">pub fn </span>auto_cargo_toml_to_md() {
@@ -1102,13 +1112,35 @@
     <span class="kw">crate</span>::utils_mod::now_utc_date_iso()
 }
 
-<span class="doccomment">/// copy all files from the folder into a module as strings (static &amp;str)
+<span class="comment">// region: auto_md_to_doc_comments include doc_comments/copy_folder_files_into_module.md A ///
+</span><span class="doccomment">/// Copy all files from the folder into a module as strings (static &amp;str)
 ///
-/// the module has the markers: region: files copied into strings by automation tasks and endregion:
-/// the string will be in a vector with the file name
-/// first we create the complete text, then we check if the old text needs to be replaced
+/// The Rust code to modify has the markers:
+///
+/// ```Rust ignore
+/// //comment region: files copied into strings by automation tasks
+///
+/// //comment endregion: files copied into strings by automation tasks
+///
+/// ```
+///
+/// In this instructions I changed `[//]` to `[//comment]` to not process these markers.
+///
+/// First we create the complete text, then we check if the old text needs to be replaced.
+///
+/// Binary files need a special treatment:
+///
+/// ```Rust ignore
 /// ext_for_binary_files=vec![".ico",".jpg",".png",".woff2"];
+/// ```
+///
+/// Exclude big folders:
+///
+/// ```Rust ignore
 /// exclude_big_folders = vec!["/.git","/target","/docs"];
+/// ```
+///
+</span><span class="comment">// endregion: auto_md_to_doc_comments include doc_comments/copy_folder_files_into_module.md A ///
 </span><span class="kw">pub fn </span>copy_folder_files_into_module(folder_path: <span class="kw-2">&</span>std::path::Path, module_path: <span class=
 "kw-2">&</span>std::path::Path, ext_for_binary_files: <span class="kw-2">&</span>[<span class="kw-2">&</span>str], exclude_big_folders: <span class=
 "kw-2">&</span>[String]) {
@@ -1127,7 +1159,7 @@
 /// The function searches in all markdown files for markers like this:
 ///
 /// ```markdown
-/// [comment]: # (auto_playground start)
+/// [//comment]: # (auto_playground start)
 ///
 /// Run this code in the [Rust playground](https://play.rust-lang.org/?version=stable&amp;mode=debug&amp;edition=2021&amp;code=fn%20m%0A%7D):
 ///
@@ -1137,10 +1169,10 @@
 /// }
 /// '''
 ///
-/// [comment]: # (auto_playground end)
+/// [//comment]: # (auto_playground end)
 /// ```
 ///
-/// In this example I changed `[//]` to `[comment]` and  ticks to single quotes to avoid this function to process these markers.
+/// In this instructions I changed `[//]` to `[//comment]` and  ticks to single quotes to not process these markers.
 ///
 /// Between the start marker and the first triple backtick there is the link in "()" parentheses. The link to Rust playground encodes the code with url_encoding (percents) and sends it as an Url parameter.
 ///
@@ -1151,7 +1183,7 @@
 /// ```
 ///
 /// But it works only on docs.rs.  
-/// I want to run my code examples from evrywhere: from GitHub README.md, GitHub pages and crates.io.  
+/// I want to run my code examples from everywhere: from GitHub README.md, GitHub pages and crates.io.  
 ///
 </span><span class="comment">// endregion: auto_md_to_doc_comments include doc_comments/auto_playground_run_code.md A ///
 </span><span class="kw">pub fn </span>auto_playground_run_code() {

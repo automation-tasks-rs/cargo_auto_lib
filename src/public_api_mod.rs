@@ -166,12 +166,6 @@ pub fn traverse_dir_with_exclude_dir(dir: &std::path::Path, find_file: &str, exc
 /// - Green: maintained, ready-for-use
 /// - Red: obsolete, archived
 ///
-/// Run the example:  
-///
-/// ```bash
-/// cargo run --example example_01_auto_cargo_toml_to_md
-/// ```
-///
 // endregion: auto_md_to_doc_comments include doc_comments/auto_cargo_toml_to_md.md A ///
 pub fn auto_cargo_toml_to_md() {
     crate::auto_cargo_toml_to_md_mod::auto_cargo_toml_to_md()
@@ -480,13 +474,35 @@ pub fn now_utc_date_iso() -> String {
     crate::utils_mod::now_utc_date_iso()
 }
 
-/// copy all files from the folder into a module as strings (static &str)
+// region: auto_md_to_doc_comments include doc_comments/copy_folder_files_into_module.md A ///
+/// Copy all files from the folder into a module as strings (static &str)
 ///
-/// the module has the markers: region: files copied into strings by automation tasks and endregion:
-/// the string will be in a vector with the file name
-/// first we create the complete text, then we check if the old text needs to be replaced
+/// The Rust code to modify has the markers:
+///
+/// ```Rust ignore
+/// //comment region: files copied into strings by automation tasks
+///
+/// //comment endregion: files copied into strings by automation tasks
+///
+/// ```
+///
+/// In this instructions I changed `[//]` to `[//comment]` to not process these markers.
+///
+/// First we create the complete text, then we check if the old text needs to be replaced.
+///
+/// Binary files need a special treatment:
+///
+/// ```Rust ignore
 /// ext_for_binary_files=vec![".ico",".jpg",".png",".woff2"];
+/// ```
+///
+/// Exclude big folders:
+///
+/// ```Rust ignore
 /// exclude_big_folders = vec!["/.git","/target","/docs"];
+/// ```
+///
+// endregion: auto_md_to_doc_comments include doc_comments/copy_folder_files_into_module.md A ///
 pub fn copy_folder_files_into_module(folder_path: &std::path::Path, module_path: &std::path::Path, ext_for_binary_files: &[&str], exclude_big_folders: &[String]) {
     crate::auto_copy_files_to_strings_mod::copy_folder_files_into_module(folder_path, module_path, ext_for_binary_files, exclude_big_folders)
 }
@@ -502,7 +518,7 @@ pub fn add_message_to_unreleased(message: &str) {
 /// The function searches in all markdown files for markers like this:
 ///
 /// ```markdown
-/// [comment]: # (auto_playground start)
+/// [//comment]: # (auto_playground start)
 ///
 /// Run this code in the [Rust playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&code=fn%20m%0A%7D):
 ///
@@ -512,10 +528,10 @@ pub fn add_message_to_unreleased(message: &str) {
 /// }
 /// '''
 ///
-/// [comment]: # (auto_playground end)
+/// [//comment]: # (auto_playground end)
 /// ```
 ///
-/// In this example I changed `[//]` to `[comment]` and  ticks to single quotes to avoid this function to process these markers.
+/// In this instructions I changed `[//]` to `[//comment]` and  ticks to single quotes to not process these markers.
 ///
 /// Between the start marker and the first triple backtick there is the link in "()" parentheses. The link to Rust playground encodes the code with url_encoding (percents) and sends it as an Url parameter.
 ///
@@ -526,7 +542,7 @@ pub fn add_message_to_unreleased(message: &str) {
 /// ```
 ///
 /// But it works only on docs.rs.  
-/// I want to run my code examples from evrywhere: from GitHub README.md, GitHub pages and crates.io.  
+/// I want to run my code examples from everywhere: from GitHub README.md, GitHub pages and crates.io.  
 ///
 // endregion: auto_md_to_doc_comments include doc_comments/auto_playground_run_code.md A ///
 pub fn auto_playground_run_code() {

@@ -26,9 +26,9 @@
 //!  [![Newest docs](https://img.shields.io/badge/newest_docs-purple.svg)](https://automation-tasks-rs.github.io/cargo_auto_lib/cargo_auto_lib/index.html)
 //!  ![cargo_auto_lib](https://bestia.dev/webpage_hit_counter/get_svg_image/276360626.svg)
 //!
-//! [![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-2358-green.svg)](https://github.com/automation-tasks-rs/cargo_auto_lib/)
-//! [![Lines in Doc comments](https://img.shields.io/badge/Lines_in_Doc_comments-917-blue.svg)](https://github.com/automation-tasks-rs/cargo_auto_lib/)
-//! [![Lines in Comments](https://img.shields.io/badge/Lines_in_comments-371-purple.svg)](https://github.com/automation-tasks-rs/cargo_auto_lib/)
+//! [![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-2359-green.svg)](https://github.com/automation-tasks-rs/cargo_auto_lib/)
+//! [![Lines in Doc comments](https://img.shields.io/badge/Lines_in_Doc_comments-932-blue.svg)](https://github.com/automation-tasks-rs/cargo_auto_lib/)
+//! [![Lines in Comments](https://img.shields.io/badge/Lines_in_comments-375-purple.svg)](https://github.com/automation-tasks-rs/cargo_auto_lib/)
 //! [![Lines in examples](https://img.shields.io/badge/Lines_in_examples-28-yellow.svg)](https://github.com/automation-tasks-rs/cargo_auto_lib/)
 //! [![Lines in tests](https://img.shields.io/badge/Lines_in_tests-79-orange.svg)](https://github.com/automation-tasks-rs/cargo_auto_lib/)
 //!
@@ -53,7 +53,7 @@
 //! Now we can analyze the automation code. There is already this dependency inside `Cargo.toml` for our library:  
 //!
 //! ```toml
-//! cargo_auto_lib="2.0.1"
+//! cargo_auto_lib="2.0.2"
 //! ```
 //!
 //! Review the code in `automation_tasks_rs/main.rs`. The `cl::` namespace is the alias for `cargo_auto_lib`.  
@@ -94,6 +94,11 @@
 //! ```
 //!
 //! Now open the README.md and you will see the data that this automation task copied from other places. Therefore you change this data only in one place, the automation task copies them wherever needed.
+//!
+//! ## Panic!() and unwrap()
+//!
+//! I want the tasks to exit immediately on any error. So I use unwrap() and panic!() a lot.  
+//! On purpose. And because I wrote this before I learned Rust error handling.
 //!
 //! ## Development details
 //!

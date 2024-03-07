@@ -185,7 +185,7 @@
 
 <span class="doccomment">/// Read data from Cargo.toml
 </span><span class="kw">pub struct </span>CargoToml {
-    <span class="doccomment">/// the first Cargo.toml is maybe a workspace
+    <span class="doccomment">/// the first Cargo.toml is maybe a workspace. It has a different structure.
     </span>cargo_toml_workspace_maybe: cargo_toml::Manifest,
     <span class="doccomment">/// the main Cargo.toml is different for single project or for workspace
     /// for workspace is the first `main` member

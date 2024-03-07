@@ -55,12 +55,6 @@ lazy_static! {
 /// - Green: maintained, ready-for-use
 /// - Red: obsolete, archived
 ///
-/// Run the example:  
-///
-/// ```bash
-/// cargo run --example example_01_auto_cargo_toml_to_md
-/// ```
-///
 // endregion: auto_md_to_doc_comments include doc_comments/auto_cargo_toml_to_md.md A ///
 pub fn auto_cargo_toml_to_md() {
     let cargo_toml = crate::auto_cargo_toml_mod::CargoToml::read();

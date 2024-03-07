@@ -7,13 +7,35 @@ use base64ct::Encoding;
 
 use crate::public_api_mod::{RESET, YELLOW};
 
-/// copy all files from the folder into a module as strings (static &str)
+// region: auto_md_to_doc_comments include doc_comments/copy_folder_files_into_module.md A ///
+/// Copy all files from the folder into a module as strings (static &str)
 ///
-/// the module has the markers: region: files copied into strings by automation tasks and endregion:
-/// the string will be in a vector with the file name
-/// first we create the complete text, then we check if the old text needs to be replaced
-/// let ext_for_binary_files=vec![".ico",".jpg",".png",".woff2"];
-/// let exclude_big_folders = vec!["/.git".to_string(),"/target".to_string(),"/docs".to_string()];
+/// The Rust code to modify has the markers:
+///
+/// ```Rust ignore
+/// //comment region: files copied into strings by automation tasks
+///
+/// //comment endregion: files copied into strings by automation tasks
+///
+/// ```
+///
+/// In this instructions I changed `[//]` to `[//comment]` to not process these markers.
+///
+/// First we create the complete text, then we check if the old text needs to be replaced.
+///
+/// Binary files need a special treatment:
+///
+/// ```Rust ignore
+/// ext_for_binary_files=vec![".ico",".jpg",".png",".woff2"];
+/// ```
+///
+/// Exclude big folders:
+///
+/// ```Rust ignore
+/// exclude_big_folders = vec!["/.git","/target","/docs"];
+/// ```
+///
+// endregion: auto_md_to_doc_comments include doc_comments/copy_folder_files_into_module.md A ///
 pub fn copy_folder_files_into_module(folder_path: &std::path::Path, module_path: &std::path::Path, ext_for_binary_files: &[&str], exclude_big_folders: &[String]) {
     let folder_path = camino::Utf8Path::from_path(folder_path).unwrap();
     let module_path = camino::Utf8Path::from_path(module_path).unwrap();

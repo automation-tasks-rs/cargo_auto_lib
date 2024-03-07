@@ -33,10 +33,4 @@ This can be expanded in the future.
 - Green: maintained, ready-for-use
 - Red: obsolete, archived
 
-Run the example:  
-
-```bash
-cargo run --example example_01_auto_cargo_toml_to_md
-```
-
 [//]: # (auto_md_to_doc_comments segment end A)

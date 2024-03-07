@@ -1237,7 +1237,7 @@ The TODO section is part of the [README.md](https://github.com/{github_owner}/{p
     };
     <span class="comment">// add before the first ## Version
     // I expect only one empty line before ## Version
-    </span><span class="kw">let </span>added_message_md = <span class="macro">format!</span>(<span class="string">"{}- {}\n{}"</span>, <span class=
+    </span><span class="kw">let </span>added_message_md = <span class="macro">format!</span>(<span class="string">"{}- {}\n\n{}"</span>, <span class=
 "kw-2">&</span>release_md[..pos_end_data], message, <span class="kw-2">&</span>release_md[pos_end_data..]);
     std::fs::write(RELEASES_MD, added_message_md).unwrap();
 }

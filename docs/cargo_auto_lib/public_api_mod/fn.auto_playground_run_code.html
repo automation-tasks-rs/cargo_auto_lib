@@ -63,7 +63,7 @@
           <h1>Function <a href="../index.html">cargo_auto_lib</a>::<wbr><a href="index.html">public_api_mod</a>::<wbr><a class="fn" href=
           "#">auto_playground_run_code</a><button id="copy-path" title="Copy item path to clipboard"><img src=
           "../../static.files/clipboard-7571035ce49a181d.svg" width="19" height="18" alt="Copy item path"></button></h1><span class="out-of-band"><a class=
-          "src" href="../../src/cargo_auto_lib/public_api_mod.rs.html#532-534">source</a> · <button id="toggle-all-docs" title=
+          "src" href="../../src/cargo_auto_lib/public_api_mod.rs.html#548-550">source</a> · <button id="toggle-all-docs" title=
           "collapse all docs">[<span>−</span>]</button></span>
         </div>
         <pre class="rust item-decl"><code>pub fn auto_playground_run_code()</code></pre>
@@ -75,7 +75,7 @@
             <p>Include the link to run code in Rust playground</p>
             <p>The function searches in all markdown files for markers like this:</p>
             <div class="example-wrap">
-              <pre class="language-markdown"><code>[comment]: # (auto_playground start)
+              <pre class="language-markdown"><code>[//comment]: # (auto_playground start)
 
 Run this code in the [Rust playground](https://play.rust-lang.org/?version=stable&amp;mode=debug&amp;edition=2021&amp;code=fn%20m%0A%7D):
 
@@ -85,11 +85,10 @@ fn main(){
 }
 '''
 
-[comment]: # (auto_playground end)
+[//comment]: # (auto_playground end)
 </code></pre>
             </div>
-            <p>In this example I changed <code>[//]</code> to <code>[comment]</code> and ticks to single quotes to avoid this function to process these
-            markers.</p>
+            <p>In this instructions I changed <code>[//]</code> to <code>[//comment]</code> and ticks to single quotes to not process these markers.</p>
             <p>Between the start marker and the first triple backtick there is the link in “()” parentheses. The link to Rust playground encodes the code with
             url_encoding (percents) and sends it as an Url parameter.</p>
             <p>Info: docs.rs has already a functionality that shows the <code>Run</code> button on your code and can run code the playground if you put this
@@ -99,7 +98,7 @@ fn main(){
 </code></pre>
             </div>
             <p>But it works only on docs.rs.<br>
-            I want to run my code examples from evrywhere: from GitHub README.md, GitHub pages and crates.io.</p>
+            I want to run my code examples from everywhere: from GitHub README.md, GitHub pages and crates.io.</p>
           </div>
         </details>
       </section>

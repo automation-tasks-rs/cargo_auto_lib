@@ -19,7 +19,7 @@ lazy_static! {
 /// The function searches in all markdown files for markers like this:
 ///
 /// ```markdown
-/// [comment]: # (auto_playground start)
+/// [//comment]: # (auto_playground start)
 ///
 /// Run this code in the [Rust playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&code=fn%20m%0A%7D):
 ///
@@ -29,10 +29,10 @@ lazy_static! {
 /// }
 /// '''
 ///
-/// [comment]: # (auto_playground end)
+/// [//comment]: # (auto_playground end)
 /// ```
 ///
-/// In this example I changed `[//]` to `[comment]` and  ticks to single quotes to avoid this function to process these markers.
+/// In this instructions I changed `[//]` to `[//comment]` and  ticks to single quotes to not process these markers.
 ///
 /// Between the start marker and the first triple backtick there is the link in "()" parentheses. The link to Rust playground encodes the code with url_encoding (percents) and sends it as an Url parameter.
 ///
@@ -43,7 +43,7 @@ lazy_static! {
 /// ```
 ///
 /// But it works only on docs.rs.  
-/// I want to run my code examples from evrywhere: from GitHub README.md, GitHub pages and crates.io.  
+/// I want to run my code examples from everywhere: from GitHub README.md, GitHub pages and crates.io.  
 ///
 // endregion: auto_md_to_doc_comments include doc_comments/auto_playground_run_code.md A ///
 pub fn auto_playground_run_code() {
