@@ -2,6 +2,8 @@
 
 This function inserts shield badges with lines_of_code into README.rs.  
 
+![auto_lines_of_code.png](https://github.com/automation-tasks-rs/cargo_auto_lib/blob/main/images/auto_lines_of_code.png?raw=true)
+
 The parameter Link will be used for shield badge. If empty_string, the git remote repository will be used.  
 Lines of code are not a "perfect" measurement of anything.  
 Anybody can write a very big number of lines of useless code and comments.  

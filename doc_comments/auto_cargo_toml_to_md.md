@@ -2,6 +2,8 @@
 
 This function includes data from Cargo.toml to markdown files.  
 
+![auto_cargo_toml_to_md.png](https://github.com/automation-tasks-rs/cargo_auto_lib/blob/main/images/auto_cargo_toml_to_md.png?raw=true)
+
 This is nice for avoiding out of sync data.  
 Run it on every build with `automation_tasks_rs` and [cargo auto](https://crates.io/crates/cargo-auto).  
   
