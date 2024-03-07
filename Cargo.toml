@@ -8,8 +8,8 @@ description = "Automation tasks coded in Rust language for the workflow of Rust 
 repository = "https://github.com/automation-tasks-rs/cargo_auto_lib"
 readme = "README.md"
 license = "MIT"
-# Keyword must be only one word: lowercase letters, hyphens(-) or numbers, less then 35 characters.
-keywords = ["maintained","ready-for-use", "rustlang","cargo-auto","automation","workflow"]
+# Keyword must be only one word: lowercase letters, hyphens(-) or numbers, less then 35 characters, at most 5 keywords per crate
+keywords = ["maintained","ready-for-use", "rustlang","automation","workflow"]
 categories = ["development-tools::build-utils"]
 # publish as a cargo tool. Only this files.
 publish = true
