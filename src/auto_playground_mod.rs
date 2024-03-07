@@ -7,7 +7,7 @@ use crate::utils_mod::*;
 use lazy_static::lazy_static;
 
 lazy_static! {
-    /// capture the link in markdown style [name](link)
+    /// Capture the link in markdown style [name](link)
     static ref REGEX_MD_LINK: regex::Regex = regex::Regex::new(
     r#".+\[.+\]\((.+)\).+"#
     ).unwrap();

@@ -1,6 +1,6 @@
 [//]: # (auto_md_to_doc_comments segment start A)
 
-This function finds rs files with markers and include segments from md files as doc comments.  
+Finds rs files with markers and include segments from md files as doc comments  
 
 ![auto_md_to_doc_comments.png](https://github.com/automation-tasks-rs/cargo_auto_lib/blob/main/images/auto_md_to_doc_comments.png?raw=true)
 
@@ -19,19 +19,19 @@ It works only for files with LF line delimiter. No CR and no CRLF.
 In the rs file write these markers:  
 
 ```code
-comment region: auto_md_to_doc_comments include README.md A ///
-comment endregion: auto_md_to_doc_comments include README.md A ///
+//comment region: auto_md_to_doc_comments include README.md A ///
+//comment endregion: auto_md_to_doc_comments include README.md A ///
 ```
 
 In your rust code, change the word `comment` with double slash `//`.  
 In the md file put markers to mark the segment:  
 
 ```markdown
-[comment]: # (auto_md_to_doc_comments segment start A)  
-[comment]: # (auto_md_to_doc_comments segment end A)  
+[//comment]: # (auto_md_to_doc_comments segment start A)  
+[//comment]: # (auto_md_to_doc_comments segment end A)  
 ```
 
-In your markdown, change the word `[comment]` with double slash `[//]`.
+In this instructions I changed `[//]` to `[//comment]` to not process these markers.
 
 The marker must be exclusively in one line. No other text in the same line.  
 auto_md_to_doc_comments will delete the old lines between the markers.  

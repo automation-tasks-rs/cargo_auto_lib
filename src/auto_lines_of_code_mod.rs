@@ -1,9 +1,8 @@
 // auto_lines_of_code_mod
 
-//! inserts shield badges with lines_of_code into README.rs
+//! Insert shield badges with lines_of_code into README.rs
 
 use crate::public_api_mod::{RED, RESET, YELLOW};
-use regex::Regex;
 use std::fs::File;
 use std::io::{BufRead, BufReader};
 
@@ -65,12 +64,12 @@ pub struct LinesOfCode {
 /// If the README.md file contains these markers (don't copy the numbers 1 and 2):  
 ///
 /// ```md
-/// [comment]: # (auto_lines_of_code start)
+/// [//comment]: # (auto_lines_of_code start)
 ///
-/// [comment]: # (auto_lines_of_code end)
+/// [//comment]: # (auto_lines_of_code end)
 /// ```
 ///
-/// In your markdown, change the word `[comment]` with double slash `[//]`.  
+/// In this instructions I changed `[//]` to `[//comment]` to not process these markers.
 ///
 /// The function will include the shield badges code between them.  
 /// It will erase the previous content.  
@@ -79,7 +78,7 @@ pub struct LinesOfCode {
 // endregion: auto_md_to_doc_comments include doc_comments/auto_lines_of_code.md A ///
 pub fn auto_lines_of_code(link: &str) {
     println!("    {YELLOW}Running auto_lines_of_code{RESET}");
-    let link = if link.is_empty() { process_git_remote() } else { link.to_string() };
+    let link = if link.is_empty() { crate::auto_git_mod::process_git_remote() } else { link.to_string() };
     // Cargo.toml contains the list of projects
     let lines_of_code = count_lines_of_code();
     let text_to_include = to_string_as_shield_badges(&lines_of_code, &link);
@@ -87,29 +86,9 @@ pub fn auto_lines_of_code(link: &str) {
     println!("    {YELLOW}Finished auto_lines_of_code{RESET}");
 }
 
-/// Return the string for link for badges like: <https://github.com/automation-tasks-rs/auto_lines_of_code/>.  
+/// Returns the counted lines of code
 ///
-/// Get the output string after $ git remote -v.  
-/// Then finds out the link to the repository with regex.  
-/// Returns empty string if something goes wrong: no git, no remote,...  
-fn process_git_remote() -> String {
-    let output = match git_remote_output() {
-        Ok(s) => s,
-        Err(e) => {
-            eprintln!("{RED}{e}{RESET}");
-            return "".to_string();
-        }
-    };
-    match regex_capture(output) {
-        Ok(s) => s,
-        Err(_e) => {
-            // eprintln!("{RED}process_git_remote error: {}{RESET}", e);
-            "".to_string()
-        }
-    }
-}
-
-/// private function. Use public count_code_lines().
+/// Does not write to README.md.
 pub fn count_lines_of_code() -> LinesOfCode {
     let mut lines_of_code = LinesOfCode::default();
 
@@ -188,31 +167,6 @@ pub fn count_lines_of_code() -> LinesOfCode {
     lines_of_code
 }
 
-fn git_remote_output() -> anyhow::Result<String> {
-    let output = std::process::Command::new("git").arg("remote").arg("-v").output()?;
-
-    let output = String::from_utf8(output.stdout)?;
-    // return
-    Ok(output)
-}
-
-/// returns a Result.
-/// in the case of error the calling fn will return empty string.
-fn regex_capture(output: String) -> anyhow::Result<String> {
-    // on GitHub actions they don't use ssh, but https, I need to check that also
-    // I test my regex on https://regex101.com/
-    // regex capture 3 groups: website, user_name and repo_name
-    // "origin  git@github.com:automation-tasks-rs/auto_lines_of_code.git (fetch)"
-    // origin    https://github.com/automation-tasks-rs/auto_lines_of_code (fetch)
-    // println!("{}", &output);
-    let reg = Regex::new(r#"origin\s*(?:https://)?(?:git@)?([^:/]*?)[:/]([^/]*?)/([^. ]*?)(?:\.git)?\s*\(fetch\)"#)?;
-    let cap = reg.captures(&output).ok_or(anyhow::anyhow!("Error: reg.captures is None"))?;
-
-    // indexing can panic, but I would like it to Error
-    anyhow::ensure!(cap.len() == 4, "Error: cap len is not 4, because there are 4 capture groups in regex.");
-    Ok(format!("https://{}/{}/{}/", &cap[1], &cap[2], &cap[3]))
-}
-
 /// Returns a string with the markdown code for 4 shield badges.
 ///
 /// Every badge has the link to the url given as first parameter
@@ -238,8 +192,7 @@ fn to_string_as_shield_badges(v: &LinesOfCode, link: &str) -> String {
     format!("{}\n{}\n{}\n{}\n{}\n", src_code_lines, src_doc_comment_lines, src_comment_lines, example_lines, tests_lines)
 }
 
-/// Includes (writes, modifies) the shield badge code into README.md file.
-/// include_into_readme_md("test test test");
+/// Includes (writes, modifies) the shield badge code into README.md file
 fn include_into_readme_md(include_str: &str) {
     let start_delimiter = "[//]: # (auto_lines_of_code start)";
     let end_delimiter = "[//]: # (auto_lines_of_code end)";

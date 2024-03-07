@@ -4,7 +4,7 @@
 
 // region: delimiters cannot be INACTIVE like markers
 
-/// return the position of start of the delimited data after the delimiter
+/// Position of start of the delimited data after the delimiter
 pub fn find_pos_start_data_after_delimiter(md_text_content: &str, pos: usize, delimiter: &str) -> Option<usize> {
     if let Some(pos_start_data) = find_from(md_text_content, pos, delimiter) {
         let pos_start_data = pos_start_data + delimiter.len();
@@ -14,7 +14,7 @@ pub fn find_pos_start_data_after_delimiter(md_text_content: &str, pos: usize, de
     None
 }
 
-/// return the position of end of the delimited data before the delimiter
+/// Position of end of the delimited data before the delimiter
 pub fn find_pos_end_data_before_delimiter(md_text_content: &str, pos: usize, delimiter: &str) -> Option<usize> {
     if let Some(pos_end_data) = find_from(md_text_content, pos, delimiter) {
         return Some(pos_end_data);
@@ -25,7 +25,7 @@ pub fn find_pos_end_data_before_delimiter(md_text_content: &str, pos: usize, del
 
 // endregion: delimiters cannot be INACTIVE like markers
 
-/// find from_pos
+/// Find from pos
 pub fn find_from(text: &str, from_pos: usize, find: &str) -> Option<usize> {
     let slice01 = text.get(from_pos..).unwrap();
     let option_location = slice01.find(find);
@@ -93,7 +93,7 @@ pub fn traverse_dir_with_exclude_dir(dir: &std::path::Path, find_file: &str, exc
     Ok(v)
 }
 
-/// the original `concat()` function does not have a delimiter
+/// The original `concat()` function does not have a delimiter
 pub fn concatenate_vec_to_string(vec: &[String], delimiter: &str) -> String {
     let size = vec.iter().fold(0, |a, b| a + b.len());
     let mut concatenated_string = String::with_capacity(size);
@@ -107,22 +107,12 @@ pub fn concatenate_vec_to_string(vec: &[String], delimiter: &str) -> String {
     concatenated_string
 }
 
-/// just a shorter way to get a Path from a String
-pub fn to_path(path_str: &str) -> &std::path::Path {
-    camino::Utf8Path::new(path_str).as_std_path()
-}
-
-/// check if file exists
-pub fn file_exists(file_path: &str) -> bool {
-    camino::Utf8Path::new(file_path).exists()
-}
-
-/// expands the ~ for home_dir and returns expanded path
+/// Expands the ~ for home_dir and returns expanded path as str
 pub fn file_path_home_expand(file_path: &str) -> String {
     file_path.replace("~", camino::Utf8Path::from_path(&crate::home_dir()).unwrap().as_str())
 }
 
-/// UTC  date in iso standard like 2024-12-31
+/// UTC date in iso standard like 2024-12-31
 pub fn now_utc_date_iso() -> String {
     chrono::Utc::now().format("%Y-%m-%d").to_string()
 }

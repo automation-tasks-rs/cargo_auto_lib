@@ -31,8 +31,9 @@ pub fn publish_to_crates_io_with_secret_token() {
     }
 }
 
-/// decrypt the token from CRATES_IO_TOKEN_PATH file
-/// or ask user interactively to type it, then encrypt and save to file
+/// Decrypt the token from CRATES_IO_TOKEN_PATH file
+///
+/// Or ask user interactively to type it, then encrypt and save to file.
 fn check_or_get_crates_io_token() -> Option<SecretString> {
     // ssh_add_resolve(host_name: &str, default_identity_file_path: &str)
     let (_fingerprint, identity_file_path) = crate::auto_github_mod::ssh_add_resolve("github.com", "~/.ssh/github_com_ssh_1").unwrap();

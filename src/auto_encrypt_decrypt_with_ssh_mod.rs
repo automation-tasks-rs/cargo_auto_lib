@@ -4,11 +4,14 @@
 //! How to save a GitHub TOKEN securely inside a file?
 //!
 //! GitHub TOKEN is used by GitHub API to gain access (authentication and authorization) to your GitHub.  
-//! AA TOKEN is a secret just like a password and it must be protected.  
+//! A TOKEN is a secret just like a password and it must be protected.  
 //! If the TOKEN is leaked, a mal-intentioned can gain access to everything, using the API.  
 //! Never store TOKENS in plain text anywhere!
 //!
 //! The TOKEN must be encrypted before storing it.  
+//!
+//! ## SSH keys
+//!
 //! We already use SSH keys to connect to GitHub. And we use ssh-agent for easy work with SSH identities.  
 //! I want to use the ssh key inside ssh-agent to encrypt the TOKEN and save it in a file.
 //!
@@ -62,24 +65,23 @@ use crate::RESET;
 use crate::YELLOW;
 
 // region: new structs or newtype
+
+/// A simple wrapper new-type around [u8] just to show intent that it is a secret
 pub struct SecretBytes<'a>(pub &'a mut [u8]);
 // endregion: new structs or newtype
 
-/// encrypt a token with the chosen ssh_identity and save as json encoded in Base64
+/// Encrypt a token with the chosen ssh_identity and save as json encoded in Base64
 ///
-/// use ssh-add to put ssh identity into ssh-agent
-/// ```rust ignore
-/// cl::encrypt_with_ssh_interactive_save_json("~/.ssh/github_com_ssh_1", "output1.ssh");
-/// ```
+/// Use ssh-add to put ssh identity into ssh-agent.
 pub(crate) fn encrypt_with_ssh_interactive_save_file(identity_file_path: &str, output_file_path: &str) {
-    // internal function Generate a random password
+    /// Internal function Generate a random password
     fn random_byte_password() -> [u8; 32] {
         let mut password = [0_u8; 32];
         aes_gcm::aead::OsRng.fill_bytes(&mut password);
         password
     }
 
-    // internal function Encrypts token with secret_password_bytes
+    /// Internal function Encrypts token with secret_password_bytes
     fn encrypt_symmetric(token_is_a_secret: &SecretString, secret_password_bytes: &SecretBytes) -> Option<EncryptedString> {
         let data = token_is_a_secret.0.as_bytes();
         //only first 32 bytes
@@ -101,7 +103,7 @@ pub(crate) fn encrypt_with_ssh_interactive_save_file(identity_file_path: &str, o
     }
 
     let identity_file_path_expanded = crate::utils_mod::file_path_home_expand(identity_file_path);
-    if !crate::utils_mod::file_exists(&identity_file_path_expanded) {
+    if !camino::Utf8Path::new(&identity_file_path_expanded).exists() {
         eprintln!("{RED}Error: File {identity_file_path_expanded} does not exist! Exiting...{RESET}");
         // early exit
         return;
@@ -147,14 +149,11 @@ pub(crate) fn encrypt_with_ssh_interactive_save_file(identity_file_path: &str, o
     println!("    {YELLOW}Encrypted text saved in file for future use.{RESET}")
 }
 
-/// decrypt from json file with ssh_identity
+/// Decrypt from json file with ssh_identity
 ///
-/// use ssh-add to put ssh identity into ssh-agent
-/// ```rust ignore
-/// let output = cl::decrypt_with_ssh_from_json("output1.json").unwrap();
-/// ```
+/// Use ssh-add to put ssh identity into ssh-agent.
 pub(crate) fn decrypt_with_ssh_from_file(json_file_path: &str) -> Option<SecretString> {
-    // internal function Decrypts data with a key and a fingerprint
+    /// Internal function Decrypts data with a key and a fingerprint
     fn decrypt_symmetric(encrypted_text: &EncryptedString, secret_password_bytes: SecretBytes) -> Option<SecretString> {
         let encrypted_bytes = base64ct::Base64::decode_vec(&encrypted_text.0).unwrap();
         //only first 32 bytes
@@ -185,7 +184,7 @@ pub(crate) fn decrypt_with_ssh_from_file(json_file_path: &str) -> Option<SecretS
     let encrypted_text: &str = json_value.get("encrypted").unwrap().as_str().unwrap();
 
     let identity_file_path_expanded = crate::utils_mod::file_path_home_expand(identity_file_path);
-    if !crate::utils_mod::file_exists(&identity_file_path_expanded) {
+    if !camino::Utf8Path::new(&identity_file_path_expanded).exists() {
         eprintln!("{RED}Error: File {identity_file_path_expanded} does not exist! Exiting...{RESET}");
         // early exit
         return None;

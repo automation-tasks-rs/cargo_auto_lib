@@ -3,11 +3,14 @@
 How to save a GitHub TOKEN securely inside a file?
 
 GitHub TOKEN is used by GitHub API to gain access (authentication and authorization) to your GitHub.  
-AA TOKEN is a secret just like a password and it must be protected.  
+A TOKEN is a secret just like a password and it must be protected.  
 If the TOKEN is leaked, a mal-intentioned can gain access to everything, using the API.  
 Never store TOKENS in plain text anywhere!
 
 The TOKEN must be encrypted before storing it.  
+
+## SSH keys
+
 We already use SSH keys to connect to GitHub. And we use ssh-agent for easy work with SSH identities.  
 I want to use the ssh key inside ssh-agent to encrypt the TOKEN and save it in a file.
 

@@ -5,7 +5,7 @@ Includes the plantuml svg generated from the plantuml code.
 Search for markers in md files and process plantuml code.  
 
 ```markdown
-[comment]: # (auto_plantuml start)
+[//comment]: # (auto_plantuml start)
 
 '''plantuml
     @startuml
@@ -15,10 +15,10 @@ Search for markers in md files and process plantuml code.
 
 ![svg_534231](images/svg_534231.svg)  
 
-[comment]: # (auto_plantuml end)
+[//comment]: # (auto_plantuml end)
 ```
 
-In your markdown, change the word `[comment]` with double slash `[//]`. And single quotes with ticks.
+In this instructions I changed `[//]` to `[//comment]` and  ticks to single quotes to not process these markers.
 
 Between the last triple backtick and the end marker is the processed svg file.  
 Calculate a short hash from the plantuml code.  

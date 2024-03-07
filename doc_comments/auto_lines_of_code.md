@@ -40,12 +40,12 @@ All other files: `md`, `toml`, `html`, `js`, ... are not counted.
 If the README.md file contains these markers (don't copy the numbers 1 and 2):  
 
 ```md
-[comment]: # (auto_lines_of_code start)
+[//comment]: # (auto_lines_of_code start)
 
-[comment]: # (auto_lines_of_code end)
+[//comment]: # (auto_lines_of_code end)
 ```
 
-In your markdown, change the word `[comment]` with double slash `[//]`.  
+In this instructions I changed `[//]` to `[//comment]` to not process these markers.
 
 The function will include the shield badges code between them.  
 It will erase the previous content.  

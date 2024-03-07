@@ -10,13 +10,13 @@ Run it on every build with `automation_tasks_rs` and [cargo auto](https://crates
 In the md file write these markers in invisible markdown comments.
 
 ```markdown
-[comment]: # (auto_cargo_toml_to_md start)
+[//comment]: # (auto_cargo_toml_to_md start)
 
-[comment]: # (auto_cargo_toml_to_md end)
+[//comment]: # (auto_cargo_toml_to_md end)
 
 ```
 
-In your markdown, change the word `[comment]` with double slash `[//]`.
+In this instructions I changed `[//]` to `[//comment]` to not process these markers.
 
 `auto_cargo_toml_to_md` deletes the old lines between the markers and includes the Cargo.toml data:  
 description, repository, version, utc_now, authors and creates badges for keywords and categories.

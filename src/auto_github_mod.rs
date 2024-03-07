@@ -15,8 +15,9 @@ use zeroize::Zeroize;
 
 // endregion: bring traits in scope
 
+/// File contains releases changelog
 pub const RELEASES_MD: &str = "RELEASES.md";
-// file contains github token encrypted with github_com_ssh_1
+/// File contains GitHub token encrypted with github_com_ssh_1
 pub const GITHUB_TOKEN_PATH: &str = "~/.ssh/github_com_data_1.ssh";
 
 /// Create new release on Github
@@ -115,7 +116,7 @@ pub fn github_api_upload_asset_to_release(owner: &str, repo: &str, release_id: &
     // endregion: async code made sync locally
 }
 
-/// creates a new github repository
+/// Create a new github repository
 pub fn github_api_repository_new(owner: &str, name: &str, description: &str) -> serde_json::Value {
     /*
     https://docs.github.com/en/rest/repos/repos?apiVersion=2022-11-28#create-a-repository-for-the-authenticated-user
@@ -237,7 +238,7 @@ pub fn ssh_add_resolve(host_name: &str, default_identity_file_path: &str) -> Opt
     }
 }
 
-/// interactive ask to create a new remote GitHub repository
+/// Interactive ask to create a new remote GitHub repository
 pub fn new_remote_github_repository() -> Option<String> {
     // ask interactive
     println!("    {YELLOW}This project does not have a remote GitHub repository.{RESET}");
@@ -265,8 +266,9 @@ pub fn new_remote_github_repository() -> Option<String> {
     Some(repo_html_url)
 }
 
-/// decrypt the token from GITHUB_TOKEN_PATH file
-/// or ask user interactively to type it, then encrypt and save to file
+/// Decrypt the token from GITHUB_TOKEN_PATH file
+///
+/// Or ask user interactively to type it, then encrypt and save to file.
 fn check_or_get_github_token() -> Option<SecretString> {
     // ssh_add_resolve(host_name: &str, default_identity_file_path: &str)
     let (_fingerprint, identity_file_path) = ssh_add_resolve("github.com", "~/.ssh/github_com_ssh_1").unwrap();
@@ -294,7 +296,7 @@ fn check_or_get_github_token() -> Option<SecretString> {
     token
 }
 
-/// interactive ask to create a new local git repository
+/// Interactive ask to create a new local git repository
 pub fn new_local_repository(message: &str) -> Option<()> {
     // ask interactive
     println!("    {YELLOW}This project is not yet a Git repository.{RESET}");
@@ -313,9 +315,11 @@ pub fn new_local_repository(message: &str) -> Option<()> {
     Some(())
 }
 
-/// identity_private_file_path contains the path of the private key like: `~/.ssh/github_com_ssh_1`
-/// check if this file is in ssh-add.
-/// if is not, then ask user to ssh-add and enter passcode.
+/// Check if identity is already in ssh-agent and ask user if not
+///
+/// Identity_private_file_path contains the path of the private key like: `~/.ssh/github_com_ssh_1`.
+/// Check if this file is in ssh-add.
+/// If it is not, then ask user to ssh-add and enter passcode.
 pub fn ssh_add_if_needed(identity_private_file_path: &str) -> Option<crate::auto_ssh_mod::FingerprintString> {
     let fingerprint_from_file = crate::auto_ssh_mod::get_fingerprint_from_file(identity_private_file_path);
     let mut ssh_agent_client = crate::auto_ssh_mod::crate_ssh_agent_client();
@@ -443,7 +447,7 @@ pub fn body_text_from_releases_md(release_name: &str) -> Option<String> {
     Some(body_md_text)
 }
 
-/// create RELEASES.md if file not exist
+/// Create RELEASES.md if file not exist
 fn create_releases_md_if_file_not_exist() {
     if !camino::Utf8Path::new(RELEASES_MD).exists() {
         // create the template file
@@ -537,7 +541,7 @@ pub fn description_and_topics_to_github() {
     }
 }
 
-/// github api get repository
+/// GitHub api get repository
 fn github_api_get_repository(owner: &str, repo_name: &str) -> serde_json::Value {
     /*
         https://docs.github.com/en/rest/repos/repos?apiVersion=2022-11-28#get-a-repository
@@ -567,7 +571,7 @@ fn github_api_get_repository(owner: &str, repo_name: &str) -> serde_json::Value 
     parsed
 }
 
-/// github api update description and topics
+/// GitHub api update description
 pub fn github_api_update_description(owner: &str, repo_name: &str, description: &str) {
     /*
     https://docs.github.com/en/rest/repos/repos?apiVersion=2022-11-28#update-a-repository

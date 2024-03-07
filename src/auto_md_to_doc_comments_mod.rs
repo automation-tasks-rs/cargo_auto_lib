@@ -1,6 +1,6 @@
 // auto_md_to_doc_comments_mod
 
-//! finds rs files with markers and include segments from md files
+//! Finds rs files with markers and include segments from md files as doc comments
 
 use glob::glob;
 use lazy_static::lazy_static;
@@ -8,6 +8,7 @@ use regex::Regex;
 
 use crate::public_api_mod::{RED, RESET, YELLOW};
 
+/// Markers found in rs files
 #[derive(Debug)]
 struct RsMarker {
     pub md_filename: String,
@@ -17,6 +18,7 @@ struct RsMarker {
     pub pos_end: usize,
 }
 
+/// Markers found in md files
 #[derive(Debug)]
 struct MdSegment {
     pub md_filename: String,
@@ -27,7 +29,7 @@ struct MdSegment {
 }
 
 // region: auto_md_to_doc_comments include doc_comments/auto_md_to_doc_comments.md A ///
-/// This function finds rs files with markers and include segments from md files as doc comments.  
+/// Finds rs files with markers and include segments from md files as doc comments  
 ///
 /// ![auto_md_to_doc_comments.png](https://github.com/automation-tasks-rs/cargo_auto_lib/blob/main/images/auto_md_to_doc_comments.png?raw=true)
 ///
@@ -46,19 +48,19 @@ struct MdSegment {
 /// In the rs file write these markers:  
 ///
 /// ```code
-/// comment region: auto_md_to_doc_comments include README.md A ///
-/// comment endregion: auto_md_to_doc_comments include README.md A ///
+/// //comment region: auto_md_to_doc_comments include README.md A ///
+/// //comment endregion: auto_md_to_doc_comments include README.md A ///
 /// ```
 ///
 /// In your rust code, change the word `comment` with double slash `//`.  
 /// In the md file put markers to mark the segment:  
 ///
 /// ```markdown
-/// [comment]: # (auto_md_to_doc_comments segment start A)  
-/// [comment]: # (auto_md_to_doc_comments segment end A)  
+/// [//comment]: # (auto_md_to_doc_comments segment start A)  
+/// [//comment]: # (auto_md_to_doc_comments segment end A)  
 /// ```
 ///
-/// In your markdown, change the word `[comment]` with double slash `[//]`.
+/// In this instructions I changed `[//]` to `[//comment]` to not process these markers.
 ///
 /// The marker must be exclusively in one line. No other text in the same line.  
 /// auto_md_to_doc_comments will delete the old lines between the markers.  
@@ -90,7 +92,6 @@ pub fn auto_md_to_doc_comments() {
 }
 
 /// All rs files in src, tests and examples folders.
-/// The current dir must be the project root where the Cargo.toml is.
 fn rs_files() -> Vec<String> {
     let mut rs_files = vec![];
     // in Unix shell ** means recursive match through all the subdirectories
@@ -114,9 +115,9 @@ fn rs_files() -> Vec<String> {
 }
 
 lazy_static! {
+    /// Regex for start marker
     static ref REGEX_RS_START: Regex = Regex::new(r#"(?m)^ *?// region: auto_md_to_doc_comments include (.*?) (.*?) (.*?)$"#).unwrap();
-}
-lazy_static! {
+    /// Regex for end marker
     static ref REGEX_RS_END: Regex = Regex::new(r#"(?m)^ *?// endregion: auto_md_to_doc_comments include (.*?) (.*?) (.*?)$"#).unwrap();
 }
 /// markers in rs files
@@ -142,9 +143,9 @@ fn rs_file_markers(rs_text_content: &str) -> Vec<RsMarker> {
 }
 
 lazy_static! {
+    /// Regex for start marker
     static ref REGEX_MD_START: Regex = Regex::new(r#"(?m)^\[//\]: # \(auto_md_to_doc_comments segment start (.*?)\)$"#).unwrap();
-}
-lazy_static! {
+    /// Regex for end marker
     static ref REGEX_MD_END: Regex = Regex::new(r#"(?m)^\[//\]: # \(auto_md_to_doc_comments segment end (.*?)\)$"#).unwrap();
 }
 

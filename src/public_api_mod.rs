@@ -11,17 +11,15 @@
 //! It is dreaded if the first version of a function does not return a Result<>.  
 //! Then later we will surely come to the point, that we need to return a Result<>. This is a terrible breaking change.  
 //! It is wise to return a Result always. Even when that is not needed right now. It will surely be needed in the future.  
-//! Another tactic is to make new functions with a different name and ornament the old functions as Obsolete.
+//! Another tactic is to make new functions with a different name and mark the old functions as Obsolete.
 //!
 //! This library is used by the automation_tasks_rs executable.  
 //! I want to have here the complete and exact definition of the public API.  
 //! Therefore I will not use reexports like `pub use` or `pub mod`.  
 //! This way I can always know easily if my public API has changed.  
-//! Just compare the lib.rs file in git.  
+//! Just compare the `public_api_mod.rs` file in git diff.  
 //! Adding functions, structs, methods and enums is ok, it does not break the Public API.  
 //! But modifying existing functions, methods or enums will break the compatibility.  
-//! AFTERTHOUGHT: This is a very time-consuming process to do manually.  
-//! Should use a utility, but that app is complicated to create. It must understand the Rust code.
 //!
 // endregion: auto_md_to_doc_comments include doc_comments/public_api_mod.md A //!
 
@@ -40,13 +38,20 @@ pub const RESET: &str = "\x1b[0m";
 
 // region: Public API structs and methods
 
+/// Result type with fixed LibError using thiserror
+///
+/// It makes simpler to write returns from functions.
 pub use crate::error_mod::ResultWithLibError;
 
+/// similar to std::process::Output, but with i32 and Strings for easier work
 pub use crate::auto_helper_functions_mod::ShellOutput;
-/// A string that contains secret text
+
+/// A simple wrapper new-type around String just to show intent that it is a secret
 pub use crate::auto_ssh_mod::SecretString;
 
 // reexporting a struct needs to export the trait to also reexports all the methods
+
+/// Read data from Cargo.toml
 pub use crate::auto_cargo_toml_mod::CargoToml;
 
 // Just for making the struct methods obvious as public methods
@@ -55,7 +60,7 @@ pub use crate::auto_cargo_toml_mod::CargoToml;
 // then it is consistent how to make the public API definition.
 // There is a downside: the caller must bring the trait into scope. A little annoying.
 
-/// trait with methods to read data from Cargo.toml
+/// Trait with methods to read data from Cargo.toml
 pub trait CargoTomlPublicApiMethods {
     /// read Cargo.toml, for workspaces it is the Cargo.toml of the first member
     fn read() -> Self;
@@ -98,7 +103,7 @@ pub fn find_pos_start_data_after_delimiter(md_text_content: &str, pos: usize, de
     crate::utils_mod::find_pos_start_data_after_delimiter(md_text_content, pos, delimiter)
 }
 
-/// the original `concat()` function does not have a delimiter
+/// The original `concat()` function does not have a delimiter
 pub fn concatenate_vec_to_string(vec: &[String], delimiter: &str) -> String {
     crate::utils_mod::concatenate_vec_to_string(vec, delimiter)
 }
@@ -143,13 +148,13 @@ pub fn traverse_dir_with_exclude_dir(dir: &std::path::Path, find_file: &str, exc
 /// In the md file write these markers in invisible markdown comments.
 ///
 /// ```markdown
-/// [comment]: # (auto_cargo_toml_to_md start)
+/// [//comment]: # (auto_cargo_toml_to_md start)
 ///
-/// [comment]: # (auto_cargo_toml_to_md end)
+/// [//comment]: # (auto_cargo_toml_to_md end)
 ///
 /// ```
 ///
-/// In your markdown, change the word `[comment]` with double slash `[//]`.
+/// In this instructions I changed `[//]` to `[//comment]` to not process these markers.
 ///
 /// `auto_cargo_toml_to_md` deletes the old lines between the markers and includes the Cargo.toml data:  
 /// description, repository, version, utc_now, authors and creates badges for keywords and categories.
@@ -251,12 +256,12 @@ pub fn run_shell_command(shell_command: &str) {
 /// If the README.md file contains these markers (don't copy the numbers 1 and 2):  
 ///
 /// ```md
-/// [comment]: # (auto_lines_of_code start)
+/// [//comment]: # (auto_lines_of_code start)
 ///
-/// [comment]: # (auto_lines_of_code end)
+/// [//comment]: # (auto_lines_of_code end)
 /// ```
 ///
-/// In your markdown, change the word `[comment]` with double slash `[//]`.  
+/// In this instructions I changed `[//]` to `[//comment]` to not process these markers.
 ///
 /// The function will include the shield badges code between them.  
 /// It will erase the previous content.  
@@ -268,7 +273,7 @@ pub fn auto_lines_of_code(link: &str) {
 }
 
 // region: auto_md_to_doc_comments include doc_comments/auto_md_to_doc_comments.md A ///
-/// This function finds rs files with markers and include segments from md files as doc comments.  
+/// Finds rs files with markers and include segments from md files as doc comments  
 ///
 /// ![auto_md_to_doc_comments.png](https://github.com/automation-tasks-rs/cargo_auto_lib/blob/main/images/auto_md_to_doc_comments.png?raw=true)
 ///
@@ -287,19 +292,19 @@ pub fn auto_lines_of_code(link: &str) {
 /// In the rs file write these markers:  
 ///
 /// ```code
-/// comment region: auto_md_to_doc_comments include README.md A ///
-/// comment endregion: auto_md_to_doc_comments include README.md A ///
+/// //comment region: auto_md_to_doc_comments include README.md A ///
+/// //comment endregion: auto_md_to_doc_comments include README.md A ///
 /// ```
 ///
 /// In your rust code, change the word `comment` with double slash `//`.  
 /// In the md file put markers to mark the segment:  
 ///
 /// ```markdown
-/// [comment]: # (auto_md_to_doc_comments segment start A)  
-/// [comment]: # (auto_md_to_doc_comments segment end A)  
+/// [//comment]: # (auto_md_to_doc_comments segment start A)  
+/// [//comment]: # (auto_md_to_doc_comments segment end A)  
 /// ```
 ///
-/// In your markdown, change the word `[comment]` with double slash `[//]`.
+/// In this instructions I changed `[//]` to `[//comment]` to not process these markers.
 ///
 /// The marker must be exclusively in one line. No other text in the same line.  
 /// auto_md_to_doc_comments will delete the old lines between the markers.  
@@ -323,38 +328,39 @@ pub fn auto_plantuml(repo_url: &str) {
     crate::auto_plantuml_mod::auto_plantuml(repo_url)
 }
 
-/// process plantuml for all md files
-/// for test and examples I need to provide the path
+/// Process plantuml for all md files
+///
+/// For test and examples I need to provide the path.
 pub fn auto_plantuml_for_path(path: &std::path::Path, repo_url: &str) {
     crate::auto_plantuml_mod::auto_plantuml_for_path(path, repo_url)
 }
 
-/// hash for file
-pub fn hash_for_filename(text: &str) -> String {
-    crate::auto_plantuml_mod::hash_for_filename(text)
+/// Hash text
+pub fn hash_text(text: &str) -> String {
+    crate::auto_plantuml_mod::hash_text(text)
 }
 
-/// Increments the minor version in Cargo.toml file only if files are changed
+/// Increment the minor version in Cargo.toml file only if files are changed
 pub fn auto_semver_increment_minor() {
     crate::auto_semver_mod::auto_semver_increment_minor()
 }
 
-/// Increments the minor version in Cargo.toml file even if files are not changed
+/// Increment the minor version in Cargo.toml file even if files are not changed
 pub fn auto_semver_increment_minor_forced() {
     crate::auto_semver_mod::auto_semver_increment_minor_forced()
 }
 
-/// Increments the patch version in Cargo.toml file only if files are changed
+/// Increment the patch version in Cargo.toml file only if files are changed
 pub fn auto_semver_increment_patch() {
     crate::auto_semver_mod::auto_semver_increment_patch()
 }
 
-/// Increments the patch version in Cargo.toml file even if files are not changed
+/// Increment the patch version in Cargo.toml file even if files are not changed
 pub fn auto_semver_increment_patch_forced() {
     crate::auto_semver_mod::auto_semver_increment_patch_forced()
 }
 
-/// Increments the version in Cargo.toml
+/// Increment the version in Cargo.toml
 ///
 /// If the major version is greater than 2000, it is a date version  
 /// else it is semver and increments the patch part.  
@@ -362,11 +368,11 @@ pub fn auto_version_increment_semver_or_date() {
     crate::auto_semver_or_date_mod::auto_version_increment_semver_or_date()
 }
 
-/// Increments the version in Cargo.toml
+/// Increment the version in Cargo.toml
 ///
-/// if the major version is greater than 2000, it is a date version
-/// forced is used in workspaces to force all members to have the same date version
-/// else it is semver and increments the patch part
+/// If the major version is greater than 2000, it is a date version  
+/// else it is semver and increments the patch part.  
+/// Forced is used in workspaces to force all members to have the same date version.  
 pub fn auto_version_increment_semver_or_date_forced() {
     crate::auto_semver_or_date_mod::auto_version_increment_semver_or_date_forced()
 }
@@ -411,12 +417,12 @@ pub fn auto_doc_tidy_html() -> ResultWithLibError<()> {
     crate::auto_doc_tidy_html_mod::auto_doc_tidy_html()
 }
 
-/// has git remote
+/// Has git remote
 pub fn git_has_remote() -> bool {
     crate::auto_git_mod::git_has_remote()
 }
 
-/// check if this folder is a local Git repository
+/// Check if this folder is a local Git repository
 pub fn git_is_local_repository() -> bool {
     crate::auto_git_mod::git_is_local_repository()
 }

@@ -7,13 +7,15 @@ use crate::utils_mod::*;
 use lazy_static::lazy_static;
 
 lazy_static! {
+    /// Regex for start marker
     static ref REGEX_PLANTUML_START: regex::Regex = regex::Regex::new(
         r#"(?m)^\[//\]: # \(auto_plantuml start\)$"#
     ).unwrap();
+        /// Regex for end marker
     static ref REGEX_PLANTUML_END: regex::Regex = regex::Regex::new(
         r#"(?m)^\[//\]: # \(auto_plantuml end\)$"#
     ).unwrap();
-    // capture group
+    /// Capture group for image link
     static ref REGEX_IMG_LINK: regex::Regex = regex::Regex::new(
     r#"!\[.+\]\(.+/svg_(.+)\.svg\)"#
     ).unwrap();
@@ -25,7 +27,7 @@ lazy_static! {
 /// Search for markers in md files and process plantuml code.  
 ///
 /// ```markdown
-/// [comment]: # (auto_plantuml start)
+/// [//comment]: # (auto_plantuml start)
 ///
 /// '''plantuml
 ///     @startuml
@@ -35,10 +37,10 @@ lazy_static! {
 ///
 /// ![svg_534231](images/svg_534231.svg)  
 ///
-/// [comment]: # (auto_plantuml end)
+/// [//comment]: # (auto_plantuml end)
 /// ```
 ///
-/// In your markdown, change the word `[comment]` with double slash `[//]`. And single quotes with ticks.
+/// In this instructions I changed `[//]` to `[//comment]` and  ticks to single quotes to not process these markers.
 ///
 /// Between the last triple backtick and the end marker is the processed svg file.  
 /// Calculate a short hash from the plantuml code.  
@@ -60,8 +62,9 @@ pub fn auto_plantuml(repo_url: &str) {
     auto_plantuml_for_path(&path, repo_url);
 }
 
-/// process plantuml for all md files
-/// for test and examples I need to provide the path
+/// Process plantuml for all md files
+///
+/// For test and examples I need to provide the path.
 pub fn auto_plantuml_for_path(path: &std::path::Path, repo_url: &str) {
     let path = camino::Utf8Path::from_path(path).unwrap();
     println!("    {YELLOW}Running auto_plantuml{RESET}");
@@ -91,7 +94,7 @@ pub fn auto_plantuml_for_path(path: &std::path::Path, repo_url: &str) {
                 if let Some(code_end) = find_pos_end_data_before_delimiter(&md_text_content, code_start, "\n```\n") {
                     let code_end_after = code_end + 5;
                     let plantuml_code = &md_text_content[code_start..code_end];
-                    let plantuml_code_hash = hash_for_filename(plantuml_code);
+                    let plantuml_code_hash = hash_text(plantuml_code);
                     if let Some(marker_end) = find_pos_end_data_before_delimiter(&md_text_content, marker_start, "\n[//]: # (auto_plantuml end)\n") {
                         let img_link = md_text_content[code_end_after..marker_end].trim();
                         let mut get_new_svg = false;
@@ -123,7 +126,7 @@ pub fn auto_plantuml_for_path(path: &std::path::Path, repo_url: &str) {
                             println!("    {YELLOW}{relative_md_filename} get new svg {plantuml_code_hash}{RESET}");
 
                             // get the new svg image
-                            let svg_code = get_svg(plantuml_code);
+                            let svg_code = request_svg(plantuml_code);
                             let new_file_path = md_filename.parent().unwrap().join("images").join(format!("svg_{}.svg", plantuml_code_hash));
                             std::fs::create_dir_all(new_file_path.parent().unwrap()).unwrap();
                             std::fs::write(&new_file_path, svg_code).unwrap();
@@ -154,15 +157,16 @@ pub fn auto_plantuml_for_path(path: &std::path::Path, repo_url: &str) {
     println!("    {YELLOW}Finished auto_plantuml{RESET}");
 }
 
-/// hash for file
-pub fn hash_for_filename(text: &str) -> String {
+/// Hash text
+pub fn hash_text(text: &str) -> String {
     let hash = <sha2::Sha256 as sha2::Digest>::digest(text.as_bytes());
     // base64ct = {version = "1.5.0", features = ["alloc"] }
     // return base64_hash
     <base64ct::Base64UrlUnpadded as base64ct::Encoding>::encode_string(&hash)
 }
 
-pub fn get_svg(plant_uml_code: &str) -> String {
+/// Request svg from plantuml server
+pub fn request_svg(plant_uml_code: &str) -> String {
     let base_url = "https://plantuml.com/plantuml";
     let url_parameter = compress_plant_uml_code(plant_uml_code);
     let url = format!("{}/svg/{}", base_url, url_parameter);
@@ -171,7 +175,7 @@ pub fn get_svg(plant_uml_code: &str) -> String {
     reqwest::blocking::get(url).unwrap().text_with_charset("utf-8").unwrap()
 }
 
-/// deflate and strange base64, that is Url_safe
+/// Deflate and strange base64, that is Url_safe
 pub fn compress_plant_uml_code(plant_uml_code: &str) -> String {
     // first deflate
     let data = plant_uml_code.as_bytes();
@@ -224,7 +228,7 @@ mod test {
 
     #[test]
     pub fn test_hash() {
-        assert_eq!("n4bQgYhMfWWaL-qgxVrQFaO_TxsrC4Is0V1sFbDwCgg", hash_for_filename("test"));
+        assert_eq!("n4bQgYhMfWWaL-qgxVrQFaO_TxsrC4Is0V1sFbDwCgg", hash_text("test"));
     }
 
     #[test]

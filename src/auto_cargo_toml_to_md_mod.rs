@@ -15,9 +15,9 @@ use crate::public_api_mod::CargoTomlPublicApiMethods;
 // endregion: use statements
 
 lazy_static! {
-    /// regex for start marker
+    /// Regex for start marker
     static ref REGEX_MD_START: Regex = Regex::new(r#"(?m)^\[//\]: # \(auto_cargo_toml_to_md start\)$"#).unwrap();
-    /// regex for end marker
+    /// Regex for end marker
     static ref REGEX_MD_END: Regex = Regex::new(r#"(?m)^\[//\]: # \(auto_cargo_toml_to_md end\)$"#).unwrap();
 }
 
@@ -32,13 +32,13 @@ lazy_static! {
 /// In the md file write these markers in invisible markdown comments.
 ///
 /// ```markdown
-/// [comment]: # (auto_cargo_toml_to_md start)
+/// [//comment]: # (auto_cargo_toml_to_md start)
 ///
-/// [comment]: # (auto_cargo_toml_to_md end)
+/// [//comment]: # (auto_cargo_toml_to_md end)
 ///
 /// ```
 ///
-/// In your markdown, change the word `[comment]` with double slash `[//]`.
+/// In this instructions I changed `[//]` to `[//comment]` to not process these markers.
 ///
 /// `auto_cargo_toml_to_md` deletes the old lines between the markers and includes the Cargo.toml data:  
 /// description, repository, version, utc_now, authors and creates badges for keywords and categories.

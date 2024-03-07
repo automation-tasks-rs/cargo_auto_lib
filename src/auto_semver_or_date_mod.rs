@@ -7,10 +7,10 @@ use crate::public_api_mod::{RESET, YELLOW};
 // this trait must be in scope to use these methods of CargoToml
 use crate::public_api_mod::CargoTomlPublicApiMethods;
 
-/// Increments the version in Cargo.toml
+/// Increment the version in Cargo.toml
 ///
-/// if the major version is greater than 2000, it is a date version  
-/// else it is semver and increments the patch part  
+/// If the major version is greater than 2000, it is a date version  
+/// else it is semver and increments the patch part.
 pub fn auto_version_increment_semver_or_date() {
     println!("    {YELLOW}Running auto_semver_or_date{RESET}");
     let cargo_toml = crate::auto_cargo_toml_mod::CargoToml::read();
@@ -24,11 +24,11 @@ pub fn auto_version_increment_semver_or_date() {
     println!("    {YELLOW}Finished auto_semver_or_date{RESET}");
 }
 
-/// increments the version in Cargo.toml.
+/// Increment the version in Cargo.toml
 ///
-/// if the major version is greater than 2000, it is a date version
-/// forced is used in workspaces to force all members to have the same date version
-/// else it is semver and increments the patch part
+/// If the major version is greater than 2000, it is a date version
+/// else it is semver and increments the patch part.
+/// Forced is used in workspaces to force all members to have the same date version.
 pub fn auto_version_increment_semver_or_date_forced() {
     println!("    {YELLOW}Running auto_semver_or_date{RESET}");
     let cargo_toml = crate::auto_cargo_toml_mod::CargoToml::read();

@@ -1,6 +1,6 @@
 // auto_version_from_date_mod
 
-//! new version as date is written to Cargo.toml and service_worker.js
+//! The new version as date is written to Cargo.toml and service_worker.js
 
 // region: use statements
 
@@ -15,19 +15,19 @@ use std::str::FromStr;
 // endregion: use statements
 
 // region: structs
-/// file metadata
+/// File metadata
 #[derive(Serialize, Deserialize)]
 pub struct FileMetaData {
-    /// filename with path from Cargo.toml folder
+    /// Filename with path from Cargo.toml folder
     filename: String,
-    /// hash of file
+    /// Hash of file content
     filehash: String,
 }
 
-/// the struct that represents the file .automation_tasks_rs_file_hashes.json
+/// The struct that represents the file .automation_tasks_rs_file_hashes.json
 #[derive(Serialize, Deserialize)]
 pub struct AutoVersionFromDate {
-    /// vector of file metadata
+    /// Vector of file metadata
     pub vec_file_metadata: Vec<FileMetaData>,
 }
 
@@ -60,6 +60,7 @@ pub fn auto_version_from_date() {
 }
 
 /// Just like auto_version_from_date(), but force the new version even if no files are changed.
+///
 /// It is slower, but easier to understand when deployed.
 pub fn auto_version_from_date_forced() {
     auto_version_from_date_internal(true).unwrap_or_else(|err| panic!("{RED}{err}{RESET}"));
@@ -69,6 +70,7 @@ pub fn auto_version_from_date_forced() {
 
 // region: private functions
 
+/// Internal function to get version from date
 fn auto_version_from_date_internal(force_version: bool) -> ResultWithLibError<()> {
     let date = Utc::now();
     let new_version = version_from_date(date);
@@ -87,7 +89,7 @@ fn auto_version_from_date_internal(force_version: bool) -> ResultWithLibError<()
     Ok(())
 }
 
-/// search for file service_worker.js and modify version
+/// Search for file service_worker.js and modify version
 fn modify_service_js(new_version: &str) {
     let start_dir = camino::Utf8Path::new("./");
     for js_filename in &crate::utils_mod::traverse_dir_with_exclude_dir(start_dir.as_std_path(), "/service_worker.js", &["/.git".to_string(), "/target".to_string()]).unwrap() {
@@ -124,7 +126,7 @@ fn modify_service_js(new_version: &str) {
     }
 }
 
-/// move vec_of_metadata
+/// Write version to Cargo.toml
 fn write_version_to_cargo_and_modify_metadata(new_version: &str, mut vec_of_metadata: Vec<FileMetaData>) -> ResultWithLibError<()> {
     // println!("{}write version to Cargo.toml{}", *GREEN, *RESET);
     let cargo_filename = "Cargo.toml";
@@ -164,7 +166,7 @@ fn write_version_to_cargo_and_modify_metadata(new_version: &str, mut vec_of_meta
     Ok(())
 }
 
-/// the Cargo.toml is now different and needs to be changed in the vec of file metadata
+/// Cargo.toml is now different and needs to be changed in the vec of file metadata
 pub fn correct_file_metadata_for_cargo_tom_inside_vec(vec_of_metadata: &mut [FileMetaData]) -> ResultWithLibError<()> {
     //correct the vector only for Cargo.toml file
     let filename = "Cargo.toml".to_string();
@@ -174,8 +176,9 @@ pub fn correct_file_metadata_for_cargo_tom_inside_vec(vec_of_metadata: &mut [Fil
     Ok(())
 }
 
-/// if files are added or deleted, other files must be also changed
-/// I need to check if the files on the filesystem are the same as in the json
+/// If files are added or deleted, other files must be also changed
+///
+/// Check if the files on the filesystem are the same as in the json.
 pub fn are_files_equal(vec_of_metadata: &[FileMetaData], js_vec_of_metadata: &[FileMetaData]) -> bool {
     let mut is_files_equal = true;
     for x in vec_of_metadata.iter() {
@@ -196,7 +199,7 @@ pub fn are_files_equal(vec_of_metadata: &[FileMetaData], js_vec_of_metadata: &[F
     is_files_equal
 }
 
-/// make a vector of file metadata
+/// Make a vector of file metadata
 pub fn read_file_metadata() -> ResultWithLibError<Vec<FileMetaData>> {
     let mut vec_of_metadata: Vec<FileMetaData> = Vec::new();
     let filename = "Cargo.toml".to_string();
@@ -220,7 +223,7 @@ pub fn read_file_metadata() -> ResultWithLibError<Vec<FileMetaData>> {
     Ok(vec_of_metadata)
 }
 
-/// calculate the hash for a file
+/// Calculate the hash for the content of a file
 fn sha256_digest(path: &std::path::Path) -> ResultWithLibError<String> {
     let file = std::fs::File::open(path)?;
     let mut reader = std::io::BufReader::new(file);
@@ -240,7 +243,7 @@ fn sha256_digest(path: &std::path::Path) -> ResultWithLibError<String> {
     Ok(hash_string)
 }
 
-/// read .automation_tasks_rs_file_hashes.json
+/// Read .automation_tasks_rs_file_hashes.json
 pub fn read_json_file(json_filepath: &str) -> ResultWithLibError<AutoVersionFromDate> {
     let js_struct: AutoVersionFromDate;
     let f = std::fs::read_to_string(json_filepath);
@@ -265,7 +268,7 @@ pub fn read_json_file(json_filepath: &str) -> ResultWithLibError<AutoVersionFrom
     Ok(js_struct)
 }
 
-/// save the new file metadata
+/// Save the new file metadata
 pub fn save_json_file_for_file_meta_data(vec_of_metadata: Vec<FileMetaData>) {
     let x = AutoVersionFromDate { vec_file_metadata: vec_of_metadata };
     let y = serde_json::to_string_pretty(&x).unwrap();
@@ -273,7 +276,7 @@ pub fn save_json_file_for_file_meta_data(vec_of_metadata: Vec<FileMetaData>) {
     let _f = std::fs::write(json_filepath, y);
 }
 
-/// converts a date to a version
+/// Convert a date to a version
 fn version_from_date(date: DateTime<Utc>) -> String {
     // in Rust the version must not begin with zero.
     // There is an exceptional situation where is midnight 00.
@@ -285,7 +288,7 @@ fn version_from_date(date: DateTime<Utc>) -> String {
     }
 }
 
-/// in string find from position
+/// Find from position in string
 fn find_from(rs_content: &str, from: usize, find: &str) -> Option<usize> {
     let slice01 = rs_content.get(from..).unwrap();
     let option_location = slice01.find(find);
