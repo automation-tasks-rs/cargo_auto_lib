@@ -150,7 +150,7 @@ fn rs_file_markers(rs_text_content: &str) -> Vec<RsMarker> {
         markers.push(rs_marker);
     }
     for cap in REGEX_RS_END.captures_iter(rs_text_content) {
-// TODO:  error what file and segment are problematic
+        // TODO:  error what file and segment are problematic
         let marker = markers.iter_mut().find(|m| m.md_filename == cap[1] && m.marker_name == cap[2]).unwrap();
         marker.pos_end = cap.get(0).unwrap().start();
     }
@@ -193,7 +193,7 @@ fn get_md_segments_using_cache(cache: &mut Vec<MdSegment>, md_filename: &str, ma
             });
         }
         for cap in REGEX_MD_END.captures_iter(&md_text_content) {
-// TODO:  error what file and segment are problematic
+            // TODO:  error what file and segment are problematic
             let segment = cache.iter_mut().find(|m| m.md_filename == md_filename && m.marker_name == cap[1]).unwrap();
             segment.pos_end = cap.get(0).unwrap().start();
             // the segment begins with a comment, so don't include the next empty row
@@ -216,7 +216,7 @@ fn get_md_segments_using_cache(cache: &mut Vec<MdSegment>, md_filename: &str, ma
                 }
             }
         }
-// TODO:  error what file and segment are problematic
+        // TODO:  error what file and segment are problematic
         let segment = cache.iter().find(|m| m.md_filename == md_filename && m.marker_name == marker_name).unwrap();
         //return
         segment.text.to_string()

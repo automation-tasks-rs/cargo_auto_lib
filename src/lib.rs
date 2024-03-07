@@ -5,15 +5,18 @@
 // region: auto_md_to_doc_comments include README.md A //!
 //! # cargo_auto_lib
 //!
-//! **Library crate for common tasks when building Rust projects. Intended for use with cargo-auto - automation tasks coded in Rust language.**  
-//! ***version: 1.4.7 date: 2024-03-02 author: [Bestia.dev](https://bestia.dev) repository: [GitHub](https://github.com/automation-tasks-rs/cargo_auto_lib)***
+//! **Automation tasks coded in Rust language for the workflow of Rust projects**  
+//! ***version: 1.4.8 date: 2024-03-07 author: [Bestia.dev](https://bestia.dev) repository: [GitHub](https://github.com/automation-tasks-rs/cargo_auto_lib)***
 //!
 //!  ![maintained](https://img.shields.io/badge/maintained-green)
 //!  ![ready-for-use](https://img.shields.io/badge/ready_for_use-green)
 //!  ![rustlang](https://img.shields.io/badge/rustlang-orange)
 //!  ![cargo-auto](https://img.shields.io/badge/cargo_auto-orange)
+//!  ![automation](https://img.shields.io/badge/automation-orange)
+//!  ![workflow](https://img.shields.io/badge/workflow-orange)
 //!
 //!  ![logo](https://raw.githubusercontent.com/automation-tasks-rs/cargo-auto/main/images/logo/logo_cargo_auto.svg)
+//!  cargo_auto_lib is part of [automation_tasks_rs](https://github.com/automation-tasks-rs) project
 //!
 //!  [![crates.io](https://img.shields.io/crates/v/cargo_auto_lib.svg)](https://crates.io/crates/cargo_auto_lib)
 //!  [![Documentation](https://docs.rs/cargo_auto_lib/badge.svg)](https://docs.rs/cargo_auto_lib/)
@@ -22,11 +25,12 @@
 //!
 //!  [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/automation-tasks-rs/cargo_auto_lib/blob/master/LICENSE)
 //!  [![Rust](https://github.com/automation-tasks-rs/cargo_auto_lib/workflows/rust_fmt_auto_build_test/badge.svg)](https://github.com/automation-tasks-rs/cargo_auto_lib/)
+//!  [![Newest docs](https://img.shields.io/badge/newest_docs-brown.svg)](https://automation-tasks-rs.github.io/cargo_auto_lib/cargo_auto_lib/index.html)
 //!  ![cargo_auto_lib](https://bestia.dev/webpage_hit_counter/get_svg_image/276360626.svg)
 //!
-//! [![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-2480-green.svg)](https://github.com/automation-tasks-rs/cargo_auto_lib/)
+//! [![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-2476-green.svg)](https://github.com/automation-tasks-rs/cargo_auto_lib/)
 //! [![Lines in Doc comments](https://img.shields.io/badge/Lines_in_Doc_comments-922-blue.svg)](https://github.com/automation-tasks-rs/cargo_auto_lib/)
-//! [![Lines in Comments](https://img.shields.io/badge/Lines_in_comments-376-purple.svg)](https://github.com/automation-tasks-rs/cargo_auto_lib/)
+//! [![Lines in Comments](https://img.shields.io/badge/Lines_in_comments-379-purple.svg)](https://github.com/automation-tasks-rs/cargo_auto_lib/)
 //! [![Lines in examples](https://img.shields.io/badge/Lines_in_examples-28-yellow.svg)](https://github.com/automation-tasks-rs/cargo_auto_lib/)
 //! [![Lines in tests](https://img.shields.io/badge/Lines_in_tests-79-orange.svg)](https://github.com/automation-tasks-rs/cargo_auto_lib/)
 //!
