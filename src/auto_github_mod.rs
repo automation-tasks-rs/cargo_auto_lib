@@ -481,7 +481,7 @@ pub fn add_message_to_unreleased(message: &str) {
     };
     // add before the first ## Version
     // I expect only one empty line before ## Version
-    let added_message_md = format!("{}- {}\n{}", &release_md[..pos_end_data], message, &release_md[pos_end_data..]);
+    let added_message_md = format!("{}- {}\n\n{}", &release_md[..pos_end_data], message, &release_md[pos_end_data..]);
     std::fs::write(RELEASES_MD, added_message_md).unwrap();
 }
 
