@@ -32,7 +32,7 @@
   <main>
     <nav class="sub">
       <a class="sub-logo-container" href="../../cargo_auto_lib/index.html"><img src=
-      "https://github.com/bestia-dev/cargo-auto/raw/main/images/logo/logo_cargo_auto.svg" alt="cargo_auto_lib"></a>
+      "https://github.com/automation-tasks-rs/cargo-auto/raw/main/images/logo/logo_cargo_auto.svg" alt="cargo_auto_lib"></a>
       <form class="search-form">
         <input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder=
         "Click or press ‘S’ to search, ‘?’ for more options…" type="search">
@@ -473,7 +473,7 @@
     <span class="macro">println!</span>(<span class="string">"    {YELLOW}Finished auto_lines_of_code{RESET}"</span>);
 }
 
-<span class="doccomment">/// Return the string for link for badges like: &lt;https://github.com/bestia-dev/auto_lines_of_code/&gt;.  
+<span class="doccomment">/// Return the string for link for badges like: &lt;https://github.com/automation-tasks-rs/auto_lines_of_code/&gt;.  
 ///
 /// Get the output string after $ git remote -v.  
 /// Then finds out the link to the repository with regex.  
@@ -592,8 +592,8 @@
     <span class="comment">// on GitHub actions they don't use ssh, but https, I need to check that also
     // I test my regex on https://regex101.com/
     // regex capture 3 groups: website, user_name and repo_name
-    // "origin  git@github.com:bestia-dev/auto_lines_of_code.git (fetch)"
-    // origin    https://github.com/bestia-dev/auto_lines_of_code (fetch)
+    // "origin  git@github.com:automation-tasks-rs/auto_lines_of_code.git (fetch)"
+    // origin    https://github.com/automation-tasks-rs/auto_lines_of_code (fetch)
     // println!("{}", &amp;output);
     </span><span class="kw">let </span>reg = Regex::new(<span class=
 "string">r#"origin\s*(?:https://)?(?:git@)?([^:/]*?)[:/]([^/]*?)/([^. ]*?)(?:\.git)?\s*\(fetch\)"#</span>)<span class="question-mark">?</span>;

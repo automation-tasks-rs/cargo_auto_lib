@@ -32,7 +32,7 @@
   <main>
     <nav class="sub">
       <a class="sub-logo-container" href="../../cargo_auto_lib/index.html"><img src=
-      "https://github.com/bestia-dev/cargo-auto/raw/main/images/logo/logo_cargo_auto.svg" alt="cargo_auto_lib"></a>
+      "https://github.com/automation-tasks-rs/cargo-auto/raw/main/images/logo/logo_cargo_auto.svg" alt="cargo_auto_lib"></a>
       <form class="search-form">
         <input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder=
         "Click or press ‘S’ to search, ‘?’ for more options…" type="search">
@@ -270,6 +270,8 @@
 <a href="#220" id="220">220</a>
 <a href="#221" id="221">221</a>
 <a href="#222" id="222">222</a>
+<a href="#223" id="223">223</a>
+<a href="#224" id="224">224</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// auto_md_to_doc_comments_mod
@@ -428,7 +430,8 @@
         markers.push(rs_marker);
     }
     <span class="kw">for </span>cap <span class="kw">in </span>REGEX_RS_END.captures_iter(rs_text_content) {
-        <span class="kw">let </span>marker = markers.iter_mut().find(|m| m.md_filename == cap[<span class=
+        <span class="comment">// TODO:  error what file and segment are problematic
+        </span><span class="kw">let </span>marker = markers.iter_mut().find(|m| m.md_filename == cap[<span class=
 "number">1</span>] &amp;& m.marker_name == cap[<span class="number">2</span>]).unwrap();
         marker.pos_end = cap.get(<span class="number">0</span>).unwrap().start();
     }
@@ -475,7 +478,8 @@
             });
         }
         <span class="kw">for </span>cap <span class="kw">in </span>REGEX_MD_END.captures_iter(<span class="kw-2">&</span>md_text_content) {
-            <span class="kw">let </span>segment = cache.iter_mut().find(|m| m.md_filename == md_filename &amp;& m.marker_name == cap[<span class=
+            <span class="comment">// TODO:  error what file and segment are problematic
+            </span><span class="kw">let </span>segment = cache.iter_mut().find(|m| m.md_filename == md_filename &amp;& m.marker_name == cap[<span class=
 "number">1</span>]).unwrap();
             segment.pos_end = cap.get(<span class="number">0</span>).unwrap().start();
             <span class="comment">// the segment begins with a comment, so don't include the next empty row
@@ -498,8 +502,8 @@
                 }
             }
         }
-
-        <span class="kw">let </span>segment = cache.iter().find(|m| m.md_filename == md_filename &amp;& m.marker_name == marker_name).unwrap();
+        <span class="comment">// TODO:  error what file and segment are problematic
+        </span><span class="kw">let </span>segment = cache.iter().find(|m| m.md_filename == md_filename &amp;& m.marker_name == marker_name).unwrap();
         <span class="comment">//return
         </span>segment.text.to_string()
     }
