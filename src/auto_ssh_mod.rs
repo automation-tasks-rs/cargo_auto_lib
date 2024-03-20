@@ -9,10 +9,9 @@ pub type IdentityFilePathString = String;
 /// A simple wrapper new-type around String just to show intent that it is a secret
 pub struct SecretString(pub String);
 /// A simple wrapper new-type around String just to show intent that it is already encrypted
-
 pub struct EncryptedString(pub String);
 
-/// The work with ssh_agent_client_rs starts with a client
+/// The work with ssh_agent_client_rs starts with the client object
 pub fn crate_ssh_agent_client() -> ssh_agent_client_rs::Client {
     let path = std::env::var("SSH_AUTH_SOCK").expect("SSH_AUTH_SOCK is not set");
     let client = ssh_agent_client_rs::Client::connect(camino::Utf8Path::new(&path).as_std_path()).unwrap();

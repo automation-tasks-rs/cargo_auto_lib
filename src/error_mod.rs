@@ -31,7 +31,7 @@ pub enum LibError {
     //UnknownError,
 }
 
-/// Result type with fixed LibError using thiserror
+/// Result type alias with fixed LibError using thiserror
 ///
 /// It makes simpler to write returns from functions.
 pub type ResultWithLibError<T, E = LibError> = core::result::Result<T, E>;
