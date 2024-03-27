@@ -174,7 +174,7 @@
 ///
 /// Exit task execution if the command has Exit Status != 0.
 </span><span class="kw">pub fn </span>run_shell_command(shell_command: <span class="kw-2">&</span>str) {
-    <span class="kw">if </span>!shell_command.starts_with(<span class="string">"echo "</span>) {
+    <span class="kw">if </span>!shell_command.starts_with(<span class="string">"printf "</span>) {
         <span class="macro">println!</span>(<span class="string">"    {YELLOW}$ {shell_command}{RESET}"</span>);
     }
     <span class="kw">let </span>status = std::process::Command::new(<span class="string">"sh"</span>).arg(<span class=
@@ -189,7 +189,7 @@
 
 <span class="doccomment">/// Run one shell command and return ShellOutput {exit_status, stdout, stderr}
 </span><span class="kw">pub fn </span>run_shell_command_output(shell_command: <span class="kw-2">&</span>str) -&gt; ShellOutput {
-    <span class="kw">if </span>!shell_command.starts_with(<span class="string">"echo "</span>) {
+    <span class="kw">if </span>!shell_command.starts_with(<span class="string">"printf "</span>) {
         <span class="macro">println!</span>(<span class="string">"   {YELLOW} $ {shell_command}{RESET}"</span>);
     }
     <span class="kw">let </span>output = std::process::Command::new(<span class="string">"sh"</span>).arg(<span class=
@@ -204,7 +204,7 @@
 
 <span class="doccomment">/// Run one shell command and return true if success
 </span><span class="kw">pub fn </span>run_shell_command_success(shell_command: <span class="kw-2">&</span>str) -&gt; bool {
-    <span class="kw">if </span>!shell_command.starts_with(<span class="string">"echo "</span>) {
+    <span class="kw">if </span>!shell_command.starts_with(<span class="string">"printf "</span>) {
         <span class="macro">println!</span>(<span class="string">"    {YELLOW}$ {shell_command}{RESET}"</span>,);
     }
     <span class="kw">let </span>status = std::process::Command::new(<span class="string">"sh"</span>).arg(<span class=

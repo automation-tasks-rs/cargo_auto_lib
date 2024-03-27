@@ -19,7 +19,7 @@ pub struct ShellOutput {
 ///
 /// Exit task execution if the command has Exit Status != 0.
 pub fn run_shell_command(shell_command: &str) {
-    if !shell_command.starts_with("echo ") {
+    if !shell_command.starts_with("echo ") &&  !shell_command.starts_with("printf "){
         println!("    {YELLOW}$ {shell_command}{RESET}");
     }
     let status = std::process::Command::new("sh").arg("-c").arg(shell_command).spawn().unwrap().wait().unwrap();
@@ -32,7 +32,7 @@ pub fn run_shell_command(shell_command: &str) {
 
 /// Run one shell command and return ShellOutput {exit_status, stdout, stderr}
 pub fn run_shell_command_output(shell_command: &str) -> ShellOutput {
-    if !shell_command.starts_with("echo ") {
+    if !shell_command.starts_with("echo ") &&  !shell_command.starts_with("printf "){
         println!("   {YELLOW} $ {shell_command}{RESET}");
     }
     let output = std::process::Command::new("sh").arg("-c").arg(shell_command).output().unwrap();
@@ -46,7 +46,7 @@ pub fn run_shell_command_output(shell_command: &str) -> ShellOutput {
 
 /// Run one shell command and return true if success
 pub fn run_shell_command_success(shell_command: &str) -> bool {
-    if !shell_command.starts_with("echo ") {
+    if !shell_command.starts_with("echo ") &&  !shell_command.starts_with("printf "){
         println!("    {YELLOW}$ {shell_command}{RESET}",);
     }
     let status = std::process::Command::new("sh").arg("-c").arg(shell_command).status().unwrap();
