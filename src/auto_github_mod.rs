@@ -260,6 +260,11 @@ pub fn new_remote_github_repository() -> Option<String> {
     let repo_html_url = json.get("html_url").unwrap().as_str().unwrap().to_string();
     println!("url: {}", &repo_html_url);
 
+    // the docs pages are created with a GitHub action
+    github_api_create_a_github_pages_site(&owner, &name);
+
+    description_and_topics_to_github();
+
     // add this GitHub repository to origin remote over SSH (use sshadd for passcode)
     crate::run_shell_command(&format!("git remote add origin git@github.com:{owner}/{name}.git"));
     crate::run_shell_command("git push -u origin main");
@@ -517,7 +522,7 @@ pub fn description_and_topics_to_github() {
 
     // all elements must be equal, but not necessary in the same order
     let topics_is_equal = if gh_topics.len() == keywords.len() {
-        let mut elems_is_equal = true;
+        let mut elements_is_equal = true;
         'outer: for x in gh_topics.iter() {
             let mut has_element = false;
             'inner: for y in keywords.iter() {
@@ -527,11 +532,11 @@ pub fn description_and_topics_to_github() {
                 }
             }
             if !has_element {
-                elems_is_equal = false;
+                elements_is_equal = false;
                 break 'outer;
             }
         }
-        elems_is_equal
+        elements_is_equal
     } else {
         false
     };
@@ -644,6 +649,53 @@ fn github_api_replace_all_topics(owner: &str, repo_name: &str, topics: &Vec<Stri
     let repos_url = format!("https://api.github.com/repos/{owner}/{repo_name}/topics");
     let body = serde_json::json!({
         "names": topics,
+    });
+    let body = body.to_string();
+
+    let response_text = reqwest::blocking::Client::new()
+        .put(repos_url.as_str())
+        .header("Accept", "application/vnd.github+json")
+        .header("Authorization", format!("Bearer {}", token.0))
+        .header("X-GitHub-Api-Version", "2022-11-28")
+        .header("User-Agent", "cargo_auto_lib")
+        .body(body)
+        .send()
+        .unwrap()
+        .text()
+        .unwrap();
+    token.0.zeroize();
+
+    let _parsed: serde_json::Value = serde_json::from_str(&response_text).unwrap();
+}
+
+/// GitHub API create-a-github-pages-site
+fn github_api_create_a_github_pages_site(owner: &str, repo_name: &str) {
+    /*
+        https://docs.github.com/en/rest/pages/pages?apiVersion=2022-11-28#create-a-github-pages-site
+        curl -L \
+        -X POST \
+        -H "Accept: application/vnd.github+json" \
+        -H "Authorization: Bearer <YOUR-TOKEN>" \
+        -H "X-GitHub-Api-Version: 2022-11-28" \
+        https://api.github.com/repos/OWNER/REPO/pages \
+        -d '
+    {
+        "source": {
+            "branch": "main",
+            "path": "/docs",
+            "build_type": "workflow"
+        }
+    }'
+         */
+    println!("    {YELLOW}create-a-github-pages-site{RESET}");
+    let mut token = check_or_get_github_token().unwrap();
+    let repos_url = format!("https://api.github.com/repos/{owner}/{repo_name}/pages");
+    let body = serde_json::json!({
+        "source": {
+            "branch": "main",
+            "path": "/docs",
+            "build_type": "workflow"
+        }
     });
     let body = body.to_string();
 
