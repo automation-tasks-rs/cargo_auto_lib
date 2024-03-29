@@ -12,8 +12,6 @@ The TODO section is part of the [README.md](https://github.com/automation-tasks-
 
 - github_owner
 
-- github_owner
-
 ## Version 2.0.5 (2024-03-29)
 
 - github_api_create_a_github_pages_site
