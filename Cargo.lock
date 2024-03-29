@@ -210,7 +210,7 @@ checksum = "c59e92b5a388f549b863a7bea62612c09f24c8393560709a54558a9abdfb3b9c"
 
 [[package]]
 name = "cargo_auto_lib"
-version = "2.0.5"
+version = "2.0.6"
 dependencies = [
  "aes-gcm",
  "anyhow",

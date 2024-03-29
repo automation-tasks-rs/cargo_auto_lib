@@ -93,15 +93,15 @@ impl crate::public_api_mod::CargoTomlPublicApiMethods for CargoToml {
         match self.package_repository() {
             Some(repository) => {
                 let splitted: Vec<&str> = repository.trim_start_matches("https://").split("/").collect();
-                let github_owner=Some(splitted[1].to_string());
-                match github_owner{
-                    Some(github_owner)=>{
-                        if github_owner=="github_owner"{
+                let github_owner = Some(splitted[1].to_string());
+                match github_owner {
+                    Some(github_owner) => {
+                        if github_owner == "github_owner" {
                             panic!("Modify the repository in Cargo.toml. It cannot contain the '/github_owner/' phrase!");
                         }
                         Some(github_owner)
                     }
-                    None=> None,
+                    None => None,
                 }
             }
             None => None,
