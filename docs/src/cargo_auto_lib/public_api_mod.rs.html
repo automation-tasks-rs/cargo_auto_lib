@@ -630,6 +630,8 @@
 <a href="#576" id="576">576</a>
 <a href="#577" id="577">577</a>
 <a href="#578" id="578">578</a>
+<a href="#579" id="579">579</a>
+<a href="#580" id="580">580</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// public_api_mod.rs
@@ -663,9 +665,11 @@
 </span><span class="doccomment">/// ANSI color
 </span><span class="kw">pub const </span>RED: <span class="kw-2">&</span>str = <span class="string">"\x1b[31m"</span>;
 <span class="doccomment">/// ANSI color
+</span><span class="kw">pub const </span>GREEN: <span class="kw-2">&</span>str = <span class="string">"\x1b[32m"</span>;
+<span class="doccomment">/// ANSI color
 </span><span class="kw">pub const </span>YELLOW: <span class="kw-2">&</span>str = <span class="string">"\x1b[33m"</span>;
 <span class="doccomment">/// ANSI color
-</span><span class="kw">pub const </span>GREEN: <span class="kw-2">&</span>str = <span class="string">"\x1b[32m"</span>;
+</span><span class="kw">pub const </span>BLUE: <span class="kw-2">&</span>str = <span class="string">"\x1b[34m"</span>;
 <span class="doccomment">/// ANSI color
 </span><span class="kw">pub const </span>RESET: <span class="kw-2">&</span>str = <span class="string">"\x1b[0m"</span>;
 <span class="comment">// endregion: Public API constants
@@ -1219,7 +1223,7 @@
 
 <span class="doccomment">/// Publish to crates.io
 ///
-/// Encrypt/decrypt the crates.io token with the GitHub ssh key.
+/// Encrypt/decrypt the crates.io token with the GitHub SSH key.
 /// Then call the `cargo publish --token token` command.
 /// Never show the secret token anywhere.
 </span><span class="kw">pub fn </span>publish_to_crates_io_with_secret_token() {

@@ -34,7 +34,7 @@
     <div class="sidebar-crate">
       <a class="logo-container" href="../../cargo_auto_lib/index.html"><img src=
       "https://github.com/automation-tasks-rs/cargo-auto/raw/main/images/logo/logo_cargo_auto.svg" alt="logo"></a>
-      <h2><a href="../../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">2.0.6</span></h2>
+      <h2><a href="../../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">2.0.8</span></h2>
     </div>
     <h2 class="location"><a href="#">Module auto_encrypt_decrypt_with_ssh_mod</a></h2>
     <div class="sidebar-elems">
@@ -90,17 +90,17 @@
             <p>The TOKEN must be encrypted before storing it.</p>
             <h3 id="ssh-keys"><a class="doc-anchor" href="#ssh-keys">§</a>SSH keys</h3>
             <p>We already use SSH keys to connect to GitHub. And we use ssh-agent for easy work with SSH identities.<br>
-            I want to use the ssh key inside ssh-agent to encrypt the TOKEN and save it in a file.</p>
+            I want to use the SSH key inside ssh-agent to encrypt the TOKEN and save it in a file.</p>
             <p>The easy solution: encrypt with the Public key and then decrypt with the Private key.<br>
             Problem: ssh-agent can only sign a message with the private key. Nothing more.<br>
             It cannot decrypt with private key, because it would be a security risk.</p>
-            <p>The security is based on the assumption that only the owner of the ssh private key can sign the message.<br>
-            The user already uses the ssh private key and it uses ssh-agent to connect over ssh to GitHub.<br>
-            So the user already knows how important are ssh private keys and to keep them secure.</p>
+            <p>The security is based on the assumption that only the owner of the[]SSHprivate key can sign the message.<br>
+            The user already uses theSSHprivate key and it uses ssh-agent to connect over SSH to GitHub.<br>
+            So the user already knows how important are SSH private keys and to keep them secure.</p>
             <p>This could work also for other TOKENS, not just GitHub.</p>
             <p>Encryption</p>
             <ol>
-              <li>ssh-agent must contain the chosen ssh identity. Use ssh-add for this.</li>
+              <li>ssh-agent must contain the chosen SSH identity. Use ssh-add for this.</li>
               <li>Create a random message that will be used only by this code. It is not a secret.</li>
               <li>Sign this message. This will become the password for symmetric encryption. It is a secret.</li>
               <li>Input the token interactively in hidden input. It is a secret.</li>
@@ -110,7 +110,7 @@
             </ol>
             <p>Decryption</p>
             <ol>
-              <li>ssh-agent must contain the ssh identity. Use ssh-add for this.</li>
+              <li>ssh-agent must contain the SSH identity. Use ssh-add for this.</li>
               <li>Read the json file, get the ssh_identity_file_path, message and the encrypted token.</li>
               <li>Find the right identity inside ssh-agent.</li>
               <li>Sign the message. This will become the password for symmetric decryption. It is a secret.</li>

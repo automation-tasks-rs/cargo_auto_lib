@@ -768,6 +768,21 @@
 <a href="#714" id="714">714</a>
 <a href="#715" id="715">715</a>
 <a href="#716" id="716">716</a>
+<a href="#717" id="717">717</a>
+<a href="#718" id="718">718</a>
+<a href="#719" id="719">719</a>
+<a href="#720" id="720">720</a>
+<a href="#721" id="721">721</a>
+<a href="#722" id="722">722</a>
+<a href="#723" id="723">723</a>
+<a href="#724" id="724">724</a>
+<a href="#725" id="725">725</a>
+<a href="#726" id="726">726</a>
+<a href="#727" id="727">727</a>
+<a href="#728" id="728">728</a>
+<a href="#729" id="729">729</a>
+<a href="#730" id="730">730</a>
+<a href="#731" id="731">731</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// auto_github_mod
@@ -776,10 +791,7 @@
 
 </span><span class="kw">use </span><span class="kw">crate</span>::CargoTomlPublicApiMethods;
 <span class="kw">use </span><span class="kw">crate</span>::SecretString;
-<span class="kw">use </span><span class="kw">crate</span>::GREEN;
-<span class="kw">use </span><span class="kw">crate</span>::RED;
-<span class="kw">use </span><span class="kw">crate</span>::RESET;
-<span class="kw">use </span><span class="kw">crate</span>::YELLOW;
+<span class="kw">use crate</span>::{BLUE, GREEN, RED, RESET, YELLOW};
 
 <span class="comment">// region: bring traits in scope
 
@@ -963,7 +975,7 @@
 ///
 /// A new local git repository and remote GitHub repository will be crated.
 </span><span class="kw">pub fn </span>init_repository_if_needed(message: <span class="kw-2">&</span>str) -&gt; bool {
-    <span class="comment">// Find the filename of the identity_file for ssh connection to host_name, to find out if need ssh-add or not.
+    <span class="comment">// Find the filename of the identity_file for SSH connection to host_name, to find out if need ssh-add or not.
     // parse the ~/.ssh/config. 99% probably there should be a record for host_name and there is the identity_file.
     // else ask user for filename, then run ssh-add. The identity added with ssh-add will remain also in the parent process.
     </span><span class="kw">let </span>_token = check_or_get_github_token().unwrap();
@@ -1001,7 +1013,7 @@
 </span><span class="kw">pub fn </span>ssh_add_resolve(host_name: <span class="kw-2">&</span>str, default_identity_file_path: <span class=
 "kw-2">&</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;(<span class="kw">crate</span>::auto_ssh_mod::FingerprintString, <span class=
 "kw">crate</span>::auto_ssh_mod::IdentityFilePathString)&gt; {
-    <span class="comment">// I must find the filename of the identity_file for ssh connection to host_name,
+    <span class="comment">// I must find the filename of the identity_file for SSH connection to host_name,
     // to find out if I need ssh-add or not.
     // 1. Parse the ~/.ssh/config file and find the record for host_name and there is the identity_file_path.
     // returns: identity_file_path contains the path like: `~/.ssh/github_com_ssh_1`
@@ -1027,22 +1039,36 @@
 
 <span class="doccomment">/// Interactive ask to create a new remote GitHub repository
 </span><span class="kw">pub fn </span>new_remote_github_repository() -&gt; <span class="prelude-ty">Option</span>&lt;String&gt; {
+    <span class="comment">// early error if Repository contains the placeholder "github_owner" or does not contain the true github_owner
+    </span><span class="kw">let </span>cargo_toml = <span class="kw">crate</span>::CargoToml::read();
+    <span class="kw">let </span>github_owner = cargo_toml
+        .github_owner()
+        .unwrap_or_else(|| <span class="macro">panic!</span>(<span class=
+"string">"{RED}ERROR: Element Repository in Cargo.toml does not contain the github_owner!{RESET}"</span>));
+    <span class="kw">if </span>github_owner == <span class="string">"github_owner" </span>{
+        <span class="macro">panic!</span>(<span class=
+"string">"{RED}ERROR: Element Repository in Cargo.toml cannot contain the '/github_owner/' phrase!{RESET}"</span>);
+    }
+    <span class="kw">let </span>name = cargo_toml.package_name();
+    <span class="kw">let </span>description = cargo_toml
+        .package_description()
+        .unwrap_or_else(|| <span class="macro">panic!</span>(<span class=
+"string">"{RED}ERROR: Element Description in Cargo.toml does not exist!{RESET}"</span>));
+
     <span class="comment">// ask interactive
-    </span><span class="macro">println!</span>(<span class="string">"    {YELLOW}This project does not have a remote GitHub repository.{RESET}"</span>);
-    <span class="kw">let </span>answer = inquire::Text::new(<span class=
-"string">"Do you want to create a new remote GitHub repository? (y/n)"</span>).prompt().unwrap();
+    </span><span class="macro">println!</span>(<span class="string">"    {BLUE}This project does not have a remote GitHub repository.{RESET}"</span>);
+    <span class="kw">let </span>answer = inquire::Text::new(<span class="kw-2">&</span><span class="macro">format!</span>(<span class=
+"string">"{BLUE}Do you want to create a new remote GitHub repository? (y/n){RESET}"</span>))
+        .prompt()
+        .unwrap();
     <span class="kw">if </span>answer.to_lowercase() != <span class="string">"y" </span>{
         <span class="comment">// early exit
         </span><span class="kw">return </span><span class="prelude-val">None</span>;
     }
     <span class="comment">// continue if answer is "y"
 
-    </span><span class="kw">let </span>cargo_toml = <span class="kw">crate</span>::CargoToml::read();
-    <span class="kw">let </span>name = cargo_toml.package_name();
-    <span class="kw">let </span>owner = cargo_toml.github_owner().unwrap();
-    <span class="kw">let </span>description = cargo_toml.package_description().unwrap();
-    <span class="kw">let </span>json: serde_json::Value = <span class="kw">crate</span>::auto_github_mod::github_api_repository_new(<span class=
-"kw-2">&</span>owner, <span class="kw-2">&</span>name, <span class="kw-2">&</span>description);
+    </span><span class="kw">let </span>json: serde_json::Value = <span class="kw">crate</span>::auto_github_mod::github_api_repository_new(<span class=
+"kw-2">&</span>github_owner, <span class="kw-2">&</span>name, <span class="kw-2">&</span>description);
     <span class="comment">// get just the name, description and html_url from json
     </span><span class="macro">println!</span>(<span class="string">"name: {}"</span>, json.get(<span class=
 "string">"name"</span>).unwrap().as_str().unwrap());
@@ -1051,15 +1077,16 @@
     <span class="kw">let </span>repo_html_url = json.get(<span class="string">"html_url"</span>).unwrap().as_str().unwrap().to_string();
     <span class="macro">println!</span>(<span class="string">"url: {}"</span>, <span class="kw-2">&</span>repo_html_url);
 
-    <span class="comment">// the docs pages are created with a GitHub action
-    </span>github_api_create_a_github_pages_site(<span class="kw-2">&</span>owner, <span class="kw-2">&</span>name);
-
     description_and_topics_to_github();
 
     <span class="comment">// add this GitHub repository to origin remote over SSH (use sshadd for passcode)
     </span><span class="kw">crate</span>::run_shell_command(<span class="kw-2">&</span><span class="macro">format!</span>(<span class=
-"string">"git remote add origin git@github.com:{owner}/{name}.git"</span>));
+"string">"git remote add origin git@github.com:{github_owner}/{name}.git"</span>));
     <span class="kw">crate</span>::run_shell_command(<span class="string">"git push -u origin main"</span>);
+
+    <span class="comment">// the docs pages are created with a GitHub action
+    </span>github_api_create_a_github_pages_site(<span class="kw-2">&</span>github_owner, <span class="kw-2">&</span>name);
+
     <span class="prelude-val">Some</span>(repo_html_url)
 }
 
@@ -1101,9 +1128,11 @@
 <span class="doccomment">/// Interactive ask to create a new local git repository
 </span><span class="kw">pub fn </span>new_local_repository(message: <span class="kw-2">&</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;()&gt; {
     <span class="comment">// ask interactive
-    </span><span class="macro">println!</span>(<span class="string">"    {YELLOW}This project is not yet a Git repository.{RESET}"</span>);
-    <span class="kw">let </span>answer = inquire::Text::new(<span class=
-"string">"Do you want to initialize a new local git repository? (y/n)"</span>).prompt().unwrap();
+    </span><span class="macro">println!</span>(<span class="string">"    {BLUE}This project is not yet a Git repository.{RESET}"</span>);
+    <span class="kw">let </span>answer = inquire::Text::new(<span class="kw-2">&</span><span class="macro">format!</span>(<span class=
+"string">"{BLUE}Do you want to initialize a new local git repository? (y/n){RESET}"</span>))
+        .prompt()
+        .unwrap();
     <span class="comment">// continue if answer is "y"
     </span><span class="kw">if </span>answer.to_lowercase() != <span class="string">"y" </span>{
         <span class="comment">// early exit
@@ -1134,14 +1163,17 @@
         <span class="prelude-val">Some</span>(_key) =&gt; (),
         <span class="prelude-val">None </span>=&gt; {
             <span class="comment">// ssh-add if it is not contained in the ssh-agent
-            </span><span class="macro">eprintln!</span>(<span class="string">"{RED}Ssh key for GitHub push is not in the ssh-agent.{RESET}"</span>);
-            <span class="macro">println!</span>(<span class="string">"    {YELLOW}Add ssh identity with ssh-add to use with GitHub push.{RESET}"</span>);
+            </span><span class="macro">eprintln!</span>(<span class="string">"{BLUE}SSH key for GitHub push is not in the ssh-agent.{RESET}"</span>);
+            <span class="macro">println!</span>(<span class="string">"    {BLUE}Add SSH identity with ssh-add to use with GitHub push.{RESET}"</span>);
+            <span class="comment">// I would like to make this question BLUE, but it does not work simply.
+            </span><span class="macro">eprintln!</span>(<span class="string">"{BLUE}"</span>);
             <span class="kw">let </span>cmd = <span class="macro">format!</span>(<span class="string">"ssh-add -t 1h {}"</span>, identity_private_file_path);
             <span class="kw">if </span>!<span class="kw">crate</span>::run_shell_command_success(<span class="kw-2">&</span>cmd) {
-                <span class="macro">eprintln!</span>(<span class="string">"{RED}Error: ssh-add was not successful! Exiting...{RESET}"</span>,);
+                <span class="macro">eprintln!</span>(<span class="string">"{RED}Error: ssh-add was not successful! Exiting...{RESET}"</span>);
                 <span class="comment">// early exit
                 </span><span class="kw">return </span><span class="prelude-val">None</span>;
             }
+            <span class="macro">eprintln!</span>(<span class="string">"{RESET}"</span>);
         }
     }
     <span class="prelude-val">Some</span>(fingerprint_from_file)
@@ -1175,7 +1207,7 @@
     <span class="prelude-val">Some</span>(identity_file_path)
 }
 
-<span class="doccomment">/// Ask the user for the filename of the ssh key used to connect with SSH/git to a server.
+<span class="doccomment">/// Ask the user for the filename of the SSH key used to connect with SSH/git to a server.
 ///
 /// host_name is like: github.com or bestia.dev, default like ~/.ssh/github_com_ssh_1 and ~/.ssh/bestia_dev_ssh_1
 /// returns PathBuf to identity_file_path or None
@@ -1183,7 +1215,7 @@
 "kw-2">&</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;String&gt; {
     <span class="macro">println!</span>(
         <span class="string">r#"{RED}Cannot find identity file in ~/.ssh/config.{RESET}
-    {YELLOW}It should contain the filepath of the ssh key used for ssh connection or git to {host_name}.
+    {YELLOW}It should contain the filepath of the SSH key used for SSH connection or git to {host_name}.
     The filepath itself is not a secret. Just the content of the file is a secret.
     Without this filepath I cannot check if it is ssh-added to the ssh-agent.
     If you create the file ~/.ssh/config with content like this: 
@@ -1192,13 +1224,13 @@
 "#</span>,
     );
     <span class="kw">let </span>identity_file_for_ssh = inquire::Text::new(<span class="kw-2">&</span><span class="macro">format!</span>(<span class=
-"string">"Which filepath has the ssh identity for {host_name}?"</span>))
+"string">"Which filepath has the SSH identity for {host_name}?"</span>))
         .with_initial_value(default_identity_file_path)
         .prompt()
         .unwrap();
     <span class="kw">if </span>identity_file_for_ssh.is_empty() {
         <span class="comment">// early exit
-        </span><span class="macro">eprintln!</span>(<span class="string">"{RED}Error: The filepath for the ssh key was not given. Exiting...{RESET}"</span>);
+        </span><span class="macro">eprintln!</span>(<span class="string">"{RED}Error: The filepath for the SSH key was not given. Exiting...{RESET}"</span>);
         <span class="kw">return </span><span class="prelude-val">None</span>;
     }
 
@@ -1517,16 +1549,16 @@ The TODO section is part of the [README.md](https://github.com/{github_owner}/{p
     <span class="kw">let </span>repos_url = <span class="macro">format!</span>(<span class=
 "string">"https://api.github.com/repos/{owner}/{repo_name}/pages"</span>);
     <span class="kw">let </span>body = <span class="macro">serde_json::json!</span>({
+        <span class="string">"build_type"</span>: <span class="string">"workflow"</span>,
         <span class="string">"source"</span>: {
             <span class="string">"branch"</span>: <span class="string">"main"</span>,
-            <span class="string">"path"</span>: <span class="string">"/docs"</span>,
-            <span class="string">"build_type"</span>: <span class="string">"workflow"
+            <span class="string">"path"</span>: <span class="string">"/docs"
         </span>}
     });
     <span class="kw">let </span>body = body.to_string();
 
     <span class="kw">let </span>response_text = reqwest::blocking::Client::new()
-        .put(repos_url.as_str())
+        .post(repos_url.as_str())
         .header(<span class="string">"Accept"</span>, <span class="string">"application/vnd.github+json"</span>)
         .header(<span class="string">"Authorization"</span>, <span class="macro">format!</span>(<span class="string">"Bearer {}"</span>, token.<span class=
 "number">0</span>))
@@ -1540,7 +1572,8 @@ The TODO section is part of the [README.md](https://github.com/{github_owner}/{p
     token.<span class="number">0</span>.zeroize();
 
     <span class="kw">let </span>_parsed: serde_json::Value = serde_json::from_str(<span class="kw-2">&</span>response_text).unwrap();
-}
+    <span class="comment">// pretty_dbg::pretty_dbg!(parsed);
+</span>}
 </code></pre>
       </div>
     </section>

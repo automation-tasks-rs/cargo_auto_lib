@@ -297,7 +297,7 @@
         // if changed, then write to disk
         </span><span class="kw">if </span>is_changed {
             <span class="macro">println!</span>(<span class=
-"string">"    {YELLOW}Code inside {md_filename} has changed. Playground link corrected.{RESET}"</span>,);
+"string">"    {YELLOW}Code inside {md_filename} has changed. Playground link corrected.{RESET}"</span>);
             <span class="comment">// push the remaining text
             </span>md_new.push_str(<span class="kw-2">&</span>md_old[iteration_start_pos..md_old.len()]);
             <span class="kw">let </span>bak_filename = md_filename.with_extension(<span class="string">"bak"</span>);
