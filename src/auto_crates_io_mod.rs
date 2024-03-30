@@ -14,7 +14,7 @@ pub const CRATES_IO_TOKEN_PATH: &str = "~/.ssh/crates_io_data_1.ssh";
 
 /// Publish to crates.io
 ///
-/// Encrypt/decrypt the crates.io token with the GitHub ssh key.
+/// Encrypt/decrypt the crates.io token with the GitHub SSH key.
 /// Then call the `cargo publish --token token` command.
 /// Never show the secret token anywhere.
 pub fn publish_to_crates_io_with_secret_token() {

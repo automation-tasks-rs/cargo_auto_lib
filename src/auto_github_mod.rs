@@ -4,10 +4,7 @@
 
 use crate::CargoTomlPublicApiMethods;
 use crate::SecretString;
-use crate::GREEN;
-use crate::RED;
-use crate::RESET;
-use crate::YELLOW;
+use crate::{BLUE, GREEN, RED, RESET, YELLOW};
 
 // region: bring traits in scope
 
@@ -180,7 +177,7 @@ pub fn github_api_repository_new(owner: &str, name: &str, description: &str) -> 
 ///
 /// A new local git repository and remote GitHub repository will be crated.
 pub fn init_repository_if_needed(message: &str) -> bool {
-    // Find the filename of the identity_file for ssh connection to host_name, to find out if need ssh-add or not.
+    // Find the filename of the identity_file for SSH connection to host_name, to find out if need ssh-add or not.
     // parse the ~/.ssh/config. 99% probably there should be a record for host_name and there is the identity_file.
     // else ask user for filename, then run ssh-add. The identity added with ssh-add will remain also in the parent process.
     let _token = check_or_get_github_token().unwrap();
@@ -216,7 +213,7 @@ pub fn init_repository_if_needed(message: &str) -> bool {
 /// This ssh-add will stay even after the process ends, so the parent process will still have it.
 /// returns: fingerprint or None and identity_file_name
 pub fn ssh_add_resolve(host_name: &str, default_identity_file_path: &str) -> Option<(crate::auto_ssh_mod::FingerprintString, crate::auto_ssh_mod::IdentityFilePathString)> {
-    // I must find the filename of the identity_file for ssh connection to host_name,
+    // I must find the filename of the identity_file for SSH connection to host_name,
     // to find out if I need ssh-add or not.
     // 1. Parse the ~/.ssh/config file and find the record for host_name and there is the identity_file_path.
     // returns: identity_file_path contains the path like: `~/.ssh/github_com_ssh_1`
@@ -240,34 +237,46 @@ pub fn ssh_add_resolve(host_name: &str, default_identity_file_path: &str) -> Opt
 
 /// Interactive ask to create a new remote GitHub repository
 pub fn new_remote_github_repository() -> Option<String> {
+    // early error if Repository contains the placeholder "github_owner" or does not contain the true github_owner
+    let cargo_toml = crate::CargoToml::read();
+    let github_owner = cargo_toml
+        .github_owner()
+        .unwrap_or_else(|| panic!("{RED}ERROR: Element Repository in Cargo.toml does not contain the github_owner!{RESET}"));
+    if github_owner == "github_owner" {
+        panic!("{RED}ERROR: Element Repository in Cargo.toml cannot contain the '/github_owner/' phrase!{RESET}");
+    }
+    let name = cargo_toml.package_name();
+    let description = cargo_toml
+        .package_description()
+        .unwrap_or_else(|| panic!("{RED}ERROR: Element Description in Cargo.toml does not exist!{RESET}"));
+
     // ask interactive
-    println!("    {YELLOW}This project does not have a remote GitHub repository.{RESET}");
-    let answer = inquire::Text::new("Do you want to create a new remote GitHub repository? (y/n)").prompt().unwrap();
+    println!("    {BLUE}This project does not have a remote GitHub repository.{RESET}");
+    let answer = inquire::Text::new(&format!("{BLUE}Do you want to create a new remote GitHub repository? (y/n){RESET}"))
+        .prompt()
+        .unwrap();
     if answer.to_lowercase() != "y" {
         // early exit
         return None;
     }
     // continue if answer is "y"
 
-    let cargo_toml = crate::CargoToml::read();
-    let name = cargo_toml.package_name();
-    let owner = cargo_toml.github_owner().unwrap();
-    let description = cargo_toml.package_description().unwrap();
-    let json: serde_json::Value = crate::auto_github_mod::github_api_repository_new(&owner, &name, &description);
+    let json: serde_json::Value = crate::auto_github_mod::github_api_repository_new(&github_owner, &name, &description);
     // get just the name, description and html_url from json
     println!("name: {}", json.get("name").unwrap().as_str().unwrap());
     println!("description: {}", json.get("description").unwrap().as_str().unwrap());
     let repo_html_url = json.get("html_url").unwrap().as_str().unwrap().to_string();
     println!("url: {}", &repo_html_url);
 
-    // the docs pages are created with a GitHub action
-    github_api_create_a_github_pages_site(&owner, &name);
-
     description_and_topics_to_github();
 
     // add this GitHub repository to origin remote over SSH (use sshadd for passcode)
-    crate::run_shell_command(&format!("git remote add origin git@github.com:{owner}/{name}.git"));
+    crate::run_shell_command(&format!("git remote add origin git@github.com:{github_owner}/{name}.git"));
     crate::run_shell_command("git push -u origin main");
+
+    // the docs pages are created with a GitHub action
+    github_api_create_a_github_pages_site(&github_owner, &name);
+
     Some(repo_html_url)
 }
 
@@ -304,8 +313,10 @@ fn check_or_get_github_token() -> Option<SecretString> {
 /// Interactive ask to create a new local git repository
 pub fn new_local_repository(message: &str) -> Option<()> {
     // ask interactive
-    println!("    {YELLOW}This project is not yet a Git repository.{RESET}");
-    let answer = inquire::Text::new("Do you want to initialize a new local git repository? (y/n)").prompt().unwrap();
+    println!("    {BLUE}This project is not yet a Git repository.{RESET}");
+    let answer = inquire::Text::new(&format!("{BLUE}Do you want to initialize a new local git repository? (y/n){RESET}"))
+        .prompt()
+        .unwrap();
     // continue if answer is "y"
     if answer.to_lowercase() != "y" {
         // early exit
@@ -333,14 +344,17 @@ pub fn ssh_add_if_needed(identity_private_file_path: &str) -> Option<crate::auto
         Some(_key) => (),
         None => {
             // ssh-add if it is not contained in the ssh-agent
-            eprintln!("{RED}Ssh key for GitHub push is not in the ssh-agent.{RESET}");
-            println!("    {YELLOW}Add ssh identity with ssh-add to use with GitHub push.{RESET}");
+            eprintln!("{BLUE}SSH key for GitHub push is not in the ssh-agent.{RESET}");
+            println!("    {BLUE}Add SSH identity with ssh-add to use with GitHub push.{RESET}");
+            // I would like to make this question BLUE, but it does not work simply.
+            eprintln!("{BLUE}");
             let cmd = format!("ssh-add -t 1h {}", identity_private_file_path);
             if !crate::run_shell_command_success(&cmd) {
-                eprintln!("{RED}Error: ssh-add was not successful! Exiting...{RESET}",);
+                eprintln!("{RED}Error: ssh-add was not successful! Exiting...{RESET}");
                 // early exit
                 return None;
             }
+            eprintln!("{RESET}");
         }
     }
     Some(fingerprint_from_file)
@@ -372,14 +386,14 @@ pub fn get_identity_file_path_from_ssh_config(host_name: &str) -> Option<String>
     Some(identity_file_path)
 }
 
-/// Ask the user for the filename of the ssh key used to connect with SSH/git to a server.
+/// Ask the user for the filename of the SSH key used to connect with SSH/git to a server.
 ///
 /// host_name is like: github.com or bestia.dev, default like ~/.ssh/github_com_ssh_1 and ~/.ssh/bestia_dev_ssh_1
 /// returns PathBuf to identity_file_path or None
 pub fn ask_for_identity_file_path_for_ssh(host_name: &str, default_identity_file_path: &str) -> Option<String> {
     println!(
         r#"{RED}Cannot find identity file in ~/.ssh/config.{RESET}
-    {YELLOW}It should contain the filepath of the ssh key used for ssh connection or git to {host_name}.
+    {YELLOW}It should contain the filepath of the SSH key used for SSH connection or git to {host_name}.
     The filepath itself is not a secret. Just the content of the file is a secret.
     Without this filepath I cannot check if it is ssh-added to the ssh-agent.
     If you create the file ~/.ssh/config with content like this: 
@@ -387,13 +401,13 @@ pub fn ask_for_identity_file_path_for_ssh(host_name: &str, default_identity_file
     you will never be asked again to enter this filepath.{RESET}
 "#,
     );
-    let identity_file_for_ssh = inquire::Text::new(&format!("Which filepath has the ssh identity for {host_name}?"))
+    let identity_file_for_ssh = inquire::Text::new(&format!("Which filepath has the SSH identity for {host_name}?"))
         .with_initial_value(default_identity_file_path)
         .prompt()
         .unwrap();
     if identity_file_for_ssh.is_empty() {
         // early exit
-        eprintln!("{RED}Error: The filepath for the ssh key was not given. Exiting...{RESET}");
+        eprintln!("{RED}Error: The filepath for the SSH key was not given. Exiting...{RESET}");
         return None;
     }
 
@@ -691,16 +705,16 @@ fn github_api_create_a_github_pages_site(owner: &str, repo_name: &str) {
     let mut token = check_or_get_github_token().unwrap();
     let repos_url = format!("https://api.github.com/repos/{owner}/{repo_name}/pages");
     let body = serde_json::json!({
+        "build_type": "workflow",
         "source": {
             "branch": "main",
-            "path": "/docs",
-            "build_type": "workflow"
+            "path": "/docs"
         }
     });
     let body = body.to_string();
 
     let response_text = reqwest::blocking::Client::new()
-        .put(repos_url.as_str())
+        .post(repos_url.as_str())
         .header("Accept", "application/vnd.github+json")
         .header("Authorization", format!("Bearer {}", token.0))
         .header("X-GitHub-Api-Version", "2022-11-28")
@@ -713,4 +727,5 @@ fn github_api_create_a_github_pages_site(owner: &str, repo_name: &str) {
     token.0.zeroize();
 
     let _parsed: serde_json::Value = serde_json::from_str(&response_text).unwrap();
+    // pretty_dbg::pretty_dbg!(parsed);
 }

@@ -108,7 +108,7 @@ pub fn auto_playground_run_code() {
 
         // if changed, then write to disk
         if is_changed {
-            println!("    {YELLOW}Code inside {md_filename} has changed. Playground link corrected.{RESET}",);
+            println!("    {YELLOW}Code inside {md_filename} has changed. Playground link corrected.{RESET}");
             // push the remaining text
             md_new.push_str(&md_old[iteration_start_pos..md_old.len()]);
             let bak_filename = md_filename.with_extension("bak");

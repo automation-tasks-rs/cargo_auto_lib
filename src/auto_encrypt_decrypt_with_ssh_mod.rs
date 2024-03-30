@@ -13,21 +13,21 @@
 //! ## SSH keys
 //!
 //! We already use SSH keys to connect to GitHub. And we use ssh-agent for easy work with SSH identities.  
-//! I want to use the ssh key inside ssh-agent to encrypt the TOKEN and save it in a file.
+//! I want to use the SSH key inside ssh-agent to encrypt the TOKEN and save it in a file.
 //!
 //! The easy solution: encrypt with the Public key and then decrypt with the Private key.  
 //! Problem: ssh-agent can only sign a message with the private key. Nothing more.  
 //! It cannot decrypt with private key, because it would be a security risk.
 //!
-//! The security is based on the assumption that only the owner of the ssh private key can sign the message.  
-//! The user already uses the ssh private key and it uses ssh-agent to connect over ssh to GitHub.  
-//! So the user already knows how important are ssh private keys and to keep them secure.
+//! The security is based on the assumption that only the owner of the[]SSHprivate key can sign the message.  
+//! The user already uses theSSHprivate key and it uses ssh-agent to connect over SSH to GitHub.  
+//! So the user already knows how important are SSH private keys and to keep them secure.
 //!
 //! This could work also for other TOKENS, not just GitHub.
 //!
 //! Encryption
 //!
-//! 1. ssh-agent must contain the chosen ssh identity. Use ssh-add for this.  
+//! 1. ssh-agent must contain the chosen SSH identity. Use ssh-add for this.  
 //! 2. Create a random message that will be used only by this code. It is not a secret.  
 //! 3. Sign this message. This will become the password for symmetric encryption. It is a secret.  
 //! 4. Input the token interactively in hidden input. It is a secret.  
@@ -37,7 +37,7 @@
 //!
 //! Decryption
 //!
-//! 1. ssh-agent must contain the ssh identity. Use ssh-add for this.  
+//! 1. ssh-agent must contain the SSH identity. Use ssh-add for this.  
 //! 2. Read the json file, get the ssh_identity_file_path, message and the encrypted token.  
 //! 3. Find the right identity inside ssh-agent.  
 //! 4. Sign the message. This will become the password for symmetric decryption. It is a secret.  
@@ -59,7 +59,7 @@ use zeroize::Zeroize;
 
 use crate::auto_ssh_mod::EncryptedString;
 use crate::SecretString;
-// use crate::GREEN;
+use crate::BLUE;
 use crate::RED;
 use crate::RESET;
 use crate::YELLOW;
@@ -72,7 +72,7 @@ pub struct SecretBytes<'a>(pub &'a mut [u8]);
 
 /// Encrypt a token with the chosen ssh_identity and save as json encoded in Base64
 ///
-/// Use ssh-add to put ssh identity into ssh-agent.
+/// Use ssh-add to put SSH identity into ssh-agent.
 pub(crate) fn encrypt_with_ssh_interactive_save_file(identity_file_path: &str, output_file_path: &str) {
     /// Internal function Generate a random password
     fn random_byte_password() -> [u8; 32] {
@@ -127,7 +127,7 @@ pub(crate) fn encrypt_with_ssh_interactive_save_file(identity_file_path: &str, o
     // signature_is_the_new_secret_password.zeroize;
 
     // input the token interactively
-    let mut token_is_a_secret = SecretString(inquire::Password::new("Enter the token to encrypt:").without_confirmation().prompt().unwrap());
+    let mut token_is_a_secret = SecretString(inquire::Password::new(&format!("{BLUE}Enter the token to encrypt:{RESET}")).without_confirmation().prompt().unwrap());
 
     // use this signed as password for symmetric encryption
     let encrypted_text = encrypt_symmetric(&token_is_a_secret, &secret_password_bytes).unwrap();
@@ -151,7 +151,7 @@ pub(crate) fn encrypt_with_ssh_interactive_save_file(identity_file_path: &str, o
 
 /// Decrypt from json file with ssh_identity
 ///
-/// Use ssh-add to put ssh identity into ssh-agent.
+/// Use ssh-add to put SSH identity into ssh-agent.
 pub(crate) fn decrypt_with_ssh_from_file(json_file_path: &str) -> Option<SecretString> {
     /// Internal function Decrypts data with a key and a fingerprint
     fn decrypt_symmetric(encrypted_text: &EncryptedString, secret_password_bytes: SecretBytes) -> Option<SecretString> {

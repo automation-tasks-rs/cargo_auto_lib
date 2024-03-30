@@ -11,7 +11,7 @@ It will work on Linux (tested on Debian) and inside WSL (Windows Subsystem for L
 
 You just need to install the Docker newer alternative: [Podman](https://podman.io/).  
 Then you download the prepared container image from DockerHub (3GB).  
-And then a little juggling with ssh keys.  
+And then a little juggling with SSH keys.  
 All this is simplified by running a few bash scripts.  
 Just follow the easy instructions.  
 

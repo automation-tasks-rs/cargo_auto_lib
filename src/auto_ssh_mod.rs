@@ -1,6 +1,6 @@
 // auto_ssh_mod.rs
 
-//! Work with ssh keys
+//! Work with SSH keys
 
 /// A simple type-alias for String just to show intent that it is a fingerprint
 pub type FingerprintString = String;

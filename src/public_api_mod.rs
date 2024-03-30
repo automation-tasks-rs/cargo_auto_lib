@@ -29,9 +29,11 @@
 /// ANSI color
 pub const RED: &str = "\x1b[31m";
 /// ANSI color
+pub const GREEN: &str = "\x1b[32m";
+/// ANSI color
 pub const YELLOW: &str = "\x1b[33m";
 /// ANSI color
-pub const GREEN: &str = "\x1b[32m";
+pub const BLUE: &str = "\x1b[34m";
 /// ANSI color
 pub const RESET: &str = "\x1b[0m";
 // endregion: Public API constants
@@ -568,7 +570,7 @@ pub fn description_and_topics_to_github() {
 
 /// Publish to crates.io
 ///
-/// Encrypt/decrypt the crates.io token with the GitHub ssh key.
+/// Encrypt/decrypt the crates.io token with the GitHub SSH key.
 /// Then call the `cargo publish --token token` command.
 /// Never show the secret token anywhere.
 pub fn publish_to_crates_io_with_secret_token() {
