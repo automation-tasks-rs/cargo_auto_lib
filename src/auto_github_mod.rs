@@ -270,7 +270,7 @@ pub fn new_remote_github_repository() -> Option<String> {
 
     description_and_topics_to_github();
 
-    // add this GitHub repository to origin remote over SSH (use sshadd for passcode)
+    // add this GitHub repository to origin remote over SSH (use sshadd for passphrase)
     crate::run_shell_command(&format!("git remote add origin git@github.com:{github_owner}/{name}.git"));
     crate::run_shell_command("git push -u origin main");
 
@@ -335,7 +335,7 @@ pub fn new_local_repository(message: &str) -> Option<()> {
 ///
 /// Identity_private_file_path contains the path of the private key like: `~/.ssh/github_com_ssh_1`.
 /// Check if this file is in ssh-add.
-/// If it is not, then ask user to ssh-add and enter passcode.
+/// If it is not, then ask user to ssh-add and enter passphrase.
 pub fn ssh_add_if_needed(identity_private_file_path: &str) -> Option<crate::auto_ssh_mod::FingerprintString> {
     let fingerprint_from_file = crate::auto_ssh_mod::get_fingerprint_from_file(identity_private_file_path);
     let mut ssh_agent_client = crate::auto_ssh_mod::crate_ssh_agent_client();
