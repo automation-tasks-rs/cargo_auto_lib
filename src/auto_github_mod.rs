@@ -282,10 +282,12 @@ pub fn new_remote_github_repository() -> Option<String> {
 
 /// Decrypt the token from GITHUB_TOKEN_PATH file
 ///
-/// Or ask user interactively to type it, then encrypt and save to file.
+/// For the Github API the task needs the Personal Access Token Classic from <https://github.com/settings/tokens>
+/// You can choose to type the token every time or to store it in a file encrypted with an SSH key.
+/// Then you can write the passphrase of the private key every time ot store the private key in ssh-agent for the current session.
 fn check_or_get_github_token() -> Option<SecretString> {
     // ssh_add_resolve(host_name: &str, default_identity_file_path: &str)
-    let (_fingerprint, identity_file_path) = ssh_add_resolve("github.com", "~/.ssh/github_com_ssh_1").unwrap();
+    let (_fingerprint, identity_file_path) = ssh_add_resolve("github.com", "~/.ssh/api_github_com_ssh_1").unwrap();
 
     let mut token: Option<SecretString> = None;
     let github_token_json_path_expanded = crate::utils_mod::file_path_home_expand(GITHUB_TOKEN_PATH);
