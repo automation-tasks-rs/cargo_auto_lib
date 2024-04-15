@@ -14,7 +14,7 @@
   <link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css">
   <link rel="stylesheet" href="../../static.files/rustdoc-5bc39a1768837dd0.css">
   <meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="cargo_auto_lib" data-themes=""
-  data-resource-suffix="" data-rustdoc-version="1.77.0 (aedd173a2 2024-03-17)" data-channel="1.77.0" data-search-js="search-dd67cee4cfa65049.js"
+  data-resource-suffix="" data-rustdoc-version="1.77.1 (7cf61ebde 2024-03-27)" data-channel="1.77.1" data-search-js="search-dd67cee4cfa65049.js"
   data-settings-js="settings-4313503d2e1961c2.js">
   <script src="../../static.files/storage-4c98445ec4002617.js"></script>
   <script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script>
@@ -165,11 +165,6 @@
 <a href="#111" id="111">111</a>
 <a href="#112" id="112">112</a>
 <a href="#113" id="113">113</a>
-<a href="#114" id="114">114</a>
-<a href="#115" id="115">115</a>
-<a href="#116" id="116">116</a>
-<a href="#117" id="117">117</a>
-<a href="#118" id="118">118</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// utils_mod.rs
@@ -286,12 +281,6 @@
     }
     <span class="comment">// return
     </span>concatenated_string
-}
-
-<span class="doccomment">/// Expands the ~ for home_dir and returns expanded path as str
-</span><span class="kw">pub fn </span>file_path_home_expand(file_path: <span class="kw-2">&</span>str) -&gt; String {
-    file_path.replace(<span class="string">"~"</span>, camino::Utf8Path::from_path(<span class="kw-2">&</span><span class=
-"kw">crate</span>::home_dir()).unwrap().as_str())
 }
 
 <span class="doccomment">/// UTC date in iso standard like 2024-12-31

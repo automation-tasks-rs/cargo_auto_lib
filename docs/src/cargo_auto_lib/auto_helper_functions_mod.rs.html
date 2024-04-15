@@ -14,7 +14,7 @@
   <link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css">
   <link rel="stylesheet" href="../../static.files/rustdoc-5bc39a1768837dd0.css">
   <meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="cargo_auto_lib" data-themes=""
-  data-resource-suffix="" data-rustdoc-version="1.77.0 (aedd173a2 2024-03-17)" data-channel="1.77.0" data-search-js="search-dd67cee4cfa65049.js"
+  data-resource-suffix="" data-rustdoc-version="1.77.1 (7cf61ebde 2024-03-27)" data-channel="1.77.1" data-search-js="search-dd67cee4cfa65049.js"
   data-settings-js="settings-4313503d2e1961c2.js">
   <script src="../../static.files/storage-4c98445ec4002617.js"></script>
   <script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script>
@@ -185,9 +185,9 @@
     <span class="kw">let </span>status = std::process::Command::new(<span class="string">"sh"</span>).arg(<span class=
 "string">"-c"</span>).arg(shell_command).spawn().unwrap().wait().unwrap();
     <span class="kw">let </span>exit_code = status.code().expect(<span class="kw-2">&</span><span class="macro">format!</span>(<span class=
-"string">"{RED}Error. Exiting...{RESET}"</span>));
+"string">"{RED}Error. {RESET}"</span>));
     <span class="kw">if </span>exit_code != <span class="number">0 </span>{
-        <span class="macro">eprintln!</span>(<span class="string">"{RED}Error: {}. Exiting...{RESET}"</span>, exit_code);
+        <span class="macro">eprintln!</span>(<span class="string">"{RED}Error: {}. {RESET}"</span>, exit_code);
         std::process::exit(<span class="number">1</span>);
     }
 }

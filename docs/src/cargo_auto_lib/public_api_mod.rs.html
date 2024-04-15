@@ -14,7 +14,7 @@
   <link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css">
   <link rel="stylesheet" href="../../static.files/rustdoc-5bc39a1768837dd0.css">
   <meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="cargo_auto_lib" data-themes=""
-  data-resource-suffix="" data-rustdoc-version="1.77.0 (aedd173a2 2024-03-17)" data-channel="1.77.0" data-search-js="search-dd67cee4cfa65049.js"
+  data-resource-suffix="" data-rustdoc-version="1.77.1 (7cf61ebde 2024-03-27)" data-channel="1.77.1" data-search-js="search-dd67cee4cfa65049.js"
   data-settings-js="settings-4313503d2e1961c2.js">
   <script src="../../static.files/storage-4c98445ec4002617.js"></script>
   <script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script>
@@ -605,33 +605,6 @@
 <a href="#551" id="551">551</a>
 <a href="#552" id="552">552</a>
 <a href="#553" id="553">553</a>
-<a href="#554" id="554">554</a>
-<a href="#555" id="555">555</a>
-<a href="#556" id="556">556</a>
-<a href="#557" id="557">557</a>
-<a href="#558" id="558">558</a>
-<a href="#559" id="559">559</a>
-<a href="#560" id="560">560</a>
-<a href="#561" id="561">561</a>
-<a href="#562" id="562">562</a>
-<a href="#563" id="563">563</a>
-<a href="#564" id="564">564</a>
-<a href="#565" id="565">565</a>
-<a href="#566" id="566">566</a>
-<a href="#567" id="567">567</a>
-<a href="#568" id="568">568</a>
-<a href="#569" id="569">569</a>
-<a href="#570" id="570">570</a>
-<a href="#571" id="571">571</a>
-<a href="#572" id="572">572</a>
-<a href="#573" id="573">573</a>
-<a href="#574" id="574">574</a>
-<a href="#575" id="575">575</a>
-<a href="#576" id="576">576</a>
-<a href="#577" id="577">577</a>
-<a href="#578" id="578">578</a>
-<a href="#579" id="579">579</a>
-<a href="#580" id="580">580</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// public_api_mod.rs
@@ -683,9 +656,6 @@
 
 <span class="doccomment">/// similar to std::process::Output, but with i32 and Strings for easier work
 </span><span class="kw">pub use </span><span class="kw">crate</span>::auto_helper_functions_mod::ShellOutput;
-
-<span class="doccomment">/// A simple wrapper new-type around String just to show intent that it is a secret
-</span><span class="kw">pub use </span><span class="kw">crate</span>::auto_ssh_mod::SecretString;
 
 <span class="comment">// reexporting a struct needs to export the trait to also reexports all the methods
 
@@ -1092,26 +1062,6 @@
     <span class="kw">crate</span>::auto_helper_functions_mod::home_dir()
 }
 
-<span class="doccomment">/// Init repository if needed
-///
-/// A new local git repository and remote GitHub repository will be crated.
-</span><span class="kw">pub fn </span>init_repository_if_needed(message: <span class="kw-2">&</span>str) -&gt; bool {
-    <span class="kw">crate</span>::auto_github_mod::init_repository_if_needed(message)
-}
-
-<span class="doccomment">/// Create new release on Github
-</span><span class="kw">pub fn </span>github_api_create_new_release(owner: <span class="kw-2">&</span>str, repo: <span class=
-"kw-2">&</span>str, tag_name_version: <span class="kw-2">&</span>str, name: <span class="kw-2">&</span>str, branch: <span class=
-"kw-2">&</span>str, body_md_text: <span class="kw-2">&</span>str) -&gt; String {
-    <span class="kw">crate</span>::auto_github_mod::github_api_create_new_release(owner, repo, tag_name_version, name, branch, body_md_text)
-}
-
-<span class="doccomment">/// Upload asset to github release  
-</span><span class="kw">pub fn </span>github_api_upload_asset_to_release(owner: <span class="kw-2">&</span>str, repo: <span class=
-"kw-2">&</span>str, release_id: <span class="kw-2">&</span>str, path_to_file: <span class="kw-2">&</span>str) {
-    <span class="kw">crate</span>::auto_github_mod::github_api_upload_asset_to_release(owner, repo, release_id, path_to_file)
-}
-
 <span class="doccomment">/// sync, check, create, push git tag
 </span><span class="kw">pub fn </span>git_tag_sync_check_create_push(version: <span class="kw-2">&</span>str) -&gt; String {
     <span class="kw">crate</span>::auto_github_mod::git_tag_sync_check_create_push(version)
@@ -1210,17 +1160,6 @@
     <span class="kw">crate</span>::auto_playground_mod::auto_playground_run_code()
 }
 
-<span class="doccomment">/// Check and modify the description and topics on Github
-///
-/// The words topics, keywords and tags all mean the same concept.
-/// In cargo.toml we have keywords.
-/// In README.md I want to have badges for tags
-/// In GitHub they are topics.
-/// Topic must be only one word: lowercase letters, hyphens(-) or numbers, less then 35 characters.
-</span><span class="kw">pub fn </span>description_and_topics_to_github() {
-    <span class="kw">crate</span>::auto_github_mod::description_and_topics_to_github()
-}
-
 <span class="doccomment">/// Publish to crates.io
 ///
 /// Encrypt/decrypt the crates.io token with the GitHub SSH key.
@@ -1230,6 +1169,10 @@
     <span class="kw">crate</span>::auto_crates_io_mod::publish_to_crates_io_with_secret_token()
 }
 
+<span class="doccomment">/// Interactive ask to create a new local git repository
+</span><span class="kw">pub fn </span>new_local_repository(message: <span class="kw-2">&</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;()&gt; {
+    <span class="kw">crate</span>::auto_git_mod::new_local_repository(message)
+}
 <span class="comment">// endregion: Public API functions
 </span></code></pre>
       </div>

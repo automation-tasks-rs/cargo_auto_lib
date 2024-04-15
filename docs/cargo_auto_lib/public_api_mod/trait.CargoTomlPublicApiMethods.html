@@ -14,7 +14,7 @@
   <link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css">
   <link rel="stylesheet" href="../../static.files/rustdoc-5bc39a1768837dd0.css">
   <meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="cargo_auto_lib" data-themes=""
-  data-resource-suffix="" data-rustdoc-version="1.77.0 (aedd173a2 2024-03-17)" data-channel="1.77.0" data-search-js="search-dd67cee4cfa65049.js"
+  data-resource-suffix="" data-rustdoc-version="1.77.1 (7cf61ebde 2024-03-27)" data-channel="1.77.1" data-search-js="search-dd67cee4cfa65049.js"
   data-settings-js="settings-4313503d2e1961c2.js">
   <script src="../../static.files/storage-4c98445ec4002617.js"></script>
   <script defer src="sidebar-items.js"></script>
@@ -34,7 +34,7 @@
     <div class="sidebar-crate">
       <a class="logo-container" href="../../cargo_auto_lib/index.html"><img src=
       "https://github.com/automation-tasks-rs/cargo-auto/raw/main/images/logo/logo_cargo_auto.svg" alt="logo"></a>
-      <h2><a href="../../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">2.0.8</span></h2>
+      <h2><a href="../../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">2.1.2</span></h2>
     </div>
     <h2 class="location"><a href="#">CargoTomlPublicApiMethods</a></h2>
     <div class="sidebar-elems">
@@ -104,38 +104,38 @@
           <h1>Trait <a href="../index.html">cargo_auto_lib</a>::<wbr><a href="index.html">public_api_mod</a>::<wbr><a class="trait" href=
           "#">CargoTomlPublicApiMethods</a><button id="copy-path" title="Copy item path to clipboard"><img src=
           "../../static.files/clipboard-7571035ce49a181d.svg" width="19" height="18" alt="Copy item path"></button></h1><span class="out-of-band"><a class=
-          "src" href="../../src/cargo_auto_lib/public_api_mod.rs.html#66-89">source</a> · <button id="toggle-all-docs" title=
+          "src" href="../../src/cargo_auto_lib/public_api_mod.rs.html#63-86">source</a> · <button id="toggle-all-docs" title=
           "collapse all docs">[<span>−</span>]</button></span>
         </div>
         <pre class="rust item-decl"><code>pub trait CargoTomlPublicApiMethods {
     // Required methods
     fn <a href="#tymethod.read" class="fn">read</a>() -&gt; Self;
     fn <a href="#tymethod.package_name" class="fn">package_name</a>(&amp;self) -&gt; <a class="struct" href=
-"https://doc.rust-lang.org/1.77.0/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>;
+"https://doc.rust-lang.org/1.77.1/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>;
     fn <a href="#tymethod.package_version" class="fn">package_version</a>(&amp;self) -&gt; <a class="struct" href=
-"https://doc.rust-lang.org/1.77.0/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>;
+"https://doc.rust-lang.org/1.77.1/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>;
     fn <a href="#tymethod.package_authors_string" class="fn">package_authors_string</a>(&amp;self) -&gt; <a class="struct" href=
-"https://doc.rust-lang.org/1.77.0/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>;
+"https://doc.rust-lang.org/1.77.1/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>;
     fn <a href="#tymethod.package_author_name" class="fn">package_author_name</a>(&amp;self) -&gt; <a class="struct" href=
-"https://doc.rust-lang.org/1.77.0/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>;
+"https://doc.rust-lang.org/1.77.1/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>;
     fn <a href="#tymethod.package_repository" class="fn">package_repository</a>(&amp;self) -&gt; <a class="enum" href=
-"https://doc.rust-lang.org/1.77.0/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href=
-"https://doc.rust-lang.org/1.77.0/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>&gt;;
+"https://doc.rust-lang.org/1.77.1/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href=
+"https://doc.rust-lang.org/1.77.1/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>&gt;;
     fn <a href="#tymethod.package_description" class="fn">package_description</a>(&amp;self) -&gt; <a class="enum" href=
-"https://doc.rust-lang.org/1.77.0/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href=
-"https://doc.rust-lang.org/1.77.0/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>&gt;;
+"https://doc.rust-lang.org/1.77.1/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href=
+"https://doc.rust-lang.org/1.77.1/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>&gt;;
     fn <a href="#tymethod.package_homepage" class="fn">package_homepage</a>(&amp;self) -&gt; <a class="struct" href=
-"https://doc.rust-lang.org/1.77.0/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>;
+"https://doc.rust-lang.org/1.77.1/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>;
     fn <a href="#tymethod.workspace_members" class="fn">workspace_members</a>(&amp;self) -&gt; <a class="enum" href=
-"https://doc.rust-lang.org/1.77.0/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href=
-"https://doc.rust-lang.org/1.77.0/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="struct" href=
-"https://doc.rust-lang.org/1.77.0/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>&gt;&gt;;
+"https://doc.rust-lang.org/1.77.1/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href=
+"https://doc.rust-lang.org/1.77.1/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="struct" href=
+"https://doc.rust-lang.org/1.77.1/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>&gt;&gt;;
     fn <a href="#tymethod.github_owner" class="fn">github_owner</a>(&amp;self) -&gt; <a class="enum" href=
-"https://doc.rust-lang.org/1.77.0/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href=
-"https://doc.rust-lang.org/1.77.0/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>&gt;;
+"https://doc.rust-lang.org/1.77.1/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href=
+"https://doc.rust-lang.org/1.77.1/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>&gt;;
     fn <a href="#tymethod.package_keywords" class="fn">package_keywords</a>(&amp;self) -&gt; <a class="struct" href=
-"https://doc.rust-lang.org/1.77.0/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="struct" href=
-"https://doc.rust-lang.org/1.77.0/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>&gt;;
+"https://doc.rust-lang.org/1.77.1/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="struct" href=
+"https://doc.rust-lang.org/1.77.1/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>&gt;;
 }</code></pre>
         <details class="toggle top-doc" open="">
           <summary class="hideme">
@@ -149,7 +149,7 @@
         <div class="methods">
           <details class="toggle method-toggle" open="">
             <section id="tymethod.read" class="method">
-              <a class="src rightside" href="../../src/cargo_auto_lib/public_api_mod.rs.html#68">source</a>
+              <a class="src rightside" href="../../src/cargo_auto_lib/public_api_mod.rs.html#65">source</a>
               <h4 class="code-header">fn <a href="#tymethod.read" class="fn">read</a>() -&gt; Self</h4>
             </section>
             <div class="docblock">
@@ -158,9 +158,9 @@
           </details>
           <details class="toggle method-toggle" open="">
             <section id="tymethod.package_name" class="method">
-              <a class="src rightside" href="../../src/cargo_auto_lib/public_api_mod.rs.html#70">source</a>
+              <a class="src rightside" href="../../src/cargo_auto_lib/public_api_mod.rs.html#67">source</a>
               <h4 class="code-header">fn <a href="#tymethod.package_name" class="fn">package_name</a>(&amp;self) -&gt; <a class="struct" href=
-              "https://doc.rust-lang.org/1.77.0/alloc/string/struct.String.html" title="struct alloc::string::String">String</a></h4>
+              "https://doc.rust-lang.org/1.77.1/alloc/string/struct.String.html" title="struct alloc::string::String">String</a></h4>
             </section>
             <div class="docblock">
               <p>Cargo.toml package name</p>
@@ -168,9 +168,9 @@
           </details>
           <details class="toggle method-toggle" open="">
             <section id="tymethod.package_version" class="method">
-              <a class="src rightside" href="../../src/cargo_auto_lib/public_api_mod.rs.html#72">source</a>
+              <a class="src rightside" href="../../src/cargo_auto_lib/public_api_mod.rs.html#69">source</a>
               <h4 class="code-header">fn <a href="#tymethod.package_version" class="fn">package_version</a>(&amp;self) -&gt; <a class="struct" href=
-              "https://doc.rust-lang.org/1.77.0/alloc/string/struct.String.html" title="struct alloc::string::String">String</a></h4>
+              "https://doc.rust-lang.org/1.77.1/alloc/string/struct.String.html" title="struct alloc::string::String">String</a></h4>
             </section>
             <div class="docblock">
               <p>Cargo.toml package version</p>
@@ -178,9 +178,9 @@
           </details>
           <details class="toggle method-toggle" open="">
             <section id="tymethod.package_authors_string" class="method">
-              <a class="src rightside" href="../../src/cargo_auto_lib/public_api_mod.rs.html#74">source</a>
+              <a class="src rightside" href="../../src/cargo_auto_lib/public_api_mod.rs.html#71">source</a>
               <h4 class="code-header">fn <a href="#tymethod.package_authors_string" class="fn">package_authors_string</a>(&amp;self) -&gt; <a class="struct"
-              href="https://doc.rust-lang.org/1.77.0/alloc/string/struct.String.html" title="struct alloc::string::String">String</a></h4>
+              href="https://doc.rust-lang.org/1.77.1/alloc/string/struct.String.html" title="struct alloc::string::String">String</a></h4>
             </section>
             <div class="docblock">
               <p>Cargo.toml package authors as string</p>
@@ -188,9 +188,9 @@
           </details>
           <details class="toggle method-toggle" open="">
             <section id="tymethod.package_author_name" class="method">
-              <a class="src rightside" href="../../src/cargo_auto_lib/public_api_mod.rs.html#76">source</a>
+              <a class="src rightside" href="../../src/cargo_auto_lib/public_api_mod.rs.html#73">source</a>
               <h4 class="code-header">fn <a href="#tymethod.package_author_name" class="fn">package_author_name</a>(&amp;self) -&gt; <a class="struct" href=
-              "https://doc.rust-lang.org/1.77.0/alloc/string/struct.String.html" title="struct alloc::string::String">String</a></h4>
+              "https://doc.rust-lang.org/1.77.1/alloc/string/struct.String.html" title="struct alloc::string::String">String</a></h4>
             </section>
             <div class="docblock">
               <p>Cargo.toml package authors as string without emails</p>
@@ -198,10 +198,10 @@
           </details>
           <details class="toggle method-toggle" open="">
             <section id="tymethod.package_repository" class="method">
-              <a class="src rightside" href="../../src/cargo_auto_lib/public_api_mod.rs.html#78">source</a>
+              <a class="src rightside" href="../../src/cargo_auto_lib/public_api_mod.rs.html#75">source</a>
               <h4 class="code-header">fn <a href="#tymethod.package_repository" class="fn">package_repository</a>(&amp;self) -&gt; <a class="enum" href=
-              "https://doc.rust-lang.org/1.77.0/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href=
-              "https://doc.rust-lang.org/1.77.0/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>&gt;</h4>
+              "https://doc.rust-lang.org/1.77.1/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href=
+              "https://doc.rust-lang.org/1.77.1/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>&gt;</h4>
             </section>
             <div class="docblock">
               <p>Cargo.toml package repository</p>
@@ -209,10 +209,10 @@
           </details>
           <details class="toggle method-toggle" open="">
             <section id="tymethod.package_description" class="method">
-              <a class="src rightside" href="../../src/cargo_auto_lib/public_api_mod.rs.html#80">source</a>
+              <a class="src rightside" href="../../src/cargo_auto_lib/public_api_mod.rs.html#77">source</a>
               <h4 class="code-header">fn <a href="#tymethod.package_description" class="fn">package_description</a>(&amp;self) -&gt; <a class="enum" href=
-              "https://doc.rust-lang.org/1.77.0/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href=
-              "https://doc.rust-lang.org/1.77.0/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>&gt;</h4>
+              "https://doc.rust-lang.org/1.77.1/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href=
+              "https://doc.rust-lang.org/1.77.1/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>&gt;</h4>
             </section>
             <div class="docblock">
               <p>Cargo.toml package description</p>
@@ -220,9 +220,9 @@
           </details>
           <details class="toggle method-toggle" open="">
             <section id="tymethod.package_homepage" class="method">
-              <a class="src rightside" href="../../src/cargo_auto_lib/public_api_mod.rs.html#82">source</a>
+              <a class="src rightside" href="../../src/cargo_auto_lib/public_api_mod.rs.html#79">source</a>
               <h4 class="code-header">fn <a href="#tymethod.package_homepage" class="fn">package_homepage</a>(&amp;self) -&gt; <a class="struct" href=
-              "https://doc.rust-lang.org/1.77.0/alloc/string/struct.String.html" title="struct alloc::string::String">String</a></h4>
+              "https://doc.rust-lang.org/1.77.1/alloc/string/struct.String.html" title="struct alloc::string::String">String</a></h4>
             </section>
             <div class="docblock">
               <p>Cargo.toml package homepage</p>
@@ -230,11 +230,11 @@
           </details>
           <details class="toggle method-toggle" open="">
             <section id="tymethod.workspace_members" class="method">
-              <a class="src rightside" href="../../src/cargo_auto_lib/public_api_mod.rs.html#84">source</a>
+              <a class="src rightside" href="../../src/cargo_auto_lib/public_api_mod.rs.html#81">source</a>
               <h4 class="code-header">fn <a href="#tymethod.workspace_members" class="fn">workspace_members</a>(&amp;self) -&gt; <a class="enum" href=
-              "https://doc.rust-lang.org/1.77.0/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href=
-              "https://doc.rust-lang.org/1.77.0/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="struct" href=
-              "https://doc.rust-lang.org/1.77.0/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>&gt;&gt;</h4>
+              "https://doc.rust-lang.org/1.77.1/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href=
+              "https://doc.rust-lang.org/1.77.1/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="struct" href=
+              "https://doc.rust-lang.org/1.77.1/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>&gt;&gt;</h4>
             </section>
             <div class="docblock">
               <p>Cargo.toml workspace members</p>
@@ -242,10 +242,10 @@
           </details>
           <details class="toggle method-toggle" open="">
             <section id="tymethod.github_owner" class="method">
-              <a class="src rightside" href="../../src/cargo_auto_lib/public_api_mod.rs.html#86">source</a>
+              <a class="src rightside" href="../../src/cargo_auto_lib/public_api_mod.rs.html#83">source</a>
               <h4 class="code-header">fn <a href="#tymethod.github_owner" class="fn">github_owner</a>(&amp;self) -&gt; <a class="enum" href=
-              "https://doc.rust-lang.org/1.77.0/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href=
-              "https://doc.rust-lang.org/1.77.0/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>&gt;</h4>
+              "https://doc.rust-lang.org/1.77.1/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href=
+              "https://doc.rust-lang.org/1.77.1/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>&gt;</h4>
             </section>
             <div class="docblock">
               <p>github owner from package.repository</p>
@@ -253,10 +253,10 @@
           </details>
           <details class="toggle method-toggle" open="">
             <section id="tymethod.package_keywords" class="method">
-              <a class="src rightside" href="../../src/cargo_auto_lib/public_api_mod.rs.html#88">source</a>
+              <a class="src rightside" href="../../src/cargo_auto_lib/public_api_mod.rs.html#85">source</a>
               <h4 class="code-header">fn <a href="#tymethod.package_keywords" class="fn">package_keywords</a>(&amp;self) -&gt; <a class="struct" href=
-              "https://doc.rust-lang.org/1.77.0/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="struct" href=
-              "https://doc.rust-lang.org/1.77.0/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>&gt;</h4>
+              "https://doc.rust-lang.org/1.77.1/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="struct" href=
+              "https://doc.rust-lang.org/1.77.1/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>&gt;</h4>
             </section>
             <div class="docblock">
               <p>Cargo.toml package keywords</p>
@@ -265,7 +265,7 @@
         </div>
         <h2 id="object-safety" class="section-header">Object Safety<a href="#object-safety" class="anchor">§</a></h2>
         <div class="object-safety-info">
-          This trait is <b>not</b> <a href="https://doc.rust-lang.org/1.77.0/reference/items/traits.html#object-safety">object safe</a>.
+          This trait is <b>not</b> <a href="https://doc.rust-lang.org/1.77.1/reference/items/traits.html#object-safety">object safe</a>.
         </div>
         <h2 id="implementors" class="section-header">Implementors<a href="#implementors" class="anchor">§</a></h2>
         <div id="implementors-list">
