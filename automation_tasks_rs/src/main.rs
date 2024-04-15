@@ -81,16 +81,18 @@ fn print_help() {
     {YELLOW}On the very first commit, this task will initialize a new local git repository and create a remote GitHub repo.{RESET}
     {YELLOW}For the Github API the task needs the Personal Access Token Classic from <https://github.com/settings/tokens>{RESET}
     {YELLOW}You can choose to type the token every time or to store it in a file encrypted with an SSH key.{RESET}
-    {YELLOW}Then you can write the passphrase of the private key every time ot store the private key in ssh-agent for the current session.{RESET}
+    {YELLOW}Then you can type the passphrase of the private key every time. This is pretty secure.{RESET}
+    {YELLOW}Somewhat less secure (but more comfortable) way is to store the private key in ssh-agent.{RESET}
 {GREEN}cargo auto publish_to_crates_io{RESET} - {YELLOW}publish to crates.io, git tag{RESET}
     {YELLOW}You need the API token for publishing. Get the token on <https://crates.io/settings/tokens>.{RESET}
     {YELLOW}You can choose to type the token every time or to store it in a file encrypted with an SSH key.{RESET}
-    {YELLOW}Then you can write the passphrase of the private key every time ot store the private key in ssh-agent for the current session.{RESET}
-
+    {YELLOW}Then you can type the passphrase of the private key every time. This is pretty secure.{RESET}
+    {YELLOW}Somewhat less secure (but more comfortable) way is to store the private key in ssh-agent.{RESET}
 {GREEN}cargo auto github_new_release{RESET} - {YELLOW}creates new release on github{RESET}
     {YELLOW}For the Github API the task needs the Personal Access Token Classic from <https://github.com/settings/tokens>{RESET}
     {YELLOW}You can choose to type the token every time or to store it in a file encrypted with an SSH key.{RESET}
-    {YELLOW}Then you can write the passphrase of the private key every time ot store the private key in ssh-agent for the current session.{RESET}
+    {YELLOW}Then you can type the passphrase of the private key every time. This is pretty secure.{RESET}
+    {YELLOW}Somewhat less secure (but more comfortable) way is to store the private key in ssh-agent.{RESET}
 
     {YELLOW}© 2024 bestia.dev  MIT License github.com/automation-tasks-rs/cargo-auto{RESET}
 "#

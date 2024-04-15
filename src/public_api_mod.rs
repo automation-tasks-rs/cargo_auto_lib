@@ -539,7 +539,7 @@ pub fn auto_playground_run_code() {
 
 /// Publish to crates.io
 ///
-/// Encrypt/decrypt the crates.io token with the GitHub SSH key.
+/// Encrypt/decrypt the crates.io token with an SSH key.
 /// Then call the `cargo publish --token token` command.
 /// Never show the secret token anywhere.
 pub fn publish_to_crates_io_with_secret_token() {
