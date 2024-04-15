@@ -21,7 +21,7 @@ pub fn auto_check_micro_xml(path_to_html_pages: &str) {
 
         // check if file have CRLF instead of LF and show error
         if str_xml.contains("\r\n") {
-            panic!("{RED}Error: {filename_pathbuff} has CRLF line endings instead of LF. Correct the file! Exiting...{RESET}");
+            panic!("{RED}Error: {filename_pathbuff} has CRLF line endings instead of LF. Correct the file! {RESET}");
         }
 
         // check microxml correctness. Panic on errors.

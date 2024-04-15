@@ -98,7 +98,7 @@ fn modify_service_js(new_version: &str) {
 
         // check if file have CRLF instead of LF and show error
         if js_content.contains("\r\n") {
-            panic!("{RED}Error: {js_filename} has CRLF line endings instead of LF. Correct the file! Exiting...{RESET}");
+            panic!("{RED}Error: {js_filename} has CRLF line endings instead of LF. Correct the file! {RESET}");
         }
 
         let delimiter = r#"const CACHE_NAME = '"#;
@@ -134,7 +134,7 @@ fn write_version_to_cargo_and_modify_metadata(new_version: &str, mut vec_of_meta
 
     // check if file have CRLF instead of LF and show error
     if cargo_content.contains("\r\n") {
-        panic!("{RED}Error: {} has CRLF line endings instead of LF. Correct the file! Exiting...{RESET}", cargo_filename);
+        panic!("{RED}Error: {} has CRLF line endings instead of LF. Correct the file! {RESET}", cargo_filename);
     }
 
     let delimiter = r#"version = ""#;

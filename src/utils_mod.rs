@@ -107,11 +107,6 @@ pub fn concatenate_vec_to_string(vec: &[String], delimiter: &str) -> String {
     concatenated_string
 }
 
-/// Expands the ~ for home_dir and returns expanded path as str
-pub fn file_path_home_expand(file_path: &str) -> String {
-    file_path.replace("~", camino::Utf8Path::from_path(&crate::home_dir()).unwrap().as_str())
-}
-
 /// UTC date in iso standard like 2024-12-31
 pub fn now_utc_date_iso() -> String {
     chrono::Utc::now().format("%Y-%m-%d").to_string()

@@ -6,8 +6,6 @@
 pub type FingerprintString = String;
 /// A simple type-alias for String just to show intent that it is a IdentityFilePath
 pub type IdentityFilePathString = String;
-/// A simple wrapper new-type around String just to show intent that it is a secret
-pub struct SecretString(pub String);
 /// A simple wrapper new-type around String just to show intent that it is already encrypted
 pub struct EncryptedString(pub String);
 

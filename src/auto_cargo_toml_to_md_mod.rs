@@ -95,7 +95,7 @@ pub fn auto_cargo_toml_to_md() {
 
         // check if file have CRLF and show error
         if md_text_content.contains("\r\n") {
-            panic!("{RED}Error: {md_filename} has CRLF line endings instead of LF. Correct the file! Exiting...{RESET}");
+            panic!("{RED}Error: {md_filename} has CRLF line endings instead of LF. Correct the file! {RESET}");
         }
 
         if let Some(cap) = REGEX_MD_START.captures(&md_text_content) {

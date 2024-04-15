@@ -48,9 +48,6 @@ pub use crate::error_mod::ResultWithLibError;
 /// similar to std::process::Output, but with i32 and Strings for easier work
 pub use crate::auto_helper_functions_mod::ShellOutput;
 
-/// A simple wrapper new-type around String just to show intent that it is a secret
-pub use crate::auto_ssh_mod::SecretString;
-
 // reexporting a struct needs to export the trait to also reexports all the methods
 
 /// Read data from Cargo.toml
@@ -446,23 +443,6 @@ pub fn home_dir() -> std::path::PathBuf {
     crate::auto_helper_functions_mod::home_dir()
 }
 
-/// Init repository if needed
-///
-/// A new local git repository and remote GitHub repository will be crated.
-pub fn init_repository_if_needed(message: &str) -> bool {
-    crate::auto_github_mod::init_repository_if_needed(message)
-}
-
-/// Create new release on Github
-pub fn github_api_create_new_release(owner: &str, repo: &str, tag_name_version: &str, name: &str, branch: &str, body_md_text: &str) -> String {
-    crate::auto_github_mod::github_api_create_new_release(owner, repo, tag_name_version, name, branch, body_md_text)
-}
-
-/// Upload asset to github release  
-pub fn github_api_upload_asset_to_release(owner: &str, repo: &str, release_id: &str, path_to_file: &str) {
-    crate::auto_github_mod::github_api_upload_asset_to_release(owner, repo, release_id, path_to_file)
-}
-
 /// sync, check, create, push git tag
 pub fn git_tag_sync_check_create_push(version: &str) -> String {
     crate::auto_github_mod::git_tag_sync_check_create_push(version)
@@ -557,17 +537,6 @@ pub fn auto_playground_run_code() {
     crate::auto_playground_mod::auto_playground_run_code()
 }
 
-/// Check and modify the description and topics on Github
-///
-/// The words topics, keywords and tags all mean the same concept.
-/// In cargo.toml we have keywords.
-/// In README.md I want to have badges for tags
-/// In GitHub they are topics.
-/// Topic must be only one word: lowercase letters, hyphens(-) or numbers, less then 35 characters.
-pub fn description_and_topics_to_github() {
-    crate::auto_github_mod::description_and_topics_to_github()
-}
-
 /// Publish to crates.io
 ///
 /// Encrypt/decrypt the crates.io token with the GitHub SSH key.
@@ -577,4 +546,8 @@ pub fn publish_to_crates_io_with_secret_token() {
     crate::auto_crates_io_mod::publish_to_crates_io_with_secret_token()
 }
 
+/// Interactive ask to create a new local git repository
+pub fn new_local_repository(message: &str) -> Option<()> {
+    crate::auto_git_mod::new_local_repository(message)
+}
 // endregion: Public API functions

@@ -2,7 +2,7 @@
 
 //! Functions to work with git from automation_tasks_rs
 
-use crate::public_api_mod::{RED, RESET};
+use crate::public_api_mod::{BLUE, RED, RESET};
 
 /// Has git remote
 pub fn git_has_remote() -> bool {
@@ -66,4 +66,32 @@ pub fn process_git_remote() -> String {
             "".to_string()
         }
     }
+}
+
+/// Interactive ask to create a new local git repository
+pub fn new_local_repository(message: &str) -> Option<()> {
+    // ask interactive
+    println!("    {BLUE}This project folder is not yet a Git repository.{RESET}");
+    let answer = inquire::Text::new(&format!("{BLUE}Do you want to initialize a new local git repository? (y/n){RESET}"))
+        .prompt()
+        .unwrap();
+    // continue if answer is "y"
+    if answer.to_lowercase() != "y" {
+        // early exit
+        return None;
+    }
+
+    // the docs folder is mandatory because of github action for pages deployment
+    if !camino::Utf8Path::new("docs").exists() {
+        std::fs::create_dir("docs").unwrap();
+        std::fs::write("docs/index.html", "project docs").unwrap();
+    }
+
+    // create new local git repository and commit all on branch main
+    crate::run_shell_command("git config --global init.defaultBranch main");
+    crate::run_shell_command("git init");
+    crate::run_shell_command("git add .");
+    crate::run_shell_command(&format!(r#"git commit -m "{message}""#));
+    crate::run_shell_command("git branch -M main");
+    Some(())
 }

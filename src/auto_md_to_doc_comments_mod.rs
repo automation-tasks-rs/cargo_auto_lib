@@ -76,7 +76,7 @@ pub fn auto_md_to_doc_comments() {
 
         // check if file have CRLF instead of LF and show error
         if rs_text_content.contains("\r\n") {
-            panic!("{RED}Error: {rs_filename} has CRLF line endings instead of LF. Correct the file! Exiting...{RESET}");
+            panic!("{RED}Error: {rs_filename} has CRLF line endings instead of LF. Correct the file! {RESET}");
         }
 
         let markers = rs_file_markers(&rs_text_content);
@@ -164,7 +164,7 @@ fn get_md_segments_using_cache(cache: &mut Vec<MdSegment>, md_filename: &str, ma
 
         // check if file have CRLF instead of LF and show error
         if md_text_content.contains("\r\n") {
-            panic!("{RED}Error: {md_filename} has CRLF line endings instead of LF. Correct the file! Exiting...{RESET}");
+            panic!("{RED}Error: {md_filename} has CRLF line endings instead of LF. Correct the file! {RESET}");
         }
 
         for cap in REGEX_MD_START.captures_iter(&md_text_content) {

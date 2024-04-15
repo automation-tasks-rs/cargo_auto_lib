@@ -23,9 +23,9 @@ pub fn run_shell_command(shell_command: &str) {
         println!("    {YELLOW}$ {shell_command}{RESET}");
     }
     let status = std::process::Command::new("sh").arg("-c").arg(shell_command).spawn().unwrap().wait().unwrap();
-    let exit_code = status.code().expect(&format!("{RED}Error. Exiting...{RESET}"));
+    let exit_code = status.code().expect(&format!("{RED}Error. {RESET}"));
     if exit_code != 0 {
-        eprintln!("{RED}Error: {}. Exiting...{RESET}", exit_code);
+        eprintln!("{RED}Error: {}. {RESET}", exit_code);
         std::process::exit(1);
     }
 }

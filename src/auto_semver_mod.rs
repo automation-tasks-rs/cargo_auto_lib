@@ -51,7 +51,7 @@ fn increment_part(part: VersionPart, force_version: bool) -> ResultWithLibError<
 
         // check if file have CRLF instead of LF and show error
         if cargo_toml_text.contains("\r\n") {
-            panic!("{RED}Error: {cargo_toml_filename} has CRLF line endings instead of LF. Correct the file! Exiting...{RESET}");
+            panic!("{RED}Error: {cargo_toml_filename} has CRLF line endings instead of LF. Correct the file! {RESET}");
         }
 
         // find the line with "version = " including the start quote
