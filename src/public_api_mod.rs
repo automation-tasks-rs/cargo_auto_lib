@@ -207,9 +207,19 @@ pub fn exit_if_not_run_in_rust_project_root_directory() {
     crate::auto_helper_functions_mod::exit_if_not_run_in_rust_project_root_directory()
 }
 
+/// Run one shell command with static str
+///
+/// We trust the "developer" that he will not make "command injection" in his own code.
+/// The problem that must be sanitized is always "user input".
+/// Exit task execution if the command has Exit Status != 0.
+pub fn run_shell_command_static(shell_command: &'static str) -> ResultWithLibError<()> {
+    crate::auto_helper_functions_mod::run_shell_command_static(shell_command)
+}
+
 /// Run one shell command
 ///
 /// Exit task execution if the command has Exit Status != 0.
+/// TODO: vulnerable to command injection
 pub fn run_shell_command(shell_command: &str) {
     crate::auto_helper_functions_mod::run_shell_command(shell_command)
 }
@@ -426,12 +436,16 @@ pub fn git_is_local_repository() -> bool {
     crate::auto_git_mod::git_is_local_repository()
 }
 
-/// run one shell command and return ShellOutput {exit_status, stdout, stderr}
+/// Run one shell command and return ShellOutput {exit_status, stdout, stderr}
+///
+/// TODO: vulnerable to command injection
 pub fn run_shell_command_output(shell_command: &str) -> ShellOutput {
     crate::auto_helper_functions_mod::run_shell_command_output(shell_command)
 }
 
-/// run one shell command and return true if success
+/// Run one shell command and return true if success
+///
+/// TODO: vulnerable to command injection
 pub fn run_shell_command_success(shell_command: &str) -> bool {
     crate::auto_helper_functions_mod::run_shell_command_success(shell_command)
 }

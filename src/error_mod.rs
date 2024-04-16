@@ -23,8 +23,9 @@ pub enum LibError {
     #[error("ParseIntError: {0}")]
     ParseIntError(#[from] std::num::ParseIntError),
 
-    //#[error("ErrorFromString: {0}")]
-    //ErrorFromString(String),
+    #[error("ErrorFromString: {0}")]
+    ErrorFromString(String),
+
     #[error("ErrorFromStaticStr: {0}")]
     ErrorFromStr(&'static str),
     //#[error("unknown error")]

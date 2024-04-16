@@ -9,7 +9,7 @@ pub const RELEASES_MD: &str = "RELEASES.md";
 /// sync, check, create, push git tag
 pub fn git_tag_sync_check_create_push(version: &str) -> String {
     // sync the local and remote tags
-    crate::run_shell_command("git fetch origin --tags --force");
+    crate::run_shell_command_static("git fetch origin --tags --force").unwrap_or_else(|e| panic!("{e}"));
 
     let tags = crate::run_shell_command_output("git tag").stdout;
     let tag_name_version = format!("v{}", &version);
@@ -17,7 +17,7 @@ pub fn git_tag_sync_check_create_push(version: &str) -> String {
         // create git tag and push
         let shell_command = format!("git tag -f -a {tag_name_version} -m version_{version}");
         crate::run_shell_command(&shell_command);
-        crate::run_shell_command("git push origin --tags");
+        crate::run_shell_command_static("git push origin --tags").unwrap_or_else(|e| panic!("{e}"));
     }
     // return
     tag_name_version

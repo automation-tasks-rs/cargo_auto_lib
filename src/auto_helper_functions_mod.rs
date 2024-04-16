@@ -2,7 +2,11 @@
 
 //! various helper functions
 
-use crate::public_api_mod::{RED, RESET, YELLOW};
+use crate::{
+    error_mod::LibError,
+    public_api_mod::{RED, RESET, YELLOW},
+    ResultWithLibError,
+};
 
 /// similar to std::process::Output, but with i32 and Strings for easier work
 #[derive(Debug)]
@@ -15,9 +19,28 @@ pub struct ShellOutput {
     pub stderr: String,
 }
 
+/// Run one shell command with static str
+///
+/// We trust the "developer" that he will not make "command injection" in his own code.
+/// The problem that must be sanitized is always "user input".
+/// Exit task execution if the command has Exit Status != 0.
+/// A panic on this location means nothing. I want to panic in the caller location.
+pub fn run_shell_command_static(shell_command: &'static str) -> ResultWithLibError<()> {
+    if !shell_command.starts_with("echo ") && !shell_command.starts_with("printf ") {
+        println!("    {YELLOW}$ {shell_command}{RESET}");
+    }
+    let status = std::process::Command::new("sh").arg("-c").arg(shell_command).spawn().unwrap().wait().unwrap();
+    let exit_code = status.code().expect(&format!("{RED}Error. {RESET}"));
+    if exit_code != 0 {
+        return Err(LibError::ErrorFromString(format!("{RED}Error: run_shell_command {}. {RESET}", exit_code)));
+    }
+    Ok(())
+}
+
 /// Run one shell command
 ///
 /// Exit task execution if the command has Exit Status != 0.
+/// TODO: vulnerable to command injection
 pub fn run_shell_command(shell_command: &str) {
     if !shell_command.starts_with("echo ") && !shell_command.starts_with("printf ") {
         println!("    {YELLOW}$ {shell_command}{RESET}");
@@ -25,12 +48,13 @@ pub fn run_shell_command(shell_command: &str) {
     let status = std::process::Command::new("sh").arg("-c").arg(shell_command).spawn().unwrap().wait().unwrap();
     let exit_code = status.code().expect(&format!("{RED}Error. {RESET}"));
     if exit_code != 0 {
-        eprintln!("{RED}Error: {}. {RESET}", exit_code);
-        std::process::exit(1);
+        panic!("{RED}Error: run_shell_command {}. {RESET}", exit_code);
     }
 }
 
 /// Run one shell command and return ShellOutput {exit_status, stdout, stderr}
+///
+/// TODO: vulnerable to command injection
 pub fn run_shell_command_output(shell_command: &str) -> ShellOutput {
     if !shell_command.starts_with("echo ") && !shell_command.starts_with("printf ") {
         println!("   {YELLOW} $ {shell_command}{RESET}");
@@ -45,6 +69,8 @@ pub fn run_shell_command_output(shell_command: &str) -> ShellOutput {
 }
 
 /// Run one shell command and return true if success
+///
+/// TODO: vulnerable to command injection
 pub fn run_shell_command_success(shell_command: &str) -> bool {
     if !shell_command.starts_with("echo ") && !shell_command.starts_with("printf ") {
         println!("    {YELLOW}$ {shell_command}{RESET}");
