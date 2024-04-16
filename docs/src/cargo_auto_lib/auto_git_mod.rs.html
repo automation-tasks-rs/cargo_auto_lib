@@ -250,12 +250,16 @@
     }
 
     <span class="comment">// create new local git repository and commit all on branch main
-    </span><span class="kw">crate</span>::run_shell_command(<span class="string">"git config --global init.defaultBranch main"</span>);
-    <span class="kw">crate</span>::run_shell_command(<span class="string">"git init"</span>);
-    <span class="kw">crate</span>::run_shell_command(<span class="string">"git add ."</span>);
+    </span><span class="kw">crate</span>::run_shell_command_static(<span class=
+"string">"git config --global init.defaultBranch main"</span>).unwrap_or_else(|e| <span class="macro">panic!</span>(<span class="string">"{e}"</span>));
+    <span class="kw">crate</span>::run_shell_command_static(<span class="string">"git init"</span>).unwrap_or_else(|e| <span class=
+"macro">panic!</span>(<span class="string">"{e}"</span>));
+    <span class="kw">crate</span>::run_shell_command_static(<span class="string">"git add ."</span>).unwrap_or_else(|e| <span class=
+"macro">panic!</span>(<span class="string">"{e}"</span>));
     <span class="kw">crate</span>::run_shell_command(<span class="kw-2">&</span><span class="macro">format!</span>(<span class=
 "string">r#"git commit -m "{message}""#</span>));
-    <span class="kw">crate</span>::run_shell_command(<span class="string">"git branch -M main"</span>);
+    <span class="kw">crate</span>::run_shell_command_static(<span class="string">"git branch -M main"</span>).unwrap_or_else(|e| <span class=
+"macro">panic!</span>(<span class="string">"{e}"</span>));
     <span class="prelude-val">Some</span>(())
 }
 </code></pre>

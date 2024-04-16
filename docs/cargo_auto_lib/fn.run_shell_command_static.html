@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="generator" content="rustdoc">
-  <meta name="description" content="Include the link to run code in Rust playground">
-  <title>auto_playground_run_code in cargo_auto_lib - Rust</title>
+  <meta name="description" content="Run one shell command with static str">
+  <title>run_shell_command_static in cargo_auto_lib - Rust</title>
   <link rel="preload" as="font" type="font/woff2" crossorigin="" href="../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2">
   <link rel="preload" as="font" type="font/woff2" crossorigin="" href="../static.files/FiraSans-Regular-018c141bf0843ffd.woff2">
   <link rel="preload" as="font" type="font/woff2" crossorigin="" href="../static.files/FiraSans-Medium-8f9a781e4970d388.woff2">
@@ -57,44 +57,24 @@
       </nav>
       <section id="main-content" class="content">
         <div class="main-heading">
-          <h1>Function <a href="index.html">cargo_auto_lib</a>::<wbr><a class="fn" href="#">auto_playground_run_code</a><button id="copy-path" title=
+          <h1>Function <a href="index.html">cargo_auto_lib</a>::<wbr><a class="fn" href="#">run_shell_command_static</a><button id="copy-path" title=
           "Copy item path to clipboard"><img src="../static.files/clipboard-7571035ce49a181d.svg" width="19" height="18" alt=
-          "Copy item path"></button></h1><span class="out-of-band"><a class="src" href="../src/cargo_auto_lib/public_api_mod.rs.html#550-552">source</a> ·
+          "Copy item path"></button></h1><span class="out-of-band"><a class="src" href="../src/cargo_auto_lib/public_api_mod.rs.html#215-217">source</a> ·
           <button id="toggle-all-docs" title="collapse all docs">[<span>−</span>]</button></span>
         </div>
-        <pre class="rust item-decl"><code>pub fn auto_playground_run_code()</code></pre>
+        <pre class="rust item-decl"><code>pub fn run_shell_command_static(
+    shell_command: &amp;'static <a class="primitive" href="https://doc.rust-lang.org/1.77.1/std/primitive.str.html">str</a>
+) -&gt; <a class="type" href="error_mod/type.ResultWithLibError.html" title=
+"type cargo_auto_lib::error_mod::ResultWithLibError">ResultWithLibError</a>&lt;<a class="primitive" href=
+"https://doc.rust-lang.org/1.77.1/std/primitive.unit.html">()</a>&gt;</code></pre>
         <details class="toggle top-doc" open="">
           <summary class="hideme">
             <span>Expand description</span>
           </summary>
           <div class="docblock">
-            <p>Include the link to run code in Rust playground</p>
-            <p>The function searches in all markdown files for markers like this:</p>
-            <div class="example-wrap">
-              <pre class="language-markdown"><code>[//comment]: # (auto_playground start)
-
-Run this code in the [Rust playground](https://play.rust-lang.org/?version=stable&amp;mode=debug&amp;edition=2021&amp;code=fn%20m%0A%7D):
-
-'''Rust ignore
-fn main(){
-    println!("Hello World!");
-}
-'''
-
-[//comment]: # (auto_playground end)
-</code></pre>
-            </div>
-            <p>In this instructions I changed <code>[//]</code> to <code>[//comment]</code> and ticks to single quotes to not process these markers.</p>
-            <p>Between the start marker and the first triple backtick there is the link in “()” parentheses. The link to Rust playground encodes the code with
-            url_encoding (percents) and sends it as an Url parameter.</p>
-            <p>Info: docs.rs has already a functionality that shows the <code>Run</code> button on your code and can run code the playground if you put this
-            line at the top of lib.rs:</p>
-            <div class="example-wrap">
-              <pre class="language-Rust"><code>#![doc(html_playground_url = "https://play.rust-lang.org")]
-</code></pre>
-            </div>
-            <p>But it works only on docs.rs.<br>
-            I want to run my code examples from everywhere: from GitHub README.md, GitHub pages and crates.io.</p>
+            <p>Run one shell command with static str</p>
+            <p>We trust the “developer” that he will not make “command injection” in his own code. The problem that must be sanitized is always “user input”.
+            Exit task execution if the command has Exit Status != 0.</p>
           </div>
         </details>
       </section>

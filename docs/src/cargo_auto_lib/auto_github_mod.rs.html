@@ -156,7 +156,8 @@
 <span class="doccomment">/// sync, check, create, push git tag
 </span><span class="kw">pub fn </span>git_tag_sync_check_create_push(version: <span class="kw-2">&</span>str) -&gt; String {
     <span class="comment">// sync the local and remote tags
-    </span><span class="kw">crate</span>::run_shell_command(<span class="string">"git fetch origin --tags --force"</span>);
+    </span><span class="kw">crate</span>::run_shell_command_static(<span class=
+"string">"git fetch origin --tags --force"</span>).unwrap_or_else(|e| <span class="macro">panic!</span>(<span class="string">"{e}"</span>));
 
     <span class="kw">let </span>tags = <span class="kw">crate</span>::run_shell_command_output(<span class="string">"git tag"</span>).stdout;
     <span class="kw">let </span>tag_name_version = <span class="macro">format!</span>(<span class="string">"v{}"</span>, <span class="kw-2">&</span>version);
@@ -166,7 +167,8 @@
         </span><span class="kw">let </span>shell_command = <span class="macro">format!</span>(<span class=
 "string">"git tag -f -a {tag_name_version} -m version_{version}"</span>);
         <span class="kw">crate</span>::run_shell_command(<span class="kw-2">&</span>shell_command);
-        <span class="kw">crate</span>::run_shell_command(<span class="string">"git push origin --tags"</span>);
+        <span class="kw">crate</span>::run_shell_command_static(<span class="string">"git push origin --tags"</span>).unwrap_or_else(|e| <span class=
+"macro">panic!</span>(<span class="string">"{e}"</span>));
     }
     <span class="comment">// return
     </span>tag_name_version

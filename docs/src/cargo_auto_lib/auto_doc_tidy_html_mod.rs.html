@@ -83,6 +83,7 @@
 <a href="#29" id="29">29</a>
 <a href="#30" id="30">30</a>
 <a href="#31" id="31">31</a>
+<a href="#32" id="32">32</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// auto_doc_tidy_html_mod
@@ -103,18 +104,21 @@
     <span class="comment">// First we check if tidy is installed on the system
     // Run a dummy command and write the std/err output to tidy_warnings.txt.
     // The command `2&gt;` will overwrite the file and not append like `2&gt;&gt;`.
-    </span><span class="kw">crate</span>::run_shell_command(<span class="string">"tidy xxx 2&gt; docs/tidy_warnings.txt"</span>);
+    </span><span class="kw">crate</span>::run_shell_command_static(<span class=
+"string">"tidy xxx 2&gt; docs/tidy_warnings.txt"</span>).unwrap_or_else(|e| <span class="macro">panic!</span>(<span class="string">"{e}"</span>));
     <span class="comment">// Check if it contains `command not found`
     </span><span class="kw">let </span>text = std::fs::read_to_string(<span class="string">"docs/tidy_warnings.txt"</span>)<span class=
 "question-mark">?</span>;
     <span class="comment">// don't need this file anymore
-    </span><span class="kw">crate</span>::run_shell_command(<span class="string">"rm -f docs/tidy_warnings.txt"</span>);
+    </span><span class="kw">crate</span>::run_shell_command_static(<span class="string">"rm -f docs/tidy_warnings.txt"</span>).unwrap_or_else(|e| <span class=
+"macro">panic!</span>(<span class="string">"{e}"</span>));
     <span class="kw">if </span>!text.contains(<span class="string">"command not found"</span>) {
         <span class="comment">// Use tidy HTML to format the docs/*.html files to be human readable and usable for git diff.
         // Options: -m modify file, -q quiet suppress nonessential output, -w wrap at 160, -i indent 2 spaces
         // The warnings and errors are appended to the file docs/tidy_warnings.txt
-        </span><span class="kw">crate</span>::run_shell_command(<span class=
-"string">r#"find ./docs -name '*.html' -type f -print -exec tidy -mq --tidy-mark no -w 160 -i 2 '{}' \; &gt;&gt; docs/tidy_warnings.txt 2&gt;&amp;1 "#</span>);
+        </span><span class="kw">crate</span>::run_shell_command_static(<span class=
+"string">r#"find ./docs -name '*.html' -type f -print -exec tidy -mq --tidy-mark no -w 160 -i 2 '{}' \; &gt;&gt; docs/tidy_warnings.txt 2&gt;&amp;1 "#</span>)
+            .unwrap_or_else(|e| <span class="macro">panic!</span>(<span class="string">"{e}"</span>));
     }
     <span class="prelude-val">Ok</span>(())
 }

@@ -89,6 +89,7 @@
 <a href="#35" id="35">35</a>
 <a href="#36" id="36">36</a>
 <a href="#37" id="37">37</a>
+<a href="#38" id="38">38</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// error_mod.rs
@@ -116,9 +117,10 @@
     <span class="attr">#[error(<span class="string">"ParseIntError: {0}"</span>)]
     </span>ParseIntError(<span class="attr">#[from] </span>std::num::ParseIntError),
 
-    <span class="comment">//#[error("ErrorFromString: {0}")]
-    //ErrorFromString(String),
-    </span><span class="attr">#[error(<span class="string">"ErrorFromStaticStr: {0}"</span>)]
+    <span class="attr">#[error(<span class="string">"ErrorFromString: {0}"</span>)]
+    </span>ErrorFromString(String),
+
+    <span class="attr">#[error(<span class="string">"ErrorFromStaticStr: {0}"</span>)]
     </span>ErrorFromStr(<span class="kw-2">&</span><span class="lifetime">'static </span>str),
     <span class="comment">//#[error("unknown error")]
     //UnknownError,

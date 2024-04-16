@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="generator" content="rustdoc">
-  <meta name="description" content="Run one shell command and return ShellOutput {exit_status, stdout, stderr}">
-  <title>run_shell_command_output in cargo_auto_lib::auto_helper_functions_mod - Rust</title>
+  <meta name="description" content="Run one shell command with static str">
+  <title>run_shell_command_static in cargo_auto_lib::auto_helper_functions_mod - Rust</title>
   <link rel="preload" as="font" type="font/woff2" crossorigin="" href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2">
   <link rel="preload" as="font" type="font/woff2" crossorigin="" href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2">
   <link rel="preload" as="font" type="font/woff2" crossorigin="" href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2">
@@ -61,21 +61,24 @@
       <section id="main-content" class="content">
         <div class="main-heading">
           <h1>Function <a href="../index.html">cargo_auto_lib</a>::<wbr><a href="index.html">auto_helper_functions_mod</a>::<wbr><a class="fn" href=
-          "#">run_shell_command_output</a><button id="copy-path" title="Copy item path to clipboard"><img src=
+          "#">run_shell_command_static</a><button id="copy-path" title="Copy item path to clipboard"><img src=
           "../../static.files/clipboard-7571035ce49a181d.svg" width="19" height="18" alt="Copy item path"></button></h1><span class="out-of-band"><a class=
-          "src" href="../../src/cargo_auto_lib/auto_helper_functions_mod.rs.html#58-69">source</a> · <button id="toggle-all-docs" title=
+          "src" href="../../src/cargo_auto_lib/auto_helper_functions_mod.rs.html#28-38">source</a> · <button id="toggle-all-docs" title=
           "collapse all docs">[<span>−</span>]</button></span>
         </div>
-        <pre class="rust item-decl"><code>pub fn run_shell_command_output(shell_command: &<a class="primitive" href=
-        "https://doc.rust-lang.org/1.77.1/std/primitive.str.html">str</a>) -&gt; <a class="struct" href="struct.ShellOutput.html" title=
-        "struct cargo_auto_lib::auto_helper_functions_mod::ShellOutput">ShellOutput</a></code></pre>
+        <pre class="rust item-decl"><code>pub fn run_shell_command_static(
+    shell_command: &amp;'static <a class="primitive" href="https://doc.rust-lang.org/1.77.1/std/primitive.str.html">str</a>
+) -&gt; <a class="type" href="../error_mod/type.ResultWithLibError.html" title=
+"type cargo_auto_lib::error_mod::ResultWithLibError">ResultWithLibError</a>&lt;<a class="primitive" href=
+"https://doc.rust-lang.org/1.77.1/std/primitive.unit.html">()</a>&gt;</code></pre>
         <details class="toggle top-doc" open="">
           <summary class="hideme">
             <span>Expand description</span>
           </summary>
           <div class="docblock">
-            <p>Run one shell command and return ShellOutput {exit_status, stdout, stderr}</p>
-            <p>TODO: vulnerable to command injection</p>
+            <p>Run one shell command with static str</p>
+            <p>We trust the “developer” that he will not make “command injection” in his own code. The problem that must be sanitized is always “user input”.
+            Exit task execution if the command has Exit Status != 0. A panic on this location means nothing. I want to panic in the caller location.</p>
           </div>
         </details>
       </section>
