@@ -10,9 +10,9 @@ The TODO section is part of the [README.md](https://github.com/automation-tasks-
 
 ## Unreleased
 
-- crates.io removed
+## Version 2.2.1 (2024-04-17)
 
-- 2.2.1
+- crates.io removed
 
 ## Version 2.1.4 (2024-04-17)
 
