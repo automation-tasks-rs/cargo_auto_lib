@@ -34,7 +34,7 @@
     <div class="sidebar-crate">
       <a class="logo-container" href="../../cargo_auto_lib/index.html"><img src=
       "https://github.com/automation-tasks-rs/cargo-auto/raw/main/images/logo/logo_cargo_auto.svg" alt="logo"></a>
-      <h2><a href="../../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">2.1.4</span></h2>
+      <h2><a href="../../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">2.1.7</span></h2>
     </div>
     <h2 class="location"><a href="#">Module public_api_mod</a></h2>
     <div class="sidebar-elems">
@@ -79,7 +79,7 @@
         <div class="main-heading">
           <h1>Module <a href="../index.html">cargo_auto_lib</a>::<wbr><a class="mod" href="#">public_api_mod</a><button id="copy-path" title=
           "Copy item path to clipboard"><img src="../../static.files/clipboard-7571035ce49a181d.svg" width="19" height="18" alt=
-          "Copy item path"></button></h1><span class="out-of-band"><a class="src" href="../../src/cargo_auto_lib/public_api_mod.rs.html#4-566">source</a> ·
+          "Copy item path"></button></h1><span class="out-of-band"><a class="src" href="../../src/cargo_auto_lib/public_api_mod.rs.html#4-601">source</a> ·
           <button id="toggle-all-docs" title="collapse all docs">[<span>−</span>]</button></span>
         </div>
         <details class="toggle top-doc" open="">
@@ -116,14 +116,20 @@
           </li>
           <li>
             <div class="item-name" id="reexport.ShellOutput">
-              <code>pub use crate::auto_helper_functions_mod::<a class="struct" href="../auto_helper_functions_mod/struct.ShellOutput.html" title=
-              "struct cargo_auto_lib::auto_helper_functions_mod::ShellOutput">ShellOutput</a>;</code>
+              <code>pub use crate::auto_shell_mod::<a class="struct" href="../auto_shell_mod/struct.ShellOutput.html" title=
+              "struct cargo_auto_lib::auto_shell_mod::ShellOutput">ShellOutput</a>;</code>
             </div>
           </li>
           <li>
             <div class="item-name" id="reexport.CargoToml">
               <code>pub use crate::auto_cargo_toml_mod::<a class="struct" href="../auto_cargo_toml_mod/struct.CargoToml.html" title=
               "struct cargo_auto_lib::auto_cargo_toml_mod::CargoToml">CargoToml</a>;</code>
+            </div>
+          </li>
+          <li>
+            <div class="item-name" id="reexport.ShellCommandLimitedDoubleQuotesSanitizer">
+              <code>pub use crate::auto_shell_mod::<a class="struct" href="../auto_shell_mod/struct.ShellCommandLimitedDoubleQuotesSanitizer.html" title=
+              "struct cargo_auto_lib::auto_shell_mod::ShellCommandLimitedDoubleQuotesSanitizer">ShellCommandLimitedDoubleQuotesSanitizer</a>;</code>
             </div>
           </li>
         </ul>
@@ -179,6 +185,15 @@
             </div>
             <div class="desc docblock-short">
               Trait with methods to read data from Cargo.toml
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
+              <a class="trait" href="trait.ShellCommandLimitedDoubleQuotesSanitizerTrait.html" title=
+              "trait cargo_auto_lib::public_api_mod::ShellCommandLimitedDoubleQuotesSanitizerTrait">ShellCommandLimitedDoubleQuotesSanitizerTrait</a>
+            </div>
+            <div class="desc docblock-short">
+              Trait with methods for ShellCommandLimitedDoubleQuotesSanitizer
             </div>
           </li>
         </ul>
@@ -377,6 +392,15 @@
           </li>
           <li>
             <div class="item-name">
+              <a class="fn" href="fn.create_new_version_in_releases_md.html" title=
+              "fn cargo_auto_lib::public_api_mod::create_new_version_in_releases_md">create_new_version_in_releases_md</a>
+            </div>
+            <div class="desc docblock-short">
+              Create a new Version title in RELEASES.md
+            </div>
+          </li>
+          <li>
+            <div class="item-name">
               <a class="fn" href="fn.exit_if_not_run_in_rust_project_root_directory.html" title=
               "fn cargo_auto_lib::public_api_mod::exit_if_not_run_in_rust_project_root_directory">exit_if_not_run_in_rust_project_root_directory</a>
             </div>
@@ -466,15 +490,6 @@
             </div>
             <div class="desc docblock-short">
               UTC date in iso standard like 2024-12-31
-            </div>
-          </li>
-          <li>
-            <div class="item-name">
-              <a class="fn" href="fn.publish_to_crates_io_with_secret_token.html" title=
-              "fn cargo_auto_lib::public_api_mod::publish_to_crates_io_with_secret_token">publish_to_crates_io_with_secret_token</a>
-            </div>
-            <div class="desc docblock-short">
-              Publish to crates.io
             </div>
           </li>
           <li>

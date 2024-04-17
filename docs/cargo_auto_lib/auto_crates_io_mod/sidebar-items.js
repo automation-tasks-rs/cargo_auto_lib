@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"fn":["check_or_get_crates_io_token","publish_to_crates_io_with_secret_token"]};

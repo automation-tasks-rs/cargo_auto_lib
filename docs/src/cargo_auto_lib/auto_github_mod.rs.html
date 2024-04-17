@@ -143,6 +143,19 @@
 <a href="#89" id="89">89</a>
 <a href="#90" id="90">90</a>
 <a href="#91" id="91">91</a>
+<a href="#92" id="92">92</a>
+<a href="#93" id="93">93</a>
+<a href="#94" id="94">94</a>
+<a href="#95" id="95">95</a>
+<a href="#96" id="96">96</a>
+<a href="#97" id="97">97</a>
+<a href="#98" id="98">98</a>
+<a href="#99" id="99">99</a>
+<a href="#100" id="100">100</a>
+<a href="#101" id="101">101</a>
+<a href="#102" id="102">102</a>
+<a href="#103" id="103">103</a>
+<a href="#104" id="104">104</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// auto_github_mod
@@ -179,8 +192,7 @@
 /// First, the user must write the content into file RELEASES.md in the section ## Unreleased.  
 /// Then the automation task will copy the content to GitHub release  
 /// and create a new Version title in RELEASES.md.  
-</span><span class="kw">pub fn </span>body_text_from_releases_md(release_name: <span class="kw-2">&</span>str) -&gt; <span class=
-"prelude-ty">Option</span>&lt;String&gt; {
+</span><span class="kw">pub fn </span>body_text_from_releases_md() -&gt; <span class="prelude-ty">Option</span>&lt;String&gt; {
     create_releases_md_if_file_not_exist();
     <span class="kw">let </span>release_md = std::fs::read_to_string(RELEASES_MD).unwrap();
     <span class="comment">// find the start of ## Unreleased
@@ -197,12 +209,28 @@
     };
     <span class="kw">let </span>body_md_text = release_md[pos_start_data..pos_end_data - <span class="number">1</span>].to_string();
 
+    <span class="comment">// return
+    </span><span class="prelude-val">Some</span>(body_md_text)
+}
+
+<span class="doccomment">/// Create a new Version title in RELEASES.md
+</span><span class="kw">pub fn </span>create_new_version_in_releases_md(release_name: <span class="kw-2">&</span>str) -&gt; <span class=
+"prelude-ty">Option</span>&lt;()&gt; {
+    create_releases_md_if_file_not_exist();
+    <span class="kw">let </span>release_md = std::fs::read_to_string(RELEASES_MD).unwrap();
+    <span class="comment">// find the start of ## Unreleased
+    </span><span class="kw">let </span><span class="prelude-val">Some</span>(pos_start_data) = <span class=
+"kw">crate</span>::find_pos_start_data_after_delimiter(<span class="kw-2">&</span>release_md, <span class="number">0</span>, <span class=
+"string">"## Unreleased\n"</span>) <span class="kw">else </span>{
+        <span class="kw">return </span><span class="prelude-val">None</span>;
+    };
+
     <span class="comment">// create a new Version title after ## Unreleased in RELEASES.md
     </span><span class="kw">let </span>new_release_md = <span class="macro">format!</span>(<span class="string">"{}\n## {}\n{}"</span>, <span class=
 "kw-2">&</span>release_md[..pos_start_data], <span class="kw-2">&</span>release_name, <span class="kw-2">&</span>release_md[pos_start_data..]);
     std::fs::write(RELEASES_MD, new_release_md).unwrap();
     <span class="comment">// return
-    </span><span class="prelude-val">Some</span>(body_md_text)
+    </span><span class="prelude-val">Some</span>(())
 }
 
 <span class="doccomment">/// Create RELEASES.md if file not exist
@@ -220,7 +248,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 The library releases will be published on crates.io.  
 The cargo-auto automation task will use the content of the section `## Unreleased` to create
 the GitHub release consistently with this file.  
-The ongoing changes that are not released, are visible in the git commits and github pull requests.  
+The ongoing changes that are not released, are visible in the git commits and GitHub pull requests.  
 The TODO section is part of the [README.md](https://github.com/{github_owner}/{project_name}).  
 
 ## Unreleased

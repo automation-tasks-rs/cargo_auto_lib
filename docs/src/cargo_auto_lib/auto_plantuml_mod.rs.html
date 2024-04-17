@@ -444,7 +444,7 @@
 "string">"images"</span>).join(<span class="macro">format!</span>(<span class="string">"svg_{}.svg"</span>, plantuml_code_hash));
                             std::fs::create_dir_all(new_file_path.parent().unwrap()).unwrap();
                             std::fs::write(<span class="kw-2">&</span>new_file_path, svg_code).unwrap();
-                            <span class="comment">// if repo_url is not empty then prepare github url
+                            <span class="comment">// if repo_url is not empty then prepare GitHub url
                             // https://github.com/automation-tasks-rs/sey_currency_converter_pwa/raw/main/
                             </span><span class="kw">let </span>repo_full_url = <span class="kw">if </span>repo_url.is_empty() {
                                 <span class="string">""</span>.to_string()

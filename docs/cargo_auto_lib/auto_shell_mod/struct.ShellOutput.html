@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="generator" content="rustdoc">
   <meta name="description" content="similar to std::process::Output, but with i32 and Strings for easier work">
-  <title>ShellOutput in cargo_auto_lib::auto_helper_functions_mod - Rust</title>
+  <title>ShellOutput in cargo_auto_lib::auto_shell_mod - Rust</title>
   <link rel="preload" as="font" type="font/woff2" crossorigin="" href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2">
   <link rel="preload" as="font" type="font/woff2" crossorigin="" href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2">
   <link rel="preload" as="font" type="font/woff2" crossorigin="" href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2">
@@ -34,7 +34,7 @@
     <div class="sidebar-crate">
       <a class="logo-container" href="../../cargo_auto_lib/index.html"><img src=
       "https://github.com/automation-tasks-rs/cargo-auto/raw/main/images/logo/logo_cargo_auto.svg" alt="logo"></a>
-      <h2><a href="../../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">2.1.4</span></h2>
+      <h2><a href="../../cargo_auto_lib/index.html">cargo_auto_lib</a><span class="version">2.1.7</span></h2>
     </div>
     <h2 class="location"><a href="#">ShellOutput</a></h2>
     <div class="sidebar-elems">
@@ -109,7 +109,7 @@
           </li>
         </ul>
       </section>
-      <h2><a href="index.html">In cargo_auto_lib::auto_helper_functions_mod</a></h2>
+      <h2><a href="index.html">In cargo_auto_lib::auto_shell_mod</a></h2>
     </div>
   </nav>
   <div class="sidebar-resizer"></div>
@@ -132,10 +132,10 @@
       </nav>
       <section id="main-content" class="content">
         <div class="main-heading">
-          <h1>Struct <a href="../index.html">cargo_auto_lib</a>::<wbr><a href="index.html">auto_helper_functions_mod</a>::<wbr><a class="struct" href=
+          <h1>Struct <a href="../index.html">cargo_auto_lib</a>::<wbr><a href="index.html">auto_shell_mod</a>::<wbr><a class="struct" href=
           "#">ShellOutput</a><button id="copy-path" title="Copy item path to clipboard"><img src="../../static.files/clipboard-7571035ce49a181d.svg" width="19"
           height="18" alt="Copy item path"></button></h1><span class="out-of-band"><a class="src" href=
-          "../../src/cargo_auto_lib/auto_helper_functions_mod.rs.html#13-20">source</a> · <button id="toggle-all-docs" title=
+          "../../src/cargo_auto_lib/auto_shell_mod.rs.html#11-18">source</a> · <button id="toggle-all-docs" title=
           "collapse all docs">[<span>−</span>]</button></span>
         </div>
         <pre class="rust item-decl"><code>pub struct ShellOutput {
@@ -169,17 +169,16 @@
         <div id="trait-implementations-list">
           <details class="toggle implementors-toggle" open="">
             <section id="impl-Debug-for-ShellOutput" class="impl">
-              <a class="src rightside" href="../../src/cargo_auto_lib/auto_helper_functions_mod.rs.html#12">source</a><a href="#impl-Debug-for-ShellOutput"
-              class="anchor">§</a>
+              <a class="src rightside" href="../../src/cargo_auto_lib/auto_shell_mod.rs.html#10">source</a><a href="#impl-Debug-for-ShellOutput" class=
+              "anchor">§</a>
               <h3 class="code-header">impl <a class="trait" href="https://doc.rust-lang.org/1.77.1/core/fmt/trait.Debug.html" title=
               "trait core::fmt::Debug">Debug</a> for <a class="struct" href="struct.ShellOutput.html" title=
-              "struct cargo_auto_lib::auto_helper_functions_mod::ShellOutput">ShellOutput</a></h3>
+              "struct cargo_auto_lib::auto_shell_mod::ShellOutput">ShellOutput</a></h3>
             </section>
             <div class="impl-items">
               <details class="toggle method-toggle" open="">
                 <section id="method.fmt" class="method trait-impl">
-                  <a class="src rightside" href="../../src/cargo_auto_lib/auto_helper_functions_mod.rs.html#12">source</a><a href="#method.fmt" class=
-                  "anchor">§</a>
+                  <a class="src rightside" href="../../src/cargo_auto_lib/auto_shell_mod.rs.html#10">source</a><a href="#method.fmt" class="anchor">§</a>
                   <h4 class="code-header">fn <a href="https://doc.rust-lang.org/1.77.1/core/fmt/trait.Debug.html#tymethod.fmt" class="fn">fmt</a>(&amp;self, f:
                   &amp;mut <a class="struct" href="https://doc.rust-lang.org/1.77.1/core/fmt/struct.Formatter.html" title=
                   "struct core::fmt::Formatter">Formatter</a>&lt;'_&gt;) -&gt; <a class="type" href=
@@ -198,31 +197,31 @@
             <a href="#impl-RefUnwindSafe-for-ShellOutput" class="anchor">§</a>
             <h3 class="code-header">impl <a class="trait" href="https://doc.rust-lang.org/1.77.1/core/panic/unwind_safe/trait.RefUnwindSafe.html" title=
             "trait core::panic::unwind_safe::RefUnwindSafe">RefUnwindSafe</a> for <a class="struct" href="struct.ShellOutput.html" title=
-            "struct cargo_auto_lib::auto_helper_functions_mod::ShellOutput">ShellOutput</a></h3>
+            "struct cargo_auto_lib::auto_shell_mod::ShellOutput">ShellOutput</a></h3>
           </section>
           <section id="impl-Send-for-ShellOutput" class="impl">
             <a href="#impl-Send-for-ShellOutput" class="anchor">§</a>
             <h3 class="code-header">impl <a class="trait" href="https://doc.rust-lang.org/1.77.1/core/marker/trait.Send.html" title=
             "trait core::marker::Send">Send</a> for <a class="struct" href="struct.ShellOutput.html" title=
-            "struct cargo_auto_lib::auto_helper_functions_mod::ShellOutput">ShellOutput</a></h3>
+            "struct cargo_auto_lib::auto_shell_mod::ShellOutput">ShellOutput</a></h3>
           </section>
           <section id="impl-Sync-for-ShellOutput" class="impl">
             <a href="#impl-Sync-for-ShellOutput" class="anchor">§</a>
             <h3 class="code-header">impl <a class="trait" href="https://doc.rust-lang.org/1.77.1/core/marker/trait.Sync.html" title=
             "trait core::marker::Sync">Sync</a> for <a class="struct" href="struct.ShellOutput.html" title=
-            "struct cargo_auto_lib::auto_helper_functions_mod::ShellOutput">ShellOutput</a></h3>
+            "struct cargo_auto_lib::auto_shell_mod::ShellOutput">ShellOutput</a></h3>
           </section>
           <section id="impl-Unpin-for-ShellOutput" class="impl">
             <a href="#impl-Unpin-for-ShellOutput" class="anchor">§</a>
             <h3 class="code-header">impl <a class="trait" href="https://doc.rust-lang.org/1.77.1/core/marker/trait.Unpin.html" title=
             "trait core::marker::Unpin">Unpin</a> for <a class="struct" href="struct.ShellOutput.html" title=
-            "struct cargo_auto_lib::auto_helper_functions_mod::ShellOutput">ShellOutput</a></h3>
+            "struct cargo_auto_lib::auto_shell_mod::ShellOutput">ShellOutput</a></h3>
           </section>
           <section id="impl-UnwindSafe-for-ShellOutput" class="impl">
             <a href="#impl-UnwindSafe-for-ShellOutput" class="anchor">§</a>
             <h3 class="code-header">impl <a class="trait" href="https://doc.rust-lang.org/1.77.1/core/panic/unwind_safe/trait.UnwindSafe.html" title=
             "trait core::panic::unwind_safe::UnwindSafe">UnwindSafe</a> for <a class="struct" href="struct.ShellOutput.html" title=
-            "struct cargo_auto_lib::auto_helper_functions_mod::ShellOutput">ShellOutput</a></h3>
+            "struct cargo_auto_lib::auto_shell_mod::ShellOutput">ShellOutput</a></h3>
           </section>
         </div>
         <h2 id="blanket-implementations" class="section-header">Blanket Implementations<a href="#blanket-implementations" class="anchor">§</a></h2>

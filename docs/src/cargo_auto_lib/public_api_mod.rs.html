@@ -619,6 +619,41 @@
 <a href="#565" id="565">565</a>
 <a href="#566" id="566">566</a>
 <a href="#567" id="567">567</a>
+<a href="#568" id="568">568</a>
+<a href="#569" id="569">569</a>
+<a href="#570" id="570">570</a>
+<a href="#571" id="571">571</a>
+<a href="#572" id="572">572</a>
+<a href="#573" id="573">573</a>
+<a href="#574" id="574">574</a>
+<a href="#575" id="575">575</a>
+<a href="#576" id="576">576</a>
+<a href="#577" id="577">577</a>
+<a href="#578" id="578">578</a>
+<a href="#579" id="579">579</a>
+<a href="#580" id="580">580</a>
+<a href="#581" id="581">581</a>
+<a href="#582" id="582">582</a>
+<a href="#583" id="583">583</a>
+<a href="#584" id="584">584</a>
+<a href="#585" id="585">585</a>
+<a href="#586" id="586">586</a>
+<a href="#587" id="587">587</a>
+<a href="#588" id="588">588</a>
+<a href="#589" id="589">589</a>
+<a href="#590" id="590">590</a>
+<a href="#591" id="591">591</a>
+<a href="#592" id="592">592</a>
+<a href="#593" id="593">593</a>
+<a href="#594" id="594">594</a>
+<a href="#595" id="595">595</a>
+<a href="#596" id="596">596</a>
+<a href="#597" id="597">597</a>
+<a href="#598" id="598">598</a>
+<a href="#599" id="599">599</a>
+<a href="#600" id="600">600</a>
+<a href="#601" id="601">601</a>
+<a href="#602" id="602">602</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// public_api_mod.rs
@@ -669,7 +704,7 @@
 </span><span class="kw">pub use </span><span class="kw">crate</span>::error_mod::ResultWithLibError;
 
 <span class="doccomment">/// similar to std::process::Output, but with i32 and Strings for easier work
-</span><span class="kw">pub use </span><span class="kw">crate</span>::auto_helper_functions_mod::ShellOutput;
+</span><span class="kw">pub use </span><span class="kw">crate</span>::auto_shell_mod::ShellOutput;
 
 <span class="comment">// reexporting a struct needs to export the trait to also reexports all the methods
 
@@ -705,12 +740,52 @@
     <span class="doccomment">/// Cargo.toml workspace members
     </span><span class="kw">fn </span>workspace_members(<span class="kw-2">&</span><span class="self">self</span>) -&gt; <span class=
 "prelude-ty">Option</span>&lt;Vec&lt;String&gt;&gt;;
-    <span class="doccomment">/// github owner from package.repository
+    <span class="doccomment">/// GitHub owner from package.repository
     </span><span class="kw">fn </span>github_owner(<span class="kw-2">&</span><span class="self">self</span>) -&gt; <span class=
 "prelude-ty">Option</span>&lt;String&gt;;
     <span class="doccomment">/// Cargo.toml package keywords
     </span><span class="kw">fn </span>package_keywords(<span class="kw-2">&</span><span class="self">self</span>) -&gt; Vec&lt;String&gt;;
 }
+
+<span class="doccomment">/// Shell command builder with simple but limited sanitizer
+///
+/// The limited sanitization will panic if the value contains double quotes.
+/// Command injections attack is possible because the shell command mixes executable code and data in a single string.
+/// The attacker could format the "user input" data in a way that it transforms it into "executable code".
+/// A true sanitization is hard to do in software. It would mean to understand all the intricacies of bash syntax?!
+/// Another solution is to create a complex object model to have every command and data separated. Too complicated and developer unfriendly.
+/// Instead here we take that the developer is a trusted person and he knows how to create the template correctly,
+/// so that the placeholders are always de-facto delimited with double-quote inside the shell command.
+/// This avoids the problem of injection of any other symbol except double-quotes.
+/// The injection of double quote would finish the double-quote data and open the door tho write executable code.
+/// It would be very complicated to check if "escaped double quotes" are or not correct in the context of the template.
+/// So I don't allow them at all. This covers the vast majority of simple use cases.
+/// Placeholders are delimited with curly brackets.
+</span><span class="kw">pub use </span><span class="kw">crate</span>::auto_shell_mod::ShellCommandLimitedDoubleQuotesSanitizer;
+
+<span class="doccomment">/// Trait with methods for ShellCommandLimitedDoubleQuotesSanitizer
+</span><span class="kw">pub trait </span>ShellCommandLimitedDoubleQuotesSanitizerTrait {
+    <span class="doccomment">/// Template for the shell command with placeholders
+    ///
+    /// The limited sanitization will panic if the value contains double quotes.
+    /// Placeholders are delimited with curly brackets.
+    /// The developer must be super careful to write the template correctly.
+    /// The placeholders must be inside a block delimited with double quotes.
+    /// In a way that only an injection of a double quote can cause problems.
+    /// There is no software check of the correctness of the template.
+    </span><span class="kw">fn </span>new(template: <span class="kw-2">&</span>str) -&gt; <span class="self">Self</span>;
+    <span class="doccomment">/// Replace placeholders with the value
+    ///
+    /// The limited sanitization will panic if the value contains double quotes.
+    /// Enter the placeholder parameter delimited with curly brackets.
+    /// It would be very complicated to check if "escaped double quotes" are or not correct in the context of the template.
+    /// So I don't allow them at all. This covers the vast majority of simple use cases.
+    </span><span class="kw">fn </span>replace_placeholder_forbidden_double_quotes(<span class="kw-2">&amp;mut </span><span class=
+"self">self</span>, placeholder: <span class="kw-2">&</span>str, value: <span class="kw-2">&</span>str);
+    <span class="doccomment">/// Run the sanitized command with no additional checks
+    </span><span class="kw">fn </span>run(<span class="kw-2">&</span><span class="self">self</span>);
+}
+
 <span class="comment">// endregion: Public API structs and methods
 
 // region: Public API functions
@@ -847,7 +922,7 @@
 /// Exit task execution if the command has Exit Status != 0.
 </span><span class="kw">pub fn </span>run_shell_command_static(shell_command: <span class="kw-2">&</span><span class=
 "lifetime">'static </span>str) -&gt; ResultWithLibError&lt;()&gt; {
-    <span class="kw">crate</span>::auto_helper_functions_mod::run_shell_command_static(shell_command)
+    <span class="kw">crate</span>::auto_shell_mod::run_shell_command_static(shell_command)
 }
 
 <span class="doccomment">/// Run one shell command
@@ -855,7 +930,7 @@
 /// Exit task execution if the command has Exit Status != 0.
 /// TODO: vulnerable to command injection
 </span><span class="kw">pub fn </span>run_shell_command(shell_command: <span class="kw-2">&</span>str) {
-    <span class="kw">crate</span>::auto_helper_functions_mod::run_shell_command(shell_command)
+    <span class="kw">crate</span>::auto_shell_mod::run_shell_command(shell_command)
 }
 
 <span class="comment">// region: auto_md_to_doc_comments include doc_comments/auto_lines_of_code.md A ///
@@ -1074,14 +1149,14 @@
 ///
 /// TODO: vulnerable to command injection
 </span><span class="kw">pub fn </span>run_shell_command_output(shell_command: <span class="kw-2">&</span>str) -&gt; ShellOutput {
-    <span class="kw">crate</span>::auto_helper_functions_mod::run_shell_command_output(shell_command)
+    <span class="kw">crate</span>::auto_shell_mod::run_shell_command_output(shell_command)
 }
 
 <span class="doccomment">/// Run one shell command and return true if success
 ///
 /// TODO: vulnerable to command injection
 </span><span class="kw">pub fn </span>run_shell_command_success(shell_command: <span class="kw-2">&</span>str) -&gt; bool {
-    <span class="kw">crate</span>::auto_helper_functions_mod::run_shell_command_success(shell_command)
+    <span class="kw">crate</span>::auto_shell_mod::run_shell_command_success(shell_command)
 }
 
 <span class="doccomment">/// home_dir() using the home crate.
@@ -1101,9 +1176,14 @@
 /// First, the user must write the content into file RELEASES.md in the section ## Unreleased.  
 /// Then the automation task will copy the content to GitHub release  
 /// and create a new Version title in RELEASES.md.  
-</span><span class="kw">pub fn </span>body_text_from_releases_md(release_name: <span class="kw-2">&</span>str) -&gt; <span class=
-"prelude-ty">Option</span>&lt;String&gt; {
-    <span class="kw">crate</span>::auto_github_mod::body_text_from_releases_md(release_name)
+</span><span class="kw">pub fn </span>body_text_from_releases_md() -&gt; <span class="prelude-ty">Option</span>&lt;String&gt; {
+    <span class="kw">crate</span>::auto_github_mod::body_text_from_releases_md()
+}
+
+<span class="doccomment">/// Create a new Version title in RELEASES.md
+</span><span class="kw">pub fn </span>create_new_version_in_releases_md(release_name: <span class="kw-2">&</span>str) -&gt; <span class=
+"prelude-ty">Option</span>&lt;()&gt; {
+    <span class="kw">crate</span>::auto_github_mod::create_new_version_in_releases_md(release_name)
 }
 
 <span class="doccomment">/// UTC  date in iso standard like 2024-12-31
@@ -1187,15 +1267,6 @@
 </span><span class="comment">// endregion: auto_md_to_doc_comments include doc_comments/auto_playground_run_code.md A ///
 </span><span class="kw">pub fn </span>auto_playground_run_code() {
     <span class="kw">crate</span>::auto_playground_mod::auto_playground_run_code()
-}
-
-<span class="doccomment">/// Publish to crates.io
-///
-/// Encrypt/decrypt the crates.io token with an SSH key.
-/// Then call the `cargo publish --token token` command.
-/// Never show the secret token anywhere.
-</span><span class="kw">pub fn </span>publish_to_crates_io_with_secret_token() {
-    <span class="kw">crate</span>::auto_crates_io_mod::publish_to_crates_io_with_secret_token()
 }
 
 <span class="doccomment">/// Interactive ask to create a new local git repository

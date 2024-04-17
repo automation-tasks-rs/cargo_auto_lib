@@ -243,7 +243,7 @@
         </span><span class="kw">return </span><span class="prelude-val">None</span>;
     }
 
-    <span class="comment">// the docs folder is mandatory because of github action for pages deployment
+    <span class="comment">// the docs folder is mandatory because of GitHub action for pages deployment
     </span><span class="kw">if </span>!camino::Utf8Path::new(<span class="string">"docs"</span>).exists() {
         std::fs::create_dir(<span class="string">"docs"</span>).unwrap();
         std::fs::write(<span class="string">"docs/index.html"</span>, <span class="string">"project docs"</span>).unwrap();
