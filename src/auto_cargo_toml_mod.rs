@@ -88,7 +88,7 @@ impl crate::public_api_mod::CargoTomlPublicApiMethods for CargoToml {
         self.cargo_toml_workspace_maybe.workspace.as_ref().map(|workspace| workspace.members.clone())
     }
 
-    /// github owner from package_repository
+    /// GitHub owner from package_repository
     fn github_owner(&self) -> Option<String> {
         match self.package_repository() {
             Some(repository) => {

@@ -130,7 +130,7 @@ pub fn auto_plantuml_for_path(path: &std::path::Path, repo_url: &str) {
                             let new_file_path = md_filename.parent().unwrap().join("images").join(format!("svg_{}.svg", plantuml_code_hash));
                             std::fs::create_dir_all(new_file_path.parent().unwrap()).unwrap();
                             std::fs::write(&new_file_path, svg_code).unwrap();
-                            // if repo_url is not empty then prepare github url
+                            // if repo_url is not empty then prepare GitHub url
                             // https://github.com/automation-tasks-rs/sey_currency_converter_pwa/raw/main/
                             let repo_full_url = if repo_url.is_empty() {
                                 "".to_string()

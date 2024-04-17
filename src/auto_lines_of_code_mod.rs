@@ -170,7 +170,7 @@ pub fn count_lines_of_code() -> LinesOfCode {
 /// Returns a string with the markdown code for 4 shield badges.
 ///
 /// Every badge has the link to the url given as first parameter
-/// or automatically finds out the github git remote repository url.
+/// or automatically finds out the GitHub git remote repository url.
 ///
 /// let v = cargo_auto_lib::auto_lines_of_code_mod::count_lines_of_code();
 /// let badges = cargo_auto_lib::auto_lines_of_code_mod::to_string_as_shield_badges(&v,"");

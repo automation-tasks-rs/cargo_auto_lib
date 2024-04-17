@@ -28,7 +28,7 @@ pub fn git_tag_sync_check_create_push(version: &str) -> String {
 /// First, the user must write the content into file RELEASES.md in the section ## Unreleased.  
 /// Then the automation task will copy the content to GitHub release  
 /// and create a new Version title in RELEASES.md.  
-pub fn body_text_from_releases_md(release_name: &str) -> Option<String> {
+pub fn body_text_from_releases_md() -> Option<String> {
     create_releases_md_if_file_not_exist();
     let release_md = std::fs::read_to_string(RELEASES_MD).unwrap();
     // find the start of ## Unreleased
@@ -41,11 +41,24 @@ pub fn body_text_from_releases_md(release_name: &str) -> Option<String> {
     };
     let body_md_text = release_md[pos_start_data..pos_end_data - 1].to_string();
 
+    // return
+    Some(body_md_text)
+}
+
+/// Create a new Version title in RELEASES.md
+pub fn create_new_version_in_releases_md(release_name: &str) -> Option<()> {
+    create_releases_md_if_file_not_exist();
+    let release_md = std::fs::read_to_string(RELEASES_MD).unwrap();
+    // find the start of ## Unreleased
+    let Some(pos_start_data) = crate::find_pos_start_data_after_delimiter(&release_md, 0, "## Unreleased\n") else {
+        return None;
+    };
+
     // create a new Version title after ## Unreleased in RELEASES.md
     let new_release_md = format!("{}\n## {}\n{}", &release_md[..pos_start_data], &release_name, &release_md[pos_start_data..]);
     std::fs::write(RELEASES_MD, new_release_md).unwrap();
     // return
-    Some(body_md_text)
+    Some(())
 }
 
 /// Create RELEASES.md if file not exist
@@ -63,7 +76,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 The library releases will be published on crates.io.  
 The cargo-auto automation task will use the content of the section `## Unreleased` to create
 the GitHub release consistently with this file.  
-The ongoing changes that are not released, are visible in the git commits and github pull requests.  
+The ongoing changes that are not released, are visible in the git commits and GitHub pull requests.  
 The TODO section is part of the [README.md](https://github.com/{github_owner}/{project_name}).  
 
 ## Unreleased

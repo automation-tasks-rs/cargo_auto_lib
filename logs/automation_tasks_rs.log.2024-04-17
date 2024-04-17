@@ -1,0 +1,15 @@
+20:51:20.095947 DEBUG automation_tasks_rs::secrets_always_local_mod::ssh_mod: src/secrets_always_local_mod.rs:206: "TXQdIK0H4IpO7UK74hCp6BQb4PatAAO2XfZ+71D/byxLfIzNX618pFzU/QURRASYao1/Zme41gyaZzMJx7wyJSgBov0="
+20:51:20.162461 DEBUG reqwest::connect: /home/rustdevuser/.cargo/registry/src/index.crates.io-6f17d22bba15001f/reqwest-0.12.3/src/connect.rs:497: starting new connection: https://api.github.com/    
+20:51:20.162618 DEBUG reqwest::connect: /home/rustdevuser/.cargo/registry/src/index.crates.io-6f17d22bba15001f/reqwest-0.12.3/src/connect.rs:364: proxy(http://localhost:3128) intercepts 'https://api.github.com/'    
+20:51:20.163060 DEBUG hyper_util::client::legacy::connect::dns: /home/rustdevuser/.cargo/registry/src/index.crates.io-6f17d22bba15001f/hyper-util-0.1.3/src/client/legacy/connect/dns.rs:122: resolving host="localhost"
+20:51:20.163648 DEBUG hyper_util::client::legacy::connect::http: /home/rustdevuser/.cargo/registry/src/index.crates.io-6f17d22bba15001f/hyper-util-0.1.3/src/client/legacy/connect/http.rs:622: connecting to 127.0.0.1:3128
+20:51:20.163842 DEBUG hyper_util::client::legacy::connect::http: /home/rustdevuser/.cargo/registry/src/index.crates.io-6f17d22bba15001f/hyper-util-0.1.3/src/client/legacy/connect/http.rs:625: connected to 127.0.0.1:3128
+20:51:25.710885 DEBUG hyper_util::client::legacy::pool: /home/rustdevuser/.cargo/registry/src/index.crates.io-6f17d22bba15001f/hyper-util-0.1.3/src/client/legacy/pool.rs:397: pooling idle connection for ("https", api.github.com)
+20:51:25.711583 DEBUG automation_tasks_rs: src/main.rs:75: [31mError: Bad credentials for GitHub API. [0m
+20:51:25.711781 DEBUG automation_tasks_rs: src/main.rs:82: Location: src/secrets_always_local_mod.rs:420:21
+20:51:55.300577 DEBUG reqwest::connect: /home/rustdevuser/.cargo/registry/src/index.crates.io-6f17d22bba15001f/reqwest-0.12.3/src/connect.rs:497: starting new connection: https://api.github.com/    
+20:51:55.300846 DEBUG reqwest::connect: /home/rustdevuser/.cargo/registry/src/index.crates.io-6f17d22bba15001f/reqwest-0.12.3/src/connect.rs:364: proxy(http://localhost:3128) intercepts 'https://api.github.com/'    
+20:51:55.301207 DEBUG hyper_util::client::legacy::connect::dns: /home/rustdevuser/.cargo/registry/src/index.crates.io-6f17d22bba15001f/hyper-util-0.1.3/src/client/legacy/connect/dns.rs:122: resolving host="localhost"
+20:51:55.301646 DEBUG hyper_util::client::legacy::connect::http: /home/rustdevuser/.cargo/registry/src/index.crates.io-6f17d22bba15001f/hyper-util-0.1.3/src/client/legacy/connect/http.rs:622: connecting to 127.0.0.1:3128
+20:51:55.301848 DEBUG hyper_util::client::legacy::connect::http: /home/rustdevuser/.cargo/registry/src/index.crates.io-6f17d22bba15001f/hyper-util-0.1.3/src/client/legacy/connect/http.rs:625: connected to 127.0.0.1:3128
+20:51:55.797966 DEBUG hyper_util::client::legacy::pool: /home/rustdevuser/.cargo/registry/src/index.crates.io-6f17d22bba15001f/hyper-util-0.1.3/src/client/legacy/pool.rs:397: pooling idle connection for ("https", api.github.com)

@@ -5,10 +5,12 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 The library releases will be published on crates.io.  
 The cargo-auto automation task will use the content of the section `## Unreleased` to create
 the GitHub release consistently with this file.  
-The ongoing changes that are not released, are visible in the git commits and github pull requests.  
+The ongoing changes that are not released, are visible in the git commits and GitHub pull requests.  
 The TODO section is part of the [README.md](https://github.com/automation-tasks-rs/cargo_auto_lib).  
 
 ## Unreleased
+
+- crates.io removed
 
 ## Version 2.1.4 (2024-04-17)
 
@@ -112,7 +114,7 @@ The TODO section is part of the [README.md](https://github.com/automation-tasks-
 
 ## Version 1.2.4 (2024-02-20)
 
-- github release from RELEASES.md
+- GitHub release from RELEASES.md
 
 ## Version 1.2.3 (2024-02-20)
 

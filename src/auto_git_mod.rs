@@ -81,7 +81,7 @@ pub fn new_local_repository(message: &str) -> Option<()> {
         return None;
     }
 
-    // the docs folder is mandatory because of github action for pages deployment
+    // the docs folder is mandatory because of GitHub action for pages deployment
     if !camino::Utf8Path::new("docs").exists() {
         std::fs::create_dir("docs").unwrap();
         std::fs::write("docs/index.html", "project docs").unwrap();

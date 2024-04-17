@@ -46,7 +46,7 @@ pub const RESET: &str = "\x1b[0m";
 pub use crate::error_mod::ResultWithLibError;
 
 /// similar to std::process::Output, but with i32 and Strings for easier work
-pub use crate::auto_helper_functions_mod::ShellOutput;
+pub use crate::auto_shell_mod::ShellOutput;
 
 // reexporting a struct needs to export the trait to also reexports all the methods
 
@@ -79,11 +79,50 @@ pub trait CargoTomlPublicApiMethods {
     fn package_homepage(&self) -> String;
     /// Cargo.toml workspace members
     fn workspace_members(&self) -> Option<Vec<String>>;
-    /// github owner from package.repository
+    /// GitHub owner from package.repository
     fn github_owner(&self) -> Option<String>;
     /// Cargo.toml package keywords
     fn package_keywords(&self) -> Vec<String>;
 }
+
+/// Shell command builder with simple but limited sanitizer
+///
+/// The limited sanitization will panic if the value contains double quotes.
+/// Command injections attack is possible because the shell command mixes executable code and data in a single string.
+/// The attacker could format the "user input" data in a way that it transforms it into "executable code".
+/// A true sanitization is hard to do in software. It would mean to understand all the intricacies of bash syntax?!
+/// Another solution is to create a complex object model to have every command and data separated. Too complicated and developer unfriendly.
+/// Instead here we take that the developer is a trusted person and he knows how to create the template correctly,
+/// so that the placeholders are always de-facto delimited with double-quote inside the shell command.
+/// This avoids the problem of injection of any other symbol except double-quotes.
+/// The injection of double quote would finish the double-quote data and open the door tho write executable code.
+/// It would be very complicated to check if "escaped double quotes" are or not correct in the context of the template.
+/// So I don't allow them at all. This covers the vast majority of simple use cases.
+/// Placeholders are delimited with curly brackets.
+pub use crate::auto_shell_mod::ShellCommandLimitedDoubleQuotesSanitizer;
+
+/// Trait with methods for ShellCommandLimitedDoubleQuotesSanitizer
+pub trait ShellCommandLimitedDoubleQuotesSanitizerTrait {
+    /// Template for the shell command with placeholders
+    ///
+    /// The limited sanitization will panic if the value contains double quotes.
+    /// Placeholders are delimited with curly brackets.
+    /// The developer must be super careful to write the template correctly.
+    /// The placeholders must be inside a block delimited with double quotes.
+    /// In a way that only an injection of a double quote can cause problems.
+    /// There is no software check of the correctness of the template.
+    fn new(template: &str) -> Self;
+    /// Replace placeholders with the value
+    ///
+    /// The limited sanitization will panic if the value contains double quotes.
+    /// Enter the placeholder parameter delimited with curly brackets.
+    /// It would be very complicated to check if "escaped double quotes" are or not correct in the context of the template.
+    /// So I don't allow them at all. This covers the vast majority of simple use cases.
+    fn replace_placeholder_forbidden_double_quotes(&mut self, placeholder: &str, value: &str);
+    /// Run the sanitized command with no additional checks
+    fn run(&self);
+}
+
 // endregion: Public API structs and methods
 
 // region: Public API functions
@@ -213,7 +252,7 @@ pub fn exit_if_not_run_in_rust_project_root_directory() {
 /// The problem that must be sanitized is always "user input".
 /// Exit task execution if the command has Exit Status != 0.
 pub fn run_shell_command_static(shell_command: &'static str) -> ResultWithLibError<()> {
-    crate::auto_helper_functions_mod::run_shell_command_static(shell_command)
+    crate::auto_shell_mod::run_shell_command_static(shell_command)
 }
 
 /// Run one shell command
@@ -221,7 +260,7 @@ pub fn run_shell_command_static(shell_command: &'static str) -> ResultWithLibErr
 /// Exit task execution if the command has Exit Status != 0.
 /// TODO: vulnerable to command injection
 pub fn run_shell_command(shell_command: &str) {
-    crate::auto_helper_functions_mod::run_shell_command(shell_command)
+    crate::auto_shell_mod::run_shell_command(shell_command)
 }
 
 // region: auto_md_to_doc_comments include doc_comments/auto_lines_of_code.md A ///
@@ -440,14 +479,14 @@ pub fn git_is_local_repository() -> bool {
 ///
 /// TODO: vulnerable to command injection
 pub fn run_shell_command_output(shell_command: &str) -> ShellOutput {
-    crate::auto_helper_functions_mod::run_shell_command_output(shell_command)
+    crate::auto_shell_mod::run_shell_command_output(shell_command)
 }
 
 /// Run one shell command and return true if success
 ///
 /// TODO: vulnerable to command injection
 pub fn run_shell_command_success(shell_command: &str) -> bool {
-    crate::auto_helper_functions_mod::run_shell_command_success(shell_command)
+    crate::auto_shell_mod::run_shell_command_success(shell_command)
 }
 
 /// home_dir() using the home crate.
@@ -467,8 +506,13 @@ pub fn git_tag_sync_check_create_push(version: &str) -> String {
 /// First, the user must write the content into file RELEASES.md in the section ## Unreleased.  
 /// Then the automation task will copy the content to GitHub release  
 /// and create a new Version title in RELEASES.md.  
-pub fn body_text_from_releases_md(release_name: &str) -> Option<String> {
-    crate::auto_github_mod::body_text_from_releases_md(release_name)
+pub fn body_text_from_releases_md() -> Option<String> {
+    crate::auto_github_mod::body_text_from_releases_md()
+}
+
+/// Create a new Version title in RELEASES.md
+pub fn create_new_version_in_releases_md(release_name: &str) -> Option<()> {
+    crate::auto_github_mod::create_new_version_in_releases_md(release_name)
 }
 
 /// UTC  date in iso standard like 2024-12-31
@@ -549,15 +593,6 @@ pub fn add_message_to_unreleased(message: &str) {
 // endregion: auto_md_to_doc_comments include doc_comments/auto_playground_run_code.md A ///
 pub fn auto_playground_run_code() {
     crate::auto_playground_mod::auto_playground_run_code()
-}
-
-/// Publish to crates.io
-///
-/// Encrypt/decrypt the crates.io token with an SSH key.
-/// Then call the `cargo publish --token token` command.
-/// Never show the secret token anywhere.
-pub fn publish_to_crates_io_with_secret_token() {
-    crate::auto_crates_io_mod::publish_to_crates_io_with_secret_token()
 }
 
 /// Interactive ask to create a new local git repository

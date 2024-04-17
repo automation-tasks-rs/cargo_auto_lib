@@ -1,4 +1,5 @@
 /target
+/logs
 
 # so the GitHub action gets the fresh libraries
 Cargo.lock
