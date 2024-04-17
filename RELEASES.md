@@ -10,9 +10,9 @@ The TODO section is part of the [README.md](https://github.com/automation-tasks-
 
 ## Unreleased
 
-- run_shell_command_static
+## Version 2.1.4 (2024-04-17)
 
-- 2.1.4
+- run_shell_command_static
 
 ## Version 2.1.2 (2024-04-15)
 
