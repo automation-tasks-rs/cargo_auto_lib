@@ -12,6 +12,8 @@ The TODO section is part of the [README.md](https://github.com/automation-tasks-
 
 - crates.io removed
 
+- 2.2.1
+
 ## Version 2.1.4 (2024-04-17)
 
 - run_shell_command_static
