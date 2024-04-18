@@ -91,7 +91,7 @@ pub fn new_local_repository(message: &str) -> Option<()> {
     crate::run_shell_command_static("git config --global init.defaultBranch main").unwrap_or_else(|e| panic!("{e}"));
     crate::run_shell_command_static("git init").unwrap_or_else(|e| panic!("{e}"));
     crate::run_shell_command_static("git add .").unwrap_or_else(|e| panic!("{e}"));
-    crate::run_shell_command(&format!(r#"git commit -m "{message}""#));
+    crate::run_shell_command(&format!(r#"git commit -m "{message}""#)).unwrap_or_else(|e| panic!("{e}"));
     crate::run_shell_command_static("git branch -M main").unwrap_or_else(|e| panic!("{e}"));
     Some(())
 }

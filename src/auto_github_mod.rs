@@ -1,7 +1,7 @@
 // auto_github_mod
 
 // bring trait into scope
-use crate::CargoTomlPublicApiMethods;
+use crate::{CargoTomlPublicApiMethods, ShellCommandLimitedDoubleQuotesSanitizerTrait};
 
 /// File contains releases changelog
 pub const RELEASES_MD: &str = "RELEASES.md";
@@ -15,8 +15,15 @@ pub fn git_tag_sync_check_create_push(version: &str) -> String {
     let tag_name_version = format!("v{}", &version);
     if !tags.contains(&format!("{}\n", tag_name_version)) {
         // create git tag and push
-        let shell_command = format!("git tag -f -a {tag_name_version} -m version_{version}");
-        crate::run_shell_command(&shell_command);
+        crate::ShellCommandLimitedDoubleQuotesSanitizer::new(r#"git tag -f -a "{tag_name_version}" -m "version_{version}" "#)
+            .unwrap()
+            .arg("{tag_name_version}", &tag_name_version)
+            .unwrap()
+            .arg("{version}", &version)
+            .unwrap()
+            .run()
+            .unwrap();
+
         crate::run_shell_command_static("git push origin --tags").unwrap_or_else(|e| panic!("{e}"));
     }
     // return

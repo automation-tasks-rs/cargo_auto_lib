@@ -61,12 +61,14 @@ impl crate::ShellCommandLimitedDoubleQuotesSanitizerTrait for ShellCommandLimite
     /// The placeholders must be inside a block delimited with double quotes.
     /// In a way that only an injection of a double quote can cause problems.
     /// There is no software check of the correctness of the template.
-    fn new(template: &str) -> Self {
+    fn new(template: &str) -> ResultWithLibError<Self> {
         // just a quick check that there are double quotes in the template, that the developer didn't forget about it.
         if !template.contains("\"") {
-            panic!("{RED}The template must contain double quotes around placeholders because otherwise it is susceptible to command injection in shell command.{RESET}")
+            return Err(LibError::ErrorFromString(format!(
+                "{RED}The template must contain double quotes around placeholders because otherwise it is susceptible to command injection in shell command.{RESET}"
+            )));
         }
-        ShellCommandLimitedDoubleQuotesSanitizer { template: template.to_string() }
+        Ok(ShellCommandLimitedDoubleQuotesSanitizer { template: template.to_string() })
     }
     /// Replace placeholders with the value
     ///
@@ -74,16 +76,19 @@ impl crate::ShellCommandLimitedDoubleQuotesSanitizerTrait for ShellCommandLimite
     /// Enter the placeholder parameter delimited with curly brackets.
     /// It would be very complicated to check if "escaped double quotes" are or not correct in the context of the template.
     /// So I don't allow them at all. This covers the vast majority of simple use cases.
-    fn replace_placeholder_forbidden_double_quotes(&mut self, placeholder: &str, value: &str) {
+    fn arg(&mut self, placeholder: &str, value: &str) -> ResultWithLibError<&mut Self> {
         if value.contains("\"") {
-            panic!("{RED}The {placeholder} must not contain a double quote because it could create a command injection in shell command.{RESET}")
+            return Err(LibError::ErrorFromString(format!(
+                "{RED}The {placeholder} must not contain a double quote because it could create a command injection in shell command.{RESET}"
+            )));
         }
         self.template = self.template.replace(placeholder, value);
+        Ok(self)
     }
 
     /// Run the sanitized command with no additional checks
-    fn run(&self) {
-        run_shell_command(&self.template);
+    fn run(&self) -> ResultWithLibError<()> {
+        run_shell_command(&self.template)
     }
 }
 
@@ -91,15 +96,16 @@ impl crate::ShellCommandLimitedDoubleQuotesSanitizerTrait for ShellCommandLimite
 ///
 /// Exit task execution if the command has Exit Status != 0.
 /// TODO: vulnerable to command injection
-pub fn run_shell_command(shell_command: &str) {
+pub fn run_shell_command(shell_command: &str) -> ResultWithLibError<()> {
     if !shell_command.starts_with("echo ") && !shell_command.starts_with("printf ") {
         println!("    {YELLOW}$ {shell_command}{RESET}");
     }
     let status = std::process::Command::new("sh").arg("-c").arg(shell_command).spawn().unwrap().wait().unwrap();
     let exit_code = status.code().expect(&format!("{RED}Error. {RESET}"));
     if exit_code != 0 {
-        panic!("{RED}Error: run_shell_command {}. {RESET}", exit_code);
+        return Err(LibError::ErrorFromString(format!("{RED}Error: run_shell_command {}. {RESET}", exit_code)));
     }
+    Ok(())
 }
 
 /// Run one shell command and return ShellOutput {exit_status, stdout, stderr}

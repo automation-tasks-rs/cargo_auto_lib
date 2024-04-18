@@ -111,16 +111,18 @@ pub trait ShellCommandLimitedDoubleQuotesSanitizerTrait {
     /// The placeholders must be inside a block delimited with double quotes.
     /// In a way that only an injection of a double quote can cause problems.
     /// There is no software check of the correctness of the template.
-    fn new(template: &str) -> Self;
+    fn new(template: &str) -> ResultWithLibError<Self>
+    where
+        Self: Sized;
     /// Replace placeholders with the value
     ///
     /// The limited sanitization will panic if the value contains double quotes.
     /// Enter the placeholder parameter delimited with curly brackets.
     /// It would be very complicated to check if "escaped double quotes" are or not correct in the context of the template.
     /// So I don't allow them at all. This covers the vast majority of simple use cases.
-    fn replace_placeholder_forbidden_double_quotes(&mut self, placeholder: &str, value: &str);
+    fn arg(&mut self, placeholder: &str, value: &str) -> ResultWithLibError<&mut Self>;
     /// Run the sanitized command with no additional checks
-    fn run(&self);
+    fn run(&self) -> ResultWithLibError<()>;
 }
 
 // endregion: Public API structs and methods
@@ -259,7 +261,7 @@ pub fn run_shell_command_static(shell_command: &'static str) -> ResultWithLibErr
 ///
 /// Exit task execution if the command has Exit Status != 0.
 /// TODO: vulnerable to command injection
-pub fn run_shell_command(shell_command: &str) {
+pub fn run_shell_command(shell_command: &str) -> ResultWithLibError<()> {
     crate::auto_shell_mod::run_shell_command(shell_command)
 }
 

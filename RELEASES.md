@@ -12,6 +12,8 @@ The TODO section is part of the [README.md](https://github.com/automation-tasks-
 
 - automation
 
+- sanitize
+
 ## Version 2.2.1 (2024-04-17)
 
 - crates.io removed

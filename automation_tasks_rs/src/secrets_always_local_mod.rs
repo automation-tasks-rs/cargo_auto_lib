@@ -474,8 +474,8 @@ pub(crate) mod crate_io_mod {
 
     use cargo_auto_lib::BLUE;
     use cargo_auto_lib::RED;
-    use cargo_auto_lib::YELLOW;
     use cargo_auto_lib::RESET;
+    use cargo_auto_lib::YELLOW;
 
     // bring trait into scope
     use secrecy::ExposeSecret;
