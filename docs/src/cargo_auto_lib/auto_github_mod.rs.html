@@ -156,12 +156,19 @@
 <a href="#102" id="102">102</a>
 <a href="#103" id="103">103</a>
 <a href="#104" id="104">104</a>
+<a href="#105" id="105">105</a>
+<a href="#106" id="106">106</a>
+<a href="#107" id="107">107</a>
+<a href="#108" id="108">108</a>
+<a href="#109" id="109">109</a>
+<a href="#110" id="110">110</a>
+<a href="#111" id="111">111</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// auto_github_mod
 
 // bring trait into scope
-</span><span class="kw">use </span><span class="kw">crate</span>::CargoTomlPublicApiMethods;
+</span><span class="kw">use crate</span>::{CargoTomlPublicApiMethods, ShellCommandLimitedDoubleQuotesSanitizerTrait};
 
 <span class="doccomment">/// File contains releases changelog
 </span><span class="kw">pub const </span>RELEASES_MD: <span class="kw-2">&</span>str = <span class="string">"RELEASES.md"</span>;
@@ -177,9 +184,16 @@
     <span class="kw">if </span>!tags.contains(<span class="kw-2">&</span><span class="macro">format!</span>(<span class=
 "string">"{}\n"</span>, tag_name_version)) {
         <span class="comment">// create git tag and push
-        </span><span class="kw">let </span>shell_command = <span class="macro">format!</span>(<span class=
-"string">"git tag -f -a {tag_name_version} -m version_{version}"</span>);
-        <span class="kw">crate</span>::run_shell_command(<span class="kw-2">&</span>shell_command);
+        </span><span class="kw">crate</span>::ShellCommandLimitedDoubleQuotesSanitizer::new(<span class=
+"string">r#"git tag -f -a "{tag_name_version}" -m "version_{version}" "#</span>)
+            .unwrap()
+            .arg(<span class="string">"{tag_name_version}"</span>, <span class="kw-2">&</span>tag_name_version)
+            .unwrap()
+            .arg(<span class="string">"{version}"</span>, <span class="kw-2">&</span>version)
+            .unwrap()
+            .run()
+            .unwrap();
+
         <span class="kw">crate</span>::run_shell_command_static(<span class="string">"git push origin --tags"</span>).unwrap_or_else(|e| <span class=
 "macro">panic!</span>(<span class="string">"{e}"</span>));
     }

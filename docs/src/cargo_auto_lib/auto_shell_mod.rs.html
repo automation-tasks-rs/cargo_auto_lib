@@ -183,6 +183,12 @@
 <a href="#129" id="129">129</a>
 <a href="#130" id="130">130</a>
 <a href="#131" id="131">131</a>
+<a href="#132" id="132">132</a>
+<a href="#133" id="133">133</a>
+<a href="#134" id="134">134</a>
+<a href="#135" id="135">135</a>
+<a href="#136" id="136">136</a>
+<a href="#137" id="137">137</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// auto_shell_mod.rs
@@ -254,13 +260,15 @@
     /// The placeholders must be inside a block delimited with double quotes.
     /// In a way that only an injection of a double quote can cause problems.
     /// There is no software check of the correctness of the template.
-    </span><span class="kw">fn </span>new(template: <span class="kw-2">&</span>str) -&gt; <span class="self">Self </span>{
+    </span><span class="kw">fn </span>new(template: <span class="kw-2">&</span>str) -&gt; ResultWithLibError&lt;<span class="self">Self</span>&gt; {
         <span class="comment">// just a quick check that there are double quotes in the template, that the developer didn't forget about it.
         </span><span class="kw">if </span>!template.contains(<span class="string">"\""</span>) {
-            <span class="macro">panic!</span>(<span class=
-"string">"{RED}The template must contain double quotes around placeholders because otherwise it is susceptible to command injection in shell command.{RESET}"</span>)
+            <span class="kw">return </span><span class="prelude-val">Err</span>(LibError::ErrorFromString(<span class="macro">format!</span>(
+                <span class=
+"string">"{RED}The template must contain double quotes around placeholders because otherwise it is susceptible to command injection in shell command.{RESET}"
+            </span>)));
         }
-        ShellCommandLimitedDoubleQuotesSanitizer { template: template.to_string() }
+        <span class="prelude-val">Ok</span>(ShellCommandLimitedDoubleQuotesSanitizer { template: template.to_string() })
     }
     <span class="doccomment">/// Replace placeholders with the value
     ///
@@ -268,18 +276,21 @@
     /// Enter the placeholder parameter delimited with curly brackets.
     /// It would be very complicated to check if "escaped double quotes" are or not correct in the context of the template.
     /// So I don't allow them at all. This covers the vast majority of simple use cases.
-    </span><span class="kw">fn </span>replace_placeholder_forbidden_double_quotes(<span class="kw-2">&amp;mut </span><span class=
-"self">self</span>, placeholder: <span class="kw-2">&</span>str, value: <span class="kw-2">&</span>str) {
+    </span><span class="kw">fn </span>arg(<span class="kw-2">&amp;mut </span><span class="self">self</span>, placeholder: <span class=
+"kw-2">&</span>str, value: <span class="kw-2">&</span>str) -&gt; ResultWithLibError&lt;<span class="kw-2">&amp;mut </span><span class="self">Self</span>&gt; {
         <span class="kw">if </span>value.contains(<span class="string">"\""</span>) {
-            <span class="macro">panic!</span>(<span class=
-"string">"{RED}The {placeholder} must not contain a double quote because it could create a command injection in shell command.{RESET}"</span>)
+            <span class="kw">return </span><span class="prelude-val">Err</span>(LibError::ErrorFromString(<span class="macro">format!</span>(
+                <span class=
+"string">"{RED}The {placeholder} must not contain a double quote because it could create a command injection in shell command.{RESET}"
+            </span>)));
         }
         <span class="self">self</span>.template = <span class="self">self</span>.template.replace(placeholder, value);
+        <span class="prelude-val">Ok</span>(<span class="self">self</span>)
     }
 
     <span class="doccomment">/// Run the sanitized command with no additional checks
-    </span><span class="kw">fn </span>run(<span class="kw-2">&</span><span class="self">self</span>) {
-        run_shell_command(<span class="kw-2">&</span><span class="self">self</span>.template);
+    </span><span class="kw">fn </span>run(<span class="kw-2">&</span><span class="self">self</span>) -&gt; ResultWithLibError&lt;()&gt; {
+        run_shell_command(<span class="kw-2">&</span><span class="self">self</span>.template)
     }
 }
 
@@ -287,7 +298,7 @@
 ///
 /// Exit task execution if the command has Exit Status != 0.
 /// TODO: vulnerable to command injection
-</span><span class="kw">pub fn </span>run_shell_command(shell_command: <span class="kw-2">&</span>str) {
+</span><span class="kw">pub fn </span>run_shell_command(shell_command: <span class="kw-2">&</span>str) -&gt; ResultWithLibError&lt;()&gt; {
     <span class="kw">if </span>!shell_command.starts_with(<span class="string">"echo "</span>) &amp;& !shell_command.starts_with(<span class=
 "string">"printf "</span>) {
         <span class="macro">println!</span>(<span class="string">"    {YELLOW}$ {shell_command}{RESET}"</span>);
@@ -297,8 +308,10 @@
     <span class="kw">let </span>exit_code = status.code().expect(<span class="kw-2">&</span><span class="macro">format!</span>(<span class=
 "string">"{RED}Error. {RESET}"</span>));
     <span class="kw">if </span>exit_code != <span class="number">0 </span>{
-        <span class="macro">panic!</span>(<span class="string">"{RED}Error: run_shell_command {}. {RESET}"</span>, exit_code);
+        <span class="kw">return </span><span class="prelude-val">Err</span>(LibError::ErrorFromString(<span class="macro">format!</span>(<span class=
+"string">"{RED}Error: run_shell_command {}. {RESET}"</span>, exit_code)));
     }
+    <span class="prelude-val">Ok</span>(())
 }
 
 <span class="doccomment">/// Run one shell command and return ShellOutput {exit_status, stdout, stderr}

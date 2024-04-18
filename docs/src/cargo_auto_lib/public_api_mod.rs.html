@@ -654,6 +654,8 @@
 <a href="#600" id="600">600</a>
 <a href="#601" id="601">601</a>
 <a href="#602" id="602">602</a>
+<a href="#603" id="603">603</a>
+<a href="#604" id="604">604</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// public_api_mod.rs
@@ -773,17 +775,19 @@
     /// The placeholders must be inside a block delimited with double quotes.
     /// In a way that only an injection of a double quote can cause problems.
     /// There is no software check of the correctness of the template.
-    </span><span class="kw">fn </span>new(template: <span class="kw-2">&</span>str) -&gt; <span class="self">Self</span>;
+    </span><span class="kw">fn </span>new(template: <span class="kw-2">&</span>str) -&gt; ResultWithLibError&lt;<span class="self">Self</span>&gt;
+    <span class="kw">where
+        </span><span class="self">Self</span>: Sized;
     <span class="doccomment">/// Replace placeholders with the value
     ///
     /// The limited sanitization will panic if the value contains double quotes.
     /// Enter the placeholder parameter delimited with curly brackets.
     /// It would be very complicated to check if "escaped double quotes" are or not correct in the context of the template.
     /// So I don't allow them at all. This covers the vast majority of simple use cases.
-    </span><span class="kw">fn </span>replace_placeholder_forbidden_double_quotes(<span class="kw-2">&amp;mut </span><span class=
-"self">self</span>, placeholder: <span class="kw-2">&</span>str, value: <span class="kw-2">&</span>str);
+    </span><span class="kw">fn </span>arg(<span class="kw-2">&amp;mut </span><span class="self">self</span>, placeholder: <span class=
+"kw-2">&</span>str, value: <span class="kw-2">&</span>str) -&gt; ResultWithLibError&lt;<span class="kw-2">&amp;mut </span><span class="self">Self</span>&gt;;
     <span class="doccomment">/// Run the sanitized command with no additional checks
-    </span><span class="kw">fn </span>run(<span class="kw-2">&</span><span class="self">self</span>);
+    </span><span class="kw">fn </span>run(<span class="kw-2">&</span><span class="self">self</span>) -&gt; ResultWithLibError&lt;()&gt;;
 }
 
 <span class="comment">// endregion: Public API structs and methods
@@ -929,7 +933,7 @@
 ///
 /// Exit task execution if the command has Exit Status != 0.
 /// TODO: vulnerable to command injection
-</span><span class="kw">pub fn </span>run_shell_command(shell_command: <span class="kw-2">&</span>str) {
+</span><span class="kw">pub fn </span>run_shell_command(shell_command: <span class="kw-2">&</span>str) -&gt; ResultWithLibError&lt;()&gt; {
     <span class="kw">crate</span>::auto_shell_mod::run_shell_command(shell_command)
 }
 

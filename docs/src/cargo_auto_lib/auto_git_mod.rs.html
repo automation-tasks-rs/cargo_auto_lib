@@ -257,7 +257,7 @@
     <span class="kw">crate</span>::run_shell_command_static(<span class="string">"git add ."</span>).unwrap_or_else(|e| <span class=
 "macro">panic!</span>(<span class="string">"{e}"</span>));
     <span class="kw">crate</span>::run_shell_command(<span class="kw-2">&</span><span class="macro">format!</span>(<span class=
-"string">r#"git commit -m "{message}""#</span>));
+"string">r#"git commit -m "{message}""#</span>)).unwrap_or_else(|e| <span class="macro">panic!</span>(<span class="string">"{e}"</span>));
     <span class="kw">crate</span>::run_shell_command_static(<span class="string">"git branch -M main"</span>).unwrap_or_else(|e| <span class=
 "macro">panic!</span>(<span class="string">"{e}"</span>));
     <span class="prelude-val">Some</span>(())

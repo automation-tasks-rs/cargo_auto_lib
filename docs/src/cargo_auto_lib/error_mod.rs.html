@@ -117,10 +117,10 @@
     <span class="attr">#[error(<span class="string">"ParseIntError: {0}"</span>)]
     </span>ParseIntError(<span class="attr">#[from] </span>std::num::ParseIntError),
 
-    <span class="attr">#[error(<span class="string">"ErrorFromString: {0}"</span>)]
+    <span class="attr">#[error(<span class="string">"{0}"</span>)]
     </span>ErrorFromString(String),
 
-    <span class="attr">#[error(<span class="string">"ErrorFromStaticStr: {0}"</span>)]
+    <span class="attr">#[error(<span class="string">"{0}"</span>)]
     </span>ErrorFromStr(<span class="kw-2">&</span><span class="lifetime">'static </span>str),
     <span class="comment">//#[error("unknown error")]
     //UnknownError,
