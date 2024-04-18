@@ -1,11 +1,12 @@
 // automation_tasks_rs for cargo_auto_lib
 
+// region: library and modules with basic automation tasks
+
 // for projects that don't use GitHub, delete all the mentions of GitHub
 mod secrets_always_local_mod;
 use crate::secrets_always_local_mod::crate_io_mod;
 use crate::secrets_always_local_mod::github_mod;
 
-// region: library with basic automation tasks
 use cargo_auto_github_lib as cgl;
 use cargo_auto_lib as cl;
 
@@ -20,10 +21,6 @@ use cl::CargoTomlPublicApiMethods;
 use cl::ShellCommandLimitedDoubleQuotesSanitizerTrait;
 
 // region: library with basic automation tasks
-
-// When developing a new function in cargo_auto_lib I need to build it, then change automation_tasks_re/main.rs
-// and then run the task where I put the experimental code:
-// clear && cargo auto build && printf "// \n" >> automation_tasks_rs/src/main.rs && cargo auto test
 
 fn main() {
     std::panic::set_hook(Box::new(|panic_info| panic_set_hook(panic_info)));
@@ -48,6 +45,18 @@ pub fn tracing_init() {
     let offset = time::UtcOffset::current_local_offset().expect("should get local offset!");
     let timer = tracing_subscriber::fmt::time::OffsetTime::new(offset, time::macros::format_description!("[hour]:[minute]:[second].[subsecond digits:6]"));
 
+    // Filter out logs from: hyper_util, reqwest
+    // A filter consists of one or more comma-separated directives
+    // target[span{field=value}]=level
+    // examples: tokio::net=info
+    // directives can be added with the RUST_LOG environment variable:
+    // export RUST_LOG=automation_tasks_rs=trace
+    // Unset the environment variable RUST_LOG
+    // unset RUST_LOG
+    let filter = tracing_subscriber::EnvFilter::from_default_env()
+        .add_directive("hyper_util=error".parse().unwrap())
+        .add_directive("reqwest=error".parse().unwrap());
+
     tracing_subscriber::fmt()
         .with_file(true)
         .with_max_level(tracing::Level::DEBUG)
@@ -55,6 +64,7 @@ pub fn tracing_init() {
         .with_line_number(true)
         .with_ansi(false)
         .with_writer(file_appender)
+        .with_env_filter(filter)
         .init();
 }
 
@@ -271,7 +281,7 @@ fn task_doc() {
 fn task_test() {
     cl::run_shell_command_static("cargo test").unwrap_or_else(|e| panic!("{e}"));
     println!(
-r#"
+        r#"
     {YELLOW}After `cargo auto test`. If ok then {RESET}
     {YELLOW}(commit message is mandatory){RESET}
 {GREEN}cargo auto commit_and_push "message"{RESET}
@@ -317,7 +327,7 @@ fn task_commit_and_push(arg_2: Option<String>) {
     }
 
     println!(
-r#"
+        r#"
     {YELLOW}After `cargo auto commit_and_push "message"`{RESET}
 {GREEN}cargo auto publish_to_crates_io{RESET}
 "#
@@ -333,7 +343,7 @@ fn task_publish_to_crates_io() {
     let tag_name_version = cl::git_tag_sync_check_create_push(&version);
 
     // cargo publish with encrypted secret token
-    let crate_io_client=crate_io_mod::CratesIoClient::new_interactive_input_token();
+    let crate_io_client = crate_io_mod::CratesIoClient::new_with_stored_token();
     crate_io_client.publish_to_crates_io();
 
     println!(
@@ -382,7 +392,6 @@ fn task_github_new_release() {
         }
         panic!("{RED}Call to GitHub API returned an error.{RESET}")
     }
-    let _release_id = json_value.get("id").unwrap().as_i64().unwrap().to_string();
 
     // Create a new Version title in RELEASES.md.
     cl::create_new_version_in_releases_md(&release_name).unwrap();
@@ -395,6 +404,7 @@ fn task_github_new_release() {
     /*
     // region: upload asset only for executables, not for libraries
 
+    let release_id = json_value.get("id").unwrap().as_i64().unwrap().to_string();
     println!(
         "
         {YELLOW}Now uploading release asset. This can take some time if the files are big. Wait...{RESET}
