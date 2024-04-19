@@ -82,6 +82,12 @@ impl crate::ShellCommandLimitedDoubleQuotesSanitizerTrait for ShellCommandLimite
                 "{RED}The {placeholder} must not contain a double quote because it could create a command injection in shell command.{RESET}"
             )));
         }
+        // if the value ends wit a backslash "\" it could change the meaning of the next double quote
+        if value.ends_with("\\") {
+            return Err(LibError::ErrorFromString(format!(
+                "{RED}The {placeholder} must not end with a backslash \\ because it could create a command injection in shell command.{RESET}"
+            )));
+        }
         self.template = self.template.replace(placeholder, value);
         Ok(self)
     }
