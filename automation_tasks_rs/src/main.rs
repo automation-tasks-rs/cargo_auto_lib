@@ -40,7 +40,8 @@ fn main() {
 ///
 /// The folder logs/ is in .gitignore and will not be committed.
 pub fn tracing_init() {
-    let file_appender = tracing_appender::rolling::daily("logs", "automation_tasks_rs.log");
+    // uncomment this line to enable tracing to file
+    // let file_appender = tracing_appender::rolling::daily("logs", "automation_tasks_rs.log");
 
     let offset = time::UtcOffset::current_local_offset().expect("should get local offset!");
     let timer = tracing_subscriber::fmt::time::OffsetTime::new(offset, time::macros::format_description!("[hour]:[minute]:[second].[subsecond digits:6]"));
@@ -63,7 +64,7 @@ pub fn tracing_init() {
         .with_timer(timer)
         .with_line_number(true)
         .with_ansi(false)
-        .with_writer(file_appender)
+        //.with_writer(file_appender)
         .with_env_filter(filter)
         .init();
 }
@@ -73,8 +74,6 @@ pub fn tracing_init() {
 /// I use panics extensively to stop the execution. I am lazy to implement a super complicated error handling.
 /// I just need to stop the execution on every little bit of error. This utility is for developers. They will understand me.
 /// For errors I print the location. If the message contains "Exiting..." than it is a "not-error exit" and  the location is not important.
-/// unwrap() makes ugly panics. It converts the error message into a debug print. Ugly!
-/// Instead I use the long, but more descriptive: .unwrap_or_else(|e| panic!("{e}"))
 fn panic_set_hook(panic_info: &std::panic::PanicInfo) {
     let mut string_message = "".to_string();
     if let Some(message) = panic_info.payload().downcast_ref::<String>() {
@@ -174,12 +173,14 @@ fn print_help() {
 
 /// all example commands in one place
 fn print_examples_cmd() {
+/*
     println!(
         r#"
     {YELLOW}run examples:{RESET}
 {GREEN}cargo run --example plantuml1{RESET}
 "#
     );
+*/
 }
 
 /// sub-command for bash auto-completion of `cargo auto` using the crate `dev_bestia_cargo_completion`
@@ -258,12 +259,9 @@ fn task_doc() {
     cl::run_shell_command_static("rsync -a --info=progress2 --delete-after target/doc/ docs/").unwrap_or_else(|e| panic!("{e}"));
 
     // Create simple index.html file in docs directory
-    cl::ShellCommandLimitedDoubleQuotesSanitizer::new(r#"printf "<meta http-equiv=\"refresh\" content=\"0; url={url_sanitized_for_double_quote}/index.html\" />\n" > docs/index.html"#)
-        .unwrap_or_else(|e| panic!("{e}"))
-        .arg("{url_sanitized_for_double_quote}", &cargo_toml.package_name().replace("-", "_"))
-        .unwrap_or_else(|e| panic!("{e}"))
-        .run()
-        .unwrap_or_else(|e| panic!("{e}"));
+    cl::ShellCommandLimitedDoubleQuotesSanitizer::new(r#"printf "<meta http-equiv=\"refresh\" content=\"0; url={url_sanitized_for_double_quote}/index.html\" />\n" > docs/index.html"#).unwrap_or_else(|e| panic!("{e}"))
+    .arg("{url_sanitized_for_double_quote}", &cargo_toml.package_name().replace("-", "_")).unwrap_or_else(|e| panic!("{e}"))
+    .run().unwrap_or_else(|e| panic!("{e}"));
 
     // pretty html
     cl::auto_doc_tidy_html().unwrap_or_else(|e| panic!("{e}"));
@@ -307,7 +305,7 @@ fn task_commit_and_push(arg_2: Option<String>) {
     }
 
     // If needed, ask to create a GitHub remote repository
-    if !cl::git_has_remote() {
+    if !cgl::git_has_remote() || !cgl::git_has_upstream() {
         let github_client = github_mod::GitHubClient::new_with_stored_token();
         cgl::new_remote_github_repository(&github_client).unwrap();
         cgl::description_and_topics_to_github(&github_client);
@@ -323,12 +321,9 @@ fn task_commit_and_push(arg_2: Option<String>) {
 
         cl::add_message_to_unreleased(&message);
         // the real commit of code
-        cl::ShellCommandLimitedDoubleQuotesSanitizer::new(r#"git add -A && git diff --staged --quiet || git commit -m "{message_sanitized_for_double_quote}" "#)
-            .unwrap_or_else(|e| panic!("{e}"))
-            .arg("{message_sanitized_for_double_quote}", &message)
-            .unwrap_or_else(|e| panic!("{e}"))
-            .run()
-            .unwrap_or_else(|e| panic!("{e}"));
+        cl::ShellCommandLimitedDoubleQuotesSanitizer::new(r#"git add -A && git diff --staged --quiet || git commit -m "{message_sanitized_for_double_quote}" "#).unwrap_or_else(|e| panic!("{e}"))
+        .arg("{message_sanitized_for_double_quote}", &message).unwrap_or_else(|e| panic!("{e}"))
+        .run().unwrap_or_else(|e| panic!("{e}"));
 
         cl::run_shell_command_static("git push").unwrap_or_else(|e| panic!("{e}"));
     }
@@ -408,7 +403,7 @@ fn task_github_new_release() {
     {YELLOW}New GitHub release created: {release_name}.{RESET}
 "
     );
-    /*
+/*
     // region: upload asset only for executables, not for libraries
 
     let release_id = json_value.get("id").unwrap().as_i64().unwrap().to_string();
@@ -420,17 +415,17 @@ fn task_github_new_release() {
     // compress files tar.gz
     let tar_name = format!("{repo_name}-{tag_name_version}-x86_64-unknown-linux-gnu.tar.gz");
 
-    cl::ShellCommandLimitedDoubleQuotesSanitizer::new(r#"tar -zcvf "{tar_name_sanitized_for_double_quote}" "target/release/{repo_name_sanitized_for_double_quote}" "#).unwrap()
-    .arg("{tar_name_sanitized_for_double_quote}", &tar_name).unwrap()
-    .arg("{repo_name_sanitized_for_double_quote}", &repo_name).unwrap()
-    .run().unwrap();
+    cl::ShellCommandLimitedDoubleQuotesSanitizer::new(r#"tar -zcvf "{tar_name_sanitized_for_double_quote}" "target/release/{repo_name_sanitized_for_double_quote}" "#).unwrap_or_else(|e| panic!("{e}"))
+    .arg("{tar_name_sanitized_for_double_quote}", &tar_name).unwrap_or_else(|e| panic!("{e}"))
+    .arg("{repo_name_sanitized_for_double_quote}", &repo_name).unwrap_or_else(|e| panic!("{e}"))
+    .run().unwrap_or_else(|e| panic!("{e}"));
 
     // upload asset
     cgl::github_api_upload_asset_to_release(&github_client, &owner, &repo_name, &release_id, &tar_name);
 
-    cl::ShellCommandLimitedDoubleQuotesSanitizer::new(r#"rm "{tar_name_sanitized_for_double_quote}" "#).unwrap()
-    .arg("{tar_name_sanitized_for_double_quote}", &tar_name).unwrap()
-    .run().unwrap();
+    cl::ShellCommandLimitedDoubleQuotesSanitizer::new(r#"rm "{tar_name_sanitized_for_double_quote}" "#).unwrap_or_else(|e| panic!("{e}"))
+    .arg("{tar_name_sanitized_for_double_quote}", &tar_name).unwrap_or_else(|e| panic!("{e}"))
+    .run().unwrap_or_else(|e| panic!("{e}"));
 
     println!(
         r#"
@@ -439,7 +434,7 @@ fn task_github_new_release() {
     );
 
     // endregion: upload asset only for executables, not for libraries
-        */
+*/
     println!(
         r#"
 {GREEN}https://github.com/{owner}/{repo_name}/releases{RESET}
