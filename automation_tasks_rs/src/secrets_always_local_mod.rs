@@ -1,6 +1,6 @@
 // secrets_always_local_mod.rs
 
-/// Secrets like GitHub API secret_token, crates.io secret_token, SSH private key passphrase and similar
+/// Secrets like GitHub API secret_token, crates.io secret token, docker hub secret_token, SSH private key passphrase and similar
 /// must never go out of this crate. Never pass any secret to an external crate library as much as possible.
 /// The user has the source code under his fingers in this crate. So he knows nobody will mess with this code
 /// once he inspected and reviewed it.
@@ -397,6 +397,7 @@ pub(crate) mod github_mod {
         }
 
         /// decrypts the secret_token in memory
+        #[allow(dead_code)]
         pub fn decrypt_secret_token_in_memory(&self) -> secrecy::SecretString {
             self.encrypted_token.expose_decrypted_secret(&self.session_passcode)
         }
@@ -553,6 +554,16 @@ pub(crate) mod crates_io_mod {
                 crates_io_client
             }
 
+            // check if the plain-text file from `podman login` exists and warn the user because it is a security vulnerability.
+            let file_auth = "~/.cargo/credentials.toml";
+            let file_auth = camino::Utf8Path::new(file_auth);
+            // TODO: check for env variable also?
+            let file_auth_expanded = cargo_auto_encrypt_secret_lib::file_path_home_expand(file_auth);
+            let file_auth_expanded = camino::Utf8Path::new(&file_auth_expanded);
+            if file_auth_expanded.exists() {
+                eprintln!("{RED}Security vulnerability: Found the cargo file with plain-text secret_token: {file_auth_expanded}. It would be better to inspect and remove it. {RESET}")
+            }
+
             let encrypted_string_file_path = camino::Utf8Path::new("~/.ssh/crates_io_secret_token_encrypted.txt");
             let encrypted_string_file_path_expanded = cargo_auto_encrypt_secret_lib::file_path_home_expand(encrypted_string_file_path);
 
@@ -583,6 +594,7 @@ pub(crate) mod crates_io_mod {
         }
 
         /// decrypts the secret_token in memory
+        #[allow(dead_code)]
         pub fn decrypt_secret_token_in_memory(&self) -> secrecy::SecretString {
             self.encrypted_token.expose_decrypted_secret(&self.session_passcode)
         }
@@ -591,6 +603,7 @@ pub(crate) mod crates_io_mod {
         ///
         /// This function encapsulates the secret crates.io secret_token.
         /// The client can be passed to the library. It will not reveal the secret_token.
+        #[allow(dead_code)]
         pub fn publish_to_crates_io(&self) {
             // the secret_token is redacted when print on screen
             ShellCommandLimitedDoubleQuotesSanitizer::new(r#"cargo publish --token "{secret_token}" "#)
@@ -675,6 +688,18 @@ pub(crate) mod docker_hub_mod {
                 let mut docker_hub_client = DockerHubClient::new_wo_secret_token();
                 docker_hub_client.encrypted_token = super::secrecy_mod::SecretEncryptedString::new_with_secret_string(secret_token, &docker_hub_client.session_passcode);
                 docker_hub_client
+            }
+
+            // check if the plain-text file from `podman login` exists and warn the user because it is a security vulnerability.
+            let file_auth = "${XDG_RUNTIME_DIR}/containers/auth.json";
+            // TODO: check for env variable also?
+            if let Some(xdg_runtime_dir) = std::env::var_os("XDG_RUNTIME_DIR"){
+                let xdg_runtime_dir=xdg_runtime_dir.to_string_lossy().to_string();
+                let file_auth_expanded = file_auth.replace("${XDG_RUNTIME_DIR}", &xdg_runtime_dir);
+                let file_auth_expanded = camino::Utf8Path::new(&file_auth_expanded);
+                if file_auth_expanded.exists() {
+                    eprintln!("{RED}Security vulnerability: Found the docker hub file with plain-text secret_token: {file_auth_expanded}. It would be better to inspect and remove it. {RESET}")
+                }
             }
 
             // registry: docker.io -> replace dot into "--""
