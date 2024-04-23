@@ -16,6 +16,8 @@ The TODO section is part of the [README.md](https://github.com/automation-tasks-
 
 - github action
 
+- 1.1.6
+
 ## Version 2.4.3 (2024-04-23)
 
 - sanitize
