@@ -12,7 +12,7 @@ cargo_auto_lib = "2.4.3"
 ### cargo_auto_lib = {path = "../../cargo_auto_lib"}
 cargo_auto_github_lib = "1.1.6"
 ###cargo_auto_github_lib = {path="../../cargo_auto_github_lib"}
-cargo_auto_encrypt_secret_lib = "1.1.4"
+cargo_auto_encrypt_secret_lib = "1.1.7"
 
 pretty_dbg = "1.0.54"
 inquire = "0.7.0"

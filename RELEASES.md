@@ -18,6 +18,8 @@ The TODO section is part of the [README.md](https://github.com/automation-tasks-
 
 - 1.1.6
 
+- cargo_auto_encrypt_secret_lib
+
 ## Version 2.4.3 (2024-04-23)
 
 - sanitize
