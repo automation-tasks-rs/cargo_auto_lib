@@ -186,13 +186,13 @@
         <span class="comment">// create git tag and push
         </span><span class="kw">crate</span>::ShellCommandLimitedDoubleQuotesSanitizer::new(<span class=
 "string">r#"git tag -f -a "{tag_name_version}" -m "version_{version}" "#</span>)
-            .unwrap()
+            .unwrap_or_else(|e| <span class="macro">panic!</span>(<span class="string">"{e}"</span>))
             .arg(<span class="string">"{tag_name_version}"</span>, <span class="kw-2">&</span>tag_name_version)
-            .unwrap()
+            .unwrap_or_else(|e| <span class="macro">panic!</span>(<span class="string">"{e}"</span>))
             .arg(<span class="string">"{version}"</span>, <span class="kw-2">&</span>version)
-            .unwrap()
+            .unwrap_or_else(|e| <span class="macro">panic!</span>(<span class="string">"{e}"</span>))
             .run()
-            .unwrap();
+            .unwrap_or_else(|e| <span class="macro">panic!</span>(<span class="string">"{e}"</span>));
 
         <span class="kw">crate</span>::run_shell_command_static(<span class="string">"git push origin --tags"</span>).unwrap_or_else(|e| <span class=
 "macro">panic!</span>(<span class="string">"{e}"</span>));
