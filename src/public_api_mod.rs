@@ -121,6 +121,10 @@ pub trait ShellCommandLimitedDoubleQuotesSanitizerTrait {
     /// It would be very complicated to check if "escaped double quotes" are or not correct in the context of the template.
     /// So I don't allow them at all. This covers the vast majority of simple use cases.
     fn arg(&mut self, placeholder: &str, value: &str) -> ResultWithLibError<&mut Self>;
+
+    /// Just like arg(), but for secrets that must be not echoed on the screen
+    fn arg_secret(&mut self, placeholder: &str, value: &secrecy::SecretString) -> ResultWithLibError<&mut Self>;
+
     /// Run the sanitized command with no additional checks
     fn run(&self) -> ResultWithLibError<()>;
 }

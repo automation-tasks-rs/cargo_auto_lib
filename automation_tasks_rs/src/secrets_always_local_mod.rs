@@ -175,20 +175,20 @@ pub(crate) mod ssh_mod {
             self.decrypted_string = decryptor.return_secret_string().clone();
         }
 
-        /// get token and encrypt
-        fn get_token_and_encrypt(&self) -> cargo_auto_encrypt_secret_lib::EncryptedString {
+        /// get secret_token and encrypt
+        fn get_secret_token_and_encrypt(&self) -> cargo_auto_encrypt_secret_lib::EncryptedString {
             /// Internal function used only for test configuration
             ///
             /// It is not interactive, but reads from a env var.
             #[cfg(test)]
-            fn get_token() -> secrecy::SecretString {
+            fn get_secret_token() -> secrecy::SecretString {
                 secrecy::SecretString::new(std::env::var("TEST_TOKEN").unwrap())
             }
             /// Internal function get_passphrase interactively ask user to type the passphrase
             ///
             /// This is used for normal code execution.
             #[cfg(not(test))]
-            fn get_token() -> secrecy::SecretString {
+            fn get_secret_token() -> secrecy::SecretString {
                 eprintln!(" ");
                 eprintln!("   {BLUE}Enter the API secret_token to encrypt:{RESET}");
                 secrecy::SecretString::new(
@@ -199,9 +199,9 @@ pub(crate) mod ssh_mod {
                         .unwrap(),
                 )
             }
-            let token_is_a_secret = get_token();
+            let secret_token = get_secret_token();
             // use this signed as password for symmetric encryption
-            let encryptor = encrypt_mod::Encryptor::new_for_encrypt(token_is_a_secret, &self.signed_passcode_is_a_secret);
+            let encryptor = encrypt_mod::Encryptor::new_for_encrypt(secret_token, &self.signed_passcode_is_a_secret);
 
             let encrypted_token = encryptor.encrypt_symmetric().unwrap();
             // return
@@ -253,7 +253,7 @@ pub(crate) mod ssh_mod {
                 }
                 None => {
                     // ask user to think about adding with ssh-add
-                    eprintln!("   {YELLOW}SSH key for encrypted token is not found in the ssh-agent.{RESET}");
+                    eprintln!("   {YELLOW}SSH key for encrypted secret_token is not found in the ssh-agent.{RESET}");
                     eprintln!("   {YELLOW}Without ssh-agent, you will have to type the private key passphrase every time. This is more secure, but inconvenient.{RESET}");
                     eprintln!("   {YELLOW}You can manually add the SSH identity to ssh-agent:{RESET}");
                     eprintln!("   {YELLOW}WARNING: using ssh-agent is less secure, because there is no need for user interaction.{RESET}");
@@ -281,8 +281,8 @@ pub(crate) mod github_mod {
     //! Every API call needs the GitHub API secret_token. This is a secret important just like a password.
     //! I don't want to pass this secret to an "obscure" library crate that is difficult to review.
     //! This secret will stay here in this codebase that every developer can easily inspect.
-    //! Instead of the token, I will pass the struct GitHubClient with the trait SendToGitHubApi.
-    //! This way, the secret token will be encapsulated.
+    //! Instead of the secret_token, I will pass the struct GitHubClient with the trait SendToGitHubApi.
+    //! This way, the secret_token will be encapsulated.
 
     use cargo_auto_github_lib as cgl;
 
@@ -297,7 +297,7 @@ pub(crate) mod github_mod {
     /// Struct GitHubClient contains only private fields
     /// This fields are accessible only to methods in implementation of traits.
     pub struct GitHubClient {
-        /// Passcode for encrypt the token_is_a_secret to encrypted_token in memory.
+        /// Passcode for encrypt the secret_token to encrypted_token in memory.
         /// So that the secret is in memory as little as possible as plain text.
         /// For every session (program start) a new random passcode is created.
         session_passcode: secrecy::SecretVec<u8>,
@@ -309,9 +309,9 @@ pub(crate) mod github_mod {
     impl GitHubClient {
         /// Create new GitHub client
         ///
-        /// Interactively ask the user to input the GitHub token.
-        pub fn new_interactive_input_token() -> Self {
-            let mut github_client = Self::new_wo_token();
+        /// Interactively ask the user to input the GitHub secret_token.
+        pub fn new_interactive_input_secret_token() -> Self {
+            let mut github_client = Self::new_wo_secret_token();
 
             println!("{BLUE}Enter the GitHub API secret_token:{RESET}");
             github_client.encrypted_token =
@@ -321,8 +321,8 @@ pub(crate) mod github_mod {
             github_client
         }
 
-        /// Create new GitHub client without token
-        fn new_wo_token() -> Self {
+        /// Create new GitHub client without secret_token
+        fn new_wo_secret_token() -> Self {
             /// Internal function Generate a random password
             fn random_byte_passcode() -> [u8; 32] {
                 let mut password = [0_u8; 32];
@@ -339,50 +339,50 @@ pub(crate) mod github_mod {
 
         /// Use the stored API secret_token
         ///
-        /// If the token not exists ask user to interactively input the token.
-        /// To decrypt it, use the SSH passphrase. That is much easier to type than typing the token.
+        /// If the secret_token not exists ask user to interactively input the secret_token.
+        /// To decrypt it, use the SSH passphrase. That is much easier to type than typing the secret_token.
         /// it is then possible also to have the ssh key in ssh-agent and write the passphrase only once.
-        /// But this great user experience comes with security concerns. The token is accessible if the attacker is very dedicated.
-        pub fn new_with_stored_token() -> Self {
+        /// But this great user experience comes with security concerns. The secret_token is accessible if the attacker is very dedicated.
+        pub fn new_with_stored_secret_token() -> Self {
             /// Internal function for DRY Don't Repeat Yourself
-            fn read_token_and_decrypt_return_github_client(mut ssh_context: super::ssh_mod::SshContext, encrypted_string_file_path: &camino::Utf8Path) -> GitHubClient {
-                // read the token and decrypt
+            fn read_secret_token_and_decrypt_return_github_client(mut ssh_context: super::ssh_mod::SshContext, encrypted_string_file_path: &camino::Utf8Path) -> GitHubClient {
+                // read the secret_token and decrypt
                 cargo_auto_encrypt_secret_lib::decrypt_with_ssh_interactive_from_file(&mut ssh_context, encrypted_string_file_path);
-                let token_is_a_secret = ssh_context.get_decrypted_string();
-                let mut github_client = GitHubClient::new_wo_token();
-                github_client.encrypted_token = super::secrecy_mod::SecretEncryptedString::new_with_secret_string(token_is_a_secret, &github_client.session_passcode);
+                let secret_token = ssh_context.get_decrypted_string();
+                let mut github_client = GitHubClient::new_wo_secret_token();
+                github_client.encrypted_token = super::secrecy_mod::SecretEncryptedString::new_with_secret_string(secret_token, &github_client.session_passcode);
                 github_client
             }
 
-            let encrypted_string_file_path = camino::Utf8Path::new("~/.ssh/github_api_token_encrypted.txt");
+            let encrypted_string_file_path = camino::Utf8Path::new("~/.ssh/github_api_secret_token_encrypted.txt");
             let encrypted_string_file_path_expanded = cargo_auto_encrypt_secret_lib::file_path_home_expand(encrypted_string_file_path);
 
-            let identity_file_path = camino::Utf8Path::new("~/.ssh/github_api_token_ssh_1");
+            let identity_file_path = camino::Utf8Path::new("~/.ssh/github_api_secret_token_ssh_1");
             if !encrypted_string_file_path_expanded.exists() {
                 // ask interactive
                 println!("    {BLUE}Do you want to store the GitHub API secret_token encrypted with an SSH key? (y/n){RESET}");
                 let answer = inquire::Text::new("").prompt().unwrap();
                 if answer.to_lowercase() != "y" {
-                    // enter the token manually, not storing
-                    return Self::new_interactive_input_token();
+                    // enter the secret_token manually, not storing
+                    return Self::new_interactive_input_secret_token();
                 } else {
-                    // get the passphrase and token interactively
+                    // get the passphrase and secret_token interactively
                     let mut ssh_context = super::ssh_mod::SshContext::new();
-                    // encrypt and save the encrypted token
+                    // encrypt and save the encrypted secret_token
                     cargo_auto_encrypt_secret_lib::encrypt_with_ssh_interactive_save_file(&mut ssh_context, identity_file_path, encrypted_string_file_path);
-                    // read the token and decrypt, return GitHubClient
-                    read_token_and_decrypt_return_github_client(ssh_context, encrypted_string_file_path)
+                    // read the secret_token and decrypt, return GitHubClient
+                    read_secret_token_and_decrypt_return_github_client(ssh_context, encrypted_string_file_path)
                 }
             } else {
                 // file exists
                 let ssh_context = super::ssh_mod::SshContext::new();
-                // read the token and decrypt, return GitHubClient
-                read_token_and_decrypt_return_github_client(ssh_context, encrypted_string_file_path)
+                // read the secret_token and decrypt, return GitHubClient
+                read_secret_token_and_decrypt_return_github_client(ssh_context, encrypted_string_file_path)
             }
         }
 
-        /// decrypts the secret token in memory
-        pub fn decrypt_token_in_memory(&self) -> secrecy::SecretString {
+        /// decrypts the secret_token in memory
+        pub fn decrypt_secret_token_in_memory(&self) -> secrecy::SecretString {
             self.encrypted_token.expose_decrypted_secret(&self.session_passcode)
         }
     }
@@ -393,10 +393,10 @@ pub(crate) mod github_mod {
         ///
         /// This function encapsulates the secret API secret_token.
         /// The RequestBuilder is created somewhere in the library crate.
-        /// The client can be passed to the library. It will not reveal the secret token.
+        /// The client can be passed to the library. It will not reveal the secret_token.
         fn send_to_github_api(&self, req: reqwest::blocking::RequestBuilder) -> serde_json::Value {
             // I must build the request to be able then to inspect it.
-            let req = req.bearer_auth(self.decrypt_token_in_memory().expose_secret()).build().unwrap();
+            let req = req.bearer_auth(self.decrypt_secret_token_in_memory().expose_secret()).build().unwrap();
 
             // region: Assert the correct url and https
             // It is important that the request coming from a external crate/library
@@ -429,11 +429,11 @@ pub(crate) mod github_mod {
         ///
         /// This function encapsulates the secret API secret_token.
         /// The RequestBuilder is created somewhere in the library crate.
-        /// The client can be passed to the library. It will not reveal the secret token.
+        /// The client can be passed to the library. It will not reveal the secret_token.
         /// This is basically an async fn, but use of `async fn` in public traits is discouraged...
         async fn upload_to_github(&self, req: reqwest::RequestBuilder) -> serde_json::Value {
             // I must build the request to be able then to inspect it.
-            let req = req.bearer_auth(self.decrypt_token_in_memory().expose_secret()).build().unwrap();
+            let req = req.bearer_auth(self.decrypt_secret_token_in_memory().expose_secret()).build().unwrap();
 
             // region: Assert the correct url and https
             // It is important that the request coming from a external crate/library
@@ -469,8 +469,8 @@ pub(crate) mod crates_io_mod {
     //! Publish to crates.io needs the crates.io secret_token. This is a secret important just like a password.
     //! I don't want to pass this secret to an "obscure" library crate that is difficult to review.
     //! This secret will stay here in this codebase that every developer can easily inspect.
-    //! Instead of the token, I will pass the struct CratesIoClient with the trait SendToCratesIo.
-    //! This way, the secret token will be encapsulated.
+    //! Instead of the secret_token, I will pass the struct CratesIoClient with the trait SendToCratesIo.
+    //! This way, the secret_token will be encapsulated.
 
     use cargo_auto_lib::BLUE;
     use cargo_auto_lib::RED;
@@ -483,7 +483,7 @@ pub(crate) mod crates_io_mod {
     /// Struct CratesIoClient contains only private fields
     /// This fields are accessible only to methods in implementation of traits.
     pub struct CratesIoClient {
-        /// Passcode for encrypt the token_is_a_secret to encrypted_token in memory.
+        /// Passcode for encrypt the secret_token to encrypted_token in memory.
         /// So that the secret is in memory as little as possible as plain text.
         /// For every session (program start) a new random passcode is created.
         session_passcode: secrecy::SecretVec<u8>,
@@ -497,8 +497,8 @@ pub(crate) mod crates_io_mod {
         ///
         /// Interactively ask the user to input the crates.io secret_token.
         #[allow(dead_code)]
-        pub fn new_interactive_input_token() -> Self {
-            let mut crates_io_client = Self::new_wo_token();
+        pub fn new_interactive_input_secret_token() -> Self {
+            let mut crates_io_client = Self::new_wo_secret_token();
 
             println!("{BLUE}Enter the crates.io secret_token:{RESET}");
             crates_io_client.encrypted_token =
@@ -508,9 +508,9 @@ pub(crate) mod crates_io_mod {
             crates_io_client
         }
 
-        /// Create new CratesIo client without token
+        /// Create new CratesIo client without secret_token
         #[allow(dead_code)]
-        fn new_wo_token() -> Self {
+        fn new_wo_secret_token() -> Self {
             /// Internal function Generate a random password
             fn random_byte_passcode() -> [u8; 32] {
                 let mut password = [0_u8; 32];
@@ -527,61 +527,61 @@ pub(crate) mod crates_io_mod {
 
         /// Use the stored crates.io secret_token
         ///
-        /// If the token not exists ask user to interactively input the token.
-        /// To decrypt it, use the SSH passphrase. That is much easier to type than typing the token.
+        /// If the secret_token not exists ask user to interactively input the secret_token.
+        /// To decrypt it, use the SSH passphrase. That is much easier to type than typing the secret_token.
         /// It is then possible also to have the ssh key in ssh-agent and write the passphrase only once.
-        /// But this great user experience comes with security concerns. The token is accessible if the attacker is very dedicated.
+        /// But this great user experience comes with security concerns. The secret_token is accessible if the attacker is very dedicated.
         #[allow(dead_code)]
-        pub fn new_with_stored_token() -> Self {
+        pub fn new_with_stored_secret_token() -> Self {
             /// Internal function for DRY Don't Repeat Yourself
-            fn read_token_and_decrypt_return_crates_io_client(mut ssh_context: super::ssh_mod::SshContext, encrypted_string_file_path: &camino::Utf8Path) -> CratesIoClient {
+            fn read_secret_token_and_decrypt_return_crates_io_client(mut ssh_context: super::ssh_mod::SshContext, encrypted_string_file_path: &camino::Utf8Path) -> CratesIoClient {
                 cargo_auto_encrypt_secret_lib::decrypt_with_ssh_interactive_from_file(&mut ssh_context, encrypted_string_file_path);
-                let token_is_a_secret = ssh_context.get_decrypted_string();
-                let mut crates_io_client = CratesIoClient::new_wo_token();
-                crates_io_client.encrypted_token = super::secrecy_mod::SecretEncryptedString::new_with_secret_string(token_is_a_secret, &crates_io_client.session_passcode);
+                let secret_token = ssh_context.get_decrypted_string();
+                let mut crates_io_client = CratesIoClient::new_wo_secret_token();
+                crates_io_client.encrypted_token = super::secrecy_mod::SecretEncryptedString::new_with_secret_string(secret_token, &crates_io_client.session_passcode);
                 crates_io_client
             }
 
-            let encrypted_string_file_path = camino::Utf8Path::new("~/.ssh/crates_io_token_encrypted.txt");
+            let encrypted_string_file_path = camino::Utf8Path::new("~/.ssh/crates_io_secret_token_encrypted.txt");
             let encrypted_string_file_path_expanded = cargo_auto_encrypt_secret_lib::file_path_home_expand(encrypted_string_file_path);
 
-            let identity_file_path = camino::Utf8Path::new("~/.ssh/crates_io_token_ssh_1");
+            let identity_file_path = camino::Utf8Path::new("~/.ssh/crates_io_secret_token_ssh_1");
             if !encrypted_string_file_path_expanded.exists() {
                 // ask interactive
                 println!("    {BLUE}Do you want to store the crates.io secret_token encrypted with an SSH key? (y/n){RESET}");
                 let answer = inquire::Text::new("").prompt().unwrap();
                 if answer.to_lowercase() != "y" {
-                    // enter the token manually, not storing
-                    return Self::new_interactive_input_token();
+                    // enter the secret_token manually, not storing
+                    return Self::new_interactive_input_secret_token();
                 } else {
-                    // get the passphrase and token interactively
+                    // get the passphrase and secret_token interactively
                     let mut ssh_context = super::ssh_mod::SshContext::new();
-                    // encrypt and save the encrypted token
+                    // encrypt and save the encrypted secret_token
                     cargo_auto_encrypt_secret_lib::encrypt_with_ssh_interactive_save_file(&mut ssh_context, identity_file_path, encrypted_string_file_path);
-                    // read the token and decrypt, return CratesIoClient
-                    read_token_and_decrypt_return_crates_io_client(ssh_context, encrypted_string_file_path)
+                    // read the secret_token and decrypt, return CratesIoClient
+                    read_secret_token_and_decrypt_return_crates_io_client(ssh_context, encrypted_string_file_path)
                 }
             } else {
                 // file exists
                 let ssh_context = super::ssh_mod::SshContext::new();
-                // read the token and decrypt, return CratesIoClient
-                read_token_and_decrypt_return_crates_io_client(ssh_context, encrypted_string_file_path)
+                // read the secret_token and decrypt, return CratesIoClient
+                read_secret_token_and_decrypt_return_crates_io_client(ssh_context, encrypted_string_file_path)
             }
         }
 
-        /// decrypts the secret token in memory
-        pub fn decrypt_token_in_memory(&self) -> secrecy::SecretString {
+        /// decrypts the secret_token in memory
+        pub fn decrypt_secret_token_in_memory(&self) -> secrecy::SecretString {
             self.encrypted_token.expose_decrypted_secret(&self.session_passcode)
         }
 
         /// Publish to crates.io
         ///
         /// This function encapsulates the secret crates.io secret_token.
-        /// The client can be passed to the library. It will not reveal the secret token.
+        /// The client can be passed to the library. It will not reveal the secret_token.
         pub fn publish_to_crates_io(&self) {
-            // print command without the token
+            // print command without the secret_token
             println!("{YELLOW}cargo publish --token [REDACTED]{RESET}");
-            let shell_command = format!("cargo publish --token {}", self.decrypt_token_in_memory().expose_secret());
+            let shell_command = format!("cargo publish --token {}", self.decrypt_secret_token_in_memory().expose_secret());
             let status = std::process::Command::new("sh").arg("-c").arg(shell_command).spawn().unwrap().wait().unwrap();
             let exit_code = status.code().expect(&format!("{RED}Error: publish to crates.io error. {RESET}"));
             if exit_code != 0 {

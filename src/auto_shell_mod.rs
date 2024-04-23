@@ -1,5 +1,7 @@
 // auto_shell_mod.rs
 
+use secrecy::ExposeSecret;
+
 use crate::{
     error_mod::LibError,
     public_api_mod::{RED, RESET, YELLOW},
@@ -51,6 +53,8 @@ pub fn run_shell_command_static(shell_command: &'static str) -> ResultWithLibErr
 /// Placeholders are delimited with curly brackets.
 pub struct ShellCommandLimitedDoubleQuotesSanitizer {
     template: String,
+    string_to_echo: String,
+    string_to_execute: String,
 }
 impl crate::ShellCommandLimitedDoubleQuotesSanitizerTrait for ShellCommandLimitedDoubleQuotesSanitizer {
     /// Template for the shell command with placeholders
@@ -68,7 +72,11 @@ impl crate::ShellCommandLimitedDoubleQuotesSanitizerTrait for ShellCommandLimite
                 "{RED}The template must contain double quotes around placeholders because otherwise it is susceptible to command injection in shell command.{RESET}"
             )));
         }
-        Ok(ShellCommandLimitedDoubleQuotesSanitizer { template: template.to_string() })
+        Ok(ShellCommandLimitedDoubleQuotesSanitizer {
+            template: template.to_string(),
+            string_to_echo: template.to_string(),
+            string_to_execute: template.to_string(),
+        })
     }
     /// Replace placeholders with the value
     ///
@@ -89,12 +97,43 @@ impl crate::ShellCommandLimitedDoubleQuotesSanitizerTrait for ShellCommandLimite
             )));
         }
         self.template = self.template.replace(placeholder, value);
+        if placeholder.contains("secret") {
+            return Err(LibError::ErrorFromString(format!(
+                "{RED}The {placeholder} looks like it contains a secret, but the argument is added with arg() and not arg_secret().{RESET}"
+            )));
+        }
+        self.string_to_echo = self.string_to_echo.replace(placeholder, value);
+        self.string_to_execute = self.string_to_execute.replace(placeholder, value);
+        Ok(self)
+    }
+    /// Just like arg(), but for secrets that must be not echoed on the screen
+    fn arg_secret(&mut self, placeholder: &str, value: &secrecy::SecretString) -> ResultWithLibError<&mut Self> {
+        if value.expose_secret().contains("\"") {
+            return Err(LibError::ErrorFromString(format!(
+                "{RED}The {placeholder} must not contain a double quote because it could create a command injection in shell command.{RESET}"
+            )));
+        }
+        // if the value ends wit a backslash "\" it could change the meaning of the next double quote
+        if value.expose_secret().ends_with("\\") {
+            return Err(LibError::ErrorFromString(format!(
+                "{RED}The {placeholder} must not end with a backslash \\ because it could create a command injection in shell command.{RESET}"
+            )));
+        }
+        self.string_to_echo = self.string_to_echo.replace(placeholder, "[REDACTED]");
+        self.string_to_execute = self.string_to_execute.replace(placeholder, value.expose_secret());
         Ok(self)
     }
 
     /// Run the sanitized command with no additional checks
     fn run(&self) -> ResultWithLibError<()> {
-        run_shell_command(&self.template)
+        println!("    {YELLOW}$ {} {RESET}", self.string_to_echo);
+
+        let status = std::process::Command::new("sh").arg("-c").arg(&self.string_to_execute).spawn().unwrap().wait().unwrap();
+        let exit_code = status.code().expect(&format!("{RED}Error. {RESET}"));
+        if exit_code != 0 {
+            return Err(LibError::ErrorFromString(format!("{RED}Error: run_shell_command {}. {RESET}", exit_code)));
+        }
+        Ok(())
     }
 }
 
