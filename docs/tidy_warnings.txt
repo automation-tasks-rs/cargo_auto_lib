@@ -1808,10 +1808,10 @@ line 10 column 12086 - Warning: discarding unexpected </summary>
 line 10 column 12241 - Warning: missing </summary> before <section>
 line 10 column 12905 - Warning: discarding unexpected </summary>
 line 10 column 12982 - Warning: missing </summary> before <section>
-line 10 column 13485 - Warning: discarding unexpected </summary>
-line 10 column 13640 - Warning: missing </summary> before <section>
-line 10 column 14330 - Warning: discarding unexpected </summary>
-line 10 column 14407 - Warning: missing </summary> before <section>
+line 10 column 13489 - Warning: discarding unexpected </summary>
+line 10 column 13644 - Warning: missing </summary> before <section>
+line 10 column 14334 - Warning: discarding unexpected </summary>
+line 10 column 14411 - Warning: missing </summary> before <section>
 line 10 column 14934 - Warning: discarding unexpected </summary>
 line 10 column 17499 - Warning: missing </summary> before <section>
 line 10 column 17857 - Warning: <div> isn't allowed in <h3> elements
@@ -1901,8 +1901,8 @@ line 10 column 10860 - Warning: trimming empty <summary>
 line 10 column 11587 - Warning: trimming empty <summary>
 line 10 column 12241 - Warning: trimming empty <summary>
 line 10 column 12982 - Warning: trimming empty <summary>
-line 10 column 13640 - Warning: trimming empty <summary>
-line 10 column 14407 - Warning: trimming empty <summary>
+line 10 column 13644 - Warning: trimming empty <summary>
+line 10 column 14411 - Warning: trimming empty <summary>
 line 10 column 17499 - Warning: trimming empty <summary>
 line 11 column 247 - Warning: trimming empty <summary>
 line 11 column 1008 - Warning: trimming empty <summary>
