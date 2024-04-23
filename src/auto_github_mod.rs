@@ -16,13 +16,13 @@ pub fn git_tag_sync_check_create_push(version: &str) -> String {
     if !tags.contains(&format!("{}\n", tag_name_version)) {
         // create git tag and push
         crate::ShellCommandLimitedDoubleQuotesSanitizer::new(r#"git tag -f -a "{tag_name_version}" -m "version_{version}" "#)
-            .unwrap()
+            .unwrap_or_else(|e| panic!("{e}"))
             .arg("{tag_name_version}", &tag_name_version)
-            .unwrap()
+            .unwrap_or_else(|e| panic!("{e}"))
             .arg("{version}", &version)
-            .unwrap()
+            .unwrap_or_else(|e| panic!("{e}"))
             .run()
-            .unwrap();
+            .unwrap_or_else(|e| panic!("{e}"));
 
         crate::run_shell_command_static("git push origin --tags").unwrap_or_else(|e| panic!("{e}"));
     }
