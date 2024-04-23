@@ -8,11 +8,27 @@
 /// The simple program flow of functions that need secrets is butchered to avoid secrets leaving this crate.
 /// Now it looks like a mess, but the goal is achieved. The secrets never leave this crate.
 
+// region: Public API constants
+// ANSI colors for Linux terminal
+// https://github.com/shiena/ansicolor/blob/master/README.md
+/// ANSI color
+pub const RED: &str = "\x1b[31m";
+/// ANSI color
+pub const GREEN: &str = "\x1b[32m";
+/// ANSI color
+pub const YELLOW: &str = "\x1b[33m";
+/// ANSI color
+pub const BLUE: &str = "\x1b[34m";
+/// ANSI color
+pub const RESET: &str = "\x1b[0m";
+// endregion: Public API constants
+
+pub use cargo_auto_encrypt_secret_lib::EncryptedString;
+pub use secrecy::ExposeSecret;
+
 pub(crate) mod decrypt_mod {
 
-    use cargo_auto_lib::RED;
-    use cargo_auto_lib::RESET;
-    use secrecy::ExposeSecret;
+    use crate::secrets_always_local_mod::*;
 
     /// The secrets must not leave this crate.
     /// They are never going into an external library crate.
@@ -58,12 +74,7 @@ pub(crate) mod decrypt_mod {
 }
 
 pub(crate) mod encrypt_mod {
-
-    use cargo_auto_lib::RED;
-    use cargo_auto_lib::RESET;
-
-    // bring trait to scope
-    use secrecy::ExposeSecret;
+    use crate::secrets_always_local_mod::*;
 
     /// The secrets must not leave this crate.
     /// They are never going into an external library crate.
@@ -109,7 +120,7 @@ pub(crate) mod secrecy_mod {
     //! But I want to encrypt the content, so I will make a wrapper.
     //! The secrets must always be moved to secrecy types as soon as possible.
 
-    use cargo_auto_encrypt_secret_lib::EncryptedString;
+    use crate::secrets_always_local_mod::*;
 
     pub struct SecretEncryptedString {
         encrypted_string: EncryptedString,
@@ -138,17 +149,7 @@ pub(crate) mod secrecy_mod {
 
 pub(crate) mod ssh_mod {
 
-    #[allow(unused_imports)]
-    use cargo_auto_lib::BLUE;
-    use cargo_auto_lib::GREEN;
-    use cargo_auto_lib::RED;
-    use cargo_auto_lib::RESET;
-    use cargo_auto_lib::YELLOW;
-
     use crate::secrets_always_local_mod::*;
-
-    // bring trait into scope
-    use secrecy::ExposeSecret;
 
     pub struct SshContext {
         signed_passcode_is_a_secret: secrecy::SecretVec<u8>,
@@ -302,15 +303,9 @@ pub(crate) mod github_mod {
     //! Instead of the secret_token, I will pass the struct GitHubClient with the trait SendToGitHubApi.
     //! This way, the secret_token will be encapsulated.
 
+    use crate::secrets_always_local_mod::*;
     use cargo_auto_github_lib as cgl;
-
-    use cargo_auto_lib::BLUE;
-    use cargo_auto_lib::RED;
-    use cargo_auto_lib::RESET;
-
     use reqwest::Client;
-    // bring trait into scope
-    use secrecy::ExposeSecret;
 
     /// Struct GitHubClient contains only private fields
     /// This fields are accessible only to methods in implementation of traits.
@@ -492,11 +487,9 @@ pub(crate) mod crates_io_mod {
     //! Instead of the secret_token, I will pass the struct CratesIoClient with the trait SendToCratesIo.
     //! This way, the secret_token will be encapsulated.
 
+    use crate::secrets_always_local_mod::*;
+    use cargo_auto_lib::ShellCommandLimitedDoubleQuotesSanitizer;
     use cargo_auto_lib::ShellCommandLimitedDoubleQuotesSanitizerTrait;
-    use cargo_auto_lib::BLUE;
-    use cargo_auto_lib::RESET;
-
-    // bring trait into scope
 
     /// Struct CratesIoClient contains only private fields
     /// This fields are accessible only to methods in implementation of traits.
@@ -600,7 +593,7 @@ pub(crate) mod crates_io_mod {
         /// The client can be passed to the library. It will not reveal the secret_token.
         pub fn publish_to_crates_io(&self) {
             // the secret_token is redacted when print on screen
-            crate::cl::ShellCommandLimitedDoubleQuotesSanitizer::new(r#"cargo publish --token "{secret_token}" "#)
+            ShellCommandLimitedDoubleQuotesSanitizer::new(r#"cargo publish --token "{secret_token}" "#)
                 .unwrap_or_else(|e| panic!("{e}"))
                 .arg_secret("{secret_token}", &self.decrypt_secret_token_in_memory())
                 .unwrap_or_else(|e| panic!("{e}"))
@@ -618,11 +611,9 @@ pub(crate) mod docker_hub_mod {
     //! Instead of the secret_token, I will pass the struct DockerHubClient with the trait SendToDockerHub.
     //! This way, the secret_token will be encapsulated.
 
-    use crate::cl::ShellCommandLimitedDoubleQuotesSanitizerTrait;
-    use crate::cl::BLUE;
-    use crate::cl::RESET;
-
-    // bring trait into scope
+    use crate::secrets_always_local_mod::*;
+    use cargo_auto_lib::ShellCommandLimitedDoubleQuotesSanitizer;
+    use cargo_auto_lib::ShellCommandLimitedDoubleQuotesSanitizerTrait;
 
     /// Struct DockerHubClient contains only private fields
     /// This fields are accessible only to methods in implementation of traits.
@@ -732,7 +723,7 @@ pub(crate) mod docker_hub_mod {
         #[allow(dead_code)]
         pub fn push_to_docker_hub(&self, image_url: &str, user_name: &str) {
             // the secret_token can be used in place of the password in --cred
-            crate::cl::ShellCommandLimitedDoubleQuotesSanitizer::new(r#"podman push --creds "{user_name}:{secret_token}" "{image_url}" "#)
+            ShellCommandLimitedDoubleQuotesSanitizer::new(r#"podman push --creds "{user_name}:{secret_token}" "{image_url}" "#)
                 .unwrap_or_else(|e| panic!("{e}"))
                 .arg("{user_name}", user_name)
                 .unwrap_or_else(|e| panic!("{e}"))
