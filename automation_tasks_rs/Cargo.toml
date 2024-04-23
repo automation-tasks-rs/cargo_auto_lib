@@ -8,7 +8,7 @@ description = "Automation tasks coded in Rust language for the workflow of Rust 
 publish = false
 
 [dependencies]
-cargo_auto_lib = "2.4.3"
+cargo_auto_lib = "2.4.8"
 ### cargo_auto_lib = {path = "../../cargo_auto_lib"}
 cargo_auto_github_lib = "1.1.6"
 ###cargo_auto_github_lib = {path="../../cargo_auto_github_lib"}
