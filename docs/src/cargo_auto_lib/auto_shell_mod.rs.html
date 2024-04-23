@@ -14,7 +14,7 @@
   <link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css">
   <link rel="stylesheet" href="../../static.files/rustdoc-5bc39a1768837dd0.css">
   <meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="cargo_auto_lib" data-themes=""
-  data-resource-suffix="" data-rustdoc-version="1.77.1 (7cf61ebde 2024-03-27)" data-channel="1.77.1" data-search-js="search-dd67cee4cfa65049.js"
+  data-resource-suffix="" data-rustdoc-version="1.77.2 (25ef9e3d8 2024-04-09)" data-channel="1.77.2" data-search-js="search-dd67cee4cfa65049.js"
   data-settings-js="settings-4313503d2e1961c2.js">
   <script src="../../static.files/storage-4c98445ec4002617.js"></script>
   <script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script>
@@ -189,11 +189,58 @@
 <a href="#135" id="135">135</a>
 <a href="#136" id="136">136</a>
 <a href="#137" id="137">137</a>
+<a href="#138" id="138">138</a>
+<a href="#139" id="139">139</a>
+<a href="#140" id="140">140</a>
+<a href="#141" id="141">141</a>
+<a href="#142" id="142">142</a>
+<a href="#143" id="143">143</a>
+<a href="#144" id="144">144</a>
+<a href="#145" id="145">145</a>
+<a href="#146" id="146">146</a>
+<a href="#147" id="147">147</a>
+<a href="#148" id="148">148</a>
+<a href="#149" id="149">149</a>
+<a href="#150" id="150">150</a>
+<a href="#151" id="151">151</a>
+<a href="#152" id="152">152</a>
+<a href="#153" id="153">153</a>
+<a href="#154" id="154">154</a>
+<a href="#155" id="155">155</a>
+<a href="#156" id="156">156</a>
+<a href="#157" id="157">157</a>
+<a href="#158" id="158">158</a>
+<a href="#159" id="159">159</a>
+<a href="#160" id="160">160</a>
+<a href="#161" id="161">161</a>
+<a href="#162" id="162">162</a>
+<a href="#163" id="163">163</a>
+<a href="#164" id="164">164</a>
+<a href="#165" id="165">165</a>
+<a href="#166" id="166">166</a>
+<a href="#167" id="167">167</a>
+<a href="#168" id="168">168</a>
+<a href="#169" id="169">169</a>
+<a href="#170" id="170">170</a>
+<a href="#171" id="171">171</a>
+<a href="#172" id="172">172</a>
+<a href="#173" id="173">173</a>
+<a href="#174" id="174">174</a>
+<a href="#175" id="175">175</a>
+<a href="#176" id="176">176</a>
+<a href="#177" id="177">177</a>
+<a href="#178" id="178">178</a>
+<a href="#179" id="179">179</a>
+<a href="#180" id="180">180</a>
+<a href="#181" id="181">181</a>
+<a href="#182" id="182">182</a>
 </pre>
         </div>
         <pre class="rust"><code><span class="comment">// auto_shell_mod.rs
 
-</span><span class="kw">use crate</span>::{
+</span><span class="kw">use </span>secrecy::ExposeSecret;
+
+<span class="kw">use crate</span>::{
     error_mod::LibError,
     public_api_mod::{RED, RESET, YELLOW},
     ResultWithLibError,
@@ -249,6 +296,8 @@
 /// Placeholders are delimited with curly brackets.
 </span><span class="kw">pub struct </span>ShellCommandLimitedDoubleQuotesSanitizer {
     template: String,
+    string_to_echo: String,
+    string_to_execute: String,
 }
 <span class="kw">impl </span><span class="kw">crate</span>::ShellCommandLimitedDoubleQuotesSanitizerTrait <span class=
 "kw">for </span>ShellCommandLimitedDoubleQuotesSanitizer {
@@ -268,7 +317,11 @@
 "string">"{RED}The template must contain double quotes around placeholders because otherwise it is susceptible to command injection in shell command.{RESET}"
             </span>)));
         }
-        <span class="prelude-val">Ok</span>(ShellCommandLimitedDoubleQuotesSanitizer { template: template.to_string() })
+        <span class="prelude-val">Ok</span>(ShellCommandLimitedDoubleQuotesSanitizer {
+            template: template.to_string(),
+            string_to_echo: template.to_string(),
+            string_to_execute: template.to_string(),
+        })
     }
     <span class="doccomment">/// Replace placeholders with the value
     ///
@@ -284,13 +337,60 @@
 "string">"{RED}The {placeholder} must not contain a double quote because it could create a command injection in shell command.{RESET}"
             </span>)));
         }
+        <span class="comment">// if the value ends wit a backslash "\" it could change the meaning of the next double quote
+        </span><span class="kw">if </span>value.ends_with(<span class="string">"\\"</span>) {
+            <span class="kw">return </span><span class="prelude-val">Err</span>(LibError::ErrorFromString(<span class="macro">format!</span>(
+                <span class=
+"string">"{RED}The {placeholder} must not end with a backslash \\ because it could create a command injection in shell command.{RESET}"
+            </span>)));
+        }
         <span class="self">self</span>.template = <span class="self">self</span>.template.replace(placeholder, value);
+        <span class="kw">if </span>placeholder.contains(<span class="string">"secret"</span>) {
+            <span class="kw">return </span><span class="prelude-val">Err</span>(LibError::ErrorFromString(<span class="macro">format!</span>(
+                <span class=
+"string">"{RED}The {placeholder} looks like it contains a secret, but the argument is added with arg() and not arg_secret().{RESET}"
+            </span>)));
+        }
+        <span class="self">self</span>.string_to_echo = <span class="self">self</span>.string_to_echo.replace(placeholder, value);
+        <span class="self">self</span>.string_to_execute = <span class="self">self</span>.string_to_execute.replace(placeholder, value);
+        <span class="prelude-val">Ok</span>(<span class="self">self</span>)
+    }
+    <span class="doccomment">/// Just like arg(), but for secrets that must be not echoed on the screen
+    </span><span class="kw">fn </span>arg_secret(<span class="kw-2">&amp;mut </span><span class="self">self</span>, placeholder: <span class=
+"kw-2">&</span>str, value: <span class="kw-2">&</span>secrecy::SecretString) -&gt; ResultWithLibError&lt;<span class="kw-2">&amp;mut </span><span class=
+"self">Self</span>&gt; {
+        <span class="kw">if </span>value.expose_secret().contains(<span class="string">"\""</span>) {
+            <span class="kw">return </span><span class="prelude-val">Err</span>(LibError::ErrorFromString(<span class="macro">format!</span>(
+                <span class=
+"string">"{RED}The {placeholder} must not contain a double quote because it could create a command injection in shell command.{RESET}"
+            </span>)));
+        }
+        <span class="comment">// if the value ends wit a backslash "\" it could change the meaning of the next double quote
+        </span><span class="kw">if </span>value.expose_secret().ends_with(<span class="string">"\\"</span>) {
+            <span class="kw">return </span><span class="prelude-val">Err</span>(LibError::ErrorFromString(<span class="macro">format!</span>(
+                <span class=
+"string">"{RED}The {placeholder} must not end with a backslash \\ because it could create a command injection in shell command.{RESET}"
+            </span>)));
+        }
+        <span class="self">self</span>.string_to_echo = <span class="self">self</span>.string_to_echo.replace(placeholder, <span class=
+"string">"[REDACTED]"</span>);
+        <span class="self">self</span>.string_to_execute = <span class="self">self</span>.string_to_execute.replace(placeholder, value.expose_secret());
         <span class="prelude-val">Ok</span>(<span class="self">self</span>)
     }
 
     <span class="doccomment">/// Run the sanitized command with no additional checks
     </span><span class="kw">fn </span>run(<span class="kw-2">&</span><span class="self">self</span>) -&gt; ResultWithLibError&lt;()&gt; {
-        run_shell_command(<span class="kw-2">&</span><span class="self">self</span>.template)
+        <span class="macro">println!</span>(<span class="string">"    {YELLOW}$ {} {RESET}"</span>, <span class="self">self</span>.string_to_echo);
+
+        <span class="kw">let </span>status = std::process::Command::new(<span class="string">"sh"</span>).arg(<span class=
+"string">"-c"</span>).arg(<span class="kw-2">&</span><span class="self">self</span>.string_to_execute).spawn().unwrap().wait().unwrap();
+        <span class="kw">let </span>exit_code = status.code().expect(<span class="kw-2">&</span><span class="macro">format!</span>(<span class=
+"string">"{RED}Error. {RESET}"</span>));
+        <span class="kw">if </span>exit_code != <span class="number">0 </span>{
+            <span class="kw">return </span><span class="prelude-val">Err</span>(LibError::ErrorFromString(<span class="macro">format!</span>(<span class=
+"string">"{RED}Error: run_shell_command {}. {RESET}"</span>, exit_code)));
+        }
+        <span class="prelude-val">Ok</span>(())
     }
 }
 
