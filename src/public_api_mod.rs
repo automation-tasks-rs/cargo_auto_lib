@@ -79,7 +79,7 @@ pub trait CargoTomlPublicApiMethods {
     fn package_homepage(&self) -> String;
     /// Cargo.toml workspace members
     fn workspace_members(&self) -> Option<Vec<String>>;
-    /// GitHub owner from package.repository
+    /// github_owner from package.repository
     fn github_owner(&self) -> Option<String>;
     /// Cargo.toml package keywords
     fn package_keywords(&self) -> Vec<String>;
