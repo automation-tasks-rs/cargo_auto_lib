@@ -1,5 +1,9 @@
 [package]
 name = "cargo_auto_lib"
+# SemVer rules for libraries:
+# increment MAJOR version when you make breaking changes (incompatible API changes)
+# increment MINOR version when you add functionality (that are backward compatible)
+# increment PATCH version when you make bug fixes (that are backward compatible)
 version = "2.4.8"
 authors = ["Bestia.dev"]
 homepage = "https://bestia.dev"
@@ -22,6 +26,9 @@ include = [
 ]
 
 [dependencies]
+# SemVer rules: Major version zero (0.y.z) is for initial development. Anything MAY change at any time. The public API SHOULD NOT be considered stable.
+# WARNING: Although dependecies in Cargo.toml look like a specific version of the crate, they are just like a carret version (^x.y.z) and actually specify 
+# the minimum version and allow automatic SemVer compatible updates up to a MAJOR increment! Always check the true version with `cargo tree`!
 lazy_static="1.4.0"
 regex = "1.10.3"
 glob = "0.3.1"
