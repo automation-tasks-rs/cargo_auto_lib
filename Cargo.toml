@@ -4,6 +4,8 @@ name = "cargo_auto_lib"
 # increment MAJOR version when you make breaking changes (incompatible API changes)
 # increment MINOR version when you add functionality (that are backward compatible)
 # increment PATCH version when you make bug fixes (that are backward compatible)
+# PATCH version MUST be reset to 0 when MINOR version is incremented.
+# PATCH and MINOR versions MUST be reset to 0 when MAJOR version is incremented.
 version = "2.4.8"
 authors = ["Bestia.dev"]
 homepage = "https://bestia.dev"
