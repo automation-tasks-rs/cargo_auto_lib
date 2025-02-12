@@ -1,3 +1,4 @@
+<!-- markdownlint-disable MD041 -->
 [//]: # (auto_md_to_doc_comments segment start A)
 
 Finds rs files with markers and include segments from md files as doc comments  
