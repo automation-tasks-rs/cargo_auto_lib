@@ -319,7 +319,7 @@ mod test {
     pub fn test_sha256_digest() -> ResultWithLibError<()> {
         let digest = sha256_digest(camino::Utf8Path::new("LICENSE").as_std_path())?;
         let hash_string = data_encoding::HEXLOWER.encode(digest.as_ref());
-        let expected_hex = "65666234343064623966363462343963643663333839373166303131663632636334666364323733663461323635303161346336366139633935656337373139";
+        let expected_hex = "66343964363936663834636237373465396336653537646333646433633537386532643333623130613539663837326634383134373337386462303038653035";
         assert_eq!(&hash_string, expected_hex);
         Ok(())
     }

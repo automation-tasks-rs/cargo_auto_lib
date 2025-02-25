@@ -24,12 +24,14 @@ pub struct CargoToml {
 impl crate::public_api_mod::CargoTomlPublicApiMethods for CargoToml {
     /// read Cargo.toml, for workspaces it is the Cargo.toml of the first member
     fn read() -> Self {
-        let cargo_toml_workspace_maybe = cargo_toml::Manifest::from_path("Cargo.toml").unwrap();
+        let absolute_path = std::path::absolute("Cargo.toml").unwrap();
+        let cargo_toml_workspace_maybe = cargo_toml::Manifest::from_path(absolute_path).unwrap();
         let cargo_toml_main = match &cargo_toml_workspace_maybe.workspace {
             None => cargo_toml_workspace_maybe.clone(),
             Some(workspace) => {
                 let main_member = &workspace.members[0];
-                let cargo_main = cargo_toml::Manifest::from_path(format!("{}/Cargo.toml", main_member)).unwrap();
+                let absolute_path = std::path::absolute(&format!("{}/Cargo.toml", main_member)).unwrap();
+                let cargo_main = cargo_toml::Manifest::from_path(absolute_path).unwrap();
                 //return
                 cargo_main
             }
@@ -111,7 +113,6 @@ mod test {
 
     #[test]
     pub fn test_cargo_toml() {
-        // the method read is part of the CargoTomlPublicApiMethods trait
         use crate::public_api_mod::CargoTomlPublicApiMethods;
         let cargo_toml = CargoToml::read();
         assert_eq!(cargo_toml.package_author_name(), "Bestia.dev");
