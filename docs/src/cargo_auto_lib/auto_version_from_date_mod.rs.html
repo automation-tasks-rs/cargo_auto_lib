@@ -1,58 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="generator" content="rustdoc">
-  <meta name="description" content="Source of the Rust file `src/auto_version_from_date_mod.rs`.">
-  <title>auto_version_from_date_mod.rs - source</title>
-  <link rel="preload" as="font" type="font/woff2" crossorigin="" href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin="" href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin="" href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin="" href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin="" href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2">
-  <link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css">
-  <link rel="stylesheet" href="../../static.files/rustdoc-5bc39a1768837dd0.css">
-  <meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="cargo_auto_lib" data-themes=""
-  data-resource-suffix="" data-rustdoc-version="1.77.2 (25ef9e3d8 2024-04-09)" data-channel="1.77.2" data-search-js="search-dd67cee4cfa65049.js"
-  data-settings-js="settings-4313503d2e1961c2.js">
-  <script src="../../static.files/storage-4c98445ec4002617.js"></script>
-  <script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script>
-  <script defer src="../../src-files.js"></script>
-  <script defer src="../../static.files/main-48f368f3872407c8.js"></script><noscript>
-  <link rel="stylesheet" href="../../static.files/noscript-04d5337699b92874.css"></noscript>
-  <link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png">
-  <link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png">
-  <link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg">
-</head>
-<body class="rustdoc src">
-  <!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]-->
-  <nav class="sidebar">
-    <div class="src-sidebar-title">
-      <h2>Files</h2>
-    </div>
-  </nav>
-  <div class="sidebar-resizer"></div>
-  <main>
-    <nav class="sub">
-      <form class="search-form">
-        <div id="sidebar-button" tabindex="-1">
-          <a href="../../cargo_auto_lib/all.html" title="show sidebar"></a>
-        </div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder=
-        "Click or press ‘S’ to search, ‘?’ for more options…" type="search">
-        <div id="help-button" tabindex="-1">
-          <a href="../../help.html" title="help">?</a>
-        </div>
-        <div id="settings-menu" tabindex="-1">
-          <a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src=
-          "../../static.files/wheel-7b819b6101059cd0.svg"></a>
-        </div>
-      </form>
-    </nav>
-    <section id="main-content" class="content">
-      <div class="example-wrap">
-        <div data-nosnippet="">
-          <pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/auto_version_from_date_mod.rs`."><title>auto_version_from_date_mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-46132b98.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="cargo_auto_lib" data-themes="" data-resource-suffix="" data-rustdoc-version="1.85.0 (4d91de4e4 2025-02-17)" data-channel="1.85.0" data-search-js="search-75f5ac3e.js" data-settings-js="settings-0f613d39.js" ><script src="../../static.files/storage-59e33391.js"></script><script defer src="../../static.files/src-script-56102188.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-5f194d8c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">cargo_auto_lib/</div>auto_version_from_date_mod.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -377,10 +324,7 @@
 <a href="#323" id="323">323</a>
 <a href="#324" id="324">324</a>
 <a href="#325" id="325">325</a>
-<a href="#326" id="326">326</a>
-</pre>
-        </div>
-        <pre class="rust"><code><span class="comment">// auto_version_from_date_mod
+<a href="#326" id="326">326</a></pre></div><pre class="rust"><code><span class="comment">// auto_version_from_date_mod
 
 </span><span class="doccomment">//! The new version as date is written to Cargo.toml and service_worker.js
 
@@ -438,16 +382,14 @@
 ///
 </span><span class="comment">// endregion: auto_md_to_doc_comments include doc_comments/auto_version_from_date.md A ///
 </span><span class="kw">pub fn </span>auto_version_from_date() {
-    auto_version_from_date_internal(<span class="bool-val">false</span>).unwrap_or_else(|err| <span class="macro">panic!</span>(<span class=
-"string">"{RED}{err}{RESET}"</span>));
+    auto_version_from_date_internal(<span class="bool-val">false</span>).unwrap_or_else(|err| <span class="macro">panic!</span>(<span class="string">"{RED}{err}{RESET}"</span>));
 }
 
 <span class="doccomment">/// Just like auto_version_from_date(), but force the new version even if no files are changed.
 ///
 /// It is slower, but easier to understand when deployed.
 </span><span class="kw">pub fn </span>auto_version_from_date_forced() {
-    auto_version_from_date_internal(<span class="bool-val">true</span>).unwrap_or_else(|err| <span class="macro">panic!</span>(<span class=
-"string">"{RED}{err}{RESET}"</span>));
+    auto_version_from_date_internal(<span class="bool-val">true</span>).unwrap_or_else(|err| <span class="macro">panic!</span>(<span class="string">"{RED}{err}{RESET}"</span>));
 }
 
 <span class="comment">// endregion: public functions
@@ -462,31 +404,27 @@
     <span class="kw">let </span>is_files_equal = <span class="kw">if </span>force_version {
         <span class="bool-val">false
     </span>} <span class="kw">else </span>{
-        <span class="kw">let </span>js_struct = read_json_file(<span class="string">".automation_tasks_rs_file_hashes.json"</span>)<span class=
-"question-mark">?</span>;
-        are_files_equal(<span class="kw-2">&</span>vec_of_metadata, <span class="kw-2">&</span>js_struct.vec_file_metadata)
+        <span class="kw">let </span>js_struct = read_json_file(<span class="string">".automation_tasks_rs_file_hashes.json"</span>)<span class="question-mark">?</span>;
+        are_files_equal(<span class="kw-2">&amp;</span>vec_of_metadata, <span class="kw-2">&amp;</span>js_struct.vec_file_metadata)
     };
 
     <span class="kw">if </span>!is_files_equal {
-        write_version_to_cargo_and_modify_metadata(<span class="kw-2">&</span>new_version, vec_of_metadata)<span class="question-mark">?</span>;
+        write_version_to_cargo_and_modify_metadata(<span class="kw-2">&amp;</span>new_version, vec_of_metadata)<span class="question-mark">?</span>;
     }
-    modify_service_js(<span class="kw-2">&</span>new_version);
+    modify_service_js(<span class="kw-2">&amp;</span>new_version);
     <span class="prelude-val">Ok</span>(())
 }
 
 <span class="doccomment">/// Search for file service_worker.js and modify version
-</span><span class="kw">fn </span>modify_service_js(new_version: <span class="kw-2">&</span>str) {
+</span><span class="kw">fn </span>modify_service_js(new_version: <span class="kw-2">&amp;</span>str) {
     <span class="kw">let </span>start_dir = camino::Utf8Path::new(<span class="string">"./"</span>);
-    <span class="kw">for </span>js_filename <span class="kw">in </span><span class="kw-2">&</span><span class=
-"kw">crate</span>::utils_mod::traverse_dir_with_exclude_dir(start_dir.as_std_path(), <span class="string">"/service_worker.js"</span>, <span class=
-"kw-2">&</span>[<span class="string">"/.git"</span>.to_string(), <span class="string">"/target"</span>.to_string()]).unwrap() {
+    <span class="kw">for </span>js_filename <span class="kw">in </span><span class="kw-2">&amp;</span><span class="kw">crate</span>::utils_mod::traverse_dir_with_exclude_dir(start_dir.as_std_path(), <span class="string">"/service_worker.js"</span>, <span class="kw-2">&amp;</span>[<span class="string">"/.git"</span>.to_string(), <span class="string">"/target"</span>.to_string()]).unwrap() {
         <span class="comment">// println!("{}write version in {}{}", *GREEN, js_filename, *RESET);
         </span><span class="kw">let </span><span class="kw-2">mut </span>js_content = std::fs::read_to_string(js_filename).unwrap();
 
         <span class="comment">// check if file have CRLF instead of LF and show error
         </span><span class="kw">if </span>js_content.contains(<span class="string">"\r\n"</span>) {
-            <span class="macro">panic!</span>(<span class=
-"string">"{RED}Error: {js_filename} has CRLF line endings instead of LF. Correct the file! {RESET}"</span>);
+            <span class="macro">panic!</span>(<span class="string">"{RED}Error: {js_filename} has CRLF line endings instead of LF. Correct the file! {RESET}"</span>);
         }
 
         <span class="kw">let </span>delimiter = <span class="string">r#"const CACHE_NAME = '"#</span>;
@@ -515,16 +453,14 @@
 }
 
 <span class="doccomment">/// Write version to Cargo.toml
-</span><span class="kw">fn </span>write_version_to_cargo_and_modify_metadata(new_version: <span class="kw-2">&</span>str, <span class=
-"kw-2">mut </span>vec_of_metadata: Vec&lt;FileMetaData&gt;) -&gt; ResultWithLibError&lt;()&gt; {
+</span><span class="kw">fn </span>write_version_to_cargo_and_modify_metadata(new_version: <span class="kw-2">&amp;</span>str, <span class="kw-2">mut </span>vec_of_metadata: Vec&lt;FileMetaData&gt;) -&gt; ResultWithLibError&lt;()&gt; {
     <span class="comment">// println!("{}write version to Cargo.toml{}", *GREEN, *RESET);
     </span><span class="kw">let </span>cargo_filename = <span class="string">"Cargo.toml"</span>;
     <span class="kw">let </span><span class="kw-2">mut </span>cargo_content = std::fs::read_to_string(cargo_filename).unwrap();
 
     <span class="comment">// check if file have CRLF instead of LF and show error
     </span><span class="kw">if </span>cargo_content.contains(<span class="string">"\r\n"</span>) {
-        <span class="macro">panic!</span>(<span class=
-"string">"{RED}Error: {} has CRLF line endings instead of LF. Correct the file! {RESET}"</span>, cargo_filename);
+        <span class="macro">panic!</span>(<span class="string">"{RED}Error: {} has CRLF line endings instead of LF. Correct the file! {RESET}"</span>, cargo_filename);
     }
 
     <span class="kw">let </span>delimiter = <span class="string">r#"version = ""#</span>;
@@ -557,29 +493,25 @@
 }
 
 <span class="doccomment">/// Cargo.toml is now different and needs to be changed in the vec of file metadata
-</span><span class="kw">pub fn </span>correct_file_metadata_for_cargo_tom_inside_vec(vec_of_metadata: <span class=
-"kw-2">&amp;mut </span>[FileMetaData]) -&gt; ResultWithLibError&lt;()&gt; {
+</span><span class="kw">pub fn </span>correct_file_metadata_for_cargo_tom_inside_vec(vec_of_metadata: <span class="kw-2">&amp;mut </span>[FileMetaData]) -&gt; ResultWithLibError&lt;()&gt; {
     <span class="comment">//correct the vector only for Cargo.toml file
     </span><span class="kw">let </span>filename = <span class="string">"Cargo.toml"</span>.to_string();
     <span class="comment">// calculate hash of file
-    </span><span class="kw">let </span>filehash = sha256_digest(std::path::PathBuf::from_str(<span class="kw-2">&</span>filename)<span class=
-"question-mark">?</span>.as_path())<span class="question-mark">?</span>;
-    vec_of_metadata.get_mut(<span class="number">0</span>).ok_or(LibError::ErrorFromStr(<span class=
-"string">"error vec_of_metadata.get_mut(0)"</span>))<span class="question-mark">?</span>.filehash = filehash;
+    </span><span class="kw">let </span>filehash = sha256_digest(std::path::PathBuf::from_str(<span class="kw-2">&amp;</span>filename)<span class="question-mark">?</span>.as_path())<span class="question-mark">?</span>;
+    vec_of_metadata.get_mut(<span class="number">0</span>).ok_or(LibError::ErrorFromStr(<span class="string">"error vec_of_metadata.get_mut(0)"</span>))<span class="question-mark">?</span>.filehash = filehash;
     <span class="prelude-val">Ok</span>(())
 }
 
 <span class="doccomment">/// If files are added or deleted, other files must be also changed
 ///
 /// Check if the files on the filesystem are the same as in the json.
-</span><span class="kw">pub fn </span>are_files_equal(vec_of_metadata: <span class="kw-2">&</span>[FileMetaData], js_vec_of_metadata: <span class=
-"kw-2">&</span>[FileMetaData]) -&gt; bool {
+</span><span class="kw">pub fn </span>are_files_equal(vec_of_metadata: <span class="kw-2">&amp;</span>[FileMetaData], js_vec_of_metadata: <span class="kw-2">&amp;</span>[FileMetaData]) -&gt; bool {
     <span class="kw">let </span><span class="kw-2">mut </span>is_files_equal = <span class="bool-val">true</span>;
     <span class="kw">for </span>x <span class="kw">in </span>vec_of_metadata.iter() {
         <span class="comment">//search in json file
         </span><span class="kw">let </span><span class="kw-2">mut </span>is_one_equal = <span class="bool-val">false</span>;
         <span class="kw">for </span>y <span class="kw">in </span>js_vec_of_metadata.iter() {
-            <span class="kw">if </span>x.filename == y.filename &amp;& x.filehash == y.filehash {
+            <span class="kw">if </span>x.filename == y.filename &amp;&amp; x.filehash == y.filehash {
                 is_one_equal = <span class="bool-val">true</span>;
                 <span class="kw">break</span>;
             }
@@ -598,32 +530,30 @@
     <span class="kw">let </span><span class="kw-2">mut </span>vec_of_metadata: Vec&lt;FileMetaData&gt; = Vec::new();
     <span class="kw">let </span>filename = <span class="string">"Cargo.toml"</span>.to_string();
     <span class="comment">// calculate hash of file
-    </span><span class="kw">let </span>filehash = sha256_digest(std::path::PathBuf::from_str(<span class="kw-2">&</span>filename)<span class=
-"question-mark">?</span>.as_path())<span class="question-mark">?</span>;
+    </span><span class="kw">let </span>filehash = sha256_digest(std::path::PathBuf::from_str(<span class="kw-2">&amp;</span>filename)<span class="question-mark">?</span>.as_path())<span class="question-mark">?</span>;
     vec_of_metadata.push(FileMetaData { filename, filehash });
 
     <span class="kw">let </span>files_paths = <span class="kw">crate</span>::utils_mod::traverse_dir_with_exclude_dir(
         camino::Utf8Path::new(<span class="string">"src"</span>).as_std_path(),
         <span class="string">"/*.rs"</span>,
         <span class="comment">// avoid big folders
-        </span><span class="kw-2">&</span>[],
+        </span><span class="kw-2">&amp;</span>[],
     )
     .unwrap();
 
     <span class="kw">for </span>filename <span class="kw">in </span>files_paths {
         <span class="comment">// calculate hash of file
-        </span><span class="kw">let </span>filehash = sha256_digest(std::path::PathBuf::from_str(<span class="kw-2">&</span>filename)<span class=
-"question-mark">?</span>.as_path())<span class="question-mark">?</span>;
+        </span><span class="kw">let </span>filehash = sha256_digest(std::path::PathBuf::from_str(<span class="kw-2">&amp;</span>filename)<span class="question-mark">?</span>.as_path())<span class="question-mark">?</span>;
         vec_of_metadata.push(FileMetaData { filename, filehash });
     }
     <span class="prelude-val">Ok</span>(vec_of_metadata)
 }
 
 <span class="doccomment">/// Calculate the hash for the content of a file
-</span><span class="kw">fn </span>sha256_digest(path: <span class="kw-2">&</span>std::path::Path) -&gt; ResultWithLibError&lt;String&gt; {
+</span><span class="kw">fn </span>sha256_digest(path: <span class="kw-2">&amp;</span>std::path::Path) -&gt; ResultWithLibError&lt;String&gt; {
     <span class="kw">let </span>file = std::fs::File::open(path)<span class="question-mark">?</span>;
     <span class="kw">let </span><span class="kw-2">mut </span>reader = std::io::BufReader::new(file);
-    <span class="kw">let </span><span class="kw-2">mut </span>context = ring::digest::Context::new(<span class="kw-2">&</span>ring::digest::SHA256);
+    <span class="kw">let </span><span class="kw-2">mut </span>context = ring::digest::Context::new(<span class="kw-2">&amp;</span>ring::digest::SHA256);
     <span class="kw">let </span><span class="kw-2">mut </span>buffer = [<span class="number">0</span>; <span class="number">1024</span>];
     <span class="kw">use </span>std::io::Read;
     <span class="kw">loop </span>{
@@ -631,7 +561,7 @@
         <span class="kw">if </span>count == <span class="number">0 </span>{
             <span class="kw">break</span>;
         }
-        context.update(<span class="kw-2">&</span>buffer[..count]);
+        context.update(<span class="kw-2">&amp;</span>buffer[..count]);
     }
     <span class="kw">let </span>digest = context.finish();
     <span class="kw">let </span>hash_string = data_encoding::HEXLOWER.encode(digest.as_ref());
@@ -640,7 +570,7 @@
 }
 
 <span class="doccomment">/// Read .automation_tasks_rs_file_hashes.json
-</span><span class="kw">pub fn </span>read_json_file(json_filepath: <span class="kw-2">&</span>str) -&gt; ResultWithLibError&lt;AutoVersionFromDate&gt; {
+</span><span class="kw">pub fn </span>read_json_file(json_filepath: <span class="kw-2">&amp;</span>str) -&gt; ResultWithLibError&lt;AutoVersionFromDate&gt; {
     <span class="kw">let </span>js_struct: AutoVersionFromDate;
     <span class="kw">let </span>f = std::fs::read_to_string(json_filepath);
 
@@ -667,7 +597,7 @@
 <span class="doccomment">/// Save the new file metadata
 </span><span class="kw">pub fn </span>save_json_file_for_file_meta_data(vec_of_metadata: Vec&lt;FileMetaData&gt;) {
     <span class="kw">let </span>x = AutoVersionFromDate { vec_file_metadata: vec_of_metadata };
-    <span class="kw">let </span>y = serde_json::to_string_pretty(<span class="kw-2">&</span>x).unwrap();
+    <span class="kw">let </span>y = serde_json::to_string_pretty(<span class="kw-2">&amp;</span>x).unwrap();
     <span class="kw">let </span>json_filepath = <span class="string">".automation_tasks_rs_file_hashes.json"</span>;
     <span class="kw">let </span>_f = std::fs::write(json_filepath, y);
 }
@@ -680,14 +610,12 @@
     </span><span class="kw">if </span>date.hour() == <span class="number">0 </span>{
         <span class="macro">format!</span>(<span class="string">"{:04}.{}{:02}.{}"</span>, date.year(), date.month(), date.day(), date.minute())
     } <span class="kw">else </span>{
-        <span class="macro">format!</span>(<span class=
-"string">"{:04}.{}{:02}.{}{:02}"</span>, date.year(), date.month(), date.day(), date.hour(), date.minute())
+        <span class="macro">format!</span>(<span class="string">"{:04}.{}{:02}.{}{:02}"</span>, date.year(), date.month(), date.day(), date.hour(), date.minute())
     }
 }
 
 <span class="doccomment">/// Find from position in string
-</span><span class="kw">fn </span>find_from(rs_content: <span class="kw-2">&</span>str, from: usize, find: <span class="kw-2">&</span>str) -&gt; <span class=
-"prelude-ty">Option</span>&lt;usize&gt; {
+</span><span class="kw">fn </span>find_from(rs_content: <span class="kw-2">&amp;</span>str, from: usize, find: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;usize&gt; {
     <span class="kw">let </span>slice01 = rs_content.get(from..).unwrap();
     <span class="kw">let </span>option_location = slice01.find(find);
     <span class="kw">if let </span><span class="prelude-val">Some</span>(location) = option_location {
@@ -707,9 +635,7 @@
 
     <span class="attr">#[test]
     </span><span class="kw">pub fn </span>test_date_to_version() {
-        <span class="kw">let </span>date_time = chrono::TimeZone::with_ymd_and_hms(<span class="kw-2">&</span>Utc, <span class=
-"number">2020</span>, <span class="number">5</span>, <span class="number">22</span>, <span class="number">00</span>, <span class=
-"number">34</span>, <span class="number">0</span>).unwrap();
+        <span class="kw">let </span>date_time = chrono::TimeZone::with_ymd_and_hms(<span class="kw-2">&amp;</span>Utc, <span class="number">2020</span>, <span class="number">5</span>, <span class="number">22</span>, <span class="number">00</span>, <span class="number">34</span>, <span class="number">0</span>).unwrap();
 
         <span class="kw">let </span>version = version_from_date(date_time);
         <span class="macro">assert_eq!</span>(version, <span class="string">"2020.522.34"</span>);
@@ -717,18 +643,11 @@
 
     <span class="attr">#[test]
     </span><span class="kw">pub fn </span>test_sha256_digest() -&gt; ResultWithLibError&lt;()&gt; {
-        <span class="kw">let </span>digest = sha256_digest(camino::Utf8Path::new(<span class="string">"LICENSE"</span>).as_std_path())<span class=
-"question-mark">?</span>;
+        <span class="kw">let </span>digest = sha256_digest(camino::Utf8Path::new(<span class="string">"LICENSE"</span>).as_std_path())<span class="question-mark">?</span>;
         <span class="kw">let </span>hash_string = data_encoding::HEXLOWER.encode(digest.as_ref());
-        <span class="kw">let </span>expected_hex = <span class=
-"string">"65666234343064623966363462343963643663333839373166303131663632636334666364323733663461323635303161346336366139633935656337373139"</span>;
-        <span class="macro">assert_eq!</span>(<span class="kw-2">&</span>hash_string, expected_hex);
+        <span class="kw">let </span>expected_hex = <span class="string">"65666234343064623966363462343963643663333839373166303131663632636334666364323733663461323635303161346336366139633935656337373139"</span>;
+        <span class="macro">assert_eq!</span>(<span class="kw-2">&amp;</span>hash_string, expected_hex);
         <span class="prelude-val">Ok</span>(())
     }
 }
-</code></pre>
-      </div>
-    </section>
-  </main>
-</body>
-</html>
+</code></pre></div></section></main></body></html>

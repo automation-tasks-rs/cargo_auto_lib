@@ -1,58 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="generator" content="rustdoc">
-  <meta name="description" content="Source of the Rust file `src/auto_md_to_doc_comments_mod.rs`.">
-  <title>auto_md_to_doc_comments_mod.rs - source</title>
-  <link rel="preload" as="font" type="font/woff2" crossorigin="" href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin="" href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin="" href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin="" href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin="" href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2">
-  <link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css">
-  <link rel="stylesheet" href="../../static.files/rustdoc-5bc39a1768837dd0.css">
-  <meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="cargo_auto_lib" data-themes=""
-  data-resource-suffix="" data-rustdoc-version="1.77.2 (25ef9e3d8 2024-04-09)" data-channel="1.77.2" data-search-js="search-dd67cee4cfa65049.js"
-  data-settings-js="settings-4313503d2e1961c2.js">
-  <script src="../../static.files/storage-4c98445ec4002617.js"></script>
-  <script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script>
-  <script defer src="../../src-files.js"></script>
-  <script defer src="../../static.files/main-48f368f3872407c8.js"></script><noscript>
-  <link rel="stylesheet" href="../../static.files/noscript-04d5337699b92874.css"></noscript>
-  <link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png">
-  <link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png">
-  <link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg">
-</head>
-<body class="rustdoc src">
-  <!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]-->
-  <nav class="sidebar">
-    <div class="src-sidebar-title">
-      <h2>Files</h2>
-    </div>
-  </nav>
-  <div class="sidebar-resizer"></div>
-  <main>
-    <nav class="sub">
-      <form class="search-form">
-        <div id="sidebar-button" tabindex="-1">
-          <a href="../../cargo_auto_lib/all.html" title="show sidebar"></a>
-        </div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder=
-        "Click or press ‘S’ to search, ‘?’ for more options…" type="search">
-        <div id="help-button" tabindex="-1">
-          <a href="../../help.html" title="help">?</a>
-        </div>
-        <div id="settings-menu" tabindex="-1">
-          <a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src=
-          "../../static.files/wheel-7b819b6101059cd0.svg"></a>
-        </div>
-      </form>
-    </nav>
-    <section id="main-content" class="content">
-      <div class="example-wrap">
-        <div data-nosnippet="">
-          <pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/auto_md_to_doc_comments_mod.rs`."><title>auto_md_to_doc_comments_mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-46132b98.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="cargo_auto_lib" data-themes="" data-resource-suffix="" data-rustdoc-version="1.85.0 (4d91de4e4 2025-02-17)" data-channel="1.85.0" data-search-js="search-75f5ac3e.js" data-settings-js="settings-0f613d39.js" ><script src="../../static.files/storage-59e33391.js"></script><script defer src="../../static.files/src-script-56102188.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-5f194d8c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">cargo_auto_lib/</div>auto_md_to_doc_comments_mod.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -259,10 +206,7 @@
 <a href="#205" id="205">205</a>
 <a href="#206" id="206">206</a>
 <a href="#207" id="207">207</a>
-<a href="#208" id="208">208</a>
-</pre>
-        </div>
-        <pre class="rust"><code><span class="comment">// auto_md_to_doc_comments_mod
+<a href="#208" id="208">208</a></pre></div><pre class="rust"><code><span class="comment">// auto_md_to_doc_comments_mod
 
 </span><span class="doccomment">//! Finds rs files with markers and include segments from md files as doc comments
 
@@ -340,16 +284,14 @@
 
         <span class="comment">// check if file have CRLF instead of LF and show error
         </span><span class="kw">if </span>rs_text_content.contains(<span class="string">"\r\n"</span>) {
-            <span class="macro">panic!</span>(<span class=
-"string">"{RED}Error: {rs_filename} has CRLF line endings instead of LF. Correct the file! {RESET}"</span>);
+            <span class="macro">panic!</span>(<span class="string">"{RED}Error: {rs_filename} has CRLF line endings instead of LF. Correct the file! {RESET}"</span>);
         }
 
-        <span class="kw">let </span>markers = rs_file_markers(<span class="kw-2">&</span>rs_text_content);
+        <span class="kw">let </span>markers = rs_file_markers(<span class="kw-2">&amp;</span>rs_text_content);
         <span class="kw">if </span>!markers.is_empty() {
             <span class="kw">for </span>marker <span class="kw">in </span>markers.iter().rev() {
-                <span class="kw">let </span>segment_text = get_md_segments_using_cache(<span class="kw-2">&amp;mut </span>cache_md_segments, <span class=
-"kw-2">&</span>marker.md_filename, <span class="kw-2">&</span>marker.marker_name, <span class="kw-2">&</span>marker.comment_symbol);
-                rs_text_content.replace_range(marker.pos_start..marker.pos_end, <span class="kw-2">&</span>segment_text);
+                <span class="kw">let </span>segment_text = get_md_segments_using_cache(<span class="kw-2">&amp;mut </span>cache_md_segments, <span class="kw-2">&amp;</span>marker.md_filename, <span class="kw-2">&amp;</span>marker.marker_name, <span class="kw-2">&amp;</span>marker.comment_symbol);
+                rs_text_content.replace_range(marker.pos_start..marker.pos_end, <span class="kw-2">&amp;</span>segment_text);
             }
             <span class="macro">println!</span>(<span class="string">"    {YELLOW}Write file: {rs_filename}{RESET}"</span>);
             std::fs::write(rs_filename, rs_text_content).unwrap();
@@ -380,16 +322,14 @@
     </span>rs_files
 }
 
-<span class="macro">lazy_static! </span>{
+<span class="macro">lazy_static!</span> {
     <span class="doccomment">/// Regex for start marker
-    </span><span class="kw">static </span><span class="kw-2">ref </span>REGEX_RS_START: Regex = Regex::new(<span class=
-"string">r#"(?m)^ *?// region: auto_md_to_doc_comments include (.*?) (.*?) (.*?)$"#</span>).unwrap();
+    </span><span class="kw">static </span><span class="kw-2">ref </span>REGEX_RS_START: Regex = Regex::new(<span class="string">r#"(?m)^ *?// region: auto_md_to_doc_comments include (.*?) (.*?) (.*?)$"#</span>).unwrap();
     <span class="doccomment">/// Regex for end marker
-    </span><span class="kw">static </span><span class="kw-2">ref </span>REGEX_RS_END: Regex = Regex::new(<span class=
-"string">r#"(?m)^ *?// endregion: auto_md_to_doc_comments include (.*?) (.*?) (.*?)$"#</span>).unwrap();
+    </span><span class="kw">static </span><span class="kw-2">ref </span>REGEX_RS_END: Regex = Regex::new(<span class="string">r#"(?m)^ *?// endregion: auto_md_to_doc_comments include (.*?) (.*?) (.*?)$"#</span>).unwrap();
 }
 <span class="doccomment">/// markers in rs files
-</span><span class="kw">fn </span>rs_file_markers(rs_text_content: <span class="kw-2">&</span>str) -&gt; Vec&lt;RsMarker&gt; {
+</span><span class="kw">fn </span>rs_file_markers(rs_text_content: <span class="kw-2">&amp;</span>str) -&gt; Vec&lt;RsMarker&gt; {
     <span class="kw">let </span><span class="kw-2">mut </span>markers = <span class="macro">vec!</span>[];
     <span class="kw">for </span>cap <span class="kw">in </span>REGEX_RS_START.captures_iter(rs_text_content) {
         <span class="kw">let </span>rs_marker = RsMarker {
@@ -403,31 +343,27 @@
     }
     <span class="kw">for </span>cap <span class="kw">in </span>REGEX_RS_END.captures_iter(rs_text_content) {
         <span class="comment">// TODO:  error what file and segment are problematic
-        </span><span class="kw">let </span>marker = markers.iter_mut().find(|m| m.md_filename == cap[<span class=
-"number">1</span>] &amp;& m.marker_name == cap[<span class="number">2</span>]).unwrap();
+        </span><span class="kw">let </span>marker = markers.iter_mut().find(|m| m.md_filename == cap[<span class="number">1</span>] &amp;&amp; m.marker_name == cap[<span class="number">2</span>]).unwrap();
         marker.pos_end = cap.get(<span class="number">0</span>).unwrap().start();
     }
     <span class="comment">// return
     </span>markers
 }
 
-<span class="macro">lazy_static! </span>{
+<span class="macro">lazy_static!</span> {
     <span class="doccomment">/// Regex for start marker
-    </span><span class="kw">static </span><span class="kw-2">ref </span>REGEX_MD_START: Regex = Regex::new(<span class=
-"string">r#"(?m)^\[//\]: # \(auto_md_to_doc_comments segment start (.*?)\)$"#</span>).unwrap();
+    </span><span class="kw">static </span><span class="kw-2">ref </span>REGEX_MD_START: Regex = Regex::new(<span class="string">r#"(?m)^\[//\]: # \(auto_md_to_doc_comments segment start (.*?)\)$"#</span>).unwrap();
     <span class="doccomment">/// Regex for end marker
-    </span><span class="kw">static </span><span class="kw-2">ref </span>REGEX_MD_END: Regex = Regex::new(<span class=
-"string">r#"(?m)^\[//\]: # \(auto_md_to_doc_comments segment end (.*?)\)$"#</span>).unwrap();
+    </span><span class="kw">static </span><span class="kw-2">ref </span>REGEX_MD_END: Regex = Regex::new(<span class="string">r#"(?m)^\[//\]: # \(auto_md_to_doc_comments segment end (.*?)\)$"#</span>).unwrap();
 }
 
 <span class="doccomment">/// The first time it is called read the file and extracts all the segments into a cache vector.
 ///
 /// Subsequent calls read from the cache.
-</span><span class="kw">fn </span>get_md_segments_using_cache(cache: <span class="kw-2">&amp;mut </span>Vec&lt;MdSegment&gt;, md_filename: <span class=
-"kw-2">&</span>str, marker_name: <span class="kw-2">&</span>str, comment_symbol: <span class="kw-2">&</span>str) -&gt; String {
+</span><span class="kw">fn </span>get_md_segments_using_cache(cache: <span class="kw-2">&amp;mut </span>Vec&lt;MdSegment&gt;, md_filename: <span class="kw-2">&amp;</span>str, marker_name: <span class="kw-2">&amp;</span>str, comment_symbol: <span class="kw-2">&amp;</span>str) -&gt; String {
     <span class="comment">// check the cache
     </span><span class="kw">if let </span><span class="prelude-val">Some</span>(_seg) = cache.iter().find(|m| m.md_filename == md_filename) {
-        <span class="kw">let </span>segment = cache.iter().find(|m| m.md_filename == md_filename &amp;& m.marker_name == marker_name).unwrap();
+        <span class="kw">let </span>segment = cache.iter().find(|m| m.md_filename == md_filename &amp;&amp; m.marker_name == marker_name).unwrap();
         segment.text.to_string()
     } <span class="kw">else </span>{
         <span class="comment">// process the file
@@ -436,11 +372,10 @@
 
         <span class="comment">// check if file have CRLF instead of LF and show error
         </span><span class="kw">if </span>md_text_content.contains(<span class="string">"\r\n"</span>) {
-            <span class="macro">panic!</span>(<span class=
-"string">"{RED}Error: {md_filename} has CRLF line endings instead of LF. Correct the file! {RESET}"</span>);
+            <span class="macro">panic!</span>(<span class="string">"{RED}Error: {md_filename} has CRLF line endings instead of LF. Correct the file! {RESET}"</span>);
         }
 
-        <span class="kw">for </span>cap <span class="kw">in </span>REGEX_MD_START.captures_iter(<span class="kw-2">&</span>md_text_content) {
+        <span class="kw">for </span>cap <span class="kw">in </span>REGEX_MD_START.captures_iter(<span class="kw-2">&amp;</span>md_text_content) {
             cache.push(MdSegment {
                 md_filename: md_filename.to_owned(),
                 marker_name: cap[<span class="number">1</span>].to_owned(),
@@ -449,10 +384,9 @@
                 text: String::new(),
             });
         }
-        <span class="kw">for </span>cap <span class="kw">in </span>REGEX_MD_END.captures_iter(<span class="kw-2">&</span>md_text_content) {
+        <span class="kw">for </span>cap <span class="kw">in </span>REGEX_MD_END.captures_iter(<span class="kw-2">&amp;</span>md_text_content) {
             <span class="comment">// TODO:  error what file and segment are problematic
-            </span><span class="kw">let </span>segment = cache.iter_mut().find(|m| m.md_filename == md_filename &amp;& m.marker_name == cap[<span class=
-"number">1</span>]).unwrap();
+            </span><span class="kw">let </span>segment = cache.iter_mut().find(|m| m.md_filename == md_filename &amp;&amp; m.marker_name == cap[<span class="number">1</span>]).unwrap();
             segment.pos_end = cap.get(<span class="number">0</span>).unwrap().start();
             <span class="comment">// the segment begins with a comment, so don't include the next empty row
             </span><span class="kw">let </span><span class="kw-2">mut </span>last_line_was_comment = <span class="bool-val">true</span>;
@@ -460,7 +394,7 @@
                 <span class="kw">if </span>line.starts_with(<span class="string">"[//]: # ("</span>) {
                     <span class="comment">// don't include md comments
                     </span>last_line_was_comment = <span class="bool-val">true</span>;
-                } <span class="kw">else if </span>last_line_was_comment &amp;& line.is_empty() {
+                } <span class="kw">else if </span>last_line_was_comment &amp;&amp; line.is_empty() {
                     <span class="comment">// don't include empty line after md comments
                     </span>last_line_was_comment = <span class="bool-val">false</span>;
                 } <span class="kw">else </span>{
@@ -475,14 +409,9 @@
             }
         }
         <span class="comment">// TODO:  error what file and segment are problematic
-        </span><span class="kw">let </span>segment = cache.iter().find(|m| m.md_filename == md_filename &amp;& m.marker_name == marker_name).unwrap();
+        </span><span class="kw">let </span>segment = cache.iter().find(|m| m.md_filename == md_filename &amp;&amp; m.marker_name == marker_name).unwrap();
         <span class="comment">//return
         </span>segment.text.to_string()
     }
 }
-</code></pre>
-      </div>
-    </section>
-  </main>
-</body>
-</html>
+</code></pre></div></section></main></body></html>

@@ -1,58 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="generator" content="rustdoc">
-  <meta name="description" content="Source of the Rust file `src/auto_playground_mod.rs`.">
-  <title>auto_playground_mod.rs - source</title>
-  <link rel="preload" as="font" type="font/woff2" crossorigin="" href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin="" href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin="" href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin="" href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin="" href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2">
-  <link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css">
-  <link rel="stylesheet" href="../../static.files/rustdoc-5bc39a1768837dd0.css">
-  <meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="cargo_auto_lib" data-themes=""
-  data-resource-suffix="" data-rustdoc-version="1.77.2 (25ef9e3d8 2024-04-09)" data-channel="1.77.2" data-search-js="search-dd67cee4cfa65049.js"
-  data-settings-js="settings-4313503d2e1961c2.js">
-  <script src="../../static.files/storage-4c98445ec4002617.js"></script>
-  <script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script>
-  <script defer src="../../src-files.js"></script>
-  <script defer src="../../static.files/main-48f368f3872407c8.js"></script><noscript>
-  <link rel="stylesheet" href="../../static.files/noscript-04d5337699b92874.css"></noscript>
-  <link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png">
-  <link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png">
-  <link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg">
-</head>
-<body class="rustdoc src">
-  <!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]-->
-  <nav class="sidebar">
-    <div class="src-sidebar-title">
-      <h2>Files</h2>
-    </div>
-  </nav>
-  <div class="sidebar-resizer"></div>
-  <main>
-    <nav class="sub">
-      <form class="search-form">
-        <div id="sidebar-button" tabindex="-1">
-          <a href="../../cargo_auto_lib/all.html" title="show sidebar"></a>
-        </div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder=
-        "Click or press ‘S’ to search, ‘?’ for more options…" type="search">
-        <div id="help-button" tabindex="-1">
-          <a href="../../help.html" title="help">?</a>
-        </div>
-        <div id="settings-menu" tabindex="-1">
-          <a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src=
-          "../../static.files/wheel-7b819b6101059cd0.svg"></a>
-        </div>
-      </form>
-    </nav>
-    <section id="main-content" class="content">
-      <div class="example-wrap">
-        <div data-nosnippet="">
-          <pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/auto_playground_mod.rs`."><title>auto_playground_mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-46132b98.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="cargo_auto_lib" data-themes="" data-resource-suffix="" data-rustdoc-version="1.85.0 (4d91de4e4 2025-02-17)" data-channel="1.85.0" data-search-js="search-75f5ac3e.js" data-settings-js="settings-0f613d39.js" ><script src="../../static.files/storage-59e33391.js"></script><script defer src="../../static.files/src-script-56102188.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-5f194d8c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">cargo_auto_lib/</div>auto_playground_mod.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -171,10 +118,7 @@
 <a href="#117" id="117">117</a>
 <a href="#118" id="118">118</a>
 <a href="#119" id="119">119</a>
-<a href="#120" id="120">120</a>
-</pre>
-        </div>
-        <pre class="rust"><code><span class="comment">// auto_playground_mod.rs
+<a href="#120" id="120">120</a></pre></div><pre class="rust"><code><span class="comment">// auto_playground_mod.rs
 
 </span><span class="doccomment">//! Includes the link to playground with the rust code in a parameter.
 
@@ -182,7 +126,7 @@
 <span class="kw">use </span><span class="kw">crate</span>::utils_mod::<span class="kw-2">*</span>;
 <span class="kw">use </span>lazy_static::lazy_static;
 
-<span class="macro">lazy_static! </span>{
+<span class="macro">lazy_static!</span> {
     <span class="doccomment">/// Capture the link in markdown style [name](link)
     </span><span class="kw">static </span><span class="kw-2">ref </span>REGEX_MD_LINK: regex::Regex = regex::Regex::new(
     <span class="string">r#".+\[.+\]\((.+)\).+"#
@@ -227,68 +171,56 @@
     <span class="kw">let </span>path = std::env::current_dir().unwrap();
     <span class="comment">//use traverse instead of glob
     </span><span class="kw">let </span>files = <span class="kw">crate</span>::utils_mod::traverse_dir_with_exclude_dir(
-        <span class="kw-2">&</span>path,
+        <span class="kw-2">&amp;</span>path,
         <span class="string">"/*.md"</span>,
         <span class="comment">// exclude folders
-        </span><span class="kw-2">&</span>[<span class="string">"/.git"</span>.to_string(), <span class="string">"/target"</span>.to_string(), <span class=
-"string">"/docs"</span>.to_string(), <span class="string">"/pkg"</span>.to_string()],
+        </span><span class="kw-2">&amp;</span>[<span class="string">"/.git"</span>.to_string(), <span class="string">"/target"</span>.to_string(), <span class="string">"/docs"</span>.to_string(), <span class="string">"/pkg"</span>.to_string()],
     )
     .unwrap();
     <span class="kw">for </span>md_filename <span class="kw">in </span>files {
-        <span class="kw">let </span>md_filename = camino::Utf8Path::new(<span class="kw-2">&</span>md_filename);
+        <span class="kw">let </span>md_filename = camino::Utf8Path::new(<span class="kw-2">&amp;</span>md_filename);
 
         <span class="kw">let </span><span class="kw-2">mut </span>is_changed = <span class="bool-val">false</span>;
         <span class="kw">let </span>md_old = std::fs::read_to_string(md_filename).unwrap();
 
         <span class="comment">// check if file have CRLF and show error
         </span><span class="kw">if </span>md_old.contains(<span class="string">"\r\n"</span>) {
-            <span class="macro">panic!</span>(<span class=
-"string">"{RED}Error: {md_filename} has CRLF line endings instead of LF. Correct the file! {RESET}"</span>);
+            <span class="macro">panic!</span>(<span class="string">"{RED}Error: {md_filename} has CRLF line endings instead of LF. Correct the file! {RESET}"</span>);
         }
         <span class="kw">let </span><span class="kw-2">mut </span>iteration_start_pos = <span class="number">0</span>;
         <span class="kw">let </span><span class="kw-2">mut </span>md_new = String::new();
         <span class="comment">// find markers
-        </span><span class="kw">while let </span><span class="prelude-val">Some</span>(marker_start) = find_pos_start_data_after_delimiter(<span class=
-"kw-2">&</span>md_old, iteration_start_pos, <span class="string">"\n[//]: # (auto_playground start)\n"</span>) {
-            <span class="kw">let </span><span class="prelude-val">Some</span>(code_start) = find_pos_start_data_after_delimiter(<span class=
-"kw-2">&</span>md_old, marker_start, <span class="string">"\n```"</span>) <span class="kw">else </span>{
+        </span><span class="kw">while let </span><span class="prelude-val">Some</span>(marker_start) = find_pos_start_data_after_delimiter(<span class="kw-2">&amp;</span>md_old, iteration_start_pos, <span class="string">"\n[//]: # (auto_playground start)\n"</span>) {
+            <span class="kw">let </span><span class="prelude-val">Some</span>(code_start) = find_pos_start_data_after_delimiter(<span class="kw-2">&amp;</span>md_old, marker_start, <span class="string">"\n```"</span>) <span class="kw">else </span>{
                 <span class="kw">return</span>;
             };
-            <span class=
-"comment">// the first triple tick can be ``` or ```rust or ```Rust or ```Rust ignore. Therefore I find the triple tick and then I find next newline.
-            </span><span class="kw">let </span><span class="prelude-val">Some</span>(code_start) = find_pos_start_data_after_delimiter(<span class=
-"kw-2">&</span>md_old, code_start, <span class="string">"\n"</span>) <span class="kw">else </span>{
+            <span class="comment">// the first triple tick can be ``` or ```rust or ```Rust or ```Rust ignore. Therefore I find the triple tick and then I find next newline.
+            </span><span class="kw">let </span><span class="prelude-val">Some</span>(code_start) = find_pos_start_data_after_delimiter(<span class="kw-2">&amp;</span>md_old, code_start, <span class="string">"\n"</span>) <span class="kw">else </span>{
                 <span class="kw">return</span>;
             };
-            <span class="kw">let </span><span class="prelude-val">Some</span>(code_end) = find_pos_end_data_before_delimiter(<span class=
-"kw-2">&</span>md_old, code_start + <span class="number">3</span>, <span class="string">"\n```\n"</span>) <span class="kw">else </span>{
+            <span class="kw">let </span><span class="prelude-val">Some</span>(code_end) = find_pos_end_data_before_delimiter(<span class="kw-2">&amp;</span>md_old, code_start + <span class="number">3</span>, <span class="string">"\n```\n"</span>) <span class="kw">else </span>{
                 <span class="kw">return</span>;
             };
-            <span class="kw">let </span><span class="prelude-val">Some</span>(marker_end) = find_pos_end_data_before_delimiter(<span class=
-"kw-2">&</span>md_old, marker_start, <span class="string">"\n[//]: # (auto_playground end)\n"</span>) <span class="kw">else </span>{
+            <span class="kw">let </span><span class="prelude-val">Some</span>(marker_end) = find_pos_end_data_before_delimiter(<span class="kw-2">&amp;</span>md_old, marker_start, <span class="string">"\n[//]: # (auto_playground end)\n"</span>) <span class="kw">else </span>{
                 <span class="kw">return</span>;
             };
-            <span class="kw">let </span>rust_code = <span class="kw-2">&</span>md_old[code_start..code_end];
+            <span class="kw">let </span>rust_code = <span class="kw-2">&amp;</span>md_old[code_start..code_end];
             <span class="kw">let </span>rust_code_encoded = urlencoding::encode(rust_code).to_string();
-            <span class="kw">let </span>playground_link = <span class="macro">format!</span>(<span class=
-"string">"https://play.rust-lang.org/?version=stable&amp;mode=debug&amp;edition=2021&amp;code={rust_code_encoded}"</span>);
+            <span class="kw">let </span>playground_link = <span class="macro">format!</span>(<span class="string">"https://play.rust-lang.org/?version=stable&amp;mode=debug&amp;edition=2021&amp;code={rust_code_encoded}"</span>);
             <span class="comment">// Some browsers can limit the url length to 2048 characters. That is absolutely too short for any interesting code example.
             // TODO: in that case save a gist with GitHub API and send that gist_id to playground? That can be very long.
 
             // replace the link inside markdown link notation. First find the text between marker_start and code_start
-            </span><span class="kw">let </span>text_that_has_the_link = <span class="kw-2">&</span>md_old[marker_start..code_start];
+            </span><span class="kw">let </span>text_that_has_the_link = <span class="kw-2">&amp;</span>md_old[marker_start..code_start];
             <span class="comment">// parse this format [Rust playground](https:...)
             </span><span class="kw">let </span>cap_group = REGEX_MD_LINK
                 .captures(text_that_has_the_link)
-                .unwrap_or_else(|| <span class="macro">panic!</span>(<span class=
-"string">"{RED}Error: The old link '{text_that_has_the_link}' is NOT in this format '[Rust playground](https:...)'{RESET}"</span>));
-            <span class="kw">let </span>old_link = <span class="kw-2">&</span>cap_group[<span class="number">1</span>];
+                .unwrap_or_else(|| <span class="macro">panic!</span>(<span class="string">"{RED}Error: The old link '{text_that_has_the_link}' is NOT in this format '[Rust playground](https:...)'{RESET}"</span>));
+            <span class="kw">let </span>old_link = <span class="kw-2">&amp;</span>cap_group[<span class="number">1</span>];
             <span class="comment">// replace the old link with the new one
-            </span><span class="kw">let </span>text_that_has_the_link = text_that_has_the_link.replace(old_link, <span class="kw-2">&</span>playground_link);
+            </span><span class="kw">let </span>text_that_has_the_link = text_that_has_the_link.replace(old_link, <span class="kw-2">&amp;</span>playground_link);
             is_changed = <span class="bool-val">true</span>;
-            md_new.push_str(<span class="kw-2">&</span><span class="macro">format!</span>(<span class="string">"{}{}{}"</span>, <span class=
-"kw-2">&</span>md_old[iteration_start_pos..marker_start], <span class="kw-2">&</span>text_that_has_the_link, <span class=
-"kw-2">&</span>md_old[code_start..marker_end],));
+            md_new.push_str(<span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">"{}{}{}"</span>, <span class="kw-2">&amp;</span>md_old[iteration_start_pos..marker_start], <span class="kw-2">&amp;</span>text_that_has_the_link, <span class="kw-2">&amp;</span>md_old[code_start..marker_end],));
 
             <span class="comment">// start of the next iteration
             </span>iteration_start_pos = marker_end;
@@ -296,20 +228,14 @@
 
         // if changed, then write to disk
         </span><span class="kw">if </span>is_changed {
-            <span class="macro">println!</span>(<span class=
-"string">"    {YELLOW}Code inside {md_filename} has changed. Playground link corrected.{RESET}"</span>);
+            <span class="macro">println!</span>(<span class="string">"    {YELLOW}Code inside {md_filename} has changed. Playground link corrected.{RESET}"</span>);
             <span class="comment">// push the remaining text
-            </span>md_new.push_str(<span class="kw-2">&</span>md_old[iteration_start_pos..md_old.len()]);
+            </span>md_new.push_str(<span class="kw-2">&amp;</span>md_old[iteration_start_pos..md_old.len()]);
             <span class="kw">let </span>bak_filename = md_filename.with_extension(<span class="string">"bak"</span>);
-            std::fs::write(<span class="kw-2">&</span>bak_filename, md_old).unwrap();
-            std::fs::write(<span class="kw-2">&</span>md_filename, md_new).unwrap();
+            std::fs::write(<span class="kw-2">&amp;</span>bak_filename, md_old).unwrap();
+            std::fs::write(<span class="kw-2">&amp;</span>md_filename, md_new).unwrap();
         }
     }
     <span class="macro">println!</span>(<span class="string">"    {YELLOW}Finished auto_playground{RESET}"</span>);
 }
-</code></pre>
-      </div>
-    </section>
-  </main>
-</body>
-</html>
+</code></pre></div></section></main></body></html>
