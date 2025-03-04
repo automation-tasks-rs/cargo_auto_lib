@@ -10,8 +10,10 @@ The TODO section is part of the [README.md](https://github.com/automation-tasks-
 
 ## Unreleased
 
-- updated dependencies 3.0.1
+## Version 3.0.1 (2025-03-04)
 
+- updated dependencies
+- breaking changes with secrecy SecretString and SecretBox
 - 3.0.1
 
 ## Version 2.4.8 (2024-04-23)
