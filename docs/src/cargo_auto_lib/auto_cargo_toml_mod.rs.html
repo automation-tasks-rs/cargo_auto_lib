@@ -118,7 +118,8 @@
 <a href="#117" id="117">117</a>
 <a href="#118" id="118">118</a>
 <a href="#119" id="119">119</a>
-<a href="#120" id="120">120</a></pre></div><pre class="rust"><code><span class="comment">// auto_cargo_toml_mod
+<a href="#120" id="120">120</a>
+<a href="#121" id="121">121</a></pre></div><pre class="rust"><code><span class="comment">// auto_cargo_toml_mod
 
 </span><span class="doccomment">//! functions to get data from Cargo.toml
 
@@ -144,12 +145,14 @@
 <span class="kw">impl </span><span class="kw">crate</span>::public_api_mod::CargoTomlPublicApiMethods <span class="kw">for </span>CargoToml {
     <span class="doccomment">/// read Cargo.toml, for workspaces it is the Cargo.toml of the first member
     </span><span class="kw">fn </span>read() -&gt; <span class="self">Self </span>{
-        <span class="kw">let </span>cargo_toml_workspace_maybe = cargo_toml::Manifest::from_path(<span class="string">"Cargo.toml"</span>).unwrap();
+        <span class="kw">let </span>absolute_path = std::path::absolute(<span class="string">"Cargo.toml"</span>).unwrap();
+        <span class="kw">let </span>cargo_toml_workspace_maybe = cargo_toml::Manifest::from_path(absolute_path).unwrap();
         <span class="kw">let </span>cargo_toml_main = <span class="kw">match </span><span class="kw-2">&amp;</span>cargo_toml_workspace_maybe.workspace {
             <span class="prelude-val">None </span>=&gt; cargo_toml_workspace_maybe.clone(),
             <span class="prelude-val">Some</span>(workspace) =&gt; {
                 <span class="kw">let </span>main_member = <span class="kw-2">&amp;</span>workspace.members[<span class="number">0</span>];
-                <span class="kw">let </span>cargo_main = cargo_toml::Manifest::from_path(<span class="macro">format!</span>(<span class="string">"{}/Cargo.toml"</span>, main_member)).unwrap();
+                <span class="kw">let </span>absolute_path = std::path::absolute(<span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">"{}/Cargo.toml"</span>, main_member)).unwrap();
+                <span class="kw">let </span>cargo_main = cargo_toml::Manifest::from_path(absolute_path).unwrap();
                 <span class="comment">//return
                 </span>cargo_main
             }
@@ -231,8 +234,7 @@
 
     <span class="attr">#[test]
     </span><span class="kw">pub fn </span>test_cargo_toml() {
-        <span class="comment">// the method read is part of the CargoTomlPublicApiMethods trait
-        </span><span class="kw">use </span><span class="kw">crate</span>::public_api_mod::CargoTomlPublicApiMethods;
+        <span class="kw">use </span><span class="kw">crate</span>::public_api_mod::CargoTomlPublicApiMethods;
         <span class="kw">let </span>cargo_toml = CargoToml::read();
         <span class="macro">assert_eq!</span>(cargo_toml.package_author_name(), <span class="string">"Bestia.dev"</span>);
         <span class="macro">assert_eq!</span>(cargo_toml.package_homepage(), <span class="string">"https://bestia.dev"</span>);
