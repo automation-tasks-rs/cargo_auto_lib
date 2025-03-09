@@ -324,7 +324,10 @@
 <a href="#323" id="323">323</a>
 <a href="#324" id="324">324</a>
 <a href="#325" id="325">325</a>
-<a href="#326" id="326">326</a></pre></div><pre class="rust"><code><span class="comment">// auto_version_from_date_mod
+<a href="#326" id="326">326</a>
+<a href="#327" id="327">327</a>
+<a href="#328" id="328">328</a>
+<a href="#329" id="329">329</a></pre></div><pre class="rust"><code><span class="comment">// auto_version_from_date_mod
 
 </span><span class="doccomment">//! The new version as date is written to Cargo.toml and service_worker.js
 
@@ -336,6 +339,7 @@
 <span class="kw">use </span>chrono::Timelike;
 <span class="kw">use </span>chrono::{Datelike, Utc};
 <span class="kw">use </span>serde_derive::{Deserialize, Serialize};
+<span class="kw">use </span>sha2::Digest;
 <span class="kw">use </span>std::str::FromStr;
 
 <span class="comment">// endregion: use statements
@@ -553,7 +557,9 @@
 </span><span class="kw">fn </span>sha256_digest(path: <span class="kw-2">&amp;</span>std::path::Path) -&gt; ResultWithLibError&lt;String&gt; {
     <span class="kw">let </span>file = std::fs::File::open(path)<span class="question-mark">?</span>;
     <span class="kw">let </span><span class="kw-2">mut </span>reader = std::io::BufReader::new(file);
-    <span class="kw">let </span><span class="kw-2">mut </span>context = ring::digest::Context::new(<span class="kw-2">&amp;</span>ring::digest::SHA256);
+    <span class="comment">// let mut context = ring::digest::Context::new(&amp;ring::digest::SHA256);
+    </span><span class="kw">let </span><span class="kw-2">mut </span>hasher = sha2::Sha256::new();
+
     <span class="kw">let </span><span class="kw-2">mut </span>buffer = [<span class="number">0</span>; <span class="number">1024</span>];
     <span class="kw">use </span>std::io::Read;
     <span class="kw">loop </span>{
@@ -561,9 +567,9 @@
         <span class="kw">if </span>count == <span class="number">0 </span>{
             <span class="kw">break</span>;
         }
-        context.update(<span class="kw-2">&amp;</span>buffer[..count]);
+        hasher.update(<span class="kw-2">&amp;</span>buffer[..count]);
     }
-    <span class="kw">let </span>digest = context.finish();
+    <span class="kw">let </span>digest = hasher.finalize();
     <span class="kw">let </span>hash_string = data_encoding::HEXLOWER.encode(digest.as_ref());
     <span class="comment">// return
     </span><span class="prelude-val">Ok</span>(hash_string)
@@ -603,7 +609,7 @@
 }
 
 <span class="doccomment">/// Convert a date to a version
-</span><span class="kw">fn </span>version_from_date(date: DateTime&lt;Utc&gt;) -&gt; String {
+</span><span class="kw">fn </span>version_from_date(date: DateTime&lt;chrono::Utc&gt;) -&gt; String {
     <span class="comment">// in Rust the version must not begin with zero.
     // There is an exceptional situation where is midnight 00.
     //return
