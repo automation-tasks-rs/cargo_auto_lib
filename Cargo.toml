@@ -34,13 +34,14 @@ include = [
 lazy_static="1.5.0"
 regex = "1.11.1"
 glob = "0.3.2"
-chrono="0.4.40"
+# the chrono clock default feature cannot compile in git-bash.
+chrono={version="0.4.40", default-features = false, features=["now"]}
 filetime = "0.2.25"
 serde = "1.0.218"
 serde_derive = "1.0.218"
 serde_json = {version= "1.0.140", features=["std"]}
 anyhow="1.0.97"
-cargo_toml = "0.21.0"
+cargo_toml = "0.22.0"
 reader_for_microxml="2.0.1"
 semver="1.0.26"
 sha2 = "0.10.8"
@@ -48,7 +49,7 @@ base64ct = {version = "1.6.0", features = ["alloc"] }
 deflate = "1.0.0"
 radix64 = "0.6.2"
 reqwest = { version = "0.12.12", features = ["blocking", "stream"] }
-ring = "0.17.11"
+# ring = "0.17.11"
 data-encoding = "2.8.0"
 thiserror="2.0.12"
 

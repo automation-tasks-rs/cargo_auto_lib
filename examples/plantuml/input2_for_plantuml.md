@@ -11,7 +11,7 @@ this has not yet the image link
 @enduml
 ```
 
-![svg_tosmzSqwSXyObaX7eRLFp9xsMzcM5UDT4NSaQSgnq-Q](images/svg_tosmzSqwSXyObaX7eRLFp9xsMzcM5UDT4NSaQSgnq-Q.svg)
+![svg_tosmzSqwSXyObaX7eRLFp9xsMzcM5UDT4NSaQSgnq-Q](images\svg_tosmzSqwSXyObaX7eRLFp9xsMzcM5UDT4NSaQSgnq-Q.svg)
 
 [//]: # (auto_plantuml end)
 
@@ -28,7 +28,7 @@ this already has the image link
 @enduml
 ```
 
-![svg_8eLHibrc2gjrY1qcezDiy--xk9mz1XwYyIcZwXvjlcE](images/svg_8eLHibrc2gjrY1qcezDiy--xk9mz1XwYyIcZwXvjlcE.svg)
+![svg_8eLHibrc2gjrY1qcezDiy--xk9mz1XwYyIcZwXvjlcE](images\svg_8eLHibrc2gjrY1qcezDiy--xk9mz1XwYyIcZwXvjlcE.svg)
 
 [//]: # (auto_plantuml end)
 

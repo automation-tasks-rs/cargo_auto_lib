@@ -10,6 +10,7 @@ use chrono::DateTime;
 use chrono::Timelike;
 use chrono::{Datelike, Utc};
 use serde_derive::{Deserialize, Serialize};
+use sha2::Digest;
 use std::str::FromStr;
 
 // endregion: use statements
@@ -227,7 +228,9 @@ pub fn read_file_metadata() -> ResultWithLibError<Vec<FileMetaData>> {
 fn sha256_digest(path: &std::path::Path) -> ResultWithLibError<String> {
     let file = std::fs::File::open(path)?;
     let mut reader = std::io::BufReader::new(file);
-    let mut context = ring::digest::Context::new(&ring::digest::SHA256);
+    // let mut context = ring::digest::Context::new(&ring::digest::SHA256);
+    let mut hasher = sha2::Sha256::new();
+
     let mut buffer = [0; 1024];
     use std::io::Read;
     loop {
@@ -235,9 +238,9 @@ fn sha256_digest(path: &std::path::Path) -> ResultWithLibError<String> {
         if count == 0 {
             break;
         }
-        context.update(&buffer[..count]);
+        hasher.update(&buffer[..count]);
     }
-    let digest = context.finish();
+    let digest = hasher.finalize();
     let hash_string = data_encoding::HEXLOWER.encode(digest.as_ref());
     // return
     Ok(hash_string)
@@ -277,7 +280,7 @@ pub fn save_json_file_for_file_meta_data(vec_of_metadata: Vec<FileMetaData>) {
 }
 
 /// Convert a date to a version
-fn version_from_date(date: DateTime<Utc>) -> String {
+fn version_from_date(date: DateTime<chrono::Utc>) -> String {
     // in Rust the version must not begin with zero.
     // There is an exceptional situation where is midnight 00.
     //return

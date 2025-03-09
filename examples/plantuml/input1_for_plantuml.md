@@ -11,7 +11,7 @@ this has not yet the image link
 @enduml
 ```
 
-![svg_H8u0SNaGZzGAaYPHeY4eDF9TfWqVXhKa7M8wiwXSe_s](images/svg_H8u0SNaGZzGAaYPHeY4eDF9TfWqVXhKa7M8wiwXSe_s.svg)
+![svg_H8u0SNaGZzGAaYPHeY4eDF9TfWqVXhKa7M8wiwXSe_s](images\svg_H8u0SNaGZzGAaYPHeY4eDF9TfWqVXhKa7M8wiwXSe_s.svg)
 
 [//]: # (auto_plantuml end)
 
@@ -28,7 +28,7 @@ this already has the image link, but it is obsolete and must be replaced
 @enduml
 ```
 
-![svg_lTG8S1eNgnLTJS1PruoYJEjQVW4dCn0x6Wl-pw6yPXM](images/svg_lTG8S1eNgnLTJS1PruoYJEjQVW4dCn0x6Wl-pw6yPXM.svg)
+![svg_lTG8S1eNgnLTJS1PruoYJEjQVW4dCn0x6Wl-pw6yPXM](images\svg_lTG8S1eNgnLTJS1PruoYJEjQVW4dCn0x6Wl-pw6yPXM.svg)
 
 [//]: # (auto_plantuml end)
 
@@ -45,7 +45,7 @@ this already has the image link that is correct because, the plantuml code did n
 @enduml
 ```
 
-![svg_KPAr4S3iGAVLbskqf6XXaqrWge8bXMlCkNk7EaimJs0](images/svg_KPAr4S3iGAVLbskqf6XXaqrWge8bXMlCkNk7EaimJs0.svg)
+![svg_KPAr4S3iGAVLbskqf6XXaqrWge8bXMlCkNk7EaimJs0](images\svg_KPAr4S3iGAVLbskqf6XXaqrWge8bXMlCkNk7EaimJs0.svg)
 
 [//]: # (auto_plantuml end)
 
