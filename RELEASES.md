@@ -10,6 +10,8 @@ The TODO section is part of the [README.md](https://github.com/automation-tasks-
 
 ## Unreleased
 
+- chrono:clock and ring cannot compile in windows
+
 ## Version 3.0.1 (2025-03-04)
 
 - updated dependencies
