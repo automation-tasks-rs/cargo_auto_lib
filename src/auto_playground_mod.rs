@@ -113,7 +113,7 @@ pub fn auto_playground_run_code() {
             md_new.push_str(&md_old[iteration_start_pos..md_old.len()]);
             let bak_filename = md_filename.with_extension("bak");
             std::fs::write(&bak_filename, md_old).unwrap();
-            std::fs::write(&md_filename, md_new).unwrap();
+            std::fs::write(md_filename, md_new).unwrap();
         }
     }
     println!("  {YELLOW}Finished auto_playground{RESET}");

@@ -30,10 +30,9 @@ impl crate::public_api_mod::CargoTomlPublicApiMethods for CargoToml {
             None => cargo_toml_workspace_maybe.clone(),
             Some(workspace) => {
                 let main_member = &workspace.members[0];
-                let absolute_path = std::path::absolute(&format!("{}/Cargo.toml", main_member)).unwrap();
-                let cargo_main = cargo_toml::Manifest::from_path(absolute_path).unwrap();
-                //return
-                cargo_main
+                let absolute_path = std::path::absolute(format!("{}/Cargo.toml", main_member)).unwrap();
+                // return cargo_main
+                cargo_toml::Manifest::from_path(absolute_path).unwrap()
             }
         };
         let package = cargo_toml_main.package.as_ref().unwrap().to_owned();

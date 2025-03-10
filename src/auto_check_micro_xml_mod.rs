@@ -17,7 +17,7 @@ pub fn auto_check_micro_xml(path_to_html_pages: &str) {
         let filename_pathbuff = camino::Utf8Path::from_path(&filename_pathbuff).unwrap();
 
         let file_name = filename_pathbuff.file_name().unwrap();
-        let str_xml = std::fs::read_to_string(&filename_pathbuff).unwrap();
+        let str_xml = std::fs::read_to_string(filename_pathbuff).unwrap();
 
         // check if file have CRLF instead of LF and show error
         if str_xml.contains("\r\n") {

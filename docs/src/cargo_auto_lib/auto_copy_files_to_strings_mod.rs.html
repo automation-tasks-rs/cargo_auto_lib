@@ -137,7 +137,7 @@
 
     <span class="macro">println!</span>(<span class="string">"  {YELLOW}copy_folder_files_into_module {folder_path}, {module_path}{RESET}"</span>);
     <span class="comment">// traverse and get all file_names
-    </span><span class="kw">let </span>files = <span class="kw">crate</span>::traverse_dir_with_exclude_dir(<span class="kw-2">&amp;</span>folder_path.as_std_path(), <span class="string">""</span>, exclude_big_folders).unwrap();
+    </span><span class="kw">let </span>files = <span class="kw">crate</span>::traverse_dir_with_exclude_dir(folder_path.as_std_path(), <span class="string">""</span>, exclude_big_folders).unwrap();
     <span class="kw">let </span><span class="kw-2">mut </span>new_code = String::new();
     <span class="kw">for </span>file_name <span class="kw">in </span>files.iter() {
         <span class="kw">let </span>file_name_short = file_name.trim_start_matches(<span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">"{folder_path}/"</span>));
@@ -156,11 +156,11 @@
 
         <span class="kw">let </span>file_content = <span class="kw">if </span>is_binary_file {
             <span class="comment">// convert binary file to base64
-            </span><span class="kw">let </span>b = std::fs::read(<span class="kw-2">&amp;</span>file_name).unwrap();
+            </span><span class="kw">let </span>b = std::fs::read(file_name).unwrap();
             base64ct::Base64::encode_string(<span class="kw-2">&amp;</span>b)
         } <span class="kw">else </span>{
             <span class="comment">// all others are text files
-            </span>std::fs::read_to_string(<span class="kw-2">&amp;</span>file_name).unwrap()
+            </span>std::fs::read_to_string(file_name).unwrap()
         };
 
         new_code.push_str(<span class="kw-2">&amp;</span><span class="macro">format!</span>(

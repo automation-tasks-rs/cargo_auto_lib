@@ -19,7 +19,7 @@ pub fn git_tag_sync_check_create_push(version: &str) -> String {
             .unwrap_or_else(|e| panic!("{e}"))
             .arg("{tag_name_version}", &tag_name_version)
             .unwrap_or_else(|e| panic!("{e}"))
-            .arg("{version}", &version)
+            .arg("{version}", version)
             .unwrap_or_else(|e| panic!("{e}"))
             .run()
             .unwrap_or_else(|e| panic!("{e}"));
@@ -39,13 +39,9 @@ pub fn body_text_from_releases_md() -> Option<String> {
     create_releases_md_if_file_not_exist();
     let release_md = std::fs::read_to_string(RELEASES_MD).unwrap();
     // find the start of ## Unreleased
-    let Some(pos_start_data) = crate::find_pos_start_data_after_delimiter(&release_md, 0, "## Unreleased\n") else {
-        return None;
-    };
+    let pos_start_data = crate::find_pos_start_data_after_delimiter(&release_md, 0, "## Unreleased\n")?;
     // find the beginning of the next ## Version
-    let Some(pos_end_data) = crate::find_pos_end_data_before_delimiter(&release_md, pos_start_data, "## Version ") else {
-        return None;
-    };
+    let pos_end_data = crate::find_pos_end_data_before_delimiter(&release_md, pos_start_data, "## Version ")?;
     let body_md_text = release_md[pos_start_data..pos_end_data - 1].to_string();
 
     // return
@@ -57,9 +53,7 @@ pub fn create_new_version_in_releases_md(release_name: &str) -> Option<()> {
     create_releases_md_if_file_not_exist();
     let release_md = std::fs::read_to_string(RELEASES_MD).unwrap();
     // find the start of ## Unreleased
-    let Some(pos_start_data) = crate::find_pos_start_data_after_delimiter(&release_md, 0, "## Unreleased\n") else {
-        return None;
-    };
+    let pos_start_data = crate::find_pos_start_data_after_delimiter(&release_md, 0, "## Unreleased\n")?;
 
     // create a new Version title after ## Unreleased in RELEASES.md
     let new_release_md = format!("{}\n## {}\n{}", &release_md[..pos_start_data], &release_name, &release_md[pos_start_data..]);

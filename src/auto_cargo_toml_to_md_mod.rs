@@ -85,7 +85,7 @@ pub fn auto_cargo_toml_to_md() {
         let keyword_underscore = keyword.replace('-', "_");
         new_text.push_str(&format!(" ![{keyword}](https://img.shields.io/badge/{keyword_underscore}-{color})\n"));
     }
-    new_text.push_str("\n");
+    new_text.push('\n');
 
     for filename_result in glob("*.md").unwrap() {
         let filename_pathbuff = filename_result.unwrap();

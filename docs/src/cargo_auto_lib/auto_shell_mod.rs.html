@@ -212,7 +212,7 @@
         <span class="macro">println!</span>(<span class="string">"  {YELLOW}$ {shell_command}{RESET}"</span>);
     }
     <span class="kw">let </span>status = std::process::Command::new(<span class="string">"sh"</span>).arg(<span class="string">"-c"</span>).arg(shell_command).spawn().unwrap().wait().unwrap();
-    <span class="kw">let </span>exit_code = status.code().expect(<span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">"{RED}Error. {RESET}"</span>));
+    <span class="kw">let </span>exit_code = status.code().unwrap_or_else(|| <span class="macro">panic!</span>(<span class="string">"{RED}Error. {RESET}"</span>));
     <span class="kw">if </span>exit_code != <span class="number">0 </span>{
         <span class="kw">return </span><span class="prelude-val">Err</span>(LibError::ErrorFromString(<span class="macro">format!</span>(<span class="string">"{RED}Error: run_shell_command {}. {RESET}"</span>, exit_code)));
     }
@@ -311,7 +311,7 @@
         <span class="macro">println!</span>(<span class="string">"  {YELLOW}$ {} {RESET}"</span>, <span class="self">self</span>.string_to_echo);
 
         <span class="kw">let </span>status = std::process::Command::new(<span class="string">"sh"</span>).arg(<span class="string">"-c"</span>).arg(<span class="kw-2">&amp;</span><span class="self">self</span>.string_to_execute).spawn().unwrap().wait().unwrap();
-        <span class="kw">let </span>exit_code = status.code().expect(<span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">"{RED}Error. {RESET}"</span>));
+        <span class="kw">let </span>exit_code = status.code().unwrap_or_else(|| <span class="macro">panic!</span>(<span class="string">"{RED}Error. {RESET}"</span>));
         <span class="kw">if </span>exit_code != <span class="number">0 </span>{
             <span class="kw">return </span><span class="prelude-val">Err</span>(LibError::ErrorFromString(<span class="macro">format!</span>(<span class="string">"{RED}Error: run_shell_command {}. {RESET}"</span>, exit_code)));
         }
@@ -328,7 +328,7 @@
         <span class="macro">println!</span>(<span class="string">"  {YELLOW}$ {shell_command}{RESET}"</span>);
     }
     <span class="kw">let </span>status = std::process::Command::new(<span class="string">"sh"</span>).arg(<span class="string">"-c"</span>).arg(shell_command).spawn().unwrap().wait().unwrap();
-    <span class="kw">let </span>exit_code = status.code().expect(<span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">"{RED}Error. {RESET}"</span>));
+    <span class="kw">let </span>exit_code = status.code().unwrap_or_else(|| <span class="macro">panic!</span>(<span class="string">"{RED}Error. {RESET}"</span>));
     <span class="kw">if </span>exit_code != <span class="number">0 </span>{
         <span class="kw">return </span><span class="prelude-val">Err</span>(LibError::ErrorFromString(<span class="macro">format!</span>(<span class="string">"{RED}Error: run_shell_command {}. {RESET}"</span>, exit_code)));
     }

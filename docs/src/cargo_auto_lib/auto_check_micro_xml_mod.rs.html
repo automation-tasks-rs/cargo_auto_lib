@@ -79,7 +79,7 @@
         <span class="kw">let </span>filename_pathbuff = camino::Utf8Path::from_path(<span class="kw-2">&amp;</span>filename_pathbuff).unwrap();
 
         <span class="kw">let </span>file_name = filename_pathbuff.file_name().unwrap();
-        <span class="kw">let </span>str_xml = std::fs::read_to_string(<span class="kw-2">&amp;</span>filename_pathbuff).unwrap();
+        <span class="kw">let </span>str_xml = std::fs::read_to_string(filename_pathbuff).unwrap();
 
         <span class="comment">// check if file have CRLF instead of LF and show error
         </span><span class="kw">if </span>str_xml.contains(<span class="string">"\r\n"</span>) {

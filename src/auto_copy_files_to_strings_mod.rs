@@ -42,7 +42,7 @@ pub fn copy_folder_files_into_module(folder_path: &std::path::Path, module_path:
 
     println!("  {YELLOW}copy_folder_files_into_module {folder_path}, {module_path}{RESET}");
     // traverse and get all file_names
-    let files = crate::traverse_dir_with_exclude_dir(&folder_path.as_std_path(), "", exclude_big_folders).unwrap();
+    let files = crate::traverse_dir_with_exclude_dir(folder_path.as_std_path(), "", exclude_big_folders).unwrap();
     let mut new_code = String::new();
     for file_name in files.iter() {
         let file_name_short = file_name.trim_start_matches(&format!("{folder_path}/"));
@@ -61,11 +61,11 @@ pub fn copy_folder_files_into_module(folder_path: &std::path::Path, module_path:
 
         let file_content = if is_binary_file {
             // convert binary file to base64
-            let b = std::fs::read(&file_name).unwrap();
+            let b = std::fs::read(file_name).unwrap();
             base64ct::Base64::encode_string(&b)
         } else {
             // all others are text files
-            std::fs::read_to_string(&file_name).unwrap()
+            std::fs::read_to_string(file_name).unwrap()
         };
 
         new_code.push_str(&format!(

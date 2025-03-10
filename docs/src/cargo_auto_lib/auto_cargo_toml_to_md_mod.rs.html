@@ -197,7 +197,7 @@
         </span><span class="kw">let </span>keyword_underscore = keyword.replace(<span class="string">'-'</span>, <span class="string">"_"</span>);
         new_text.push_str(<span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">" ![{keyword}](https://img.shields.io/badge/{keyword_underscore}-{color})\n"</span>));
     }
-    new_text.push_str(<span class="string">"\n"</span>);
+    new_text.push(<span class="string">'\n'</span>);
 
     <span class="kw">for </span>filename_result <span class="kw">in </span>glob(<span class="string">"*.md"</span>).unwrap() {
         <span class="kw">let </span>filename_pathbuff = filename_result.unwrap();
