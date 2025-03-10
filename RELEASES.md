@@ -10,6 +10,8 @@ The TODO section is part of the [README.md](https://github.com/automation-tasks-
 
 ## Unreleased
 
+## Version 3.0.4 (2025-03-10)
+
 - cargo_auto_config.json
 
 ## Version 3.0.3 (2025-03-10)
