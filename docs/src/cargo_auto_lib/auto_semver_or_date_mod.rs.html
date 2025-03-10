@@ -55,7 +55,7 @@
 /// If the major version is greater than 2000, it is a date version  
 /// else it is semver and increments the patch part.
 </span><span class="kw">pub fn </span>auto_version_increment_semver_or_date() {
-    <span class="macro">println!</span>(<span class="string">"    {YELLOW}Running auto_semver_or_date{RESET}"</span>);
+    <span class="macro">println!</span>(<span class="string">"  {YELLOW}Running auto_semver_or_date{RESET}"</span>);
     <span class="kw">let </span>cargo_toml = <span class="kw">crate</span>::auto_cargo_toml_mod::CargoToml::read();
     <span class="kw">let </span>version = cargo_toml.package_version();
     <span class="kw">let </span>version = semver::Version::parse(<span class="kw-2">&amp;</span>version).unwrap();
@@ -64,7 +64,7 @@
     } <span class="kw">else </span>{
         <span class="kw">crate</span>::auto_semver_mod::auto_semver_increment_patch();
     }
-    <span class="macro">println!</span>(<span class="string">"    {YELLOW}Finished auto_semver_or_date{RESET}"</span>);
+    <span class="macro">println!</span>(<span class="string">"  {YELLOW}Finished auto_semver_or_date{RESET}"</span>);
 }
 
 <span class="doccomment">/// Increment the version in Cargo.toml
@@ -73,7 +73,7 @@
 /// else it is semver and increments the patch part.
 /// Forced is used in workspaces to force all members to have the same date version.
 </span><span class="kw">pub fn </span>auto_version_increment_semver_or_date_forced() {
-    <span class="macro">println!</span>(<span class="string">"    {YELLOW}Running auto_semver_or_date{RESET}"</span>);
+    <span class="macro">println!</span>(<span class="string">"  {YELLOW}Running auto_semver_or_date{RESET}"</span>);
     <span class="kw">let </span>cargo_toml = <span class="kw">crate</span>::auto_cargo_toml_mod::CargoToml::read();
     <span class="kw">let </span>version = cargo_toml.package_version();
     <span class="kw">let </span>version = semver::Version::parse(<span class="kw-2">&amp;</span>version).unwrap();
@@ -82,6 +82,6 @@
     } <span class="kw">else </span>{
         <span class="kw">crate</span>::auto_semver_mod::auto_semver_increment_patch();
     }
-    <span class="macro">println!</span>(<span class="string">"    {YELLOW}Finished auto_semver_or_date{RESET}"</span>);
+    <span class="macro">println!</span>(<span class="string">"  {YELLOW}Finished auto_semver_or_date{RESET}"</span>);
 }
 </code></pre></div></section></main></body></html>

@@ -442,7 +442,7 @@
                 </span><span class="kw">let </span>old_version: String = js_content.drain(start_version..end_version).collect();
                 <span class="comment">//println!(r#"old version: "{}""#, old_version.as_str());
                 </span><span class="kw">if </span>new_version != old_version {
-                    <span class="macro">println!</span>(<span class="string">"    {YELLOW}Modify version: {old_version} -&gt; {new_version}{RESET}"</span>);
+                    <span class="macro">println!</span>(<span class="string">"  {YELLOW}Modify version: {old_version} -&gt; {new_version}{RESET}"</span>);
                     js_content.insert_str(start_version, new_version);
                     <span class="comment">//println!("{}write file: {}{}", *YELLOW, js_filename, *RESET);
                     </span><span class="kw">let </span>_x = std::fs::write(js_filename, js_content);
@@ -478,7 +478,7 @@
             </span><span class="kw">let </span>old_version: String = cargo_content.drain(start_version..end_version).collect();
             <span class="comment">//println!(r#"old version: "{}""#, old_version.as_str());
             </span><span class="kw">if </span>new_version != old_version.as_str() {
-                <span class="macro">println!</span>(<span class="string">"    {YELLOW}Modify version: {old_version} -&gt; {new_version}{RESET}"</span>);
+                <span class="macro">println!</span>(<span class="string">"  {YELLOW}Modify version: {old_version} -&gt; {new_version}{RESET}"</span>);
                 cargo_content.insert_str(start_version, new_version);
                 <span class="comment">// println!("{}write file: {}{}", *YELLOW, cargo_filename, *RESET);
                 </span><span class="kw">let </span>_x = std::fs::write(cargo_filename, cargo_content);

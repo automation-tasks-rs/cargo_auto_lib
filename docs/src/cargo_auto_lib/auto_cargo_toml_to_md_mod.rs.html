@@ -215,7 +215,7 @@
             <span class="kw">if let </span><span class="prelude-val">Some</span>(cap) = REGEX_MD_END.captures(<span class="kw-2">&amp;</span>md_text_content) {
                 <span class="kw">let </span>pos_end = cap.get(<span class="number">0</span>).unwrap().start();
                 md_text_content.replace_range(pos_start..pos_end, <span class="kw-2">&amp;</span>new_text);
-                <span class="macro">println!</span>(<span class="string">"    {YELLOW}Write to md file: {}{RESET}"</span>, md_filename);
+                <span class="macro">println!</span>(<span class="string">"  {YELLOW}Write to md file: {}{RESET}"</span>, md_filename);
                 <span class="macro">println!</span>(<span class="string">"{GREEN}{}{RESET}"</span>, <span class="kw-2">&amp;</span>new_text.trim_end_matches(<span class="string">"\n\n"</span>));
                 std::fs::write(md_filename, md_text_content).unwrap();
             }

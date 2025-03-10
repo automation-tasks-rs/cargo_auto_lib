@@ -314,7 +314,7 @@
 /// For test and examples I need to provide the path.
 </span><span class="kw">pub fn </span>auto_plantuml_for_path(path: <span class="kw-2">&amp;</span>std::path::Path, repo_url: <span class="kw-2">&amp;</span>str) {
     <span class="kw">let </span>path = camino::Utf8Path::from_path(path).unwrap();
-    <span class="macro">println!</span>(<span class="string">"    {YELLOW}Running auto_plantuml{RESET}"</span>);
+    <span class="macro">println!</span>(<span class="string">"  {YELLOW}Running auto_plantuml{RESET}"</span>);
     <span class="comment">//use traverse instead of glob
     </span><span class="kw">let </span>files = <span class="kw">crate</span>::utils_mod::traverse_dir_with_exclude_dir(
         path.as_std_path(),
@@ -370,7 +370,7 @@
                         }
                         <span class="kw">if </span>get_new_svg {
                             <span class="kw">let </span>relative_md_filename = md_filename.strip_prefix(path).unwrap();
-                            <span class="macro">println!</span>(<span class="string">"    {YELLOW}{relative_md_filename} get new svg {plantuml_code_hash}{RESET}"</span>);
+                            <span class="macro">println!</span>(<span class="string">"  {YELLOW}{relative_md_filename} get new svg {plantuml_code_hash}{RESET}"</span>);
 
                             <span class="comment">// get the new svg image
                             </span><span class="kw">let </span>svg_code = request_svg(plantuml_code);
@@ -401,7 +401,7 @@
             std::fs::write(md_filename, md_text_content).unwrap();
         }
     }
-    <span class="macro">println!</span>(<span class="string">"    {YELLOW}Finished auto_plantuml{RESET}"</span>);
+    <span class="macro">println!</span>(<span class="string">"  {YELLOW}Finished auto_plantuml{RESET}"</span>);
 }
 
 <span class="doccomment">/// Hash text

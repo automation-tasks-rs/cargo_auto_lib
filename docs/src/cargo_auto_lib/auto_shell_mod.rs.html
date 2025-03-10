@@ -209,7 +209,7 @@
 /// A panic on this location means nothing. I want to panic in the caller location.
 </span><span class="kw">pub fn </span>run_shell_command_static(shell_command: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str) -&gt; ResultWithLibError&lt;()&gt; {
     <span class="kw">if </span>!shell_command.starts_with(<span class="string">"echo "</span>) &amp;&amp; !shell_command.starts_with(<span class="string">"printf "</span>) {
-        <span class="macro">println!</span>(<span class="string">"    {YELLOW}$ {shell_command}{RESET}"</span>);
+        <span class="macro">println!</span>(<span class="string">"  {YELLOW}$ {shell_command}{RESET}"</span>);
     }
     <span class="kw">let </span>status = std::process::Command::new(<span class="string">"sh"</span>).arg(<span class="string">"-c"</span>).arg(shell_command).spawn().unwrap().wait().unwrap();
     <span class="kw">let </span>exit_code = status.code().expect(<span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">"{RED}Error. {RESET}"</span>));
@@ -308,7 +308,7 @@
 
     <span class="doccomment">/// Run the sanitized command with no additional checks
     </span><span class="kw">fn </span>run(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; ResultWithLibError&lt;()&gt; {
-        <span class="macro">println!</span>(<span class="string">"    {YELLOW}$ {} {RESET}"</span>, <span class="self">self</span>.string_to_echo);
+        <span class="macro">println!</span>(<span class="string">"  {YELLOW}$ {} {RESET}"</span>, <span class="self">self</span>.string_to_echo);
 
         <span class="kw">let </span>status = std::process::Command::new(<span class="string">"sh"</span>).arg(<span class="string">"-c"</span>).arg(<span class="kw-2">&amp;</span><span class="self">self</span>.string_to_execute).spawn().unwrap().wait().unwrap();
         <span class="kw">let </span>exit_code = status.code().expect(<span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">"{RED}Error. {RESET}"</span>));
@@ -325,7 +325,7 @@
 /// TODO: vulnerable to command injection
 </span><span class="kw">pub fn </span>run_shell_command(shell_command: <span class="kw-2">&amp;</span>str) -&gt; ResultWithLibError&lt;()&gt; {
     <span class="kw">if </span>!shell_command.starts_with(<span class="string">"echo "</span>) &amp;&amp; !shell_command.starts_with(<span class="string">"printf "</span>) {
-        <span class="macro">println!</span>(<span class="string">"    {YELLOW}$ {shell_command}{RESET}"</span>);
+        <span class="macro">println!</span>(<span class="string">"  {YELLOW}$ {shell_command}{RESET}"</span>);
     }
     <span class="kw">let </span>status = std::process::Command::new(<span class="string">"sh"</span>).arg(<span class="string">"-c"</span>).arg(shell_command).spawn().unwrap().wait().unwrap();
     <span class="kw">let </span>exit_code = status.code().expect(<span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">"{RED}Error. {RESET}"</span>));
@@ -340,7 +340,7 @@
 /// TODO: vulnerable to command injection
 </span><span class="kw">pub fn </span>run_shell_command_output(shell_command: <span class="kw-2">&amp;</span>str) -&gt; ShellOutput {
     <span class="kw">if </span>!shell_command.starts_with(<span class="string">"echo "</span>) &amp;&amp; !shell_command.starts_with(<span class="string">"printf "</span>) {
-        <span class="macro">println!</span>(<span class="string">"   {YELLOW} $ {shell_command}{RESET}"</span>);
+        <span class="macro">println!</span>(<span class="string">"  {YELLOW} $ {shell_command}{RESET}"</span>);
     }
     <span class="kw">let </span>output = std::process::Command::new(<span class="string">"sh"</span>).arg(<span class="string">"-c"</span>).arg(shell_command).output().unwrap();
     <span class="comment">// return
@@ -356,7 +356,7 @@
 /// TODO: vulnerable to command injection
 </span><span class="kw">pub fn </span>run_shell_command_success(shell_command: <span class="kw-2">&amp;</span>str) -&gt; bool {
     <span class="kw">if </span>!shell_command.starts_with(<span class="string">"echo "</span>) &amp;&amp; !shell_command.starts_with(<span class="string">"printf "</span>) {
-        <span class="macro">println!</span>(<span class="string">"    {YELLOW}$ {shell_command}{RESET}"</span>);
+        <span class="macro">println!</span>(<span class="string">"  {YELLOW}$ {shell_command}{RESET}"</span>);
     }
     <span class="kw">let </span>status = std::process::Command::new(<span class="string">"sh"</span>).arg(<span class="string">"-c"</span>).arg(shell_command).status().unwrap();
     <span class="comment">// return

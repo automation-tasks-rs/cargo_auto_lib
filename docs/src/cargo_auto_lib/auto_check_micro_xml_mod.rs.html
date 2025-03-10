@@ -71,7 +71,7 @@
 <span class="doccomment">/// I want html pages to be correct microXML when I use them for single page application.
 /// Before build or release this function will check for correctness.
 </span><span class="kw">pub fn </span>auto_check_micro_xml(path_to_html_pages: <span class="kw-2">&amp;</span>str) {
-    <span class="macro">println!</span>(<span class="string">"    {YELLOW}Running auto_check_micro_xml {path_to_html_pages}{RESET}"</span>);
+    <span class="macro">println!</span>(<span class="string">"  {YELLOW}Running auto_check_micro_xml {path_to_html_pages}{RESET}"</span>);
     <span class="kw">let </span>glob_str = <span class="macro">format!</span>(<span class="string">"{}/*.html"</span>, path_to_html_pages.trim_end_matches(<span class="string">'/'</span>));
     <span class="comment">// find html pages for single page application
     </span><span class="kw">for </span>filename_result <span class="kw">in </span>glob(<span class="kw-2">&amp;</span>glob_str).unwrap() {
@@ -89,12 +89,12 @@
         <span class="comment">// check microxml correctness. Panic on errors.
         </span>check_micro_xml(<span class="kw-2">&amp;</span>str_xml, file_name);
     }
-    <span class="macro">println!</span>(<span class="string">"    {YELLOW}Finished auto_check_micro_xml{RESET}"</span>);
+    <span class="macro">println!</span>(<span class="string">"  {YELLOW}Finished auto_check_micro_xml{RESET}"</span>);
 }
 
 <span class="doccomment">/// panics if the microXML string is not correct
 </span><span class="kw">fn </span>check_micro_xml(str_xml: <span class="kw-2">&amp;</span>str, file_name: <span class="kw-2">&amp;</span>str) {
-    <span class="macro">println!</span>(<span class="string">"    {YELLOW}Check MicroXml: {file_name}{RESET}"</span>);
+    <span class="macro">println!</span>(<span class="string">"  {YELLOW}Check MicroXml: {file_name}{RESET}"</span>);
     <span class="comment">// remove &lt;!DOCTYPE html&gt; because it is not microXML
     </span><span class="kw">let </span>str_xml = str_xml.replace(<span class="string">"&lt;!DOCTYPE html&gt;"</span>, <span class="string">""</span>);
     <span class="kw">let </span>reader_iterator = ReaderForMicroXml::new(<span class="kw-2">&amp;</span>str_xml);

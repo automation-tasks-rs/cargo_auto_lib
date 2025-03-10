@@ -104,7 +104,7 @@
                     <span class="comment">// if second_mtime &gt; first_mtime {
                     </span>std::cmp::Ordering::Greater =&gt; {
                         <span class="kw">let </span>first_folder = opt_first_folder.unwrap();
-                        <span class="macro">println!</span>(<span class="string">"    {YELLOW}delete first: {:?}{RESET}"</span>, first_folder);
+                        <span class="macro">println!</span>(<span class="string">"  {YELLOW}delete first: {:?}{RESET}"</span>, first_folder);
                         std::fs::remove_dir_all(first_folder).unwrap();
 
                         opt_first_folder = <span class="prelude-val">Some</span>(second_folder.clone());
@@ -112,7 +112,7 @@
                     }
                     <span class="comment">//  } else if first_mtime &gt; second_mtime {
                     </span>std::cmp::Ordering::Less =&gt; {
-                        <span class="macro">println!</span>(<span class="string">"    {YELLOW}delete second: {:?}{RESET}"</span>, second_folder);
+                        <span class="macro">println!</span>(<span class="string">"  {YELLOW}delete second: {:?}{RESET}"</span>, second_folder);
                         std::fs::remove_dir_all(second_folder).unwrap();
                     }
                     <span class="comment">// else

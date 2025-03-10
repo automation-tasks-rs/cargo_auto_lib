@@ -293,7 +293,7 @@
                 <span class="kw">let </span>segment_text = get_md_segments_using_cache(<span class="kw-2">&amp;mut </span>cache_md_segments, <span class="kw-2">&amp;</span>marker.md_filename, <span class="kw-2">&amp;</span>marker.marker_name, <span class="kw-2">&amp;</span>marker.comment_symbol);
                 rs_text_content.replace_range(marker.pos_start..marker.pos_end, <span class="kw-2">&amp;</span>segment_text);
             }
-            <span class="macro">println!</span>(<span class="string">"    {YELLOW}Write file: {rs_filename}{RESET}"</span>);
+            <span class="macro">println!</span>(<span class="string">"  {YELLOW}Write file: {rs_filename}{RESET}"</span>);
             std::fs::write(rs_filename, rs_text_content).unwrap();
         }
     }
@@ -367,7 +367,7 @@
         segment.text.to_string()
     } <span class="kw">else </span>{
         <span class="comment">// process the file
-        </span><span class="macro">println!</span>(<span class="string">"    {YELLOW}Read file: {md_filename}{RESET}"</span>);
+        </span><span class="macro">println!</span>(<span class="string">"  {YELLOW}Read file: {md_filename}{RESET}"</span>);
         <span class="kw">let </span>md_text_content = std::fs::read_to_string(md_filename).unwrap();
 
         <span class="comment">// check if file have CRLF instead of LF and show error

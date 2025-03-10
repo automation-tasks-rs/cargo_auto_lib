@@ -167,7 +167,7 @@
 ///
 </span><span class="comment">// endregion: auto_md_to_doc_comments include doc_comments/auto_playground_run_code.md A ///
 </span><span class="kw">pub fn </span>auto_playground_run_code() {
-    <span class="macro">println!</span>(<span class="string">"    {YELLOW}Running auto_playground{RESET}"</span>);
+    <span class="macro">println!</span>(<span class="string">"  {YELLOW}Running auto_playground{RESET}"</span>);
     <span class="kw">let </span>path = std::env::current_dir().unwrap();
     <span class="comment">//use traverse instead of glob
     </span><span class="kw">let </span>files = <span class="kw">crate</span>::utils_mod::traverse_dir_with_exclude_dir(
@@ -228,7 +228,7 @@
 
         // if changed, then write to disk
         </span><span class="kw">if </span>is_changed {
-            <span class="macro">println!</span>(<span class="string">"    {YELLOW}Code inside {md_filename} has changed. Playground link corrected.{RESET}"</span>);
+            <span class="macro">println!</span>(<span class="string">"  {YELLOW}Code inside {md_filename} has changed. Playground link corrected.{RESET}"</span>);
             <span class="comment">// push the remaining text
             </span>md_new.push_str(<span class="kw-2">&amp;</span>md_old[iteration_start_pos..md_old.len()]);
             <span class="kw">let </span>bak_filename = md_filename.with_extension(<span class="string">"bak"</span>);
@@ -236,6 +236,6 @@
             std::fs::write(<span class="kw-2">&amp;</span>md_filename, md_new).unwrap();
         }
     }
-    <span class="macro">println!</span>(<span class="string">"    {YELLOW}Finished auto_playground{RESET}"</span>);
+    <span class="macro">println!</span>(<span class="string">"  {YELLOW}Finished auto_playground{RESET}"</span>);
 }
 </code></pre></div></section></main></body></html>
