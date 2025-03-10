@@ -400,32 +400,35 @@ fn task_github_new_release() {
 
     println!("  {YELLOW}New GitHub release created: {release_name}.{RESET}");
     /*
-        // region: upload asset only for executables, not for libraries
+    // region: upload asset only for executables, not for libraries
 
-        let release_id = json_value.get("id").unwrap().as_i64().unwrap().to_string();
-        println!("  {YELLOW}Now uploading release asset. This can take some time if the files are big. Wait...{RESET}");
-        // compress files tar.gz
-        let tar_name = format!("{repo_name}-{tag_name_version}-x86_64-unknown-linux-gnu.tar.gz");
+    let release_id = json_value.get("id").unwrap().as_i64().unwrap().to_string();
+    println!("  {YELLOW}Now uploading release asset. This can take some time if the files are big. Wait...{RESET}");
+    // compress files tar.gz
+    let tar_name = format!("{repo_name}-{tag_name_version}-x86_64-unknown-linux-gnu.tar.gz");
 
-        cl::ShellCommandLimitedDoubleQuotesSanitizer::new(r#"tar -zcvf "{tar_name_sanitized_for_double_quote}" "target/release/{repo_name_sanitized_for_double_quote}" "#).unwrap_or_else(|e| panic!("{e}"))
-        .arg("{tar_name_sanitized_for_double_quote}", &tar_name).unwrap_or_else(|e| panic!("{e}"))
-        .arg("{repo_name_sanitized_for_double_quote}", &repo_name).unwrap_or_else(|e| panic!("{e}"))
-        .run().unwrap_or_else(|e| panic!("{e}"));
+    cl::ShellCommandLimitedDoubleQuotesSanitizer::new(r#"tar -zcvf "{tar_name_sanitized_for_double_quote}" "target/release/{repo_name_sanitized_for_double_quote}" "#)
+        .unwrap_or_else(|e| panic!("{e}"))
+        .arg("{tar_name_sanitized_for_double_quote}", &tar_name)
+        .unwrap_or_else(|e| panic!("{e}"))
+        .arg("{repo_name_sanitized_for_double_quote}", &repo_name)
+        .unwrap_or_else(|e| panic!("{e}"))
+        .run()
+        .unwrap_or_else(|e| panic!("{e}"));
 
-        // upload asset
-        cgl::github_api_upload_asset_to_release(&github_client, &github_owner, &repo_name, &release_id, &tar_name);
+    // upload asset
+    cgl::github_api_upload_asset_to_release(&github_owner, &repo_name, &release_id, &tar_name);
 
-        cl::ShellCommandLimitedDoubleQuotesSanitizer::new(r#"rm "{tar_name_sanitized_for_double_quote}" "#).unwrap_or_else(|e| panic!("{e}"))
-        .arg("{tar_name_sanitized_for_double_quote}", &tar_name).unwrap_or_else(|e| panic!("{e}"))
-        .run().unwrap_or_else(|e| panic!("{e}"));
+    cl::ShellCommandLimitedDoubleQuotesSanitizer::new(r#"rm "{tar_name_sanitized_for_double_quote}" "#)
+        .unwrap_or_else(|e| panic!("{e}"))
+        .arg("{tar_name_sanitized_for_double_quote}", &tar_name)
+        .unwrap_or_else(|e| panic!("{e}"))
+        .run()
+        .unwrap_or_else(|e| panic!("{e}"));
     println!(r#"  {YELLOW}Asset uploaded. Open and edit the description on GitHub Releases in the browser.{RESET}"#);
 
-        // endregion: upload asset only for executables, not for libraries
-        */
-    println!(
-        r#"
-{GREEN}https://github.com/{github_owner}/{repo_name}/releases{RESET}
-    "#
-    );
+    // endregion: upload asset only for executables, not for libraries
+    */
+    println!(r#"{GREEN}https://github.com/{github_owner}/{repo_name}/releases{RESET} "#);
 }
 // endregion: tasks

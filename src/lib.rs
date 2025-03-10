@@ -6,7 +6,7 @@
 //! # cargo_auto_lib
 //!
 //! **Automation tasks coded in Rust language for the workflow of Rust projects**  
-//! ***version: 3.0.4 date: 2025-03-10 author: [Bestia.dev](https://bestia.dev) repository: [GitHub](https://github.com/automation-tasks-rs/cargo_auto_lib)***
+//! ***version: 3.0.5 date: 2025-03-10 author: [Bestia.dev](https://bestia.dev) repository: [GitHub](https://github.com/automation-tasks-rs/cargo_auto_lib)***
 //!
 //!  ![maintained](https://img.shields.io/badge/maintained-green)
 //!  ![ready-for-use](https://img.shields.io/badge/ready_for_use-green)

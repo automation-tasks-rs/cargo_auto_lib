@@ -80,7 +80,7 @@ use crate::encrypt_decrypt_with_ssh_key_mod::{GREEN, RED, RESET, YELLOW};
 struct CargoAutoConfig {
     github_app_name: String,
     client_id: String,
-    private_key_file_bare_name: String,
+    github_api_secret_token_key: String,
 }
 
 #[derive(serde::Deserialize, serde::Serialize, zeroize::Zeroize, zeroize::ZeroizeOnDrop)]
@@ -335,7 +335,7 @@ pub(crate) fn send_to_github_api_with_secret_token(req: reqwest::blocking::Reque
     // read config client id
     let client_id = cargo_auto_config.client_id;
     // the private key, public key and the encrypted file will have the same bare name
-    let private_key_file_bare_name = cargo_auto_config.private_key_file_bare_name;
+    let private_key_file_bare_name = cargo_auto_config.github_api_secret_token_key;
 
     // I must build the request to be able then to inspect it.
     let req = req.bearer_auth(get_github_secret_token(&client_id, &private_key_file_bare_name)?.expose_secret()).build()?;
@@ -378,7 +378,7 @@ pub(crate) async fn upload_to_github_with_secret_token(req: reqwest::RequestBuil
     // read config client id
     let client_id = cargo_auto_config.client_id;
     // the private key, public key and the encrypted file will have the same bare name
-    let private_key_file_bare_name = cargo_auto_config.private_key_file_bare_name;
+    let private_key_file_bare_name = cargo_auto_config.github_api_secret_token_key;
 
     // I must build the request to be able then to inspect it.
     let req = req
