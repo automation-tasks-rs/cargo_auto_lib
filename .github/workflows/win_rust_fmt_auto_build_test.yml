@@ -10,7 +10,7 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
-  rust_fmt_auto_build_test:
+  win_rust_fmt_auto_build_test:
 
     runs-on: windows-latest
 
