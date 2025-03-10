@@ -30,7 +30,7 @@ pub fn run_shell_command_static(shell_command: &'static str) -> ResultWithLibErr
         println!("  {YELLOW}$ {shell_command}{RESET}");
     }
     let status = std::process::Command::new("sh").arg("-c").arg(shell_command).spawn().unwrap().wait().unwrap();
-    let exit_code = status.code().unwrap_or_else(||panic!("{RED}Error. {RESET}"));
+    let exit_code = status.code().unwrap_or_else(|| panic!("{RED}Error. {RESET}"));
     if exit_code != 0 {
         return Err(LibError::ErrorFromString(format!("{RED}Error: run_shell_command {}. {RESET}", exit_code)));
     }
@@ -146,7 +146,7 @@ pub fn run_shell_command(shell_command: &str) -> ResultWithLibError<()> {
         println!("  {YELLOW}$ {shell_command}{RESET}");
     }
     let status = std::process::Command::new("sh").arg("-c").arg(shell_command).spawn().unwrap().wait().unwrap();
-    let exit_code = status.code().unwrap_or_else(||panic!("{RED}Error. {RESET}"));
+    let exit_code = status.code().unwrap_or_else(|| panic!("{RED}Error. {RESET}"));
     if exit_code != 0 {
         return Err(LibError::ErrorFromString(format!("{RED}Error: run_shell_command {}. {RESET}", exit_code)));
     }
