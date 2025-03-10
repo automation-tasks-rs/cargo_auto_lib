@@ -125,7 +125,14 @@ pub(crate) fn get_crates_io_secret_token(private_key_file_bare_name: &str) -> an
 /// Publish to crates.io
 #[allow(dead_code)]
 pub fn publish_to_crates_io() -> anyhow::Result<()> {
-    let secret_access_token = get_crates_io_secret_token("crates_io_secret_token_ssh_1")?;
+    #[derive(serde::Deserialize, serde::Serialize)]
+    struct CargoAutoConfig {
+        crates_io_secret_token_key: String,
+    }
+
+    let cargo_auto_config_string = std::fs::read_to_string("automation_tasks_rs/cargo_auto_config.json")?;
+    let cargo_auto_config: CargoAutoConfig = serde_json::from_str(&cargo_auto_config_string)?;
+    let secret_access_token = get_crates_io_secret_token(&cargo_auto_config.crates_io_secret_token_key)?;
     // the secret_token is redacted when print on screen
     cargo_auto_lib::ShellCommandLimitedDoubleQuotesSanitizer::new(r#"cargo publish --token "{secret_token}" "#)
         .unwrap_or_else(|e| panic!("{e}"))
