@@ -10,6 +10,8 @@ The TODO section is part of the [README.md](https://github.com/automation-tasks-
 
 ## Unreleased
 
+- crates io api
+
 ## Version 3.0.2 (2025-03-09)
 
 - chrono:clock and ring cannot compile in windows

@@ -47,7 +47,7 @@ lazy_static! {
 ///
 // endregion: auto_md_to_doc_comments include doc_comments/auto_playground_run_code.md A ///
 pub fn auto_playground_run_code() {
-    println!("    {YELLOW}Running auto_playground{RESET}");
+    println!("  {YELLOW}Running auto_playground{RESET}");
     let path = std::env::current_dir().unwrap();
     //use traverse instead of glob
     let files = crate::utils_mod::traverse_dir_with_exclude_dir(
@@ -108,7 +108,7 @@ pub fn auto_playground_run_code() {
 
         // if changed, then write to disk
         if is_changed {
-            println!("    {YELLOW}Code inside {md_filename} has changed. Playground link corrected.{RESET}");
+            println!("  {YELLOW}Code inside {md_filename} has changed. Playground link corrected.{RESET}");
             // push the remaining text
             md_new.push_str(&md_old[iteration_start_pos..md_old.len()]);
             let bak_filename = md_filename.with_extension("bak");
@@ -116,5 +116,5 @@ pub fn auto_playground_run_code() {
             std::fs::write(&md_filename, md_new).unwrap();
         }
     }
-    println!("    {YELLOW}Finished auto_playground{RESET}");
+    println!("  {YELLOW}Finished auto_playground{RESET}");
 }

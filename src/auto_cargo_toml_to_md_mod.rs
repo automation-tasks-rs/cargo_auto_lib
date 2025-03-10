@@ -103,7 +103,7 @@ pub fn auto_cargo_toml_to_md() {
             if let Some(cap) = REGEX_MD_END.captures(&md_text_content) {
                 let pos_end = cap.get(0).unwrap().start();
                 md_text_content.replace_range(pos_start..pos_end, &new_text);
-                println!("    {YELLOW}Write to md file: {}{RESET}", md_filename);
+                println!("  {YELLOW}Write to md file: {}{RESET}", md_filename);
                 println!("{GREEN}{}{RESET}", &new_text.trim_end_matches("\n\n"));
                 std::fs::write(md_filename, md_text_content).unwrap();
             }

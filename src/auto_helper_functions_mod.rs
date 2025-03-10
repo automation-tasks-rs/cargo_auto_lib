@@ -14,7 +14,7 @@ use crate::public_api_mod::{RED, RESET};
 pub fn exit_if_not_run_in_rust_project_root_directory() {
     if !(camino::Utf8Path::new("automation_tasks_rs").exists() && (camino::Utf8Path::new("Cargo.toml").exists())) {
         eprintln!("{RED}Error: `automation_tasks_rs` must be run inside the Rust project in the dir that contains");
-        eprintln!("`Cargo.toml` file and `automation_tasks_rs` directory. Exiting...{RESET}");
+        println!("`Cargo.toml` file and `automation_tasks_rs` directory. Exiting...{RESET}");
         // early exit
         std::process::exit(1);
     }

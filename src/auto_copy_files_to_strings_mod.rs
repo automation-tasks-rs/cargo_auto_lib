@@ -40,7 +40,7 @@ pub fn copy_folder_files_into_module(folder_path: &std::path::Path, module_path:
     let folder_path = camino::Utf8Path::from_path(folder_path).unwrap();
     let module_path = camino::Utf8Path::from_path(module_path).unwrap();
 
-    println!("    {YELLOW}copy_folder_files_into_module {folder_path}, {module_path}{RESET}");
+    println!("  {YELLOW}copy_folder_files_into_module {folder_path}, {module_path}{RESET}");
     // traverse and get all file_names
     let files = crate::traverse_dir_with_exclude_dir(&folder_path.as_std_path(), "", exclude_big_folders).unwrap();
     let mut new_code = String::new();

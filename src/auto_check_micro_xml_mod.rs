@@ -9,7 +9,7 @@ use reader_for_microxml::{ReaderForMicroXml, Token};
 /// I want html pages to be correct microXML when I use them for single page application.
 /// Before build or release this function will check for correctness.
 pub fn auto_check_micro_xml(path_to_html_pages: &str) {
-    println!("    {YELLOW}Running auto_check_micro_xml {path_to_html_pages}{RESET}");
+    println!("  {YELLOW}Running auto_check_micro_xml {path_to_html_pages}{RESET}");
     let glob_str = format!("{}/*.html", path_to_html_pages.trim_end_matches('/'));
     // find html pages for single page application
     for filename_result in glob(&glob_str).unwrap() {
@@ -27,12 +27,12 @@ pub fn auto_check_micro_xml(path_to_html_pages: &str) {
         // check microxml correctness. Panic on errors.
         check_micro_xml(&str_xml, file_name);
     }
-    println!("    {YELLOW}Finished auto_check_micro_xml{RESET}");
+    println!("  {YELLOW}Finished auto_check_micro_xml{RESET}");
 }
 
 /// panics if the microXML string is not correct
 fn check_micro_xml(str_xml: &str, file_name: &str) {
-    println!("    {YELLOW}Check MicroXml: {file_name}{RESET}");
+    println!("  {YELLOW}Check MicroXml: {file_name}{RESET}");
     // remove <!DOCTYPE html> because it is not microXML
     let str_xml = str_xml.replace("<!DOCTYPE html>", "");
     let reader_iterator = ReaderForMicroXml::new(&str_xml);

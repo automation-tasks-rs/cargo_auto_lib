@@ -85,7 +85,7 @@ pub fn auto_md_to_doc_comments() {
                 let segment_text = get_md_segments_using_cache(&mut cache_md_segments, &marker.md_filename, &marker.marker_name, &marker.comment_symbol);
                 rs_text_content.replace_range(marker.pos_start..marker.pos_end, &segment_text);
             }
-            println!("    {YELLOW}Write file: {rs_filename}{RESET}");
+            println!("  {YELLOW}Write file: {rs_filename}{RESET}");
             std::fs::write(rs_filename, rs_text_content).unwrap();
         }
     }
@@ -159,7 +159,7 @@ fn get_md_segments_using_cache(cache: &mut Vec<MdSegment>, md_filename: &str, ma
         segment.text.to_string()
     } else {
         // process the file
-        println!("    {YELLOW}Read file: {md_filename}{RESET}");
+        println!("  {YELLOW}Read file: {md_filename}{RESET}");
         let md_text_content = std::fs::read_to_string(md_filename).unwrap();
 
         // check if file have CRLF instead of LF and show error

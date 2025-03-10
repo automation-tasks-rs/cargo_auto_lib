@@ -77,13 +77,13 @@ pub struct LinesOfCode {
 ///
 // endregion: auto_md_to_doc_comments include doc_comments/auto_lines_of_code.md A ///
 pub fn auto_lines_of_code(link: &str) {
-    println!("    {YELLOW}Running auto_lines_of_code{RESET}");
+    println!("  {YELLOW}Running auto_lines_of_code{RESET}");
     let link = if link.is_empty() { crate::auto_git_mod::process_git_remote() } else { link.to_string() };
     // Cargo.toml contains the list of projects
     let lines_of_code = count_lines_of_code();
     let text_to_include = to_string_as_shield_badges(&lines_of_code, &link);
     include_into_readme_md(&text_to_include);
-    println!("    {YELLOW}Finished auto_lines_of_code{RESET}");
+    println!("  {YELLOW}Finished auto_lines_of_code{RESET}");
 }
 
 /// Returns the counted lines of code

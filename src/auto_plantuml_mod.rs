@@ -67,7 +67,7 @@ pub fn auto_plantuml(repo_url: &str) {
 /// For test and examples I need to provide the path.
 pub fn auto_plantuml_for_path(path: &std::path::Path, repo_url: &str) {
     let path = camino::Utf8Path::from_path(path).unwrap();
-    println!("    {YELLOW}Running auto_plantuml{RESET}");
+    println!("  {YELLOW}Running auto_plantuml{RESET}");
     //use traverse instead of glob
     let files = crate::utils_mod::traverse_dir_with_exclude_dir(
         path.as_std_path(),
@@ -123,7 +123,7 @@ pub fn auto_plantuml_for_path(path: &std::path::Path, repo_url: &str) {
                         }
                         if get_new_svg {
                             let relative_md_filename = md_filename.strip_prefix(path).unwrap();
-                            println!("    {YELLOW}{relative_md_filename} get new svg {plantuml_code_hash}{RESET}");
+                            println!("  {YELLOW}{relative_md_filename} get new svg {plantuml_code_hash}{RESET}");
 
                             // get the new svg image
                             let svg_code = request_svg(plantuml_code);
@@ -154,7 +154,7 @@ pub fn auto_plantuml_for_path(path: &std::path::Path, repo_url: &str) {
             std::fs::write(md_filename, md_text_content).unwrap();
         }
     }
-    println!("    {YELLOW}Finished auto_plantuml{RESET}");
+    println!("  {YELLOW}Finished auto_plantuml{RESET}");
 }
 
 /// Hash text

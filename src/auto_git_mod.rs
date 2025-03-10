@@ -71,7 +71,7 @@ pub fn process_git_remote() -> String {
 /// Interactive ask to create a new local git repository
 pub fn new_local_repository(message: &str) -> Option<()> {
     // ask interactive
-    println!("    {BLUE}This project folder is not yet a Git repository.{RESET}");
+    println!("{BLUE}This project folder is not yet a Git repository.{RESET}");
     let answer = inquire::Text::new(&format!("{BLUE}Do you want to initialize a new local git repository? (y/n){RESET}"))
         .prompt()
         .unwrap();

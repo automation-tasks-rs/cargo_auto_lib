@@ -41,7 +41,7 @@ pub fn auto_delete_old_js_snippets() {
                     // if second_mtime > first_mtime {
                     std::cmp::Ordering::Greater => {
                         let first_folder = opt_first_folder.unwrap();
-                        println!("    {YELLOW}delete first: {:?}{RESET}", first_folder);
+                        println!("  {YELLOW}delete first: {:?}{RESET}", first_folder);
                         std::fs::remove_dir_all(first_folder).unwrap();
 
                         opt_first_folder = Some(second_folder.clone());
@@ -49,7 +49,7 @@ pub fn auto_delete_old_js_snippets() {
                     }
                     //  } else if first_mtime > second_mtime {
                     std::cmp::Ordering::Less => {
-                        println!("    {YELLOW}delete second: {:?}{RESET}", second_folder);
+                        println!("  {YELLOW}delete second: {:?}{RESET}", second_folder);
                         std::fs::remove_dir_all(second_folder).unwrap();
                     }
                     // else

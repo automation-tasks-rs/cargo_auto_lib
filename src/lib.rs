@@ -6,7 +6,7 @@
 //! # cargo_auto_lib
 //!
 //! **Automation tasks coded in Rust language for the workflow of Rust projects**  
-//! ***version: 3.0.2 date: 2025-03-09 author: [Bestia.dev](https://bestia.dev) repository: [GitHub](https://github.com/automation-tasks-rs/cargo_auto_lib)***
+//! ***version: 3.0.3 date: 2025-03-10 author: [Bestia.dev](https://bestia.dev) repository: [GitHub](https://github.com/automation-tasks-rs/cargo_auto_lib)***
 //!
 //!  ![maintained](https://img.shields.io/badge/maintained-green)
 //!  ![ready-for-use](https://img.shields.io/badge/ready_for_use-green)
@@ -71,9 +71,9 @@
 //!     cl::run_shell_command("cargo build --release");
 //!     println!(
 //!         r#"
-//!     {YELLOW}After `cargo auto release`, run the compiled binary, examples and/or tests{RESET}
+//!   {YELLOW}After `cargo auto release`, run the compiled binary, examples and/or tests{RESET}
 //! {GREEN}./target/release/{package_name} arg_1{RESET}
-//!     {YELLOW}if ok then{RESET}
+//!   {YELLOW}if ok then{RESET}
 //! {GREEN}cargo auto doc{RESET}
 //! "#,
 //! package_name = cargo_toml.package_name(),

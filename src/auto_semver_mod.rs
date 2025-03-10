@@ -59,7 +59,7 @@ fn increment_part(part: VersionPart, force_version: bool) -> ResultWithLibError<
             // find the end quote
             if let Some(pos_end_data) = find_pos_end_data_before_delimiter(&cargo_toml_text, pos_start_data, r#"""#) {
                 let version = cargo_toml_text[pos_start_data..pos_end_data].to_string();
-                println!(r#"    {YELLOW}old version: "{version}"{RESET}"#);
+                println!(r#"  {YELLOW}old version: "{version}"{RESET}"#);
                 //increment the last number
                 let pos = pos_start_data;
                 let (major, pos) = parse_next_number(&cargo_toml_text, pos)?;
@@ -82,7 +82,7 @@ fn increment_part(part: VersionPart, force_version: bool) -> ResultWithLibError<
                 }
                 // println!(r#"major: {},minor: {}, patch: {}"#, major, minor, patch);
                 let new_semver = format!("{}.{}.{}", major, minor, patch);
-                println!("    {GREEN}new version: '{}'{RESET}", &new_semver);
+                println!("{GREEN}new version: '{}'{RESET}", &new_semver);
                 let new_cargo_toml_text = format!("{}{}{}", &cargo_toml_text[..pos_start_data], &new_semver, &cargo_toml_text[pos_at_the_end_of_semver..]);
                 //save the file
                 let _x = std::fs::write(cargo_toml_filename, new_cargo_toml_text);

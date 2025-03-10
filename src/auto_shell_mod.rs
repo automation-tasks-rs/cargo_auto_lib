@@ -27,7 +27,7 @@ pub struct ShellOutput {
 /// A panic on this location means nothing. I want to panic in the caller location.
 pub fn run_shell_command_static(shell_command: &'static str) -> ResultWithLibError<()> {
     if !shell_command.starts_with("echo ") && !shell_command.starts_with("printf ") {
-        println!("    {YELLOW}$ {shell_command}{RESET}");
+        println!("  {YELLOW}$ {shell_command}{RESET}");
     }
     let status = std::process::Command::new("sh").arg("-c").arg(shell_command).spawn().unwrap().wait().unwrap();
     let exit_code = status.code().expect(&format!("{RED}Error. {RESET}"));
@@ -126,7 +126,7 @@ impl crate::ShellCommandLimitedDoubleQuotesSanitizerTrait for ShellCommandLimite
 
     /// Run the sanitized command with no additional checks
     fn run(&self) -> ResultWithLibError<()> {
-        println!("    {YELLOW}$ {} {RESET}", self.string_to_echo);
+        println!("  {YELLOW}$ {} {RESET}", self.string_to_echo);
 
         let status = std::process::Command::new("sh").arg("-c").arg(&self.string_to_execute).spawn().unwrap().wait().unwrap();
         let exit_code = status.code().expect(&format!("{RED}Error. {RESET}"));
@@ -143,7 +143,7 @@ impl crate::ShellCommandLimitedDoubleQuotesSanitizerTrait for ShellCommandLimite
 /// TODO: vulnerable to command injection
 pub fn run_shell_command(shell_command: &str) -> ResultWithLibError<()> {
     if !shell_command.starts_with("echo ") && !shell_command.starts_with("printf ") {
-        println!("    {YELLOW}$ {shell_command}{RESET}");
+        println!("  {YELLOW}$ {shell_command}{RESET}");
     }
     let status = std::process::Command::new("sh").arg("-c").arg(shell_command).spawn().unwrap().wait().unwrap();
     let exit_code = status.code().expect(&format!("{RED}Error. {RESET}"));
@@ -158,7 +158,7 @@ pub fn run_shell_command(shell_command: &str) -> ResultWithLibError<()> {
 /// TODO: vulnerable to command injection
 pub fn run_shell_command_output(shell_command: &str) -> ShellOutput {
     if !shell_command.starts_with("echo ") && !shell_command.starts_with("printf ") {
-        println!("   {YELLOW} $ {shell_command}{RESET}");
+        println!("  {YELLOW} $ {shell_command}{RESET}");
     }
     let output = std::process::Command::new("sh").arg("-c").arg(shell_command).output().unwrap();
     // return
@@ -174,7 +174,7 @@ pub fn run_shell_command_output(shell_command: &str) -> ShellOutput {
 /// TODO: vulnerable to command injection
 pub fn run_shell_command_success(shell_command: &str) -> bool {
     if !shell_command.starts_with("echo ") && !shell_command.starts_with("printf ") {
-        println!("    {YELLOW}$ {shell_command}{RESET}");
+        println!("  {YELLOW}$ {shell_command}{RESET}");
     }
     let status = std::process::Command::new("sh").arg("-c").arg(shell_command).status().unwrap();
     // return
