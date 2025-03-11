@@ -1,7 +1,7 @@
 <!-- markdownlint-disable MD041 -->
 [//]: # (auto_md_to_doc_comments segment start A)
 
-# public_api_mod
+public_api_mod gives more control over changes in the public api.
 
 The Public API of a library is a pain in the a...  
 Every time I modify something I have to think how it will affect the users of the library.  

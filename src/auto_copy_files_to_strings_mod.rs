@@ -1,6 +1,6 @@
 // auto_copy_files_to_strings_mod.rs
 
-//! copy all files from the folder into a module as strings (static &str)
+//! Copy all files from the folder into a module as strings (static &str).
 
 // trait must be in scope
 use base64ct::Encoding;
@@ -8,7 +8,7 @@ use base64ct::Encoding;
 use crate::public_api_mod::{RESET, YELLOW};
 
 // region: auto_md_to_doc_comments include doc_comments/copy_folder_files_into_module.md A ///
-/// Copy all files from the folder into a module as strings (static &str)
+/// Copy all files from the folder into a module as strings (static &str).
 ///
 /// The Rust code to modify has the markers:
 ///

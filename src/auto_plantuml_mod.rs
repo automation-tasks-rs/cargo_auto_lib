@@ -1,6 +1,6 @@
 // auto_plantuml_mod.rs
 
-//! Includes the plantuml svg generated from the plantuml code
+//! Includes the plantuml svg generated from the plantuml code.
 
 use crate::public_api_mod::{RED, RESET, YELLOW};
 use crate::utils_mod::*;
@@ -49,12 +49,12 @@ lazy_static! {
 /// Call the plantuml.com server with the plantuml code and saves the result svg file in folder images/.  
 /// Add the hash code to the filename.
 ///
-/// process plantuml in current directory
-/// finds markers (auto_plantuml start) and (auto_plantuml end) in md files
-/// if needed calls the web service and saves the svg file
-/// Between markers adds the link to the svg file
+/// Process plantuml in current directory.  
+/// Finds markers (auto_plantuml start) and (auto_plantuml end) in md files.  
+/// If needed calls the web service and saves the svg file.  
+/// Between markers adds the link to the svg file.  
 /// repo_url like <https://github.com/automation-tasks-rs/sey_currency_converter_pwa>
-/// so the image file link is from the repository and accessible everywhere
+/// So the image file link is from the repository and accessible everywhere.
 ///
 // endregion: auto_md_to_doc_comments include doc_comments/auto_plantuml.md A ///
 pub fn auto_plantuml(repo_url: &str) {
@@ -62,7 +62,7 @@ pub fn auto_plantuml(repo_url: &str) {
     auto_plantuml_for_path(&path, repo_url);
 }
 
-/// Process plantuml for all md files
+/// Process plantuml for all md files.
 ///
 /// For test and examples I need to provide the path.
 pub fn auto_plantuml_for_path(path: &std::path::Path, repo_url: &str) {
@@ -157,7 +157,7 @@ pub fn auto_plantuml_for_path(path: &std::path::Path, repo_url: &str) {
     println!("  {YELLOW}Finished auto_plantuml{RESET}");
 }
 
-/// Hash text
+/// Hash text.
 pub fn hash_text(text: &str) -> String {
     let hash = <sha2::Sha256 as sha2::Digest>::digest(text.as_bytes());
     // base64ct = {version = "1.5.0", features = ["alloc"] }

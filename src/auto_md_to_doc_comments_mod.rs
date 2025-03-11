@@ -1,6 +1,6 @@
 // auto_md_to_doc_comments_mod
 
-//! Finds rs files with markers and include segments from md files as doc comments
+//! Finds rs files with markers and include segments from md files as doc comments.
 
 use glob::glob;
 use lazy_static::lazy_static;

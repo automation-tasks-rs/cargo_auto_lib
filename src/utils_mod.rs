@@ -1,6 +1,6 @@
 // utils_mod.rs
 
-//! various utilities
+//! Functions for various utilities.
 
 // region: delimiters cannot be INACTIVE like markers
 
@@ -93,7 +93,7 @@ pub fn traverse_dir_with_exclude_dir(dir: &std::path::Path, find_file: &str, exc
     Ok(v)
 }
 
-/// The original `concat()` function does not have a delimiter
+/// The original `concat()` function does not have a delimiter.
 pub fn concatenate_vec_to_string(vec: &[String], delimiter: &str) -> String {
     let size = vec.iter().fold(0, |a, b| a + b.len());
     let mut concatenated_string = String::with_capacity(size);
@@ -107,7 +107,7 @@ pub fn concatenate_vec_to_string(vec: &[String], delimiter: &str) -> String {
     concatenated_string
 }
 
-/// UTC date in iso standard like 2024-12-31
+/// UTC date in iso standard like 2024-12-31.
 pub fn now_utc_date_iso() -> String {
     chrono::Utc::now().format("%Y-%m-%d").to_string()
 }

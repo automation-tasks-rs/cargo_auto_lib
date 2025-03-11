@@ -1,10 +1,10 @@
 // auto_git_mod
 
-//! Functions to work with git from automation_tasks_rs
+//! Functions to work with git from automation_tasks_rs.
 
 use crate::public_api_mod::{BLUE, RED, RESET};
 
-/// Has git remote
+/// Does git have settings for remote.
 pub fn git_has_remote() -> bool {
     // it returns only "origin" if exists or nothing if it does not exist
     let output = std::process::Command::new("git").arg("remote").output().unwrap();
@@ -12,7 +12,7 @@ pub fn git_has_remote() -> bool {
     String::from_utf8(output.stdout).unwrap() != ""
 }
 
-/// Check if this folder is a local Git repository
+/// Check if this folder is a local Git repository.
 pub fn git_is_local_repository() -> bool {
     let output = std::process::Command::new("git").arg("status").output().unwrap();
     let output = String::from_utf8(output.stderr).unwrap();
@@ -68,7 +68,7 @@ pub fn process_git_remote() -> String {
     }
 }
 
-/// Interactive ask to create a new local git repository
+/// Interactive ask to create a new local git repository.
 pub fn new_local_repository(message: &str) -> Option<()> {
     // ask interactive
     println!("{BLUE}This project folder is not yet a Git repository.{RESET}");

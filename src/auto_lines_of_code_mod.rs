@@ -1,6 +1,6 @@
 // auto_lines_of_code_mod
 
-//! Insert shield badges with lines_of_code into README.rs
+//! Insert shield badges with lines_of_code into README.md.
 
 use crate::public_api_mod::{RED, RESET, YELLOW};
 use std::fs::File;

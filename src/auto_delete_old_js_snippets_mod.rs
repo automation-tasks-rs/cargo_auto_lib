@@ -1,6 +1,6 @@
 // auto_delete_old_js_snippets_mod
 
-//! deletes old js snippets when working with wasm-pack
+//! Deletes old js snippets when working with wasm-pack.
 
 //region: use statements
 use crate::public_api_mod::{RED, RESET, YELLOW};
@@ -8,7 +8,7 @@ use filetime::FileTime;
 
 //endregion
 
-/// deletes old js snippets when working with wasm-pack  
+/// Deletes old js snippets when working with wasm-pack.  
 ///
 /// The old folders for `js snippets` are not automatically deleted on building with `wasm-pack`.  
 /// This utils do that.  

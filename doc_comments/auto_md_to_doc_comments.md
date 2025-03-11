@@ -1,7 +1,7 @@
 <!-- markdownlint-disable MD041 -->
 [//]: # (auto_md_to_doc_comments segment start A)
 
-Finds rs files with markers and include segments from md files as doc comments  
+Finds rs files with markers and include segments from md files as doc comments.  
 
 ![auto_md_to_doc_comments.png](https://github.com/automation-tasks-rs/cargo_auto_lib/blob/main/images/auto_md_to_doc_comments.png?raw=true)
 

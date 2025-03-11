@@ -40,17 +40,17 @@ pub const RESET: &str = "\x1b[0m";
 
 // region: Public API structs and methods
 
-/// Result type with fixed LibError using thiserror
+/// Result type with fixed LibError using thiserror.  
 ///
-/// It makes simpler to write returns from functions.
+/// It makes simpler to write returns from functions.  
 pub use crate::error_mod::ResultWithLibError;
 
-/// similar to std::process::Output, but with i32 and Strings for easier work
+/// Similar to std::process::Output, but with i32 and Strings for easier work.
 pub use crate::auto_shell_mod::ShellOutput;
 
 // reexporting a struct needs to export the trait to also reexports all the methods
 
-/// Read data from Cargo.toml
+/// Read data from Cargo.toml.  
 pub use crate::auto_cargo_toml_mod::CargoToml;
 
 // Just for making the struct methods obvious as public methods
@@ -59,7 +59,7 @@ pub use crate::auto_cargo_toml_mod::CargoToml;
 // then it is consistent how to make the public API definition.
 // There is a downside: the caller must bring the trait into scope. A little annoying.
 
-/// Trait with methods to read data from Cargo.toml
+/// Trait with methods to read data from Cargo.toml.
 pub trait CargoTomlPublicApiMethods {
     /// read Cargo.toml, for workspaces it is the Cargo.toml of the first member
     fn read() -> Self;
@@ -85,7 +85,7 @@ pub trait CargoTomlPublicApiMethods {
     fn package_keywords(&self) -> Vec<String>;
 }
 
-/// Shell command builder with simple but limited sanitizer
+/// Shell command builder with simple but limited sanitizer.
 ///
 /// The limited sanitization will panic if the value contains double quotes.
 /// Command injections attack is possible because the shell command mixes executable code and data in a single string.
@@ -101,7 +101,7 @@ pub trait CargoTomlPublicApiMethods {
 /// Placeholders are delimited with curly brackets.
 pub use crate::auto_shell_mod::ShellCommandLimitedDoubleQuotesSanitizer;
 
-/// Trait with methods for ShellCommandLimitedDoubleQuotesSanitizer
+/// Trait with methods for ShellCommandLimitedDoubleQuotesSanitizer.
 pub trait ShellCommandLimitedDoubleQuotesSanitizerTrait {
     /// Template for the shell command with placeholders
     ///
@@ -132,22 +132,22 @@ pub trait ShellCommandLimitedDoubleQuotesSanitizerTrait {
 // endregion: Public API structs and methods
 
 // region: Public API functions
-/// find from_pos
+/// Find 'from pos'.
 pub fn find_from(text: &str, from_pos: usize, find: &str) -> Option<usize> {
     crate::utils_mod::find_from(text, from_pos, find)
 }
 
-/// return the position of end of the delimited data before the delimiter
+/// Return the position of end of the delimited data before the delimiter.
 pub fn find_pos_end_data_before_delimiter(md_text_content: &str, pos: usize, delimiter: &str) -> Option<usize> {
     crate::utils_mod::find_pos_end_data_before_delimiter(md_text_content, pos, delimiter)
 }
 
-/// return the position of start of the delimited data after the delimiter
+/// Return the position of start of the delimited data after the delimiter.
 pub fn find_pos_start_data_after_delimiter(md_text_content: &str, pos: usize, delimiter: &str) -> Option<usize> {
     crate::utils_mod::find_pos_start_data_after_delimiter(md_text_content, pos, delimiter)
 }
 
-/// The original `concat()` function does not have a delimiter
+/// The original `concat()` function does not have a delimiter.
 pub fn concatenate_vec_to_string(vec: &[String], delimiter: &str) -> String {
     crate::utils_mod::concatenate_vec_to_string(vec, delimiter)
 }
@@ -227,7 +227,7 @@ pub fn auto_check_micro_xml(path_to_html_pages: &str) {
     crate::auto_check_micro_xml_mod::auto_check_micro_xml(path_to_html_pages)
 }
 
-/// deletes old js snippets when working with wasm-pack  
+/// Deletes old js snippets when working with wasm-pack.  
 ///
 /// The old folders for `js snippets` are not automatically deleted on building with `wasm-pack`.  
 /// This utils do that.  
@@ -236,7 +236,7 @@ pub fn auto_delete_old_js_snippets() {
     crate::auto_delete_old_js_snippets_mod::auto_delete_old_js_snippets()
 }
 
-/// println one, more or all sub_commands
+/// Print one or more sub_commands.
 pub fn completion_return_one_or_more_sub_commands(sub_commands: Vec<&str>, word_being_completed: &str) {
     crate::auto_helper_functions_mod::completion_return_one_or_more_sub_commands(sub_commands, word_being_completed)
 }
@@ -252,7 +252,7 @@ pub fn exit_if_not_run_in_rust_project_root_directory() {
     crate::auto_helper_functions_mod::exit_if_not_run_in_rust_project_root_directory()
 }
 
-/// Run one shell command with static str
+/// Run one shell command with static str.
 ///
 /// We trust the "developer" that he will not make "command injection" in his own code.
 /// The problem that must be sanitized is always "user input".
@@ -261,7 +261,7 @@ pub fn run_shell_command_static(shell_command: &'static str) -> ResultWithLibErr
     crate::auto_shell_mod::run_shell_command_static(shell_command)
 }
 
-/// Run one shell command
+/// Run one shell command.
 ///
 /// Exit task execution if the command has Exit Status != 0.
 /// TODO: vulnerable to command injection
@@ -371,50 +371,50 @@ pub fn auto_md_to_doc_comments() {
     crate::auto_md_to_doc_comments_mod::auto_md_to_doc_comments()
 }
 
-/// process plantuml in current directory
+/// Process plantuml in current directory.  
 ///
-/// finds markers (auto_plantuml start) and (auto_plantuml end) in md files
-/// if needed calls the web service and saves the svg file
-/// Between markers adds the link to the svg file
+/// Finds markers (auto_plantuml start) and (auto_plantuml end) in md files.  
+/// If needed, calls the web service and saves the svg file.  
+/// Between markers adds the link to the svg file.  
 /// repo_url like <https://github.com/automation-tasks-rs/sey_currency_converter_pwa>
-/// so the image file link is from the repository and accessible everywhere
+/// So the image file link is from the repository and accessible everywhere.  
 pub fn auto_plantuml(repo_url: &str) {
     crate::auto_plantuml_mod::auto_plantuml(repo_url)
 }
 
-/// Process plantuml for all md files
+/// Process plantuml for all md files.
 ///
 /// For test and examples I need to provide the path.
 pub fn auto_plantuml_for_path(path: &std::path::Path, repo_url: &str) {
     crate::auto_plantuml_mod::auto_plantuml_for_path(path, repo_url)
 }
 
-/// Hash text
+/// Hash text.
 pub fn hash_text(text: &str) -> String {
     crate::auto_plantuml_mod::hash_text(text)
 }
 
-/// Increment the minor version in Cargo.toml file only if files are changed
+/// Increment the minor version in Cargo.toml file only if files are changed.
 pub fn auto_semver_increment_minor() {
     crate::auto_semver_mod::auto_semver_increment_minor()
 }
 
-/// Increment the minor version in Cargo.toml file even if files are not changed
+/// Increment the minor version in Cargo.toml file even if files are not changed.
 pub fn auto_semver_increment_minor_forced() {
     crate::auto_semver_mod::auto_semver_increment_minor_forced()
 }
 
-/// Increment the patch version in Cargo.toml file only if files are changed
+/// Increment the patch version in Cargo.toml file only if files are changed.
 pub fn auto_semver_increment_patch() {
     crate::auto_semver_mod::auto_semver_increment_patch()
 }
 
-/// Increment the patch version in Cargo.toml file even if files are not changed
+/// Increment the patch version in Cargo.toml file even if files are not changed.
 pub fn auto_semver_increment_patch_forced() {
     crate::auto_semver_mod::auto_semver_increment_patch_forced()
 }
 
-/// Increment the version in Cargo.toml
+/// Increment the version in Cargo.toml.
 ///
 /// If the major version is greater than 2000, it is a date version  
 /// else it is semver and increments the patch part.  
@@ -422,7 +422,7 @@ pub fn auto_version_increment_semver_or_date() {
     crate::auto_semver_or_date_mod::auto_version_increment_semver_or_date()
 }
 
-/// Increment the version in Cargo.toml
+/// Increment the version in Cargo.toml, forced.
 ///
 /// If the major version is greater than 2000, it is a date version  
 /// else it is semver and increments the patch part.  
@@ -432,7 +432,7 @@ pub fn auto_version_increment_semver_or_date_forced() {
 }
 
 // region: auto_md_to_doc_comments include doc_comments/auto_version_from_date.md A ///
-/// New version from date is written to Cargo.toml and service_worker.js
+/// New version from date is written to Cargo.toml and service_worker.js.
 ///
 /// In Cargo.toml writes the version as the date `yyyy.mmdd.HHMM` ex. `2019.1221.2359`.  
 /// For non-library projects, the semver specification is not really useful.  
@@ -463,7 +463,7 @@ pub fn auto_version_from_date_forced() {
     crate::auto_version_from_date_mod::auto_version_from_date_forced()
 }
 
-/// Pretty HTML for docs
+/// Pretty HTML for docs.  
 ///
 /// The HTML generated by `cargo doc` is ugly and difficult to `git diff`.
 /// Tidy HTML is a HTML checker and formatter installed on most Linuxes.
@@ -471,43 +471,43 @@ pub fn auto_doc_tidy_html() -> ResultWithLibError<()> {
     crate::auto_doc_tidy_html_mod::auto_doc_tidy_html()
 }
 
-/// Has git remote
+/// Does git have settings for remote.
 pub fn git_has_remote() -> bool {
     crate::auto_git_mod::git_has_remote()
 }
 
-/// Check if this folder is a local Git repository
+/// Check if this folder is a local Git repository.
 pub fn git_is_local_repository() -> bool {
     crate::auto_git_mod::git_is_local_repository()
 }
 
-/// Run one shell command and return ShellOutput {exit_status, stdout, stderr}
+/// Run one shell command and return ShellOutput {exit_status, stdout, stderr}.
 ///
 /// TODO: vulnerable to command injection
 pub fn run_shell_command_output(shell_command: &str) -> ShellOutput {
     crate::auto_shell_mod::run_shell_command_output(shell_command)
 }
 
-/// Run one shell command and return true if success
+/// Run one shell command and return true if success.
 ///
 /// TODO: vulnerable to command injection
 pub fn run_shell_command_success(shell_command: &str) -> bool {
     crate::auto_shell_mod::run_shell_command_success(shell_command)
 }
 
-/// home_dir() using the home crate.
+/// Get home dir using the home crate.
 ///
-/// panics if HOME not found
+/// Panics if HOME not found.
 pub fn home_dir() -> std::path::PathBuf {
     crate::auto_helper_functions_mod::home_dir()
 }
 
-/// sync, check, create, push git tag
+/// Sync, check, create, push git tag.
 pub fn git_tag_sync_check_create_push(version: &str) -> String {
     crate::auto_github_mod::git_tag_sync_check_create_push(version)
 }
 
-/// Get release text from RELEASES.md
+/// Get release text from RELEASES.md.
 ///
 /// First, the user must write the content into file RELEASES.md in the section ## Unreleased.  
 /// Then the automation task will copy the content to GitHub release  
@@ -516,7 +516,7 @@ pub fn body_text_from_releases_md() -> Option<String> {
     crate::auto_github_mod::body_text_from_releases_md()
 }
 
-/// Create a new Version title in RELEASES.md
+/// Create a new Version title in RELEASES.md.
 pub fn create_new_version_in_releases_md(release_name: &str) -> Option<()> {
     crate::auto_github_mod::create_new_version_in_releases_md(release_name)
 }
@@ -527,7 +527,7 @@ pub fn now_utc_date_iso() -> String {
 }
 
 // region: auto_md_to_doc_comments include doc_comments/copy_folder_files_into_module.md A ///
-/// Copy all files from the folder into a module as strings (static &str)
+/// Copy all files from the folder into a module as strings (static &str).
 ///
 /// The Rust code to modify has the markers:
 ///
@@ -559,13 +559,13 @@ pub fn copy_folder_files_into_module(folder_path: &std::path::Path, module_path:
     crate::auto_copy_files_to_strings_mod::copy_folder_files_into_module(folder_path, module_path, ext_for_binary_files, exclude_big_folders)
 }
 
-/// Add commit message to Unreleased in RELEASES.md
+/// Add commit message to Unreleased in RELEASES.md.
 pub fn add_message_to_unreleased(message: &str) {
     crate::auto_github_mod::add_message_to_unreleased(message)
 }
 
 // region: auto_md_to_doc_comments include doc_comments/auto_playground_run_code.md A ///
-/// Include the link to run code in Rust playground
+/// Include the link to run code in Rust playground.  
 ///
 /// The function searches in all markdown files for markers like this:
 ///
@@ -601,7 +601,7 @@ pub fn auto_playground_run_code() {
     crate::auto_playground_mod::auto_playground_run_code()
 }
 
-/// Interactive ask to create a new local git repository
+/// Interactive ask to create a new local git repository.
 pub fn new_local_repository(message: &str) -> Option<()> {
     crate::auto_git_mod::new_local_repository(message)
 }

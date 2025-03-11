@@ -1,5 +1,7 @@
 // auto_shell_mod.rs
 
+//! Functions for creating commands in shell.
+
 use secrecy::ExposeSecret;
 
 use crate::{
@@ -8,7 +10,7 @@ use crate::{
     ResultWithLibError,
 };
 
-/// similar to std::process::Output, but with i32 and Strings for easier work
+/// Similar to std::process::Output, but with i32 and Strings for easier work.
 #[derive(Debug)]
 pub struct ShellOutput {
     /// The status (exit code) of the process.
@@ -19,7 +21,7 @@ pub struct ShellOutput {
     pub stderr: String,
 }
 
-/// Run one shell command with static str
+/// Run one shell command with static str.
 ///
 /// We trust the "developer" that he will not make "command injection" in his own code.
 /// The problem that must be sanitized is always "user input".
@@ -37,7 +39,7 @@ pub fn run_shell_command_static(shell_command: &'static str) -> ResultWithLibErr
     Ok(())
 }
 
-/// Shell command builder with simple but limited sanitizer
+/// Shell command builder with simple but limited sanitizer.  
 ///
 /// The limited sanitization will panic if the value contains double quotes.
 /// Command injections attack is possible because the shell command mixes executable code and data in a single string.
@@ -137,7 +139,7 @@ impl crate::ShellCommandLimitedDoubleQuotesSanitizerTrait for ShellCommandLimite
     }
 }
 
-/// Run one shell command
+/// Run one shell command.
 ///
 /// Exit task execution if the command has Exit Status != 0.
 /// TODO: vulnerable to command injection
@@ -153,7 +155,7 @@ pub fn run_shell_command(shell_command: &str) -> ResultWithLibError<()> {
     Ok(())
 }
 
-/// Run one shell command and return ShellOutput {exit_status, stdout, stderr}
+/// Run one shell command and return ShellOutput {exit_status, stdout, stderr}.
 ///
 /// TODO: vulnerable to command injection
 pub fn run_shell_command_output(shell_command: &str) -> ShellOutput {
@@ -169,7 +171,7 @@ pub fn run_shell_command_output(shell_command: &str) -> ShellOutput {
     }
 }
 
-/// Run one shell command and return true if success
+/// Run one shell command and return true if success.
 ///
 /// TODO: vulnerable to command injection
 pub fn run_shell_command_success(shell_command: &str) -> bool {

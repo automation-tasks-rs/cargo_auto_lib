@@ -1,12 +1,14 @@
 // auto_github_mod
 
+//! Functions to work with GitHub.
+
 // bring trait into scope
 use crate::{CargoTomlPublicApiMethods, ShellCommandLimitedDoubleQuotesSanitizerTrait};
 
 /// File contains releases changelog
 pub const RELEASES_MD: &str = "RELEASES.md";
 
-/// sync, check, create, push git tag
+/// Sync, check, create, push git tag.
 pub fn git_tag_sync_check_create_push(version: &str) -> String {
     // sync the local and remote tags
     crate::run_shell_command_static("git fetch origin --tags --force").unwrap_or_else(|e| panic!("{e}"));
@@ -30,7 +32,7 @@ pub fn git_tag_sync_check_create_push(version: &str) -> String {
     tag_name_version
 }
 
-/// Get release text from RELEASES.md
+/// Get release text from RELEASES.md.
 ///
 /// First, the user must write the content into file RELEASES.md in the section ## Unreleased.  
 /// Then the automation task will copy the content to GitHub release  
@@ -48,7 +50,7 @@ pub fn body_text_from_releases_md() -> Option<String> {
     Some(body_md_text)
 }
 
-/// Create a new Version title in RELEASES.md
+/// Create a new Version title in RELEASES.md.
 pub fn create_new_version_in_releases_md(release_name: &str) -> Option<()> {
     create_releases_md_if_file_not_exist();
     let release_md = std::fs::read_to_string(RELEASES_MD).unwrap();
@@ -90,7 +92,7 @@ The TODO section is part of the [README.md](https://github.com/{github_owner}/{p
     }
 }
 
-/// Add commit message to Unreleased in RELEASES.md
+/// Add commit message to Unreleased in RELEASES.md.
 pub fn add_message_to_unreleased(message: &str) {
     create_releases_md_if_file_not_exist();
     let release_md = std::fs::read_to_string(RELEASES_MD).unwrap();

@@ -1,7 +1,7 @@
 <!-- markdownlint-disable MD041 -->
 [//]: # (auto_md_to_doc_comments segment start A)
 
-New version from date is written to Cargo.toml and service_worker.js
+New version from date is written to Cargo.toml and service_worker.js.
 
 In Cargo.toml writes the version as the date `yyyy.mmdd.HHMM` ex. `2019.1221.2359`.  
 For non-library projects, the semver specification is not really useful.  

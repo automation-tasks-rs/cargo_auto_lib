@@ -28,11 +28,11 @@ Else we have to delete the old svg file and get a new one from the modified plan
 Call the plantuml.com server with the plantuml code and saves the result svg file in folder images/.  
 Add the hash code to the filename.
 
-process plantuml in current directory
-finds markers (auto_plantuml start) and (auto_plantuml end) in md files
-if needed calls the web service and saves the svg file
-Between markers adds the link to the svg file
+Process plantuml in current directory.  
+Finds markers (auto_plantuml start) and (auto_plantuml end) in md files.  
+If needed calls the web service and saves the svg file.  
+Between markers adds the link to the svg file.  
 repo_url like <https://github.com/automation-tasks-rs/sey_currency_converter_pwa>
-so the image file link is from the repository and accessible everywhere
+So the image file link is from the repository and accessible everywhere.
 
 [//]: # (auto_md_to_doc_comments segment end A)

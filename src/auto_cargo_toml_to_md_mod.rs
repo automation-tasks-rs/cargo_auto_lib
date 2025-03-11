@@ -1,6 +1,6 @@
 // auto_cargo_toml_to_md_mod
 
-//! includes data from Cargo.toml to `md` files: version, authors, description,...
+//! Includes data from Cargo.toml to `md` files: version, authors, description,...
 
 // region: use statements
 

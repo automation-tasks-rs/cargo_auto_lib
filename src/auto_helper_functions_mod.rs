@@ -1,6 +1,6 @@
 // auto_helper_functions_mod
 
-//! various helper functions
+//! Various helper functions.
 
 use crate::public_api_mod::{RED, RESET};
 
@@ -20,7 +20,7 @@ pub fn exit_if_not_run_in_rust_project_root_directory() {
     }
 }
 
-/// println one, more or all sub_commands
+/// Print one or more sub_commands.
 pub fn completion_return_one_or_more_sub_commands(sub_commands: Vec<&str>, word_being_completed: &str) {
     let mut sub_found = false;
     for sub_command in sub_commands.iter() {
@@ -37,8 +37,9 @@ pub fn completion_return_one_or_more_sub_commands(sub_commands: Vec<&str>, word_
     }
 }
 
-/// home_dir() using the home crate
-/// panics if HOME not found
+/// Get home dir using the home crate.
+///
+/// Panics if HOME not found.
 pub fn home_dir() -> std::path::PathBuf {
     match home::home_dir() {
         Some(path_buff) => {

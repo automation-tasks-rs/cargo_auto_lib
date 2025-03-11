@@ -1,6 +1,6 @@
 // auto_version_from_date_mod
 
-//! The new version as date is written to Cargo.toml and service_worker.js
+//! The new version as date is written to Cargo.toml and service_worker.js.
 
 // region: use statements
 
@@ -37,7 +37,7 @@ pub struct AutoVersionFromDate {
 // region: public functions
 
 // region: auto_md_to_doc_comments include doc_comments/auto_version_from_date.md A ///
-/// New version from date is written to Cargo.toml and service_worker.js
+/// New version from date is written to Cargo.toml and service_worker.js.
 ///
 /// In Cargo.toml writes the version as the date `yyyy.mmdd.HHMM` ex. `2019.1221.2359`.  
 /// For non-library projects, the semver specification is not really useful.  

@@ -14,7 +14,7 @@ lazy_static! {
 }
 
 // region: auto_md_to_doc_comments include doc_comments/auto_playground_run_code.md A ///
-/// Include the link to run code in Rust playground
+/// Include the link to run code in Rust playground.  
 ///
 /// The function searches in all markdown files for markers like this:
 ///

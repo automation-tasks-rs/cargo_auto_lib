@@ -1,6 +1,6 @@
 // auto_semver_mod
 
-//! Semver utilities
+//! Semver utilities.
 
 use crate::public_api_mod::{GREEN, RED, RESET, YELLOW};
 use crate::{
@@ -14,22 +14,22 @@ enum VersionPart {
     Minor,
 }
 
-/// Increment the patch version in Cargo.toml file only if files are changed
+/// Increment the patch version in Cargo.toml file only if files are changed.
 pub fn auto_semver_increment_patch() {
     increment_part(VersionPart::Patch, false).unwrap_or_else(|err| panic!("{RED}{err}{RESET}"))
 }
 
-/// Increment the patch version in Cargo.toml file even if files are not changed
+/// Increment the patch version in Cargo.toml file even if files are not changed.
 pub fn auto_semver_increment_patch_forced() {
     increment_part(VersionPart::Patch, true).unwrap_or_else(|err| panic!("{RED}{err}{RESET}"))
 }
 
-/// Increment the minor version in Cargo.toml file only if files are changed
+/// Increment the minor version in Cargo.toml file only if files are changed.
 pub fn auto_semver_increment_minor() {
     increment_part(VersionPart::Minor, false).unwrap_or_else(|err| panic!("{RED}{err}{RESET}"))
 }
 
-/// Increment the minor version in Cargo.toml file even if files are not changed
+/// Increment the minor version in Cargo.toml file even if files are not changed.
 pub fn auto_semver_increment_minor_forced() {
     increment_part(VersionPart::Minor, true).unwrap_or_else(|err| panic!("{RED}{err}{RESET}"))
 }
