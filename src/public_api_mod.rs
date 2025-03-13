@@ -1,7 +1,7 @@
 // public_api_mod.rs
 
 // region: auto_md_to_doc_comments include doc_comments/public_api_mod.md A //!
-//! # public_api_mod
+//! public_api_mod gives more control over changes in the public api.
 //!
 //! The Public API of a library is a pain in the a...  
 //! Every time I modify something I have to think how it will affect the users of the library.  
@@ -327,7 +327,7 @@ pub fn auto_lines_of_code(link: &str) {
 }
 
 // region: auto_md_to_doc_comments include doc_comments/auto_md_to_doc_comments.md A ///
-/// Finds rs files with markers and include segments from md files as doc comments  
+/// Finds rs files with markers and include segments from md files as doc comments.  
 ///
 /// ![auto_md_to_doc_comments.png](https://github.com/automation-tasks-rs/cargo_auto_lib/blob/main/images/auto_md_to_doc_comments.png?raw=true)
 ///
@@ -565,7 +565,7 @@ pub fn add_message_to_unreleased(message: &str) {
 }
 
 // region: auto_md_to_doc_comments include doc_comments/auto_playground_run_code.md A ///
-/// Include the link to run code in Rust playground.  
+/// Include the link to run code in Rust playground.
 ///
 /// The function searches in all markdown files for markers like this:
 ///
