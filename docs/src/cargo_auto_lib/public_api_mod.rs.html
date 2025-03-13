@@ -606,7 +606,16 @@
 <a href="#605" id="605">605</a>
 <a href="#606" id="606">606</a>
 <a href="#607" id="607">607</a>
-<a href="#608" id="608">608</a></pre></div><pre class="rust"><code><span class="comment">// public_api_mod.rs
+<a href="#608" id="608">608</a>
+<a href="#609" id="609">609</a>
+<a href="#610" id="610">610</a>
+<a href="#611" id="611">611</a>
+<a href="#612" id="612">612</a>
+<a href="#613" id="613">613</a>
+<a href="#614" id="614">614</a>
+<a href="#615" id="615">615</a>
+<a href="#616" id="616">616</a>
+<a href="#617" id="617">617</a></pre></div><pre class="rust"><code><span class="comment">// public_api_mod.rs
 
 // region: auto_md_to_doc_comments include doc_comments/public_api_mod.md A //!
 </span><span class="doccomment">//! public_api_mod gives more control over changes in the public api.
@@ -645,6 +654,10 @@
 <span class="doccomment">/// ANSI color
 </span><span class="kw">pub const </span>RESET: <span class="kw-2">&amp;</span>str = <span class="string">"\x1b[0m"</span>;
 <span class="comment">// endregion: Public API constants
+
+// region: re-export entire dependencies
+</span><span class="kw">pub use </span>inquire;
+<span class="comment">// endregion: re-export entire dependencies
 
 // region: Public API structs and methods
 
@@ -1108,6 +1121,11 @@
 /// Panics if HOME not found.
 </span><span class="kw">pub fn </span>home_dir() -&gt; std::path::PathBuf {
     <span class="kw">crate</span>::auto_helper_functions_mod::home_dir()
+}
+
+<span class="doccomment">/// Replace tilde with home::home_dir, only for utf8.
+</span><span class="kw">pub fn </span>tilde_expand_to_home_dir_utf8(path_str: <span class="kw-2">&amp;</span>str) -&gt; anyhow::Result&lt;camino::Utf8PathBuf&gt; {
+    <span class="kw">crate</span>::auto_helper_functions_mod::tilde_expand_to_home_dir_utf8(path_str)
 }
 
 <span class="doccomment">/// Sync, check, create, push git tag.
