@@ -10,6 +10,8 @@ The TODO section is part of the [README.md](https://github.com/automation-tasks-
 
 ## Unreleased
 
+## Version 3.0.9 (2025-03-13)
+
 - reexported inquire, tilde_expand
 
 ## Version 3.0.8 (2025-03-13)
