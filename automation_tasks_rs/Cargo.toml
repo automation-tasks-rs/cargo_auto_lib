@@ -14,13 +14,13 @@ publish = false
 # the minimum version and allow automatic SemVer compatible updates up to a MAJOR increment! Always check the true version with `cargo tree`!
 cargo_auto_lib = "3.0.4"
 
-tracing = "0.1.41"
-tracing-subscriber = { version = "0.3.19", features = ["env-filter", "std", "fmt", "time"] }
-tracing-appender="0.2.3"
+#tracing = "0.1.41"
+#tracing-subscriber = { version = "0.3.19", features = ["env-filter", "std", "fmt", "time"] }
+#tracing-appender="0.2.3"
 time = {version="0.3.39", features=["macros","local-offset"]}
 
 anyhow="1.0.97"
-reqwest={version="0.12.12", features=["json","stream", "blocking"]}
+reqwest={version="0.11.27", default-features=false, features=["rustls-tls","json","stream", "blocking"]}
 serde ={ version= "1.0.219", features=["std","derive"]}
 serde_json = "1.0.140"
 ssh-key = { version = "0.6.7", features = [ "rsa", "encryption","ed25519"] }
