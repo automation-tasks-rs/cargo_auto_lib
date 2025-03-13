@@ -8,7 +8,6 @@
 // endregion: auto_md_to_doc_comments include doc_comments/encrypt_decrypt_with_ssh_key_mod.md A //!
 
 pub mod crates_io_api_token_mod;
-pub mod docker_io_api_token_mod;
 pub mod github_api_token_with_oauth2_mod;
 
 // region: Public API constants
@@ -199,7 +198,7 @@ fn sign_seed_with_private_key_file(plain_seed_bytes_32bytes: [u8; 32], private_k
         println!();
         println!("{BLUE}Enter the passphrase for the SSH private key:{RESET}");
 
-        let secret_passphrase = SecretString::from(inquire::Password::new("").without_confirmation().with_display_mode(inquire::PasswordDisplayMode::Masked).prompt()?);
+        let secret_passphrase = SecretString::from(crate::cl::inquire::Password::new("").without_confirmation().with_display_mode(crate::cl::inquire::PasswordDisplayMode::Masked).prompt()?);
 
         Ok(secret_passphrase)
     }

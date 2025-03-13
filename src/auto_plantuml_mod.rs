@@ -196,6 +196,7 @@ mod test {
 
     #[test]
     pub fn examples_plantuml_test() {
+        // TODO: testing in windows returns different result because of / and \ tragedy.
         // similar to examples/plantuml/plantuml1.rs and check the result
         // region: prepare folders and files for this example
         // remove the 'images' folder

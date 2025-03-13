@@ -174,14 +174,14 @@ fn print_examples_cmd() {
     /*
         println!(
             r#"
-      {YELLOW}run examples:{RESET}
-    {GREEN}cargo run --example plantuml1{RESET}
+  {YELLOW}run examples:{RESET}
+{GREEN}cargo run --example plantuml1{RESET}
     "#
         );
     */
 }
 
-/// sub-command for bash auto-completion of `cargo auto` using the crate `dev_bestia_cargo_completion`
+/// Sub-command for bash auto-completion of `cargo auto` using the crate `dev_bestia_cargo_completion`.
 fn completion() {
     let args: Vec<String> = std::env::args().collect();
     let word_being_completed = args[2].as_str();
@@ -267,7 +267,9 @@ fn task_doc() {
         .unwrap_or_else(|e| panic!("{e}"));
 
     // pretty html
+    #[cfg(target_family = "unix")]
     cl::auto_doc_tidy_html().unwrap_or_else(|e| panic!("{e}"));
+
     cl::run_shell_command_static("cargo fmt").unwrap_or_else(|e| panic!("{e}"));
     // message to help user with next move
     println!(
