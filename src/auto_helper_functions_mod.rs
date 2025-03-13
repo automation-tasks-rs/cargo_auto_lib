@@ -52,3 +52,21 @@ pub fn home_dir() -> std::path::PathBuf {
         None => panic!("{RED}Unable to get your home dir!{RESET}"),
     }
 }
+
+/// Replace tilde with home::home_dir, only for utf8.
+pub fn tilde_expand_to_home_dir_utf8(path_str: &str) -> anyhow::Result<camino::Utf8PathBuf> {
+    let mut expanded = String::new();
+    if path_str.starts_with("~") {
+        use anyhow::Context;
+        let base = home::home_dir().context("Cannot find home_dir in this OS.")?;
+        // only utf8 is accepted
+        let base = base.to_string_lossy();
+        expanded.push_str(&base);
+        expanded.push_str(path_str.trim_start_matches("~"));
+        use std::str::FromStr;
+        Ok(camino::Utf8PathBuf::from_str(&expanded)?)
+    } else {
+        use std::str::FromStr;
+        Ok(camino::Utf8PathBuf::from_str(path_str)?)
+    }
+}

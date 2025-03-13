@@ -38,6 +38,10 @@ pub const BLUE: &str = "\x1b[34m";
 pub const RESET: &str = "\x1b[0m";
 // endregion: Public API constants
 
+// region: re-export entire dependencies
+pub use inquire;
+// endregion: re-export entire dependencies
+
 // region: Public API structs and methods
 
 /// Result type with fixed LibError using thiserror.  
@@ -500,6 +504,11 @@ pub fn run_shell_command_success(shell_command: &str) -> bool {
 /// Panics if HOME not found.
 pub fn home_dir() -> std::path::PathBuf {
     crate::auto_helper_functions_mod::home_dir()
+}
+
+/// Replace tilde with home::home_dir, only for utf8.
+pub fn tilde_expand_to_home_dir_utf8(path_str: &str) -> anyhow::Result<camino::Utf8PathBuf> {
+    crate::auto_helper_functions_mod::tilde_expand_to_home_dir_utf8(path_str)
 }
 
 /// Sync, check, create, push git tag.
