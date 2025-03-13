@@ -97,11 +97,11 @@
 <a href="#96" id="96">96</a>
 <a href="#97" id="97">97</a></pre></div><pre class="rust"><code><span class="comment">// auto_git_mod
 
-</span><span class="doccomment">//! Functions to work with git from automation_tasks_rs
+</span><span class="doccomment">//! Functions to work with git from automation_tasks_rs.
 
 </span><span class="kw">use </span><span class="kw">crate</span>::public_api_mod::{BLUE, RED, RESET};
 
-<span class="doccomment">/// Has git remote
+<span class="doccomment">/// Does git have settings for remote.
 </span><span class="kw">pub fn </span>git_has_remote() -&gt; bool {
     <span class="comment">// it returns only "origin" if exists or nothing if it does not exist
     </span><span class="kw">let </span>output = std::process::Command::new(<span class="string">"git"</span>).arg(<span class="string">"remote"</span>).output().unwrap();
@@ -109,7 +109,7 @@
     </span>String::from_utf8(output.stdout).unwrap() != <span class="string">""
 </span>}
 
-<span class="doccomment">/// Check if this folder is a local Git repository
+<span class="doccomment">/// Check if this folder is a local Git repository.
 </span><span class="kw">pub fn </span>git_is_local_repository() -&gt; bool {
     <span class="kw">let </span>output = std::process::Command::new(<span class="string">"git"</span>).arg(<span class="string">"status"</span>).output().unwrap();
     <span class="kw">let </span>output = String::from_utf8(output.stderr).unwrap();
@@ -165,7 +165,7 @@
     }
 }
 
-<span class="doccomment">/// Interactive ask to create a new local git repository
+<span class="doccomment">/// Interactive ask to create a new local git repository.
 </span><span class="kw">pub fn </span>new_local_repository(message: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;()&gt; {
     <span class="comment">// ask interactive
     </span><span class="macro">println!</span>(<span class="string">"{BLUE}This project folder is not yet a Git repository.{RESET}"</span>);

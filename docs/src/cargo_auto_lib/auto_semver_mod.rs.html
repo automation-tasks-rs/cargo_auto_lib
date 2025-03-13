@@ -116,7 +116,7 @@
 <a href="#115" id="115">115</a>
 <a href="#116" id="116">116</a></pre></div><pre class="rust"><code><span class="comment">// auto_semver_mod
 
-</span><span class="doccomment">//! Semver utilities
+</span><span class="doccomment">//! Semver utilities.
 
 </span><span class="kw">use </span><span class="kw">crate</span>::public_api_mod::{GREEN, RED, RESET, YELLOW};
 <span class="kw">use crate</span>::{
@@ -130,22 +130,22 @@
     Minor,
 }
 
-<span class="doccomment">/// Increment the patch version in Cargo.toml file only if files are changed
+<span class="doccomment">/// Increment the patch version in Cargo.toml file only if files are changed.
 </span><span class="kw">pub fn </span>auto_semver_increment_patch() {
     increment_part(VersionPart::Patch, <span class="bool-val">false</span>).unwrap_or_else(|err| <span class="macro">panic!</span>(<span class="string">"{RED}{err}{RESET}"</span>))
 }
 
-<span class="doccomment">/// Increment the patch version in Cargo.toml file even if files are not changed
+<span class="doccomment">/// Increment the patch version in Cargo.toml file even if files are not changed.
 </span><span class="kw">pub fn </span>auto_semver_increment_patch_forced() {
     increment_part(VersionPart::Patch, <span class="bool-val">true</span>).unwrap_or_else(|err| <span class="macro">panic!</span>(<span class="string">"{RED}{err}{RESET}"</span>))
 }
 
-<span class="doccomment">/// Increment the minor version in Cargo.toml file only if files are changed
+<span class="doccomment">/// Increment the minor version in Cargo.toml file only if files are changed.
 </span><span class="kw">pub fn </span>auto_semver_increment_minor() {
     increment_part(VersionPart::Minor, <span class="bool-val">false</span>).unwrap_or_else(|err| <span class="macro">panic!</span>(<span class="string">"{RED}{err}{RESET}"</span>))
 }
 
-<span class="doccomment">/// Increment the minor version in Cargo.toml file even if files are not changed
+<span class="doccomment">/// Increment the minor version in Cargo.toml file even if files are not changed.
 </span><span class="kw">pub fn </span>auto_semver_increment_minor_forced() {
     increment_part(VersionPart::Minor, <span class="bool-val">true</span>).unwrap_or_else(|err| <span class="macro">panic!</span>(<span class="string">"{RED}{err}{RESET}"</span>))
 }

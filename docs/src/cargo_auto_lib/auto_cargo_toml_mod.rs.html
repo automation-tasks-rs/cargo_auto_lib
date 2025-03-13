@@ -120,7 +120,7 @@
 <a href="#119" id="119">119</a>
 <a href="#120" id="120">120</a></pre></div><pre class="rust"><code><span class="comment">// auto_cargo_toml_mod
 
-</span><span class="doccomment">//! functions to get data from Cargo.toml
+</span><span class="doccomment">//! Functions to get data from Cargo.toml.
 
 </span><span class="kw">use </span>lazy_static::lazy_static;
 <span class="kw">use </span>regex::<span class="kw-2">*</span>;
@@ -130,7 +130,7 @@
     </span><span class="kw">static </span><span class="kw-2">ref </span>REGEX_REMOVE_EMAIL: Regex = Regex::new(<span class="string">r#"( &lt;.+?&gt;)"#</span>).unwrap();
 }
 
-<span class="doccomment">/// Read data from Cargo.toml
+<span class="doccomment">/// Read data from Cargo.toml.  
 </span><span class="kw">pub struct </span>CargoToml {
     <span class="doccomment">/// the first Cargo.toml is maybe a workspace. It has a different structure.
     </span>cargo_toml_workspace_maybe: cargo_toml::Manifest,

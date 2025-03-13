@@ -103,15 +103,19 @@
 <a href="#102" id="102">102</a>
 <a href="#103" id="103">103</a>
 <a href="#104" id="104">104</a>
-<a href="#105" id="105">105</a></pre></div><pre class="rust"><code><span class="comment">// auto_github_mod
+<a href="#105" id="105">105</a>
+<a href="#106" id="106">106</a>
+<a href="#107" id="107">107</a></pre></div><pre class="rust"><code><span class="comment">// auto_github_mod
 
-// bring trait into scope
+</span><span class="doccomment">//! Functions to work with GitHub.
+
+</span><span class="comment">// bring trait into scope
 </span><span class="kw">use crate</span>::{CargoTomlPublicApiMethods, ShellCommandLimitedDoubleQuotesSanitizerTrait};
 
 <span class="doccomment">/// File contains releases changelog
 </span><span class="kw">pub const </span>RELEASES_MD: <span class="kw-2">&amp;</span>str = <span class="string">"RELEASES.md"</span>;
 
-<span class="doccomment">/// sync, check, create, push git tag
+<span class="doccomment">/// Sync, check, create, push git tag.
 </span><span class="kw">pub fn </span>git_tag_sync_check_create_push(version: <span class="kw-2">&amp;</span>str) -&gt; String {
     <span class="comment">// sync the local and remote tags
     </span><span class="kw">crate</span>::run_shell_command_static(<span class="string">"git fetch origin --tags --force"</span>).unwrap_or_else(|e| <span class="macro">panic!</span>(<span class="string">"{e}"</span>));
@@ -135,7 +139,7 @@
     </span>tag_name_version
 }
 
-<span class="doccomment">/// Get release text from RELEASES.md
+<span class="doccomment">/// Get release text from RELEASES.md.
 ///
 /// First, the user must write the content into file RELEASES.md in the section ## Unreleased.  
 /// Then the automation task will copy the content to GitHub release  
@@ -153,7 +157,7 @@
     </span><span class="prelude-val">Some</span>(body_md_text)
 }
 
-<span class="doccomment">/// Create a new Version title in RELEASES.md
+<span class="doccomment">/// Create a new Version title in RELEASES.md.
 </span><span class="kw">pub fn </span>create_new_version_in_releases_md(release_name: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;()&gt; {
     create_releases_md_if_file_not_exist();
     <span class="kw">let </span>release_md = std::fs::read_to_string(RELEASES_MD).unwrap();
@@ -195,7 +199,7 @@ The TODO section is part of the [README.md](https://github.com/{github_owner}/{p
     }
 }
 
-<span class="doccomment">/// Add commit message to Unreleased in RELEASES.md
+<span class="doccomment">/// Add commit message to Unreleased in RELEASES.md.
 </span><span class="kw">pub fn </span>add_message_to_unreleased(message: <span class="kw-2">&amp;</span>str) {
     create_releases_md_if_file_not_exist();
     <span class="kw">let </span>release_md = std::fs::read_to_string(RELEASES_MD).unwrap();

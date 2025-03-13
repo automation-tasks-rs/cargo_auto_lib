@@ -113,7 +113,7 @@
 <a href="#112" id="112">112</a>
 <a href="#113" id="113">113</a></pre></div><pre class="rust"><code><span class="comment">// utils_mod.rs
 
-</span><span class="doccomment">//! various utilities
+</span><span class="doccomment">//! Functions for various utilities.
 
 </span><span class="comment">// region: delimiters cannot be INACTIVE like markers
 
@@ -206,7 +206,7 @@
     <span class="prelude-val">Ok</span>(v)
 }
 
-<span class="doccomment">/// The original `concat()` function does not have a delimiter
+<span class="doccomment">/// The original `concat()` function does not have a delimiter.
 </span><span class="kw">pub fn </span>concatenate_vec_to_string(vec: <span class="kw-2">&amp;</span>[String], delimiter: <span class="kw-2">&amp;</span>str) -&gt; String {
     <span class="kw">let </span>size = vec.iter().fold(<span class="number">0</span>, |a, b| a + b.len());
     <span class="kw">let </span><span class="kw-2">mut </span>concatenated_string = String::with_capacity(size);
@@ -220,7 +220,7 @@
     </span>concatenated_string
 }
 
-<span class="doccomment">/// UTC date in iso standard like 2024-12-31
+<span class="doccomment">/// UTC date in iso standard like 2024-12-31.
 </span><span class="kw">pub fn </span>now_utc_date_iso() -&gt; String {
     chrono::Utc::now().format(<span class="string">"%Y-%m-%d"</span>).to_string()
 }

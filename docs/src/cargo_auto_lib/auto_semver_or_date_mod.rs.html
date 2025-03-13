@@ -43,14 +43,14 @@
 <a href="#42" id="42">42</a>
 <a href="#43" id="43">43</a></pre></div><pre class="rust"><code><span class="comment">// auto_semver_or_date_mod.rs
 
-</span><span class="doccomment">//! If the major number is greater than 2000, it is a date-version else it is semver
+</span><span class="doccomment">//! If the major number is greater than 2000, it is a date-version else it is semver.
 
 </span><span class="kw">use </span><span class="kw">crate</span>::public_api_mod::{RESET, YELLOW};
 
 <span class="comment">// this trait must be in scope to use these methods of CargoToml
 </span><span class="kw">use </span><span class="kw">crate</span>::public_api_mod::CargoTomlPublicApiMethods;
 
-<span class="doccomment">/// Increment the version in Cargo.toml
+<span class="doccomment">/// Increment the version in Cargo.toml.
 ///
 /// If the major version is greater than 2000, it is a date version  
 /// else it is semver and increments the patch part.
@@ -67,7 +67,7 @@
     <span class="macro">println!</span>(<span class="string">"  {YELLOW}Finished auto_semver_or_date{RESET}"</span>);
 }
 
-<span class="doccomment">/// Increment the version in Cargo.toml
+<span class="doccomment">/// Increment the version in Cargo.toml, forced.
 ///
 /// If the major version is greater than 2000, it is a date version
 /// else it is semver and increments the patch part.

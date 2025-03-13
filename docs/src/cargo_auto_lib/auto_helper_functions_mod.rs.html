@@ -51,9 +51,10 @@
 <a href="#50" id="50">50</a>
 <a href="#51" id="51">51</a>
 <a href="#52" id="52">52</a>
-<a href="#53" id="53">53</a></pre></div><pre class="rust"><code><span class="comment">// auto_helper_functions_mod
+<a href="#53" id="53">53</a>
+<a href="#54" id="54">54</a></pre></div><pre class="rust"><code><span class="comment">// auto_helper_functions_mod
 
-</span><span class="doccomment">//! various helper functions
+</span><span class="doccomment">//! Various helper functions.
 
 </span><span class="kw">use </span><span class="kw">crate</span>::public_api_mod::{RED, RESET};
 
@@ -73,7 +74,7 @@
     }
 }
 
-<span class="doccomment">/// println one, more or all sub_commands
+<span class="doccomment">/// Print one or more sub_commands.
 </span><span class="kw">pub fn </span>completion_return_one_or_more_sub_commands(sub_commands: Vec&lt;<span class="kw-2">&amp;</span>str&gt;, word_being_completed: <span class="kw-2">&amp;</span>str) {
     <span class="kw">let </span><span class="kw-2">mut </span>sub_found = <span class="bool-val">false</span>;
     <span class="kw">for </span>sub_command <span class="kw">in </span>sub_commands.iter() {
@@ -90,8 +91,9 @@
     }
 }
 
-<span class="doccomment">/// home_dir() using the home crate
-/// panics if HOME not found
+<span class="doccomment">/// Get home dir using the home crate.
+///
+/// Panics if HOME not found.
 </span><span class="kw">pub fn </span>home_dir() -&gt; std::path::PathBuf {
     <span class="kw">match </span>home::home_dir() {
         <span class="prelude-val">Some</span>(path_buff) =&gt; {
