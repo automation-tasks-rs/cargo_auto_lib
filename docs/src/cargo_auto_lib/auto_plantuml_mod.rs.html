@@ -245,11 +245,16 @@
 <a href="#244" id="244">244</a>
 <a href="#245" id="245">245</a>
 <a href="#246" id="246">246</a>
-<a href="#247" id="247">247</a></pre></div><pre class="rust"><code><span class="comment">// auto_plantuml_mod.rs
+<a href="#247" id="247">247</a>
+<a href="#248" id="248">248</a>
+<a href="#249" id="249">249</a>
+<a href="#250" id="250">250</a></pre></div><pre class="rust"><code><span class="comment">// auto_plantuml_mod.rs
 
 </span><span class="doccomment">//! Includes the plantuml svg generated from the plantuml code.
 
-</span><span class="kw">use </span><span class="kw">crate</span>::public_api_mod::{RED, RESET, YELLOW};
+</span><span class="kw">use </span>std::str::FromStr;
+
+<span class="kw">use </span><span class="kw">crate</span>::public_api_mod::{RED, RESET, YELLOW};
 <span class="kw">use </span><span class="kw">crate</span>::utils_mod::<span class="kw-2">*</span>;
 <span class="kw">use </span>lazy_static::lazy_static;
 
@@ -356,13 +361,13 @@
                             <span class="kw">if </span>old_hash != plantuml_code_hash {
                                 get_new_svg = <span class="bool-val">true</span>;
                                 <span class="comment">// delete the old image file
-                                </span><span class="kw">let </span>old_file_path = md_filename.parent().unwrap().join(<span class="string">"images"</span>).join(<span class="macro">format!</span>(<span class="string">"svg_{}.svg"</span>, old_hash));
+                                </span><span class="kw">let </span>old_file_path = camino::Utf8PathBuf::from_str(<span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">"{}/images/svg_{old_hash}.svg"</span>, md_filename.parent().unwrap())).unwrap();
                                 <span class="kw">if </span>old_file_path.exists() {
                                     std::fs::remove_file(<span class="kw-2">&amp;</span>old_file_path).unwrap();
                                 }
                             } <span class="kw">else </span>{
                                 <span class="comment">// check if the svg file exists
-                                </span><span class="kw">let </span>old_file_path = md_filename.parent().unwrap().join(<span class="string">"images"</span>).join(<span class="macro">format!</span>(<span class="string">"svg_{}.svg"</span>, old_hash));
+                                </span><span class="kw">let </span>old_file_path = camino::Utf8PathBuf::from_str(<span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">"{}/images/svg_{old_hash}.svg"</span>, md_filename.parent().unwrap())).unwrap();
                                 <span class="kw">if </span>!old_file_path.exists() {
                                     get_new_svg = <span class="bool-val">true</span>;
                                 }
@@ -374,7 +379,7 @@
 
                             <span class="comment">// get the new svg image
                             </span><span class="kw">let </span>svg_code = request_svg(plantuml_code);
-                            <span class="kw">let </span>new_file_path = md_filename.parent().unwrap().join(<span class="string">"images"</span>).join(<span class="macro">format!</span>(<span class="string">"svg_{}.svg"</span>, plantuml_code_hash));
+                            <span class="kw">let </span>new_file_path = camino::Utf8PathBuf::from_str(<span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">"{}/images/svg_{plantuml_code_hash}.svg"</span>, md_filename.parent().unwrap())).unwrap();
                             std::fs::create_dir_all(new_file_path.parent().unwrap()).unwrap();
                             std::fs::write(<span class="kw-2">&amp;</span>new_file_path, svg_code).unwrap();
                             <span class="comment">// if repo_url is not empty then prepare GitHub url
@@ -443,7 +448,8 @@
 
     <span class="attr">#[test]
     </span><span class="kw">pub fn </span>examples_plantuml_test() {
-        <span class="comment">// similar to examples/plantuml/plantuml1.rs and check the result
+        <span class="comment">// TODO: testing in windows returns different result because of / and \ tragedy.
+        // similar to examples/plantuml/plantuml1.rs and check the result
         // region: prepare folders and files for this example
         // remove the 'images' folder
         </span>std::fs::remove_dir_all(<span class="string">"examples/plantuml/images"</span>).unwrap_or_else(|<span class="kw">_</span>| ());
