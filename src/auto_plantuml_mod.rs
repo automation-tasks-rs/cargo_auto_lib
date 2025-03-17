@@ -2,6 +2,8 @@
 
 //! Includes the plantuml svg generated from the plantuml code.
 
+use std::str::FromStr;
+
 use crate::public_api_mod::{RED, RESET, YELLOW};
 use crate::utils_mod::*;
 use lazy_static::lazy_static;
@@ -109,13 +111,13 @@ pub fn auto_plantuml_for_path(path: &std::path::Path, repo_url: &str) {
                             if old_hash != plantuml_code_hash {
                                 get_new_svg = true;
                                 // delete the old image file
-                                let old_file_path = md_filename.parent().unwrap().join("images").join(format!("svg_{}.svg", old_hash));
+                                let old_file_path = camino::Utf8PathBuf::from_str(&format!("{}/images/svg_{old_hash}.svg", md_filename.parent().unwrap())).unwrap();
                                 if old_file_path.exists() {
                                     std::fs::remove_file(&old_file_path).unwrap();
                                 }
                             } else {
                                 // check if the svg file exists
-                                let old_file_path = md_filename.parent().unwrap().join("images").join(format!("svg_{}.svg", old_hash));
+                                let old_file_path = camino::Utf8PathBuf::from_str(&format!("{}/images/svg_{old_hash}.svg", md_filename.parent().unwrap())).unwrap();
                                 if !old_file_path.exists() {
                                     get_new_svg = true;
                                 }
@@ -127,7 +129,7 @@ pub fn auto_plantuml_for_path(path: &std::path::Path, repo_url: &str) {
 
                             // get the new svg image
                             let svg_code = request_svg(plantuml_code);
-                            let new_file_path = md_filename.parent().unwrap().join("images").join(format!("svg_{}.svg", plantuml_code_hash));
+                            let new_file_path = camino::Utf8PathBuf::from_str(&format!("{}/images/svg_{plantuml_code_hash}.svg", md_filename.parent().unwrap())).unwrap();
                             std::fs::create_dir_all(new_file_path.parent().unwrap()).unwrap();
                             std::fs::write(&new_file_path, svg_code).unwrap();
                             // if repo_url is not empty then prepare GitHub url

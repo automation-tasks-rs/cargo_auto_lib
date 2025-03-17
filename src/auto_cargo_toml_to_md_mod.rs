@@ -1,6 +1,8 @@
 // auto_cargo_toml_to_md_mod
 
 //! Includes data from Cargo.toml to `md` files: version, authors, description,...
+//! ![auto_cargo_toml_to_md.png](https://github.com/automation-tasks-rs/cargo_auto_lib/blob/main/images/auto_cargo_toml_to_md.png?raw=true)
+//! Read more in the auto_cargo_toml_to_md() function.
 
 // region: use statements
 
