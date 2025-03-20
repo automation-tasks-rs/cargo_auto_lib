@@ -163,7 +163,7 @@ fn print_help() {
   {YELLOW}Then you can type the passphrase of the private key every time. This is pretty secure.{RESET}
   {YELLOW}Somewhat less secure (but more comfortable) way is to store the private key in ssh-agent.{RESET}
 
-  {YELLOW}© 2025 bestia.dev  MIT License github.com/automation-tasks-rs/cargo-auto{RESET}
+  {YELLOW}© 2025 bestia.dev  MIT License github.com/automation--tasks--rs/cargo-auto{RESET}
 "#
     );
     print_examples_cmd();
