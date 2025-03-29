@@ -36,7 +36,12 @@ use crate::public_api_mod::{RESET, YELLOW};
 /// ```
 ///
 // endregion: auto_md_to_doc_comments include doc_comments/copy_folder_files_into_module.md A ///
-pub fn copy_folder_files_into_module(folder_path: &std::path::Path, module_path: &std::path::Path, ext_for_binary_files: &[&str], exclude_big_folders: &[String]) {
+pub fn copy_folder_files_into_module(
+    folder_path: &std::path::Path,
+    module_path: &std::path::Path,
+    ext_for_binary_files: &[&str],
+    exclude_big_folders: &[String],
+) {
     let folder_path = camino::Utf8Path::from_path(folder_path).unwrap();
     let module_path = camino::Utf8Path::from_path(module_path).unwrap();
 
@@ -80,8 +85,12 @@ pub fn copy_folder_files_into_module(folder_path: &std::path::Path, module_path:
 
     // read the content of the module, delimited by markers
     let module_content = std::fs::read_to_string(module_path).unwrap();
-    let start_pos = crate::find_pos_start_data_after_delimiter(&module_content, 0, "// region: files copied into strings by automation tasks\n").expect("didn't find // region: files copied..");
-    let end_pos = crate::find_pos_end_data_before_delimiter(&module_content, 0, "// endregion: files copied into strings by automation tasks").expect("didn't find // endregion: files copied..");
+    let start_pos =
+        crate::find_pos_start_data_after_delimiter(&module_content, 0, "// region: files copied into strings by automation tasks\n")
+            .expect("didn't find // region: files copied..");
+    let end_pos =
+        crate::find_pos_end_data_before_delimiter(&module_content, 0, "// endregion: files copied into strings by automation tasks")
+            .expect("didn't find // endregion: files copied..");
     let old_code = &module_content[start_pos..end_pos];
 
     // compare the text, if different replace

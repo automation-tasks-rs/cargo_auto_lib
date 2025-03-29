@@ -85,7 +85,9 @@ pub fn auto_cargo_toml_to_md() {
         };
         // inside the shield badge syntax, hyphens must be replaced by underscore
         let keyword_underscore = keyword.replace('-', "_");
-        new_text.push_str(&format!(" ![{keyword}](https://img.shields.io/badge/{keyword_underscore}-{color})\n"));
+        new_text.push_str(&format!(
+            " ![{keyword}](https://img.shields.io/badge/{keyword_underscore}-{color})\n"
+        ));
     }
     new_text.push('\n');
 

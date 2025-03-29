@@ -97,7 +97,9 @@ pub fn auto_plantuml_for_path(path: &std::path::Path, repo_url: &str) {
                     let code_end_after = code_end + 5;
                     let plantuml_code = &md_text_content[code_start..code_end];
                     let plantuml_code_hash = hash_text(plantuml_code);
-                    if let Some(marker_end) = find_pos_end_data_before_delimiter(&md_text_content, marker_start, "\n[//]: # (auto_plantuml end)\n") {
+                    if let Some(marker_end) =
+                        find_pos_end_data_before_delimiter(&md_text_content, marker_start, "\n[//]: # (auto_plantuml end)\n")
+                    {
                         let img_link = md_text_content[code_end_after..marker_end].trim();
                         let mut get_new_svg = false;
                         if img_link.is_empty() {
@@ -111,13 +113,17 @@ pub fn auto_plantuml_for_path(path: &std::path::Path, repo_url: &str) {
                             if old_hash != plantuml_code_hash {
                                 get_new_svg = true;
                                 // delete the old image file
-                                let old_file_path = camino::Utf8PathBuf::from_str(&format!("{}/images/svg_{old_hash}.svg", md_filename.parent().unwrap())).unwrap();
+                                let old_file_path =
+                                    camino::Utf8PathBuf::from_str(&format!("{}/images/svg_{old_hash}.svg", md_filename.parent().unwrap()))
+                                        .unwrap();
                                 if old_file_path.exists() {
                                     std::fs::remove_file(&old_file_path).unwrap();
                                 }
                             } else {
                                 // check if the svg file exists
-                                let old_file_path = camino::Utf8PathBuf::from_str(&format!("{}/images/svg_{old_hash}.svg", md_filename.parent().unwrap())).unwrap();
+                                let old_file_path =
+                                    camino::Utf8PathBuf::from_str(&format!("{}/images/svg_{old_hash}.svg", md_filename.parent().unwrap()))
+                                        .unwrap();
                                 if !old_file_path.exists() {
                                     get_new_svg = true;
                                 }
@@ -129,7 +135,11 @@ pub fn auto_plantuml_for_path(path: &std::path::Path, repo_url: &str) {
 
                             // get the new svg image
                             let svg_code = request_svg(plantuml_code);
-                            let new_file_path = camino::Utf8PathBuf::from_str(&format!("{}/images/svg_{plantuml_code_hash}.svg", md_filename.parent().unwrap())).unwrap();
+                            let new_file_path = camino::Utf8PathBuf::from_str(&format!(
+                                "{}/images/svg_{plantuml_code_hash}.svg",
+                                md_filename.parent().unwrap()
+                            ))
+                            .unwrap();
                             std::fs::create_dir_all(new_file_path.parent().unwrap()).unwrap();
                             std::fs::write(&new_file_path, svg_code).unwrap();
                             // if repo_url is not empty then prepare GitHub url

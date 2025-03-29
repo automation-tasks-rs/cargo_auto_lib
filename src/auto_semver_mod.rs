@@ -83,7 +83,12 @@ fn increment_part(part: VersionPart, force_version: bool) -> ResultWithLibError<
                 // println!(r#"major: {},minor: {}, patch: {}"#, major, minor, patch);
                 let new_semver = format!("{}.{}.{}", major, minor, patch);
                 println!("{GREEN}new version: '{}'{RESET}", &new_semver);
-                let new_cargo_toml_text = format!("{}{}{}", &cargo_toml_text[..pos_start_data], &new_semver, &cargo_toml_text[pos_at_the_end_of_semver..]);
+                let new_cargo_toml_text = format!(
+                    "{}{}{}",
+                    &cargo_toml_text[..pos_start_data],
+                    &new_semver,
+                    &cargo_toml_text[pos_at_the_end_of_semver..]
+                );
                 //save the file
                 let _x = std::fs::write(cargo_toml_filename, new_cargo_toml_text);
 
@@ -104,11 +109,17 @@ fn increment_part(part: VersionPart, force_version: bool) -> ResultWithLibError<
 fn parse_next_number(cargo_toml_text: &str, pos: usize) -> ResultWithLibError<(usize, usize)> {
     let mut pos = pos;
     let mut number = "".to_string();
-    let mut one_char = cargo_toml_text[pos..pos + 1].chars().next().ok_or(LibError::ErrorFromStr("error chars().next()"))?;
+    let mut one_char = cargo_toml_text[pos..pos + 1]
+        .chars()
+        .next()
+        .ok_or(LibError::ErrorFromStr("error chars().next()"))?;
     while one_char.is_numeric() {
         number.push(one_char);
         pos += 1;
-        one_char = cargo_toml_text[pos..pos + 1].chars().next().ok_or(LibError::ErrorFromStr("error chars().next()"))?;
+        one_char = cargo_toml_text[pos..pos + 1]
+            .chars()
+            .next()
+            .ok_or(LibError::ErrorFromStr("error chars().next()"))?;
     }
     let number: usize = number.parse()?;
     //return

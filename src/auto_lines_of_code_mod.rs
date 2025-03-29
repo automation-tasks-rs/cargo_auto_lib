@@ -78,7 +78,11 @@ pub struct LinesOfCode {
 // endregion: auto_md_to_doc_comments include doc_comments/auto_lines_of_code.md A ///
 pub fn auto_lines_of_code(link: &str) {
     println!("  {YELLOW}Running auto_lines_of_code{RESET}");
-    let link = if link.is_empty() { crate::auto_git_mod::process_git_remote() } else { link.to_string() };
+    let link = if link.is_empty() {
+        crate::auto_git_mod::process_git_remote()
+    } else {
+        link.to_string()
+    };
     // Cargo.toml contains the list of projects
     let lines_of_code = count_lines_of_code();
     let text_to_include = to_string_as_shield_badges(&lines_of_code, &link);
@@ -180,16 +184,31 @@ pub fn count_lines_of_code() -> LinesOfCode {
 fn to_string_as_shield_badges(v: &LinesOfCode, link: &str) -> String {
     //println!("to_string_as_shield_badges() start");
 
-    let src_code_lines = format!("[![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-{}-green.svg)]({})", v.src_code_lines, link);
+    let src_code_lines = format!(
+        "[![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-{}-green.svg)]({})",
+        v.src_code_lines, link
+    );
     let src_doc_comment_lines = format!(
         "[![Lines in Doc comments](https://img.shields.io/badge/Lines_in_Doc_comments-{}-blue.svg)]({})",
         v.src_doc_comment_lines, link
     );
-    let src_comment_lines = format!("[![Lines in Comments](https://img.shields.io/badge/Lines_in_comments-{}-purple.svg)]({})", v.src_comment_lines, link);
-    let example_lines = format!("[![Lines in examples](https://img.shields.io/badge/Lines_in_examples-{}-yellow.svg)]({})", v.examples_lines, link);
-    let tests_lines = format!("[![Lines in tests](https://img.shields.io/badge/Lines_in_tests-{}-orange.svg)]({})", v.tests_lines, link);
+    let src_comment_lines = format!(
+        "[![Lines in Comments](https://img.shields.io/badge/Lines_in_comments-{}-purple.svg)]({})",
+        v.src_comment_lines, link
+    );
+    let example_lines = format!(
+        "[![Lines in examples](https://img.shields.io/badge/Lines_in_examples-{}-yellow.svg)]({})",
+        v.examples_lines, link
+    );
+    let tests_lines = format!(
+        "[![Lines in tests](https://img.shields.io/badge/Lines_in_tests-{}-orange.svg)]({})",
+        v.tests_lines, link
+    );
     //return
-    format!("{}\n{}\n{}\n{}\n{}\n", src_code_lines, src_doc_comment_lines, src_comment_lines, example_lines, tests_lines)
+    format!(
+        "{}\n{}\n{}\n{}\n{}\n",
+        src_code_lines, src_doc_comment_lines, src_comment_lines, example_lines, tests_lines
+    )
 }
 
 /// Includes (writes, modifies) the shield badge code into README.md file
@@ -201,7 +220,10 @@ fn include_into_readme_md(include_str: &str) {
     if let Ok(readme_content) = std::fs::read_to_string(file_name) {
         // check if file have CRLF instead of LF and show error
         if readme_content.contains("\r\n") {
-            panic!("{RED}Error: {} has CRLF line endings instead of LF. Correct the file! {RESET}", file_name);
+            panic!(
+                "{RED}Error: {} has CRLF line endings instead of LF. Correct the file! {RESET}",
+                file_name
+            );
         }
 
         let mut new_readme_content = String::with_capacity(readme_content.len());

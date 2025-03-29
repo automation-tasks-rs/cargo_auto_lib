@@ -48,7 +48,10 @@ pub fn process_git_remote() -> String {
         let cap = reg.captures(&output).ok_or(anyhow::anyhow!("Error: reg.captures is None"))?;
 
         // indexing can panic, but I would like it to Error
-        anyhow::ensure!(cap.len() == 4, "Error: cap len is not 4, because there are 4 capture groups in regex.");
+        anyhow::ensure!(
+            cap.len() == 4,
+            "Error: cap len is not 4, because there are 4 capture groups in regex."
+        );
         Ok(format!("https://{}/{}/{}/", &cap[1], &cap[2], &cap[3]))
     }
 

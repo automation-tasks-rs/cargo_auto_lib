@@ -70,7 +70,9 @@ pub fn auto_playground_run_code() {
         let mut iteration_start_pos = 0;
         let mut md_new = String::new();
         // find markers
-        while let Some(marker_start) = find_pos_start_data_after_delimiter(&md_old, iteration_start_pos, "\n[//]: # (auto_playground start)\n") {
+        while let Some(marker_start) =
+            find_pos_start_data_after_delimiter(&md_old, iteration_start_pos, "\n[//]: # (auto_playground start)\n")
+        {
             let Some(code_start) = find_pos_start_data_after_delimiter(&md_old, marker_start, "\n```") else {
                 return;
             };
@@ -93,14 +95,19 @@ pub fn auto_playground_run_code() {
             // replace the link inside markdown link notation. First find the text between marker_start and code_start
             let text_that_has_the_link = &md_old[marker_start..code_start];
             // parse this format [Rust playground](https:...)
-            let cap_group = REGEX_MD_LINK
-                .captures(text_that_has_the_link)
-                .unwrap_or_else(|| panic!("{RED}Error: The old link '{text_that_has_the_link}' is NOT in this format '[Rust playground](https:...)'{RESET}"));
+            let cap_group = REGEX_MD_LINK.captures(text_that_has_the_link).unwrap_or_else(|| {
+                panic!("{RED}Error: The old link '{text_that_has_the_link}' is NOT in this format '[Rust playground](https:...)'{RESET}")
+            });
             let old_link = &cap_group[1];
             // replace the old link with the new one
             let text_that_has_the_link = text_that_has_the_link.replace(old_link, &playground_link);
             is_changed = true;
-            md_new.push_str(&format!("{}{}{}", &md_old[iteration_start_pos..marker_start], &text_that_has_the_link, &md_old[code_start..marker_end],));
+            md_new.push_str(&format!(
+                "{}{}{}",
+                &md_old[iteration_start_pos..marker_start],
+                &text_that_has_the_link,
+                &md_old[code_start..marker_end],
+            ));
 
             // start of the next iteration
             iteration_start_pos = marker_end;

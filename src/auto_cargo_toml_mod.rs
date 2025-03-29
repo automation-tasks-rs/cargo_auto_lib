@@ -86,7 +86,10 @@ impl crate::public_api_mod::CargoTomlPublicApiMethods for CargoToml {
 
     /// Cargo.toml workspace members
     fn workspace_members(&self) -> Option<Vec<String>> {
-        self.cargo_toml_workspace_maybe.workspace.as_ref().map(|workspace| workspace.members.clone())
+        self.cargo_toml_workspace_maybe
+            .workspace
+            .as_ref()
+            .map(|workspace| workspace.members.clone())
     }
 
     /// github_owner from package_repository

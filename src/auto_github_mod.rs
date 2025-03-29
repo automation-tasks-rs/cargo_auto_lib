@@ -58,7 +58,12 @@ pub fn create_new_version_in_releases_md(release_name: &str) -> Option<()> {
     let pos_start_data = crate::find_pos_start_data_after_delimiter(&release_md, 0, "## Unreleased\n")?;
 
     // create a new Version title after ## Unreleased in RELEASES.md
-    let new_release_md = format!("{}\n## {}\n{}", &release_md[..pos_start_data], &release_name, &release_md[pos_start_data..]);
+    let new_release_md = format!(
+        "{}\n## {}\n{}",
+        &release_md[..pos_start_data],
+        &release_name,
+        &release_md[pos_start_data..]
+    );
     std::fs::write(RELEASES_MD, new_release_md).unwrap();
     // return
     Some(())

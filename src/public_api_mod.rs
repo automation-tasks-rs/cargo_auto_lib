@@ -564,8 +564,18 @@ pub fn now_utc_date_iso() -> String {
 /// ```
 ///
 // endregion: auto_md_to_doc_comments include doc_comments/copy_folder_files_into_module.md A ///
-pub fn copy_folder_files_into_module(folder_path: &std::path::Path, module_path: &std::path::Path, ext_for_binary_files: &[&str], exclude_big_folders: &[String]) {
-    crate::auto_copy_files_to_strings_mod::copy_folder_files_into_module(folder_path, module_path, ext_for_binary_files, exclude_big_folders)
+pub fn copy_folder_files_into_module(
+    folder_path: &std::path::Path,
+    module_path: &std::path::Path,
+    ext_for_binary_files: &[&str],
+    exclude_big_folders: &[String],
+) {
+    crate::auto_copy_files_to_strings_mod::copy_folder_files_into_module(
+        folder_path,
+        module_path,
+        ext_for_binary_files,
+        exclude_big_folders,
+    )
 }
 
 /// Add commit message to Unreleased in RELEASES.md.

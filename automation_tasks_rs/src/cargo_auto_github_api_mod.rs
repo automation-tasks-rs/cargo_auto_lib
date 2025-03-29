@@ -80,7 +80,12 @@ pub(crate) fn new_remote_github_repository() -> Option<()> {
 
         let json_value = if github_owner_or_organization == authenticated_user_login {
             // new User repository
-            let json_value = send_to_github_api_with_secret_token(github_api_user_repository_new(&github_owner_or_organization, &package_name, &description)).unwrap();
+            let json_value = send_to_github_api_with_secret_token(github_api_user_repository_new(
+                &github_owner_or_organization,
+                &package_name,
+                &description,
+            ))
+            .unwrap();
             // early exit on error
             if let Some(error_message) = json_value.get("message") {
                 eprintln!("{RED}{error_message}{RESET}");
@@ -97,7 +102,12 @@ pub(crate) fn new_remote_github_repository() -> Option<()> {
             json_value
         } else {
             // new Organization repository
-            let json_value = send_to_github_api_with_secret_token(github_api_organization_repository_new(&github_owner_or_organization, &package_name, &description)).unwrap();
+            let json_value = send_to_github_api_with_secret_token(github_api_organization_repository_new(
+                &github_owner_or_organization,
+                &package_name,
+                &description,
+            ))
+            .unwrap();
             // early exit on error
             if let Some(error_message) = json_value.get("message") {
                 eprintln!("{RED}{error_message}{RESET}");
@@ -116,26 +126,32 @@ pub(crate) fn new_remote_github_repository() -> Option<()> {
 
         // get just the name, description and html_url from json
         println!("  {YELLOW}name: {}{RESET}", json_value.get("name").unwrap().as_str().unwrap());
-        println!("  {YELLOW}description: {}{RESET}", json_value.get("description").unwrap().as_str().unwrap());
+        println!(
+            "  {YELLOW}description: {}{RESET}",
+            json_value.get("description").unwrap().as_str().unwrap()
+        );
         let repo_html_url = json_value.get("html_url").unwrap().as_str().unwrap().to_string();
         println!("  {YELLOW}url: {}{RESET}", &repo_html_url);
 
         // add this GitHub repository to origin remote over SSH (use sshadd for passphrase)
-        cl::ShellCommandLimitedDoubleQuotesSanitizer::new(r#"git remote add origin "git@github.com:{github_owner_or_organization}/{name}.git" "#)
-            .unwrap()
-            .arg("{github_owner_or_organization}", &github_owner_or_organization)
-            .unwrap()
-            .arg("{name}", &package_name)
-            .unwrap()
-            .run()
-            .unwrap();
+        cl::ShellCommandLimitedDoubleQuotesSanitizer::new(
+            r#"git remote add origin "git@github.com:{github_owner_or_organization}/{name}.git" "#,
+        )
+        .unwrap()
+        .arg("{github_owner_or_organization}", &github_owner_or_organization)
+        .unwrap()
+        .arg("{name}", &package_name)
+        .unwrap()
+        .run()
+        .unwrap();
     }
 
     if !git_has_upstream() {
         cl::run_shell_command("git push -u origin main").unwrap_or_else(|e| panic!("{e}"));
 
         // the docs pages are created with a GitHub action
-        let _json = send_to_github_api_with_secret_token(github_api_create_a_github_pages_site(&github_owner_or_organization, &package_name));
+        let _json =
+            send_to_github_api_with_secret_token(github_api_create_a_github_pages_site(&github_owner_or_organization, &package_name));
     }
 
     Some(())
@@ -185,7 +201,11 @@ pub(crate) fn description_and_topics_to_github() {
 
         // are description and topics both equal?
         if gh_description != description {
-            let _json = send_to_github_api_with_secret_token(github_api_update_description(&github_owner_or_organization, &repo_name, &description));
+            let _json = send_to_github_api_with_secret_token(github_api_update_description(
+                &github_owner_or_organization,
+                &repo_name,
+                &description,
+            ));
         }
 
         // all elements must be equal, but not necessary in the same order
@@ -210,13 +230,18 @@ pub(crate) fn description_and_topics_to_github() {
         };
 
         if !topics_is_equal {
-            let _json = send_to_github_api_with_secret_token(github_api_replace_all_topics(&github_owner_or_organization, &repo_name, &keywords));
+            let _json =
+                send_to_github_api_with_secret_token(github_api_replace_all_topics(&github_owner_or_organization, &repo_name, &keywords));
             // write into automation_tasks_rs/.old_metadata.json file
             let old_metadata = OldMetadata {
                 old_description: description,
                 old_keywords: keywords,
             };
-            std::fs::write("automation_tasks_rs/.old_metadata.json", serde_json::to_string_pretty(&old_metadata).unwrap()).unwrap();
+            std::fs::write(
+                "automation_tasks_rs/.old_metadata.json",
+                serde_json::to_string_pretty(&old_metadata).unwrap(),
+            )
+            .unwrap();
         }
     }
 }
@@ -342,7 +367,11 @@ pub(crate) fn github_api_user_repository_new(github_owner: &str, name: &str, des
 }
 
 /// Create a new github organization repository
-pub(crate) fn github_api_organization_repository_new(organization: &str, name: &str, description: &str) -> reqwest::blocking::RequestBuilder {
+pub(crate) fn github_api_organization_repository_new(
+    organization: &str,
+    name: &str,
+    description: &str,
+) -> reqwest::blocking::RequestBuilder {
     /*
     https://docs.github.com/en/rest/repos/repos?apiVersion=2022-11-28#create-a-repository-for-the-authenticated-user
 
@@ -393,7 +422,11 @@ pub(crate) fn github_api_organization_repository_new(organization: &str, name: &
 }
 
 /// GitHub api update description
-pub(crate) fn github_api_update_description(github_owner_or_organization: &str, repo_name: &str, description: &str) -> reqwest::blocking::RequestBuilder {
+pub(crate) fn github_api_update_description(
+    github_owner_or_organization: &str,
+    repo_name: &str,
+    description: &str,
+) -> reqwest::blocking::RequestBuilder {
     /*
     https://docs.github.com/en/rest/repos/repos?apiVersion=2022-11-28#update-a-repository
 
@@ -439,7 +472,11 @@ pub(crate) fn github_api_update_description(github_owner_or_organization: &str, 
 }
 
 /// GitHub API replace all topics
-pub(crate) fn github_api_replace_all_topics(github_owner_or_organization: &str, repo_name: &str, topics: &Vec<String>) -> reqwest::blocking::RequestBuilder {
+pub(crate) fn github_api_replace_all_topics(
+    github_owner_or_organization: &str,
+    repo_name: &str,
+    topics: &Vec<String>,
+) -> reqwest::blocking::RequestBuilder {
     /*
     https://docs.github.com/en/rest/repos/repos?apiVersion=2022-11-28#replace-all-repository-topics
     curl -L \
@@ -465,7 +502,10 @@ pub(crate) fn github_api_replace_all_topics(github_owner_or_organization: &str, 
 }
 
 /// GitHub API create-a-github-pages-site
-pub(crate) fn github_api_create_a_github_pages_site(github_owner_or_organization: &str, repo_name: &str) -> reqwest::blocking::RequestBuilder {
+pub(crate) fn github_api_create_a_github_pages_site(
+    github_owner_or_organization: &str,
+    repo_name: &str,
+) -> reqwest::blocking::RequestBuilder {
     /*
         https://docs.github.com/en/rest/pages/pages?apiVersion=2022-11-28#create-a-github-pages-site
         curl -L \
@@ -531,7 +571,14 @@ pub(crate) fn github_api_upload_asset_to_release(github_owner_or_organization: &
 }
 
 /// Create new release on Github
-pub(crate) fn github_api_create_new_release(github_owner_or_organization: &str, repo: &str, tag_name_version: &str, name: &str, branch: &str, body_md_text: &str) -> reqwest::blocking::RequestBuilder {
+pub(crate) fn github_api_create_new_release(
+    github_owner_or_organization: &str,
+    repo: &str,
+    tag_name_version: &str,
+    name: &str,
+    branch: &str,
+    body_md_text: &str,
+) -> reqwest::blocking::RequestBuilder {
     /*
     https://docs.github.com/en/rest/releases/releases?apiVersion=2022-11-28#create-a-release
     Request like :

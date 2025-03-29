@@ -50,7 +50,10 @@ fn check_micro_xml(str_xml: &str, file_name: &str) {
                 Token::EndElement(end_element_name) => {
                     let start_element_name = vec_elem.pop().unwrap();
                     if !end_element_name.is_empty() && end_element_name != start_element_name {
-                        panic!("{RED}MicroXml {} start {} does not match end {}{RESET}", file_name, start_element_name, end_element_name,);
+                        panic!(
+                            "{RED}MicroXml {} start {} does not match end {}{RESET}",
+                            file_name, start_element_name, end_element_name,
+                        );
                     }
                 }
             },

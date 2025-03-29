@@ -93,7 +93,13 @@ fn auto_version_from_date_internal(force_version: bool) -> ResultWithLibError<()
 /// Search for file service_worker.js and modify version
 fn modify_service_js(new_version: &str) {
     let start_dir = camino::Utf8Path::new("./");
-    for js_filename in &crate::utils_mod::traverse_dir_with_exclude_dir(start_dir.as_std_path(), "/service_worker.js", &["/.git".to_string(), "/target".to_string()]).unwrap() {
+    for js_filename in &crate::utils_mod::traverse_dir_with_exclude_dir(
+        start_dir.as_std_path(),
+        "/service_worker.js",
+        &["/.git".to_string(), "/target".to_string()],
+    )
+    .unwrap()
+    {
         // println!("{}write version in {}{}", *GREEN, js_filename, *RESET);
         let mut js_content = std::fs::read_to_string(js_filename).unwrap();
 
@@ -135,7 +141,10 @@ fn write_version_to_cargo_and_modify_metadata(new_version: &str, mut vec_of_meta
 
     // check if file have CRLF instead of LF and show error
     if cargo_content.contains("\r\n") {
-        panic!("{RED}Error: {} has CRLF line endings instead of LF. Correct the file! {RESET}", cargo_filename);
+        panic!(
+            "{RED}Error: {} has CRLF line endings instead of LF. Correct the file! {RESET}",
+            cargo_filename
+        );
     }
 
     let delimiter = r#"version = ""#;
@@ -173,7 +182,10 @@ pub fn correct_file_metadata_for_cargo_tom_inside_vec(vec_of_metadata: &mut [Fil
     let filename = "Cargo.toml".to_string();
     // calculate hash of file
     let filehash = sha256_digest(std::path::PathBuf::from_str(&filename)?.as_path())?;
-    vec_of_metadata.get_mut(0).ok_or(LibError::ErrorFromStr("error vec_of_metadata.get_mut(0)"))?.filehash = filehash;
+    vec_of_metadata
+        .get_mut(0)
+        .ok_or(LibError::ErrorFromStr("error vec_of_metadata.get_mut(0)"))?
+        .filehash = filehash;
     Ok(())
 }
 
@@ -256,7 +268,9 @@ pub fn read_json_file(json_filepath: &str) -> ResultWithLibError<AutoVersionFrom
             // check if file have CRLF instead of LF. This are unusable - create empty struct
             if x.contains("\r\n") {
                 //create empty struct
-                js_struct = AutoVersionFromDate { vec_file_metadata: Vec::new() }
+                js_struct = AutoVersionFromDate {
+                    vec_file_metadata: Vec::new(),
+                }
             } else {
                 //read struct from file
                 js_struct = serde_json::from_str(x.as_str())?;
@@ -265,7 +279,9 @@ pub fn read_json_file(json_filepath: &str) -> ResultWithLibError<AutoVersionFrom
         Err(_error) => {
             // println!("Creating new file: {}", json_filepath);
             //create empty struct
-            js_struct = AutoVersionFromDate { vec_file_metadata: Vec::new() }
+            js_struct = AutoVersionFromDate {
+                vec_file_metadata: Vec::new(),
+            }
         }
     };
     Ok(js_struct)
@@ -273,7 +289,9 @@ pub fn read_json_file(json_filepath: &str) -> ResultWithLibError<AutoVersionFrom
 
 /// Save the new file metadata
 pub fn save_json_file_for_file_meta_data(vec_of_metadata: Vec<FileMetaData>) {
-    let x = AutoVersionFromDate { vec_file_metadata: vec_of_metadata };
+    let x = AutoVersionFromDate {
+        vec_file_metadata: vec_of_metadata,
+    };
     let y = serde_json::to_string_pretty(&x).unwrap();
     let json_filepath = ".automation_tasks_rs_file_hashes.json";
     let _f = std::fs::write(json_filepath, y);
@@ -287,7 +305,14 @@ fn version_from_date(date: DateTime<chrono::Utc>) -> String {
     if date.hour() == 0 {
         format!("{:04}.{}{:02}.{}", date.year(), date.month(), date.day(), date.minute())
     } else {
-        format!("{:04}.{}{:02}.{}{:02}", date.year(), date.month(), date.day(), date.hour(), date.minute())
+        format!(
+            "{:04}.{}{:02}.{}{:02}",
+            date.year(),
+            date.month(),
+            date.day(),
+            date.hour(),
+            date.minute()
+        )
     }
 }
 
