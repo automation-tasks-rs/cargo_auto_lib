@@ -158,6 +158,7 @@ pub fn task_commit_and_push(arg_2: Option<String>) {
     }
 }
 
+#[allow(dead_code)]
 /// create a new release on github
 pub fn task_github_new_release() {
     let cargo_toml = cl::CargoToml::read();
