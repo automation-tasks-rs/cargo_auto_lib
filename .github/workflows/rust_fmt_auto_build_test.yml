@@ -29,7 +29,7 @@ jobs:
 
     - name: Run sccache-cache for artifacts
       uses: mozilla-actions/sccache-action@v0.0.8
-
+      
     - name: cargo clippy --no-deps
       run: cargo clippy --no-deps
 
@@ -44,7 +44,6 @@ jobs:
         path: |
           automation_tasks_rs/.file_hashes.json 
           automation_tasks_rs/target 
-          automation_tasks_rs/Cargo.toml
         key: automation_tasks_rs
 
     - name: cargo auto build
@@ -52,6 +51,3 @@ jobs:
 
     - name: cargo auto test
       run: cargo auto test
-
-      
-      
