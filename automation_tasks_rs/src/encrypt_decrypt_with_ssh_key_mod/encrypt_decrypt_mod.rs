@@ -2,7 +2,9 @@
 
 //! Generic functions to encrypt and decrypt secrets using the ssh private key.
 //!
-//! Functions to encrypt decrypt a secret string.
+//! Don't change this code, so it can be updated regularly with
+//! cargo auto update_automation_tasks_rs
+//! If you want to customize it, copy the code into main.rs and modify it there.
 
 use crate::{BLUE, GREEN, RED, RESET, YELLOW};
 use secrecy::{ExposeSecret, ExposeSecretMut, SecretBox, SecretString};
