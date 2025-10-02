@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":["LibError"],"type":["ResultWithLibError"]};
+window.SIDEBAR_ITEMS = {"enum":["Error"],"type":["Result"]};

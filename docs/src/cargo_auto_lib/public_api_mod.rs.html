@@ -1,1255 +1,629 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/public_api_mod.rs`."><title>public_api_mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-46132b98.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="cargo_auto_lib" data-themes="" data-resource-suffix="" data-rustdoc-version="1.85.0 (4d91de4e4 2025-02-17)" data-channel="1.85.0" data-search-js="search-75f5ac3e.js" data-settings-js="settings-0f613d39.js" ><script src="../../static.files/storage-59e33391.js"></script><script defer src="../../static.files/src-script-56102188.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-5f194d8c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">cargo_auto_lib/</div>public_api_mod.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
-<a href="#1" id="1">1</a>
-<a href="#2" id="2">2</a>
-<a href="#3" id="3">3</a>
-<a href="#4" id="4">4</a>
-<a href="#5" id="5">5</a>
-<a href="#6" id="6">6</a>
-<a href="#7" id="7">7</a>
-<a href="#8" id="8">8</a>
-<a href="#9" id="9">9</a>
-<a href="#10" id="10">10</a>
-<a href="#11" id="11">11</a>
-<a href="#12" id="12">12</a>
-<a href="#13" id="13">13</a>
-<a href="#14" id="14">14</a>
-<a href="#15" id="15">15</a>
-<a href="#16" id="16">16</a>
-<a href="#17" id="17">17</a>
-<a href="#18" id="18">18</a>
-<a href="#19" id="19">19</a>
-<a href="#20" id="20">20</a>
-<a href="#21" id="21">21</a>
-<a href="#22" id="22">22</a>
-<a href="#23" id="23">23</a>
-<a href="#24" id="24">24</a>
-<a href="#25" id="25">25</a>
-<a href="#26" id="26">26</a>
-<a href="#27" id="27">27</a>
-<a href="#28" id="28">28</a>
-<a href="#29" id="29">29</a>
-<a href="#30" id="30">30</a>
-<a href="#31" id="31">31</a>
-<a href="#32" id="32">32</a>
-<a href="#33" id="33">33</a>
-<a href="#34" id="34">34</a>
-<a href="#35" id="35">35</a>
-<a href="#36" id="36">36</a>
-<a href="#37" id="37">37</a>
-<a href="#38" id="38">38</a>
-<a href="#39" id="39">39</a>
-<a href="#40" id="40">40</a>
-<a href="#41" id="41">41</a>
-<a href="#42" id="42">42</a>
-<a href="#43" id="43">43</a>
-<a href="#44" id="44">44</a>
-<a href="#45" id="45">45</a>
-<a href="#46" id="46">46</a>
-<a href="#47" id="47">47</a>
-<a href="#48" id="48">48</a>
-<a href="#49" id="49">49</a>
-<a href="#50" id="50">50</a>
-<a href="#51" id="51">51</a>
-<a href="#52" id="52">52</a>
-<a href="#53" id="53">53</a>
-<a href="#54" id="54">54</a>
-<a href="#55" id="55">55</a>
-<a href="#56" id="56">56</a>
-<a href="#57" id="57">57</a>
-<a href="#58" id="58">58</a>
-<a href="#59" id="59">59</a>
-<a href="#60" id="60">60</a>
-<a href="#61" id="61">61</a>
-<a href="#62" id="62">62</a>
-<a href="#63" id="63">63</a>
-<a href="#64" id="64">64</a>
-<a href="#65" id="65">65</a>
-<a href="#66" id="66">66</a>
-<a href="#67" id="67">67</a>
-<a href="#68" id="68">68</a>
-<a href="#69" id="69">69</a>
-<a href="#70" id="70">70</a>
-<a href="#71" id="71">71</a>
-<a href="#72" id="72">72</a>
-<a href="#73" id="73">73</a>
-<a href="#74" id="74">74</a>
-<a href="#75" id="75">75</a>
-<a href="#76" id="76">76</a>
-<a href="#77" id="77">77</a>
-<a href="#78" id="78">78</a>
-<a href="#79" id="79">79</a>
-<a href="#80" id="80">80</a>
-<a href="#81" id="81">81</a>
-<a href="#82" id="82">82</a>
-<a href="#83" id="83">83</a>
-<a href="#84" id="84">84</a>
-<a href="#85" id="85">85</a>
-<a href="#86" id="86">86</a>
-<a href="#87" id="87">87</a>
-<a href="#88" id="88">88</a>
-<a href="#89" id="89">89</a>
-<a href="#90" id="90">90</a>
-<a href="#91" id="91">91</a>
-<a href="#92" id="92">92</a>
-<a href="#93" id="93">93</a>
-<a href="#94" id="94">94</a>
-<a href="#95" id="95">95</a>
-<a href="#96" id="96">96</a>
-<a href="#97" id="97">97</a>
-<a href="#98" id="98">98</a>
-<a href="#99" id="99">99</a>
-<a href="#100" id="100">100</a>
-<a href="#101" id="101">101</a>
-<a href="#102" id="102">102</a>
-<a href="#103" id="103">103</a>
-<a href="#104" id="104">104</a>
-<a href="#105" id="105">105</a>
-<a href="#106" id="106">106</a>
-<a href="#107" id="107">107</a>
-<a href="#108" id="108">108</a>
-<a href="#109" id="109">109</a>
-<a href="#110" id="110">110</a>
-<a href="#111" id="111">111</a>
-<a href="#112" id="112">112</a>
-<a href="#113" id="113">113</a>
-<a href="#114" id="114">114</a>
-<a href="#115" id="115">115</a>
-<a href="#116" id="116">116</a>
-<a href="#117" id="117">117</a>
-<a href="#118" id="118">118</a>
-<a href="#119" id="119">119</a>
-<a href="#120" id="120">120</a>
-<a href="#121" id="121">121</a>
-<a href="#122" id="122">122</a>
-<a href="#123" id="123">123</a>
-<a href="#124" id="124">124</a>
-<a href="#125" id="125">125</a>
-<a href="#126" id="126">126</a>
-<a href="#127" id="127">127</a>
-<a href="#128" id="128">128</a>
-<a href="#129" id="129">129</a>
-<a href="#130" id="130">130</a>
-<a href="#131" id="131">131</a>
-<a href="#132" id="132">132</a>
-<a href="#133" id="133">133</a>
-<a href="#134" id="134">134</a>
-<a href="#135" id="135">135</a>
-<a href="#136" id="136">136</a>
-<a href="#137" id="137">137</a>
-<a href="#138" id="138">138</a>
-<a href="#139" id="139">139</a>
-<a href="#140" id="140">140</a>
-<a href="#141" id="141">141</a>
-<a href="#142" id="142">142</a>
-<a href="#143" id="143">143</a>
-<a href="#144" id="144">144</a>
-<a href="#145" id="145">145</a>
-<a href="#146" id="146">146</a>
-<a href="#147" id="147">147</a>
-<a href="#148" id="148">148</a>
-<a href="#149" id="149">149</a>
-<a href="#150" id="150">150</a>
-<a href="#151" id="151">151</a>
-<a href="#152" id="152">152</a>
-<a href="#153" id="153">153</a>
-<a href="#154" id="154">154</a>
-<a href="#155" id="155">155</a>
-<a href="#156" id="156">156</a>
-<a href="#157" id="157">157</a>
-<a href="#158" id="158">158</a>
-<a href="#159" id="159">159</a>
-<a href="#160" id="160">160</a>
-<a href="#161" id="161">161</a>
-<a href="#162" id="162">162</a>
-<a href="#163" id="163">163</a>
-<a href="#164" id="164">164</a>
-<a href="#165" id="165">165</a>
-<a href="#166" id="166">166</a>
-<a href="#167" id="167">167</a>
-<a href="#168" id="168">168</a>
-<a href="#169" id="169">169</a>
-<a href="#170" id="170">170</a>
-<a href="#171" id="171">171</a>
-<a href="#172" id="172">172</a>
-<a href="#173" id="173">173</a>
-<a href="#174" id="174">174</a>
-<a href="#175" id="175">175</a>
-<a href="#176" id="176">176</a>
-<a href="#177" id="177">177</a>
-<a href="#178" id="178">178</a>
-<a href="#179" id="179">179</a>
-<a href="#180" id="180">180</a>
-<a href="#181" id="181">181</a>
-<a href="#182" id="182">182</a>
-<a href="#183" id="183">183</a>
-<a href="#184" id="184">184</a>
-<a href="#185" id="185">185</a>
-<a href="#186" id="186">186</a>
-<a href="#187" id="187">187</a>
-<a href="#188" id="188">188</a>
-<a href="#189" id="189">189</a>
-<a href="#190" id="190">190</a>
-<a href="#191" id="191">191</a>
-<a href="#192" id="192">192</a>
-<a href="#193" id="193">193</a>
-<a href="#194" id="194">194</a>
-<a href="#195" id="195">195</a>
-<a href="#196" id="196">196</a>
-<a href="#197" id="197">197</a>
-<a href="#198" id="198">198</a>
-<a href="#199" id="199">199</a>
-<a href="#200" id="200">200</a>
-<a href="#201" id="201">201</a>
-<a href="#202" id="202">202</a>
-<a href="#203" id="203">203</a>
-<a href="#204" id="204">204</a>
-<a href="#205" id="205">205</a>
-<a href="#206" id="206">206</a>
-<a href="#207" id="207">207</a>
-<a href="#208" id="208">208</a>
-<a href="#209" id="209">209</a>
-<a href="#210" id="210">210</a>
-<a href="#211" id="211">211</a>
-<a href="#212" id="212">212</a>
-<a href="#213" id="213">213</a>
-<a href="#214" id="214">214</a>
-<a href="#215" id="215">215</a>
-<a href="#216" id="216">216</a>
-<a href="#217" id="217">217</a>
-<a href="#218" id="218">218</a>
-<a href="#219" id="219">219</a>
-<a href="#220" id="220">220</a>
-<a href="#221" id="221">221</a>
-<a href="#222" id="222">222</a>
-<a href="#223" id="223">223</a>
-<a href="#224" id="224">224</a>
-<a href="#225" id="225">225</a>
-<a href="#226" id="226">226</a>
-<a href="#227" id="227">227</a>
-<a href="#228" id="228">228</a>
-<a href="#229" id="229">229</a>
-<a href="#230" id="230">230</a>
-<a href="#231" id="231">231</a>
-<a href="#232" id="232">232</a>
-<a href="#233" id="233">233</a>
-<a href="#234" id="234">234</a>
-<a href="#235" id="235">235</a>
-<a href="#236" id="236">236</a>
-<a href="#237" id="237">237</a>
-<a href="#238" id="238">238</a>
-<a href="#239" id="239">239</a>
-<a href="#240" id="240">240</a>
-<a href="#241" id="241">241</a>
-<a href="#242" id="242">242</a>
-<a href="#243" id="243">243</a>
-<a href="#244" id="244">244</a>
-<a href="#245" id="245">245</a>
-<a href="#246" id="246">246</a>
-<a href="#247" id="247">247</a>
-<a href="#248" id="248">248</a>
-<a href="#249" id="249">249</a>
-<a href="#250" id="250">250</a>
-<a href="#251" id="251">251</a>
-<a href="#252" id="252">252</a>
-<a href="#253" id="253">253</a>
-<a href="#254" id="254">254</a>
-<a href="#255" id="255">255</a>
-<a href="#256" id="256">256</a>
-<a href="#257" id="257">257</a>
-<a href="#258" id="258">258</a>
-<a href="#259" id="259">259</a>
-<a href="#260" id="260">260</a>
-<a href="#261" id="261">261</a>
-<a href="#262" id="262">262</a>
-<a href="#263" id="263">263</a>
-<a href="#264" id="264">264</a>
-<a href="#265" id="265">265</a>
-<a href="#266" id="266">266</a>
-<a href="#267" id="267">267</a>
-<a href="#268" id="268">268</a>
-<a href="#269" id="269">269</a>
-<a href="#270" id="270">270</a>
-<a href="#271" id="271">271</a>
-<a href="#272" id="272">272</a>
-<a href="#273" id="273">273</a>
-<a href="#274" id="274">274</a>
-<a href="#275" id="275">275</a>
-<a href="#276" id="276">276</a>
-<a href="#277" id="277">277</a>
-<a href="#278" id="278">278</a>
-<a href="#279" id="279">279</a>
-<a href="#280" id="280">280</a>
-<a href="#281" id="281">281</a>
-<a href="#282" id="282">282</a>
-<a href="#283" id="283">283</a>
-<a href="#284" id="284">284</a>
-<a href="#285" id="285">285</a>
-<a href="#286" id="286">286</a>
-<a href="#287" id="287">287</a>
-<a href="#288" id="288">288</a>
-<a href="#289" id="289">289</a>
-<a href="#290" id="290">290</a>
-<a href="#291" id="291">291</a>
-<a href="#292" id="292">292</a>
-<a href="#293" id="293">293</a>
-<a href="#294" id="294">294</a>
-<a href="#295" id="295">295</a>
-<a href="#296" id="296">296</a>
-<a href="#297" id="297">297</a>
-<a href="#298" id="298">298</a>
-<a href="#299" id="299">299</a>
-<a href="#300" id="300">300</a>
-<a href="#301" id="301">301</a>
-<a href="#302" id="302">302</a>
-<a href="#303" id="303">303</a>
-<a href="#304" id="304">304</a>
-<a href="#305" id="305">305</a>
-<a href="#306" id="306">306</a>
-<a href="#307" id="307">307</a>
-<a href="#308" id="308">308</a>
-<a href="#309" id="309">309</a>
-<a href="#310" id="310">310</a>
-<a href="#311" id="311">311</a>
-<a href="#312" id="312">312</a>
-<a href="#313" id="313">313</a>
-<a href="#314" id="314">314</a>
-<a href="#315" id="315">315</a>
-<a href="#316" id="316">316</a>
-<a href="#317" id="317">317</a>
-<a href="#318" id="318">318</a>
-<a href="#319" id="319">319</a>
-<a href="#320" id="320">320</a>
-<a href="#321" id="321">321</a>
-<a href="#322" id="322">322</a>
-<a href="#323" id="323">323</a>
-<a href="#324" id="324">324</a>
-<a href="#325" id="325">325</a>
-<a href="#326" id="326">326</a>
-<a href="#327" id="327">327</a>
-<a href="#328" id="328">328</a>
-<a href="#329" id="329">329</a>
-<a href="#330" id="330">330</a>
-<a href="#331" id="331">331</a>
-<a href="#332" id="332">332</a>
-<a href="#333" id="333">333</a>
-<a href="#334" id="334">334</a>
-<a href="#335" id="335">335</a>
-<a href="#336" id="336">336</a>
-<a href="#337" id="337">337</a>
-<a href="#338" id="338">338</a>
-<a href="#339" id="339">339</a>
-<a href="#340" id="340">340</a>
-<a href="#341" id="341">341</a>
-<a href="#342" id="342">342</a>
-<a href="#343" id="343">343</a>
-<a href="#344" id="344">344</a>
-<a href="#345" id="345">345</a>
-<a href="#346" id="346">346</a>
-<a href="#347" id="347">347</a>
-<a href="#348" id="348">348</a>
-<a href="#349" id="349">349</a>
-<a href="#350" id="350">350</a>
-<a href="#351" id="351">351</a>
-<a href="#352" id="352">352</a>
-<a href="#353" id="353">353</a>
-<a href="#354" id="354">354</a>
-<a href="#355" id="355">355</a>
-<a href="#356" id="356">356</a>
-<a href="#357" id="357">357</a>
-<a href="#358" id="358">358</a>
-<a href="#359" id="359">359</a>
-<a href="#360" id="360">360</a>
-<a href="#361" id="361">361</a>
-<a href="#362" id="362">362</a>
-<a href="#363" id="363">363</a>
-<a href="#364" id="364">364</a>
-<a href="#365" id="365">365</a>
-<a href="#366" id="366">366</a>
-<a href="#367" id="367">367</a>
-<a href="#368" id="368">368</a>
-<a href="#369" id="369">369</a>
-<a href="#370" id="370">370</a>
-<a href="#371" id="371">371</a>
-<a href="#372" id="372">372</a>
-<a href="#373" id="373">373</a>
-<a href="#374" id="374">374</a>
-<a href="#375" id="375">375</a>
-<a href="#376" id="376">376</a>
-<a href="#377" id="377">377</a>
-<a href="#378" id="378">378</a>
-<a href="#379" id="379">379</a>
-<a href="#380" id="380">380</a>
-<a href="#381" id="381">381</a>
-<a href="#382" id="382">382</a>
-<a href="#383" id="383">383</a>
-<a href="#384" id="384">384</a>
-<a href="#385" id="385">385</a>
-<a href="#386" id="386">386</a>
-<a href="#387" id="387">387</a>
-<a href="#388" id="388">388</a>
-<a href="#389" id="389">389</a>
-<a href="#390" id="390">390</a>
-<a href="#391" id="391">391</a>
-<a href="#392" id="392">392</a>
-<a href="#393" id="393">393</a>
-<a href="#394" id="394">394</a>
-<a href="#395" id="395">395</a>
-<a href="#396" id="396">396</a>
-<a href="#397" id="397">397</a>
-<a href="#398" id="398">398</a>
-<a href="#399" id="399">399</a>
-<a href="#400" id="400">400</a>
-<a href="#401" id="401">401</a>
-<a href="#402" id="402">402</a>
-<a href="#403" id="403">403</a>
-<a href="#404" id="404">404</a>
-<a href="#405" id="405">405</a>
-<a href="#406" id="406">406</a>
-<a href="#407" id="407">407</a>
-<a href="#408" id="408">408</a>
-<a href="#409" id="409">409</a>
-<a href="#410" id="410">410</a>
-<a href="#411" id="411">411</a>
-<a href="#412" id="412">412</a>
-<a href="#413" id="413">413</a>
-<a href="#414" id="414">414</a>
-<a href="#415" id="415">415</a>
-<a href="#416" id="416">416</a>
-<a href="#417" id="417">417</a>
-<a href="#418" id="418">418</a>
-<a href="#419" id="419">419</a>
-<a href="#420" id="420">420</a>
-<a href="#421" id="421">421</a>
-<a href="#422" id="422">422</a>
-<a href="#423" id="423">423</a>
-<a href="#424" id="424">424</a>
-<a href="#425" id="425">425</a>
-<a href="#426" id="426">426</a>
-<a href="#427" id="427">427</a>
-<a href="#428" id="428">428</a>
-<a href="#429" id="429">429</a>
-<a href="#430" id="430">430</a>
-<a href="#431" id="431">431</a>
-<a href="#432" id="432">432</a>
-<a href="#433" id="433">433</a>
-<a href="#434" id="434">434</a>
-<a href="#435" id="435">435</a>
-<a href="#436" id="436">436</a>
-<a href="#437" id="437">437</a>
-<a href="#438" id="438">438</a>
-<a href="#439" id="439">439</a>
-<a href="#440" id="440">440</a>
-<a href="#441" id="441">441</a>
-<a href="#442" id="442">442</a>
-<a href="#443" id="443">443</a>
-<a href="#444" id="444">444</a>
-<a href="#445" id="445">445</a>
-<a href="#446" id="446">446</a>
-<a href="#447" id="447">447</a>
-<a href="#448" id="448">448</a>
-<a href="#449" id="449">449</a>
-<a href="#450" id="450">450</a>
-<a href="#451" id="451">451</a>
-<a href="#452" id="452">452</a>
-<a href="#453" id="453">453</a>
-<a href="#454" id="454">454</a>
-<a href="#455" id="455">455</a>
-<a href="#456" id="456">456</a>
-<a href="#457" id="457">457</a>
-<a href="#458" id="458">458</a>
-<a href="#459" id="459">459</a>
-<a href="#460" id="460">460</a>
-<a href="#461" id="461">461</a>
-<a href="#462" id="462">462</a>
-<a href="#463" id="463">463</a>
-<a href="#464" id="464">464</a>
-<a href="#465" id="465">465</a>
-<a href="#466" id="466">466</a>
-<a href="#467" id="467">467</a>
-<a href="#468" id="468">468</a>
-<a href="#469" id="469">469</a>
-<a href="#470" id="470">470</a>
-<a href="#471" id="471">471</a>
-<a href="#472" id="472">472</a>
-<a href="#473" id="473">473</a>
-<a href="#474" id="474">474</a>
-<a href="#475" id="475">475</a>
-<a href="#476" id="476">476</a>
-<a href="#477" id="477">477</a>
-<a href="#478" id="478">478</a>
-<a href="#479" id="479">479</a>
-<a href="#480" id="480">480</a>
-<a href="#481" id="481">481</a>
-<a href="#482" id="482">482</a>
-<a href="#483" id="483">483</a>
-<a href="#484" id="484">484</a>
-<a href="#485" id="485">485</a>
-<a href="#486" id="486">486</a>
-<a href="#487" id="487">487</a>
-<a href="#488" id="488">488</a>
-<a href="#489" id="489">489</a>
-<a href="#490" id="490">490</a>
-<a href="#491" id="491">491</a>
-<a href="#492" id="492">492</a>
-<a href="#493" id="493">493</a>
-<a href="#494" id="494">494</a>
-<a href="#495" id="495">495</a>
-<a href="#496" id="496">496</a>
-<a href="#497" id="497">497</a>
-<a href="#498" id="498">498</a>
-<a href="#499" id="499">499</a>
-<a href="#500" id="500">500</a>
-<a href="#501" id="501">501</a>
-<a href="#502" id="502">502</a>
-<a href="#503" id="503">503</a>
-<a href="#504" id="504">504</a>
-<a href="#505" id="505">505</a>
-<a href="#506" id="506">506</a>
-<a href="#507" id="507">507</a>
-<a href="#508" id="508">508</a>
-<a href="#509" id="509">509</a>
-<a href="#510" id="510">510</a>
-<a href="#511" id="511">511</a>
-<a href="#512" id="512">512</a>
-<a href="#513" id="513">513</a>
-<a href="#514" id="514">514</a>
-<a href="#515" id="515">515</a>
-<a href="#516" id="516">516</a>
-<a href="#517" id="517">517</a>
-<a href="#518" id="518">518</a>
-<a href="#519" id="519">519</a>
-<a href="#520" id="520">520</a>
-<a href="#521" id="521">521</a>
-<a href="#522" id="522">522</a>
-<a href="#523" id="523">523</a>
-<a href="#524" id="524">524</a>
-<a href="#525" id="525">525</a>
-<a href="#526" id="526">526</a>
-<a href="#527" id="527">527</a>
-<a href="#528" id="528">528</a>
-<a href="#529" id="529">529</a>
-<a href="#530" id="530">530</a>
-<a href="#531" id="531">531</a>
-<a href="#532" id="532">532</a>
-<a href="#533" id="533">533</a>
-<a href="#534" id="534">534</a>
-<a href="#535" id="535">535</a>
-<a href="#536" id="536">536</a>
-<a href="#537" id="537">537</a>
-<a href="#538" id="538">538</a>
-<a href="#539" id="539">539</a>
-<a href="#540" id="540">540</a>
-<a href="#541" id="541">541</a>
-<a href="#542" id="542">542</a>
-<a href="#543" id="543">543</a>
-<a href="#544" id="544">544</a>
-<a href="#545" id="545">545</a>
-<a href="#546" id="546">546</a>
-<a href="#547" id="547">547</a>
-<a href="#548" id="548">548</a>
-<a href="#549" id="549">549</a>
-<a href="#550" id="550">550</a>
-<a href="#551" id="551">551</a>
-<a href="#552" id="552">552</a>
-<a href="#553" id="553">553</a>
-<a href="#554" id="554">554</a>
-<a href="#555" id="555">555</a>
-<a href="#556" id="556">556</a>
-<a href="#557" id="557">557</a>
-<a href="#558" id="558">558</a>
-<a href="#559" id="559">559</a>
-<a href="#560" id="560">560</a>
-<a href="#561" id="561">561</a>
-<a href="#562" id="562">562</a>
-<a href="#563" id="563">563</a>
-<a href="#564" id="564">564</a>
-<a href="#565" id="565">565</a>
-<a href="#566" id="566">566</a>
-<a href="#567" id="567">567</a>
-<a href="#568" id="568">568</a>
-<a href="#569" id="569">569</a>
-<a href="#570" id="570">570</a>
-<a href="#571" id="571">571</a>
-<a href="#572" id="572">572</a>
-<a href="#573" id="573">573</a>
-<a href="#574" id="574">574</a>
-<a href="#575" id="575">575</a>
-<a href="#576" id="576">576</a>
-<a href="#577" id="577">577</a>
-<a href="#578" id="578">578</a>
-<a href="#579" id="579">579</a>
-<a href="#580" id="580">580</a>
-<a href="#581" id="581">581</a>
-<a href="#582" id="582">582</a>
-<a href="#583" id="583">583</a>
-<a href="#584" id="584">584</a>
-<a href="#585" id="585">585</a>
-<a href="#586" id="586">586</a>
-<a href="#587" id="587">587</a>
-<a href="#588" id="588">588</a>
-<a href="#589" id="589">589</a>
-<a href="#590" id="590">590</a>
-<a href="#591" id="591">591</a>
-<a href="#592" id="592">592</a>
-<a href="#593" id="593">593</a>
-<a href="#594" id="594">594</a>
-<a href="#595" id="595">595</a>
-<a href="#596" id="596">596</a>
-<a href="#597" id="597">597</a>
-<a href="#598" id="598">598</a>
-<a href="#599" id="599">599</a>
-<a href="#600" id="600">600</a>
-<a href="#601" id="601">601</a>
-<a href="#602" id="602">602</a>
-<a href="#603" id="603">603</a>
-<a href="#604" id="604">604</a>
-<a href="#605" id="605">605</a>
-<a href="#606" id="606">606</a>
-<a href="#607" id="607">607</a>
-<a href="#608" id="608">608</a>
-<a href="#609" id="609">609</a>
-<a href="#610" id="610">610</a>
-<a href="#611" id="611">611</a>
-<a href="#612" id="612">612</a>
-<a href="#613" id="613">613</a>
-<a href="#614" id="614">614</a>
-<a href="#615" id="615">615</a>
-<a href="#616" id="616">616</a>
-<a href="#617" id="617">617</a>
-<a href="#618" id="618">618</a>
-<a href="#619" id="619">619</a>
-<a href="#620" id="620">620</a>
-<a href="#621" id="621">621</a>
-<a href="#622" id="622">622</a>
-<a href="#623" id="623">623</a>
-<a href="#624" id="624">624</a>
-<a href="#625" id="625">625</a>
-<a href="#626" id="626">626</a>
-<a href="#627" id="627">627</a></pre></div><pre class="rust"><code><span class="comment">// public_api_mod.rs
-
-// region: auto_md_to_doc_comments include doc_comments/public_api_mod.md A //!
-</span><span class="doccomment">//! public_api_mod gives more control over changes in the public api.
-//!
-//! The Public API of a library is a pain in the a...  
-//! Every time I modify something I have to think how it will affect the users of the library.  
-//! They could have tens or hundreds of places where they use the library. Breaking changes are terrible things.  
-//! The developers are not willing to change their code every time a library changes slightly.  
-//! Yes, there is the semver to show if the new library is API compatible. That helps a lot.  
-//! It is dreaded if the first version of a function does not return a Result&lt;&gt;.  
-//! Then later we will surely come to the point, that we need to return a Result&lt;&gt;. This is a terrible breaking change.  
-//! It is wise to return a Result always. Even when that is not needed right now. It will surely be needed in the future.  
-//! Another tactic is to make new functions with a different name and mark the old functions as Obsolete.
-//!
-//! This library is used by the automation_tasks_rs executable.  
-//! I want to have here the complete and exact definition of the public API.  
-//! Therefore I will not use reexports like `pub use` or `pub mod`.  
-//! This way I can always know easily if my public API has changed.  
-//! Just compare the `public_api_mod.rs` file in git diff.  
-//! Adding functions, structs, methods and enums is ok, it does not break the Public API.  
-//! But modifying existing functions, methods or enums will break the compatibility.  
-//!
-</span><span class="comment">// endregion: auto_md_to_doc_comments include doc_comments/public_api_mod.md A //!
-
-// region: Public API constants
-// ANSI colors for Linux terminal
-// https://github.com/shiena/ansicolor/blob/master/README.md
-</span><span class="doccomment">/// ANSI color
-</span><span class="kw">pub const </span>RED: <span class="kw-2">&amp;</span>str = <span class="string">"\x1b[31m"</span>;
-<span class="doccomment">/// ANSI color
-</span><span class="kw">pub const </span>GREEN: <span class="kw-2">&amp;</span>str = <span class="string">"\x1b[32m"</span>;
-<span class="doccomment">/// ANSI color
-</span><span class="kw">pub const </span>YELLOW: <span class="kw-2">&amp;</span>str = <span class="string">"\x1b[33m"</span>;
-<span class="doccomment">/// ANSI color
-</span><span class="kw">pub const </span>BLUE: <span class="kw-2">&amp;</span>str = <span class="string">"\x1b[34m"</span>;
-<span class="doccomment">/// ANSI color
-</span><span class="kw">pub const </span>RESET: <span class="kw-2">&amp;</span>str = <span class="string">"\x1b[0m"</span>;
-<span class="comment">// endregion: Public API constants
-
-// region: re-export entire dependencies
-</span><span class="kw">pub use </span>inquire;
-<span class="comment">// endregion: re-export entire dependencies
-
-// region: Public API structs and methods
-
-</span><span class="doccomment">/// Result type with fixed LibError using thiserror.  
-///
-/// It makes simpler to write returns from functions.  
-</span><span class="kw">pub use </span><span class="kw">crate</span>::error_mod::ResultWithLibError;
-
-<span class="doccomment">/// Similar to std::process::Output, but with i32 and Strings for easier work.
-</span><span class="kw">pub use </span><span class="kw">crate</span>::auto_shell_mod::ShellOutput;
-
-<span class="comment">// reexporting a struct needs to export the trait to also reexports all the methods
-
-</span><span class="doccomment">/// Read data from Cargo.toml.  
-</span><span class="kw">pub use </span><span class="kw">crate</span>::auto_cargo_toml_mod::CargoToml;
-
-<span class="comment">// Just for making the struct methods obvious as public methods
-// I created a special trait for this struct
-// AFTERTHOUGHT: This makes me think if most the functions are methods,
-// then it is consistent how to make the public API definition.
-// There is a downside: the caller must bring the trait into scope. A little annoying.
-
-</span><span class="doccomment">/// Trait with methods to read data from Cargo.toml.
-</span><span class="kw">pub trait </span>CargoTomlPublicApiMethods {
-    <span class="doccomment">/// read Cargo.toml, for workspaces it is the Cargo.toml of the first member
-    </span><span class="kw">fn </span>read() -&gt; <span class="self">Self</span>;
-    <span class="doccomment">/// Cargo.toml package name
-    </span><span class="kw">fn </span>package_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; String;
-    <span class="doccomment">/// Cargo.toml package version
-    </span><span class="kw">fn </span>package_version(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; String;
-    <span class="doccomment">/// Cargo.toml package authors as string
-    </span><span class="kw">fn </span>package_authors_string(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; String;
-    <span class="doccomment">/// Cargo.toml package authors as string without emails
-    </span><span class="kw">fn </span>package_author_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; String;
-    <span class="doccomment">/// Cargo.toml package repository
-    </span><span class="kw">fn </span>package_repository(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;String&gt;;
-    <span class="doccomment">/// Cargo.toml package description
-    </span><span class="kw">fn </span>package_description(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;String&gt;;
-    <span class="doccomment">/// Cargo.toml package homepage
-    </span><span class="kw">fn </span>package_homepage(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; String;
-    <span class="doccomment">/// Cargo.toml workspace members
-    </span><span class="kw">fn </span>workspace_members(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;Vec&lt;String&gt;&gt;;
-    <span class="doccomment">/// github_owner from package.repository
-    </span><span class="kw">fn </span>github_owner(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;String&gt;;
-    <span class="doccomment">/// Cargo.toml package keywords
-    </span><span class="kw">fn </span>package_keywords(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Vec&lt;String&gt;;
-}
-
-<span class="doccomment">/// Shell command builder with simple but limited sanitizer.
-///
-/// The limited sanitization will panic if the value contains double quotes.
-/// Command injections attack is possible because the shell command mixes executable code and data in a single string.
-/// The attacker could format the "user input" data in a way that it transforms it into "executable code".
-/// A true sanitization is hard to do in software. It would mean to understand all the intricacies of bash syntax?!
-/// Another solution is to create a complex object model to have every command and data separated. Too complicated and developer unfriendly.
-/// Instead here we take that the developer is a trusted person and he knows how to create the template correctly,
-/// so that the placeholders are always de-facto delimited with double-quote inside the shell command.
-/// This avoids the problem of injection of any other symbol except double-quotes.
-/// The injection of double quote would finish the double-quote data and open the door tho write executable code.
-/// It would be very complicated to check if "escaped double quotes" are or not correct in the context of the template.
-/// So I don't allow them at all. This covers the vast majority of simple use cases.
-/// Placeholders are delimited with curly brackets.
-</span><span class="kw">pub use </span><span class="kw">crate</span>::auto_shell_mod::ShellCommandLimitedDoubleQuotesSanitizer;
-
-<span class="doccomment">/// Trait with methods for ShellCommandLimitedDoubleQuotesSanitizer.
-</span><span class="kw">pub trait </span>ShellCommandLimitedDoubleQuotesSanitizerTrait {
-    <span class="doccomment">/// Template for the shell command with placeholders
-    ///
-    /// The limited sanitization will panic if the value contains double quotes.
-    /// Placeholders are delimited with curly brackets.
-    /// The developer must be super careful to write the template correctly.
-    /// The placeholders must be inside a block delimited with double quotes.
-    /// In a way that only an injection of a double quote can cause problems.
-    /// There is no software check of the correctness of the template.
-    </span><span class="kw">fn </span>new(template: <span class="kw-2">&amp;</span>str) -&gt; ResultWithLibError&lt;<span class="self">Self</span>&gt;
-    <span class="kw">where
-        </span><span class="self">Self</span>: Sized;
-    <span class="doccomment">/// Replace placeholders with the value
-    ///
-    /// The limited sanitization will panic if the value contains double quotes.
-    /// Enter the placeholder parameter delimited with curly brackets.
-    /// It would be very complicated to check if "escaped double quotes" are or not correct in the context of the template.
-    /// So I don't allow them at all. This covers the vast majority of simple use cases.
-    </span><span class="kw">fn </span>arg(<span class="kw-2">&amp;mut </span><span class="self">self</span>, placeholder: <span class="kw-2">&amp;</span>str, value: <span class="kw-2">&amp;</span>str) -&gt; ResultWithLibError&lt;<span class="kw-2">&amp;mut </span><span class="self">Self</span>&gt;;
-
-    <span class="doccomment">/// Just like arg(), but for secrets that must be not echoed on the screen
-    </span><span class="kw">fn </span>arg_secret(<span class="kw-2">&amp;mut </span><span class="self">self</span>, placeholder: <span class="kw-2">&amp;</span>str, value: <span class="kw-2">&amp;</span>secrecy::SecretString) -&gt; ResultWithLibError&lt;<span class="kw-2">&amp;mut </span><span class="self">Self</span>&gt;;
-
-    <span class="doccomment">/// Run the sanitized command with no additional checks
-    </span><span class="kw">fn </span>run(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; ResultWithLibError&lt;()&gt;;
-}
-
-<span class="comment">// endregion: Public API structs and methods
-
-// region: Public API functions
-</span><span class="doccomment">/// Find 'from pos'.
-</span><span class="kw">pub fn </span>find_from(text: <span class="kw-2">&amp;</span>str, from_pos: usize, find: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;usize&gt; {
-    <span class="kw">crate</span>::utils_mod::find_from(text, from_pos, find)
-}
-
-<span class="doccomment">/// Return the position of end of the delimited data before the delimiter.
-</span><span class="kw">pub fn </span>find_pos_end_data_before_delimiter(md_text_content: <span class="kw-2">&amp;</span>str, pos: usize, delimiter: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;usize&gt; {
-    <span class="kw">crate</span>::utils_mod::find_pos_end_data_before_delimiter(md_text_content, pos, delimiter)
-}
-
-<span class="doccomment">/// Return the position of start of the delimited data after the delimiter.
-</span><span class="kw">pub fn </span>find_pos_start_data_after_delimiter(md_text_content: <span class="kw-2">&amp;</span>str, pos: usize, delimiter: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;usize&gt; {
-    <span class="kw">crate</span>::utils_mod::find_pos_start_data_after_delimiter(md_text_content, pos, delimiter)
-}
-
-<span class="doccomment">/// The original `concat()` function does not have a delimiter.
-</span><span class="kw">pub fn </span>concatenate_vec_to_string(vec: <span class="kw-2">&amp;</span>[String], delimiter: <span class="kw-2">&amp;</span>str) -&gt; String {
-    <span class="kw">crate</span>::utils_mod::concatenate_vec_to_string(vec, delimiter)
-}
-
-<span class="comment">// region: auto_md_to_doc_comments include doc_comments/traverse_dir_with_exclude_dir.md A ///
-</span><span class="doccomment">/// Traverse dir and its sub-dir, but avoid excluded dirs.
-///
-/// The find_file and the exclude dir strings must start with /.
-///
-/// ## Example
-///
-/// ```Rust ignore
-///
-/// let files = cargo_auto_lib::traverse_dir_with_exclude_dir(
-///     Path::new("/home/project/src"),
-///     "/*.rs",
-///     // avoid big folders
-///     &amp;vec![
-///         "/.git".to_string(),
-///         "/target".to_string(),
-///         "/docs".to_string()
-///     ]
-/// ).unwrap();
-/// for rs_file_name in files.iter() {
-///     println!("{}", &amp;rs_file_name);
-/// }
-/// ```
-///
-</span><span class="comment">// endregion: auto_md_to_doc_comments include doc_comments/traverse_dir_with_exclude_dir.md A ///
-</span><span class="kw">pub fn </span>traverse_dir_with_exclude_dir(dir: <span class="kw-2">&amp;</span>std::path::Path, find_file: <span class="kw-2">&amp;</span>str, exclude_dirs: <span class="kw-2">&amp;</span>[String]) -&gt; std::io::Result&lt;Vec&lt;String&gt;&gt; {
-    <span class="kw">crate</span>::utils_mod::traverse_dir_with_exclude_dir(dir, find_file, exclude_dirs)
-}
-
-<span class="comment">// region: auto_md_to_doc_comments include doc_comments/auto_cargo_toml_to_md.md A ///
-</span><span class="doccomment">/// This function includes data from Cargo.toml to markdown files.  
-///
-/// ![auto_cargo_toml_to_md.png](https://github.com/automation-tasks-rs/cargo_auto_lib/blob/main/images/auto_cargo_toml_to_md.png?raw=true)
-///
-/// This is nice for avoiding out of sync data.  
-/// Run it on every build with `automation_tasks_rs` and [cargo auto](https://crates.io/crates/cargo-auto).  
-///   
-/// In the md file write these markers in invisible markdown comments.
-///
-/// ```markdown
-/// [//comment]: # (auto_cargo_toml_to_md start)
-///
-/// [//comment]: # (auto_cargo_toml_to_md end)
-///
-/// ```
-///
-/// In this instructions I changed `[//]` to `[//comment]` to not process these markers.
-///
-/// `auto_cargo_toml_to_md` deletes the old lines between the markers and includes the Cargo.toml data:  
-/// description, repository, version, utc_now, authors and creates badges for keywords and categories.
-///
-/// The words topics, keywords, hashtags and tags all mean the same concept.  
-/// In cargo.toml we have keywords.  
-/// In README.md I want to have badges with different color. And hashtags for SEO.  
-/// In GitHub they are topics.
-///
-/// Some keywords have defined colors, others are orange like Rust.  
-/// This can be expanded in the future.  
-///
-/// - Yellow: work-in-progress
-/// - Green: maintained, ready-for-use
-/// - Red: obsolete, archived
-///
-</span><span class="comment">// endregion: auto_md_to_doc_comments include doc_comments/auto_cargo_toml_to_md.md A ///
-</span><span class="kw">pub fn </span>auto_cargo_toml_to_md() {
-    <span class="kw">crate</span>::auto_cargo_toml_to_md_mod::auto_cargo_toml_to_md()
-}
-
-<span class="doccomment">/// I want html pages to be correct microXML when I use them for single page application.
-///
-/// Before build or release this function will check for correctness.
-</span><span class="kw">pub fn </span>auto_check_micro_xml(path_to_html_pages: <span class="kw-2">&amp;</span>str) {
-    <span class="kw">crate</span>::auto_check_micro_xml_mod::auto_check_micro_xml(path_to_html_pages)
-}
-
-<span class="doccomment">/// Deletes old js snippets when working with wasm-pack.  
-///
-/// The old folders for `js snippets` are not automatically deleted on building with `wasm-pack`.  
-/// This utils do that.  
-/// The function must be executed in the root project folder where is the Cargo.toml.  
-</span><span class="kw">pub fn </span>auto_delete_old_js_snippets() {
-    <span class="kw">crate</span>::auto_delete_old_js_snippets_mod::auto_delete_old_js_snippets()
-}
-
-<span class="doccomment">/// Print one or more sub_commands.
-</span><span class="kw">pub fn </span>completion_return_one_or_more_sub_commands(sub_commands: Vec&lt;<span class="kw-2">&amp;</span>str&gt;, word_being_completed: <span class="kw-2">&amp;</span>str) {
-    <span class="kw">crate</span>::auto_helper_functions_mod::completion_return_one_or_more_sub_commands(sub_commands, word_being_completed)
-}
-
-<span class="comment">// region: auto_md_to_doc_comments include doc_comments/exit_if_not_run_in_rust_project_root_directory.md A ///
-</span><span class="doccomment">/// Check if the code was run inside the Rust project root directory.  
-///
-/// There must be the `Cargo.toml` file and the directory `automation_tasks_rs`  
-/// If not, exit with error message.  
-///
-</span><span class="comment">// endregion: auto_md_to_doc_comments include doc_comments/exit_if_not_run_in_rust_project_root_directory.md A ///
-</span><span class="kw">pub fn </span>exit_if_not_run_in_rust_project_root_directory() {
-    <span class="kw">crate</span>::auto_helper_functions_mod::exit_if_not_run_in_rust_project_root_directory()
-}
-
-<span class="doccomment">/// Run one shell command with static str.
-///
-/// We trust the "developer" that he will not make "command injection" in his own code.
-/// The problem that must be sanitized is always "user input".
-/// Exit task execution if the command has Exit Status != 0.
-</span><span class="kw">pub fn </span>run_shell_command_static(shell_command: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str) -&gt; ResultWithLibError&lt;()&gt; {
-    <span class="kw">crate</span>::auto_shell_mod::run_shell_command_static(shell_command)
-}
-
-<span class="doccomment">/// Run one shell command.
-///
-/// Exit task execution if the command has Exit Status != 0.
-/// TODO: vulnerable to command injection
-</span><span class="kw">pub fn </span>run_shell_command(shell_command: <span class="kw-2">&amp;</span>str) -&gt; ResultWithLibError&lt;()&gt; {
-    <span class="kw">crate</span>::auto_shell_mod::run_shell_command(shell_command)
-}
-
-<span class="comment">// region: auto_md_to_doc_comments include doc_comments/auto_lines_of_code.md A ///
-</span><span class="doccomment">/// This function inserts shield badges with lines_of_code into README.rs.  
-///
-/// ![auto_lines_of_code.png](https://github.com/automation-tasks-rs/cargo_auto_lib/blob/main/images/auto_lines_of_code.png?raw=true)
-///
-/// The parameter Link will be used for shield badge. If empty_string, the git remote repository will be used.  
-/// Lines of code are not a "perfect" measurement of anything.  
-/// Anybody can write a very big number of lines of useless code and comments.  
-/// But for 95% of the cases they are good enough.  
-/// Most of the developers use some "standard" coding practices and that is quantifiable and comparable.  
-///
-/// The `src_code_lines` is the most important count.  
-/// That is actual code written for that project without doc comments, comments, unit tests, integration tests and examples.  
-/// Sometimes is great to see a big number here. It means there was a lot of work invested. But other times we want to see a small number. It
-/// means the developer understands the problem very well and don't try to solve anything outside that scope.  
-/// The `src_doc_comment_lines` counts doc comments. They will eventually become docs. The count of lines shows how many documentation is written.  
-/// The `src_comment_lines` counts code comments. Code comments are important to understand the code. The count of lines shows how understandable is the code.  
-/// The `tests_lines` counts lines in tests and shows how good is the code tested. Here are the unit tests and integration test combined.  
-/// The `examples_lines` counts lines in examples and shows how good is explained how to use the code.  
-///
-///
-/// ## Folder and file structure
-///
-/// The folder structure of a single Rust project is simple.  
-/// The project starts in the folder that contains `Cargo.toml`.  
-/// The `src/` folder contains all the rust `*.rs` files.  
-/// The `tests/` folder contains integration tests.  
-/// The `examples/` folder contains examples.  
-/// Some rs files can be excluded from the count adding this line near the start of the file: // exclude from auto_lines_of_code
-/// Inside a rs file the doc comment line start with `///` or `//!`.  
-/// The normal comments start with `//` or `/!`.  
-/// I will ignore the block comments. They are usually NOT used for comments, but to temporarily disable a piece of code. So I count this as code and not comments.  
-/// The `src/*.rs` file can contain unit tests that start with `#[cfg(test)]`. I assume that these are always at the end of the file.  
-/// There should not be any normal code after `#[cfg(test)]`, only tests.  
-/// All other files: `md`, `toml`, `html`, `js`, ... are not counted.  
-///
-/// ## Include into README.md
-///
-/// If the README.md file contains these markers (don't copy the numbers 1 and 2):  
-///
-/// ```md
-/// [//comment]: # (auto_lines_of_code start)
-///
-/// [//comment]: # (auto_lines_of_code end)
-/// ```
-///
-/// In this instructions I changed `[//]` to `[//comment]` to not process these markers.
-///
-/// The function will include the shield badges code between them.  
-/// It will erase the previous content.  
-/// Use git diff to see the change.  
-///
-</span><span class="comment">// endregion: auto_md_to_doc_comments include doc_comments/auto_lines_of_code.md A ///
-</span><span class="kw">pub fn </span>auto_lines_of_code(link: <span class="kw-2">&amp;</span>str) {
-    <span class="kw">crate</span>::auto_lines_of_code_mod::auto_lines_of_code(link)
-}
-
-<span class="comment">// region: auto_md_to_doc_comments include doc_comments/auto_md_to_doc_comments.md A ///
-</span><span class="doccomment">/// Finds rs files with markers and include segments from md files as doc comments.  
-///
-/// ![auto_md_to_doc_comments.png](https://github.com/automation-tasks-rs/cargo_auto_lib/blob/main/images/auto_md_to_doc_comments.png?raw=true)
-///
-/// From this doc comments `cargo doc` will generated the documentation and auto-completion.  
-/// We don't want to manually copy this segments. We want them to be automatically in sync.  
-/// We will just run this function before every `cargo doc` with an automation task.  
-/// The `auto_md_to_doc_comments` function must be executed in the project root folder where is the Cargo.toml file.  
-/// First it searches all the rs files in src, tests and examples folders.  
-/// If they contain the markers, than finds the md file and the named segment and include it as doc comments into the rs file.  
-/// The markers are always in pairs: start and end. So exactly the content in between is changed.  
-/// The markers are always comments, so they don't change the code.  
-/// It works only for files with LF line delimiter. No CR and no CRLF.  
-///
-/// ## markers
-///
-/// In the rs file write these markers:  
-///
-/// ```code
-/// //comment region: auto_md_to_doc_comments include README.md A ///
-/// //comment endregion: auto_md_to_doc_comments include README.md A ///
-/// ```
-///
-/// In your rust code, change the word `comment` with double slash `//`.  
-/// In the md file put markers to mark the segment:  
-///
-/// ```markdown
-/// [//comment]: # (auto_md_to_doc_comments segment start A)  
-/// [//comment]: # (auto_md_to_doc_comments segment end A)  
-/// ```
-///
-/// In this instructions I changed `[//]` to `[//comment]` to not process these markers.
-///
-/// The marker must be exclusively in one line. No other text in the same line.  
-/// auto_md_to_doc_comments will delete the old lines between the markers.  
-/// It will find the md file and read the content between the markers.  
-/// Before each line it will add the doc comment symbol as is defined in the marker.  
-/// Finally it will include the new lines as doc comments in the rs file.
-///
-</span><span class="comment">// endregion: auto_md_to_doc_comments include doc_comments/auto_md_to_doc_comments.md A ///
-</span><span class="kw">pub fn </span>auto_md_to_doc_comments() {
-    <span class="kw">crate</span>::auto_md_to_doc_comments_mod::auto_md_to_doc_comments()
-}
-
-<span class="doccomment">/// Process plantuml in current directory.  
-///
-/// Finds markers (auto_plantuml start) and (auto_plantuml end) in md files.  
-/// If needed, calls the web service and saves the svg file.  
-/// Between markers adds the link to the svg file.  
-/// repo_url like &lt;https://github.com/automation-tasks-rs/sey_currency_converter_pwa&gt;
-/// So the image file link is from the repository and accessible everywhere.  
-</span><span class="kw">pub fn </span>auto_plantuml(repo_url: <span class="kw-2">&amp;</span>str) {
-    <span class="kw">crate</span>::auto_plantuml_mod::auto_plantuml(repo_url)
-}
-
-<span class="doccomment">/// Process plantuml for all md files.
-///
-/// For test and examples I need to provide the path.
-</span><span class="kw">pub fn </span>auto_plantuml_for_path(path: <span class="kw-2">&amp;</span>std::path::Path, repo_url: <span class="kw-2">&amp;</span>str) {
-    <span class="kw">crate</span>::auto_plantuml_mod::auto_plantuml_for_path(path, repo_url)
-}
-
-<span class="doccomment">/// Hash text.
-</span><span class="kw">pub fn </span>hash_text(text: <span class="kw-2">&amp;</span>str) -&gt; String {
-    <span class="kw">crate</span>::auto_plantuml_mod::hash_text(text)
-}
-
-<span class="doccomment">/// Increment the minor version in Cargo.toml file only if files are changed.
-</span><span class="kw">pub fn </span>auto_semver_increment_minor() {
-    <span class="kw">crate</span>::auto_semver_mod::auto_semver_increment_minor()
-}
-
-<span class="doccomment">/// Increment the minor version in Cargo.toml file even if files are not changed.
-</span><span class="kw">pub fn </span>auto_semver_increment_minor_forced() {
-    <span class="kw">crate</span>::auto_semver_mod::auto_semver_increment_minor_forced()
-}
-
-<span class="doccomment">/// Increment the patch version in Cargo.toml file only if files are changed.
-</span><span class="kw">pub fn </span>auto_semver_increment_patch() {
-    <span class="kw">crate</span>::auto_semver_mod::auto_semver_increment_patch()
-}
-
-<span class="doccomment">/// Increment the patch version in Cargo.toml file even if files are not changed.
-</span><span class="kw">pub fn </span>auto_semver_increment_patch_forced() {
-    <span class="kw">crate</span>::auto_semver_mod::auto_semver_increment_patch_forced()
-}
-
-<span class="doccomment">/// Increment the version in Cargo.toml.
-///
-/// If the major version is greater than 2000, it is a date version  
-/// else it is semver and increments the patch part.  
-</span><span class="kw">pub fn </span>auto_version_increment_semver_or_date() {
-    <span class="kw">crate</span>::auto_semver_or_date_mod::auto_version_increment_semver_or_date()
-}
-
-<span class="doccomment">/// Increment the version in Cargo.toml, forced.
-///
-/// If the major version is greater than 2000, it is a date version  
-/// else it is semver and increments the patch part.  
-/// Forced is used in workspaces to force all members to have the same date version.  
-</span><span class="kw">pub fn </span>auto_version_increment_semver_or_date_forced() {
-    <span class="kw">crate</span>::auto_semver_or_date_mod::auto_version_increment_semver_or_date_forced()
-}
-
-<span class="comment">// region: auto_md_to_doc_comments include doc_comments/auto_version_from_date.md A ///
-</span><span class="doccomment">/// New version from date is written to Cargo.toml and service_worker.js.
-///
-/// In Cargo.toml writes the version as the date `yyyy.mmdd.HHMM` ex. `2019.1221.2359`.  
-/// For non-library projects, the semver specification is not really useful.  
-/// Having the version as the date is just fine for executables and much more human readable.  
-///
-/// ### service_worker.js
-///
-/// Inside the PWA service worker javascript file is also needed to change the version.  
-/// The program searches for `service_worker.js` and modify the version.  
-///
-/// ### no need to change version if no files changed
-///
-/// If src/*.rs or Cargo.toml files are not changed from last compile, than no need to change version.  
-/// The dates of the files will be stored in the file .automation_tasks_rs_file_hashes.json near to Cargo.toml.  
-/// Warning: I don't check if the service worker has changed because it rarely does.  
-/// To know if the projects has changed or not, this function saves the dates of all files into `.automation_tasks_rs_file_hashes.json` near Cargo.toml
-///
-</span><span class="comment">// endregion: auto_md_to_doc_comments include doc_comments/auto_version_from_date.md A ///
-</span><span class="kw">pub fn </span>auto_version_from_date() {
-    <span class="kw">crate</span>::auto_version_from_date_mod::auto_version_from_date()
-}
-
-<span class="doccomment">/// Just like auto_version_from_date(), but force the new version even if no files are changed.
-///
-/// For workspaces `release` I want to have the same version in all members.  
-/// It is slower, but easier to understand when deployed.
-</span><span class="kw">pub fn </span>auto_version_from_date_forced() {
-    <span class="kw">crate</span>::auto_version_from_date_mod::auto_version_from_date_forced()
-}
-
-<span class="doccomment">/// Pretty HTML for docs.  
-///
-/// The HTML generated by `cargo doc` is ugly and difficult to `git diff`.
-/// Tidy HTML is a HTML checker and formatter installed on most Linuxes.
-</span><span class="kw">pub fn </span>auto_doc_tidy_html() -&gt; ResultWithLibError&lt;()&gt; {
-    <span class="kw">crate</span>::auto_doc_tidy_html_mod::auto_doc_tidy_html()
-}
-
-<span class="doccomment">/// Does git have settings for remote.
-</span><span class="kw">pub fn </span>git_has_remote() -&gt; bool {
-    <span class="kw">crate</span>::auto_git_mod::git_has_remote()
-}
-
-<span class="doccomment">/// Check if this folder is a local Git repository.
-</span><span class="kw">pub fn </span>git_is_local_repository() -&gt; bool {
-    <span class="kw">crate</span>::auto_git_mod::git_is_local_repository()
-}
-
-<span class="doccomment">/// Run one shell command and return ShellOutput {exit_status, stdout, stderr}.
-///
-/// TODO: vulnerable to command injection
-</span><span class="kw">pub fn </span>run_shell_command_output(shell_command: <span class="kw-2">&amp;</span>str) -&gt; ShellOutput {
-    <span class="kw">crate</span>::auto_shell_mod::run_shell_command_output(shell_command)
-}
-
-<span class="doccomment">/// Run one shell command and return true if success.
-///
-/// TODO: vulnerable to command injection
-</span><span class="kw">pub fn </span>run_shell_command_success(shell_command: <span class="kw-2">&amp;</span>str) -&gt; bool {
-    <span class="kw">crate</span>::auto_shell_mod::run_shell_command_success(shell_command)
-}
-
-<span class="doccomment">/// Get home dir using the home crate.
-///
-/// Panics if HOME not found.
-</span><span class="kw">pub fn </span>home_dir() -&gt; std::path::PathBuf {
-    <span class="kw">crate</span>::auto_helper_functions_mod::home_dir()
-}
-
-<span class="doccomment">/// Replace tilde with home::home_dir, only for utf8.
-</span><span class="kw">pub fn </span>tilde_expand_to_home_dir_utf8(path_str: <span class="kw-2">&amp;</span>str) -&gt; anyhow::Result&lt;camino::Utf8PathBuf&gt; {
-    <span class="kw">crate</span>::auto_helper_functions_mod::tilde_expand_to_home_dir_utf8(path_str)
-}
-
-<span class="doccomment">/// Sync, check, create, push git tag.
-</span><span class="kw">pub fn </span>git_tag_sync_check_create_push(version: <span class="kw-2">&amp;</span>str) -&gt; String {
-    <span class="kw">crate</span>::auto_github_mod::git_tag_sync_check_create_push(version)
-}
-
-<span class="doccomment">/// Get release text from RELEASES.md.
-///
-/// First, the user must write the content into file RELEASES.md in the section ## Unreleased.  
-/// Then the automation task will copy the content to GitHub release  
-/// and create a new Version title in RELEASES.md.  
-</span><span class="kw">pub fn </span>body_text_from_releases_md() -&gt; <span class="prelude-ty">Option</span>&lt;String&gt; {
-    <span class="kw">crate</span>::auto_github_mod::body_text_from_releases_md()
-}
-
-<span class="doccomment">/// Create a new Version title in RELEASES.md.
-</span><span class="kw">pub fn </span>create_new_version_in_releases_md(release_name: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;()&gt; {
-    <span class="kw">crate</span>::auto_github_mod::create_new_version_in_releases_md(release_name)
-}
-
-<span class="doccomment">/// UTC  date in iso standard like 2024-12-31
-</span><span class="kw">pub fn </span>now_utc_date_iso() -&gt; String {
-    <span class="kw">crate</span>::utils_mod::now_utc_date_iso()
-}
-
-<span class="comment">// region: auto_md_to_doc_comments include doc_comments/copy_folder_files_into_module.md A ///
-</span><span class="doccomment">/// Copy all files from the folder into a module as strings (static &amp;str).
-///
-/// The Rust code to modify has the markers:
-///
-/// ```Rust ignore
-/// //comment region: files copied into strings by automation tasks
-///
-/// //comment endregion: files copied into strings by automation tasks
-///
-/// ```
-///
-/// In this instructions I changed `[//]` to `[//comment]` to not process these markers.
-///
-/// First we create the complete text, then we check if the old text needs to be replaced.
-///
-/// Binary files need a special treatment:
-///
-/// ```Rust ignore
-/// ext_for_binary_files=vec![".ico",".jpg",".png",".woff2"];
-/// ```
-///
-/// Exclude big folders:
-///
-/// ```Rust ignore
-/// exclude_big_folders = vec!["/.git","/target","/docs"];
-/// ```
-///
-</span><span class="comment">// endregion: auto_md_to_doc_comments include doc_comments/copy_folder_files_into_module.md A ///
-</span><span class="kw">pub fn </span>copy_folder_files_into_module(
-    folder_path: <span class="kw-2">&amp;</span>std::path::Path,
-    module_path: <span class="kw-2">&amp;</span>std::path::Path,
-    ext_for_binary_files: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span>str],
-    exclude_big_folders: <span class="kw-2">&amp;</span>[String],
-) {
-    <span class="kw">crate</span>::auto_copy_files_to_strings_mod::copy_folder_files_into_module(
-        folder_path,
-        module_path,
-        ext_for_binary_files,
-        exclude_big_folders,
-    )
-}
-
-<span class="doccomment">/// Add commit message to Unreleased in RELEASES.md.
-</span><span class="kw">pub fn </span>add_message_to_unreleased(message: <span class="kw-2">&amp;</span>str) {
-    <span class="kw">crate</span>::auto_github_mod::add_message_to_unreleased(message)
-}
-
-<span class="comment">// region: auto_md_to_doc_comments include doc_comments/auto_playground_run_code.md A ///
-</span><span class="doccomment">/// Include the link to run code in Rust playground.
-///
-/// The function searches in all markdown files for markers like this:
-///
-/// ```markdown
-/// [//comment]: # (auto_playground start)
-///
-/// Run this code in the [Rust playground](https://play.rust-lang.org/?version=stable&amp;mode=debug&amp;edition=2021&amp;code=fn%20m%0A%7D):
-///
-/// '''Rust ignore
-/// fn main(){
-///     println!("Hello World!");
-/// }
-/// '''
-///
-/// [//comment]: # (auto_playground end)
-/// ```
-///
-/// In this instructions I changed `[//]` to `[//comment]` and  ticks to single quotes to not process these markers.
-///
-/// Between the start marker and the first triple backtick there is the link in "()" parentheses. The link to Rust playground encodes the code with url_encoding (percents) and sends it as an Url parameter.
-///
-/// Info: docs.rs has already a functionality that shows the `Run` button on your code and can run code the playground if you put this line at the top of lib.rs:
-///
-/// ``` Rust ignore
-/// #![doc(html_playground_url = "https://play.rust-lang.org")]
-/// ```
-///
-/// But it works only on docs.rs.  
-/// I want to run my code examples from everywhere: from GitHub README.md, GitHub pages and crates.io.  
-///
-</span><span class="comment">// endregion: auto_md_to_doc_comments include doc_comments/auto_playground_run_code.md A ///
-</span><span class="kw">pub fn </span>auto_playground_run_code() {
-    <span class="kw">crate</span>::auto_playground_mod::auto_playground_run_code()
-}
-
-<span class="doccomment">/// Interactive ask to create a new local git repository.
-</span><span class="kw">pub fn </span>new_local_repository(message: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;()&gt; {
-    <span class="kw">crate</span>::auto_git_mod::new_local_repository(message)
-}
-<span class="comment">// endregion: Public API functions
-</span></code></pre></div></section></main></body></html>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/public_api_mod.rs`."><title>public_api_mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-aa0817cf.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="cargo_auto_lib" data-themes="" data-resource-suffix="" data-rustdoc-version="1.90.0 (1159e78c4 2025-09-14)" data-channel="1.90.0" data-search-js="search-fa3e91e5.js" data-settings-js="settings-5514c975.js" ><script src="../../static.files/storage-68b7e25d.js"></script><script defer src="../../static.files/src-script-813739b1.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-eebb9057.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-32bb7600.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">cargo_auto_lib/</div>public_api_mod.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap digits-3"><pre class="rust"><code><a href=#1 id=1 data-nosnippet>1</a><span class="comment">// public_api_mod.rs
+<a href=#2 id=2 data-nosnippet>2</a>
+<a href=#3 id=3 data-nosnippet>3</a>// region: auto_md_to_doc_comments include doc_comments/public_api_mod.md A //!
+<a href=#4 id=4 data-nosnippet>4</a></span><span class="doccomment">//! public_api_mod gives more control over changes in the public api.
+<a href=#5 id=5 data-nosnippet>5</a>//!
+<a href=#6 id=6 data-nosnippet>6</a>//! The Public API of a library is a pain in the a...  
+<a href=#7 id=7 data-nosnippet>7</a>//! Every time I modify something I have to think how it will affect the users of the library.  
+<a href=#8 id=8 data-nosnippet>8</a>//! They could have tens or hundreds of places where they use the library. Breaking changes are terrible things.  
+<a href=#9 id=9 data-nosnippet>9</a>//! The developers are not willing to change their code every time a library changes slightly.  
+<a href=#10 id=10 data-nosnippet>10</a>//! Yes, there is the semver to show if the new library is API compatible. That helps a lot.  
+<a href=#11 id=11 data-nosnippet>11</a>//! It is dreaded if the first version of a function does not return a Result&lt;&gt;.  
+<a href=#12 id=12 data-nosnippet>12</a>//! Then later we will surely come to the point, that we need to return a Result&lt;&gt;. This is a terrible breaking change.  
+<a href=#13 id=13 data-nosnippet>13</a>//! It is wise to return a Result always. Even when that is not needed right now. It will surely be needed in the future.  
+<a href=#14 id=14 data-nosnippet>14</a>//! Another tactic is to make new functions with a different name and mark the old functions as Obsolete.
+<a href=#15 id=15 data-nosnippet>15</a>//!
+<a href=#16 id=16 data-nosnippet>16</a>//! This library is used by the automation_tasks_rs executable.  
+<a href=#17 id=17 data-nosnippet>17</a>//! I want to have here the complete and exact definition of the public API.  
+<a href=#18 id=18 data-nosnippet>18</a>//! Therefore I will not use reexports like `pub use` or `pub mod`.  
+<a href=#19 id=19 data-nosnippet>19</a>//! This way I can always know easily if my public API has changed.  
+<a href=#20 id=20 data-nosnippet>20</a>//! Just compare the `public_api_mod.rs` file in git diff.  
+<a href=#21 id=21 data-nosnippet>21</a>//! Adding functions, structs, methods and enums is ok, it does not break the Public API.  
+<a href=#22 id=22 data-nosnippet>22</a>//! But modifying existing functions, methods or enums will break the compatibility.  
+<a href=#23 id=23 data-nosnippet>23</a>//!
+<a href=#24 id=24 data-nosnippet>24</a></span><span class="comment">// endregion: auto_md_to_doc_comments include doc_comments/public_api_mod.md A //!
+<a href=#25 id=25 data-nosnippet>25</a>
+<a href=#26 id=26 data-nosnippet>26</a>// region: Public API constants
+<a href=#27 id=27 data-nosnippet>27</a>// ANSI colors for Linux terminal
+<a href=#28 id=28 data-nosnippet>28</a>// https://github.com/shiena/ansicolor/blob/master/README.md
+<a href=#29 id=29 data-nosnippet>29</a></span><span class="doccomment">/// ANSI color
+<a href=#30 id=30 data-nosnippet>30</a></span><span class="kw">pub const </span>RED: <span class="kw-2">&amp;</span>str = <span class="string">"\x1b[31m"</span>;
+<a href=#31 id=31 data-nosnippet>31</a><span class="doccomment">/// ANSI color
+<a href=#32 id=32 data-nosnippet>32</a></span><span class="kw">pub const </span>GREEN: <span class="kw-2">&amp;</span>str = <span class="string">"\x1b[32m"</span>;
+<a href=#33 id=33 data-nosnippet>33</a><span class="doccomment">/// ANSI color
+<a href=#34 id=34 data-nosnippet>34</a></span><span class="kw">pub const </span>YELLOW: <span class="kw-2">&amp;</span>str = <span class="string">"\x1b[33m"</span>;
+<a href=#35 id=35 data-nosnippet>35</a><span class="doccomment">/// ANSI color
+<a href=#36 id=36 data-nosnippet>36</a></span><span class="kw">pub const </span>BLUE: <span class="kw-2">&amp;</span>str = <span class="string">"\x1b[34m"</span>;
+<a href=#37 id=37 data-nosnippet>37</a><span class="doccomment">/// ANSI color
+<a href=#38 id=38 data-nosnippet>38</a></span><span class="kw">pub const </span>RESET: <span class="kw-2">&amp;</span>str = <span class="string">"\x1b[0m"</span>;
+<a href=#39 id=39 data-nosnippet>39</a><span class="comment">// endregion: Public API constants
+<a href=#40 id=40 data-nosnippet>40</a>
+<a href=#41 id=41 data-nosnippet>41</a>// region: re-export entire dependencies
+<a href=#42 id=42 data-nosnippet>42</a></span><span class="kw">pub use </span>inquire;
+<a href=#43 id=43 data-nosnippet>43</a><span class="comment">// endregion: re-export entire dependencies
+<a href=#44 id=44 data-nosnippet>44</a>
+<a href=#45 id=45 data-nosnippet>45</a>// region: Public API structs and methods
+<a href=#46 id=46 data-nosnippet>46</a>
+<a href=#47 id=47 data-nosnippet>47</a></span><span class="doccomment">/// Result type with fixed LibError using thiserror.  
+<a href=#48 id=48 data-nosnippet>48</a>///
+<a href=#49 id=49 data-nosnippet>49</a>/// It makes simpler to write returns from functions.  
+<a href=#50 id=50 data-nosnippet>50</a></span><span class="kw">pub use </span><span class="kw">crate</span>::error_mod::{Error, <span class="prelude-ty">Result</span>};
+<a href=#51 id=51 data-nosnippet>51</a>
+<a href=#52 id=52 data-nosnippet>52</a><span class="doccomment">/// Similar to std::process::Output, but with i32 and Strings for easier work.
+<a href=#53 id=53 data-nosnippet>53</a></span><span class="kw">pub use </span><span class="kw">crate</span>::auto_shell_mod::ShellOutput;
+<a href=#54 id=54 data-nosnippet>54</a>
+<a href=#55 id=55 data-nosnippet>55</a><span class="comment">// reexporting a struct needs to export the trait to also reexports all the methods
+<a href=#56 id=56 data-nosnippet>56</a>
+<a href=#57 id=57 data-nosnippet>57</a></span><span class="doccomment">/// Read data from Cargo.toml.  
+<a href=#58 id=58 data-nosnippet>58</a></span><span class="kw">pub use </span><span class="kw">crate</span>::auto_cargo_toml_mod::CargoToml;
+<a href=#59 id=59 data-nosnippet>59</a>
+<a href=#60 id=60 data-nosnippet>60</a><span class="comment">// Just for making the struct methods obvious as public methods
+<a href=#61 id=61 data-nosnippet>61</a>// I created a special trait for this struct
+<a href=#62 id=62 data-nosnippet>62</a>// AFTERTHOUGHT: This makes me think if most the functions are methods,
+<a href=#63 id=63 data-nosnippet>63</a>// then it is consistent how to make the public API definition.
+<a href=#64 id=64 data-nosnippet>64</a>// There is a downside: the caller must bring the trait into scope. A little annoying.
+<a href=#65 id=65 data-nosnippet>65</a>
+<a href=#66 id=66 data-nosnippet>66</a></span><span class="doccomment">/// Trait with methods to read data from Cargo.toml.
+<a href=#67 id=67 data-nosnippet>67</a></span><span class="kw">pub trait </span>CargoTomlPublicApiMethods {
+<a href=#68 id=68 data-nosnippet>68</a>    <span class="doccomment">/// read Cargo.toml, for workspaces it is the Cargo.toml of the first member
+<a href=#69 id=69 data-nosnippet>69</a>    </span><span class="kw">fn </span>read() -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>&gt;
+<a href=#70 id=70 data-nosnippet>70</a>    <span class="kw">where
+<a href=#71 id=71 data-nosnippet>71</a>        </span><span class="self">Self</span>: Sized;
+<a href=#72 id=72 data-nosnippet>72</a>    <span class="doccomment">/// Cargo.toml package name
+<a href=#73 id=73 data-nosnippet>73</a>    </span><span class="kw">fn </span>package_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; String;
+<a href=#74 id=74 data-nosnippet>74</a>    <span class="doccomment">/// Cargo.toml package version
+<a href=#75 id=75 data-nosnippet>75</a>    </span><span class="kw">fn </span>package_version(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; String;
+<a href=#76 id=76 data-nosnippet>76</a>    <span class="doccomment">/// Cargo.toml package authors as string
+<a href=#77 id=77 data-nosnippet>77</a>    </span><span class="kw">fn </span>package_authors_string(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; String;
+<a href=#78 id=78 data-nosnippet>78</a>    <span class="doccomment">/// Cargo.toml package authors as string without emails
+<a href=#79 id=79 data-nosnippet>79</a>    </span><span class="kw">fn </span>package_author_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; String;
+<a href=#80 id=80 data-nosnippet>80</a>    <span class="doccomment">/// Cargo.toml package repository
+<a href=#81 id=81 data-nosnippet>81</a>    </span><span class="kw">fn </span>package_repository(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;String&gt;;
+<a href=#82 id=82 data-nosnippet>82</a>    <span class="doccomment">/// Cargo.toml package description
+<a href=#83 id=83 data-nosnippet>83</a>    </span><span class="kw">fn </span>package_description(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;String&gt;;
+<a href=#84 id=84 data-nosnippet>84</a>    <span class="doccomment">/// Cargo.toml package homepage
+<a href=#85 id=85 data-nosnippet>85</a>    </span><span class="kw">fn </span>package_homepage(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; String;
+<a href=#86 id=86 data-nosnippet>86</a>    <span class="doccomment">/// Cargo.toml workspace members
+<a href=#87 id=87 data-nosnippet>87</a>    </span><span class="kw">fn </span>workspace_members(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;Vec&lt;String&gt;&gt;;
+<a href=#88 id=88 data-nosnippet>88</a>    <span class="doccomment">/// github_owner from package.repository
+<a href=#89 id=89 data-nosnippet>89</a>    </span><span class="kw">fn </span>github_owner(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;String&gt;;
+<a href=#90 id=90 data-nosnippet>90</a>    <span class="doccomment">/// Cargo.toml package keywords
+<a href=#91 id=91 data-nosnippet>91</a>    </span><span class="kw">fn </span>package_keywords(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Vec&lt;String&gt;;
+<a href=#92 id=92 data-nosnippet>92</a>}
+<a href=#93 id=93 data-nosnippet>93</a>
+<a href=#94 id=94 data-nosnippet>94</a><span class="doccomment">/// Shell command builder with simple but limited sanitizer.
+<a href=#95 id=95 data-nosnippet>95</a>///
+<a href=#96 id=96 data-nosnippet>96</a>/// The limited sanitization will error if the value contains double quotes.
+<a href=#97 id=97 data-nosnippet>97</a>/// Command injections attack is possible because the shell command mixes executable code and data in a single string.
+<a href=#98 id=98 data-nosnippet>98</a>/// The attacker could format the "user input" data in a way that it transforms it into "executable code".
+<a href=#99 id=99 data-nosnippet>99</a>/// A true sanitization is hard to do in software. It would mean to understand all the intricacies of bash syntax?!
+<a href=#100 id=100 data-nosnippet>100</a>/// Another solution is to create a complex object model to have every command and data separated. Too complicated and developer unfriendly.
+<a href=#101 id=101 data-nosnippet>101</a>/// Instead here we take that the developer is a trusted person and he knows how to create the template correctly,
+<a href=#102 id=102 data-nosnippet>102</a>/// so that the placeholders are always de-facto delimited with double-quote inside the shell command.
+<a href=#103 id=103 data-nosnippet>103</a>/// This avoids the problem of injection of any other symbol except double-quotes.
+<a href=#104 id=104 data-nosnippet>104</a>/// The injection of double quote would finish the double-quote data and open the door tho write executable code.
+<a href=#105 id=105 data-nosnippet>105</a>/// It would be very complicated to check if "escaped double quotes" are or not correct in the context of the template.
+<a href=#106 id=106 data-nosnippet>106</a>/// So I don't allow them at all. This covers the vast majority of simple use cases.
+<a href=#107 id=107 data-nosnippet>107</a>/// Placeholders are delimited with curly brackets.
+<a href=#108 id=108 data-nosnippet>108</a></span><span class="kw">pub use </span><span class="kw">crate</span>::auto_shell_mod::ShellCommandLimitedDoubleQuotesSanitizer;
+<a href=#109 id=109 data-nosnippet>109</a>
+<a href=#110 id=110 data-nosnippet>110</a><span class="doccomment">/// Trait with methods for ShellCommandLimitedDoubleQuotesSanitizer.
+<a href=#111 id=111 data-nosnippet>111</a></span><span class="kw">pub trait </span>ShellCommandLimitedDoubleQuotesSanitizerTrait {
+<a href=#112 id=112 data-nosnippet>112</a>    <span class="doccomment">/// Template for the shell command with placeholders
+<a href=#113 id=113 data-nosnippet>113</a>    ///
+<a href=#114 id=114 data-nosnippet>114</a>    /// The limited sanitization will error if the value contains double quotes.
+<a href=#115 id=115 data-nosnippet>115</a>    /// Placeholders are delimited with curly brackets.
+<a href=#116 id=116 data-nosnippet>116</a>    /// The developer must be super careful to write the template correctly.
+<a href=#117 id=117 data-nosnippet>117</a>    /// The placeholders must be inside a block delimited with double quotes.
+<a href=#118 id=118 data-nosnippet>118</a>    /// In a way that only an injection of a double quote can cause problems.
+<a href=#119 id=119 data-nosnippet>119</a>    /// There is no software check of the correctness of the template.
+<a href=#120 id=120 data-nosnippet>120</a>    </span><span class="kw">fn </span>new(template: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>&gt;
+<a href=#121 id=121 data-nosnippet>121</a>    <span class="kw">where
+<a href=#122 id=122 data-nosnippet>122</a>        </span><span class="self">Self</span>: Sized;
+<a href=#123 id=123 data-nosnippet>123</a>    <span class="doccomment">/// Replace placeholders with the value
+<a href=#124 id=124 data-nosnippet>124</a>    ///
+<a href=#125 id=125 data-nosnippet>125</a>    /// The limited sanitization will error if the value contains double quotes.
+<a href=#126 id=126 data-nosnippet>126</a>    /// Enter the placeholder parameter delimited with curly brackets.
+<a href=#127 id=127 data-nosnippet>127</a>    /// It would be very complicated to check if "escaped double quotes" are or not correct in the context of the template.
+<a href=#128 id=128 data-nosnippet>128</a>    /// So I don't allow them at all. This covers the vast majority of simple use cases.
+<a href=#129 id=129 data-nosnippet>129</a>    </span><span class="kw">fn </span>arg(<span class="kw-2">&amp;mut </span><span class="self">self</span>, placeholder: <span class="kw-2">&amp;</span>str, value: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="kw-2">&amp;mut </span><span class="self">Self</span>&gt;;
+<a href=#130 id=130 data-nosnippet>130</a>
+<a href=#131 id=131 data-nosnippet>131</a>    <span class="doccomment">/// Just like arg(), but for secrets that must be not echoed on the screen
+<a href=#132 id=132 data-nosnippet>132</a>    </span><span class="kw">fn </span>arg_secret(<span class="kw-2">&amp;mut </span><span class="self">self</span>, placeholder: <span class="kw-2">&amp;</span>str, value: <span class="kw-2">&amp;</span>secrecy::SecretString) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="kw-2">&amp;mut </span><span class="self">Self</span>&gt;;
+<a href=#133 id=133 data-nosnippet>133</a>
+<a href=#134 id=134 data-nosnippet>134</a>    <span class="doccomment">/// Run the sanitized command with no additional checks
+<a href=#135 id=135 data-nosnippet>135</a>    </span><span class="kw">fn </span>run(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;()&gt;;
+<a href=#136 id=136 data-nosnippet>136</a>}
+<a href=#137 id=137 data-nosnippet>137</a>
+<a href=#138 id=138 data-nosnippet>138</a><span class="comment">// endregion: Public API structs and methods
+<a href=#139 id=139 data-nosnippet>139</a>
+<a href=#140 id=140 data-nosnippet>140</a>// region: Public API functions
+<a href=#141 id=141 data-nosnippet>141</a></span><span class="doccomment">/// Find 'from pos'.
+<a href=#142 id=142 data-nosnippet>142</a></span><span class="kw">pub fn </span>find_from(text: <span class="kw-2">&amp;</span>str, from_pos: usize, find: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Result</span>&lt;usize&gt; {
+<a href=#143 id=143 data-nosnippet>143</a>    <span class="kw">crate</span>::utils_mod::find_from(text, from_pos, find)
+<a href=#144 id=144 data-nosnippet>144</a>}
+<a href=#145 id=145 data-nosnippet>145</a>
+<a href=#146 id=146 data-nosnippet>146</a><span class="doccomment">/// Return the position of end of the delimited data before the delimiter.
+<a href=#147 id=147 data-nosnippet>147</a></span><span class="kw">pub fn </span>find_pos_end_data_before_delimiter(md_text_content: <span class="kw-2">&amp;</span>str, pos: usize, delimiter: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Result</span>&lt;usize&gt; {
+<a href=#148 id=148 data-nosnippet>148</a>    <span class="kw">crate</span>::utils_mod::find_pos_end_data_before_delimiter(md_text_content, pos, delimiter)
+<a href=#149 id=149 data-nosnippet>149</a>}
+<a href=#150 id=150 data-nosnippet>150</a>
+<a href=#151 id=151 data-nosnippet>151</a><span class="doccomment">/// Return the position of start of the delimited data after the delimiter.
+<a href=#152 id=152 data-nosnippet>152</a></span><span class="kw">pub fn </span>find_pos_start_data_after_delimiter(md_text_content: <span class="kw-2">&amp;</span>str, pos: usize, delimiter: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Result</span>&lt;usize&gt; {
+<a href=#153 id=153 data-nosnippet>153</a>    <span class="kw">crate</span>::utils_mod::find_pos_start_data_after_delimiter(md_text_content, pos, delimiter)
+<a href=#154 id=154 data-nosnippet>154</a>}
+<a href=#155 id=155 data-nosnippet>155</a>
+<a href=#156 id=156 data-nosnippet>156</a><span class="doccomment">/// The original `concat()` function does not have a delimiter.
+<a href=#157 id=157 data-nosnippet>157</a></span><span class="kw">pub fn </span>concatenate_vec_to_string(vec: <span class="kw-2">&amp;</span>[String], delimiter: <span class="kw-2">&amp;</span>str) -&gt; String {
+<a href=#158 id=158 data-nosnippet>158</a>    <span class="kw">crate</span>::utils_mod::concatenate_vec_to_string(vec, delimiter)
+<a href=#159 id=159 data-nosnippet>159</a>}
+<a href=#160 id=160 data-nosnippet>160</a>
+<a href=#161 id=161 data-nosnippet>161</a><span class="comment">// region: auto_md_to_doc_comments include doc_comments/traverse_dir_with_exclude_dir.md A ///
+<a href=#162 id=162 data-nosnippet>162</a></span><span class="doccomment">/// Traverse dir and its sub-dir, but avoid excluded dirs.
+<a href=#163 id=163 data-nosnippet>163</a>///
+<a href=#164 id=164 data-nosnippet>164</a>/// The find_file and the exclude dir strings must start with /.
+<a href=#165 id=165 data-nosnippet>165</a>///
+<a href=#166 id=166 data-nosnippet>166</a>/// ## Example
+<a href=#167 id=167 data-nosnippet>167</a>///
+<a href=#168 id=168 data-nosnippet>168</a>/// ```Rust ignore
+<a href=#169 id=169 data-nosnippet>169</a>///
+<a href=#170 id=170 data-nosnippet>170</a>/// let files = cargo_auto_lib::traverse_dir_with_exclude_dir(
+<a href=#171 id=171 data-nosnippet>171</a>///     Path::new("/home/project/src"),
+<a href=#172 id=172 data-nosnippet>172</a>///     "/*.rs",
+<a href=#173 id=173 data-nosnippet>173</a>///     // avoid big folders
+<a href=#174 id=174 data-nosnippet>174</a>///     &amp;vec![
+<a href=#175 id=175 data-nosnippet>175</a>///         "/.git".to_string(),
+<a href=#176 id=176 data-nosnippet>176</a>///         "/target".to_string(),
+<a href=#177 id=177 data-nosnippet>177</a>///         "/docs".to_string()
+<a href=#178 id=178 data-nosnippet>178</a>///     ]
+<a href=#179 id=179 data-nosnippet>179</a>/// ).expect("error");
+<a href=#180 id=180 data-nosnippet>180</a>/// for rs_file_name in files.iter() {
+<a href=#181 id=181 data-nosnippet>181</a>///     println!("{}", &amp;rs_file_name);
+<a href=#182 id=182 data-nosnippet>182</a>/// }
+<a href=#183 id=183 data-nosnippet>183</a>/// ```
+<a href=#184 id=184 data-nosnippet>184</a>///
+<a href=#185 id=185 data-nosnippet>185</a></span><span class="comment">// endregion: auto_md_to_doc_comments include doc_comments/traverse_dir_with_exclude_dir.md A ///
+<a href=#186 id=186 data-nosnippet>186</a></span><span class="kw">pub fn </span>traverse_dir_with_exclude_dir(dir: <span class="kw-2">&amp;</span>std::path::Path, find_file: <span class="kw-2">&amp;</span>str, exclude_dirs: <span class="kw-2">&amp;</span>[String]) -&gt; <span class="prelude-ty">Result</span>&lt;Vec&lt;String&gt;&gt; {
+<a href=#187 id=187 data-nosnippet>187</a>    <span class="kw">crate</span>::utils_mod::traverse_dir_with_exclude_dir(dir, find_file, exclude_dirs)
+<a href=#188 id=188 data-nosnippet>188</a>}
+<a href=#189 id=189 data-nosnippet>189</a>
+<a href=#190 id=190 data-nosnippet>190</a><span class="comment">// region: auto_md_to_doc_comments include doc_comments/auto_cargo_toml_to_md.md A ///
+<a href=#191 id=191 data-nosnippet>191</a></span><span class="doccomment">/// This function includes data from Cargo.toml to markdown files.  
+<a href=#192 id=192 data-nosnippet>192</a>///
+<a href=#193 id=193 data-nosnippet>193</a>/// ![auto_cargo_toml_to_md.png](https://github.com/automation-tasks-rs/cargo_auto_lib/blob/main/images/auto_cargo_toml_to_md.png?raw=true)
+<a href=#194 id=194 data-nosnippet>194</a>///
+<a href=#195 id=195 data-nosnippet>195</a>/// This is nice for avoiding out of sync data.  
+<a href=#196 id=196 data-nosnippet>196</a>/// Run it on every build with `automation_tasks_rs` and [cargo auto](https://crates.io/crates/cargo-auto).  
+<a href=#197 id=197 data-nosnippet>197</a>///   
+<a href=#198 id=198 data-nosnippet>198</a>/// In the md file write these markers in invisible markdown comments.
+<a href=#199 id=199 data-nosnippet>199</a>///
+<a href=#200 id=200 data-nosnippet>200</a>/// ```markdown
+<a href=#201 id=201 data-nosnippet>201</a>/// [//comment]: # (auto_cargo_toml_to_md start)
+<a href=#202 id=202 data-nosnippet>202</a>///
+<a href=#203 id=203 data-nosnippet>203</a>/// [//comment]: # (auto_cargo_toml_to_md end)
+<a href=#204 id=204 data-nosnippet>204</a>///
+<a href=#205 id=205 data-nosnippet>205</a>/// ```
+<a href=#206 id=206 data-nosnippet>206</a>///
+<a href=#207 id=207 data-nosnippet>207</a>/// In this instructions I changed `[//]` to `[//comment]` to not process these markers.
+<a href=#208 id=208 data-nosnippet>208</a>///
+<a href=#209 id=209 data-nosnippet>209</a>/// `auto_cargo_toml_to_md` deletes the old lines between the markers and includes the Cargo.toml data:  
+<a href=#210 id=210 data-nosnippet>210</a>/// description, repository, version, utc_now, authors and creates badges for keywords and categories.
+<a href=#211 id=211 data-nosnippet>211</a>///
+<a href=#212 id=212 data-nosnippet>212</a>/// The words topics, keywords, hashtags and tags all mean the same concept.  
+<a href=#213 id=213 data-nosnippet>213</a>/// In cargo.toml we have keywords.  
+<a href=#214 id=214 data-nosnippet>214</a>/// In README.md I want to have badges with different color. And hashtags for SEO.  
+<a href=#215 id=215 data-nosnippet>215</a>/// In GitHub they are topics.
+<a href=#216 id=216 data-nosnippet>216</a>///
+<a href=#217 id=217 data-nosnippet>217</a>/// Some keywords have defined colors, others are orange like Rust.  
+<a href=#218 id=218 data-nosnippet>218</a>/// This can be expanded in the future.  
+<a href=#219 id=219 data-nosnippet>219</a>///
+<a href=#220 id=220 data-nosnippet>220</a>/// - Yellow: work-in-progress
+<a href=#221 id=221 data-nosnippet>221</a>/// - Green: maintained, ready-for-use
+<a href=#222 id=222 data-nosnippet>222</a>/// - Red: obsolete, archived
+<a href=#223 id=223 data-nosnippet>223</a>///
+<a href=#224 id=224 data-nosnippet>224</a></span><span class="comment">// endregion: auto_md_to_doc_comments include doc_comments/auto_cargo_toml_to_md.md A ///
+<a href=#225 id=225 data-nosnippet>225</a></span><span class="kw">pub fn </span>auto_cargo_toml_to_md() -&gt; <span class="prelude-ty">Result</span>&lt;()&gt; {
+<a href=#226 id=226 data-nosnippet>226</a>    <span class="kw">crate</span>::auto_cargo_toml_to_md_mod::auto_cargo_toml_to_md()
+<a href=#227 id=227 data-nosnippet>227</a>}
+<a href=#228 id=228 data-nosnippet>228</a>
+<a href=#229 id=229 data-nosnippet>229</a><span class="doccomment">/// I want html pages to be correct microXML when I use them for single page application.
+<a href=#230 id=230 data-nosnippet>230</a>///
+<a href=#231 id=231 data-nosnippet>231</a>/// Before build or release this function will check for correctness.
+<a href=#232 id=232 data-nosnippet>232</a></span><span class="kw">pub fn </span>auto_check_micro_xml(path_to_html_pages: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Result</span>&lt;()&gt; {
+<a href=#233 id=233 data-nosnippet>233</a>    <span class="kw">crate</span>::auto_check_micro_xml_mod::auto_check_micro_xml(path_to_html_pages)
+<a href=#234 id=234 data-nosnippet>234</a>}
+<a href=#235 id=235 data-nosnippet>235</a>
+<a href=#236 id=236 data-nosnippet>236</a><span class="doccomment">/// Deletes old js snippets when working with wasm-pack.  
+<a href=#237 id=237 data-nosnippet>237</a>///
+<a href=#238 id=238 data-nosnippet>238</a>/// The old folders for `js snippets` are not automatically deleted on building with `wasm-pack`.  
+<a href=#239 id=239 data-nosnippet>239</a>/// This utils do that.  
+<a href=#240 id=240 data-nosnippet>240</a>/// The function must be executed in the root project folder where is the Cargo.toml.  
+<a href=#241 id=241 data-nosnippet>241</a></span><span class="kw">pub fn </span>auto_delete_old_js_snippets() -&gt; <span class="prelude-ty">Result</span>&lt;()&gt; {
+<a href=#242 id=242 data-nosnippet>242</a>    <span class="kw">crate</span>::auto_delete_old_js_snippets_mod::auto_delete_old_js_snippets()
+<a href=#243 id=243 data-nosnippet>243</a>}
+<a href=#244 id=244 data-nosnippet>244</a>
+<a href=#245 id=245 data-nosnippet>245</a><span class="doccomment">/// Print one or more sub_commands.
+<a href=#246 id=246 data-nosnippet>246</a></span><span class="kw">pub fn </span>completion_return_one_or_more_sub_commands(sub_commands: Vec&lt;<span class="kw-2">&amp;</span>str&gt;, word_being_completed: <span class="kw-2">&amp;</span>str) {
+<a href=#247 id=247 data-nosnippet>247</a>    <span class="kw">crate</span>::auto_helper_functions_mod::completion_return_one_or_more_sub_commands(sub_commands, word_being_completed)
+<a href=#248 id=248 data-nosnippet>248</a>}
+<a href=#249 id=249 data-nosnippet>249</a>
+<a href=#250 id=250 data-nosnippet>250</a><span class="comment">// region: auto_md_to_doc_comments include doc_comments/exit_if_not_run_in_rust_project_root_directory.md A ///
+<a href=#251 id=251 data-nosnippet>251</a></span><span class="doccomment">/// Check if the code was run inside the Rust project root directory.  
+<a href=#252 id=252 data-nosnippet>252</a>///
+<a href=#253 id=253 data-nosnippet>253</a>/// There must be the `Cargo.toml` file and the directory `automation_tasks_rs`  
+<a href=#254 id=254 data-nosnippet>254</a>/// If not, exit with error message.  
+<a href=#255 id=255 data-nosnippet>255</a>///
+<a href=#256 id=256 data-nosnippet>256</a></span><span class="comment">// endregion: auto_md_to_doc_comments include doc_comments/exit_if_not_run_in_rust_project_root_directory.md A ///
+<a href=#257 id=257 data-nosnippet>257</a></span><span class="kw">pub fn </span>exit_if_not_run_in_rust_project_root_directory() {
+<a href=#258 id=258 data-nosnippet>258</a>    <span class="kw">crate</span>::auto_helper_functions_mod::exit_if_not_run_in_rust_project_root_directory()
+<a href=#259 id=259 data-nosnippet>259</a>}
+<a href=#260 id=260 data-nosnippet>260</a>
+<a href=#261 id=261 data-nosnippet>261</a><span class="doccomment">/// Run one shell command with static str.
+<a href=#262 id=262 data-nosnippet>262</a>///
+<a href=#263 id=263 data-nosnippet>263</a>/// We trust the "developer" that he will not make "command injection" in his own code.
+<a href=#264 id=264 data-nosnippet>264</a>/// The problem that must be sanitized is always "user input".
+<a href=#265 id=265 data-nosnippet>265</a>/// Exit task execution if the command has Exit Status != 0.
+<a href=#266 id=266 data-nosnippet>266</a></span><span class="kw">pub fn </span>run_shell_command_static(shell_command: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str) -&gt; <span class="prelude-ty">Result</span>&lt;()&gt; {
+<a href=#267 id=267 data-nosnippet>267</a>    <span class="kw">crate</span>::auto_shell_mod::run_shell_command_static(shell_command)
+<a href=#268 id=268 data-nosnippet>268</a>}
+<a href=#269 id=269 data-nosnippet>269</a>
+<a href=#270 id=270 data-nosnippet>270</a><span class="doccomment">/// Run one shell command.
+<a href=#271 id=271 data-nosnippet>271</a>///
+<a href=#272 id=272 data-nosnippet>272</a>/// Exit task execution if the command has Exit Status != 0.
+<a href=#273 id=273 data-nosnippet>273</a>/// TODO: vulnerable to command injection
+<a href=#274 id=274 data-nosnippet>274</a></span><span class="kw">pub fn </span>run_shell_command(shell_command: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Result</span>&lt;()&gt; {
+<a href=#275 id=275 data-nosnippet>275</a>    <span class="kw">crate</span>::auto_shell_mod::run_shell_command(shell_command)
+<a href=#276 id=276 data-nosnippet>276</a>}
+<a href=#277 id=277 data-nosnippet>277</a>
+<a href=#278 id=278 data-nosnippet>278</a><span class="comment">// region: auto_md_to_doc_comments include doc_comments/auto_lines_of_code.md A ///
+<a href=#279 id=279 data-nosnippet>279</a></span><span class="doccomment">/// This function inserts shield badges with lines_of_code into README.rs.  
+<a href=#280 id=280 data-nosnippet>280</a>///
+<a href=#281 id=281 data-nosnippet>281</a>/// ![auto_lines_of_code.png](https://github.com/automation-tasks-rs/cargo_auto_lib/blob/main/images/auto_lines_of_code.png?raw=true)
+<a href=#282 id=282 data-nosnippet>282</a>///
+<a href=#283 id=283 data-nosnippet>283</a>/// The parameter Link will be used for shield badge. If empty_string, the git remote repository will be used.  
+<a href=#284 id=284 data-nosnippet>284</a>/// Lines of code are not a "perfect" measurement of anything.  
+<a href=#285 id=285 data-nosnippet>285</a>/// Anybody can write a very big number of lines of useless code and comments.  
+<a href=#286 id=286 data-nosnippet>286</a>/// But for 95% of the cases they are good enough.  
+<a href=#287 id=287 data-nosnippet>287</a>/// Most of the developers use some "standard" coding practices and that is quantifiable and comparable.  
+<a href=#288 id=288 data-nosnippet>288</a>///
+<a href=#289 id=289 data-nosnippet>289</a>/// The `src_code_lines` is the most important count.  
+<a href=#290 id=290 data-nosnippet>290</a>/// That is actual code written for that project without doc comments, comments, unit tests, integration tests and examples.  
+<a href=#291 id=291 data-nosnippet>291</a>/// Sometimes is great to see a big number here. It means there was a lot of work invested. But other times we want to see a small number. It
+<a href=#292 id=292 data-nosnippet>292</a>/// means the developer understands the problem very well and don't try to solve anything outside that scope.  
+<a href=#293 id=293 data-nosnippet>293</a>/// The `src_doc_comment_lines` counts doc comments. They will eventually become docs. The count of lines shows how many documentation is written.  
+<a href=#294 id=294 data-nosnippet>294</a>/// The `src_comment_lines` counts code comments. Code comments are important to understand the code. The count of lines shows how understandable is the code.  
+<a href=#295 id=295 data-nosnippet>295</a>/// The `tests_lines` counts lines in tests and shows how good is the code tested. Here are the unit tests and integration test combined.  
+<a href=#296 id=296 data-nosnippet>296</a>/// The `examples_lines` counts lines in examples and shows how good is explained how to use the code.  
+<a href=#297 id=297 data-nosnippet>297</a>///
+<a href=#298 id=298 data-nosnippet>298</a>///
+<a href=#299 id=299 data-nosnippet>299</a>/// ## Folder and file structure
+<a href=#300 id=300 data-nosnippet>300</a>///
+<a href=#301 id=301 data-nosnippet>301</a>/// The folder structure of a single Rust project is simple.  
+<a href=#302 id=302 data-nosnippet>302</a>/// The project starts in the folder that contains `Cargo.toml`.  
+<a href=#303 id=303 data-nosnippet>303</a>/// The `src/` folder contains all the rust `*.rs` files.  
+<a href=#304 id=304 data-nosnippet>304</a>/// The `tests/` folder contains integration tests.  
+<a href=#305 id=305 data-nosnippet>305</a>/// The `examples/` folder contains examples.  
+<a href=#306 id=306 data-nosnippet>306</a>/// Some rs files can be excluded from the count adding this line near the start of the file: // exclude from auto_lines_of_code
+<a href=#307 id=307 data-nosnippet>307</a>/// Inside a rs file the doc comment line start with `///` or `//!`.  
+<a href=#308 id=308 data-nosnippet>308</a>/// The normal comments start with `//` or `/!`.  
+<a href=#309 id=309 data-nosnippet>309</a>/// I will ignore the block comments. They are usually NOT used for comments, but to temporarily disable a piece of code. So I count this as code and not comments.  
+<a href=#310 id=310 data-nosnippet>310</a>/// The `src/*.rs` file can contain unit tests that start with `#[cfg(test)]`. I assume that these are always at the end of the file.  
+<a href=#311 id=311 data-nosnippet>311</a>/// There should not be any normal code after `#[cfg(test)]`, only tests.  
+<a href=#312 id=312 data-nosnippet>312</a>/// All other files: `md`, `toml`, `html`, `js`, ... are not counted.  
+<a href=#313 id=313 data-nosnippet>313</a>///
+<a href=#314 id=314 data-nosnippet>314</a>/// ## Include into README.md
+<a href=#315 id=315 data-nosnippet>315</a>///
+<a href=#316 id=316 data-nosnippet>316</a>/// If the README.md file contains these markers (don't copy the numbers 1 and 2):  
+<a href=#317 id=317 data-nosnippet>317</a>///
+<a href=#318 id=318 data-nosnippet>318</a>/// ```md
+<a href=#319 id=319 data-nosnippet>319</a>/// [//comment]: # (auto_lines_of_code start)
+<a href=#320 id=320 data-nosnippet>320</a>///
+<a href=#321 id=321 data-nosnippet>321</a>/// [//comment]: # (auto_lines_of_code end)
+<a href=#322 id=322 data-nosnippet>322</a>/// ```
+<a href=#323 id=323 data-nosnippet>323</a>///
+<a href=#324 id=324 data-nosnippet>324</a>/// In this instructions I changed `[//]` to `[//comment]` to not process these markers.
+<a href=#325 id=325 data-nosnippet>325</a>///
+<a href=#326 id=326 data-nosnippet>326</a>/// The function will include the shield badges code between them.  
+<a href=#327 id=327 data-nosnippet>327</a>/// It will erase the previous content.  
+<a href=#328 id=328 data-nosnippet>328</a>/// Use git diff to see the change.  
+<a href=#329 id=329 data-nosnippet>329</a>///
+<a href=#330 id=330 data-nosnippet>330</a></span><span class="comment">// endregion: auto_md_to_doc_comments include doc_comments/auto_lines_of_code.md A ///
+<a href=#331 id=331 data-nosnippet>331</a></span><span class="kw">pub fn </span>auto_lines_of_code(link: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Result</span>&lt;()&gt; {
+<a href=#332 id=332 data-nosnippet>332</a>    <span class="kw">crate</span>::auto_lines_of_code_mod::auto_lines_of_code(link)
+<a href=#333 id=333 data-nosnippet>333</a>}
+<a href=#334 id=334 data-nosnippet>334</a>
+<a href=#335 id=335 data-nosnippet>335</a><span class="comment">// region: auto_md_to_doc_comments include doc_comments/auto_md_to_doc_comments.md A ///
+<a href=#336 id=336 data-nosnippet>336</a></span><span class="doccomment">/// Finds rs files with markers and include segments from md files as doc comments.  
+<a href=#337 id=337 data-nosnippet>337</a>///
+<a href=#338 id=338 data-nosnippet>338</a>/// ![auto_md_to_doc_comments.png](https://github.com/automation-tasks-rs/cargo_auto_lib/blob/main/images/auto_md_to_doc_comments.png?raw=true)
+<a href=#339 id=339 data-nosnippet>339</a>///
+<a href=#340 id=340 data-nosnippet>340</a>/// From this doc comments `cargo doc` will generated the documentation and auto-completion.  
+<a href=#341 id=341 data-nosnippet>341</a>/// We don't want to manually copy this segments. We want them to be automatically in sync.  
+<a href=#342 id=342 data-nosnippet>342</a>/// We will just run this function before every `cargo doc` with an automation task.  
+<a href=#343 id=343 data-nosnippet>343</a>/// The `auto_md_to_doc_comments` function must be executed in the project root folder where is the Cargo.toml file.  
+<a href=#344 id=344 data-nosnippet>344</a>/// First it searches all the rs files in src, tests and examples folders.  
+<a href=#345 id=345 data-nosnippet>345</a>/// If they contain the markers, than finds the md file and the named segment and include it as doc comments into the rs file.  
+<a href=#346 id=346 data-nosnippet>346</a>/// The markers are always in pairs: start and end. So exactly the content in between is changed.  
+<a href=#347 id=347 data-nosnippet>347</a>/// The markers are always comments, so they don't change the code.  
+<a href=#348 id=348 data-nosnippet>348</a>/// It works only for files with LF line delimiter. No CR and no CRLF.  
+<a href=#349 id=349 data-nosnippet>349</a>///
+<a href=#350 id=350 data-nosnippet>350</a>/// ## markers
+<a href=#351 id=351 data-nosnippet>351</a>///
+<a href=#352 id=352 data-nosnippet>352</a>/// In the rs file write these markers:  
+<a href=#353 id=353 data-nosnippet>353</a>///
+<a href=#354 id=354 data-nosnippet>354</a>/// ```code
+<a href=#355 id=355 data-nosnippet>355</a>/// //comment region: auto_md_to_doc_comments include README.md A ///
+<a href=#356 id=356 data-nosnippet>356</a>/// //comment endregion: auto_md_to_doc_comments include README.md A ///
+<a href=#357 id=357 data-nosnippet>357</a>/// ```
+<a href=#358 id=358 data-nosnippet>358</a>///
+<a href=#359 id=359 data-nosnippet>359</a>/// In your rust code, change the word `comment` with double slash `//`.  
+<a href=#360 id=360 data-nosnippet>360</a>/// In the md file put markers to mark the segment:  
+<a href=#361 id=361 data-nosnippet>361</a>///
+<a href=#362 id=362 data-nosnippet>362</a>/// ```markdown
+<a href=#363 id=363 data-nosnippet>363</a>/// [//comment]: # (auto_md_to_doc_comments segment start A)  
+<a href=#364 id=364 data-nosnippet>364</a>/// [//comment]: # (auto_md_to_doc_comments segment end A)  
+<a href=#365 id=365 data-nosnippet>365</a>/// ```
+<a href=#366 id=366 data-nosnippet>366</a>///
+<a href=#367 id=367 data-nosnippet>367</a>/// In this instructions I changed `[//]` to `[//comment]` to not process these markers.
+<a href=#368 id=368 data-nosnippet>368</a>///
+<a href=#369 id=369 data-nosnippet>369</a>/// The marker must be exclusively in one line. No other text in the same line.  
+<a href=#370 id=370 data-nosnippet>370</a>/// auto_md_to_doc_comments will delete the old lines between the markers.  
+<a href=#371 id=371 data-nosnippet>371</a>/// It will find the md file and read the content between the markers.  
+<a href=#372 id=372 data-nosnippet>372</a>/// Before each line it will add the doc comment symbol as is defined in the marker.  
+<a href=#373 id=373 data-nosnippet>373</a>/// Finally it will include the new lines as doc comments in the rs file.
+<a href=#374 id=374 data-nosnippet>374</a>///
+<a href=#375 id=375 data-nosnippet>375</a></span><span class="comment">// endregion: auto_md_to_doc_comments include doc_comments/auto_md_to_doc_comments.md A ///
+<a href=#376 id=376 data-nosnippet>376</a></span><span class="kw">pub fn </span>auto_md_to_doc_comments() -&gt; <span class="prelude-ty">Result</span>&lt;()&gt; {
+<a href=#377 id=377 data-nosnippet>377</a>    <span class="kw">crate</span>::auto_md_to_doc_comments_mod::auto_md_to_doc_comments()
+<a href=#378 id=378 data-nosnippet>378</a>}
+<a href=#379 id=379 data-nosnippet>379</a>
+<a href=#380 id=380 data-nosnippet>380</a><span class="doccomment">/// Process plantuml in current directory.  
+<a href=#381 id=381 data-nosnippet>381</a>///
+<a href=#382 id=382 data-nosnippet>382</a>/// Finds markers (auto_plantuml start) and (auto_plantuml end) in md files.  
+<a href=#383 id=383 data-nosnippet>383</a>/// If needed, calls the web service and saves the svg file.  
+<a href=#384 id=384 data-nosnippet>384</a>/// Between markers adds the link to the svg file.  
+<a href=#385 id=385 data-nosnippet>385</a>/// repo_url like &lt;https://github.com/automation-tasks-rs/sey_currency_converter_pwa&gt;
+<a href=#386 id=386 data-nosnippet>386</a>/// So the image file link is from the repository and accessible everywhere.  
+<a href=#387 id=387 data-nosnippet>387</a></span><span class="kw">pub fn </span>auto_plantuml(repo_url: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Result</span>&lt;()&gt; {
+<a href=#388 id=388 data-nosnippet>388</a>    <span class="kw">crate</span>::auto_plantuml_mod::auto_plantuml(repo_url)
+<a href=#389 id=389 data-nosnippet>389</a>}
+<a href=#390 id=390 data-nosnippet>390</a>
+<a href=#391 id=391 data-nosnippet>391</a><span class="doccomment">/// Process plantuml for all md files.
+<a href=#392 id=392 data-nosnippet>392</a>///
+<a href=#393 id=393 data-nosnippet>393</a>/// For test and examples I need to provide the path.
+<a href=#394 id=394 data-nosnippet>394</a></span><span class="kw">pub fn </span>auto_plantuml_for_path(path: <span class="kw-2">&amp;</span>std::path::Path, repo_url: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Result</span>&lt;()&gt; {
+<a href=#395 id=395 data-nosnippet>395</a>    <span class="kw">crate</span>::auto_plantuml_mod::auto_plantuml_for_path(path, repo_url)
+<a href=#396 id=396 data-nosnippet>396</a>}
+<a href=#397 id=397 data-nosnippet>397</a>
+<a href=#398 id=398 data-nosnippet>398</a><span class="doccomment">/// Hash text.
+<a href=#399 id=399 data-nosnippet>399</a></span><span class="kw">pub fn </span>hash_text(text: <span class="kw-2">&amp;</span>str) -&gt; String {
+<a href=#400 id=400 data-nosnippet>400</a>    <span class="kw">crate</span>::auto_plantuml_mod::hash_text(text)
+<a href=#401 id=401 data-nosnippet>401</a>}
+<a href=#402 id=402 data-nosnippet>402</a>
+<a href=#403 id=403 data-nosnippet>403</a><span class="doccomment">/// Increment the minor version in Cargo.toml file only if files are changed.
+<a href=#404 id=404 data-nosnippet>404</a></span><span class="kw">pub fn </span>auto_semver_increment_minor() -&gt; <span class="prelude-ty">Result</span>&lt;()&gt; {
+<a href=#405 id=405 data-nosnippet>405</a>    <span class="kw">crate</span>::auto_semver_mod::auto_semver_increment_minor()
+<a href=#406 id=406 data-nosnippet>406</a>}
+<a href=#407 id=407 data-nosnippet>407</a>
+<a href=#408 id=408 data-nosnippet>408</a><span class="doccomment">/// Increment the minor version in Cargo.toml file even if files are not changed.
+<a href=#409 id=409 data-nosnippet>409</a></span><span class="kw">pub fn </span>auto_semver_increment_minor_forced() -&gt; <span class="prelude-ty">Result</span>&lt;()&gt; {
+<a href=#410 id=410 data-nosnippet>410</a>    <span class="kw">crate</span>::auto_semver_mod::auto_semver_increment_minor_forced()
+<a href=#411 id=411 data-nosnippet>411</a>}
+<a href=#412 id=412 data-nosnippet>412</a>
+<a href=#413 id=413 data-nosnippet>413</a><span class="doccomment">/// Increment the patch version in Cargo.toml file only if files are changed.
+<a href=#414 id=414 data-nosnippet>414</a></span><span class="kw">pub fn </span>auto_semver_increment_patch() -&gt; <span class="prelude-ty">Result</span>&lt;()&gt; {
+<a href=#415 id=415 data-nosnippet>415</a>    <span class="kw">crate</span>::auto_semver_mod::auto_semver_increment_patch()
+<a href=#416 id=416 data-nosnippet>416</a>}
+<a href=#417 id=417 data-nosnippet>417</a>
+<a href=#418 id=418 data-nosnippet>418</a><span class="doccomment">/// Increment the patch version in Cargo.toml file even if files are not changed.
+<a href=#419 id=419 data-nosnippet>419</a></span><span class="kw">pub fn </span>auto_semver_increment_patch_forced() -&gt; <span class="prelude-ty">Result</span>&lt;()&gt; {
+<a href=#420 id=420 data-nosnippet>420</a>    <span class="kw">crate</span>::auto_semver_mod::auto_semver_increment_patch_forced()
+<a href=#421 id=421 data-nosnippet>421</a>}
+<a href=#422 id=422 data-nosnippet>422</a>
+<a href=#423 id=423 data-nosnippet>423</a><span class="doccomment">/// Increment the version in Cargo.toml.
+<a href=#424 id=424 data-nosnippet>424</a>///
+<a href=#425 id=425 data-nosnippet>425</a>/// If the major version is greater than 2000, it is a date version  
+<a href=#426 id=426 data-nosnippet>426</a>/// else it is semver and increments the patch part.  
+<a href=#427 id=427 data-nosnippet>427</a></span><span class="kw">pub fn </span>auto_version_increment_semver_or_date() -&gt; <span class="prelude-ty">Result</span>&lt;()&gt; {
+<a href=#428 id=428 data-nosnippet>428</a>    <span class="kw">crate</span>::auto_semver_or_date_mod::auto_version_increment_semver_or_date()
+<a href=#429 id=429 data-nosnippet>429</a>}
+<a href=#430 id=430 data-nosnippet>430</a>
+<a href=#431 id=431 data-nosnippet>431</a><span class="doccomment">/// Increment the version in Cargo.toml, forced.
+<a href=#432 id=432 data-nosnippet>432</a>///
+<a href=#433 id=433 data-nosnippet>433</a>/// If the major version is greater than 2000, it is a date version  
+<a href=#434 id=434 data-nosnippet>434</a>/// else it is semver and increments the patch part.  
+<a href=#435 id=435 data-nosnippet>435</a>/// Forced is used in workspaces to force all members to have the same date version.  
+<a href=#436 id=436 data-nosnippet>436</a></span><span class="kw">pub fn </span>auto_version_increment_semver_or_date_forced() -&gt; <span class="prelude-ty">Result</span>&lt;()&gt; {
+<a href=#437 id=437 data-nosnippet>437</a>    <span class="kw">crate</span>::auto_semver_or_date_mod::auto_version_increment_semver_or_date_forced()
+<a href=#438 id=438 data-nosnippet>438</a>}
+<a href=#439 id=439 data-nosnippet>439</a>
+<a href=#440 id=440 data-nosnippet>440</a><span class="comment">// region: auto_md_to_doc_comments include doc_comments/auto_version_from_date.md A ///
+<a href=#441 id=441 data-nosnippet>441</a></span><span class="doccomment">/// New version from date is written to Cargo.toml and service_worker.js.
+<a href=#442 id=442 data-nosnippet>442</a>///
+<a href=#443 id=443 data-nosnippet>443</a>/// In Cargo.toml writes the version as the date `yyyy.mmdd.HHMM` ex. `2019.1221.2359`.  
+<a href=#444 id=444 data-nosnippet>444</a>/// For non-library projects, the semver specification is not really useful.  
+<a href=#445 id=445 data-nosnippet>445</a>/// Having the version as the date is just fine for executables and much more human readable.  
+<a href=#446 id=446 data-nosnippet>446</a>///
+<a href=#447 id=447 data-nosnippet>447</a>/// ### service_worker.js
+<a href=#448 id=448 data-nosnippet>448</a>///
+<a href=#449 id=449 data-nosnippet>449</a>/// Inside the PWA service worker javascript file is also needed to change the version.  
+<a href=#450 id=450 data-nosnippet>450</a>/// The program searches for `service_worker.js` and modify the version.  
+<a href=#451 id=451 data-nosnippet>451</a>///
+<a href=#452 id=452 data-nosnippet>452</a>/// ### no need to change version if no files changed
+<a href=#453 id=453 data-nosnippet>453</a>///
+<a href=#454 id=454 data-nosnippet>454</a>/// If src/*.rs or Cargo.toml files are not changed from last compile, than no need to change version.  
+<a href=#455 id=455 data-nosnippet>455</a>/// The dates of the files will be stored in the file .automation_tasks_rs_file_hashes.json near to Cargo.toml.  
+<a href=#456 id=456 data-nosnippet>456</a>/// Warning: I don't check if the service worker has changed because it rarely does.  
+<a href=#457 id=457 data-nosnippet>457</a>/// To know if the projects has changed or not, this function saves the dates of all files into `.automation_tasks_rs_file_hashes.json` near Cargo.toml
+<a href=#458 id=458 data-nosnippet>458</a>///
+<a href=#459 id=459 data-nosnippet>459</a></span><span class="comment">// endregion: auto_md_to_doc_comments include doc_comments/auto_version_from_date.md A ///
+<a href=#460 id=460 data-nosnippet>460</a></span><span class="kw">pub fn </span>auto_version_from_date() -&gt; <span class="prelude-ty">Result</span>&lt;()&gt; {
+<a href=#461 id=461 data-nosnippet>461</a>    <span class="kw">crate</span>::auto_version_from_date_mod::auto_version_from_date()
+<a href=#462 id=462 data-nosnippet>462</a>}
+<a href=#463 id=463 data-nosnippet>463</a>
+<a href=#464 id=464 data-nosnippet>464</a><span class="doccomment">/// Just like auto_version_from_date(), but force the new version even if no files are changed.
+<a href=#465 id=465 data-nosnippet>465</a>///
+<a href=#466 id=466 data-nosnippet>466</a>/// For workspaces `release` I want to have the same version in all members.  
+<a href=#467 id=467 data-nosnippet>467</a>/// It is slower, but easier to understand when deployed.
+<a href=#468 id=468 data-nosnippet>468</a></span><span class="kw">pub fn </span>auto_version_from_date_forced() -&gt; <span class="prelude-ty">Result</span>&lt;()&gt; {
+<a href=#469 id=469 data-nosnippet>469</a>    <span class="kw">crate</span>::auto_version_from_date_mod::auto_version_from_date_forced()
+<a href=#470 id=470 data-nosnippet>470</a>}
+<a href=#471 id=471 data-nosnippet>471</a>
+<a href=#472 id=472 data-nosnippet>472</a><span class="doccomment">/// Pretty HTML for docs.  
+<a href=#473 id=473 data-nosnippet>473</a>///
+<a href=#474 id=474 data-nosnippet>474</a>/// The HTML generated by `cargo doc` is ugly and difficult to `git diff`.
+<a href=#475 id=475 data-nosnippet>475</a>/// Tidy HTML is a HTML checker and formatter installed on most Linuxes.
+<a href=#476 id=476 data-nosnippet>476</a></span><span class="kw">pub fn </span>auto_doc_tidy_html() -&gt; <span class="prelude-ty">Result</span>&lt;()&gt; {
+<a href=#477 id=477 data-nosnippet>477</a>    <span class="kw">crate</span>::auto_doc_tidy_html_mod::auto_doc_tidy_html()
+<a href=#478 id=478 data-nosnippet>478</a>}
+<a href=#479 id=479 data-nosnippet>479</a>
+<a href=#480 id=480 data-nosnippet>480</a><span class="doccomment">/// Does git have settings for remote.
+<a href=#481 id=481 data-nosnippet>481</a></span><span class="kw">pub fn </span>git_has_remote() -&gt; <span class="prelude-ty">Result</span>&lt;bool&gt; {
+<a href=#482 id=482 data-nosnippet>482</a>    <span class="kw">crate</span>::auto_git_mod::git_has_remote()
+<a href=#483 id=483 data-nosnippet>483</a>}
+<a href=#484 id=484 data-nosnippet>484</a>
+<a href=#485 id=485 data-nosnippet>485</a><span class="doccomment">/// Check if this folder is a local Git repository.
+<a href=#486 id=486 data-nosnippet>486</a></span><span class="kw">pub fn </span>git_is_local_repository() -&gt; <span class="prelude-ty">Result</span>&lt;bool&gt; {
+<a href=#487 id=487 data-nosnippet>487</a>    <span class="kw">crate</span>::auto_git_mod::git_is_local_repository()
+<a href=#488 id=488 data-nosnippet>488</a>}
+<a href=#489 id=489 data-nosnippet>489</a>
+<a href=#490 id=490 data-nosnippet>490</a><span class="doccomment">/// Run one shell command and return ShellOutput {exit_status, stdout, stderr}.
+<a href=#491 id=491 data-nosnippet>491</a>///
+<a href=#492 id=492 data-nosnippet>492</a>/// TODO: vulnerable to command injection
+<a href=#493 id=493 data-nosnippet>493</a></span><span class="kw">pub fn </span>run_shell_command_output(shell_command: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Result</span>&lt;ShellOutput&gt; {
+<a href=#494 id=494 data-nosnippet>494</a>    <span class="kw">crate</span>::auto_shell_mod::run_shell_command_output(shell_command)
+<a href=#495 id=495 data-nosnippet>495</a>}
+<a href=#496 id=496 data-nosnippet>496</a>
+<a href=#497 id=497 data-nosnippet>497</a><span class="doccomment">/// Run one shell command and return true if success.
+<a href=#498 id=498 data-nosnippet>498</a>///
+<a href=#499 id=499 data-nosnippet>499</a>/// TODO: vulnerable to command injection
+<a href=#500 id=500 data-nosnippet>500</a></span><span class="kw">pub fn </span>run_shell_command_success(shell_command: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Result</span>&lt;bool&gt; {
+<a href=#501 id=501 data-nosnippet>501</a>    <span class="kw">crate</span>::auto_shell_mod::run_shell_command_success(shell_command)
+<a href=#502 id=502 data-nosnippet>502</a>}
+<a href=#503 id=503 data-nosnippet>503</a>
+<a href=#504 id=504 data-nosnippet>504</a><span class="doccomment">/// Get home dir using the home crate.
+<a href=#505 id=505 data-nosnippet>505</a>///
+<a href=#506 id=506 data-nosnippet>506</a>/// Error if HOME not found.
+<a href=#507 id=507 data-nosnippet>507</a></span><span class="kw">pub fn </span>home_dir() -&gt; <span class="prelude-ty">Result</span>&lt;std::path::PathBuf&gt; {
+<a href=#508 id=508 data-nosnippet>508</a>    <span class="kw">crate</span>::auto_helper_functions_mod::home_dir()
+<a href=#509 id=509 data-nosnippet>509</a>}
+<a href=#510 id=510 data-nosnippet>510</a>
+<a href=#511 id=511 data-nosnippet>511</a><span class="doccomment">/// Replace tilde with home::home_dir, only for utf8.
+<a href=#512 id=512 data-nosnippet>512</a></span><span class="kw">pub fn </span>tilde_expand_to_home_dir_utf8(path_str: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Result</span>&lt;camino::Utf8PathBuf&gt; {
+<a href=#513 id=513 data-nosnippet>513</a>    <span class="kw">crate</span>::auto_helper_functions_mod::tilde_expand_to_home_dir_utf8(path_str)
+<a href=#514 id=514 data-nosnippet>514</a>}
+<a href=#515 id=515 data-nosnippet>515</a>
+<a href=#516 id=516 data-nosnippet>516</a><span class="doccomment">/// Sync, check, create, push git tag.
+<a href=#517 id=517 data-nosnippet>517</a></span><span class="kw">pub fn </span>git_tag_sync_check_create_push(version: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Result</span>&lt;String&gt; {
+<a href=#518 id=518 data-nosnippet>518</a>    <span class="kw">crate</span>::auto_github_mod::git_tag_sync_check_create_push(version)
+<a href=#519 id=519 data-nosnippet>519</a>}
+<a href=#520 id=520 data-nosnippet>520</a>
+<a href=#521 id=521 data-nosnippet>521</a><span class="doccomment">/// Get release text from RELEASES.md.
+<a href=#522 id=522 data-nosnippet>522</a>///
+<a href=#523 id=523 data-nosnippet>523</a>/// First, the user must write the content into file RELEASES.md in the section ## Unreleased.  
+<a href=#524 id=524 data-nosnippet>524</a>/// Then the automation task will copy the content to GitHub release  
+<a href=#525 id=525 data-nosnippet>525</a>/// and create a new Version title in RELEASES.md.  
+<a href=#526 id=526 data-nosnippet>526</a></span><span class="kw">pub fn </span>body_text_from_releases_md() -&gt; <span class="prelude-ty">Result</span>&lt;String&gt; {
+<a href=#527 id=527 data-nosnippet>527</a>    <span class="kw">crate</span>::auto_github_mod::body_text_from_releases_md()
+<a href=#528 id=528 data-nosnippet>528</a>}
+<a href=#529 id=529 data-nosnippet>529</a>
+<a href=#530 id=530 data-nosnippet>530</a><span class="doccomment">/// Create a new Version title in RELEASES.md.
+<a href=#531 id=531 data-nosnippet>531</a></span><span class="kw">pub fn </span>create_new_version_in_releases_md(release_name: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Result</span>&lt;()&gt; {
+<a href=#532 id=532 data-nosnippet>532</a>    <span class="kw">crate</span>::auto_github_mod::create_new_version_in_releases_md(release_name)
+<a href=#533 id=533 data-nosnippet>533</a>}
+<a href=#534 id=534 data-nosnippet>534</a>
+<a href=#535 id=535 data-nosnippet>535</a><span class="doccomment">/// UTC  date in iso standard like 2024-12-31
+<a href=#536 id=536 data-nosnippet>536</a></span><span class="kw">pub fn </span>now_utc_date_iso() -&gt; String {
+<a href=#537 id=537 data-nosnippet>537</a>    <span class="kw">crate</span>::utils_mod::now_utc_date_iso()
+<a href=#538 id=538 data-nosnippet>538</a>}
+<a href=#539 id=539 data-nosnippet>539</a>
+<a href=#540 id=540 data-nosnippet>540</a><span class="comment">// region: auto_md_to_doc_comments include doc_comments/copy_folder_files_into_module.md A ///
+<a href=#541 id=541 data-nosnippet>541</a></span><span class="doccomment">/// Copy all files from the folder into a module as strings (static &amp;str).
+<a href=#542 id=542 data-nosnippet>542</a>///
+<a href=#543 id=543 data-nosnippet>543</a>/// The Rust code to modify has the markers:
+<a href=#544 id=544 data-nosnippet>544</a>///
+<a href=#545 id=545 data-nosnippet>545</a>/// ```Rust ignore
+<a href=#546 id=546 data-nosnippet>546</a>/// //comment region: files copied into strings by automation tasks
+<a href=#547 id=547 data-nosnippet>547</a>///
+<a href=#548 id=548 data-nosnippet>548</a>/// //comment endregion: files copied into strings by automation tasks
+<a href=#549 id=549 data-nosnippet>549</a>///
+<a href=#550 id=550 data-nosnippet>550</a>/// ```
+<a href=#551 id=551 data-nosnippet>551</a>///
+<a href=#552 id=552 data-nosnippet>552</a>/// In this instructions I changed `[//]` to `[//comment]` to not process these markers.
+<a href=#553 id=553 data-nosnippet>553</a>///
+<a href=#554 id=554 data-nosnippet>554</a>/// First we create the complete text, then we check if the old text needs to be replaced.
+<a href=#555 id=555 data-nosnippet>555</a>///
+<a href=#556 id=556 data-nosnippet>556</a>/// Binary files need a special treatment:
+<a href=#557 id=557 data-nosnippet>557</a>///
+<a href=#558 id=558 data-nosnippet>558</a>/// ```Rust ignore
+<a href=#559 id=559 data-nosnippet>559</a>/// ext_for_binary_files=vec![".ico",".jpg",".png",".woff2"];
+<a href=#560 id=560 data-nosnippet>560</a>/// ```
+<a href=#561 id=561 data-nosnippet>561</a>///
+<a href=#562 id=562 data-nosnippet>562</a>/// Exclude big folders:
+<a href=#563 id=563 data-nosnippet>563</a>///
+<a href=#564 id=564 data-nosnippet>564</a>/// ```Rust ignore
+<a href=#565 id=565 data-nosnippet>565</a>/// exclude_big_folders = vec!["/.git","/target","/docs"];
+<a href=#566 id=566 data-nosnippet>566</a>/// ```
+<a href=#567 id=567 data-nosnippet>567</a>///
+<a href=#568 id=568 data-nosnippet>568</a></span><span class="comment">// endregion: auto_md_to_doc_comments include doc_comments/copy_folder_files_into_module.md A ///
+<a href=#569 id=569 data-nosnippet>569</a></span><span class="kw">pub fn </span>copy_folder_files_into_module(
+<a href=#570 id=570 data-nosnippet>570</a>    folder_path: <span class="kw-2">&amp;</span>std::path::Path,
+<a href=#571 id=571 data-nosnippet>571</a>    module_path: <span class="kw-2">&amp;</span>std::path::Path,
+<a href=#572 id=572 data-nosnippet>572</a>    ext_for_binary_files: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span>str],
+<a href=#573 id=573 data-nosnippet>573</a>    exclude_big_folders: <span class="kw-2">&amp;</span>[String],
+<a href=#574 id=574 data-nosnippet>574</a>) -&gt; <span class="prelude-ty">Result</span>&lt;()&gt; {
+<a href=#575 id=575 data-nosnippet>575</a>    <span class="kw">crate</span>::auto_copy_files_to_strings_mod::copy_folder_files_into_module(
+<a href=#576 id=576 data-nosnippet>576</a>        folder_path,
+<a href=#577 id=577 data-nosnippet>577</a>        module_path,
+<a href=#578 id=578 data-nosnippet>578</a>        ext_for_binary_files,
+<a href=#579 id=579 data-nosnippet>579</a>        exclude_big_folders,
+<a href=#580 id=580 data-nosnippet>580</a>    )
+<a href=#581 id=581 data-nosnippet>581</a>}
+<a href=#582 id=582 data-nosnippet>582</a>
+<a href=#583 id=583 data-nosnippet>583</a><span class="doccomment">/// Add commit message to Unreleased in RELEASES.md.
+<a href=#584 id=584 data-nosnippet>584</a></span><span class="kw">pub fn </span>add_message_to_unreleased(message: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Result</span>&lt;()&gt; {
+<a href=#585 id=585 data-nosnippet>585</a>    <span class="kw">crate</span>::auto_github_mod::add_message_to_unreleased(message)
+<a href=#586 id=586 data-nosnippet>586</a>}
+<a href=#587 id=587 data-nosnippet>587</a>
+<a href=#588 id=588 data-nosnippet>588</a><span class="comment">// region: auto_md_to_doc_comments include doc_comments/auto_playground_run_code.md A ///
+<a href=#589 id=589 data-nosnippet>589</a></span><span class="doccomment">/// Include the link to run code in Rust playground.
+<a href=#590 id=590 data-nosnippet>590</a>///
+<a href=#591 id=591 data-nosnippet>591</a>/// The function searches in all markdown files for markers like this:
+<a href=#592 id=592 data-nosnippet>592</a>///
+<a href=#593 id=593 data-nosnippet>593</a>/// ```markdown
+<a href=#594 id=594 data-nosnippet>594</a>/// [//comment]: # (auto_playground start)
+<a href=#595 id=595 data-nosnippet>595</a>///
+<a href=#596 id=596 data-nosnippet>596</a>/// Run this code in the [Rust playground](https://play.rust-lang.org/?version=stable&amp;mode=debug&amp;edition=2021&amp;code=fn%20m%0A%7D):
+<a href=#597 id=597 data-nosnippet>597</a>///
+<a href=#598 id=598 data-nosnippet>598</a>/// '''Rust ignore
+<a href=#599 id=599 data-nosnippet>599</a>/// fn main(){
+<a href=#600 id=600 data-nosnippet>600</a>///     println!("Hello World!");
+<a href=#601 id=601 data-nosnippet>601</a>/// }
+<a href=#602 id=602 data-nosnippet>602</a>/// '''
+<a href=#603 id=603 data-nosnippet>603</a>///
+<a href=#604 id=604 data-nosnippet>604</a>/// [//comment]: # (auto_playground end)
+<a href=#605 id=605 data-nosnippet>605</a>/// ```
+<a href=#606 id=606 data-nosnippet>606</a>///
+<a href=#607 id=607 data-nosnippet>607</a>/// In this instructions I changed `[//]` to `[//comment]` and  ticks to single quotes to not process these markers.
+<a href=#608 id=608 data-nosnippet>608</a>///
+<a href=#609 id=609 data-nosnippet>609</a>/// Between the start marker and the first triple backtick there is the link in "()" parentheses. The link to Rust playground encodes the code with url_encoding (percents) and sends it as an Url parameter.
+<a href=#610 id=610 data-nosnippet>610</a>///
+<a href=#611 id=611 data-nosnippet>611</a>/// Info: docs.rs has already a functionality that shows the `Run` button on your code and can run code the playground if you put this line at the top of lib.rs:
+<a href=#612 id=612 data-nosnippet>612</a>///
+<a href=#613 id=613 data-nosnippet>613</a>/// ``` Rust ignore
+<a href=#614 id=614 data-nosnippet>614</a>/// #![doc(html_playground_url = "https://play.rust-lang.org")]
+<a href=#615 id=615 data-nosnippet>615</a>/// ```
+<a href=#616 id=616 data-nosnippet>616</a>///
+<a href=#617 id=617 data-nosnippet>617</a>/// But it works only on docs.rs.  
+<a href=#618 id=618 data-nosnippet>618</a>/// I want to run my code examples from everywhere: from GitHub README.md, GitHub pages and crates.io.  
+<a href=#619 id=619 data-nosnippet>619</a>///
+<a href=#620 id=620 data-nosnippet>620</a></span><span class="comment">// endregion: auto_md_to_doc_comments include doc_comments/auto_playground_run_code.md A ///
+<a href=#621 id=621 data-nosnippet>621</a></span><span class="kw">pub fn </span>auto_playground_run_code() -&gt; <span class="prelude-ty">Result</span>&lt;()&gt; {
+<a href=#622 id=622 data-nosnippet>622</a>    <span class="kw">crate</span>::auto_playground_mod::auto_playground_run_code()
+<a href=#623 id=623 data-nosnippet>623</a>}
+<a href=#624 id=624 data-nosnippet>624</a>
+<a href=#625 id=625 data-nosnippet>625</a><span class="doccomment">/// Interactive ask to create a new local git repository.
+<a href=#626 id=626 data-nosnippet>626</a></span><span class="kw">pub fn </span>new_local_repository(message: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Result</span>&lt;()&gt; {
+<a href=#627 id=627 data-nosnippet>627</a>    <span class="kw">crate</span>::auto_git_mod::new_local_repository(message)
+<a href=#628 id=628 data-nosnippet>628</a>}
+<a href=#629 id=629 data-nosnippet>629</a><span class="comment">// endregion: Public API functions</span></code></pre></div></section></main></body></html>
