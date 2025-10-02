@@ -2,22 +2,23 @@
 
 //! Functions to work with git from automation_tasks_rs.
 
+use crate::error_mod::{Error, Result};
 use crate::public_api_mod::{BLUE, RED, RESET};
 
 /// Does git have settings for remote.
-pub fn git_has_remote() -> bool {
+pub fn git_has_remote() -> Result<bool> {
     // it returns only "origin" if exists or nothing if it does not exist
-    let output = std::process::Command::new("git").arg("remote").output().unwrap();
+    let output = std::process::Command::new("git").arg("remote").output()?;
     // return
-    String::from_utf8(output.stdout).unwrap() != ""
+    Ok(!(String::from_utf8(output.stdout)?).is_empty())
 }
 
 /// Check if this folder is a local Git repository.
-pub fn git_is_local_repository() -> bool {
-    let output = std::process::Command::new("git").arg("status").output().unwrap();
-    let output = String::from_utf8(output.stderr).unwrap();
+pub fn git_is_local_repository() -> Result<bool> {
+    let output = std::process::Command::new("git").arg("status").output()?;
+    let output = String::from_utf8(output.stderr)?;
     // return bool
-    !output.contains("not a git repository")
+    Ok(!output.contains("not a git repository"))
 }
 
 /// Return Url to repository: <https://github.com/automation-tasks-rs/auto_lines_of_code/>.  
@@ -27,7 +28,7 @@ pub fn git_is_local_repository() -> bool {
 /// Returns empty string if something goes wrong: no git, no remote,...  
 pub fn process_git_remote() -> String {
     /// Internal function for git remote
-    fn git_remote_output() -> anyhow::Result<String> {
+    fn git_remote_output() -> Result<String> {
         let output = std::process::Command::new("git").arg("remote").arg("-v").output()?;
 
         let output = String::from_utf8(output.stdout)?;
@@ -43,15 +44,15 @@ pub fn process_git_remote() -> String {
     /// "origin  git@github.com:automation-tasks-rs/auto_lines_of_code.git (fetch)"
     /// origin    https://github.com/automation-tasks-rs/auto_lines_of_code (fetch)
     /// println!("{}", &output);
-    fn regex_capture(output: String) -> anyhow::Result<String> {
+    fn regex_capture(output: String) -> Result<String> {
         let reg = regex::Regex::new(r#"origin\s*(?:https://)?(?:git@)?([^:/]*?)[:/]([^/]*?)/([^. ]*?)(?:\.git)?\s*\(fetch\)"#)?;
-        let cap = reg.captures(&output).ok_or(anyhow::anyhow!("Error: reg.captures is None"))?;
+        let cap = reg.captures(&output).ok_or(Error::ErrorFromStr("Error: reg.captures is None"))?;
 
-        // indexing can panic, but I would like it to Error
-        anyhow::ensure!(
-            cap.len() == 4,
-            "Error: cap len is not 4, because there are 4 capture groups in regex."
-        );
+        if cap.len() != 4 {
+            return Err(Error::ErrorFromStr(
+                "Error: cap len is not 4, because there are 4 capture groups in regex.",
+            ));
+        }
         Ok(format!("https://{}/{}/{}/", &cap[1], &cap[2], &cap[3]))
     }
 
@@ -72,29 +73,27 @@ pub fn process_git_remote() -> String {
 }
 
 /// Interactive ask to create a new local git repository.
-pub fn new_local_repository(message: &str) -> Option<()> {
+pub fn new_local_repository(message: &str) -> Result<()> {
     // ask interactive
     println!("{BLUE}This project folder is not yet a Git repository.{RESET}");
-    let answer = inquire::Text::new(&format!("{BLUE}Do you want to initialize a new local git repository? (y/n){RESET}"))
-        .prompt()
-        .unwrap();
+    let answer = inquire::Text::new(&format!("{BLUE}Do you want to initialize a new local git repository? (y/n){RESET}")).prompt()?;
     // continue if answer is "y"
     if answer.to_lowercase() != "y" {
         // early exit
-        return None;
+        return Err(Error::ErrorFromStr("Ok. You don't want to initialize a new local git repository."));
     }
 
     // the docs folder is mandatory because of GitHub action for pages deployment
     if !camino::Utf8Path::new("docs").exists() {
-        std::fs::create_dir("docs").unwrap();
-        std::fs::write("docs/index.html", "project docs").unwrap();
+        std::fs::create_dir("docs")?;
+        std::fs::write("docs/index.html", "project docs")?;
     }
 
     // create new local git repository and commit all on branch main
-    crate::run_shell_command_static("git config --global init.defaultBranch main").unwrap_or_else(|e| panic!("{e}"));
-    crate::run_shell_command_static("git init").unwrap_or_else(|e| panic!("{e}"));
-    crate::run_shell_command_static("git add .").unwrap_or_else(|e| panic!("{e}"));
-    crate::run_shell_command(&format!(r#"git commit -m "{message}""#)).unwrap_or_else(|e| panic!("{e}"));
-    crate::run_shell_command_static("git branch -M main").unwrap_or_else(|e| panic!("{e}"));
-    Some(())
+    crate::run_shell_command_static("git config --global init.defaultBranch main")?;
+    crate::run_shell_command_static("git init")?;
+    crate::run_shell_command_static("git add .")?;
+    crate::run_shell_command(&format!(r#"git commit -m "{message}""#))?;
+    crate::run_shell_command_static("git branch -M main")?;
+    Ok(())
 }

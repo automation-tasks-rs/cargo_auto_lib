@@ -2,7 +2,9 @@
 
 //! Insert shield badges with lines_of_code into README.md.
 
+use crate::error_mod::Error;
 use crate::public_api_mod::{RED, RESET, YELLOW};
+use crate::Result;
 use std::fs::File;
 use std::io::{BufRead, BufReader};
 
@@ -76,7 +78,7 @@ pub struct LinesOfCode {
 /// Use git diff to see the change.  
 ///
 // endregion: auto_md_to_doc_comments include doc_comments/auto_lines_of_code.md A ///
-pub fn auto_lines_of_code(link: &str) {
+pub fn auto_lines_of_code(link: &str) -> Result<()> {
     println!("  {YELLOW}Running auto_lines_of_code{RESET}");
     let link = if link.is_empty() {
         crate::auto_git_mod::process_git_remote()
@@ -84,16 +86,17 @@ pub fn auto_lines_of_code(link: &str) {
         link.to_string()
     };
     // Cargo.toml contains the list of projects
-    let lines_of_code = count_lines_of_code();
+    let lines_of_code = count_lines_of_code()?;
     let text_to_include = to_string_as_shield_badges(&lines_of_code, &link);
-    include_into_readme_md(&text_to_include);
+    include_into_readme_md(&text_to_include)?;
     println!("  {YELLOW}Finished auto_lines_of_code{RESET}");
+    Ok(())
 }
 
 /// Returns the counted lines of code
 ///
 /// Does not write to README.md.
-pub fn count_lines_of_code() -> LinesOfCode {
+pub fn count_lines_of_code() -> Result<LinesOfCode> {
     let mut lines_of_code = LinesOfCode::default();
 
     // src folder
@@ -102,17 +105,16 @@ pub fn count_lines_of_code() -> LinesOfCode {
         "/*.rs",
         // avoid big folders
         &["/.git".to_string(), "/target".to_string(), "/docs".to_string()],
-    )
-    .unwrap();
+    )?;
     // println!("{:#?}", files);
     for rs_file_name in files.iter() {
         // Open the file in read-only mode (ignoring errors).
-        let file = File::open(rs_file_name).unwrap();
+        let file = File::open(rs_file_name)?;
         let reader = BufReader::new(file);
         let mut is_unit_test = false;
         // Read the file line by line using the lines() iterator from std::io::BufRead.
         for line in reader.lines() {
-            let line = line.unwrap(); // Ignore errors.
+            let line = line?; // Ignore errors.
             let line = line.trim_start();
             if line == "// exclude from auto_lines_of_code" {
                 break;
@@ -136,12 +138,11 @@ pub fn count_lines_of_code() -> LinesOfCode {
         "/*.rs",
         // avoid big folders
         &["/.git".to_string(), "/target".to_string(), "/docs".to_string()],
-    )
-    .unwrap();
+    )?;
     // println!("{:#?}", files);
     for rs_file_name in files.iter() {
         // Open the file in read-only mode (ignoring errors).
-        let file = File::open(rs_file_name).unwrap();
+        let file = File::open(rs_file_name)?;
         let reader = BufReader::new(file);
         // Read the file line by line using the lines() iterator from std::io::BufRead.
         for _line in reader.lines() {
@@ -155,11 +156,10 @@ pub fn count_lines_of_code() -> LinesOfCode {
         "/*.rs",
         // avoid big folders
         &["/.git".to_string(), "/target".to_string(), "/docs".to_string()],
-    )
-    .unwrap();
+    )?;
     for rs_file_name in files.iter() {
         // Open the file in read-only mode (ignoring errors).
-        let file = File::open(rs_file_name).unwrap();
+        let file = File::open(rs_file_name)?;
         let reader = BufReader::new(file);
         // Read the file line by line using the lines() iterator from std::io::BufRead.
         for _line in reader.lines().enumerate() {
@@ -168,7 +168,7 @@ pub fn count_lines_of_code() -> LinesOfCode {
     }
     //println!("{:#?}", &lines_of_code);
     // return
-    lines_of_code
+    Ok(lines_of_code)
 }
 
 /// Returns a string with the markdown code for 4 shield badges.
@@ -212,7 +212,7 @@ fn to_string_as_shield_badges(v: &LinesOfCode, link: &str) -> String {
 }
 
 /// Includes (writes, modifies) the shield badge code into README.md file
-fn include_into_readme_md(include_str: &str) {
+fn include_into_readme_md(include_str: &str) -> Result<()> {
     let start_delimiter = "[//]: # (auto_lines_of_code start)";
     let end_delimiter = "[//]: # (auto_lines_of_code end)";
     let file_name = "README.md";
@@ -220,10 +220,10 @@ fn include_into_readme_md(include_str: &str) {
     if let Ok(readme_content) = std::fs::read_to_string(file_name) {
         // check if file have CRLF instead of LF and show error
         if readme_content.contains("\r\n") {
-            panic!(
+            return Err(Error::ErrorFromString(format!(
                 "{RED}Error: {} has CRLF line endings instead of LF. Correct the file! {RESET}",
                 file_name
-            );
+            )));
         }
 
         let mut new_readme_content = String::with_capacity(readme_content.len());
@@ -241,8 +241,9 @@ fn include_into_readme_md(include_str: &str) {
                     *GREEN, file_name, *RESET
                 );
                  */
-                std::fs::write(file_name, new_readme_content).unwrap();
+                std::fs::write(file_name, new_readme_content)?;
             }
         }
     }
+    Ok(())
 }

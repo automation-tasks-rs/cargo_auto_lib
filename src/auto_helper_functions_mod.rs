@@ -2,6 +2,7 @@
 
 //! Various helper functions.
 
+use crate::error_mod::{Error, Result};
 use crate::public_api_mod::{RED, RESET};
 
 // region: auto_md_to_doc_comments include doc_comments/exit_if_not_run_in_rust_project_root_directory.md A ///
@@ -39,26 +40,25 @@ pub fn completion_return_one_or_more_sub_commands(sub_commands: Vec<&str>, word_
 
 /// Get home dir using the home crate.
 ///
-/// Panics if HOME not found.
-pub fn home_dir() -> std::path::PathBuf {
+/// Error if HOME not found.
+pub fn home_dir() -> Result<std::path::PathBuf> {
     match home::home_dir() {
         Some(path_buff) => {
             if !path_buff.as_os_str().is_empty() {
-                path_buff
+                Ok(path_buff)
             } else {
-                panic!("{RED}Unable to get your home dir!{RESET}");
+                Err(Error::ErrorFromStr("{RED}Unable to get your home dir!{RESET}"))
             }
         }
-        None => panic!("{RED}Unable to get your home dir!{RESET}"),
+        None => Err(Error::ErrorFromStr("{RED}Unable to get your home dir!{RESET}")),
     }
 }
 
 /// Replace tilde with home::home_dir, only for utf8.
-pub fn tilde_expand_to_home_dir_utf8(path_str: &str) -> anyhow::Result<camino::Utf8PathBuf> {
+pub fn tilde_expand_to_home_dir_utf8(path_str: &str) -> Result<camino::Utf8PathBuf> {
     let mut expanded = String::new();
     if path_str.starts_with("~") {
-        use anyhow::Context;
-        let base = home::home_dir().context("Cannot find home_dir in this OS.")?;
+        let base = home::home_dir().ok_or_else(|| Error::ErrorFromStr("Cannot find home_dir in this OS."))?;
         // only utf8 is accepted
         let base = base.to_string_lossy();
         expanded.push_str(&base);

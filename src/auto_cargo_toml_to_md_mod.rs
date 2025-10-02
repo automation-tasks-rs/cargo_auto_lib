@@ -6,6 +6,7 @@
 
 // region: use statements
 
+use crate::error_mod::{Error, Result};
 use crate::public_api_mod::{GREEN, RED, RESET, YELLOW};
 use glob::glob;
 use lazy_static::lazy_static;
@@ -18,9 +19,9 @@ use crate::public_api_mod::CargoTomlPublicApiMethods;
 
 lazy_static! {
     /// Regex for start marker
-    static ref REGEX_MD_START: Regex = Regex::new(r#"(?m)^\[//\]: # \(auto_cargo_toml_to_md start\)$"#).unwrap();
+    static ref REGEX_MD_START: Regex = Regex::new(r#"(?m)^\[//\]: # \(auto_cargo_toml_to_md start\)$"#).expect("regex new");
     /// Regex for end marker
-    static ref REGEX_MD_END: Regex = Regex::new(r#"(?m)^\[//\]: # \(auto_cargo_toml_to_md end\)$"#).unwrap();
+    static ref REGEX_MD_END: Regex = Regex::new(r#"(?m)^\[//\]: # \(auto_cargo_toml_to_md end\)$"#).expect("regex new");
 }
 
 // region: auto_md_to_doc_comments include doc_comments/auto_cargo_toml_to_md.md A ///
@@ -58,8 +59,8 @@ lazy_static! {
 /// - Red: obsolete, archived
 ///
 // endregion: auto_md_to_doc_comments include doc_comments/auto_cargo_toml_to_md.md A ///
-pub fn auto_cargo_toml_to_md() {
-    let cargo_toml = crate::auto_cargo_toml_mod::CargoToml::read();
+pub fn auto_cargo_toml_to_md() -> Result<()> {
+    let cargo_toml = crate::auto_cargo_toml_mod::CargoToml::read()?;
     let version = cargo_toml.package_version();
     let author_name = cargo_toml.package_author_name();
     let homepage = cargo_toml.package_homepage();
@@ -91,26 +92,31 @@ pub fn auto_cargo_toml_to_md() {
     }
     new_text.push('\n');
 
-    for filename_result in glob("*.md").unwrap() {
-        let filename_pathbuff = filename_result.unwrap();
-        let md_filename = filename_pathbuff.to_str().unwrap();
+    for filename_result in glob("*.md")? {
+        let filename_pathbuff = filename_result?;
+        let md_filename = filename_pathbuff
+            .to_str()
+            .ok_or_else(|| Error::ErrorFromStr("filename_pathbuff is None"))?;
         // println!("checking md_filename: {}", &md_filename);
-        let mut md_text_content = std::fs::read_to_string(md_filename).unwrap();
+        let mut md_text_content = std::fs::read_to_string(md_filename)?;
 
         // check if file have CRLF and show error
         if md_text_content.contains("\r\n") {
-            panic!("{RED}Error: {md_filename} has CRLF line endings instead of LF. Correct the file! {RESET}");
+            return Err(Error::ErrorFromString(format!(
+                "{RED}Error: {md_filename} has CRLF line endings instead of LF. Correct the file! {RESET}"
+            )));
         }
 
         if let Some(cap) = REGEX_MD_START.captures(&md_text_content) {
-            let pos_start = cap.get(0).unwrap().end() + 1;
+            let pos_start = cap.get(0).ok_or_else(|| Error::ErrorFromStr("cap get 0 is None"))?.end() + 1;
             if let Some(cap) = REGEX_MD_END.captures(&md_text_content) {
-                let pos_end = cap.get(0).unwrap().start();
+                let pos_end = cap.get(0).ok_or_else(|| Error::ErrorFromStr("cap get 0 is None"))?.start();
                 md_text_content.replace_range(pos_start..pos_end, &new_text);
                 println!("  {YELLOW}Write to md file: {}{RESET}", md_filename);
                 println!("{GREEN}{}{RESET}", &new_text.trim_end_matches("\n\n"));
-                std::fs::write(md_filename, md_text_content).unwrap();
+                std::fs::write(md_filename, md_text_content)?;
             }
         }
     }
+    Ok(())
 }

@@ -2,12 +2,13 @@
 
 //! Functions to get data from Cargo.toml.
 
+use crate::error_mod::{Error, Result};
 use lazy_static::lazy_static;
 use regex::*;
 
 lazy_static! {
     /// remove email from author
-    static ref REGEX_REMOVE_EMAIL: Regex = Regex::new(r#"( <.+?>)"#).unwrap();
+    static ref REGEX_REMOVE_EMAIL: Regex = Regex::new(r#"( <.+?>)"#).expect("regex new");
 }
 
 /// Read data from Cargo.toml.  
@@ -23,24 +24,28 @@ pub struct CargoToml {
 
 impl crate::public_api_mod::CargoTomlPublicApiMethods for CargoToml {
     /// read Cargo.toml, for workspaces it is the Cargo.toml of the first member
-    fn read() -> Self {
-        let absolute_path = std::path::absolute("Cargo.toml").unwrap();
-        let cargo_toml_workspace_maybe = cargo_toml::Manifest::from_path(absolute_path).unwrap();
+    fn read() -> Result<Self> {
+        let absolute_path = std::path::absolute("Cargo.toml")?;
+        let cargo_toml_workspace_maybe = cargo_toml::Manifest::from_path(absolute_path)?;
         let cargo_toml_main = match &cargo_toml_workspace_maybe.workspace {
             None => cargo_toml_workspace_maybe.clone(),
             Some(workspace) => {
                 let main_member = &workspace.members[0];
-                let absolute_path = std::path::absolute(format!("{}/Cargo.toml", main_member)).unwrap();
+                let absolute_path = std::path::absolute(format!("{}/Cargo.toml", main_member))?;
                 // return cargo_main
-                cargo_toml::Manifest::from_path(absolute_path).unwrap()
+                cargo_toml::Manifest::from_path(absolute_path)?
             }
         };
-        let package = cargo_toml_main.package.as_ref().unwrap().to_owned();
-        CargoToml {
+        let package = cargo_toml_main
+            .package
+            .as_ref()
+            .ok_or_else(|| Error::ErrorFromStr("package is None"))?
+            .to_owned();
+        Ok(CargoToml {
             cargo_toml_workspace_maybe,
             _cargo_toml_main: cargo_toml_main,
             package,
-        }
+        })
     }
 
     /// Cargo.toml package name
@@ -116,7 +121,7 @@ mod test {
     #[test]
     pub fn test_cargo_toml() {
         use crate::public_api_mod::CargoTomlPublicApiMethods;
-        let cargo_toml = CargoToml::read();
+        let cargo_toml = CargoToml::read().expect("error");
         assert_eq!(cargo_toml.package_author_name(), "Bestia.dev");
         assert_eq!(cargo_toml.package_homepage(), "https://bestia.dev");
     }

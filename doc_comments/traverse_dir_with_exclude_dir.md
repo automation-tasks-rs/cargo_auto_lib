@@ -18,7 +18,7 @@ let files = cargo_auto_lib::traverse_dir_with_exclude_dir(
         "/target".to_string(),
         "/docs".to_string()
     ]
-).unwrap();
+).expect("error");
 for rs_file_name in files.iter() {
     println!("{}", &rs_file_name);
 }

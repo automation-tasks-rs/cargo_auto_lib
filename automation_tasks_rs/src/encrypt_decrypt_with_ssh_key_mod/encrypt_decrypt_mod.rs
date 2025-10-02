@@ -188,6 +188,9 @@ fn sign_seed_with_ssh_agent(
         client: &mut ssh_agent_client_rs_git_bash::Client,
         fingerprint_from_file: &str,
     ) -> anyhow::Result<ssh_key::PublicKey> {
+        // list_identities() is deprecated,
+        // but list_all_identities() does not have `key_data`
+        #[allow(deprecated)]
         let vec_public_key = client.list_identities()?;
 
         for public_key in vec_public_key.iter() {

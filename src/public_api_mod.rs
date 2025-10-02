@@ -47,7 +47,7 @@ pub use inquire;
 /// Result type with fixed LibError using thiserror.  
 ///
 /// It makes simpler to write returns from functions.  
-pub use crate::error_mod::ResultWithLibError;
+pub use crate::error_mod::{Error, Result};
 
 /// Similar to std::process::Output, but with i32 and Strings for easier work.
 pub use crate::auto_shell_mod::ShellOutput;
@@ -66,7 +66,9 @@ pub use crate::auto_cargo_toml_mod::CargoToml;
 /// Trait with methods to read data from Cargo.toml.
 pub trait CargoTomlPublicApiMethods {
     /// read Cargo.toml, for workspaces it is the Cargo.toml of the first member
-    fn read() -> Self;
+    fn read() -> Result<Self>
+    where
+        Self: Sized;
     /// Cargo.toml package name
     fn package_name(&self) -> String;
     /// Cargo.toml package version
@@ -91,7 +93,7 @@ pub trait CargoTomlPublicApiMethods {
 
 /// Shell command builder with simple but limited sanitizer.
 ///
-/// The limited sanitization will panic if the value contains double quotes.
+/// The limited sanitization will error if the value contains double quotes.
 /// Command injections attack is possible because the shell command mixes executable code and data in a single string.
 /// The attacker could format the "user input" data in a way that it transforms it into "executable code".
 /// A true sanitization is hard to do in software. It would mean to understand all the intricacies of bash syntax?!
@@ -109,45 +111,45 @@ pub use crate::auto_shell_mod::ShellCommandLimitedDoubleQuotesSanitizer;
 pub trait ShellCommandLimitedDoubleQuotesSanitizerTrait {
     /// Template for the shell command with placeholders
     ///
-    /// The limited sanitization will panic if the value contains double quotes.
+    /// The limited sanitization will error if the value contains double quotes.
     /// Placeholders are delimited with curly brackets.
     /// The developer must be super careful to write the template correctly.
     /// The placeholders must be inside a block delimited with double quotes.
     /// In a way that only an injection of a double quote can cause problems.
     /// There is no software check of the correctness of the template.
-    fn new(template: &str) -> ResultWithLibError<Self>
+    fn new(template: &str) -> Result<Self>
     where
         Self: Sized;
     /// Replace placeholders with the value
     ///
-    /// The limited sanitization will panic if the value contains double quotes.
+    /// The limited sanitization will error if the value contains double quotes.
     /// Enter the placeholder parameter delimited with curly brackets.
     /// It would be very complicated to check if "escaped double quotes" are or not correct in the context of the template.
     /// So I don't allow them at all. This covers the vast majority of simple use cases.
-    fn arg(&mut self, placeholder: &str, value: &str) -> ResultWithLibError<&mut Self>;
+    fn arg(&mut self, placeholder: &str, value: &str) -> Result<&mut Self>;
 
     /// Just like arg(), but for secrets that must be not echoed on the screen
-    fn arg_secret(&mut self, placeholder: &str, value: &secrecy::SecretString) -> ResultWithLibError<&mut Self>;
+    fn arg_secret(&mut self, placeholder: &str, value: &secrecy::SecretString) -> Result<&mut Self>;
 
     /// Run the sanitized command with no additional checks
-    fn run(&self) -> ResultWithLibError<()>;
+    fn run(&self) -> Result<()>;
 }
 
 // endregion: Public API structs and methods
 
 // region: Public API functions
 /// Find 'from pos'.
-pub fn find_from(text: &str, from_pos: usize, find: &str) -> Option<usize> {
+pub fn find_from(text: &str, from_pos: usize, find: &str) -> Result<usize> {
     crate::utils_mod::find_from(text, from_pos, find)
 }
 
 /// Return the position of end of the delimited data before the delimiter.
-pub fn find_pos_end_data_before_delimiter(md_text_content: &str, pos: usize, delimiter: &str) -> Option<usize> {
+pub fn find_pos_end_data_before_delimiter(md_text_content: &str, pos: usize, delimiter: &str) -> Result<usize> {
     crate::utils_mod::find_pos_end_data_before_delimiter(md_text_content, pos, delimiter)
 }
 
 /// Return the position of start of the delimited data after the delimiter.
-pub fn find_pos_start_data_after_delimiter(md_text_content: &str, pos: usize, delimiter: &str) -> Option<usize> {
+pub fn find_pos_start_data_after_delimiter(md_text_content: &str, pos: usize, delimiter: &str) -> Result<usize> {
     crate::utils_mod::find_pos_start_data_after_delimiter(md_text_content, pos, delimiter)
 }
 
@@ -174,14 +176,14 @@ pub fn concatenate_vec_to_string(vec: &[String], delimiter: &str) -> String {
 ///         "/target".to_string(),
 ///         "/docs".to_string()
 ///     ]
-/// ).unwrap();
+/// ).expect("error");
 /// for rs_file_name in files.iter() {
 ///     println!("{}", &rs_file_name);
 /// }
 /// ```
 ///
 // endregion: auto_md_to_doc_comments include doc_comments/traverse_dir_with_exclude_dir.md A ///
-pub fn traverse_dir_with_exclude_dir(dir: &std::path::Path, find_file: &str, exclude_dirs: &[String]) -> std::io::Result<Vec<String>> {
+pub fn traverse_dir_with_exclude_dir(dir: &std::path::Path, find_file: &str, exclude_dirs: &[String]) -> Result<Vec<String>> {
     crate::utils_mod::traverse_dir_with_exclude_dir(dir, find_file, exclude_dirs)
 }
 
@@ -220,14 +222,14 @@ pub fn traverse_dir_with_exclude_dir(dir: &std::path::Path, find_file: &str, exc
 /// - Red: obsolete, archived
 ///
 // endregion: auto_md_to_doc_comments include doc_comments/auto_cargo_toml_to_md.md A ///
-pub fn auto_cargo_toml_to_md() {
+pub fn auto_cargo_toml_to_md() -> Result<()> {
     crate::auto_cargo_toml_to_md_mod::auto_cargo_toml_to_md()
 }
 
 /// I want html pages to be correct microXML when I use them for single page application.
 ///
 /// Before build or release this function will check for correctness.
-pub fn auto_check_micro_xml(path_to_html_pages: &str) {
+pub fn auto_check_micro_xml(path_to_html_pages: &str) -> Result<()> {
     crate::auto_check_micro_xml_mod::auto_check_micro_xml(path_to_html_pages)
 }
 
@@ -236,7 +238,7 @@ pub fn auto_check_micro_xml(path_to_html_pages: &str) {
 /// The old folders for `js snippets` are not automatically deleted on building with `wasm-pack`.  
 /// This utils do that.  
 /// The function must be executed in the root project folder where is the Cargo.toml.  
-pub fn auto_delete_old_js_snippets() {
+pub fn auto_delete_old_js_snippets() -> Result<()> {
     crate::auto_delete_old_js_snippets_mod::auto_delete_old_js_snippets()
 }
 
@@ -261,7 +263,7 @@ pub fn exit_if_not_run_in_rust_project_root_directory() {
 /// We trust the "developer" that he will not make "command injection" in his own code.
 /// The problem that must be sanitized is always "user input".
 /// Exit task execution if the command has Exit Status != 0.
-pub fn run_shell_command_static(shell_command: &'static str) -> ResultWithLibError<()> {
+pub fn run_shell_command_static(shell_command: &'static str) -> Result<()> {
     crate::auto_shell_mod::run_shell_command_static(shell_command)
 }
 
@@ -269,7 +271,7 @@ pub fn run_shell_command_static(shell_command: &'static str) -> ResultWithLibErr
 ///
 /// Exit task execution if the command has Exit Status != 0.
 /// TODO: vulnerable to command injection
-pub fn run_shell_command(shell_command: &str) -> ResultWithLibError<()> {
+pub fn run_shell_command(shell_command: &str) -> Result<()> {
     crate::auto_shell_mod::run_shell_command(shell_command)
 }
 
@@ -326,7 +328,7 @@ pub fn run_shell_command(shell_command: &str) -> ResultWithLibError<()> {
 /// Use git diff to see the change.  
 ///
 // endregion: auto_md_to_doc_comments include doc_comments/auto_lines_of_code.md A ///
-pub fn auto_lines_of_code(link: &str) {
+pub fn auto_lines_of_code(link: &str) -> Result<()> {
     crate::auto_lines_of_code_mod::auto_lines_of_code(link)
 }
 
@@ -371,7 +373,7 @@ pub fn auto_lines_of_code(link: &str) {
 /// Finally it will include the new lines as doc comments in the rs file.
 ///
 // endregion: auto_md_to_doc_comments include doc_comments/auto_md_to_doc_comments.md A ///
-pub fn auto_md_to_doc_comments() {
+pub fn auto_md_to_doc_comments() -> Result<()> {
     crate::auto_md_to_doc_comments_mod::auto_md_to_doc_comments()
 }
 
@@ -382,14 +384,14 @@ pub fn auto_md_to_doc_comments() {
 /// Between markers adds the link to the svg file.  
 /// repo_url like <https://github.com/automation-tasks-rs/sey_currency_converter_pwa>
 /// So the image file link is from the repository and accessible everywhere.  
-pub fn auto_plantuml(repo_url: &str) {
+pub fn auto_plantuml(repo_url: &str) -> Result<()> {
     crate::auto_plantuml_mod::auto_plantuml(repo_url)
 }
 
 /// Process plantuml for all md files.
 ///
 /// For test and examples I need to provide the path.
-pub fn auto_plantuml_for_path(path: &std::path::Path, repo_url: &str) {
+pub fn auto_plantuml_for_path(path: &std::path::Path, repo_url: &str) -> Result<()> {
     crate::auto_plantuml_mod::auto_plantuml_for_path(path, repo_url)
 }
 
@@ -399,22 +401,22 @@ pub fn hash_text(text: &str) -> String {
 }
 
 /// Increment the minor version in Cargo.toml file only if files are changed.
-pub fn auto_semver_increment_minor() {
+pub fn auto_semver_increment_minor() -> Result<()> {
     crate::auto_semver_mod::auto_semver_increment_minor()
 }
 
 /// Increment the minor version in Cargo.toml file even if files are not changed.
-pub fn auto_semver_increment_minor_forced() {
+pub fn auto_semver_increment_minor_forced() -> Result<()> {
     crate::auto_semver_mod::auto_semver_increment_minor_forced()
 }
 
 /// Increment the patch version in Cargo.toml file only if files are changed.
-pub fn auto_semver_increment_patch() {
+pub fn auto_semver_increment_patch() -> Result<()> {
     crate::auto_semver_mod::auto_semver_increment_patch()
 }
 
 /// Increment the patch version in Cargo.toml file even if files are not changed.
-pub fn auto_semver_increment_patch_forced() {
+pub fn auto_semver_increment_patch_forced() -> Result<()> {
     crate::auto_semver_mod::auto_semver_increment_patch_forced()
 }
 
@@ -422,7 +424,7 @@ pub fn auto_semver_increment_patch_forced() {
 ///
 /// If the major version is greater than 2000, it is a date version  
 /// else it is semver and increments the patch part.  
-pub fn auto_version_increment_semver_or_date() {
+pub fn auto_version_increment_semver_or_date() -> Result<()> {
     crate::auto_semver_or_date_mod::auto_version_increment_semver_or_date()
 }
 
@@ -431,7 +433,7 @@ pub fn auto_version_increment_semver_or_date() {
 /// If the major version is greater than 2000, it is a date version  
 /// else it is semver and increments the patch part.  
 /// Forced is used in workspaces to force all members to have the same date version.  
-pub fn auto_version_increment_semver_or_date_forced() {
+pub fn auto_version_increment_semver_or_date_forced() -> Result<()> {
     crate::auto_semver_or_date_mod::auto_version_increment_semver_or_date_forced()
 }
 
@@ -455,7 +457,7 @@ pub fn auto_version_increment_semver_or_date_forced() {
 /// To know if the projects has changed or not, this function saves the dates of all files into `.automation_tasks_rs_file_hashes.json` near Cargo.toml
 ///
 // endregion: auto_md_to_doc_comments include doc_comments/auto_version_from_date.md A ///
-pub fn auto_version_from_date() {
+pub fn auto_version_from_date() -> Result<()> {
     crate::auto_version_from_date_mod::auto_version_from_date()
 }
 
@@ -463,7 +465,7 @@ pub fn auto_version_from_date() {
 ///
 /// For workspaces `release` I want to have the same version in all members.  
 /// It is slower, but easier to understand when deployed.
-pub fn auto_version_from_date_forced() {
+pub fn auto_version_from_date_forced() -> Result<()> {
     crate::auto_version_from_date_mod::auto_version_from_date_forced()
 }
 
@@ -471,48 +473,48 @@ pub fn auto_version_from_date_forced() {
 ///
 /// The HTML generated by `cargo doc` is ugly and difficult to `git diff`.
 /// Tidy HTML is a HTML checker and formatter installed on most Linuxes.
-pub fn auto_doc_tidy_html() -> ResultWithLibError<()> {
+pub fn auto_doc_tidy_html() -> Result<()> {
     crate::auto_doc_tidy_html_mod::auto_doc_tidy_html()
 }
 
 /// Does git have settings for remote.
-pub fn git_has_remote() -> bool {
+pub fn git_has_remote() -> Result<bool> {
     crate::auto_git_mod::git_has_remote()
 }
 
 /// Check if this folder is a local Git repository.
-pub fn git_is_local_repository() -> bool {
+pub fn git_is_local_repository() -> Result<bool> {
     crate::auto_git_mod::git_is_local_repository()
 }
 
 /// Run one shell command and return ShellOutput {exit_status, stdout, stderr}.
 ///
 /// TODO: vulnerable to command injection
-pub fn run_shell_command_output(shell_command: &str) -> ShellOutput {
+pub fn run_shell_command_output(shell_command: &str) -> Result<ShellOutput> {
     crate::auto_shell_mod::run_shell_command_output(shell_command)
 }
 
 /// Run one shell command and return true if success.
 ///
 /// TODO: vulnerable to command injection
-pub fn run_shell_command_success(shell_command: &str) -> bool {
+pub fn run_shell_command_success(shell_command: &str) -> Result<bool> {
     crate::auto_shell_mod::run_shell_command_success(shell_command)
 }
 
 /// Get home dir using the home crate.
 ///
-/// Panics if HOME not found.
-pub fn home_dir() -> std::path::PathBuf {
+/// Error if HOME not found.
+pub fn home_dir() -> Result<std::path::PathBuf> {
     crate::auto_helper_functions_mod::home_dir()
 }
 
 /// Replace tilde with home::home_dir, only for utf8.
-pub fn tilde_expand_to_home_dir_utf8(path_str: &str) -> anyhow::Result<camino::Utf8PathBuf> {
+pub fn tilde_expand_to_home_dir_utf8(path_str: &str) -> Result<camino::Utf8PathBuf> {
     crate::auto_helper_functions_mod::tilde_expand_to_home_dir_utf8(path_str)
 }
 
 /// Sync, check, create, push git tag.
-pub fn git_tag_sync_check_create_push(version: &str) -> String {
+pub fn git_tag_sync_check_create_push(version: &str) -> Result<String> {
     crate::auto_github_mod::git_tag_sync_check_create_push(version)
 }
 
@@ -521,12 +523,12 @@ pub fn git_tag_sync_check_create_push(version: &str) -> String {
 /// First, the user must write the content into file RELEASES.md in the section ## Unreleased.  
 /// Then the automation task will copy the content to GitHub release  
 /// and create a new Version title in RELEASES.md.  
-pub fn body_text_from_releases_md() -> Option<String> {
+pub fn body_text_from_releases_md() -> Result<String> {
     crate::auto_github_mod::body_text_from_releases_md()
 }
 
 /// Create a new Version title in RELEASES.md.
-pub fn create_new_version_in_releases_md(release_name: &str) -> Option<()> {
+pub fn create_new_version_in_releases_md(release_name: &str) -> Result<()> {
     crate::auto_github_mod::create_new_version_in_releases_md(release_name)
 }
 
@@ -569,7 +571,7 @@ pub fn copy_folder_files_into_module(
     module_path: &std::path::Path,
     ext_for_binary_files: &[&str],
     exclude_big_folders: &[String],
-) {
+) -> Result<()> {
     crate::auto_copy_files_to_strings_mod::copy_folder_files_into_module(
         folder_path,
         module_path,
@@ -579,7 +581,7 @@ pub fn copy_folder_files_into_module(
 }
 
 /// Add commit message to Unreleased in RELEASES.md.
-pub fn add_message_to_unreleased(message: &str) {
+pub fn add_message_to_unreleased(message: &str) -> Result<()> {
     crate::auto_github_mod::add_message_to_unreleased(message)
 }
 
@@ -616,12 +618,12 @@ pub fn add_message_to_unreleased(message: &str) {
 /// I want to run my code examples from everywhere: from GitHub README.md, GitHub pages and crates.io.  
 ///
 // endregion: auto_md_to_doc_comments include doc_comments/auto_playground_run_code.md A ///
-pub fn auto_playground_run_code() {
+pub fn auto_playground_run_code() -> Result<()> {
     crate::auto_playground_mod::auto_playground_run_code()
 }
 
 /// Interactive ask to create a new local git repository.
-pub fn new_local_repository(message: &str) -> Option<()> {
+pub fn new_local_repository(message: &str) -> Result<()> {
     crate::auto_git_mod::new_local_repository(message)
 }
 // endregion: Public API functions

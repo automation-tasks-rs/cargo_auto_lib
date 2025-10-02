@@ -2,6 +2,7 @@
 
 //! Includes the link to playground with the rust code in a parameter.
 
+use crate::error_mod::{Error, Result};
 use crate::public_api_mod::{RED, RESET, YELLOW};
 use crate::utils_mod::*;
 use lazy_static::lazy_static;
@@ -10,7 +11,7 @@ lazy_static! {
     /// Capture the link in markdown style [name](link)
     static ref REGEX_MD_LINK: regex::Regex = regex::Regex::new(
     r#".+\[.+\]\((.+)\).+"#
-    ).unwrap();
+    ).expect("regex new");
 }
 
 // region: auto_md_to_doc_comments include doc_comments/auto_playground_run_code.md A ///
@@ -46,45 +47,46 @@ lazy_static! {
 /// I want to run my code examples from everywhere: from GitHub README.md, GitHub pages and crates.io.  
 ///
 // endregion: auto_md_to_doc_comments include doc_comments/auto_playground_run_code.md A ///
-pub fn auto_playground_run_code() {
+pub fn auto_playground_run_code() -> Result<()> {
     println!("  {YELLOW}Running auto_playground{RESET}");
-    let path = std::env::current_dir().unwrap();
+    let path = std::env::current_dir()?;
     //use traverse instead of glob
     let files = crate::utils_mod::traverse_dir_with_exclude_dir(
         &path,
         "/*.md",
         // exclude folders
         &["/.git".to_string(), "/target".to_string(), "/docs".to_string(), "/pkg".to_string()],
-    )
-    .unwrap();
+    )?;
     for md_filename in files {
         let md_filename = camino::Utf8Path::new(&md_filename);
 
         let mut is_changed = false;
-        let md_old = std::fs::read_to_string(md_filename).unwrap();
+        let md_old = std::fs::read_to_string(md_filename)?;
 
         // check if file have CRLF and show error
         if md_old.contains("\r\n") {
-            panic!("{RED}Error: {md_filename} has CRLF line endings instead of LF. Correct the file! {RESET}");
+            return Err(Error::ErrorFromString(format!(
+                "{RED}Error: {md_filename} has CRLF line endings instead of LF. Correct the file! {RESET}"
+            )));
         }
         let mut iteration_start_pos = 0;
         let mut md_new = String::new();
         // find markers
-        while let Some(marker_start) =
+        while let Ok(marker_start) =
             find_pos_start_data_after_delimiter(&md_old, iteration_start_pos, "\n[//]: # (auto_playground start)\n")
         {
-            let Some(code_start) = find_pos_start_data_after_delimiter(&md_old, marker_start, "\n```") else {
-                return;
+            let Ok(code_start) = find_pos_start_data_after_delimiter(&md_old, marker_start, "\n```") else {
+                return Ok(());
             };
             // the first triple tick can be ``` or ```rust or ```Rust or ```Rust ignore. Therefore I find the triple tick and then I find next newline.
-            let Some(code_start) = find_pos_start_data_after_delimiter(&md_old, code_start, "\n") else {
-                return;
+            let Ok(code_start) = find_pos_start_data_after_delimiter(&md_old, code_start, "\n") else {
+                return Ok(());
             };
-            let Some(code_end) = find_pos_end_data_before_delimiter(&md_old, code_start + 3, "\n```\n") else {
-                return;
+            let Ok(code_end) = find_pos_end_data_before_delimiter(&md_old, code_start + 3, "\n```\n") else {
+                return Ok(());
             };
-            let Some(marker_end) = find_pos_end_data_before_delimiter(&md_old, marker_start, "\n[//]: # (auto_playground end)\n") else {
-                return;
+            let Ok(marker_end) = find_pos_end_data_before_delimiter(&md_old, marker_start, "\n[//]: # (auto_playground end)\n") else {
+                return Ok(());
             };
             let rust_code = &md_old[code_start..code_end];
             let rust_code_encoded = urlencoding::encode(rust_code).to_string();
@@ -95,9 +97,11 @@ pub fn auto_playground_run_code() {
             // replace the link inside markdown link notation. First find the text between marker_start and code_start
             let text_that_has_the_link = &md_old[marker_start..code_start];
             // parse this format [Rust playground](https:...)
-            let cap_group = REGEX_MD_LINK.captures(text_that_has_the_link).unwrap_or_else(|| {
-                panic!("{RED}Error: The old link '{text_that_has_the_link}' is NOT in this format '[Rust playground](https:...)'{RESET}")
-            });
+            let cap_group = REGEX_MD_LINK.captures(text_that_has_the_link).ok_or_else(|| {
+                Error::ErrorFromString(format!(
+                    "{RED}Error: The old link '{text_that_has_the_link}' is NOT in this format '[Rust playground](https:...)'{RESET}"
+                ))
+            })?;
             let old_link = &cap_group[1];
             // replace the old link with the new one
             let text_that_has_the_link = text_that_has_the_link.replace(old_link, &playground_link);
@@ -119,9 +123,10 @@ pub fn auto_playground_run_code() {
             // push the remaining text
             md_new.push_str(&md_old[iteration_start_pos..md_old.len()]);
             let bak_filename = md_filename.with_extension("bak");
-            std::fs::write(&bak_filename, md_old).unwrap();
-            std::fs::write(md_filename, md_new).unwrap();
+            std::fs::write(&bak_filename, md_old)?;
+            std::fs::write(md_filename, md_new)?;
         }
     }
     println!("  {YELLOW}Finished auto_playground{RESET}");
+    Ok(())
 }

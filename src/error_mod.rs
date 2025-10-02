@@ -10,22 +10,36 @@
 
 /// Enum of possible errors from this library
 #[derive(thiserror::Error, Debug)]
-pub enum LibError {
+pub enum Error {
     #[error("SerdeJsonError: {0}")]
     SerdeJsonError(#[from] serde_json::Error),
-
     #[error("InfallibleError: {0}")]
     InfallibleError(#[from] std::convert::Infallible),
-
     #[error("StdIoError: {0}")]
     StdIoError(#[from] std::io::Error),
-
-    #[error("ParseIntError: {0}")]
+    #[error(transparent)]
     ParseIntError(#[from] std::num::ParseIntError),
+    #[error(transparent)]
+    InquireError(#[from] inquire::InquireError),
+    #[error(transparent)]
+    FromUtf8Error(#[from] std::string::FromUtf8Error),
+    #[error(transparent)]
+    RegexError(#[from] regex::Error),
+    #[error(transparent)]
+    CargoTomlError(#[from] cargo_toml::Error),
+    #[error(transparent)]
+    PatternError(#[from] glob::PatternError),
+    #[error(transparent)]
+    GlobError(#[from] glob::GlobError),
+    #[error(transparent)]
+    StripPrefixError(#[from] std::path::StripPrefixError),
+    #[error(transparent)]
+    ReqwestError(#[from] reqwest::Error),
+    #[error(transparent)]
+    SemverError(#[from] semver::Error),
 
     #[error("{0}")]
     ErrorFromString(String),
-
     #[error("{0}")]
     ErrorFromStr(&'static str),
     //#[error("unknown error")]
@@ -35,4 +49,4 @@ pub enum LibError {
 /// Result type alias with fixed LibError using thiserror
 ///
 /// It makes simpler to write returns from functions.
-pub type ResultWithLibError<T, E = LibError> = core::result::Result<T, E>;
+pub type Result<T, E = Error> = core::result::Result<T, E>;

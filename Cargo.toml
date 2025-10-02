@@ -6,7 +6,7 @@ name = "cargo_auto_lib"
 # increment PATCH version when you make bug fixes (that are backward compatible)
 # PATCH version MUST be reset to 0 when MINOR version is incremented.
 # PATCH and MINOR versions MUST be reset to 0 when MAJOR version is incremented.
-version = "3.0.15"
+version = "4.0.6"
 authors = ["Bestia.dev"]
 homepage = "https://bestia.dev"
 edition = "2021"
@@ -41,7 +41,6 @@ filetime = "0.2.25"
 serde = "1.0.218"
 serde_derive = "1.0.218"
 serde_json = {version= "1.0.140"}
-anyhow="1.0.97"
 cargo_toml = "0.22.0"
 reader_for_microxml="2.0.1"
 semver="1.0.26"

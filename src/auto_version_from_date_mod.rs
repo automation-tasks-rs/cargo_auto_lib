@@ -4,7 +4,7 @@
 
 // region: use statements
 
-use crate::error_mod::{LibError, ResultWithLibError};
+use crate::error_mod::{Error, Result};
 use crate::public_api_mod::{RED, RESET, YELLOW};
 use chrono::DateTime;
 use chrono::Timelike;
@@ -56,15 +56,15 @@ pub struct AutoVersionFromDate {
 /// To know if the projects has changed or not, this function saves the dates of all files into `.automation_tasks_rs_file_hashes.json` near Cargo.toml
 ///
 // endregion: auto_md_to_doc_comments include doc_comments/auto_version_from_date.md A ///
-pub fn auto_version_from_date() {
-    auto_version_from_date_internal(false).unwrap_or_else(|err| panic!("{RED}{err}{RESET}"));
+pub fn auto_version_from_date() -> Result<()> {
+    auto_version_from_date_internal(false)
 }
 
 /// Just like auto_version_from_date(), but force the new version even if no files are changed.
 ///
 /// It is slower, but easier to understand when deployed.
-pub fn auto_version_from_date_forced() {
-    auto_version_from_date_internal(true).unwrap_or_else(|err| panic!("{RED}{err}{RESET}"));
+pub fn auto_version_from_date_forced() -> Result<()> {
+    auto_version_from_date_internal(true)
 }
 
 // endregion: public functions
@@ -72,7 +72,7 @@ pub fn auto_version_from_date_forced() {
 // region: private functions
 
 /// Internal function to get version from date
-fn auto_version_from_date_internal(force_version: bool) -> ResultWithLibError<()> {
+fn auto_version_from_date_internal(force_version: bool) -> Result<()> {
     let date = Utc::now();
     let new_version = version_from_date(date);
     let vec_of_metadata = read_file_metadata()?;
@@ -86,26 +86,26 @@ fn auto_version_from_date_internal(force_version: bool) -> ResultWithLibError<()
     if !is_files_equal {
         write_version_to_cargo_and_modify_metadata(&new_version, vec_of_metadata)?;
     }
-    modify_service_js(&new_version);
+    modify_service_js(&new_version)?;
     Ok(())
 }
 
 /// Search for file service_worker.js and modify version
-fn modify_service_js(new_version: &str) {
+fn modify_service_js(new_version: &str) -> Result<()> {
     let start_dir = camino::Utf8Path::new("./");
     for js_filename in &crate::utils_mod::traverse_dir_with_exclude_dir(
         start_dir.as_std_path(),
         "/service_worker.js",
         &["/.git".to_string(), "/target".to_string()],
-    )
-    .unwrap()
-    {
+    )? {
         // println!("{}write version in {}{}", *GREEN, js_filename, *RESET);
-        let mut js_content = std::fs::read_to_string(js_filename).unwrap();
+        let mut js_content = std::fs::read_to_string(js_filename)?;
 
         // check if file have CRLF instead of LF and show error
         if js_content.contains("\r\n") {
-            panic!("{RED}Error: {js_filename} has CRLF line endings instead of LF. Correct the file! {RESET}");
+            return Err(Error::ErrorFromString(format!(
+                "{RED}Error: {js_filename} has CRLF line endings instead of LF. Correct the file! {RESET}"
+            )));
         }
 
         let delimiter = r#"const CACHE_NAME = '"#;
@@ -114,7 +114,7 @@ fn modify_service_js(new_version: &str) {
         if let Some(location) = option_location {
             let start_version = location + delimiter_len;
             let option_end_quote = find_from(js_content.as_str(), start_version, r#"';"#);
-            if let Some(end_version) = option_end_quote {
+            if let Ok(end_version) = option_end_quote {
                 //delete all the characters in between the markers
                 let old_version: String = js_content.drain(start_version..end_version).collect();
                 //println!(r#"old version: "{}""#, old_version.as_str());
@@ -125,26 +125,27 @@ fn modify_service_js(new_version: &str) {
                     let _x = std::fs::write(js_filename, js_content);
                 }
             } else {
-                panic!("{RED}no end quote for version{RESET}");
+                return Err(Error::ErrorFromString(format!("{RED}no end quote for version{RESET}")));
             }
         } else {
-            panic!("{RED}service_worker.js has no version{RESET}");
+            return Err(Error::ErrorFromString(format!("{RED}service_worker.js has no version{RESET}")));
         }
     }
+    Ok(())
 }
 
 /// Write version to Cargo.toml
-fn write_version_to_cargo_and_modify_metadata(new_version: &str, mut vec_of_metadata: Vec<FileMetaData>) -> ResultWithLibError<()> {
+fn write_version_to_cargo_and_modify_metadata(new_version: &str, mut vec_of_metadata: Vec<FileMetaData>) -> Result<()> {
     // println!("{}write version to Cargo.toml{}", *GREEN, *RESET);
     let cargo_filename = "Cargo.toml";
-    let mut cargo_content = std::fs::read_to_string(cargo_filename).unwrap();
+    let mut cargo_content = std::fs::read_to_string(cargo_filename)?;
 
     // check if file have CRLF instead of LF and show error
     if cargo_content.contains("\r\n") {
-        panic!(
+        return Err(Error::ErrorFromString(format!(
             "{RED}Error: {} has CRLF line endings instead of LF. Correct the file! {RESET}",
             cargo_filename
-        );
+        )));
     }
 
     let delimiter = r#"version = ""#;
@@ -153,7 +154,7 @@ fn write_version_to_cargo_and_modify_metadata(new_version: &str, mut vec_of_meta
     if let Some(location) = option_location {
         let start_version = location + delimiter_len;
         let option_end_quote = find_from(cargo_content.as_str(), start_version, r#"""#);
-        if let Some(end_version) = option_end_quote {
+        if let Ok(end_version) = option_end_quote {
             //delete all the characters in between the markers
             let old_version: String = cargo_content.drain(start_version..end_version).collect();
             //println!(r#"old version: "{}""#, old_version.as_str());
@@ -165,26 +166,26 @@ fn write_version_to_cargo_and_modify_metadata(new_version: &str, mut vec_of_meta
 
                 //the Cargo.toml is now different
                 correct_file_metadata_for_cargo_tom_inside_vec(&mut vec_of_metadata)?;
-                save_json_file_for_file_meta_data(vec_of_metadata);
+                save_json_file_for_file_meta_data(vec_of_metadata)?;
             }
         } else {
-            panic!("{RED}no end quote for version{RESET}");
+            return Err(Error::ErrorFromString(format!("{RED}no end quote for version{RESET}")));
         }
     } else {
-        panic!("{RED}Cargo.toml has no version{RESET}");
+        return Err(Error::ErrorFromString(format!("{RED}Cargo.toml has no version{RESET}")));
     }
     Ok(())
 }
 
 /// Cargo.toml is now different and needs to be changed in the vec of file metadata
-pub fn correct_file_metadata_for_cargo_tom_inside_vec(vec_of_metadata: &mut [FileMetaData]) -> ResultWithLibError<()> {
+pub fn correct_file_metadata_for_cargo_tom_inside_vec(vec_of_metadata: &mut [FileMetaData]) -> Result<()> {
     //correct the vector only for Cargo.toml file
     let filename = "Cargo.toml".to_string();
     // calculate hash of file
     let filehash = sha256_digest(std::path::PathBuf::from_str(&filename)?.as_path())?;
     vec_of_metadata
         .get_mut(0)
-        .ok_or(LibError::ErrorFromStr("error vec_of_metadata.get_mut(0)"))?
+        .ok_or(Error::ErrorFromStr("error vec_of_metadata.get_mut(0)"))?
         .filehash = filehash;
     Ok(())
 }
@@ -213,7 +214,7 @@ pub fn are_files_equal(vec_of_metadata: &[FileMetaData], js_vec_of_metadata: &[F
 }
 
 /// Make a vector of file metadata
-pub fn read_file_metadata() -> ResultWithLibError<Vec<FileMetaData>> {
+pub fn read_file_metadata() -> Result<Vec<FileMetaData>> {
     let mut vec_of_metadata: Vec<FileMetaData> = Vec::new();
     let filename = "Cargo.toml".to_string();
     // calculate hash of file
@@ -225,8 +226,7 @@ pub fn read_file_metadata() -> ResultWithLibError<Vec<FileMetaData>> {
         "/*.rs",
         // avoid big folders
         &[],
-    )
-    .unwrap();
+    )?;
 
     for filename in files_paths {
         // calculate hash of file
@@ -237,7 +237,7 @@ pub fn read_file_metadata() -> ResultWithLibError<Vec<FileMetaData>> {
 }
 
 /// Calculate the hash for the content of a file
-fn sha256_digest(path: &std::path::Path) -> ResultWithLibError<String> {
+fn sha256_digest(path: &std::path::Path) -> Result<String> {
     let file = std::fs::File::open(path)?;
     let mut reader = std::io::BufReader::new(file);
     // let mut context = ring::digest::Context::new(&ring::digest::SHA256);
@@ -259,7 +259,7 @@ fn sha256_digest(path: &std::path::Path) -> ResultWithLibError<String> {
 }
 
 /// Read .automation_tasks_rs_file_hashes.json
-pub fn read_json_file(json_filepath: &str) -> ResultWithLibError<AutoVersionFromDate> {
+pub fn read_json_file(json_filepath: &str) -> Result<AutoVersionFromDate> {
     let js_struct: AutoVersionFromDate;
     let f = std::fs::read_to_string(json_filepath);
 
@@ -288,13 +288,14 @@ pub fn read_json_file(json_filepath: &str) -> ResultWithLibError<AutoVersionFrom
 }
 
 /// Save the new file metadata
-pub fn save_json_file_for_file_meta_data(vec_of_metadata: Vec<FileMetaData>) {
+pub fn save_json_file_for_file_meta_data(vec_of_metadata: Vec<FileMetaData>) -> Result<()> {
     let x = AutoVersionFromDate {
         vec_file_metadata: vec_of_metadata,
     };
-    let y = serde_json::to_string_pretty(&x).unwrap();
+    let y = serde_json::to_string_pretty(&x)?;
     let json_filepath = ".automation_tasks_rs_file_hashes.json";
     let _f = std::fs::write(json_filepath, y);
+    Ok(())
 }
 
 /// Convert a date to a version
@@ -317,15 +318,15 @@ fn version_from_date(date: DateTime<chrono::Utc>) -> String {
 }
 
 /// Find from position in string
-fn find_from(rs_content: &str, from: usize, find: &str) -> Option<usize> {
-    let slice01 = rs_content.get(from..).unwrap();
+fn find_from(rs_content: &str, from: usize, find: &str) -> Result<usize> {
+    let slice01 = rs_content.get(from..).ok_or_else(|| Error::ErrorFromStr("get from is None"))?;
     let option_location = slice01.find(find);
     if let Some(location) = option_location {
-        //return Option with usize
-        Some(from + location)
+        //return Ok with usize
+        Ok(from + location)
     } else {
-        //return Option with none
-        option_location
+        //return Error
+        Err(Error::ErrorFromStr("location not found"))
     }
 }
 
@@ -344,7 +345,7 @@ mod test {
     }
 
     #[test]
-    pub fn test_sha256_digest() -> ResultWithLibError<()> {
+    pub fn test_sha256_digest() -> Result<()> {
         let digest = sha256_digest(camino::Utf8Path::new("LICENSE").as_std_path())?;
         let hash_string = data_encoding::HEXLOWER.encode(digest.as_ref());
         let expected_hex = "66343964363936663834636237373465396336653537646333646433633537386532643333623130613539663837326634383134373337386462303038653035";

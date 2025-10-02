@@ -6,7 +6,7 @@
 //! # cargo_auto_lib
 //!
 //! **Automation tasks coded in Rust language for the workflow of Rust projects**  
-//! ***version: 3.0.15 date: 2025-03-30 author: [Bestia.dev](https://bestia.dev) repository: [GitHub](https://github.com/automation-tasks-rs/cargo_auto_lib)***
+//! ***version: 4.0.6 date: 2025-10-02 author: [Bestia.dev](https://bestia.dev) repository: [GitHub](https://github.com/automation-tasks-rs/cargo_auto_lib)***
 //!
 //!  ![maintained](https://img.shields.io/badge/maintained-green)
 //!  ![ready-for-use](https://img.shields.io/badge/ready_for_use-green)
@@ -26,11 +26,11 @@
 //!  [![Newest docs](https://img.shields.io/badge/newest_docs-blue.svg)](https://automation-tasks-rs.github.io/cargo_auto_lib/cargo_auto_lib/index.html)
 //!  ![cargo_auto_lib](https://bestia.dev/webpage_hit_counter/get_svg_image/276360626.svg)
 //!
-//! [![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-1953-green.svg)](https://github.com/automation-tasks-rs/cargo_auto_lib/)
+//! [![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-2031-green.svg)](https://github.com/automation-tasks-rs/cargo_auto_lib/)
 //! [![Lines in Doc comments](https://img.shields.io/badge/Lines_in_Doc_comments-993-blue.svg)](https://github.com/automation-tasks-rs/cargo_auto_lib/)
-//! [![Lines in Comments](https://img.shields.io/badge/Lines_in_comments-293-purple.svg)](https://github.com/automation-tasks-rs/cargo_auto_lib/)
+//! [![Lines in Comments](https://img.shields.io/badge/Lines_in_comments-292-purple.svg)](https://github.com/automation-tasks-rs/cargo_auto_lib/)
 //! [![Lines in examples](https://img.shields.io/badge/Lines_in_examples-28-yellow.svg)](https://github.com/automation-tasks-rs/cargo_auto_lib/)
-//! [![Lines in tests](https://img.shields.io/badge/Lines_in_tests-79-orange.svg)](https://github.com/automation-tasks-rs/cargo_auto_lib/)
+//! [![Lines in tests](https://img.shields.io/badge/Lines_in_tests-80-orange.svg)](https://github.com/automation-tasks-rs/cargo_auto_lib/)
 //!
 //! Hashtags: #maintained #ready-for-use #rustlang #automation #workflow  
 //! My projects on GitHub are more like a tutorial than a finished product: [bestia-dev tutorials](https://github.com/bestia-dev/tutorials_rust_wasm).  
@@ -94,11 +94,6 @@
 //! ```
 //!
 //! Now open the README.md and you will see the data that this automation task copied from other places. Therefore you change this data only in one place, the automation task copies them wherever needed.
-//!
-//! ## Panic!() and unwrap()
-//!
-//! I want the tasks to exit immediately on any error. So I use unwrap() and panic!() a lot.  
-//! On purpose. And because I wrote this before I learned Rust error handling.
 //!
 //! ## Development details
 //!

@@ -2,39 +2,41 @@
 
 //! Functions for various utilities.
 
+use crate::error_mod::{Error, Result};
+
 // region: delimiters cannot be INACTIVE like markers
 
 /// Position of start of the delimited data after the delimiter
-pub fn find_pos_start_data_after_delimiter(md_text_content: &str, pos: usize, delimiter: &str) -> Option<usize> {
-    if let Some(pos_start_data) = find_from(md_text_content, pos, delimiter) {
+pub fn find_pos_start_data_after_delimiter(md_text_content: &str, pos: usize, delimiter: &str) -> Result<usize> {
+    if let Ok(pos_start_data) = find_from(md_text_content, pos, delimiter) {
         let pos_start_data = pos_start_data + delimiter.len();
-        return Some(pos_start_data);
+        return Ok(pos_start_data);
     }
     // return
-    None
+    Err(Error::ErrorFromStr("not found"))
 }
 
 /// Position of end of the delimited data before the delimiter
-pub fn find_pos_end_data_before_delimiter(md_text_content: &str, pos: usize, delimiter: &str) -> Option<usize> {
-    if let Some(pos_end_data) = find_from(md_text_content, pos, delimiter) {
-        return Some(pos_end_data);
+pub fn find_pos_end_data_before_delimiter(md_text_content: &str, pos: usize, delimiter: &str) -> Result<usize> {
+    if let Ok(pos_end_data) = find_from(md_text_content, pos, delimiter) {
+        return Ok(pos_end_data);
     }
     //return
-    None
+    Err(Error::ErrorFromStr("not found"))
 }
 
 // endregion: delimiters cannot be INACTIVE like markers
 
 /// Find from pos
-pub fn find_from(text: &str, from_pos: usize, find: &str) -> Option<usize> {
-    let slice01 = text.get(from_pos..).unwrap();
+pub fn find_from(text: &str, from_pos: usize, find: &str) -> Result<usize> {
+    let slice01 = text.get(from_pos..).ok_or_else(|| Error::ErrorFromStr("text get is None"))?;
     let option_location = slice01.find(find);
     if let Some(location) = option_location {
-        // return Option with usize
-        Some(from_pos + location)
+        // return Ok with usize
+        Ok(from_pos + location)
     } else {
-        // return Option with none
-        option_location
+        // return Err
+        Err(Error::ErrorFromStr("location is not find"))
     }
 }
 
@@ -56,14 +58,14 @@ pub fn find_from(text: &str, from_pos: usize, find: &str) -> Option<usize> {
 ///         "/target".to_string(),
 ///         "/docs".to_string()
 ///     ]
-/// ).unwrap();
+/// ).expect("error");
 /// for rs_file_name in files.iter() {
 ///     println!("{}", &rs_file_name);
 /// }
 /// ```
 ///
 // endregion: auto_md_to_doc_comments include doc_comments/traverse_dir_with_exclude_dir.md A ///
-pub fn traverse_dir_with_exclude_dir(dir: &std::path::Path, find_file: &str, exclude_dirs: &[String]) -> std::io::Result<Vec<String>> {
+pub fn traverse_dir_with_exclude_dir(dir: &std::path::Path, find_file: &str, exclude_dirs: &[String]) -> Result<Vec<String>> {
     // if the parameter is /*.rs, I can eliminate /*
     let find_file = &find_file.replace("/*", "");
 
@@ -72,7 +74,7 @@ pub fn traverse_dir_with_exclude_dir(dir: &std::path::Path, find_file: &str, exc
         for entry in std::fs::read_dir(dir)? {
             let entry = entry?;
             let path = entry.path();
-            let str_path = path.to_str().unwrap();
+            let str_path = path.to_str().ok_or_else(|| Error::ErrorFromStr("path is None"))?;
             if path.is_dir() {
                 let mut is_excluded = false;
                 for excl in exclude_dirs {

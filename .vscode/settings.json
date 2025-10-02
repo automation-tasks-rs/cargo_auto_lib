@@ -41,6 +41,7 @@
         "Decryptor",
         "deps",
         "developmenttool",
+        "doctest",
         "dodrio",
         "encryptor",
         "ende",
