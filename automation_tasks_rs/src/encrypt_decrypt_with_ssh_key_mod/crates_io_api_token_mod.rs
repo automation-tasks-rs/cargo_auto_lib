@@ -35,15 +35,17 @@
 //! rsa = { version = "0.9.7", features = ["sha2","pem"] }
 //! zeroize = {version="1.8.1", features=["derive"]}
 //! aes-gcm = "0.10.3"
-//! camino = "1.1.6"
 //! base64ct = {version = "1.6.0", features = ["alloc"] }
 //! secrecy = "0.10.3"
+//! crossplatform_path="2.0.1"
 //! ```
 //!
 
 #![allow(dead_code)]
 
+use anyhow::Context;
 use cargo_auto_lib::ShellCommandLimitedDoubleQuotesSanitizerTrait;
+use crossplatform_path::CrossPathBuf;
 use secrecy::{SecretBox, SecretString};
 
 use super::encrypt_decrypt_mod as ende;
@@ -62,16 +64,17 @@ pub static CRATES_IO_CONFIG: std::sync::OnceLock<CratesIoConfig> = std::sync::On
 /// Application state (static) is initialized only once in the main() function.
 ///
 /// And then is accessible all over the code.
-pub fn crates_io_config_initialize() {
+pub fn crates_io_config_initialize() -> anyhow::Result<()> {
     if CRATES_IO_CONFIG.get().is_some() {
-        return;
+        return Ok(());
     }
 
     let crates_io_config_json = std::fs::read_to_string("automation_tasks_rs/crates_io_config.json")
-        .unwrap_or_else(|_| panic!("{RED}Error: The file automation_tasks_rs/crates_io_config.json is missing.{RESET}"));
+        .with_context(|| anyhow::anyhow!("{RED}Error: The file automation_tasks_rs/crates_io_config.json is missing.{RESET}"))?;
     let crates_io_config: CratesIoConfig = serde_json::from_str(&crates_io_config_json)
-        .unwrap_or_else(|_| panic!("{RED}Error: The content of automation_tasks_rs/crates_io_config.json is not correct.{RESET}"));
+        .with_context(|| anyhow::anyhow!("{RED}Error: The content of automation_tasks_rs/crates_io_config.json is not correct.{RESET}"))?;
     let _ = CRATES_IO_CONFIG.set(crates_io_config);
+    Ok(())
 }
 
 /// get crates.io secret token
@@ -82,8 +85,8 @@ pub(crate) fn get_crates_io_secret_token(private_key_file_name: &str) -> anyhow:
     // check if the plain-text file from `cargo login` exists and warn the user
     // because it is a security vulnerability.
     println!("  {YELLOW}Check if credentials.toml from 'cargo login' exists.{RESET}");
-    let tilde_file_credentials = "~/.cargo/credentials.toml";
-    let file_credentials = ende::tilde_expand_to_home_dir_utf8(tilde_file_credentials)?;
+    let tilde_file_credentials = CrossPathBuf::new("~/.cargo/credentials.toml")?;
+    let file_credentials = tilde_file_credentials.to_path_buf_current_os();
     if file_credentials.exists() {
         eprintln!("{RED}Security vulnerability: Found the cargo credentials file with plain-text secret_token: {RESET}");
         eprintln!("{RED}{tilde_file_credentials}. It would be better to inspect and remove it. {RESET}");
@@ -148,13 +151,13 @@ pub(crate) fn get_crates_io_secret_token(private_key_file_name: &str) -> anyhow:
     }
 
     println!("  {YELLOW}Open and read the encrypted file.{RESET}");
-    let encrypted_text_with_metadata: String = ende::open_file_b64_get_string(encrypted_path_struct.get_full_file_path())?;
+    let encrypted_text_with_metadata: String = ende::open_file_b64_get_string(encrypted_path_struct.get_cross_path())?;
     // parse json
     let encrypted_text_with_metadata: ende::EncryptedTextWithMetadata = serde_json::from_str(&encrypted_text_with_metadata)?;
     println!("  {YELLOW}Decrypt the file with ssh-agent or private key.{RESET}");
     // the private key file is written inside the file
     let private_key_path_struct = ende::PathStructInSshFolder::new(encrypted_text_with_metadata.private_key_file_name.clone())?;
-    if !camino::Utf8Path::new(private_key_path_struct.get_full_file_path()).exists() {
+    if !private_key_path_struct.exists() {
         anyhow::bail!("{RED}Error: File {private_key_path_struct} does not exist! {RESET}");
     }
 
@@ -177,13 +180,15 @@ pub fn publish_to_crates_io() -> anyhow::Result<()> {
         crates_io_secret_token_key: String,
     }
 
-    let secret_access_token = get_crates_io_secret_token(&CRATES_IO_CONFIG.get().unwrap().crates_io_private_key_file_name)?;
+    let secret_access_token = get_crates_io_secret_token(
+        &CRATES_IO_CONFIG
+            .get()
+            .context("CRATES_IO_CONFIG is None")?
+            .crates_io_private_key_file_name,
+    )?;
     // the secret_token is redacted when print on screen
-    cargo_auto_lib::ShellCommandLimitedDoubleQuotesSanitizer::new(r#"cargo publish --token "{secret_token}" "#)
-        .unwrap_or_else(|e| panic!("{e}"))
-        .arg_secret("{secret_token}", &secret_access_token)
-        .unwrap_or_else(|e| panic!("{e}"))
-        .run()
-        .unwrap_or_else(|e| panic!("{e}"));
+    cargo_auto_lib::ShellCommandLimitedDoubleQuotesSanitizer::new(r#"cargo publish --token "{secret_token}" "#)?
+        .arg_secret("{secret_token}", &secret_access_token)?
+        .run()?;
     Ok(())
 }

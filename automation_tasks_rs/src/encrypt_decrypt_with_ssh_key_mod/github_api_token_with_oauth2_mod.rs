@@ -58,14 +58,14 @@
 //! serde ={ version= "1.0.217", features=["std","derive"]}
 //! serde_json = "1.0.138"
 //! ssh-key = { version = "0.6.7", features = [ "rsa", "encryption","ed25519"] }
-//! ssh_agent_client_rs_git_bash = "0.0.11"
+//! ssh_agent_client_rs_git_bash = "0.0.19"
 //! rsa = { version = "0.9.7", features = ["sha2","pem"] }
 //! zeroize = {version="1.8.1", features=["derive"]}
 //! aes-gcm = "0.10.3"
-//! camino = "1.1.6"
 //! base64ct = {version = "1.6.0", features = ["alloc"] }
 //! secrecy = "0.10.3"
 //! chrono ="0.4.39"
+//! crossplatform_path="2.0.1"
 //! ```
 //!
 
@@ -102,16 +102,17 @@ struct SecretResponseAccessToken {
 /// Application state (static) is initialized only once in the main() function.
 ///
 /// And then is accessible all over the code.
-pub fn github_api_config_initialize() {
+pub fn github_api_config_initialize() -> anyhow::Result<()> {
     if GITHUB_API_CONFIG.get().is_some() {
-        return;
+        return Ok(());
     }
 
     let github_api_config_json = std::fs::read_to_string("automation_tasks_rs/github_api_config.json")
-        .unwrap_or_else(|_| panic!("{RED}Error: The file automation_tasks_rs/github_api_config.json is missing.{RESET}"));
+        .with_context(|| anyhow::anyhow!("{RED}Error: The file automation_tasks_rs/github_api_config.json is missing.{RESET}"))?;
     let github_api_config: GithubApiConfig = serde_json::from_str(&github_api_config_json)
-        .unwrap_or_else(|_| panic!("{RED}Error: The content of automation_tasks_rs/github_api_config.json is not correct.{RESET}"));
+        .with_context(|| anyhow::anyhow!("{RED}Error: The content of automation_tasks_rs/github_api_config.json is not correct.{RESET}"))?;
     let _ = GITHUB_API_CONFIG.set(github_api_config);
+    Ok(())
 }
 
 /// Start the github oauth2 device workflow
@@ -119,8 +120,12 @@ pub fn github_api_config_initialize() {
 /// The encrypted file has the same file name with the ".enc" extension.
 /// Returns access_token to use as bearer for api calls
 pub fn get_github_secret_token() -> anyhow::Result<SecretString> {
-    let client_id = GITHUB_API_CONFIG.get().unwrap().client_id.to_string();
-    let private_key_file_name = GITHUB_API_CONFIG.get().unwrap().github_api_private_key_file_name.to_string();
+    let client_id = GITHUB_API_CONFIG.get().context("GITHUB_API_CONFIG is None")?.client_id.to_string();
+    let private_key_file_name = GITHUB_API_CONFIG
+        .get()
+        .context("GITHUB_API_CONFIG is None")?
+        .github_api_private_key_file_name
+        .to_string();
 
     println!("  {YELLOW}Check if the ssh private key exists.{RESET}");
     let private_key_path_struct = ende::PathStructInSshFolder::new(private_key_file_name.clone())?;
@@ -140,7 +145,7 @@ pub fn get_github_secret_token() -> anyhow::Result<SecretString> {
         Ok(secret_access_token)
     } else {
         println!("  {YELLOW}Encrypted file {encrypted_path_struct} exist.{RESET}");
-        let plain_file_text = ende::open_file_b64_get_string(encrypted_path_struct.get_full_file_path())?;
+        let plain_file_text = ende::open_file_b64_get_string(encrypted_path_struct.get_cross_path())?;
         // deserialize json into struct
         let encrypted_text_with_metadata: ende::EncryptedTextWithMetadata = serde_json::from_str(&plain_file_text)?;
 
@@ -153,7 +158,7 @@ pub fn get_github_secret_token() -> anyhow::Result<SecretString> {
             encrypted_text_with_metadata
                 .refresh_token_expiration
                 .as_ref()
-                .expect("The former line asserts this is never None"),
+                .context("refresh_token_expiration is None")?,
         )?;
         if refresh_token_expiration <= utc_now {
             eprintln!("{RED}Refresh token has expired, start authentication_with_browser{RESET}");
@@ -168,7 +173,7 @@ pub fn get_github_secret_token() -> anyhow::Result<SecretString> {
             encrypted_text_with_metadata
                 .access_token_expiration
                 .as_ref()
-                .expect("The former line asserts this is never None"),
+                .context("access_token_expiration is None")?,
         )?;
         if access_token_expiration <= utc_now {
             eprintln!("{RED}Access token has expired, use refresh token{RESET}");
@@ -372,7 +377,7 @@ fn decrypt_text_with_metadata(
 ) -> anyhow::Result<SecretBox<SecretResponseAccessToken>> {
     // the private key file is written inside the file
     let private_key_path_struct = ende::PathStructInSshFolder::new(encrypted_text_with_metadata.private_key_file_name.clone())?;
-    if !camino::Utf8Path::new(private_key_path_struct.get_full_file_path()).exists() {
+    if !private_key_path_struct.exists() {
         anyhow::bail!("{RED}Error: File {private_key_path_struct} does not exist! {RESET}");
     }
 
@@ -414,10 +419,10 @@ pub(crate) fn send_to_github_api_with_secret_token(req: reqwest::blocking::Reque
 
     let json_value: serde_json::Value = serde_json::from_str(&response_text)?;
 
-    // panic if "message": String("Bad credentials"),
+    // Error if "message": String("Bad credentials").
     if let Some(m) = json_value.get("message") {
         if m == "Bad credentials" {
-            panic!("{RED}Error: Bad credentials for GitHub API. {RESET}");
+            anyhow::bail!("{RED}Error: Bad credentials for GitHub API. {RESET}");
         }
     }
 
@@ -457,10 +462,10 @@ pub(crate) async fn upload_to_github_with_secret_token(req: reqwest::RequestBuil
 
     let json_value: serde_json::Value = serde_json::from_str(&response_text)?;
 
-    // panic if "message": String("Bad credentials"),
+    // Error if "message": String("Bad credentials").
     if let Some(m) = json_value.get("message") {
         if m == "Bad credentials" {
-            panic!("{RED}Error: Bad credentials for GitHub API. {RESET}");
+            anyhow::bail!("{RED}Error: Bad credentials for GitHub API. {RESET}");
         }
     }
 

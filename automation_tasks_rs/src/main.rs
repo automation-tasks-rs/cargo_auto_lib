@@ -10,6 +10,7 @@ mod generic_functions_mod;
 mod tasks_mod;
 
 pub use cargo_auto_lib as cl;
+use crossplatform_path::CrossPathBuf;
 
 use crate::cargo_auto_github_api_mod as cgl;
 use crate::encrypt_decrypt_with_ssh_key_mod as ende;
@@ -23,58 +24,72 @@ use cl::CargoTomlPublicApiMethods;
 
 // region: library with basic automation tasks
 
-fn main() {
-    std::panic::set_hook(Box::new(gn::panic_set_hook));
-    gn::tracing_init();
+///main returns ExitCode
+fn main() -> std::process::ExitCode {
+    match main_returns_anyhow_result() {
+        Err(err) => {
+            eprintln!("{}", err);
+            // eprintln!("Exit program with failure exit code 1");
+            std::process::ExitCode::FAILURE
+        }
+        Ok(()) => std::process::ExitCode::SUCCESS,
+    }
+}
+
+/// main() returns anyhow::Result
+fn main_returns_anyhow_result() -> anyhow::Result<()> {
+    gn::tracing_init()?;
     cl::exit_if_not_run_in_rust_project_root_directory();
-    ende::github_api_token_with_oauth2_mod::github_api_config_initialize();
-    ende::crates_io_api_token_mod::crates_io_config_initialize();
+    ende::github_api_token_with_oauth2_mod::github_api_config_initialize()?;
+    ende::crates_io_api_token_mod::crates_io_config_initialize()?;
     // get CLI arguments
     let mut args = std::env::args();
     // the zero argument is the name of the program
     let _arg_0 = args.next();
-    match_arguments_and_call_tasks(args);
+    match_arguments_and_call_tasks(args)?;
+    Ok(())
 }
 
 // region: match, help and completion
 
 /// match arguments and call tasks functions
-fn match_arguments_and_call_tasks(mut args: std::env::Args) {
+fn match_arguments_and_call_tasks(mut args: std::env::Args) -> anyhow::Result<()> {
     // the first argument is the user defined task: (no argument for help), build, release,...
     let arg_1 = args.next();
     match arg_1 {
-        None => print_help(),
+        None => print_help()?,
         Some(task) => {
             if &task == "completion" {
-                completion();
+                completion()?;
             } else {
                 println!("  {YELLOW}Running automation task: {task}{RESET}");
                 if &task == "build" {
-                    task_build();
+                    task_build()?;
                 } else if &task == "release" {
-                    task_release();
+                    task_release()?;
                 } else if &task == "doc" {
-                    task_doc();
+                    task_doc()?;
                 } else if &task == "test" {
-                    task_test();
+                    task_test()?;
                 } else if &task == "commit_and_push" {
                     let arg_2 = args.next();
-                    task_commit_and_push(arg_2);
+                    task_commit_and_push(arg_2)?;
                 } else if &task == "publish_to_crates_io" {
-                    task_publish_to_crates_io();
+                    task_publish_to_crates_io()?;
                 } else if &task == "github_new_release" {
-                    task_github_new_release();
+                    task_github_new_release()?;
                 } else {
                     eprintln!("{RED}Error: Task {task} is unknown.{RESET}");
-                    print_help();
+                    print_help()?;
                 }
             }
         }
     }
+    Ok(())
 }
 
 /// write a comprehensible help for user defined tasks
-fn print_help() {
+fn print_help() -> anyhow::Result<()> {
     println!(
         r#"
   {YELLOW}Welcome to cargo-auto !{RESET}
@@ -110,6 +125,7 @@ fn print_help() {
 "#
     );
     print_examples_cmd();
+    Ok(())
 }
 
 /// all example commands in one place
@@ -125,7 +141,7 @@ fn print_examples_cmd() {
 }
 
 /// Sub-command for bash auto-completion of `cargo auto` using the crate `dev_bestia_cargo_completion`.
-fn completion() {
+fn completion() -> anyhow::Result<()> {
     let args: Vec<String> = std::env::args().collect();
     let word_being_completed = args[2].as_str();
     let last_word = args[3].as_str();
@@ -150,6 +166,7 @@ fn completion() {
        cl::completion_return_one_or_more_sub_commands(sub_commands, word_being_completed);
     }
     */
+    Ok(())
 }
 
 // endregion: match, help and completion
@@ -157,8 +174,8 @@ fn completion() {
 // region: tasks
 
 /// cargo build
-fn task_build() {
-    let cargo_toml = crate::build_cli_bin_mod::task_build();
+fn task_build() -> anyhow::Result<()> {
+    let cargo_toml = crate::build_cli_bin_mod::task_build()?;
     println!(
         r#"
   {YELLOW}After `cargo auto build`, examples and tests{RESET}
@@ -168,11 +185,12 @@ fn task_build() {
         package_name = cargo_toml.package_name(),
     );
     print_examples_cmd();
+    Ok(())
 }
 
 /// cargo build --release
-fn task_release() {
-    let cargo_toml = crate::build_cli_bin_mod::task_release();
+fn task_release() -> anyhow::Result<()> {
+    let cargo_toml = crate::build_cli_bin_mod::task_release()?;
 
     println!(
         r#"
@@ -183,23 +201,29 @@ fn task_release() {
         package_name = cargo_toml.package_name(),
     );
     print_examples_cmd();
+    Ok(())
 }
 
 /// cargo doc, then copies to /docs/ folder, because this is a GitHub standard folder
-fn task_doc() {
-    ts::task_doc();
+fn task_doc() -> anyhow::Result<()> {
+    ts::task_doc()?;
     // message to help user with next move
     println!(
         r#"
-  {YELLOW}If ok then run the tests in code and the documentation code examples.{RESET}
+  {YELLOW}After `cargo auto doc`, ctrl-click on `docs/index.html`. 
+    It will show the index.html in VSCode Explorer, then right-click and choose "Show Preview".
+    This works inside the CRUSTDE container, because of the extension "Live Preview" 
+    <https://marketplace.visualstudio.com/items?itemName=ms-vscode.live-server>
+    If ok then run the tests in code and the documentation code examples.{RESET}
 {GREEN}cargo auto test{RESET}
 "#
     );
+    Ok(())
 }
 
 /// cargo test
-fn task_test() {
-    cl::run_shell_command_static("cargo test").unwrap_or_else(|e| panic!("{e}"));
+fn task_test() -> anyhow::Result<()> {
+    cl::run_shell_command_static("cargo test")?;
     println!(
         r#"
   {YELLOW}After `cargo auto test`. If ok then {RESET}
@@ -207,39 +231,65 @@ fn task_test() {
 {GREEN}cargo auto commit_and_push "message"{RESET}
 "#
     );
+    Ok(())
 }
 
 /// commit and push
-fn task_commit_and_push(arg_2: Option<String>) {
-    ts::task_commit_and_push(arg_2);
+fn task_commit_and_push(arg_2: Option<String>) -> anyhow::Result<()> {
+    ts::task_commit_and_push(arg_2)?;
     println!(
         r#"
   {YELLOW}After `cargo auto commit_and_push "message"`{RESET}
 {GREEN}cargo auto publish_to_crates_io{RESET}
 "#
     );
+    Ok(())
 }
 
 /// publish to crates.io and git tag
-fn task_publish_to_crates_io() {
-    let _tag_name_version = crate::build_lib_mod::task_publish_to_crates_io();
+fn task_publish_to_crates_io() -> anyhow::Result<()> {
+    let (_tag_name_version, package_name, version) = crate::build_lib_mod::task_publish_to_crates_io()?;
 
     println!(
         r#"
-  {YELLOW}Now, write the content of the release in the RELEASES.md in the `## Unreleased` section, then{RESET}
+  {YELLOW}After `cargo auto publish_to_crates_io`, check in browser{RESET}
+{GREEN}https://crates.io/crates/{package_name}{RESET}
+"#
+    );
+    if CrossPathBuf::new("src/lib.rs")?.exists() {
+        println!(
+            r#"
+  {YELLOW}Add the dependency to your Rust project Cargo.toml and check how it works.{RESET}
+{GREEN}{package_name} = "{version}"{RESET}
+"#
+        );
+    }
+    if CrossPathBuf::new("src/main.rs")?.exists() || CrossPathBuf::new(&format!("src/bin/{package_name}/main.rs"))?.exists() {
+        println!(
+            r#"
+  {YELLOW}Install the program and check how it works.{RESET}
+{GREEN}cargo install {package_name}{RESET}
+"#
+        );
+    }
+    println!(
+        r#"
+  {YELLOW}Now, edit the content of the release in the RELEASES.md in the `## Unreleased` section, then{RESET}
   {YELLOW}Next, create the GitHub Release.{RESET}
 {GREEN}cargo auto github_new_release{RESET}
 "#
     );
+    Ok(())
 }
 
 /// create a new release on github and uploads binary executables
-fn task_github_new_release() {
-    ts::task_github_new_release();
+fn task_github_new_release() -> anyhow::Result<()> {
+    ts::task_github_new_release()?;
     println!(
-        r#"  
+        r#"
   {YELLOW}No more automation tasks. {RESET}
 "#
     );
+    Ok(())
 }
 // endregion: tasks

@@ -10,8 +10,6 @@ The TODO section is part of the [README.md](https://github.com/automation-tasks-
 
 ## Unreleased
 
-- update automation
-
 - thiserror instead of panic and unwrap
 
 ## Version 3.0.14 (2025-03-29)
