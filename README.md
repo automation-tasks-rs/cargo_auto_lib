@@ -8,13 +8,14 @@
 **Automation tasks coded in Rust language for the workflow of Rust projects**  
 ***version: 4.0.7 date: 2025-10-03 author: [Bestia.dev](https://bestia.dev) repository: [GitHub](https://github.com/automation-tasks-rs/cargo_auto_lib)***
 
- ![maintained](https://img.shields.io/badge/maintained-green)
- ![ready-for-use](https://img.shields.io/badge/ready_for_use-green)
+ ![obsolete](https://img.shields.io/badge/obsolete-red)
  ![rustlang](https://img.shields.io/badge/rustlang-orange)
  ![automation](https://img.shields.io/badge/automation-orange)
  ![workflow](https://img.shields.io/badge/workflow-orange)
 
 [//]: # (auto_cargo_toml_to_md end)
+
+OBSOLETE: In newer versions of `automation_tasks_rs` I want to have as much as possible of the source code under the rust project. That way, the developer can see everything and change it if needed.  
 
  ![logo](https://raw.githubusercontent.com/automation-tasks-rs/cargo-auto/main/images/logo/logo_cargo_auto.svg)
  cargo_auto_lib is part of the [automation_tasks_rs](https://github.com/automation-tasks-rs) project
