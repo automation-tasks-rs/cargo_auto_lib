@@ -5,7 +5,7 @@
 
 [//]: # (auto_cargo_toml_to_md start)
 
-**Automation tasks coded in Rust language for the workflow of Rust projects**  
+**OBSOLETE: Automation tasks coded in Rust language for the workflow of Rust projects**  
 ***version: 4.0.7 date: 2025-10-03 author: [Bestia.dev](https://bestia.dev) repository: [GitHub](https://github.com/automation-tasks-rs/cargo_auto_lib)***
 
  ![obsolete](https://img.shields.io/badge/obsolete-red)
